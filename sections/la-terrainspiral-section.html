@@ -1,0 +1,94 @@
+<!-- VitalMatrix TerrainSpiral Living Architecture — Overlay T: Temporal Trajectory -->
+<section id="vm-terrainspiral-section" style="background:#1A2030;color:#E8E8E8;padding:48px 24px;font-family:'Outfit',sans-serif;">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap');
+#vm-terrainspiral-section{max-width:960px;margin:0 auto}
+.vm-terrainspiral-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:6px}
+.vm-terrainspiral-heading{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#FFFFFF;margin:0 0 24px}
+.vm-terrainspiral-badge{display:inline-block;padding:8px 20px;border-radius:4px;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.vm-terrainspiral-badge.improving{background:#1B5E20;color:#A5D6A7}
+.vm-terrainspiral-badge.stable{background:#0D47A1;color:#90CAF9}
+.vm-terrainspiral-badge.destabilising{background:#7F1D1D;color:#FCBABA}
+.vm-terrainspiral-badge.mixed{background:#5D4200;color:#FFD54F}
+.vm-terrainspiral-sa{display:inline-block;padding:5px 14px;border-radius:4px;background:#B71C1C;color:#FFF;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;margin-left:10px;animation:vm-ts-pulse 1.8s infinite}
+@keyframes vm-ts-pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.vm-terrainspiral-apex{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;padding:4px 12px;border-radius:3px;margin-left:10px;display:inline-block}
+.vm-terrainspiral-apex.escalate{background:#5C1010;color:#EF9A9A}
+.vm-terrainspiral-apex.maintain{background:#5D4200;color:#FFD54F}
+.vm-terrainspiral-apex.downgrade{background:#1B5E20;color:#A5D6A7}
+.vm-terrainspiral-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin:20px 0;border:1px solid #2A3045;border-radius:6px;overflow:hidden}
+.vm-terrainspiral-col-header{background:#141A28;padding:10px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#888;border-bottom:1px solid #2A3045}
+.vm-terrainspiral-cell{padding:10px 12px;text-align:center;border-bottom:1px solid #1E2840;font-size:14px}
+.vm-terrainspiral-cell.zone-label{font-family:'DM Mono',monospace;font-size:12px;text-align:left;padding-left:16px}
+.vm-terrainspiral-cell .score{font-family:'DM Mono',monospace;font-size:15px;font-weight:500}
+.vm-terrainspiral-arrow{font-size:16px;margin-right:4px;font-weight:700}
+.vm-terrainspiral-toggle{margin:20px 0 16px;text-align:center}
+.vm-terrainspiral-toggle button{background:#2A3045;color:#C9A84C;border:1px solid #3A4060;padding:8px 22px;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;cursor:pointer;letter-spacing:1px;transition:background .2s}
+.vm-terrainspiral-toggle button:hover{background:#3A4060}
+.vm-terrainspiral-note{font-family:'DM Mono',monospace;font-size:10px;color:#555;margin-top:20px;line-height:1.6;border-top:1px solid #2A3045;padding-top:14px}
+</style>
+
+<p class="vm-terrainspiral-eyebrow">Overlay T: Temporal Trajectory</p>
+<h2 class="vm-terrainspiral-heading">TerrainSpiral Trajectory Intelligence</h2>
+
+<div id="vm-terrainspiral-badges"></div>
+
+<div class="vm-terrainspiral-grid" id="vm-terrainspiral-grid"></div>
+
+<div class="vm-terrainspiral-toggle">
+  <button id="vm-terrainspiral-btn" onclick="vmTerrainSpiralToggle()">Switch Patient</button>
+</div>
+
+<p class="vm-terrainspiral-note">Calculation framework W26 PROPOSED, SPECULATIVE pending SA ruling. Raw delta values: internal CascadeAtlas only, never on practitioner-facing panels.</p>
+
+<script>
+(function(){
+  var ZONES = [
+    {id:"Z1",label:"Zone 1 — Metabolic",color:"#C9A84C"},
+    {id:"Z2",label:"Zone 2 — Immune",color:"#1A7A8A"},
+    {id:"Z3",label:"Zone 3 — Neuro",color:"#7B5EA7"},
+    {id:"Z4",label:"Zone 4 — Structural",color:"#5F7C6C"},
+    {id:"Z5",label:"Zone 5 — Energetic",color:"#2E6DB4"}
+  ];
+  var PATIENTS = {
+    B:{name:"Patient B",t1:[56,48,42,49,58],t2:[68,60,52,59,70],category:"destabilising",categoryLabel:"PROGRESSIVELY DESTABILISING",sa:true,apex:"escalate",apexLabel:"ESCALATE"},
+    C:{name:"Patient C",t1:[49,47,44,56,51],t2:[38,49,36,62,48],category:"mixed",categoryLabel:"MIXED-ZONE",sa:false,apex:"maintain",apexLabel:"MAINTAIN"}
+  };
+  var current = "B";
+
+  function getDeltaInfo(d){
+    if(d >= 10) return {arrow:"\u2191",cls:"color:#E53935",label:"+"+ d};
+    if(d >= 5) return {arrow:"\u2197",cls:"color:#FFB300",label:"+"+ d};
+    if(d <= -10) return {arrow:"\u2193",cls:"color:#43A047",label:""+ d};
+    if(d <= -5) return {arrow:"\u2199",cls:"color:#FFB300",label:""+ d};
+    return {arrow:"\u2194",cls:"color:#888",label:(d>=0?"+":"")+d};
+  }
+
+  function render(){
+    var p = PATIENTS[current];
+    var badges = document.getElementById("vm-terrainspiral-badges");
+    var saHtml = p.sa ? '<span class="vm-terrainspiral-sa">SA FLAG ACTIVE</span>' : '';
+    var apexHtml = '<span class="vm-terrainspiral-apex '+ p.apex +'">'+ p.apexLabel +'</span>';
+    badges.innerHTML = '<span class="vm-terrainspiral-badge '+ p.category +'">'+ p.categoryLabel +'</span>'+ saHtml + apexHtml + '<span style="display:block;margin-top:6px;font-family:DM Mono,monospace;font-size:11px;color:#666">'+ p.name +'</span>';
+
+    var grid = document.getElementById("vm-terrainspiral-grid");
+    var h = '<div class="vm-terrainspiral-col-header">Zone</div><div class="vm-terrainspiral-col-header">T1 &rarr; T2</div><div class="vm-terrainspiral-col-header">Delta</div>';
+    for(var i=0;i<5;i++){
+      var d = p.t2[i] - p.t1[i];
+      var info = getDeltaInfo(d);
+      h += '<div class="vm-terrainspiral-cell zone-label" style="border-left:3px solid '+ZONES[i].color+'">'+ZONES[i].id+'</div>';
+      h += '<div class="vm-terrainspiral-cell"><span class="score">'+p.t1[i]+'</span> <span style="color:#555">&rarr;</span> <span class="score">'+p.t2[i]+'</span></div>';
+      h += '<div class="vm-terrainspiral-cell"><span class="vm-terrainspiral-arrow" style="'+info.cls+'">'+info.arrow+'</span><span style="font-family:DM Mono,monospace;font-size:13px;'+info.cls+'">'+info.label+'</span></div>';
+    }
+    grid.innerHTML = h;
+    document.getElementById("vm-terrainspiral-btn").textContent = "Switch to " + (current === "B" ? "Patient C (Mixed)" : "Patient B (Destabilising)");
+  }
+
+  window.vmTerrainSpiralToggle = function(){
+    current = current === "B" ? "C" : "B";
+    render();
+  };
+  render();
+})();
+</script>
+</section>

@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRD Visualiser Features D16-D20 | VitalMatrix</title>
+<style>
+/* ============================================================
+   VitalMatrix DRD Features D16-D20
+   Standalone interactive features file
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vm-bg:#0A0F14;
+  --vm-surface:#111820;
+  --vm-surface2:#1A2230;
+  --vm-border:#2A3545;
+  --vm-text:#E8ECF1;
+  --vm-text-muted:#8A95A5;
+  --vm-gold:#C9A84C;
+  --vm-teal:#1A7A8A;
+  --vm-purple:#7B5EA7;
+  --vm-sage:#5F7C6C;
+  --vm-blue:#2E6DB4;
+  --vm-white:#FFFFFF;
+  --vm-red:#E74C3C;
+  --vm-green:#27AE60;
+  --vm-amber:#F39C12;
+  --vm-radius:8px;
+  --vm-transition:0.3s ease;
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important}
+}
+body{
+  background:var(--vm-bg);
+  color:var(--vm-text);
+  font-family:'Inter','Segoe UI',system-ui,sans-serif;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{font-weight:600;letter-spacing:-0.02em}
+h1{font-size:1.8rem;color:var(--vm-gold);margin-bottom:8px}
+h2{font-size:1.4rem;color:var(--vm-text);margin-bottom:12px}
+h3{font-size:1.1rem;color:var(--vm-text-muted);margin-bottom:8px}
+
+/* Layout */
+.vm-page-wrapper{max-width:1400px;margin:0 auto;padding:24px 20px}
+.vm-header{text-align:center;margin-bottom:32px;padding:20px 0;border-bottom:1px solid var(--vm-border)}
+.vm-header p{color:var(--vm-text-muted);font-size:0.95rem;margin-top:4px}
+
+/* Slider panel */
+.vm-slider-panel{
+  background:var(--vm-surface);
+  border:1px solid var(--vm-border);
+  border-radius:var(--vm-radius);
+  padding:20px 24px;
+  margin-bottom:32px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:16px;
+}
+@media(max-width:900px){.vm-slider-panel{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.vm-slider-panel{grid-template-columns:1fr 1fr}}
+.vm-slider-group{display:flex;flex-direction:column;gap:4px}
+.vm-slider-label{
+  font-size:0.8rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.vm-slider-value{
+  font-variant-numeric:tabular-nums;
+  font-size:0.85rem;
+  padding:2px 6px;
+  border-radius:4px;
+  min-width:32px;
+  text-align:center;
+}
+input[type="range"]{
+  -webkit-appearance:none;
+  width:100%;height:6px;
+  border-radius:3px;
+  background:#2A3545;
+  outline:none;
+  cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px;height:16px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+/* Feature section */
+.vm-feature-section{
+  background:var(--vm-surface);
+  border:1px solid var(--vm-border);
+  border-radius:var(--vm-radius);
+  margin-bottom:28px;
+  overflow:hidden;
+}
+.vm-feature-header{
+  padding:16px 24px;
+  border-bottom:1px solid var(--vm-border);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:8px;
+}
+.vm-feature-header h2{margin-bottom:0}
+.vm-feature-tag{
+  font-size:0.7rem;
+  padding:3px 10px;
+  border-radius:12px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+.vm-feature-body{padding:20px 24px;min-height:300px}
+
+/* Controls */
+.vm-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.vm-btn{
+  background:var(--vm-surface2);
+  border:1px solid var(--vm-border);
+  color:var(--vm-text);
+  padding:6px 14px;
+  border-radius:var(--vm-radius);
+  font-size:0.8rem;
+  cursor:pointer;
+  transition:var(--vm-transition);
+  font-family:inherit;
+}
+.vm-btn:hover{border-color:var(--vm-gold);color:var(--vm-gold)}
+.vm-btn.active{background:var(--vm-gold);color:var(--vm-bg);border-color:var(--vm-gold)}
+.vm-checkbox-label{
+  display:flex;align-items:center;gap:6px;
+  font-size:0.8rem;cursor:pointer;
+  color:var(--vm-text-muted);
+}
+.vm-checkbox-label input{accent-color:var(--vm-gold)}
+.vm-badge{
+  display:inline-block;
+  font-size:0.65rem;
+  padding:2px 8px;
+  border-radius:10px;
+  font-weight:600;
+  letter-spacing:0.04em;
+}
+
+/* Tooltip */
+.vm-tooltip{
+  position:absolute;
+  background:rgba(10,15,20,0.95);
+  border:1px solid var(--vm-gold);
+  border-radius:var(--vm-radius);
+  padding:10px 14px;
+  font-size:0.75rem;
+  line-height:1.5;
+  color:var(--vm-text);
+  pointer-events:none;
+  z-index:100;
+  max-width:280px;
+  opacity:0;
+  transition:opacity 0.2s;
+  white-space:nowrap;
+}
+.vm-tooltip.visible{opacity:1}
+.vm-tooltip-row{display:flex;justify-content:space-between;gap:12px}
+.vm-tooltip-label{color:var(--vm-text-muted)}
+.vm-tooltip-val{font-weight:600}
+
+/* Canvas wrapper */
+.vm-canvas-wrap{position:relative;width:100%;overflow:hidden;border-radius:var(--vm-radius)}
+.vm-canvas-wrap canvas{display:block;width:100%}
+
+/* Summary cards */
+.vm-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.vm-summary-card{
+  background:var(--vm-bg);
+  border:1px solid var(--vm-border);
+  border-radius:var(--vm-radius);
+  padding:10px;
+  text-align:center;
+}
+.vm-summary-card .label{font-size:0.7rem;color:var(--vm-text-muted);text-transform:uppercase}
+.vm-summary-card .value{font-size:1.1rem;font-weight:700;margin-top:2px}
+.vm-summary-card .detail{font-size:0.65rem;color:var(--vm-text-muted);margin-top:2px}
+
+/* Gantt specific */
+.vm-gantt-container{overflow-x:auto;overflow-y:visible}
+.vm-gantt-table{width:100%;border-collapse:collapse}
+.vm-gantt-table th,.vm-gantt-table td{padding:6px 8px;font-size:0.75rem;border:1px solid var(--vm-border)}
+.vm-gantt-table th{background:var(--vm-surface2);color:var(--vm-text-muted);font-weight:600;text-align:left}
+
+/* Monitor specific */
+.vm-monitor-wrap{
+  background:#050A0E;
+  border:2px solid #1A2A35;
+  border-radius:12px;
+  padding:12px;
+  position:relative;
+}
+.vm-monitor-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:4px 8px 8px;
+  border-bottom:1px solid #1A2A35;
+  margin-bottom:8px;
+}
+.vm-monitor-label{
+  font-size:0.7rem;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--vm-text-muted);
+}
+.vm-system-load{
+  font-size:0.85rem;
+  font-weight:700;
+  color:var(--vm-amber);
+  text-align:right;
+}
+
+/* X-Ray mode */
+.vm-xray-container{position:relative;min-height:500px}
+.vm-blueprint-grid{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.6s;
+}
+.vm-blueprint-grid.active{opacity:1}
+.vm-xray-annotation{
+  position:absolute;
+  font-size:0.65rem;
+  font-family:'Courier New',monospace;
+  color:#00BCD4;
+  background:rgba(0,188,212,0.08);
+  border:1px solid rgba(0,188,212,0.3);
+  padding:4px 8px;
+  border-radius:4px;
+  opacity:0;
+  transition:opacity 0.6s;
+  white-space:nowrap;
+}
+.vm-xray-annotation.active{opacity:1}
+.vm-xray-tick{font-weight:700;margin-left:4px}
+.vm-xray-tick.pass{color:var(--vm-green)}
+.vm-xray-tick.fail{color:var(--vm-red)}
+
+/* DRD badge */
+.vm-drd-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(201,168,76,0.15);
+  border:1px solid var(--vm-gold);
+  color:var(--vm-gold);
+  padding:3px 10px;
+  border-radius:12px;
+  font-size:0.7rem;
+  font-weight:600;
+}
+.vm-drd-crown::before{content:"\u265B";margin-right:2px}
+
+/* Profile badges */
+.vm-profile-badges{
+  display:flex;gap:12px;flex-wrap:wrap;
+  margin-top:12px;justify-content:center;
+}
+.vm-profile-badge{
+  padding:6px 12px;
+  border-radius:var(--vm-radius);
+  font-size:0.75rem;
+  border:1px solid var(--vm-border);
+  background:var(--vm-bg);
+}
+.vm-best-match{
+  border-color:var(--vm-green) !important;
+  box-shadow:0 0 8px rgba(39,174,96,0.3);
+}
+
+/* Divergence flag */
+.vm-divergence-flag{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:4px;
+  font-size:0.65rem;
+  font-weight:600;
+  background:rgba(243,156,18,0.15);
+  color:var(--vm-amber);
+  border:1px solid var(--vm-amber);
+}
+
+/* Review interval */
+.vm-review-text{
+  margin-top:12px;
+  padding:10px 14px;
+  background:rgba(201,168,76,0.08);
+  border-left:3px solid var(--vm-gold);
+  border-radius:0 var(--vm-radius) var(--vm-radius) 0;
+  font-size:0.8rem;
+  color:var(--vm-text-muted);
+}
+</style>
+</head>
+<body>
+<div class="vm-page-wrapper">
+
+<!-- Header -->
+<div class="vm-header">
+  <h1>DRD Visualiser -- Features D16-D20</h1>
+  <p>Burden Redistribution, Multi-Patient Terrain, Cascade Timing, Vital Signs Monitor, Architectural X-Ray</p>
+</div>
+
+<!-- Zone Sliders -->
+<div class="vm-slider-panel" id="sliderPanel">
+  <div class="vm-slider-group">
+    <div class="vm-slider-label" style="color:var(--vm-gold)">
+      <span>Z1 Metabolic</span>
+      <span class="vm-slider-value" id="z1val" style="background:rgba(201,168,76,0.2)">45</span>
+    </div>
+    <input type="range" id="z1slider" min="0" max="100" value="45"
+      style="background:linear-gradient(90deg,var(--vm-gold) 45%,#2A3545 45%)">
+  </div>
+  <div class="vm-slider-group">
+    <div class="vm-slider-label" style="color:var(--vm-teal)">
+      <span>Z2 Gut</span>
+      <span class="vm-slider-value" id="z2val" style="background:rgba(26,122,138,0.2)">55</span>
+    </div>
+    <input type="range" id="z2slider" min="0" max="100" value="55"
+      style="background:linear-gradient(90deg,var(--vm-teal) 55%,#2A3545 55%)">
+  </div>
+  <div class="vm-slider-group">
+    <div class="vm-slider-label" style="color:var(--vm-purple)">
+      <span>Z3 Immune</span>
+      <span class="vm-slider-value" id="z3val" style="background:rgba(123,94,167,0.2)">30</span>
+    </div>
+    <input type="range" id="z3slider" min="0" max="100" value="30"
+      style="background:linear-gradient(90deg,var(--vm-purple) 30%,#2A3545 30%)">
+  </div>
+  <div class="vm-slider-group">
+    <div class="vm-slider-label" style="color:var(--vm-sage)">
+      <span>Z4 Detox</span>
+      <span class="vm-slider-value" id="z4val" style="background:rgba(95,124,108,0.2)">25</span>
+    </div>
+    <input type="range" id="z4slider" min="0" max="100" value="25"
+      style="background:linear-gradient(90deg,var(--vm-sage) 25%,#2A3545 25%)">
+  </div>
+  <div class="vm-slider-group">
+    <div class="vm-slider-label" style="color:var(--vm-blue)">
+      <span>Z5 Hormonal</span>
+      <span class="vm-slider-value" id="z5val" style="background:rgba(46,109,180,0.2)">50</span>
+    </div>
+    <input type="range" id="z5slider" min="0" max="100" value="50"
+      style="background:linear-gradient(90deg,var(--vm-blue) 50%,#2A3545 50%)">
+  </div>
+</div>
+
+<!-- ============================================================
+     D16: Burden Redistribution Waterfall Chart
+     ============================================================ -->
+<div class="vm-feature-section" id="d16section">
+  <div class="vm-feature-header">
+    <div>
+      <h2>D16: Burden Redistribution Waterfall</h2>
+      <span class="vm-feature-tag" style="background:rgba(201,168,76,0.15);color:var(--vm-gold)">Cascade Flow</span>
+    </div>
+    <div class="vm-controls" style="margin-bottom:0">
+      <label class="vm-checkbox-label">
+        <input type="checkbox" id="d16cumulative"> Cumulative
+      </label>
+    </div>
+  </div>
+  <div class="vm-feature-body">
+    <div class="vm-canvas-wrap">
+      <canvas id="d16canvas" height="340"></canvas>
+    </div>
+    <div class="vm-tooltip" id="d16tooltip"></div>
+    <div class="vm-summary-grid" id="d16summary"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     D17: Multi-Patient Terrain Overlay
+     ============================================================ -->
+<div class="vm-feature-section" id="d17section">
+  <div class="vm-feature-header">
+    <div>
+      <h2>D17: Multi-Patient Terrain Overlay</h2>
+      <span class="vm-feature-tag" style="background:rgba(123,94,167,0.15);color:var(--vm-purple)">Radar Comparison</span>
+    </div>
+  </div>
+  <div class="vm-feature-body">
+    <div class="vm-controls">
+      <label class="vm-checkbox-label">
+        <input type="checkbox" id="d17profileA" checked>
+        <span style="color:var(--vm-gold)">Profile A: Gut-Thyroid</span>
+      </label>
+      <label class="vm-checkbox-label">
+        <input type="checkbox" id="d17profileB" checked>
+        <span style="color:var(--vm-teal)">Profile B: Detox-Metabolic</span>
+      </label>
+      <label class="vm-checkbox-label">
+        <input type="checkbox" id="d17profileC" checked>
+        <span style="color:var(--vm-purple)">Profile C: Hormonal-Loop</span>
+      </label>
+      <label class="vm-checkbox-label">
+        <input type="checkbox" id="d17current" checked>
+        <span style="color:var(--vm-white)">Current (sliders)</span>
+      </label>
+    </div>
+    <div class="vm-canvas-wrap" style="max-width:600px;margin:0 auto">
+      <canvas id="d17canvas" height="500"></canvas>
+    </div>
+    <div id="d17bestMatch" style="text-align:center;margin-top:8px"></div>
+    <div class="vm-profile-badges" id="d17badges"></div>
+    <div id="d17divergence" style="text-align:center;margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     D18: Cascade Timing Gantt Chart
+     ============================================================ -->
+<div class="vm-feature-section" id="d18section">
+  <div class="vm-feature-header">
+    <div>
+      <h2>D18: Cascade Timing Gantt Chart</h2>
+      <span class="vm-feature-tag" style="background:rgba(95,124,108,0.15);color:var(--vm-sage)">Timeline</span>
+    </div>
+    <div class="vm-controls" style="margin-bottom:0">
+      <span style="font-size:0.75rem;color:var(--vm-text-muted)">Review at:</span>
+      <button class="vm-btn active" data-review="4" onclick="setReviewWeeks(4,this)">4 wk</button>
+      <button class="vm-btn" data-review="8" onclick="setReviewWeeks(8,this)">8 wk</button>
+      <button class="vm-btn" data-review="12" onclick="setReviewWeeks(12,this)">12 wk</button>
+    </div>
+  </div>
+  <div class="vm-feature-body">
+    <div class="vm-gantt-container" id="d18gantt"></div>
+    <div class="vm-review-text" id="d18review"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     D19: Zone Vital Signs Monitor
+     ============================================================ -->
+<div class="vm-feature-section" id="d19section">
+  <div class="vm-feature-header">
+    <div>
+      <h2>D19: Zone Vital Signs Monitor</h2>
+      <span class="vm-feature-tag" style="background:rgba(46,109,180,0.15);color:var(--vm-blue)">Live ECG</span>
+    </div>
+    <div class="vm-controls" style="margin-bottom:0">
+      <label class="vm-checkbox-label">
+        <input type="checkbox" id="d19audio"> Audio (off)
+      </label>
+    </div>
+  </div>
+  <div class="vm-feature-body" style="padding:12px">
+    <div class="vm-monitor-wrap">
+      <div class="vm-monitor-header">
+        <span class="vm-monitor-label">VitalMatrix Terrain Monitor</span>
+        <span class="vm-system-load" id="d19load">System Load: 0%</span>
+      </div>
+      <canvas id="d19canvas" height="350"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     D20: Architectural X-Ray Mode
+     ============================================================ -->
+<div class="vm-feature-section" id="d20section">
+  <div class="vm-feature-header">
+    <div>
+      <h2>D20: Architectural X-Ray Mode</h2>
+      <span class="vm-feature-tag" style="background:rgba(0,188,212,0.15);color:#00BCD4">Blueprint</span>
+    </div>
+    <div class="vm-controls" style="margin-bottom:0">
+      <button class="vm-btn" id="d20toggle" onclick="toggleXRay()">
+        &#9760; Toggle X-Ray [X]
+      </button>
+    </div>
+  </div>
+  <div class="vm-feature-body">
+    <div class="vm-xray-container" id="d20container">
+      <canvas id="d20canvasBlueprint" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;transition:opacity 0.6s"></canvas>
+      <canvas id="d20canvas" height="500"></canvas>
+      <div id="d20annotations"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /vm-page-wrapper -->
+
+<script>
+/* ============================================================
+   VitalMatrix DRD Features D16-D20 - Core Engine
+   ============================================================ */
+(function(){
+"use strict";
+
+/* ---- Constants ---- */
+var ZONES = {
+  Z1: {id:"Z1",name:"Metabolic",colour:"#C9A84C",threshold:40,defaultScore:45},
+  Z2: {id:"Z2",name:"Gut",colour:"#1A7A8A",threshold:40,defaultScore:55},
+  Z3: {id:"Z3",name:"Immune",colour:"#7B5EA7",threshold:40,defaultScore:30},
+  Z4: {id:"Z4",name:"Detox",colour:"#5F7C6C",threshold:40,defaultScore:25},
+  Z5: {id:"Z5",name:"Hormonal",colour:"#2E6DB4",threshold:32,defaultScore:50}
+};
+
+var STACKS = [
+  {id:"S1",from:"Z2",to:"Z1",velocity:"MEDIUM",flags:[],evidenceTier:"Tier 1",weekRange:[4,8]},
+  {id:"S2",from:"Z1",to:"Z5",velocity:"FAST",flags:[],evidenceTier:"Tier 1",weekRange:[1,2]},
+  {id:"S3",from:"Z4",to:"Z1",velocity:"SLOW",flags:[],evidenceTier:"Tier 2",weekRange:[12,24]},
+  {id:"S4",from:"Z5",to:"Z2",velocity:"MEDIUM",flags:["THEORETICAL"],evidenceTier:"Theoretical",weekRange:[4,8]},
+  {id:"S5",from:"Z2",to:"Z3",velocity:"FAST",flags:[],evidenceTier:"Tier 1",weekRange:[1,2]},
+  {id:"S6",from:"Z1",to:"Z3",velocity:"MEDIUM",flags:["UNIDIRECTIONAL"],evidenceTier:"Tier 1",weekRange:[4,8]}
+];
+
+var PROFILES = {
+  A:{name:"Gut-Thyroid",colour:"#C9A84C",scores:{Z1:65,Z2:72,Z3:25,Z4:30,Z5:48}},
+  B:{name:"Detox-Metabolic",colour:"#1A7A8A",scores:{Z1:58,Z2:35,Z3:22,Z4:68,Z5:40}},
+  C:{name:"Hormonal-Loop",colour:"#7B5EA7",scores:{Z1:62,Z2:55,Z3:28,Z4:32,Z5:70}}
+};
+
+var ZONE_ORDER = ["Z1","Z2","Z3","Z4","Z5"];
+
+/* ---- State ---- */
+var state = {
+  scores: {Z1:45,Z2:55,Z3:30,Z4:25,Z5:50},
+  reviewWeeks: 4,
+  xrayActive: false,
+  reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+};
+
+/* ---- Utility ---- */
+function getScore(zid){ return state.scores[zid]; }
+function isActive(stack){
+  var fromScore = getScore(stack.from);
+  var toScore = getScore(stack.to);
+  var fromThresh = ZONES[stack.from].threshold;
+  var toThresh = ZONES[stack.to].threshold;
+  return fromScore >= fromThresh && toScore >= toThresh;
+}
+function burdenMagnitude(stack){
+  if(!isActive(stack)) return 0;
+  return Math.abs(getScore(stack.from) - getScore(stack.to));
+}
+function getDRDZone(){
+  var maxZ = "Z1";
+  var maxS = getScore("Z1");
+  for(var i=1;i<ZONE_ORDER.length;i++){
+    var s = getScore(ZONE_ORDER[i]);
+    if(s > maxS){maxS = s; maxZ = ZONE_ORDER[i];}
+  }
+  return maxZ;
+}
+function getDRDForScores(scores){
+  var maxZ = "Z1";
+  var maxS = scores.Z1;
+  for(var i=1;i<ZONE_ORDER.length;i++){
+    if(scores[ZONE_ORDER[i]] > maxS){maxS = scores[ZONE_ORDER[i]]; maxZ = ZONE_ORDER[i];}
+  }
+  return maxZ;
+}
+function hexToRGBA(hex,a){
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  return "rgba("+r+","+g+","+b+","+a+")";
+}
+function lerp(a,b,t){ return a + (b - a) * t; }
+function clamp(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
+
+/* ---- Slider wiring ---- */
+var sliderIds = ["z1slider","z2slider","z3slider","z4slider","z5slider"];
+var valIds = ["z1val","z2val","z3val","z4val","z5val"];
+var zoneKeys = ["Z1","Z2","Z3","Z4","Z5"];
+var zoneColours = ["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#2E6DB4"];
+
+function setupSliders(){
+  for(var i=0;i<sliderIds.length;i++){
+    (function(idx){
+      var slider = document.getElementById(sliderIds[idx]);
+      var valEl = document.getElementById(valIds[idx]);
+      slider.addEventListener("input",function(){
+        var v = parseInt(slider.value);
+        state.scores[zoneKeys[idx]] = v;
+        valEl.textContent = v;
+        slider.style.background = "linear-gradient(90deg,"+zoneColours[idx]+" "+v+"%,#2A3545 "+v+"%)";
+        onScoresChanged();
+      });
+    })(i);
+  }
+}
+
+function onScoresChanged(){
+  renderD16();
+  renderD17();
+  renderD18();
+  renderD20();
+}
+
+/* ---- Spring animation helper ---- */
+var springs = {};
+function springTo(key, target, onUpdate){
+  if(state.reducedMotion){
+    springs[key] = {current:target,target:target,velocity:0};
+    onUpdate(target);
+    return;
+  }
+  if(!springs[key]) springs[key] = {current:target,target:target,velocity:0};
+  springs[key].target = target;
+  if(springs[key].raf) return;
+  function tick(){
+    var s = springs[key];
+    var stiffness = 0.08;
+    var damping = 0.7;
+    var force = (s.target - s.current) * stiffness;
+    s.velocity = (s.velocity + force) * damping;
+    s.current += s.velocity;
+    if(Math.abs(s.current - s.target) < 0.5 && Math.abs(s.velocity) < 0.1){
+      s.current = s.target;
+      s.velocity = 0;
+      s.raf = null;
+      onUpdate(s.current);
+      return;
+    }
+    onUpdate(s.current);
+    s.raf = requestAnimationFrame(tick);
+  }
+  springs[key].raf = requestAnimationFrame(tick);
+}
+
+/* ============================================================
+   D16: Burden Redistribution Waterfall Chart
+   ============================================================ */
+var d16Springs = {};
+
+function renderD16(){
+  var canvas = document.getElementById("d16canvas");
+  var ctx = canvas.getContext("2d");
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = 340 * dpr;
+  ctx.scale(dpr,dpr);
+  var W = rect.width;
+  var H = 340;
+  ctx.clearRect(0,0,W,H);
+
+  var cumulative = document.getElementById("d16cumulative").checked;
+  var drd = getDRDZone();
+  var padding = {top:40,right:30,bottom:70,left:60};
+  var chartW = W - padding.left - padding.right;
+  var chartH = H - padding.top - padding.bottom;
+
+  /* Compute bridges */
+  var bridges = [];
+  var cumulativeY = 0;
+  for(var i=0;i<STACKS.length;i++){
+    var st = STACKS[i];
+    var mag = burdenMagnitude(st);
+    var fromScore = getScore(st.from);
+    var toScore = getScore(st.to);
+    var active = isActive(st);
+    var isTheo = st.flags.indexOf("THEORETICAL") >= 0;
+    var isUni = st.flags.indexOf("UNIDIRECTIONAL") >= 0;
+
+    bridges.push({
+      stack: st,
+      fromScore: fromScore,
+      toScore: toScore,
+      magnitude: mag,
+      active: active,
+      isTheo: isTheo,
+      isUni: isUni,
+      colour: ZONES[st.from].colour,
+      cumulativeStart: cumulativeY
+    });
+    if(cumulative && active) cumulativeY += mag;
+  }
+
+  var maxScore = 100;
+  var barW = chartW / (STACKS.length + 1);
+  var gap = barW * 0.15;
+
+  /* Y scale */
+  function yScale(v){ return padding.top + chartH - (v / maxScore) * chartH; }
+
+  /* Grid lines */
+  ctx.strokeStyle = "#1A2230";
+  ctx.lineWidth = 1;
+  for(var g=0;g<=100;g+=20){
+    var gy = yScale(g);
+    ctx.beginPath();
+    ctx.moveTo(padding.left, gy);
+    ctx.lineTo(W - padding.right, gy);
+    ctx.stroke();
+    ctx.fillStyle = "#5A6575";
+    ctx.font = "11px Inter,sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(g.toString(), padding.left - 8, gy + 4);
+  }
+
+  /* Draw bridges */
+  for(var b=0;b<bridges.length;b++){
+    var br = bridges[b];
+    var x = padding.left + (b + 0.5) * barW;
+    var bw = barW - gap * 2;
+
+    if(!br.active){
+      /* Ghost bar */
+      ctx.fillStyle = hexToRGBA(br.colour, 0.08);
+      ctx.fillRect(x - bw/2, yScale(20), bw, yScale(0) - yScale(20));
+      ctx.fillStyle = "#3A4555";
+      ctx.font = "10px Inter,sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Inactive", x, yScale(0) + 14);
+      ctx.fillText(br.stack.id, x, yScale(0) + 26);
+      continue;
+    }
+
+    var topVal, botVal;
+    if(cumulative){
+      botVal = br.cumulativeStart;
+      topVal = br.cumulativeStart + br.magnitude;
+    } else {
+      topVal = Math.max(br.fromScore, br.toScore);
+      botVal = Math.min(br.fromScore, br.toScore);
+    }
+
+    var yTop = yScale(topVal);
+    var yBot = yScale(botVal);
+    var barH = yBot - yTop;
+    if(barH < 2) barH = 2;
+
+    /* Animate via spring */
+    var springKey = "d16_" + br.stack.id;
+    if(!d16Springs[springKey]) d16Springs[springKey] = barH;
+    springTo(springKey, barH, function(){});
+    var animH = springs[springKey] ? springs[springKey].current : barH;
+
+    /* S4 dashed */
+    if(br.isTheo){
+      ctx.save();
+      ctx.setLineDash([4,3]);
+      ctx.strokeStyle = hexToRGBA(br.colour, 0.5);
+      ctx.lineWidth = 2;
+      ctx.fillStyle = hexToRGBA(br.colour, 0.15);
+      ctx.fillRect(x - bw/2, yTop, bw, animH);
+      ctx.strokeRect(x - bw/2, yTop, bw, animH);
+      /* THEORETICAL rotated 45deg */
+      ctx.translate(x, yTop + animH/2);
+      ctx.rotate(-Math.PI/4);
+      ctx.fillStyle = hexToRGBA(br.colour, 0.4);
+      ctx.font = "bold 9px Inter,sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("THEORETICAL", 0, 3);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = hexToRGBA(br.colour, 0.7);
+      ctx.fillRect(x - bw/2, yTop, bw, animH);
+      ctx.strokeStyle = br.colour;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      ctx.strokeRect(x - bw/2, yTop, bw, animH);
+    }
+
+    /* DRD crown on highest burden */
+    var highestBurdenIdx = 0;
+    var highestBurdenVal = 0;
+    for(var hb=0;hb<bridges.length;hb++){
+      if(bridges[hb].active && bridges[hb].magnitude > highestBurdenVal){
+        highestBurdenVal = bridges[hb].magnitude;
+        highestBurdenIdx = hb;
+      }
+    }
+    if(b === highestBurdenIdx){
+      ctx.fillStyle = "#C9A84C";
+      ctx.font = "16px serif";
+      ctx.textAlign = "center";
+      ctx.fillText("\u265B", x, yTop - 8);
+      ctx.fillStyle = "rgba(201,168,76,0.12)";
+      ctx.fillRect(x - bw/2 - 2, yTop - 2, bw + 4, animH + 4);
+    }
+
+    /* Labels */
+    ctx.setLineDash([]);
+    ctx.fillStyle = br.colour;
+    ctx.font = "bold 11px Inter,sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(br.stack.id, x, yScale(0) + 14);
+
+    var dirLabel = br.stack.from + " > " + br.stack.to;
+    if(br.isUni) dirLabel += " UNI";
+    ctx.fillStyle = "#8A95A5";
+    ctx.font = "9px Inter,sans-serif";
+    ctx.fillText(dirLabel, x, yScale(0) + 26);
+
+    /* Magnitude label on bar */
+    ctx.fillStyle = "#E8ECF1";
+    ctx.font = "bold 10px Inter,sans-serif";
+    ctx.fillText(br.magnitude.toString(), x, yTop + animH/2 + 4);
+
+    /* Connector line to next */
+    if(b < bridges.length - 1 && !cumulative){
+      ctx.strokeStyle = "#2A3545";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3,3]);
+      ctx.beginPath();
+      ctx.moveTo(x + bw/2, yScale(br.toScore));
+      var nx = padding.left + (b + 1.5) * barW;
+      ctx.lineTo(nx - bw/2, yScale(br.toScore));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  /* Net burden summary */
+  var summaryEl = document.getElementById("d16summary");
+  var html = "";
+  for(var zi=0;zi<ZONE_ORDER.length;zi++){
+    var zk = ZONE_ORDER[zi];
+    var z = ZONES[zk];
+    var incoming = 0;
+    var outgoing = 0;
+    for(var si=0;si<STACKS.length;si++){
+      if(!isActive(STACKS[si])) continue;
+      var mag2 = burdenMagnitude(STACKS[si]);
+      if(STACKS[si].to === zk) incoming += mag2;
+      if(STACKS[si].from === zk) outgoing += mag2;
+    }
+    var net = incoming - outgoing;
+    var arrow = net > 0 ? "\u2191" : (net < 0 ? "\u2193" : "\u2014");
+    var isDrd = zk === drd;
+    var cardBorder = isDrd ? "border-color:"+z.colour : "";
+    html += '<div class="vm-summary-card" style="' + cardBorder + '">';
+    html += '<div class="label" style="color:' + z.colour + '">' + z.id + " " + z.name;
+    if(isDrd) html += ' <span class="vm-drd-crown"></span>';
+    html += '</div>';
+    html += '<div class="value" style="color:' + z.colour + '">' + arrow + " " + Math.abs(net) + " net</div>";
+    html += '<div class="detail">' + "\u2191" + incoming + " in / " + "\u2193" + outgoing + " out</div>";
+    html += '</div>';
+  }
+  summaryEl.innerHTML = html;
+
+  /* Store bridge rects for tooltip */
+  canvas._bridges = bridges;
+  canvas._barW = barW;
+  canvas._padding = padding;
+  canvas._gap = gap;
+}
+
+/* D16 tooltip */
+(function(){
+  var canvas = document.getElementById("d16canvas");
+  var tooltip = document.getElementById("d16tooltip");
+  canvas.addEventListener("mousemove",function(e){
+    var rect = canvas.getBoundingClientRect();
+    var mx = e.clientX - rect.left;
+    var my = e.clientY - rect.top;
+    if(!canvas._bridges) return;
+    var barW = canvas._barW;
+    var pad = canvas._padding;
+    var gap = canvas._gap;
+    var found = false;
+    for(var i=0;i<canvas._bridges.length;i++){
+      var br = canvas._bridges[i];
+      var x = pad.left + (i + 0.5) * barW;
+      var bw = barW - gap*2;
+      if(mx >= x - bw/2 && mx <= x + bw/2){
+        var st = br.stack;
+        var lines = [
+          "Stack: " + st.id + " (" + st.from + " > " + st.to + ")",
+          "Velocity: " + st.velocity,
+          "Evidence: " + st.evidenceTier,
+          "Source score: " + br.fromScore,
+          "Target score: " + br.toScore,
+          "Magnitude: " + br.magnitude,
+          "Status: " + (br.active ? "Active" : "Inactive")
+        ];
+        if(br.isTheo) lines.push("Flag: THEORETICAL");
+        if(br.isUni) lines.push("Flag: UNIDIRECTIONAL");
+        tooltip.innerHTML = lines.join("<br>");
+        tooltip.style.left = (e.clientX - rect.left + 12) + "px";
+        tooltip.style.top = (e.clientY - rect.top - 20) + "px";
+        tooltip.classList.add("visible");
+        found = true;
+        break;
+      }
+    }
+    if(!found) tooltip.classList.remove("visible");
+  });
+  canvas.addEventListener("mouseleave",function(){
+    tooltip.classList.remove("visible");
+  });
+})();
+
+document.getElementById("d16cumulative").addEventListener("change", renderD16);
+
+/* ============================================================
+   D17: Multi-Patient Terrain Overlay
+   ============================================================ */
+function renderD17(){
+  var canvas = document.getElementById("d17canvas");
+  var ctx = canvas.getContext("2d");
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = 500 * dpr;
+  ctx.scale(dpr,dpr);
+  var W = rect.width;
+  var H = 500;
+  ctx.clearRect(0,0,W,H);
+
+  var cx = W/2;
+  var cy = H/2 - 10;
+  var radius = Math.min(W,H) * 0.38;
+
+  /* Pentagon axes - Z1 top, Z2 right, Z3 bottom-right, Z4 bottom-left, Z5 left */
+  var angles = [];
+  for(var a=0;a<5;a++){
+    angles.push(-Math.PI/2 + a * (2*Math.PI/5));
+  }
+
+  /* Grid rings */
+  for(var ring=1;ring<=5;ring++){
+    var r = radius * ring/5;
+    ctx.beginPath();
+    for(var p=0;p<5;p++){
+      var px = cx + r * Math.cos(angles[p]);
+      var py = cy + r * Math.sin(angles[p]);
+      if(p===0) ctx.moveTo(px,py);
+      else ctx.lineTo(px,py);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = ring === 5 ? "#2A3545" : "#1A2230";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    /* Score label */
+    ctx.fillStyle = "#3A4555";
+    ctx.font = "9px Inter,sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText((ring*20).toString(), cx - 6, cy - r + 3);
+  }
+
+  /* Axis lines + zone labels */
+  for(var ax=0;ax<5;ax++){
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx + radius*Math.cos(angles[ax]), cy + radius*Math.sin(angles[ax]));
+    ctx.strokeStyle = "#1A2230";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    var labelR = radius + 20;
+    var lx = cx + labelR * Math.cos(angles[ax]);
+    var ly = cy + labelR * Math.sin(angles[ax]);
+    ctx.fillStyle = ZONES[ZONE_ORDER[ax]].colour;
+    ctx.font = "bold 11px Inter,sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(ZONE_ORDER[ax], lx, ly);
+  }
+
+  /* Draw polygon */
+  function drawPoly(scores, colour, dashed, fillOpacity){
+    ctx.beginPath();
+    for(var i=0;i<5;i++){
+      var zk = ZONE_ORDER[i];
+      var val = scores[zk] || 0;
+      var r2 = radius * val / 100;
+      var px2 = cx + r2 * Math.cos(angles[i]);
+      var py2 = cy + r2 * Math.sin(angles[i]);
+      if(i===0) ctx.moveTo(px2,py2);
+      else ctx.lineTo(px2,py2);
+    }
+    ctx.closePath();
+    if(fillOpacity > 0){
+      ctx.fillStyle = hexToRGBA(colour, fillOpacity);
+      ctx.fill();
+    }
+    ctx.strokeStyle = colour;
+    ctx.lineWidth = 2;
+    if(dashed) ctx.setLineDash([6,4]);
+    else ctx.setLineDash([]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* Dots */
+    for(var j=0;j<5;j++){
+      var zk2 = ZONE_ORDER[j];
+      var val2 = scores[zk2] || 0;
+      var r3 = radius * val2 / 100;
+      var dx = cx + r3 * Math.cos(angles[j]);
+      var dy = cy + r3 * Math.sin(angles[j]);
+      ctx.beginPath();
+      ctx.arc(dx,dy,3,0,Math.PI*2);
+      ctx.fillStyle = colour;
+      ctx.fill();
+    }
+  }
+
+  /* Profiles */
+  var showA = document.getElementById("d17profileA").checked;
+  var showB = document.getElementById("d17profileB").checked;
+  var showC = document.getElementById("d17profileC").checked;
+  var showCurrent = document.getElementById("d17current").checked;
+
+  if(showA) drawPoly(PROFILES.A.scores, PROFILES.A.colour, false, 0.12);
+  if(showB) drawPoly(PROFILES.B.scores, PROFILES.B.colour, false, 0.12);
+  if(showC) drawPoly(PROFILES.C.scores, PROFILES.C.colour, false, 0.12);
+  if(showCurrent) drawPoly(state.scores, "#FFFFFF", true, 0.08);
+
+  /* Best match (Euclidean distance) */
+  function euclidean(a,b){
+    var sum = 0;
+    for(var i=0;i<ZONE_ORDER.length;i++){
+      var diff = (a[ZONE_ORDER[i]]||0) - (b[ZONE_ORDER[i]]||0);
+      sum += diff*diff;
+    }
+    return Math.sqrt(sum);
+  }
+
+  var distA = euclidean(state.scores, PROFILES.A.scores);
+  var distB = euclidean(state.scores, PROFILES.B.scores);
+  var distC = euclidean(state.scores, PROFILES.C.scores);
+  var bestKey = "A";
+  var bestDist = distA;
+  if(distB < bestDist){bestKey = "B"; bestDist = distB;}
+  if(distC < bestDist){bestKey = "C"; bestDist = distC;}
+  var bestProfile = PROFILES[bestKey];
+
+  document.getElementById("d17bestMatch").innerHTML =
+    '<span style="color:var(--vm-green);font-size:0.85rem;font-weight:600">' +
+    'Best match: Profile ' + bestKey + ' (' + bestProfile.name + ') -- distance ' +
+    bestDist.toFixed(1) + '</span>';
+
+  /* DRD badges */
+  var badgesEl = document.getElementById("d17badges");
+  var bhtml = "";
+  var profileKeys = ["A","B","C"];
+  for(var pk=0;pk<profileKeys.length;pk++){
+    var pkey = profileKeys[pk];
+    var prof = PROFILES[pkey];
+    var drdZ = getDRDForScores(prof.scores);
+    var isBest = pkey === bestKey;
+    bhtml += '<div class="vm-profile-badge' + (isBest ? " vm-best-match" : "") + '" style="border-color:' + prof.colour + '">';
+    bhtml += '<span style="color:' + prof.colour + ';font-weight:600">Profile ' + pkey + ': ' + prof.name + '</span>';
+    bhtml += ' <span class="vm-drd-badge" style="font-size:0.6rem;padding:1px 6px">DRD: ' + drdZ + '</span>';
+    bhtml += '</div>';
+  }
+  /* Current DRD */
+  bhtml += '<div class="vm-profile-badge" style="border-color:#fff">';
+  bhtml += '<span style="color:#fff;font-weight:600">Current</span>';
+  bhtml += ' <span class="vm-drd-badge" style="font-size:0.6rem;padding:1px 6px">DRD: ' + getDRDZone() + '</span>';
+  bhtml += '</div>';
+  badgesEl.innerHTML = bhtml;
+
+  /* Divergence heatmap - widest spread */
+  var maxSpread = 0;
+  var maxSpreadZone = "Z1";
+  for(var di=0;di<ZONE_ORDER.length;di++){
+    var dzk = ZONE_ORDER[di];
+    var vals = [
+      PROFILES.A.scores[dzk],
+      PROFILES.B.scores[dzk],
+      PROFILES.C.scores[dzk],
+      state.scores[dzk]
+    ];
+    var mn = Math.min.apply(null, vals);
+    var mx = Math.max.apply(null, vals);
+    var spread = mx - mn;
+    if(spread > maxSpread){maxSpread = spread; maxSpreadZone = dzk;}
+  }
+  document.getElementById("d17divergence").innerHTML =
+    '<span class="vm-divergence-flag">Widest divergence: ' + maxSpreadZone + ' (' + ZONES[maxSpreadZone].name + ') -- spread of ' + maxSpread + ' points</span>';
+}
+
+/* D17 checkbox listeners */
+["d17profileA","d17profileB","d17profileC","d17current"].forEach(function(id){
+  document.getElementById(id).addEventListener("change", renderD17);
+});
+
+/* ============================================================
+   D18: Cascade Timing Gantt Chart
+   ============================================================ */
+var currentReviewWeeks = 4;
+
+function setReviewWeeks(w, btn){
+  currentReviewWeeks = w;
+  state.reviewWeeks = w;
+  var btns = btn.parentElement.querySelectorAll(".vm-btn");
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
+  btn.classList.add("active");
+  renderD18();
+}
+window.setReviewWeeks = setReviewWeeks;
+
+function renderD18(){
+  var container = document.getElementById("d18gantt");
+  var reviewEl = document.getElementById("d18review");
+  var reviewWeeks = currentReviewWeeks;
+
+  /* Timeline: 0-26 weeks */
+  var maxWeeks = 26;
+  var colCount = 13; /* 2-week intervals */
+  var weekLabels = [];
+  for(var w=0;w<=maxWeeks;w+=2) weekLabels.push(w===0 ? "Now" : w + "w");
+
+  var html = '<table class="vm-gantt-table"><thead><tr>';
+  html += '<th style="min-width:80px">Stack</th>';
+  html += '<th style="min-width:60px">Velocity</th>';
+  for(var wl=0;wl<weekLabels.length;wl++){
+    html += '<th style="min-width:50px;text-align:center">' + weekLabels[wl] + '</th>';
+  }
+  html += '<th style="min-width:60px">Status</th>';
+  html += '</tr></thead><tbody>';
+
+  /* Find fastest active chain for critical path */
+  var fastestEnd = 999;
+  var fastestStack = "";
+  for(var fi=0;fi<STACKS.length;fi++){
+    if(isActive(STACKS[fi]) && STACKS[fi].weekRange[1] < fastestEnd){
+      fastestEnd = STACKS[fi].weekRange[1];
+      fastestStack = STACKS[fi].id;
+    }
+  }
+
+  for(var si=0;si<STACKS.length;si++){
+    var st = STACKS[si];
+    var active = isActive(st);
+    var isTheo = st.flags.indexOf("THEORETICAL") >= 0;
+    var isUni = st.flags.indexOf("UNIDIRECTIONAL") >= 0;
+    var barColour;
+    if(st.velocity === "FAST") barColour = "#C9A84C";
+    else if(st.velocity === "MEDIUM") barColour = "#FFFFFF";
+    else barColour = "#5F7C6C";
+
+    var label = st.id + " (" + st.from + " > " + st.to + ")";
+    if(isUni) label += " UNIDIRECTIONAL";
+
+    var isCritical = st.id === fastestStack && active;
+
+    html += '<tr style="' + (isCritical ? "background:rgba(201,168,76,0.08)" : "") + '">';
+    html += '<td style="color:' + ZONES[st.from].colour + ';font-weight:600">' + label;
+    if(isTheo) html += ' <span style="color:var(--vm-amber);font-size:0.65rem">[THEORETICAL]</span>';
+    if(isCritical) html += ' <span style="color:var(--vm-gold);font-size:0.65rem">[CRITICAL PATH]</span>';
+    html += '</td>';
+    html += '<td>' + st.velocity + '</td>';
+
+    /* Bar cells */
+    var startWeek = st.weekRange[0];
+    var endWeek = st.weekRange[1];
+    for(var c=0;c<weekLabels.length;c++){
+      var cellStart = c * 2;
+      var cellEnd = cellStart + 2;
+      var inRange = active && cellStart < endWeek && cellEnd > startWeek;
+      var opacity = active ? 0.7 : 0.05;
+      var bg = inRange ? hexToRGBA(barColour, opacity) : "transparent";
+      var border = "";
+      if(isTheo && inRange) border = "border:1px dashed " + hexToRGBA(barColour, 0.4) + ";";
+      /* Now cursor */
+      var nowBorder = c === 0 ? "border-left:2px solid var(--vm-green);" : "";
+      /* Review cursor */
+      var reviewCol = Math.floor(reviewWeeks / 2);
+      var reviewBorder = c === reviewCol ? "border-right:2px solid var(--vm-amber);" : "";
+      html += '<td style="background:' + bg + ';' + border + nowBorder + reviewBorder + '">';
+      if(c === 0 && inRange) html += '<span style="font-size:0.6rem;color:var(--vm-green)">|</span>';
+      if(c === reviewCol) html += '<span style="font-size:0.6rem;color:var(--vm-amber)">|</span>';
+      html += '</td>';
+    }
+
+    /* Status */
+    var completesBeforeReview = active && endWeek <= reviewWeeks;
+    var inProgress = active && startWeek < reviewWeeks && endWeek > reviewWeeks;
+    var statusIcon = "";
+    if(!active) statusIcon = '<span style="color:#3A4555">Inactive</span>';
+    else if(completesBeforeReview) statusIcon = '<span style="color:var(--vm-green)" title="Completes before review">&#10003;</span>';
+    else if(inProgress) statusIcon = '<span style="color:var(--vm-amber)" title="In progress at review">&#9201;</span>';
+    else statusIcon = '<span style="color:#5A6575">Pending</span>';
+    html += '<td style="text-align:center">' + statusIcon + '</td>';
+    html += '</tr>';
+  }
+
+  html += '</tbody></table>';
+
+  /* Legend */
+  html += '<div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;font-size:0.7rem;color:var(--vm-text-muted)">';
+  html += '<span><span style="display:inline-block;width:12px;height:8px;background:#C9A84C;border-radius:2px;margin-right:4px"></span>FAST (1-2 weeks)</span>';
+  html += '<span><span style="display:inline-block;width:12px;height:8px;background:#FFFFFF;border-radius:2px;margin-right:4px"></span>MEDIUM (4-8 weeks)</span>';
+  html += '<span><span style="display:inline-block;width:12px;height:8px;background:#5F7C6C;border-radius:2px;margin-right:4px"></span>SLOW (12-24 weeks)</span>';
+  html += '<span style="color:var(--vm-green)">| Now</span>';
+  html += '<span style="color:var(--vm-amber)">| Review (' + reviewWeeks + 'w)</span>';
+  html += '<span style="color:var(--vm-green)">&#10003; Complete</span>';
+  html += '<span style="color:var(--vm-amber)">&#9201; In progress</span>';
+  html += '</div>';
+
+  container.innerHTML = html;
+
+  /* Review recommendation */
+  var activeFast = 0;
+  var activeMed = 0;
+  var activeSlow = 0;
+  for(var ri=0;ri<STACKS.length;ri++){
+    if(!isActive(STACKS[ri])) continue;
+    if(STACKS[ri].velocity === "FAST") activeFast++;
+    else if(STACKS[ri].velocity === "MEDIUM") activeMed++;
+    else activeSlow++;
+  }
+  var recWeeks = 8;
+  if(activeFast > 0 && activeSlow === 0) recWeeks = 4;
+  else if(activeSlow > 0) recWeeks = 12;
+  reviewEl.innerHTML = 'Recommended review interval: <strong>' + recWeeks + ' weeks</strong>. ' +
+    'Active cascades: ' + activeFast + ' FAST, ' + activeMed + ' MEDIUM, ' + activeSlow + ' SLOW. ' +
+    (activeSlow > 0 ? 'Slow cascades present -- allow longer observation window.' :
+     activeFast > 0 ? 'Fast cascades dominate -- shorter review advised.' : 'Standard review interval appropriate.');
+}
+
+/* ============================================================
+   D19: Zone Vital Signs Monitor (Canvas 30fps)
+   ============================================================ */
+var d19Data = {};
+var d19AudioCtx = null;
+var d19Oscillators = {};
+var d19Running = true;
+var d19BufferLength = 300;
+
+/* Initialise trace buffers */
+for(var zi=0;zi<ZONE_ORDER.length;zi++){
+  d19Data[ZONE_ORDER[zi]] = [];
+  for(var bf=0;bf<d19BufferLength;bf++) d19Data[ZONE_ORDER[zi]].push(0);
+}
+
+function generateECGSample(zoneId, t){
+  var score = getScore(zoneId);
+  var threshold = ZONES[zoneId].threshold;
+  var active = score >= threshold;
+  var drd = getDRDZone();
+  var isDrd = zoneId === drd;
+
+  if(!active){
+    /* Flat + small noise */
+    return (Math.random() - 0.5) * 0.03;
+  }
+
+  var burden = score / 100;
+
+  /* Borderline: irregular rhythm */
+  if(score >= threshold && score < threshold + 8){
+    var irreg = Math.sin(t * 0.15 + Math.random() * 2) * 0.3;
+    irreg += (Math.random() - 0.5) * 0.15;
+    return irreg;
+  }
+
+  /* Active: ECG-like spikes */
+  var freq = 0.08 + burden * 0.04;
+  var phase = (t * freq) % (Math.PI * 2);
+  var spike = 0;
+
+  /* QRS complex */
+  if(phase < 0.3) spike = Math.sin(phase * 10) * burden * 0.8;
+  else if(phase < 0.5) spike = -Math.sin((phase - 0.3) * 15) * burden * 0.3;
+  else if(phase > 3.0 && phase < 3.3) spike = Math.sin((phase - 3.0) * 10) * burden * 0.2;
+
+  /* Higher burden = taller spikes */
+  if(isDrd) spike *= 1.4;
+
+  spike += (Math.random() - 0.5) * 0.02;
+  return spike;
+}
+
+/* TerrainLock: Z2, Z1, Z5 synchronised when all active */
+function isTerrainLocked(){
+  return getScore("Z2") >= 40 && getScore("Z1") >= 40 && getScore("Z5") >= 32;
+}
+
+var d19FrameCount = 0;
+var d19LastTime = 0;
+
+function d19Loop(timestamp){
+  if(!d19Running) return;
+  if(state.reducedMotion){
+    /* Single frame render */
+    renderD19Frame();
+    return;
+  }
+  /* 30fps throttle */
+  if(timestamp - d19LastTime < 33){
+    requestAnimationFrame(d19Loop);
+    return;
+  }
+  d19LastTime = timestamp;
+  d19FrameCount++;
+  renderD19Frame();
+  requestAnimationFrame(d19Loop);
+}
+
+function renderD19Frame(){
+  var canvas = document.getElementById("d19canvas");
+  var ctx = canvas.getContext("2d");
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = 350 * dpr;
+  ctx.scale(dpr,dpr);
+  var W = rect.width;
+  var H = 350;
+  ctx.clearRect(0,0,W,H);
+
+  var channelH = H / 5;
+  var drd = getDRDZone();
+  var locked = isTerrainLocked();
+  var lockZones = ["Z2","Z1","Z5"];
+
+  /* Update buffers */
+  for(var zi=0;zi<ZONE_ORDER.length;zi++){
+    var zk = ZONE_ORDER[zi];
+    var sample;
+
+    if(locked && lockZones.indexOf(zk) >= 0){
+      /* Synchronised pattern */
+      var lockPhase = (d19FrameCount * 0.12) % (Math.PI * 2);
+      sample = Math.sin(lockPhase) * 0.5 + Math.sin(lockPhase * 3) * 0.15;
+      sample += (Math.random() - 0.5) * 0.02;
+    } else {
+      sample = generateECGSample(zk, d19FrameCount);
+    }
+
+    d19Data[zk].push(sample);
+    if(d19Data[zk].length > d19BufferLength) d19Data[zk].shift();
+  }
+
+  /* Cascade activation: ectopic spikes */
+  for(var si=0;si<STACKS.length;si++){
+    var st = STACKS[si];
+    if(isActive(st) && d19FrameCount % 90 === (si * 15) % 90){
+      /* Source ectopic */
+      d19Data[st.from][d19Data[st.from].length - 1] += 0.6;
+      /* Target deflection after delay */
+      var delay = st.velocity === "FAST" ? 3 : (st.velocity === "MEDIUM" ? 8 : 15);
+      var targetIdx = d19Data[st.to].length - 1 + delay;
+      if(targetIdx < d19BufferLength){
+        setTimeout(function(to){
+          if(d19Data[to].length > 2){
+            d19Data[to][d19Data[to].length - 1] += 0.4;
+          }
+        }.bind(null, st.to), delay * 33);
+      }
+    }
+  }
+
+  /* Draw channels */
+  for(var ch=0;ch<ZONE_ORDER.length;ch++){
+    var zk2 = ZONE_ORDER[ch];
+    var z = ZONES[zk2];
+    var yBase = ch * channelH + channelH / 2;
+    var score = getScore(zk2);
+    var isActiveCh = score >= z.threshold;
+    var isDrd = zk2 === drd;
+    var isBorderline = isActiveCh && score < z.threshold + 8;
+
+    /* Highest burden stripe */
+    if(isDrd){
+      ctx.fillStyle = hexToRGBA(z.colour, 0.06);
+      ctx.fillRect(0, ch * channelH, W, channelH);
+      ctx.fillStyle = z.colour;
+      ctx.font = "bold 9px Inter,sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText("HIGHEST BURDEN", W - 8, ch * channelH + 12);
+    }
+
+    /* TerrainLock overlay */
+    if(locked && lockZones.indexOf(zk2) >= 0){
+      ctx.fillStyle = "rgba(201,168,76,0.04)";
+      ctx.fillRect(0, ch * channelH, W, channelH);
+      if(ch === 0 || zk2 === "Z2"){
+        ctx.fillStyle = "rgba(201,168,76,0.6)";
+        ctx.font = "bold 8px Inter,sans-serif";
+        ctx.textAlign = "left";
+        ctx.fillText("TERRAINLOCK", 8, ch * channelH + 12);
+      }
+    }
+
+    /* Borderline amber flash */
+    if(isBorderline && d19FrameCount % 30 < 15){
+      ctx.fillStyle = "rgba(243,156,18,0.06)";
+      ctx.fillRect(0, ch * channelH, W, channelH);
+    }
+
+    /* Channel separator */
+    ctx.strokeStyle = "#1A2230";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, (ch + 1) * channelH);
+    ctx.lineTo(W, (ch + 1) * channelH);
+    ctx.stroke();
+
+    /* Zone label */
+    ctx.fillStyle = z.colour;
+    ctx.font = "bold 10px Inter,sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText(z.id + " " + z.name + " [" + score + "]", 6, ch * channelH + channelH - 6);
+
+    /* Draw trace */
+    var buf = d19Data[zk2];
+    ctx.beginPath();
+    ctx.strokeStyle = isActiveCh ? z.colour : hexToRGBA(z.colour, 0.3);
+    ctx.lineWidth = isActiveCh ? 1.5 : 0.8;
+
+    var amplitude = channelH * 0.35;
+    for(var sx=0;sx<buf.length;sx++){
+      var px = (sx / buf.length) * W;
+      var py = yBase - buf[sx] * amplitude;
+      py = clamp(py, ch * channelH + 4, (ch + 1) * channelH - 4);
+      if(sx === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+
+  /* System Load */
+  var activeCount = 0;
+  var totalBurden = 0;
+  for(var li=0;li<ZONE_ORDER.length;li++){
+    var ls = getScore(ZONE_ORDER[li]);
+    totalBurden += ls;
+    if(ls >= ZONES[ZONE_ORDER[li]].threshold) activeCount++;
+  }
+  var load = Math.round((totalBurden / 500) * 100);
+  document.getElementById("d19load").textContent = "System Load: " + load + "%";
+  document.getElementById("d19load").style.color = load > 70 ? "#E74C3C" : (load > 40 ? "#F39C12" : "#27AE60");
+}
+
+/* Audio toggle */
+document.getElementById("d19audio").addEventListener("change",function(){
+  var checked = this.checked;
+  if(checked){
+    if(!d19AudioCtx) d19AudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var freqs = {Z1:220,Z2:330,Z3:440,Z4:275,Z5:370};
+    for(var i=0;i<ZONE_ORDER.length;i++){
+      var zk = ZONE_ORDER[i];
+      if(d19Oscillators[zk]) continue;
+      var osc = d19AudioCtx.createOscillator();
+      var gain = d19AudioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freqs[zk];
+      gain.gain.value = 0;
+      osc.connect(gain);
+      gain.connect(d19AudioCtx.destination);
+      osc.start();
+      d19Oscillators[zk] = {osc:osc, gain:gain};
+    }
+    /* Update gains periodically */
+    d19AudioUpdate = setInterval(function(){
+      var locked = isTerrainLocked();
+      for(var j=0;j<ZONE_ORDER.length;j++){
+        var zk2 = ZONE_ORDER[j];
+        if(!d19Oscillators[zk2]) continue;
+        var score = getScore(zk2);
+        var active = score >= ZONES[zk2].threshold;
+        var vol = active ? (score / 100) * 0.05 : 0;
+        if(locked && ["Z2","Z1","Z5"].indexOf(zk2) >= 0) vol *= 1.5;
+        d19Oscillators[zk2].gain.gain.setTargetAtTime(vol, d19AudioCtx.currentTime, 0.1);
+      }
+    }, 200);
+  } else {
+    if(d19AudioUpdate) clearInterval(d19AudioUpdate);
+    for(var key in d19Oscillators){
+      if(d19Oscillators[key]){
+        d19Oscillators[key].gain.gain.setTargetAtTime(0, d19AudioCtx.currentTime, 0.05);
+        setTimeout(function(k){
+          if(d19Oscillators[k]){
+            d19Oscillators[k].osc.stop();
+            delete d19Oscillators[k];
+          }
+        }.bind(null,key), 200);
+      }
+    }
+  }
+});
+var d19AudioUpdate = null;
+
+/* ============================================================
+   D20: Architectural X-Ray Mode
+   ============================================================ */
+var xrayActive = false;
+
+function toggleXRay(){
+  xrayActive = !xrayActive;
+  state.xrayActive = xrayActive;
+  var btn = document.getElementById("d20toggle");
+  if(xrayActive) btn.classList.add("active");
+  else btn.classList.remove("active");
+  renderD20();
+}
+window.toggleXRay = toggleXRay;
+
+/* Keyboard shortcut X */
+document.addEventListener("keydown",function(e){
+  if(e.key === "x" || e.key === "X"){
+    if(e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    toggleXRay();
+  }
+});
+
+function renderD20(){
+  var container = document.getElementById("d20container");
+  var canvas = document.getElementById("d20canvas");
+  var bpCanvas = document.getElementById("d20canvasBlueprint");
+  var annoEl = document.getElementById("d20annotations");
+
+  var ctx = canvas.getContext("2d");
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = 500 * dpr;
+  bpCanvas.width = rect.width * dpr;
+  bpCanvas.height = 500 * dpr;
+  ctx.scale(dpr,dpr);
+  var W = rect.width;
+  var H = 500;
+
+  var bpCtx = bpCanvas.getContext("2d");
+  bpCtx.scale(dpr,dpr);
+
+  ctx.clearRect(0,0,W,H);
+  bpCtx.clearRect(0,0,W,H);
+
+  var cx = W/2;
+  var cy = H/2;
+  var radius = Math.min(W,H) * 0.28;
+
+  /* Pentagon positions */
+  var angles = [];
+  var positions = [];
+  for(var a=0;a<5;a++){
+    var angle = -Math.PI/2 + a * (2*Math.PI/5);
+    angles.push(angle);
+    positions.push({
+      x: cx + radius * Math.cos(angle),
+      y: cy + radius * Math.sin(angle)
+    });
+  }
+
+  /* Blueprint grid */
+  if(xrayActive){
+    bpCanvas.style.opacity = "1";
+    bpCtx.strokeStyle = "rgba(0,188,212,0.12)";
+    bpCtx.lineWidth = 0.5;
+    for(var gx=0;gx<W;gx+=20){
+      bpCtx.beginPath();
+      bpCtx.setLineDash([2,4]);
+      bpCtx.moveTo(gx,0);
+      bpCtx.lineTo(gx,H);
+      bpCtx.stroke();
+    }
+    for(var gy=0;gy<H;gy+=20){
+      bpCtx.beginPath();
+      bpCtx.moveTo(0,gy);
+      bpCtx.lineTo(W,gy);
+      bpCtx.stroke();
+    }
+    bpCtx.setLineDash([]);
+  } else {
+    bpCanvas.style.opacity = "0";
+  }
+
+  /* Draw zones */
+  for(var zi=0;zi<5;zi++){
+    var zk = ZONE_ORDER[zi];
+    var z = ZONES[zk];
+    var pos = positions[zi];
+    var score = getScore(zk);
+    var nodeR = 28 + (score / 100) * 12;
+
+    if(xrayActive){
+      /* Wireframe */
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, nodeR, 0, Math.PI*2);
+      ctx.strokeStyle = hexToRGBA(z.colour, 0.6);
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4,3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    } else {
+      /* Filled */
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, nodeR, 0, Math.PI*2);
+      ctx.fillStyle = hexToRGBA(z.colour, 0.25);
+      ctx.fill();
+      ctx.strokeStyle = z.colour;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    /* Zone label */
+    ctx.fillStyle = z.colour;
+    ctx.font = "bold 12px Inter,sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(z.id, pos.x, pos.y - 6);
+    ctx.font = "10px Inter,sans-serif";
+    ctx.fillText(score.toString(), pos.x, pos.y + 8);
+  }
+
+  /* Draw stacks as arrows */
+  for(var si=0;si<STACKS.length;si++){
+    var st = STACKS[si];
+    var fromIdx = ZONE_ORDER.indexOf(st.from);
+    var toIdx = ZONE_ORDER.indexOf(st.to);
+    var fp = positions[fromIdx];
+    var tp = positions[toIdx];
+    var active = isActive(st);
+    var isTheo = st.flags.indexOf("THEORETICAL") >= 0;
+
+    var dx = tp.x - fp.x;
+    var dy = tp.y - fp.y;
+    var dist = Math.sqrt(dx*dx + dy*dy);
+    var nx = dx/dist;
+    var ny = dy/dist;
+    var startX = fp.x + nx * 32;
+    var startY = fp.y + ny * 32;
+    var endX = tp.x - nx * 32;
+    var endY = tp.y - ny * 32;
+
+    if(xrayActive){
+      ctx.strokeStyle = active ? "rgba(0,188,212,0.4)" : "rgba(0,188,212,0.15)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2,4]);
+    } else {
+      var col = ZONES[st.from].colour;
+      ctx.strokeStyle = active ? hexToRGBA(col, 0.7) : hexToRGBA(col, 0.15);
+      ctx.lineWidth = active ? 2 : 1;
+      if(isTheo) ctx.setLineDash([4,4]);
+      else ctx.setLineDash([]);
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* Arrowhead */
+    var aLen = 8;
+    var aAngle = Math.atan2(endY - startY, endX - startX);
+    ctx.beginPath();
+    ctx.moveTo(endX, endY);
+    ctx.lineTo(endX - aLen * Math.cos(aAngle - 0.4), endY - aLen * Math.sin(aAngle - 0.4));
+    ctx.lineTo(endX - aLen * Math.cos(aAngle + 0.4), endY - aLen * Math.sin(aAngle + 0.4));
+    ctx.closePath();
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.fill();
+
+    /* Stack label on line */
+    var midX = (startX + endX) / 2;
+    var midY = (startY + endY) / 2;
+    ctx.fillStyle = xrayActive ? "rgba(0,188,212,0.7)" : "#8A95A5";
+    ctx.font = "9px Inter,sans-serif";
+    ctx.textAlign = "center";
+    var lbl = st.id;
+    if(isTheo) lbl += " THEORETICAL";
+    if(st.flags.indexOf("UNIDIRECTIONAL") >= 0) lbl += " UNIDIRECTIONAL";
+    ctx.fillText(lbl, midX, midY - 6);
+  }
+
+  /* X-Ray annotations */
+  if(xrayActive){
+    var z1s = getScore("Z1");
+    var z2s = getScore("Z2");
+    var z3s = getScore("Z3");
+    var z4s = getScore("Z4");
+    var z5s = getScore("Z5");
+
+    /* Dampened scores for floor calc */
+    var n6 = 0.7;
+    var dampened = [z1s * n6, z2s * n6, z3s * n6, z5s * n6];
+    var maxDamp = Math.max.apply(null, dampened);
+    var floor = Math.max(0, maxDamp - 10);
+
+    var annotations = [
+      {text:"Z1 = AVG(N3, N6 x 0.7) = " + z1s, x:positions[0].x + 50, y:positions[0].y - 40},
+      {text:"S1 active when Z2 >= 40 AND Z1 >= 40", x: W * 0.7, y: 60,
+       tick: z2s >= 40 && z1s >= 40},
+      {text:"S4 THEORETICAL -- excluded from DRD", x: W * 0.15, y: H - 60},
+      {text:"S6 UNIDIRECTIONAL -- Z1 to Z3 only", x: W * 0.7, y: H - 60},
+      {text:"Floor = MAX(dampened) - 10 = " + floor.toFixed(1), x: cx, y: H - 30},
+      {text:"Z5 activates at 32 (hormonal sensitivity)", x: positions[4].x - 60, y: positions[4].y + 45},
+      {text:"N6 damp: Z1=" + (z1s*n6).toFixed(0) + " Z2=" + (z2s*n6).toFixed(0) +
+            " Z3=" + (z3s*n6).toFixed(0) + " Z5=" + (z5s*n6).toFixed(0),
+       x: cx, y: 30}
+    ];
+
+    annoEl.innerHTML = "";
+    for(var ai=0;ai<annotations.length;ai++){
+      var ann = annotations[ai];
+      var div = document.createElement("div");
+      div.className = "vm-xray-annotation active";
+      div.style.left = ann.x + "px";
+      div.style.top = ann.y + "px";
+      var content = ann.text;
+      if(ann.tick !== undefined){
+        var tickClass = ann.tick ? "pass" : "fail";
+        var tickChar = ann.tick ? " \u2713" : " \u2717";
+        content += '<span class="vm-xray-tick ' + tickClass + '">' + tickChar + '</span>';
+      }
+      div.innerHTML = content;
+      annoEl.appendChild(div);
+    }
+
+    /* N6 dampening badges with connecting lines */
+    var dampZones = ["Z1","Z2","Z3","Z5"];
+    var dampIdxs = [0,1,2,4];
+    for(var di=0;di<dampZones.length;di++){
+      var dzk = dampZones[di];
+      var dIdx = dampIdxs[di];
+      var dPos = positions[dIdx];
+      var dampVal = (getScore(dzk) * n6).toFixed(0);
+
+      /* Line from zone to badge area */
+      ctx.strokeStyle = "rgba(0,188,212,0.2)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2,3]);
+      ctx.beginPath();
+      ctx.moveTo(dPos.x, dPos.y);
+      var bx = dPos.x + (dPos.x > cx ? 40 : -40);
+      var by = dPos.y + (dPos.y > cy ? 25 : -25);
+      ctx.lineTo(bx, by);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      /* Badge */
+      ctx.fillStyle = "rgba(0,188,212,0.15)";
+      var tw = 50;
+      ctx.fillRect(bx - tw/2, by - 8, tw, 16);
+      ctx.strokeStyle = "rgba(0,188,212,0.4)";
+      ctx.strokeRect(bx - tw/2, by - 8, tw, 16);
+      ctx.fillStyle = "#00BCD4";
+      ctx.font = "8px Courier New,monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("N6:" + dampVal, bx, by + 3);
+    }
+
+    /* Cascade condition checks for all stacks */
+    for(var sci=0;sci<STACKS.length;sci++){
+      var sck = STACKS[sci];
+      var fromIdx2 = ZONE_ORDER.indexOf(sck.from);
+      var toIdx2 = ZONE_ORDER.indexOf(sck.to);
+      var midPt = {
+        x: (positions[fromIdx2].x + positions[toIdx2].x) / 2,
+        y: (positions[fromIdx2].y + positions[toIdx2].y) / 2 + 14
+      };
+      var condMet = isActive(sck);
+      ctx.fillStyle = condMet ? "rgba(39,174,96,0.7)" : "rgba(231,76,60,0.7)";
+      ctx.font = "8px Courier New,monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(condMet ? "\u2713" : "\u2717", midPt.x, midPt.y);
+    }
+
+  } else {
+    annoEl.innerHTML = "";
+  }
+}
+
+/* ============================================================
+   Initialisation
+   ============================================================ */
+function init(){
+  setupSliders();
+  renderD16();
+  renderD17();
+  renderD18();
+  renderD20();
+
+  /* Start D19 animation */
+  if(!state.reducedMotion){
+    requestAnimationFrame(d19Loop);
+  } else {
+    renderD19Frame();
+  }
+
+  /* Resize handler */
+  var resizeTimer;
+  window.addEventListener("resize",function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function(){
+      renderD16();
+      renderD17();
+      renderD18();
+      renderD20();
+    }, 200);
+  });
+}
+
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+
+})();
+</script>
+</body>
+</html>

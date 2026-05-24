@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investor Overview | VitalMatrix&#8482; &#8212; Clinical Intelligence Platform</title>
+<meta name="description" content="VitalMatrix: the first clinical intelligence platform for functional medicine. Proprietary FLINT scoring, 30 trademarked mnemonics, Phase 1 active.">
+<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform">
+<meta property="og:title" content="Investor Overview | VitalMatrix&#8482;">
+<meta property="og:description" content="VitalMatrix: the first clinical intelligence platform for functional medicine.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://vitalmatrix.co.uk/investor-overview/">
+<meta name="audience-tier" content="investor">
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(13,43,78,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how visitors use this site. No patient data is collected.</p><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'accepted\');document.getElementById(\'vm-consent-banner\').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'declined\');document.getElementById(\'vm-consent-banner\').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<!-- Performance: preload heading font -->
+<link rel="preload" as="font" href="CormorantGaramond-Regular.woff2" type="font/woff2" crossorigin>
+<style>
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: local('Cormorant Garamond');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: local('Outfit');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Mono';
+  src: local('DM Mono');
+  font-display: swap;
+}
+
+:root {
+  --vm-prussian: #0D2B4E;
+  --vm-charcoal: #1A2030;
+  --vm-deep-teal: #0C4452;
+  --vm-navy: #071C33;
+  --vm-gold: #C9A84C;
+  --vm-teal: #1A7A8A;
+  --vm-teal-light: #2A9BAD;
+  --vm-purple: #7B5EA7;
+  --vm-sage: #5F7C6C;
+  --vm-blue: #2E6DB4;
+  --vm-cream: #FAF8F4;
+  --vm-z1: #C9A84C;
+  --vm-z2: #1A7A8A;
+  --vm-z3: #7B5EA7;
+  --vm-z4: #5F7C6C;
+  --vm-z5: #2E6DB4;
+  --vm-font-heading: 'Cormorant Garamond', serif;
+  --vm-font-body: 'Outfit', sans-serif;
+  --vm-font-mono: 'DM Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  font-family: var(--vm-font-body);
+  color: var(--vm-cream);
+  line-height: 1.7;
+  background: var(--vm-prussian);
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ── SCROLL PROGRESS BAR ── */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--vm-gold), var(--vm-teal-light), var(--vm-gold));
+  z-index: 10001;
+  transition: none;
+}
+
+/* ── LOGO ── */
+.logo-wrap { line-height: 0; font-size: 0; }
+.logo-wrap img {
+  display: block; margin: 0; padding: 0; border: none;
+  height: 48px; width: auto;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s ease, padding 0.4s ease;
+  background: transparent;
+}
+nav.scrolled {
+  background: rgba(13,43,78,0.95);
+  padding: 14px 48px;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+nav .audience-tag {
+  font-family: var(--vm-font-mono);
+  font-size: 11px;
+  color: var(--vm-gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* ── FOCUS VISIBLE (Accessibility) ── */
+*:focus-visible {
+  outline: 2px solid var(--vm-gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── REDUCED MOTION (Accessibility) ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scroll-progress { display: none; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal-clip { clip-path: none !important; }
+  .gov-row { opacity: 1 !important; transform: none !important; }
+  .char { opacity: 1 !important; transform: none !important; }
+  .hero-zero .zero-number { opacity: 1 !important; transform: none !important; }
+  .hero-zero .zero-line, .hero-zero .zero-subline { opacity: 1 !important; transform: none !important; }
+  .cascade-path { animation: none !important; }
+  .flow-dot { display: none !important; }
+  .parallax-layer { transform: none !important; }
+}
+
+/* ── SCROLL REVEAL SYSTEM ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+
+/* Clip-path diagonal wipe variant */
+.reveal-clip {
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-clip.visible {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ── SECTION 1: ZERO MOMENT ── */
+.hero-zero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-zero .zero-number {
+  font-family: var(--vm-font-heading);
+  font-size: 220px;
+  font-weight: 300;
+  color: var(--vm-gold);
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0.7) rotate(-8deg);
+  animation: zeroReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.hero-zero .zero-line {
+  font-family: var(--vm-font-body);
+  font-size: 22px;
+  color: rgba(250,248,244,0.7);
+  margin-top: 24px;
+  max-width: 600px;
+  padding: 0 24px;
+}
+
+/* Character-split animation container */
+.char-split { display: inline; }
+.char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(18px) rotate(3deg);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.char.space { width: 0.3em; }
+.char.visible {
+  opacity: 1;
+  transform: translateY(0) rotate(0);
+}
+
+.hero-zero .zero-subline {
+  font-family: var(--vm-font-heading);
+  font-size: 20px;
+  color: var(--vm-gold);
+  margin-top: 16px;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.6s forwards;
+  letter-spacing: 1px;
+}
+
+.hero-zero .scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: fadeUp 0.6s ease 3.2s forwards;
+}
+
+.scroll-hint .scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--vm-gold), transparent);
+  margin: 0 auto 8px;
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+.scroll-hint span {
+  font-family: var(--vm-font-mono);
+  font-size: 10px;
+  color: rgba(250,248,244,0.4);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+@keyframes zeroReveal {
+  0% { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 0.8; transform: scaleY(1.1); }
+}
+
+/* ── SECTION 2: HOOK ── */
+.hook-section {
+  padding: 120px 48px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hook-section .hook-line {
+  font-family: var(--vm-font-heading);
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--vm-cream);
+  line-height: 1.3;
+  margin-bottom: 32px;
+}
+.hook-section .hook-sub {
+  font-size: 17px;
+  color: rgba(250,248,244,0.7);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Terrain colour shift */
+.terrain-shift {
+  display: inline;
+  background: linear-gradient(90deg, var(--vm-z1), var(--vm-z2), var(--vm-z3), var(--vm-z4), var(--vm-z5));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: terrainGradient 8s ease-in-out infinite;
+}
+@keyframes terrainGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── SECTION 3: OPPORTUNITY ── */
+.opportunity-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.opportunity-section h2,
+.pipeline-section h2,
+.atlas-section h2,
+.ip-section h2,
+.governance-section h2,
+.revenue-section h2,
+.timeline-section h2 {
+  font-family: var(--vm-font-heading);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--vm-gold);
+  margin-bottom: 32px;
+}
+.opportunity-section p,
+.ip-section p {
+  font-size: 17px;
+  color: rgba(250,248,244,0.8);
+  margin-bottom: 20px;
+  max-width: 720px;
+}
+
+/* Metric strip */
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin: 48px 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.metric-cell {
+  background: rgba(255,255,255,0.04);
+  padding: 40px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.metric-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 20%; right: 20%;
+  height: 2px;
+  background: var(--vm-gold);
+  transform: scaleX(0);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.metric-cell.visible::after { transform: scaleX(1); }
+.metric-cell .metric-num {
+  font-family: var(--vm-font-heading);
+  font-size: 48px;
+  color: var(--vm-gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.metric-cell .metric-label {
+  font-family: var(--vm-font-mono);
+  font-size: 11px;
+  color: rgba(250,248,244,0.5);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ── SECTION 4: FLINT PIPELINE ── */
+.pipeline-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.pipeline-section .pipeline-intro {
+  font-size: 17px;
+  color: rgba(250,248,244,0.7);
+  margin-bottom: 48px;
+  max-width: 640px;
+}
+.pipeline-track {
+  position: relative;
+  padding-left: 60px;
+}
+.pipeline-track::before {
+  content: '';
+  position: absolute;
+  left: 24px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom,
+    var(--vm-gold) 0%, var(--vm-teal) 25%,
+    var(--vm-teal-light) 50%, var(--vm-purple) 75%,
+    var(--vm-sage) 100%);
+  opacity: 0.3;
+}
+.pipeline-node {
+  position: relative;
+  margin-bottom: 32px;
+  padding: 28px 32px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  transition: background 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
+}
+.pipeline-node:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateX(4px);
+}
+.pipeline-node::before {
+  content: '';
+  position: absolute;
+  left: -44px; top: 34px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--vm-gold);
+  background: var(--vm-prussian);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.pipeline-node.visible::before {
+  background: var(--vm-gold);
+  box-shadow: 0 0 12px rgba(201,168,76,0.4);
+}
+.pipeline-node .node-header {
+  display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;
+}
+.pipeline-node .node-id {
+  font-family: var(--vm-font-mono);
+  font-size: 13px; color: var(--vm-gold); min-width: 28px;
+}
+.pipeline-node .node-question {
+  font-family: var(--vm-font-mono);
+  font-size: 12px; color: var(--vm-teal-light);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.pipeline-node .node-title {
+  font-family: var(--vm-font-heading);
+  font-size: 22px; color: var(--vm-cream); margin-bottom: 6px;
+}
+.pipeline-node .node-desc {
+  font-size: 15px; color: rgba(250,248,244,0.65); margin-bottom: 0;
+}
+
+/* ── SECTION 5: CASCADEATLAS ── */
+.atlas-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+.atlas-section .atlas-intro {
+  font-size: 17px;
+  color: rgba(250,248,244,0.7);
+  margin-bottom: 48px;
+  max-width: 560px;
+  margin-left: auto; margin-right: auto;
+}
+.atlas-container {
+  position: relative;
+  width: 480px; height: 480px;
+  margin: 0 auto 40px;
+}
+.atlas-svg { width: 100%; height: 100%; }
+
+/* Zone nodes */
+.zone-point {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.zone-point:hover { transform: scale(1.15); }
+.zone-dot { transition: filter 0.3s ease; }
+.zone-point:hover .zone-dot {
+  filter: drop-shadow(0 0 10px currentColor);
+}
+.zone-label-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  fill: rgba(250,248,244,0.7);
+  transition: fill 0.3s ease;
+}
+.zone-point:hover .zone-label-text { fill: rgba(250,248,244,1); }
+
+/* Cascade paths */
+.cascade-path {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.25;
+  transition: opacity 0.4s ease, stroke-width 0.4s ease;
+}
+.cascade-path.active { opacity: 0.7; stroke-width: 2.5; }
+.cascade-path.pulse {
+  animation: cascadePulse 2.5s ease-in-out infinite;
+}
+@keyframes cascadePulse {
+  0%, 100% { opacity: 0.3; stroke-width: 1.5; }
+  50% { opacity: 0.7; stroke-width: 2.5; }
+}
+
+/* Flow particles along cascade paths */
+.flow-dot {
+  fill: var(--vm-gold);
+  opacity: 0;
+  r: 2.5;
+}
+.flow-dot.running { opacity: 0.7; }
+
+/* TerrainLock ring */
+.terrainlock-ring {
+  fill: none;
+  stroke: var(--vm-gold);
+  stroke-width: 1;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  stroke-dasharray: 4 6;
+  animation: tlSpin 20s linear infinite;
+}
+.terrainlock-ring.active { opacity: 0.5; }
+@keyframes tlSpin {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -100; }
+}
+
+/* Atlas info panel */
+.atlas-info {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 24px 32px;
+  text-align: left;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100px;
+  transition: border-color 0.3s ease;
+}
+.atlas-info .info-zone {
+  font-family: var(--vm-font-mono);
+  font-size: 12px; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.atlas-info .info-title {
+  font-family: var(--vm-font-heading);
+  font-size: 22px; color: var(--vm-cream); margin-bottom: 8px;
+}
+.atlas-info .info-desc {
+  font-size: 14px; color: rgba(250,248,244,0.65); margin-bottom: 0;
+}
+.atlas-info .info-default {
+  font-size: 14px; color: rgba(250,248,244,0.4); font-style: italic;
+}
+
+/* Auto-play indicator */
+.atlas-autoplay-badge {
+  font-family: var(--vm-font-mono);
+  font-size: 10px;
+  color: var(--vm-gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 16px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.atlas-autoplay-badge.active { opacity: 0.6; }
+
+/* ── SECTION 6: IP MOAT ── */
+.ip-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.ip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 36px 0;
+}
+.ip-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 32px;
+  transition: border-color 0.4s ease, transform 0.15s ease;
+  will-change: transform;
+}
+.ip-card:hover { border-color: rgba(201,168,76,0.3); }
+.ip-card h3 {
+  font-family: var(--vm-font-heading);
+  font-size: 22px; color: var(--vm-cream); margin-bottom: 10px;
+}
+.ip-card p {
+  font-size: 15px; color: rgba(250,248,244,0.65); margin-bottom: 0;
+}
+.ip-card .ip-stat {
+  font-family: var(--vm-font-mono);
+  font-size: 11px; color: var(--vm-gold);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* ── SECTION 7: GOVERNANCE ── */
+.governance-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.governance-section .gov-intro {
+  font-size: 17px; color: rgba(250,248,244,0.7);
+  margin-bottom: 40px; max-width: 640px;
+}
+.gov-row {
+  display: flex; align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gov-row.visible { opacity: 1; transform: translateX(0); }
+.gov-row .gov-gate {
+  font-family: var(--vm-font-mono);
+  font-size: 13px; color: var(--vm-teal-light); min-width: 120px;
+}
+.gov-row .gov-desc {
+  flex: 1; font-size: 15px;
+  color: rgba(250,248,244,0.75); padding: 0 20px;
+}
+.gov-row .gov-status {
+  font-family: var(--vm-font-mono);
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; padding: 4px 12px;
+  border-radius: 20px; min-width: 90px; text-align: center;
+}
+.status-passed {
+  background: rgba(26,122,138,0.2); color: var(--vm-teal-light);
+  border: 1px solid rgba(26,122,138,0.3);
+}
+.status-active {
+  background: rgba(201,168,76,0.15); color: var(--vm-gold);
+  border: 1px solid rgba(201,168,76,0.25);
+}
+.status-closed {
+  background: rgba(95,124,108,0.2); color: var(--vm-sage);
+  border: 1px solid rgba(95,124,108,0.3);
+}
+
+/* ── SECTION 8: REVENUE ── */
+.revenue-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.revenue-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; margin-bottom: 32px;
+}
+.revenue-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 36px;
+  transition: border-color 0.4s ease, transform 0.15s ease;
+  will-change: transform;
+}
+.revenue-card:hover { border-color: rgba(201,168,76,0.3); }
+.revenue-card .phase-label {
+  font-family: var(--vm-font-mono);
+  font-size: 11px; color: var(--vm-gold);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.revenue-card h3 {
+  font-family: var(--vm-font-heading);
+  font-size: 24px; color: var(--vm-cream); margin-bottom: 12px;
+}
+.revenue-card p {
+  font-size: 15px; color: rgba(250,248,244,0.65); margin-bottom: 0;
+}
+.revenue-card .price {
+  font-family: var(--vm-font-heading);
+  font-size: 36px; color: var(--vm-gold); margin: 16px 0 8px;
+}
+.revenue-card .price-note {
+  font-family: var(--vm-font-mono);
+  font-size: 12px; color: rgba(250,248,244,0.4);
+}
+.revenue-note {
+  font-size: 16px; color: rgba(250,248,244,0.7); max-width: 640px;
+}
+
+/* ── SECTION 9: FOUNDER ── */
+.founder-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.founder-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 48px; max-width: 720px;
+}
+.founder-card .founder-name {
+  font-family: var(--vm-font-heading);
+  font-size: 28px; color: var(--vm-cream); margin-bottom: 6px;
+}
+.founder-card .founder-creds {
+  font-family: var(--vm-font-mono);
+  font-size: 12px; color: var(--vm-gold);
+  letter-spacing: 1px; margin-bottom: 20px;
+}
+.founder-card p {
+  font-size: 16px; color: rgba(250,248,244,0.75); margin-bottom: 0;
+}
+
+/* ── SECTION 10: TIMELINE ── */
+.timeline-section {
+  padding: 100px 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.timeline-track {
+  position: relative;
+  padding-left: 48px;
+}
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 16px; top: 4px; bottom: 4px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--vm-gold), rgba(201,168,76,0.1));
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 36px;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -38px; top: 6px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--vm-prussian);
+  border: 2px solid var(--vm-gold);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.tl-item.visible::before {
+  background: var(--vm-gold);
+  box-shadow: 0 0 10px rgba(201,168,76,0.3);
+}
+.tl-item .tl-date {
+  font-family: var(--vm-font-mono);
+  font-size: 12px; color: var(--vm-gold);
+  letter-spacing: 1px; margin-bottom: 4px;
+}
+.tl-item p {
+  font-size: 15px; color: rgba(250,248,244,0.7); margin-bottom: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--vm-navy);
+  padding: 48px 48px 40px;
+  margin-top: 60px;
+}
+footer .governance-line {
+  font-size: 13px; color: rgba(250,248,244,0.5);
+  margin-bottom: 20px; line-height: 1.7;
+}
+footer .tm-block {
+  font-size: 11px; color: rgba(250,248,244,0.35);
+  line-height: 1.9; margin-bottom: 16px;
+}
+footer .copyright {
+  font-size: 12px; color: rgba(250,248,244,0.4);
+}
+
+/* ── PARALLAX LAYERS ── */
+.parallax-section { position: relative; overflow: hidden; }
+.parallax-bg {
+  position: absolute;
+  top: -10%; left: 0; right: 0; bottom: -10%;
+  z-index: 0;
+  will-change: transform;
+}
+.parallax-content { position: relative; z-index: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero-zero .zero-number { font-size: 120px; }
+  .hero-zero .zero-line { font-size: 18px; }
+  nav { padding: 16px 24px; }
+  nav.scrolled { padding: 12px 24px; }
+  .hook-section { padding: 80px 24px; }
+  .hook-section .hook-line { font-size: 28px; }
+  .opportunity-section, .pipeline-section, .atlas-section,
+  .ip-section, .governance-section, .revenue-section,
+  .founder-section, .timeline-section { padding: 60px 24px; }
+  .metric-strip { grid-template-columns: 1fr 1fr; }
+  .ip-grid, .revenue-cards { grid-template-columns: 1fr; }
+  .atlas-container { width: 320px; height: 320px; }
+  footer { padding: 32px 24px; }
+  h2 { font-size: 28px; }
+  .gov-row { flex-wrap: wrap; gap: 8px; }
+  .gov-row .gov-gate { min-width: 100%; }
+  .gov-row .gov-desc { padding: 0; }
+}
+@media (max-width: 480px) {
+  .metric-strip { grid-template-columns: 1fr; }
+  .hero-zero .zero-number { font-size: 90px; }
+}
+
+/* ── PRINT STYLESHEET ── */
+@media print {
+  * { color: #1a1a1a !important; background: white !important; }
+  body { font-size: 11pt; line-height: 1.5; }
+  body::after { display: none; }
+  .scroll-progress, nav, .scroll-hint, .atlas-autoplay-badge { display: none !important; }
+  .reveal, .reveal-clip, .gov-row { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .hero-zero { height: auto; padding: 40px 0; page-break-after: always; }
+  .hero-zero .zero-number {
+    opacity: 1 !important; transform: none !important;
+    font-size: 72pt; color: #C9A84C !important;
+  }
+  .hero-zero .zero-line, .hero-zero .zero-subline {
+    opacity: 1 !important; transform: none !important;
+    color: #333 !important;
+  }
+  .char { opacity: 1 !important; transform: none !important; }
+  section { padding: 24px 0 !important; page-break-inside: avoid; }
+  .metric-strip { gap: 1px; }
+  .metric-cell { padding: 16px; border: 1px solid #ddd; }
+  .metric-cell::after { display: none; }
+  .metric-cell .metric-num { color: #C9A84C !important; }
+  .pipeline-node, .ip-card, .revenue-card, .founder-card, .atlas-info {
+    border: 1px solid #ddd !important; page-break-inside: avoid;
+  }
+  .cascade-path, .flow-dot, .terrainlock-ring { opacity: 0.5 !important; }
+  .cascade-path.pulse { animation: none !important; }
+  .terrain-shift {
+    -webkit-text-fill-color: #C9A84C !important;
+    background: none !important;
+  }
+  .gov-row { border-bottom: 1px solid #ddd !important; }
+  .gov-status { border: 1px solid #999 !important; }
+  footer { page-break-before: always; border-top: 1px solid #ddd; }
+  footer .governance-line { color: #666 !important; }
+  footer .tm-block { color: #999 !important; }
+  a { text-decoration: none; }
+}
+/* W29 Typographic Rules */
+.vm-rule-dot{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.vm-rule-dot::before{content:'';display:block;width:48px;height:1px;background:linear-gradient(90deg,#C9A84C,rgba(201,168,76,0.25));}
+.vm-rule-dot::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:#C9A84C;opacity:0.7;}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress" role="progressbar" aria-label="Page scroll progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+<!-- NAV -->
+<nav id="mainNav" role="navigation" aria-label="Main navigation">
+  <div class="logo-wrap">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" alt="VitalMatrix home">
+  </div>
+  <span class="audience-tag">Investor Overview</span>
+</nav>
+
+<!-- SECTION 1: ZERO MOMENT -->
+<section class="hero-zero" aria-label="Introduction">
+  <div class="zero-number" aria-hidden="true">0</div>
+  <div class="zero-line" id="zeroLine" aria-label="Zero clinical intelligence platforms exist for functional medicine">clinical intelligence platforms exist for functional medicine</div>
+  <div class="vm-rule-dot" style="justify-content:center;margin:12px auto 16px;"></div>
+  <div class="zero-subline">We built the first.</div>
+  <div class="scroll-hint" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- SECTION 2: HOOK -->
+<section class="hook-section" aria-label="Value proposition">
+  <div class="reveal">
+    <p class="hook-line">RECON&#8482; finds the burden.<br>COMPASS&#8482; builds the pathway.</p>
+  </div>
+  <div class="reveal reveal-delay-2">
+    <p class="hook-sub">VitalMatrix&#8482; is a clinical intelligence platform that gives functional medicine practitioners what they have never had: a structured, scored, repeatable <span class="terrain-shift">terrain</span> model for every patient they see.</p>
+  </div>
+</section>
+
+<!-- SECTION 3: OPPORTUNITY -->
+<section class="opportunity-section parallax-section" aria-label="Market opportunity">
+  <div class="parallax-bg" data-parallax="0.04"></div>
+  <div class="parallax-content">
+    <div class="reveal reveal-clip">
+      <h2>The Opportunity</h2>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <p>Functional medicine is a multi-billion pound global market growing at 19% annually. Practitioners in this space operate without standardised clinical tooling. There is no EHR built for terrain medicine. No scoring system. No cascade detection. No structured way to track whether a patient's internal terrain is improving or deteriorating across consultations.</p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <p>This is not a documentation gap. It is an infrastructure gap.</p>
+    </div>
+
+    <div class="metric-strip" role="list" aria-label="Platform metrics">
+      <div class="metric-cell reveal reveal-delay-1" role="listitem">
+        <div class="metric-num" data-count="7" aria-label="7 functional nodes">0</div>
+        <div class="metric-label">Functional Nodes</div>
+      </div>
+      <div class="metric-cell reveal reveal-delay-2" role="listitem">
+        <div class="metric-num" data-count="5" aria-label="5 terrain zones">0</div>
+        <div class="metric-label">Terrain Zones</div>
+      </div>
+      <div class="metric-cell reveal reveal-delay-3" role="listitem">
+        <div class="metric-num" data-count="6" aria-label="6 cascade stacks">0</div>
+        <div class="metric-label">Cascade Stacks</div>
+      </div>
+      <div class="metric-cell reveal reveal-delay-4" role="listitem">
+        <div class="metric-num" data-count="41" aria-label="41 trademarked mnemonics">0</div>
+        <div class="metric-label">Trademarked Mnemonics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: FLINT PIPELINE -->
+<section class="pipeline-section" aria-label="FLINT pipeline">
+  <div class="reveal reveal-clip">
+    <h2>The FLINT&#8482; Pipeline</h2>
+    <p class="pipeline-intro">Six-stage clinical intelligence pipeline. Each stage answers one question. Together, they produce a complete terrain assessment.</p>
+  </div>
+
+  <div class="pipeline-track" role="list" aria-label="Pipeline stages">
+    <div class="pipeline-node reveal" role="listitem">
+      <div class="node-header">
+        <span class="node-id">L1</span>
+        <span class="node-question">WHERE?</span>
+      </div>
+      <div class="node-title">Node Architecture Engine</div>
+      <p class="node-desc">Seven nodes scored from intake data, questionnaires, and biomarkers. Each maps to specific physiological terrain.</p>
+    </div>
+    <div class="pipeline-node reveal reveal-delay-1" role="listitem">
+      <div class="node-header">
+        <span class="node-id">L2</span>
+        <span class="node-question">WHICH?</span>
+      </div>
+      <div class="node-title">NCZ&#8482; Zone Logic Engine</div>
+      <p class="node-desc">Node scores composite into five terrain zones. Endocrine signalling dampened at 0.7 to prevent ubiquity bias.</p>
+    </div>
+    <div class="pipeline-node reveal reveal-delay-2" role="listitem">
+      <div class="node-header">
+        <span class="node-id">L3</span>
+        <span class="node-question">HOW?</span>
+      </div>
+      <div class="node-title">CascadeIQ&#8482; Stack Detection</div>
+      <p class="node-desc">Six cascade stacks with velocity ratings and evidence tier classifications. Burden propagation mapped between zones.</p>
+    </div>
+    <div class="pipeline-node reveal reveal-delay-3" role="listitem">
+      <div class="node-header">
+        <span class="node-id">L4</span>
+        <span class="node-question">WHAT STARTED IT?</span>
+      </div>
+      <div class="node-title">DRD&#8482; Designation Engine</div>
+      <p class="node-desc">Identifies the highest burden zone: the terrain origin driving downstream cascade activity.</p>
+    </div>
+    <div class="pipeline-node reveal reveal-delay-4" role="listitem">
+      <div class="node-header">
+        <span class="node-id">L7</span>
+        <span class="node-question">WHAT DOES IT LOOK LIKE?</span>
+      </div>
+      <div class="node-title">CascadeAtlas&#8482; Visual</div>
+      <p class="node-desc">Interactive terrain map: zone relationships, active cascades, and TerrainLock&#8482; self-perpetuating loop detection.</p>
+    </div>
+    <div class="pipeline-node reveal reveal-delay-5" role="listitem">
+      <div class="node-header">
+        <span class="node-id">L9</span>
+        <span class="node-question">WHAT CHANGED?</span>
+      </div>
+      <div class="node-title">DeltaScan&#8482; Engine</div>
+      <p class="node-desc">Longitudinal terrain tracking. Measures whether interventions shift burden patterns or cascades deepen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: CASCADEATLAS -->
+<section class="atlas-section" aria-label="CascadeAtlas terrain map" id="atlasSection">
+  <div class="reveal reveal-clip">
+    <h2>CascadeAtlas&#8482;</h2>
+    <p class="atlas-intro">Five terrain zones. Six cascade stacks. One self-perpetuating loop. Hover each zone to explore.</p>
+  </div>
+
+  <div class="reveal reveal-delay-2">
+    <div class="atlas-container">
+      <svg class="atlas-svg" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="CascadeAtlas: interactive five-zone terrain map showing six cascade stacks and TerrainLock loop">
+        <title>CascadeAtlas five-zone terrain map</title>
+        <desc>Interactive pentagon diagram showing Z1 Metabolic Energy Axis at top, Z2 Resilience Network at right, Z3 Cardiovascular-Neural Axis at bottom right, Z4 Detoxification Trident at bottom left, and Z5 Hormonal Terrain Axis at left. Six cascade stacks connect the zones.</desc>
+
+        <!-- TerrainLock ring -->
+        <circle class="terrainlock-ring" id="tlRing" cx="240" cy="245" r="180" />
+
+        <!-- Cascade paths -->
+        <path class="cascade-path pulse" id="pathS1"
+              d="M 390,300 Q 350,185 270,88" stroke="var(--vm-teal)" />
+        <path class="cascade-path pulse" id="pathS2"
+              d="M 210,88 Q 130,185 95,300" stroke="var(--vm-z1)" />
+        <path class="cascade-path" id="pathS3"
+              d="M 148,408 Q 148,250 240,82" stroke="var(--vm-sage)" />
+        <path class="cascade-path" id="pathS4"
+              d="M 95,300 Q 240,320 390,300" stroke="var(--vm-z5)" stroke-dasharray="6 4" />
+        <path class="cascade-path pulse" id="pathS5"
+              d="M 400,310 Q 388,365 335,408" stroke="var(--vm-teal)" />
+        <path class="cascade-path" id="pathS6"
+              d="M 270,88 Q 355,250 335,408" stroke="var(--vm-z1)" />
+
+        <!-- Flow particles (3 per active path) -->
+        <circle class="flow-dot" id="fd-s1-a" data-path="pathS1" data-speed="3000" />
+        <circle class="flow-dot" id="fd-s1-b" data-path="pathS1" data-speed="3000" data-offset="0.33" />
+        <circle class="flow-dot" id="fd-s1-c" data-path="pathS1" data-speed="3000" data-offset="0.66" />
+        <circle class="flow-dot" id="fd-s2-a" data-path="pathS2" data-speed="1800" />
+        <circle class="flow-dot" id="fd-s2-b" data-path="pathS2" data-speed="1800" data-offset="0.33" />
+        <circle class="flow-dot" id="fd-s2-c" data-path="pathS2" data-speed="1800" data-offset="0.66" />
+        <circle class="flow-dot" id="fd-s3-a" data-path="pathS3" data-speed="5000" />
+        <circle class="flow-dot" id="fd-s5-a" data-path="pathS5" data-speed="1800" />
+        <circle class="flow-dot" id="fd-s5-b" data-path="pathS5" data-speed="1800" data-offset="0.5" />
+
+        <!-- Zone nodes: Z1 top -->
+        <g class="zone-point" data-zone="z1" tabindex="0" role="button"
+           aria-label="Z1 Metabolic Energy Axis: adrenal, thyroid, pancreatic terrain">
+          <circle cx="240" cy="72" r="24" fill="none" stroke="var(--vm-z1)" stroke-width="1" opacity="0.3" />
+          <circle class="zone-dot" cx="240" cy="72" r="18" fill="var(--vm-z1)" opacity="0.85" />
+          <text class="zone-label-text" x="240" y="38" text-anchor="middle">Z1</text>
+          <text class="zone-label-text" x="240" y="50" text-anchor="middle" style="font-size:9px">Metabolic Energy</text>
+        </g>
+        <!-- Z2 right -->
+        <g class="zone-point" data-zone="z2" tabindex="0" role="button"
+           aria-label="Z2 Resilience Network: gut, immune, neurological terrain">
+          <circle cx="400" cy="300" r="24" fill="none" stroke="var(--vm-z2)" stroke-width="1" opacity="0.3" />
+          <circle class="zone-dot" cx="400" cy="300" r="18" fill="var(--vm-z2)" opacity="0.85" />
+          <text class="zone-label-text" x="432" y="304" text-anchor="start">Z2</text>
+          <text class="zone-label-text" x="432" y="316" text-anchor="start" style="font-size:9px">Resilience</text>
+        </g>
+        <!-- Z3 bottom right -->
+        <g class="zone-point" data-zone="z3" tabindex="0" role="button"
+           aria-label="Z3 Cardiovascular-Neural Axis: cardiac, pulmonary, neurovascular terrain">
+          <circle cx="335" cy="420" r="24" fill="none" stroke="var(--vm-z3)" stroke-width="1" opacity="0.3" />
+          <circle class="zone-dot" cx="335" cy="420" r="18" fill="var(--vm-z3)" opacity="0.85" />
+          <text class="zone-label-text" x="335" y="456" text-anchor="middle">Z3</text>
+          <text class="zone-label-text" x="335" y="468" text-anchor="middle" style="font-size:9px">Cardiovascular</text>
+        </g>
+        <!-- Z4 bottom left -->
+        <g class="zone-point" data-zone="z4" tabindex="0" role="button"
+           aria-label="Z4 Detoxification Trident: hepatic, lymphatic, renal terrain">
+          <circle cx="148" cy="420" r="24" fill="none" stroke="var(--vm-z4)" stroke-width="1" opacity="0.3" />
+          <circle class="zone-dot" cx="148" cy="420" r="18" fill="var(--vm-z4)" opacity="0.85" />
+          <text class="zone-label-text" x="148" y="456" text-anchor="middle">Z4</text>
+          <text class="zone-label-text" x="148" y="468" text-anchor="middle" style="font-size:9px">Detoxification</text>
+        </g>
+        <!-- Z5 left -->
+        <g class="zone-point" data-zone="z5" tabindex="0" role="button"
+           aria-label="Z5 Hormonal Terrain Axis: androgenic, estrogenic, progestogenic terrain">
+          <circle cx="82" cy="300" r="24" fill="none" stroke="var(--vm-z5)" stroke-width="1" opacity="0.3" />
+          <circle class="zone-dot" cx="82" cy="300" r="18" fill="var(--vm-z5)" opacity="0.85" />
+          <text class="zone-label-text" x="48" y="304" text-anchor="end">Z5</text>
+          <text class="zone-label-text" x="48" y="316" text-anchor="end" style="font-size:9px">Hormonal</text>
+        </g>
+
+        <!-- Centre label -->
+        <text x="240" y="252" text-anchor="middle" fill="rgba(250,248,244,0.2)"
+              style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px" aria-hidden="true">
+          CASCADEATLAS
+        </text>
+      </svg>
+    </div>
+
+    <div class="atlas-info" id="atlasInfo" aria-live="polite">
+      <p class="info-default">Hover a zone to see cascade connections and clinical terrain detail.</p>
+    </div>
+    <div class="atlas-autoplay-badge" id="autoplayBadge">Auto-playing cascade sequence</div>
+  </div>
+</section>
+
+<!-- SECTION 6: IP MOAT -->
+<section class="ip-section" aria-label="Intellectual property">
+  <div class="reveal reveal-clip">
+    <h2>Intellectual Property</h2>
+    <p>VitalMatrix&#8482; holds 41 trademarked mnemonics across the platform architecture. The clinical model, scoring logic, cascade definitions, and zone architecture are all proprietary. This is not a wrapper on a third-party API.</p>
+  </div>
+
+  <div class="ip-grid">
+    <div class="ip-card reveal reveal-delay-1">
+      <h3>Proprietary Scoring</h3>
+      <p>Hybrid 0 to 100 internal scale with inverted 0 to 10 practitioner display. N6 dampening coefficient. Floor formula. Near-threshold windowing. Every calculation is original.</p>
+      <div class="ip-stat">D-15, D-37, D-38 locked</div>
+    </div>
+    <div class="ip-card reveal reveal-delay-2">
+      <h3>Architecture Governance</h3>
+      <p>38 locked architectural decisions with full audit trail. Every decision documented, dated, and immutable without formal tribunal review.</p>
+      <div class="ip-stat">D-01 through D-38</div>
+    </div>
+    <div class="ip-card reveal reveal-delay-3">
+      <h3>Cascade Model</h3>
+      <p>Six defined cascade stacks with velocity ratings, evidence tier classifications, and directional constraints. TerrainLock&#8482; self-perpetuating loop detection.</p>
+      <div class="ip-stat">S1 through S6 defined</div>
+    </div>
+    <div class="ip-card reveal reveal-delay-4">
+      <h3>Regulatory Architecture</h3>
+      <p>MHRA approval awaited. T-01 protective architecture ships seven output restrictions that constrain clinical language until regulatory classification is confirmed. Built in, not bolted on.</p>
+      <div class="ip-stat">ICO ZC101813</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: GOVERNANCE -->
+<section class="governance-section" aria-label="Governance maturity">
+  <div class="reveal reveal-clip">
+    <h2>Governance Maturity</h2>
+    <p class="gov-intro">Most early-stage companies build first and govern later. VitalMatrix&#8482; inverted that sequence.</p>
+  </div>
+
+  <div role="list" aria-label="Gate status">
+    <div class="gov-row" data-delay="0" role="listitem">
+      <span class="gov-gate">Gate O1</span>
+      <span class="gov-desc">Data validation: 259 rows, 37 corrections, 5 CSV principles locked</span>
+      <span class="gov-status status-passed">Passed</span>
+    </div>
+    <div class="gov-row" data-delay="120" role="listitem">
+      <span class="gov-gate">Gate V1</span>
+      <span class="gov-desc">Engine validation: 121/121 tests across all five pipeline stages</span>
+      <span class="gov-status status-passed">Passed</span>
+    </div>
+    <div class="gov-row" data-delay="240" role="listitem">
+      <span class="gov-gate">Gate O6</span>
+      <span class="gov-desc">IP assignment confirmed. No third-party developer. Full ownership.</span>
+      <span class="gov-status status-closed">Closed</span>
+    </div>
+    <div class="gov-row" data-delay="360" role="listitem">
+      <span class="gov-gate">ICO</span>
+      <span class="gov-desc">Information Commissioner's Office registration: ZC101813</span>
+      <span class="gov-status status-passed">Confirmed</span>
+    </div>
+    <div class="gov-row" data-delay="480" role="listitem">
+      <span class="gov-gate">MHRA</span>
+      <span class="gov-desc">MHRA approval awaited. T-01 protective architecture deployed.</span>
+      <span class="gov-status status-active">In Progress</span>
+    </div>
+    <div class="gov-row" data-delay="600" role="listitem">
+      <span class="gov-gate">Gate O5</span>
+      <span class="gov-desc">Clinical negligence legal opinion before founding launch</span>
+      <span class="gov-status status-active">Pending</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: REVENUE -->
+<section class="revenue-section" aria-label="Revenue model">
+  <div class="reveal reveal-clip">
+    <h2>Revenue Model</h2>
+  </div>
+
+  <div class="revenue-cards">
+    <div class="revenue-card reveal reveal-delay-1">
+      <div class="phase-label">Phase 1: Founding Cohort</div>
+      <h3>10 UK Practitioners</h3>
+      <div class="price">GBP 299</div>
+      <div class="price-note">per month | 5-year price guarantee | opt out any time</div>
+      <p style="margin-top:16px">Single pricing tier. No minimum commitment. 14-day free trial. Direct relationship with every founding user.</p>
+    </div>
+    <div class="revenue-card reveal reveal-delay-2">
+      <div class="phase-label">Phase 2: Growth</div>
+      <h3>Scale with Practitioners</h3>
+      <div class="price">SaaS MRR</div>
+      <div class="price-note">per practitioner, not per patient</div>
+      <p style="margin-top:16px">Additional revenue from RECON&#8482; lab intelligence as platform capabilities expand. No usage caps.</p>
+    </div>
+  </div>
+
+  <div class="reveal reveal-delay-3">
+    <p class="revenue-note">SaaS subscription. Monthly recurring revenue per practitioner, not per patient. No usage caps. At full Phase 1 cohort (10 practitioners at GBP 299/month): GBP 2,990 MRR.</p>
+  </div>
+</section>
+
+<!-- SECTION 9: FOUNDER -->
+<section class="founder-section" aria-label="Founder">
+  <div class="reveal">
+    <div class="founder-card">
+      <div class="founder-name">Dr Shahzad Faisal</div>
+      <div class="founder-creds">MBBS, FAAMFM</div>
+      <p>26 years clinical experience. UK-based physician specialising in root-cause reversal of male executive health decline: hormonal terrain, cardiovascular terrain, and metabolic energy. Fellow of the American Academy of Functional Medicine. The clinical model behind VitalMatrix&#8482; was developed from direct practice, not theoretical research.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: TIMELINE -->
+<section class="timeline-section" aria-label="Build timeline">
+  <div class="reveal reveal-clip">
+    <h2>Build Timeline</h2>
+  </div>
+
+  <div class="timeline-track" role="list" aria-label="Milestones">
+    <div class="tl-item reveal" role="listitem">
+      <div class="tl-date">March 2026</div>
+      <p>MVD complete. All five FLINT&#8482; pipeline stages built and tested. 121/121 engine tests passing. Gate V1 passed.</p>
+    </div>
+    <div class="tl-item reveal reveal-delay-1" role="listitem">
+      <div class="tl-date">March 2026</div>
+      <p>Gate O1 passed. 259 data rows validated. Five CSV principles locked. MHRA SaMD self-assessment completed. Solicitor engagement confirmed.</p>
+    </div>
+    <div class="tl-item reveal reveal-delay-2" role="listitem">
+      <div class="tl-date">April 2026</div>
+      <p>GENOME&#8482; Handbook V7: 13,619 lines, 241 sections, 247 features. Living Architecture components complete. Website pages in production.</p>
+    </div>
+    <div class="tl-item reveal reveal-delay-3" role="listitem">
+      <div class="tl-date">Q2 2026</div>
+      <p>Founding cohort recruitment. Practitioner onboarding portal. MAPS&#8482; intake integration. Platform deployment gated behind regulatory clearance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="governance-line">MHRA approval awaited. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</div>
+  <p class="tm-block">VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482;, VERITY&#8482;, VANTAGE&#8482;, VISTA&#8482;, CADENCE&#8482;, TerrainSpiral&#8482;, MODES&#8482;, GRADE&#8482;, NEXUS&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p class="copyright">For practitioner use only. Not a diagnostic tool. VitalMatrix Ltd 2026.</p>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── PERFORMANCE: requestAnimationFrame scroll handler ──
+  var ticking = false;
+  var scrollY = 0;
+
+  function onScroll() {
+    scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    if (!ticking) {
+      requestAnimationFrame(handleScroll);
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  function handleScroll() {
+    ticking = false;
+    updateScrollProgress();
+    updateNav();
+    updateParallax();
+  }
+
+  // ── SCROLL PROGRESS BAR ──
+  var progressBar = document.getElementById('scrollProgress');
+  function updateScrollProgress() {
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+    progressBar.setAttribute('aria-valuenow', Math.round(pct));
+  }
+
+  // ── NAV SCROLL STATE ──
+  var nav = document.getElementById('mainNav');
+  function updateNav() {
+    if (scrollY > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }
+
+  // ── PARALLAX ──
+  function updateParallax() {
+    var layers = document.querySelectorAll('[data-parallax]');
+    for (var i = 0; i < layers.length; i++) {
+      var el = layers[i];
+      var speed = parseFloat(el.getAttribute('data-parallax'));
+      var rect = el.parentElement.getBoundingClientRect();
+      var offset = rect.top * speed;
+      el.style.transform = 'translateY(' + offset + 'px)';
+    }
+  }
+
+  // ── CHARACTER SPLIT ANIMATION ──
+  var zeroLine = document.getElementById('zeroLine');
+  if (zeroLine) {
+    var text = zeroLine.textContent;
+    zeroLine.textContent = '';
+    var chars = [];
+    for (var i = 0; i < text.length; i++) {
+      var span = document.createElement('span');
+      span.className = text[i] === ' ' ? 'char space' : 'char';
+      span.textContent = text[i];
+      span.setAttribute('aria-hidden', 'true');
+      zeroLine.appendChild(span);
+      chars.push(span);
+    }
+    // Screen reader text
+    var srSpan = document.createElement('span');
+    srSpan.className = 'sr-only';
+    srSpan.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)';
+    srSpan.textContent = text;
+    zeroLine.appendChild(srSpan);
+
+    // Stagger reveal after zero number animation
+    setTimeout(function() {
+      for (var j = 0; j < chars.length; j++) {
+        (function(el, delay) {
+          setTimeout(function() { el.classList.add('visible'); }, delay);
+        })(chars[j], j * 35);
+      }
+    }, 1200);
+  }
+
+  // ── INTERSECTION OBSERVER: REVEAL ──
+  var revealEls = document.querySelectorAll('.reveal');
+  var revealObs = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add('visible');
+        revealObs.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+  for (var i = 0; i < revealEls.length; i++) {
+    revealObs.observe(revealEls[i]);
+  }
+
+  // ── CLIP-PATH REVEAL ──
+  var clipEls = document.querySelectorAll('.reveal-clip');
+  var clipObs = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add('visible');
+        clipObs.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.1 });
+  for (var i = 0; i < clipEls.length; i++) {
+    clipObs.observe(clipEls[i]);
+  }
+
+  // ── GOVERNANCE ROWS STAGGER ──
+  var govRows = document.querySelectorAll('.gov-row');
+  var govObs = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        var row = entries[i].target;
+        var delay = parseInt(row.getAttribute('data-delay')) || 0;
+        setTimeout(function(r) { r.classList.add('visible'); }, delay, row);
+        govObs.unobserve(row);
+      }
+    }
+  }, { threshold: 0.15 });
+  for (var i = 0; i < govRows.length; i++) {
+    govObs.observe(govRows[i]);
+  }
+
+  // ── METRIC CELLS + COUNTERS ──
+  var counted = false;
+  var metricCells = document.querySelectorAll('.metric-cell');
+  var metricObs = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add('visible');
+        metricObs.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.3 });
+  for (var i = 0; i < metricCells.length; i++) {
+    metricObs.observe(metricCells[i]);
+  }
+
+  var counterObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      var nums = document.querySelectorAll('.metric-num[data-count]');
+      for (var i = 0; i < nums.length; i++) { animateCount(nums[i]); }
+    }
+  }, { threshold: 0.3 });
+  var metricStrip = document.querySelector('.metric-strip');
+  if (metricStrip) counterObs.observe(metricStrip);
+
+  function animateCount(el) {
+    var target = parseInt(el.getAttribute('data-count'));
+    var current = 0;
+    var duration = 1400;
+    var startTime = null;
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      // Ease-out cubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      current = Math.round(eased * target);
+      el.textContent = current;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // ── PIPELINE NODES ──
+  var pipeNodes = document.querySelectorAll('.pipeline-node');
+  var pipeObs = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add('visible');
+        pipeObs.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.15 });
+  for (var i = 0; i < pipeNodes.length; i++) {
+    pipeObs.observe(pipeNodes[i]);
+  }
+
+  // ── TIMELINE ITEMS ──
+  var tlItems = document.querySelectorAll('.tl-item');
+  var tlObs = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add('visible');
+        tlObs.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.15 });
+  for (var i = 0; i < tlItems.length; i++) {
+    tlObs.observe(tlItems[i]);
+  }
+
+  // ── CASCADEATLAS: ZONE DATA ──
+  var zoneData = {
+    z1: {
+      label: 'Z1: Metabolic Energy Axis', colour: 'var(--vm-z1)',
+      title: 'Metabolic Energy Axis',
+      desc: 'Adrenal, thyroid, and pancreatic terrain. Receives cascades from Z2 (S1: Emerging) and Z4 (S3: Emerging). Sends cascades to Z5 (S2: Established) and Z3 (S6: Established, UNIDIRECTIONAL). Activation threshold: 40 internal.',
+      paths: ['pathS1','pathS2','pathS3','pathS6']
+    },
+    z2: {
+      label: 'Z2: Resilience Network', colour: 'var(--vm-z2)',
+      title: 'Resilience Network',
+      desc: 'Gut, immune, and neurological terrain. Default clinical entry point when TerrainLock activates. Sends cascades to Z1 (S1: Emerging) and Z3 (S5: Emerging). Activation threshold: 40 internal.',
+      paths: ['pathS1','pathS4','pathS5']
+    },
+    z3: {
+      label: 'Z3: Cardiovascular-Neural Axis', colour: 'var(--vm-z3)',
+      title: 'Cardiovascular-Neural Axis',
+      desc: 'Cardiac, pulmonary, and neurovascular terrain. Downstream recipient only: receives from Z2 (S5) and Z1 (S6, UNIDIRECTIONAL). Not ready for composite scoring in Phase 1. Threshold: 40 internal.',
+      paths: ['pathS5','pathS6']
+    },
+    z4: {
+      label: 'Z4: Detoxification Trident', colour: 'var(--vm-z4)',
+      title: 'Detoxification Trident',
+      desc: 'Hepatic, lymphatic, and renal terrain. Sends a SLOW cascade to Z1 (S3: Emerging). Not ready for composite scoring in Phase 1. Threshold: 40 internal.',
+      paths: ['pathS3']
+    },
+    z5: {
+      label: 'Z5: Hormonal Terrain Axis', colour: 'var(--vm-z5)',
+      title: 'Hormonal Terrain Axis',
+      desc: 'Androgenic, estrogenic, and progestogenic terrain. Receives FAST cascade from Z1 (S2: Established). Sends Theoretical cascade to Z2 (S4: always labelled Theoretical). Lower threshold: 32 internal.',
+      paths: ['pathS2','pathS4']
+    }
+  };
+
+  var zonePoints = document.querySelectorAll('.zone-point');
+  var infoPanel = document.getElementById('atlasInfo');
+  var tlRing = document.getElementById('tlRing');
+  var allPaths = document.querySelectorAll('.cascade-path');
+  var autoplayActive = false;
+  var autoplayTimer = null;
+
+  function showZone(zone) {
+    var data = zoneData[zone];
+    if (!data) return;
+    stopAutoplay();
+    infoPanel.innerHTML = '<div class="info-zone" style="color:' + data.colour + '">' + data.label + '</div>'
+      + '<div class="info-title">' + data.title + '</div>'
+      + '<p class="info-desc">' + data.desc + '</p>';
+    infoPanel.style.borderColor = 'rgba(201,168,76,0.25)';
+    highlightCascades(data.paths);
+    if (zone === 'z2' || zone === 'z1' || zone === 'z5') {
+      tlRing.classList.add('active');
+    } else {
+      tlRing.classList.remove('active');
+    }
+  }
+
+  function resetZone() {
+    infoPanel.innerHTML = '<p class="info-default">Hover a zone to see cascade connections and clinical terrain detail.</p>';
+    infoPanel.style.borderColor = 'rgba(255,255,255,0.08)';
+    resetCascades();
+    tlRing.classList.remove('active');
+  }
+
+  function highlightCascades(activeIds) {
+    for (var i = 0; i < allPaths.length; i++) {
+      allPaths[i].classList.remove('active');
+      allPaths[i].style.opacity = '0.08';
+    }
+    for (var j = 0; j < activeIds.length; j++) {
+      var p = document.getElementById(activeIds[j]);
+      if (p) { p.classList.add('active'); p.style.opacity = ''; }
+    }
+  }
+
+  function resetCascades() {
+    for (var i = 0; i < allPaths.length; i++) {
+      allPaths[i].classList.remove('active');
+      allPaths[i].style.opacity = '';
+    }
+  }
+
+  // Hover + keyboard
+  for (var i = 0; i < zonePoints.length; i++) {
+    zonePoints[i].addEventListener('mouseenter', function() {
+      showZone(this.getAttribute('data-zone'));
+    });
+    zonePoints[i].addEventListener('mouseleave', resetZone);
+    zonePoints[i].addEventListener('focus', function() {
+      showZone(this.getAttribute('data-zone'));
+    });
+    zonePoints[i].addEventListener('blur', resetZone);
+  }
+
+  // ── MAGNETIC HOVER ON ZONE NODES ──
+  var svgEl = document.querySelector('.atlas-svg');
+  if (svgEl) {
+    svgEl.addEventListener('mousemove', function(e) {
+      var rect = svgEl.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width * 480;
+      var my = (e.clientY - rect.top) / rect.height * 480;
+
+      var positions = {
+        z1: {x:240, y:72}, z2: {x:400, y:300}, z3: {x:335, y:420},
+        z4: {x:148, y:420}, z5: {x:82, y:300}
+      };
+
+      for (var z = 0; z < zonePoints.length; z++) {
+        var zp = zonePoints[z];
+        var zone = zp.getAttribute('data-zone');
+        var pos = positions[zone];
+        if (!pos) continue;
+        var dx = mx - pos.x;
+        var dy = my - pos.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var maxDist = 80;
+        var pull = 6;
+        if (dist < maxDist && dist > 0) {
+          var strength = (1 - dist / maxDist) * pull;
+          var tx = (dx / dist) * strength;
+          var ty = (dy / dist) * strength;
+          zp.style.transform = 'translate(' + tx + 'px, ' + ty + 'px)';
+        } else {
+          zp.style.transform = '';
+        }
+      }
+    });
+
+    svgEl.addEventListener('mouseleave', function() {
+      for (var z = 0; z < zonePoints.length; z++) {
+        zonePoints[z].style.transform = '';
+      }
+    });
+  }
+
+  // ── FLOW PARTICLES ALONG CASCADE PATHS ──
+  var flowDots = document.querySelectorAll('.flow-dot');
+  var flowAnimations = [];
+
+  function startFlowParticles() {
+    for (var i = 0; i < flowDots.length; i++) {
+      var dot = flowDots[i];
+      var pathId = dot.getAttribute('data-path');
+      var speed = parseInt(dot.getAttribute('data-speed')) || 3000;
+      var offset = parseFloat(dot.getAttribute('data-offset')) || 0;
+      var pathEl = document.getElementById(pathId);
+      if (!pathEl) continue;
+      dot.classList.add('running');
+      animateFlowDot(dot, pathEl, speed, offset);
+    }
+  }
+
+  function animateFlowDot(dot, pathEl, speed, offset) {
+    var totalLen = pathEl.getTotalLength();
+    var startTime = null;
+
+    function tick(timestamp) {
+      if (!startTime) startTime = timestamp - (offset * speed);
+      var elapsed = (timestamp - startTime) % speed;
+      var progress = elapsed / speed;
+      var pt = pathEl.getPointAtLength(progress * totalLen);
+      dot.setAttribute('cx', pt.x);
+      dot.setAttribute('cy', pt.y);
+      var animId = requestAnimationFrame(tick);
+      dot._animId = animId;
+    }
+    dot._animId = requestAnimationFrame(tick);
+    flowAnimations.push(dot);
+  }
+
+  // Start flow particles when atlas section is visible
+  var atlasSection = document.getElementById('atlasSection');
+  var flowStarted = false;
+  var atlasObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !flowStarted) {
+      flowStarted = true;
+      startFlowParticles();
+      // Start autoplay after a short delay
+      setTimeout(startAutoplay, 1500);
+    }
+  }, { threshold: 0.3 });
+  if (atlasSection) atlasObs.observe(atlasSection);
+
+  // ── CASCADEATLAS AUTO-PLAY ──
+  var autoplayBadge = document.getElementById('autoplayBadge');
+  var autoplaySequence = ['z2', 'z1', 'z5', 'z2']; // TerrainLock path
+  var autoplayIndex = 0;
+
+  function startAutoplay() {
+    if (autoplayActive) return;
+    autoplayActive = true;
+    if (autoplayBadge) autoplayBadge.classList.add('active');
+    runAutoplayStep();
+  }
+
+  function runAutoplayStep() {
+    if (!autoplayActive) return;
+    var zone = autoplaySequence[autoplayIndex];
+    showZone(zone);
+    autoplayIndex = (autoplayIndex + 1) % autoplaySequence.length;
+    autoplayTimer = setTimeout(function() {
+      resetZone();
+      setTimeout(runAutoplayStep, 600);
+    }, 2200);
+  }
+
+  function stopAutoplay() {
+    autoplayActive = false;
+    if (autoplayTimer) clearTimeout(autoplayTimer);
+    if (autoplayBadge) autoplayBadge.classList.remove('active');
+  }
+
+  // ── PARALLAX CARD HOVER (IP + REVENUE) ──
+  var hoverCards = document.querySelectorAll('.ip-card, .revenue-card');
+  for (var i = 0; i < hoverCards.length; i++) {
+    hoverCards[i].addEventListener('mousemove', function(e) {
+      var rect = this.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var cx = rect.width / 2;
+      var cy = rect.height / 2;
+      var rx = (y - cy) / cy * -3;
+      var ry = (x - cx) / cx * 3;
+      this.style.transform = 'perspective(800px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-2px)';
+    });
+    hoverCards[i].addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>

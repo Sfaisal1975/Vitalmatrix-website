@@ -1,0 +1,543 @@
+<!--
+  CASCADEATLAS 3 SILICON VALLEY UPGRADES PATCH
+  Paste these CSS + JS blocks into CascadeAtlas_latest.html
+  Upgrades F1, F5, F8 in-place (no new sections)
+  D-85 | ALB v1.5 | T-01 | 14 May 2026
+-->
+
+<!-- ═══════════════════════════════════════════════════════════
+     UPGRADE CSS: Add inside existing <style> block
+     ═══════════════════════════════════════════════════════════ -->
+<style>
+/* ── UPGRADE 1: F1 Particle Streams + Cascade Strength Meters ── */
+@keyframes vm-particle-flow{0%{offset-distance:0%}100%{offset-distance:100%}}
+@keyframes vm-particle-fade{0%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@keyframes vm-strength-fill{from{width:0}to{width:var(--fill)}}
+@keyframes vm-zone-ripple{0%{r:16;opacity:1}100%{r:28;opacity:0}}
+
+.vm-ca-particle{animation:vm-particle-fade var(--dur) linear forwards}
+.vm-ca-strength-bar{position:absolute;display:flex;flex-direction:column;gap:2px;pointer-events:none}
+.vm-ca-str-row{display:flex;align-items:center;gap:4px}
+.vm-ca-str-fill{height:3px;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1);min-width:0}
+.vm-ca-str-label{font-family:'DM Mono',monospace;font-size:6px;color:rgba(244,244,242,.5);min-width:14px}
+.vm-ca-str-val{font-family:'DM Mono',monospace;font-size:6px;min-width:16px;text-align:right}
+
+/* ── UPGRADE 2: F5 Shockwave + Domino Delay + Typewriter ── */
+@keyframes vm-shockwave{0%{r:16;stroke-opacity:.8;stroke-width:3}100%{r:60;stroke-opacity:0;stroke-width:0.5}}
+@keyframes vm-domino-glow{0%{filter:brightness(1)}50%{filter:brightness(2.5)}100%{filter:brightness(1)}}
+@keyframes vm-typechar{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+#vm-ca-f5-narr-box{font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(244,244,242,.7);min-height:60px;margin-top:16px;padding:12px 16px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);line-height:1.7;position:relative}
+#vm-ca-f5-narr-box::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:linear-gradient(180deg,rgba(201,168,76,.4),transparent);border-radius:1px}
+.vm-ca-f5-step{display:inline;opacity:0;animation:vm-typechar .3s ease forwards}
+
+/* ── UPGRADE 3: F8 Morphing Zones + Live Cascade Lines + Animated Delta Strip ── */
+@keyframes vm-morph-pulse{0%,100%{stroke-opacity:.3}50%{stroke-opacity:.8}}
+@keyframes vm-delta-slide{from{transform:translateX(-10px);opacity:0}to{transform:translateX(0);opacity:1}}
+#vm-ca-f8-cascade-g line{transition:stroke-opacity .6s,stroke-width .6s}
+.vm-ca-delta-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.7rem;border:1px solid;animation:vm-delta-slide .4s ease forwards;opacity:0}
+.vm-ca-delta-chip.improved{background:rgba(76,175,80,.1);border-color:rgba(76,175,80,.3);color:#4CAF50}
+.vm-ca-delta-chip.worsened{background:rgba(214,48,48,.1);border-color:rgba(214,48,48,.3);color:#D63030}
+.vm-ca-delta-chip.stable{background:rgba(138,154,170,.1);border-color:rgba(138,154,170,.3);color:#8A9AAA}
+.vm-ca-delta-arrow{font-size:14px;font-weight:700}
+.vm-ca-delta-magnitude{font-size:9px;font-weight:600}
+#vm-ca-f8-drd-shift{font-family:'DM Mono',monospace;font-size:.65rem;text-align:center;margin-top:8px;color:var(--vm-gold);min-height:18px;transition:opacity .4s}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UPGRADE 1: F1 — PARTICLE STREAMS + CASCADE STRENGTH METERS
+
+     What changes:
+     - Active cascade lines emit continuous SVG particle streams
+       (small circles travelling source-to-target at velocity speed)
+     - FAST = dense rapid particles, MEDIUM = moderate, SLOW = sparse
+     - Each zone gets a real-time "cascade pressure" meter showing
+       total inbound cascade velocity weight as horizontal bars
+     - Zone circles emit ripple rings on first activation
+
+     Insert this JS AFTER the existing updateSimulator() function
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+'use strict';
+
+/* ── UPGRADE 1: F1 Particle Streams ── */
+var particlePool = [];
+var particleTimer = null;
+var strengthBars = null;
+
+function spawnParticles(){
+  // Remove old particles
+  particlePool.forEach(function(p){ if(p.parentNode) p.parentNode.removeChild(p); });
+  particlePool = [];
+
+  var svg = document.getElementById('vm-ca-main-svg');
+  if(!svg) return;
+
+  STACKS.forEach(function(s,i){
+    var on = isActive(s.from) && isActive(s.to);
+    if(!on) return;
+
+    var p1 = pts[s.from], p2 = pts[s.to];
+    var dur = velMs[s.vel];
+    var count = s.vel==='FAST'?4:s.vel==='MEDIUM'?2:1;
+
+    for(var c=0;c<count;c++){
+      var dot = svgEl('circle', {
+        r: s.vel==='FAST'?3:2,
+        fill: ZONES[s.from].color,
+        opacity: '0.8',
+        filter: 'url(#vm-ca-glow)'
+      });
+      dot.style.offsetPath = 'path("M'+p1.x+','+p1.y+' L'+p2.x+','+p2.y+'")';
+      dot.style.animation = 'vm-particle-flow '+dur+'s linear '+(c*(dur/count))+'s infinite';
+      dot.classList.add('vm-ca-particle');
+      dot.style.setProperty('--dur', dur+'s');
+      svg.appendChild(dot);
+      particlePool.push(dot);
+    }
+  });
+}
+
+// Patch updateSimulator to include particles
+var origUpdateSim = updateSimulator;
+updateSimulator = function(){
+  origUpdateSim();
+  spawnParticles();
+  updateStrengthMeters();
+  checkActivationRipples();
+};
+
+/* Cascade Strength Meters */
+var prevActive = [false,false,false,false,false];
+
+function updateStrengthMeters(){
+  var wrap = document.getElementById('vm-ca-sim-grid');
+  if(!wrap) return;
+
+  // Remove existing meters
+  var existing = wrap.querySelectorAll('.vm-ca-strength-bar');
+  existing.forEach(function(el){ el.remove(); });
+
+  // Calculate inbound pressure per zone
+  var pressure = [0,0,0,0,0];
+  STACKS.forEach(function(s){
+    if(isActive(s.from) && isActive(s.to)){
+      var weight = s.vel==='FAST'?3:s.vel==='MEDIUM'?2:1;
+      pressure[s.to] += weight * (scores[s.from]/100);
+    }
+  });
+
+  // Build meter panel beside sliders
+  var maxP = Math.max.apply(null, pressure) || 1;
+  var panel = document.createElement('div');
+  panel.className = 'vm-ca-strength-bar';
+  panel.style.cssText = 'margin-top:12px;width:100%;';
+
+  var hasAny = false;
+  ZONES.forEach(function(z,i){
+    if(pressure[i] < 0.01) return;
+    hasAny = true;
+    var pct = Math.min(100, (pressure[i]/maxP)*100);
+    var row = document.createElement('div');
+    row.className = 'vm-ca-str-row';
+    row.innerHTML = '<span class="vm-ca-str-label" style="color:'+z.color+'">'+z.id+'</span>' +
+      '<div style="flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden">' +
+      '<div class="vm-ca-str-fill" style="width:'+pct+'%;background:'+z.color+';"></div></div>' +
+      '<span class="vm-ca-str-val" style="color:'+z.color+'">'+pressure[i].toFixed(1)+'</span>';
+    panel.appendChild(row);
+  });
+
+  if(hasAny){
+    var header = document.createElement('div');
+    header.style.cssText = "font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.1em;color:rgba(244,244,242,.35);margin-bottom:4px;text-transform:uppercase";
+    header.textContent = 'CASCADE PRESSURE';
+    panel.insertBefore(header, panel.firstChild);
+    document.getElementById('vm-ca-sliders').parentNode.appendChild(panel);
+  }
+}
+
+/* Activation ripple on zone first crossing threshold */
+function checkActivationRipples(){
+  var svg = document.getElementById('vm-ca-main-svg');
+  ZONES.forEach(function(z,i){
+    var nowActive = isActive(i);
+    if(nowActive && !prevActive[i]){
+      // Spawn ripple
+      var ring = svgEl('circle', {
+        cx: pts[i].x, cy: pts[i].y, r: 16,
+        fill: 'none', stroke: z.color, 'stroke-width': 2, opacity: 1
+      });
+      ring.style.animation = 'vm-zone-ripple .8s ease-out forwards';
+      svg.appendChild(ring);
+      setTimeout(function(){ if(ring.parentNode) ring.parentNode.removeChild(ring); }, 900);
+    }
+    prevActive[i] = nowActive;
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 2: F5 — SHOCKWAVE DOMINO + TYPEWRITER NARRATIVE
+
+   What changes:
+   - Clicking a source zone triggers sequential cascade propagation
+     with staggered delays matching velocity (FAST=0.8s, MEDIUM=1.6s, SLOW=3s)
+   - Each zone activation creates an expanding shockwave ring
+   - A typewriter narrative builds character-by-character as each
+     cascade fires, describing the clinical story in real time
+   - The narrative uses terrain-specific language, not generic text
+
+   Replaces existing chain reaction logic
+   ══════════════════════════════════════════════════════════════ */
+var f5svg = document.getElementById('vm-ca-f5-svg');
+var f5NarrBox = document.getElementById('vm-ca-chain-narr');
+
+// Replace narr box with enhanced version
+if(f5NarrBox){
+  f5NarrBox.id = 'vm-ca-f5-narr-box';
+  f5NarrBox.style.cssText = 'font-family:"DM Mono",monospace;font-size:.72rem;color:rgba(244,244,242,.7);min-height:60px;margin-top:16px;padding:12px 16px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);line-height:1.7;position:relative;';
+}
+
+var chainNarratives = {
+  Z1: [
+    {stack:'S2', text:'Z1 Metabolic Energy Axis activates. Burden propagates FAST to Z5 Hormonal Terrain via S2 (Established). Days to weeks.'},
+    {stack:'S6', text:' S6 fires UNIDIRECTIONALLY to Z3 Cardiovascular-Neural (Established). Medium velocity. Weeks.'}
+  ],
+  Z2: [
+    {stack:'S1', text:'Z2 Resilience Network activates. Gut-immune burden cascades to Z1 Metabolic Energy via S1 (Mechanism Established, Cascade Emerging). Medium velocity.'},
+    {stack:'S5', text:' S5 fires FAST to Z3 Cardiovascular-Neural (Emerging). TMAO pathway. Days to weeks.'},
+    {stack:'S2', text:' Z1 now active. S2 propagates FAST to Z5 Hormonal (Established). The cascade chain extends.'},
+    {stack:'TL', text:' TerrainLock proximity detected: Z2 to Z1 to Z5 to Z2. The loop may self-perpetuate.'}
+  ],
+  Z3: [
+    {stack:null, text:'Z3 Cardiovascular-Neural Axis activates. Z3 has no outbound cascades. It receives from S5 (Z2) and S6 (Z1, UNIDIRECTIONAL). Burden terminates here.'}
+  ],
+  Z4: [
+    {stack:'S3', text:'Z4 Detoxification Trident activates. S3 propagates SLOWLY to Z1 Metabolic Energy (Emerging). Months to quarters. The most commonly missed upstream cascade.'},
+    {stack:'S2', text:' Z1 now active from detox burden. S2 fires FAST to Z5 Hormonal (Established). A hidden chain: Z4 to Z1 to Z5.'}
+  ],
+  Z5: [
+    {stack:'S4', text:'Z5 Hormonal Terrain Axis activates. S4 to Z2 is THEORETICAL. Excluded from DRD cascade trace (D-12). Plausible but unconfirmed.'}
+  ]
+};
+
+function dominoChainReaction(sourceIdx){
+  var sourceZone = ZONES[sourceIdx].id;
+  var narr = chainNarratives[sourceZone];
+  if(!narr) return;
+
+  // Draw base pentagon
+  drawPentagonBase(f5svg, pts2);
+
+  // Draw all zones muted
+  ZONES.forEach(function(z,i){
+    f5svg.appendChild(svgEl('circle', {
+      cx:pts2[i].x, cy:pts2[i].y, r:18,
+      fill:z.color, 'fill-opacity':'0.2',
+      stroke:z.color, 'stroke-width':'1.5',
+      id:'vm-ca-f5-zone-'+i
+    }));
+    var t = svgEl('text', { x:pts2[i].x, y:pts2[i].y+4, 'text-anchor':'middle', fill:'#fff', 'font-size':'10', 'font-family':"'DM Mono',monospace" });
+    t.textContent = z.id; f5svg.appendChild(t);
+  });
+
+  // Activate source immediately with shockwave
+  activateZoneF5(sourceIdx, 0);
+
+  // Clear narrative
+  var narrEl = document.getElementById('vm-ca-f5-narr-box') || document.getElementById('vm-ca-chain-narr');
+  if(narrEl) narrEl.innerHTML = '';
+
+  // Sequential domino activation
+  var delay = 200;
+  var visited = {};
+  visited[sourceZone] = true;
+
+  narr.forEach(function(step, stepIdx){
+    var d = delay + stepIdx * 1200;
+
+    setTimeout(function(){
+      // Find target zone from stack
+      if(step.stack && step.stack !== 'TL'){
+        var stack = STACKS.find(function(s){ return s.id === step.stack; });
+        if(stack){
+          var targetIdx = stack.to;
+          if(!visited[ZONES[targetIdx].id]){
+            visited[ZONES[targetIdx].id] = true;
+            // Draw cascade line with animation
+            var line = svgEl('line', {
+              x1:pts2[stack.from].x, y1:pts2[stack.from].y,
+              x2:pts2[targetIdx].x, y2:pts2[targetIdx].y,
+              stroke:ZONES[stack.from].color, 'stroke-width':'3',
+              'stroke-opacity':'0', 'stroke-dasharray':'8 4'
+            });
+            f5svg.appendChild(line);
+            // Animate line appearance
+            setTimeout(function(){
+              line.setAttribute('stroke-opacity','0.8');
+              line.style.transition = 'stroke-opacity .4s';
+              line.style.animation = 'vm-dash '+velMs[stack.vel]+'s linear infinite';
+            }, 100);
+
+            // Activate target zone with delay
+            setTimeout(function(){
+              activateZoneF5(targetIdx, 0);
+            }, 400);
+          }
+        }
+      }
+
+      // Typewriter narrative
+      if(narrEl){
+        typewriteText(narrEl, step.text, stepIdx * 80);
+      }
+    }, d);
+  });
+}
+
+function activateZoneF5(zoneIdx, delay){
+  setTimeout(function(){
+    var el = document.getElementById('vm-ca-f5-zone-'+zoneIdx);
+    if(el){
+      el.setAttribute('fill-opacity','0.9');
+      el.style.animation = 'vm-domino-glow .6s ease';
+      setTimeout(function(){ el.style.animation = ''; }, 700);
+    }
+    // Shockwave ring
+    var ring = svgEl('circle', {
+      cx:pts2[zoneIdx].x, cy:pts2[zoneIdx].y, r:16,
+      fill:'none', stroke:ZONES[zoneIdx].color, 'stroke-width':'2'
+    });
+    ring.style.animation = 'vm-shockwave .8s ease-out forwards';
+    f5svg.appendChild(ring);
+    setTimeout(function(){ if(ring.parentNode) ring.parentNode.removeChild(ring); }, 900);
+  }, delay);
+}
+
+function typewriteText(container, text, baseDelay){
+  var chars = text.split('');
+  chars.forEach(function(ch, ci){
+    setTimeout(function(){
+      var span = document.createElement('span');
+      span.className = 'vm-ca-f5-step';
+      span.textContent = ch;
+      span.style.animationDelay = '0s';
+      container.appendChild(span);
+    }, baseDelay + ci * 18);
+  });
+}
+
+// Rebind chain reaction buttons
+var chainBtns = document.getElementById('vm-ca-chain-btns');
+if(chainBtns){
+  var origToggle = document.getElementById('vm-ca-chain-toggle');
+  if(origToggle){
+    origToggle.addEventListener('click', function(){
+      chainBtns.style.display = chainBtns.style.display === 'none' ? 'flex' : 'none';
+      chainBtns.innerHTML = '';
+      ZONES.forEach(function(z,i){
+        var b = document.createElement('button');
+        b.className = 'vm-ca-btn';
+        b.style.borderColor = z.color;
+        b.style.color = z.color;
+        b.textContent = 'Start from '+z.id;
+        b.addEventListener('click', function(){
+          dominoChainReaction(i);
+        });
+        chainBtns.appendChild(b);
+      });
+    });
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 3: F8 — MORPHING ZONES + LIVE CASCADE LINES + ANIMATED DELTA STRIP
+
+   What changes:
+   - Zone circle radius scales proportional to burden (r = 10 + score*0.15)
+   - Cascade lines appear/disappear with smooth transition as zones
+     cross thresholds during scrubbing
+   - Delta strip chips animate in with slide effect, showing magnitude,
+     direction arrow, and IMPROVED/WORSENED/STABLE label
+   - DRD designation shift displayed: "DRD shifted from Z2 to Z1"
+   - Smooth interpolation on all visual elements
+
+   Replaces existing renderDelta() function
+   ══════════════════════════════════════════════════════════════ */
+var origRenderDelta = renderDelta;
+var prevDRD8 = -1;
+
+renderDelta = function(){
+  var t = document.getElementById('vm-ca-delta-slider').value / 100;
+  var svg = document.getElementById('vm-ca-f8-svg');
+  drawPentagonBase(svg, pts2);
+
+  var interpScores = visit1.map(function(v,i){ return Math.round(lerp(v, visit2[i], t)); });
+
+  // Terrain polygon with glow at high burden
+  var maxBurden = Math.max.apply(null, interpScores);
+  var sv = interpScores.map(function(s,i){
+    var r = R2*(s/100);
+    return (cx2+r*Math.cos(ang2(i)))+','+(cy2+r*Math.sin(ang2(i)));
+  }).join(' ');
+  svg.appendChild(svgEl('polygon', {
+    points: sv,
+    fill: 'rgba(201,168,76,'+(0.05 + maxBurden/500)+')',
+    stroke: '#C9A84C',
+    'stroke-width': '2',
+    'stroke-opacity': '0.6'
+  }));
+
+  // CASCADE LINES (appear/disappear based on interpolated scores and thresholds)
+  var cascadeG = svgEl('g', {id:'vm-ca-f8-cascade-g'});
+  STACKS.forEach(function(s){
+    var srcActive = interpScores[s.from] >= ZONES[s.from].th;
+    var tgtActive = interpScores[s.to] >= ZONES[s.to].th;
+    var stackActive = srcActive && tgtActive;
+
+    if(stackActive){
+      var line = svgEl('line', {
+        x1:pts2[s.from].x, y1:pts2[s.from].y,
+        x2:pts2[s.to].x, y2:pts2[s.to].y,
+        stroke:ZONES[s.from].color,
+        'stroke-width': s.vel==='FAST'?3:s.vel==='MEDIUM'?2:1,
+        'stroke-opacity':'0.6',
+        'stroke-dasharray': s.id==='S4'?'4 3':'6 4'
+      });
+      line.style.animation = 'vm-dash '+velMs[s.vel]+'s linear infinite';
+      cascadeG.appendChild(line);
+
+      // Stack label
+      var mx = (pts2[s.from].x+pts2[s.to].x)/2;
+      var my = (pts2[s.from].y+pts2[s.to].y)/2;
+      var lbl = svgEl('text', {
+        x:mx, y:my-5, 'text-anchor':'middle',
+        'font-family':"'DM Mono',monospace", 'font-size':'6',
+        fill:'rgba(244,244,242,.4)'
+      });
+      lbl.textContent = s.id + (s.vel==='FAST'?' F':s.vel==='SLOW'?' S':' M');
+      cascadeG.appendChild(lbl);
+    }
+  });
+  svg.appendChild(cascadeG);
+
+  // MORPHING ZONES (radius scales with burden)
+  ZONES.forEach(function(z,i){
+    var active = interpScores[i] >= z.th;
+    var borderline = !active && interpScores[i] >= (z.th - 5);
+    var radius = 10 + interpScores[i] * 0.15;
+
+    svg.appendChild(svgEl('circle', {
+      cx:pts2[i].x, cy:pts2[i].y,
+      r: radius,
+      fill:z.color,
+      'fill-opacity': active?'0.85':borderline?'0.5':'0.25',
+      stroke:z.color,
+      'stroke-width': active?'2.5':borderline?'1.5':'1',
+      'stroke-dasharray': borderline?'3 2':'none'
+    }));
+
+    // Score text
+    var scoreT = svgEl('text', {
+      x:pts2[i].x, y:pts2[i].y+3,
+      'text-anchor':'middle',
+      'font-family':"'DM Mono',monospace",
+      'font-size': radius > 18 ? '10' : '8',
+      fill:'#fff', 'font-weight':'600'
+    });
+    scoreT.textContent = interpScores[i];
+    svg.appendChild(scoreT);
+
+    // Status label below
+    var statusT = svgEl('text', {
+      x:pts2[i].x, y:pts2[i].y + radius + 10,
+      'text-anchor':'middle',
+      'font-family':"'DM Mono',monospace",
+      'font-size':'6',
+      fill: active?z.color:borderline?'#C9A84C':'rgba(244,244,242,.3)'
+    });
+    statusT.textContent = active?'ACTIVE':borderline?'BORDERLINE':'';
+    svg.appendChild(statusT);
+  });
+
+  // DRD designation at this interpolation point
+  var drdIdx = -1;
+  var maxScore = 0;
+  ZONES.forEach(function(z,i){
+    if(interpScores[i] >= z.th && interpScores[i] > maxScore){
+      maxScore = interpScores[i]; drdIdx = i;
+    }
+    // Z2 tiebreaker
+    if(interpScores[i] >= z.th && interpScores[i] === maxScore && i === 1){
+      drdIdx = 1;
+    }
+  });
+
+  if(drdIdx >= 0){
+    svg.appendChild(svgEl('circle', {
+      cx:pts2[drdIdx].x, cy:pts2[drdIdx].y,
+      r: 10 + interpScores[drdIdx]*0.15 + 6,
+      fill:'none', stroke:'#FFD700', 'stroke-width':'2',
+      'stroke-dasharray':'4 3'
+    }));
+    var drdT = svgEl('text', {
+      x:pts2[drdIdx].x, y:pts2[drdIdx].y - (10 + interpScores[drdIdx]*0.15) - 8,
+      'text-anchor':'middle',
+      'font-family':"'DM Mono',monospace",
+      'font-size':'6', fill:'#FFD700'
+    });
+    drdT.textContent = 'HIGHEST BURDEN';
+    svg.appendChild(drdT);
+  }
+
+  // ANIMATED DELTA STRIP
+  var changes = document.getElementById('vm-ca-delta-changes');
+  changes.innerHTML = '';
+
+  ZONES.forEach(function(z,i){
+    var diff = visit2[i] - visit1[i];
+    var interpDiff = Math.round(lerp(0, diff, t));
+    var cls = interpDiff < 0 ? 'improved' : interpDiff > 0 ? 'worsened' : 'stable';
+    var arrow = interpDiff < 0 ? '\u2193' : interpDiff > 0 ? '\u2191' : '\u2022';
+    var label = interpDiff < 0 ? 'IMPROVED' : interpDiff > 0 ? 'WORSENED' : 'STABLE';
+
+    var chip = document.createElement('div');
+    chip.className = 'vm-ca-delta-chip ' + cls;
+    chip.style.animationDelay = (i * 80) + 'ms';
+    chip.innerHTML = '<span style="color:'+z.color+';font-weight:700;">'+z.id+'</span>' +
+      '<span class="vm-ca-delta-arrow">'+arrow+'</span>' +
+      '<span class="vm-ca-delta-magnitude">'+Math.abs(interpDiff)+'</span>' +
+      '<span style="font-size:7px;opacity:.7;">'+label+'</span>';
+    changes.appendChild(chip);
+  });
+
+  // DRD SHIFT INDICATOR
+  var shiftEl = document.getElementById('vm-ca-f8-drd-shift');
+  if(!shiftEl){
+    shiftEl = document.createElement('div');
+    shiftEl.id = 'vm-ca-f8-drd-shift';
+    shiftEl.style.cssText = "font-family:'DM Mono',monospace;font-size:.65rem;text-align:center;margin-top:8px;color:#C9A84C;min-height:18px;transition:opacity .4s";
+    changes.parentNode.appendChild(shiftEl);
+  }
+
+  // Compute DRD at visit1 and visit2
+  var drd1 = -1, max1 = 0;
+  visit1.forEach(function(v,i){ if(v >= ZONES[i].th && v > max1){ max1=v; drd1=i; } if(v>=ZONES[i].th && v===max1 && i===1) drd1=1; });
+  var drd2 = -1, max2 = 0;
+  visit2.forEach(function(v,i){ if(v >= ZONES[i].th && v > max2){ max2=v; drd2=i; } if(v>=ZONES[i].th && v===max2 && i===1) drd2=1; });
+
+  if(drd1 >= 0 && drd2 >= 0 && drd1 !== drd2 && t > 0.5){
+    shiftEl.textContent = 'DRD SHIFTED: ' + ZONES[drd1].id + ' \u2192 ' + ZONES[drd2].id;
+    shiftEl.style.opacity = '1';
+  } else if(drd1 >= 0 && t <= 0.5){
+    shiftEl.textContent = 'DRD: ' + ZONES[drd1].id + ' (Baseline)';
+    shiftEl.style.opacity = '0.5';
+  } else {
+    shiftEl.textContent = '';
+  }
+};
+
+// Re-trigger render
+if(typeof renderDelta === 'function') renderDelta();
+
+})();
+</script>

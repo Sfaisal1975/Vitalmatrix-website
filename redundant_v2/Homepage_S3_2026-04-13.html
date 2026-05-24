@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem('vm-analytics-consent','accepted');document.getElementById('vm-consent-banner').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem('vm-analytics-consent','declined');document.getElementById('vm-consent-banner').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home | VitalMatrix&#8482; &#8211; Clinical Intelligence Platform</title>
+<meta name="description" content="Terrain intelligence for functional medicine practitioners. One structured patient input. Five terrain-based clinical outputs. Every consultation.">
+<meta property="og:title" content="Home | VitalMatrix&#8482; &#8211; Clinical Intelligence Platform">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://vitalmatrix.co.uk/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vm-prussian:#0D2B4E; --vm-charcoal:#1A2030; --vm-deep-teal:#0C4452;
+  --vm-navy-d:#071C33; --vm-gold:#C9A84C; --vm-gold-l:#E8C96A;
+  --vm-teal:#1A7A8A; --vm-teal-l:#2A9BAD; --vm-white:#F4F4F2;
+  --vm-purple:#1E1A2E;
+  --vm-z1:#C9A84C; --vm-z2:#1A7A8A; --vm-z3:#7B5EA7; --vm-z4:#5F7C6C; --vm-z5:#4A90C4;
+  --vm-fs:'Cormorant Garamond',Georgia,serif;
+  --vm-fd:'Outfit',system-ui,sans-serif;
+  --vm-fm:'DM Mono',monospace;
+}
+body { background:var(--vm-purple); color:rgba(244,244,242,0.80); font-family:var(--vm-fd); margin:0; padding:0; -webkit-font-smoothing:antialiased; }
+a { color:inherit; text-decoration:none; }
+
+/* S3: Immersive Cinematic Layout */
+section { position:relative; overflow:hidden; margin:0; padding:140px 0; }
+.container { max-width:1180px; margin:0 auto; padding:0 48px; }
+.container-wide { max-width:100%; margin:0; padding:0; }
+h1, h2, h3, h4 { font-family:var(--vm-fs); font-weight:300; line-height:1.10; margin:0; }
+h1 { font-size:clamp(3.5rem,8vw,6rem); color:var(--vm-white); text-align:center; letter-spacing:-0.01em; }
+h1 em { color:var(--vm-gold); font-style:italic; }
+h2 { font-size:clamp(2.2rem,5vw,3.8rem); color:var(--vm-white); margin-bottom:24px; }
+h2 em { color:var(--vm-gold); font-style:italic; }
+h3 { font-size:clamp(1.3rem,2.5vw,1.8rem); color:var(--vm-white); margin-bottom:14px; }
+
+/* Eyebrows */
+.eyebrow-clinical, .eyebrow-arch, .eyebrow-convert {
+  font-family:var(--vm-fm); font-size:10px; letter-spacing:0.22em;
+  text-transform:uppercase; color:rgba(244,244,242,0.45);
+  display:flex; align-items:center; margin-bottom:20px;
+}
+
+/* Hero: enormous centred */
+.s3-hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding-top:72px; }
+.s3-hero-inner { max-width:900px; margin:0 auto; padding:0 48px; }
+.hero-sub { font-size:17px; color:rgba(244,244,242,0.50); max-width:640px; line-height:1.85; margin:32px auto 0; }
+.hero-meta { margin-top:16px; }
+.cta-group { display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:center; margin-top:44px; }
+.sec-sub { font-size:16px; color:rgba(244,244,242,0.55); max-width:640px; line-height:1.85; margin-bottom:56px; }
+
+/* Stat strip */
+.stat-strip { border-top:1px solid rgba(201,168,76,0.10); border-bottom:1px solid rgba(201,168,76,0.10); padding:0; }
+.stat-grid { display:grid; grid-template-columns:repeat(3,1fr); max-width:1180px; margin:0 auto; }
+.stat-cell { padding:44px 48px; text-align:center; border-right:1px solid rgba(244,244,242,0.07); }
+.stat-cell:last-child { border-right:none; }
+.stat-n { font-family:var(--vm-fs); font-size:52px; font-weight:300; color:var(--vm-gold); line-height:1; margin-bottom:8px; }
+.stat-l { font-family:var(--vm-fm); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(244,244,242,0.42); }
+
+/* Light section for problems */
+.s3-light { background:#F5EFE6; color:#0D2B4E; }
+.s3-light h2 { color:#0D2B4E; }
+.s3-light h2 em { color:#0C4452; }
+.s3-light .eyebrow-clinical { color:rgba(13,43,78,0.45); }
+.s3-light .sec-sub { color:rgba(13,43,78,0.55); }
+
+/* Problem cards: large, full width, one per row */
+.s3-problem { background:#fff; border-radius:12px; padding:56px 52px; margin-bottom:36px; box-shadow:0 4px 32px rgba(0,0,0,0.06); border:1px solid rgba(13,43,78,0.08); }
+.s3-problem:last-child { margin-bottom:0; }
+.s3-problem-num { font-family:var(--vm-fs); font-size:clamp(3rem,6vw,5rem); font-weight:300; color:rgba(13,43,78,0.08); line-height:1; margin-bottom:16px; }
+.s3-problem-title { font-family:var(--vm-fs); font-size:1.6rem; color:#0D2B4E; margin-bottom:14px; font-weight:300; }
+.s3-problem-body { font-size:16px; color:rgba(13,43,78,0.60); line-height:1.85; max-width:600px; }
+
+/* Output grid: 2+3 layout with glass cards and gold accent */
+.s3-output-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:48px; }
+.s3-output-grid-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:24px; }
+.s3-output { padding:44px 36px; }
+.s3-output-num { font-family:var(--vm-fm); font-size:10px; color:var(--vm-gold); letter-spacing:0.14em; margin-bottom:14px; opacity:0.7; }
+.s3-output-title { font-family:var(--vm-fs); font-size:1.25rem; color:var(--vm-white); margin-bottom:10px; font-weight:300; }
+.s3-output-desc { font-size:14px; color:rgba(244,244,242,0.48); line-height:1.75; }
+
+/* Architecture: horizontal timeline */
+.s3-timeline { display:flex; align-items:center; justify-content:center; gap:0; margin:48px auto; max-width:900px; position:relative; }
+.s3-timeline::before { content:''; position:absolute; top:50%; left:48px; right:48px; height:1px; background:rgba(201,168,76,0.20); }
+.s3-tl-node { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; flex:1; }
+.s3-tl-dot { width:16px; height:16px; border-radius:50%; background:var(--vm-gold); opacity:0.6; margin-bottom:12px; }
+.s3-tl-label { font-family:var(--vm-fm); font-size:11px; color:var(--vm-white); letter-spacing:0.06em; }
+.s3-tl-sub { font-family:var(--vm-fm); font-size:8px; color:rgba(244,244,242,0.35); letter-spacing:0.06em; margin-top:4px; }
+
+/* Commitments: alternating left/right */
+.s3-commit { display:flex; gap:40px; align-items:flex-start; padding:40px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+.s3-commit:last-child { border-bottom:none; }
+.s3-commit:nth-child(even) { flex-direction:row-reverse; text-align:right; }
+.s3-commit-num { font-family:var(--vm-fs); font-size:clamp(3rem,5vw,4.5rem); font-weight:300; color:rgba(201,168,76,0.12); line-height:1; flex-shrink:0; min-width:80px; }
+.s3-commit:nth-child(even) .s3-commit-num { text-align:right; }
+.s3-commit-text { font-size:16px; color:rgba(244,244,242,0.60); line-height:1.85; }
+.s3-commit-text strong { color:var(--vm-white); font-weight:500; }
+
+/* Founding teaser */
+.s3-founding { text-align:center; max-width:700px; margin:0 auto; }
+.s3-founding-box { border:1px solid rgba(201,168,76,0.25); border-radius:12px; padding:56px 48px; margin-top:40px; }
+.s3-founding-box p { font-size:16px; color:rgba(244,244,242,0.52); line-height:1.85; margin-bottom:28px; }
+
+/* CTA section */
+.s3-cta-section { text-align:center; }
+.s3-cta-note { font-family:var(--vm-fm); font-size:10px; color:rgba(244,244,242,0.30); letter-spacing:0.08em; margin-top:24px; }
+
+/* Footer with large logo */
+.s3-footer-brand { text-align:center; margin-bottom:20px; }
+.s3-footer-brand img { height:80px; }
+.footer-links { max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-bottom:48px; }
+.foot-nav-t { font-family:var(--vm-fm); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--vm-gold); margin-bottom:14px; }
+.foot-nav { list-style:none; display:flex; flex-direction:column; gap:10px; padding:0; margin:0; }
+.foot-nav a { color:rgba(244,244,242,0.42); font-size:13px; transition:color 0.22s ease; }
+.foot-nav a:hover { color:var(--vm-white); }
+.foot-comply { font-size:11.5px; color:rgba(244,244,242,0.28); line-height:1.9; margin-bottom:22px; text-align:center; max-width:820px; margin-left:auto; margin-right:auto; }
+.foot-tm { font-size:9.5px; color:rgba(244,244,242,0.16); line-height:2; margin-bottom:22px; text-align:center; max-width:820px; margin-left:auto; margin-right:auto; }
+.foot-practitioner-notice { font-family:var(--vm-fm); font-size:0.55rem; color:rgba(244,244,242,0.30); letter-spacing:0.08em; margin-bottom:12px; text-align:center; }
+.foot-bot { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; max-width:900px; margin:0 auto; }
+.foot-copy { font-family:var(--vm-fm); font-size:9px; color:rgba(244,244,242,0.20); letter-spacing:0.06em; }
+.foot-ico { font-family:var(--vm-fm); font-size:9px; color:rgba(201,168,76,0.42); letter-spacing:0.08em; }
+
+/* Responsive */
+@media(max-width:1024px) {
+  .s3-output-grid, .s3-output-grid-bottom { grid-template-columns:1fr; }
+}
+@media(max-width:768px) {
+  .container { padding:0 24px; }
+  section { padding:100px 0; }
+  .s3-problem { padding:36px 28px; }
+  .s3-commit { flex-direction:column !important; gap:16px; text-align:left !important; }
+  .s3-commit-num { min-width:auto; }
+  .s3-timeline { flex-direction:column; gap:24px; }
+  .s3-timeline::before { display:none; }
+  .stat-grid { grid-template-columns:1fr; }
+  .stat-cell { border-right:none; border-bottom:1px solid rgba(244,244,242,0.06); }
+  .stat-cell:last-child { border-bottom:none; }
+  .footer-links { grid-template-columns:1fr; }
+}
+</style>
+<link rel="stylesheet" href="vm-phase1-design.css">
+<script src="vm-phase1-design.js" defer></script>
+</head>
+<body class="vm-page-transition">
+
+<!-- Navigation -->
+<nav class="vm-nav-pill" aria-label="Main navigation">
+  <a href="/" class="vm-nav-logo" aria-label="VitalMatrix home">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" style="display:block;" alt="VitalMatrix">
+  </a>
+  <div class="vm-nav-links">
+    <a href="/platform/">Platform</a>
+    <a href="/our-approach/">Our Approach</a>
+    <a href="/mission/">Mission</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/about/">About</a>
+    <a href="/book/" class="vm-nav-cta">Book a Walkthrough</a>
+  </div>
+  <div class="vm-nav-hamburger" aria-label="Open menu"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="vm-nav-mobile-overlay">
+  <div class="vm-nav-mobile-close" aria-label="Close menu"></div>
+  <a href="/platform/">Platform</a>
+  <a href="/our-approach/">Our Approach</a>
+  <a href="/mission/">Mission</a>
+  <a href="/pricing/">Pricing</a>
+  <a href="/about/">About</a>
+  <a href="/book/">Book a Walkthrough</a>
+</div>
+
+<div class="vm-progress-bar"></div>
+<div class="vm-sticky-label"></div>
+
+<nav class="vm-sidebar-nav" aria-label="Section navigation">
+  <button class="vm-sidebar-dot active" data-target="hero"></button>
+  <button class="vm-sidebar-dot" data-target="s3-problems"></button>
+  <button class="vm-sidebar-dot" data-target="s3-outputs"></button>
+  <button class="vm-sidebar-dot" data-target="s3-architecture"></button>
+  <button class="vm-sidebar-dot" data-target="s3-founding"></button>
+  <button class="vm-sidebar-dot" data-target="s3-commitments"></button>
+  <button class="vm-sidebar-dot" data-target="s3-cta"></button>
+</nav>
+
+<!-- Hero -->
+<section id="hero" class="vm-hero-ambient vm-kinetic-grid vm-reveal s3-hero" aria-label="Hero" style="background:linear-gradient(155deg, #071C33 0%, #0D2B4E 100%);">
+  <span class="vm-section-num">01</span>
+  <div class="s3-hero-inner">
+    <p class="eyebrow-arch" style="justify-content:center;">Clinical Intelligence Platform</p>
+    <h1 class="vm-font-sharpen">Terrain intelligence built from within <em>functional medicine.</em></h1>
+    <p class="hero-sub">VitalMatrix&#8482; is a clinical intelligence platform designed for functional medicine practitioners in UK private practice. One structured patient input. Five terrain-based clinical outputs. Every consultation.</p>
+    <p class="vm-reading-meta hero-meta">Phase 1 &#183; 10 Founding Practitioners &#183; UK Only</p>
+    <div class="cta-group">
+      <a href="/book/" class="vm-cta-glow">Book a Clinical Walkthrough</a>
+    </div>
+  </div>
+  <div class="vm-scroll-prompt">
+    <span class="vm-scroll-prompt-text">Scroll to explore</span>
+    <div class="vm-scroll-prompt-line"><div class="vm-scroll-prompt-dot"></div></div>
+  </div>
+</section>
+
+<!-- Proof Strip -->
+<div class="vm-proof-strip">
+  ICO ZC101813 <span>&#183;</span> Phase 1 Active <span>&#183;</span> UK Private Practice <span>&#183;</span> 10 Founding Practitioners
+</div>
+
+<!-- Stat Strip -->
+<div class="stat-strip" style="background:var(--vm-purple);">
+  <div class="vm-stagger-grid stat-grid">
+    <div class="stat-cell"><div class="stat-n">26</div><div class="stat-l">Years Clinical Experience</div></div>
+    <div class="stat-cell"><div class="stat-n" style="font-size:18px; padding-top:14px; letter-spacing:0.04em;">Functional Medicine</div><div class="stat-l">Framework Compatible</div></div>
+    <div class="stat-cell"><div class="stat-n">5</div><div class="stat-l">Zone Architecture NCZ&#8482;</div></div>
+  </div>
+</div>
+
+<!-- Section: The Practice Problem (LIGHT) -->
+<section id="s3-problems" class="vm-reveal vm-depth s3-light" data-label="The Practice Problem" aria-label="The practice problem" style="padding:140px 0;">
+  <span class="vm-section-num" style="color:rgba(13,43,78,0.06);">02</span>
+  <div class="container">
+    <p class="eyebrow-clinical">The Practice Problem</p>
+    <h2 class="vm-font-sharpen">The Practice <em>Problem</em></h2>
+    <p class="sec-sub">Three constraints that functional medicine practitioners encounter before they reach the clinical ceiling.</p>
+
+    <div class="vm-stagger-grid">
+      <div class="s3-problem">
+        <p class="s3-problem-num">01</p>
+        <h3 class="s3-problem-title">The Workaround</h3>
+        <p class="s3-problem-body">You know what the matrix should look like, but the tools you have do not support it.</p>
+      </div>
+      <div class="s3-problem">
+        <p class="s3-problem-num">02</p>
+        <h3 class="s3-problem-title">The Hidden Cost</h3>
+        <p class="s3-problem-body">Hours lost to administrative reconstruction that could have been spent on clinical thinking.</p>
+      </div>
+      <div class="s3-problem">
+        <p class="s3-problem-num">03</p>
+        <h3 class="s3-problem-title">The Ceiling</h3>
+        <p class="s3-problem-body">Without structured terrain output, the depth of your clinical reasoning stays locked inside your head.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Five Outputs, One Input -->
+<section id="s3-outputs" class="vm-reveal vm-depth vm-texture-gold" data-label="Five Outputs" aria-label="Five outputs one input" style="background:var(--vm-prussian); padding:140px 0;">
+  <span class="vm-section-num">03</span>
+  <div class="container">
+    <p class="eyebrow-arch" style="justify-content:center;">The Platform</p>
+    <h2 class="vm-font-sharpen" style="text-align:center;">Five Outputs, <em>One Input</em></h2>
+    <p class="sec-sub" style="text-align:center; margin-left:auto; margin-right:auto;">One structured patient intake. Five terrain-based clinical documents.</p>
+
+    <div class="vm-stagger-grid s3-output-grid">
+      <div class="vm-card-3 vm-card-glow s3-output">
+        <p class="s3-output-num">OUTPUT 01</p>
+        <p class="s3-output-title">Consultation Note (NCZ&#8482; + DRD&#8482;)</p>
+        <p class="s3-output-desc">Terrain-based clinical note with node-cascade zone mapping and directional reasoning applied. Ready for the patient record.</p>
+      </div>
+      <div class="vm-card-3 vm-card-glow s3-output">
+        <p class="s3-output-num">OUTPUT 02</p>
+        <p class="s3-output-title">Phased Terrain Support Considerations (COMPASS&#8482;)</p>
+        <p class="s3-output-desc">Prioritised by cascade position. Linked to patient-specific biomarker findings. Practitioner-editable at every stage.</p>
+      </div>
+    </div>
+    <div class="vm-stagger-grid s3-output-grid-bottom">
+      <div class="vm-card-3 vm-card-glow s3-output">
+        <p class="s3-output-num">OUTPUT 03</p>
+        <p class="s3-output-title">Patient-Facing Summary</p>
+        <p class="s3-output-desc">Plain language. Actionable. Generated automatically from the same structured input.</p>
+      </div>
+      <div class="vm-card-3 vm-card-glow s3-output">
+        <p class="s3-output-num">OUTPUT 04</p>
+        <p class="s3-output-title">Functional Lab Interpretation Report (RECON&#8482;)</p>
+        <p class="s3-output-desc">Conventional and functional optimal ranges side by side. Evidence reference for every range applied.</p>
+      </div>
+      <div class="vm-card-3 vm-card-glow s3-output">
+        <p class="s3-output-num">OUTPUT 05</p>
+        <p class="s3-output-title">Session Governance Record (ANCHOR&#8482;)</p>
+        <p class="s3-output-desc">Audit log maintained automatically. Clinical governance without a separate administrative step.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: The Architecture -->
+<section id="s3-architecture" class="vm-reveal vm-depth vm-texture-teal vm-parallax-container" data-label="The Architecture" aria-label="The architecture" style="background:var(--vm-deep-teal); padding:140px 0;">
+  <span class="vm-section-num">04</span>
+  <div class="container" style="text-align:center;">
+    <p class="eyebrow-arch" style="justify-content:center;">Architecture</p>
+    <h2 class="vm-font-sharpen" style="text-align:center;">The <em>Architecture</em></h2>
+    <p class="sec-sub" style="text-align:center; margin-left:auto; margin-right:auto;">FLINT&#8482; is the five-layer terrain intelligence engine that powers every VitalMatrix output.</p>
+
+    <div class="s3-timeline">
+      <div class="s3-tl-node">
+        <div class="s3-tl-dot"></div>
+        <span class="s3-tl-label">L1</span>
+        <span class="s3-tl-sub">INTAKE&#8482;</span>
+      </div>
+      <div class="s3-tl-node">
+        <div class="s3-tl-dot"></div>
+        <span class="s3-tl-label">L2</span>
+        <span class="s3-tl-sub">NCZ&#8482;</span>
+      </div>
+      <div class="s3-tl-node">
+        <div class="s3-tl-dot"></div>
+        <span class="s3-tl-label">L3</span>
+        <span class="s3-tl-sub">DRD&#8482;</span>
+      </div>
+      <div class="s3-tl-node">
+        <div class="s3-tl-dot"></div>
+        <span class="s3-tl-label">L4</span>
+        <span class="s3-tl-sub">COMPASS&#8482;</span>
+      </div>
+      <div class="s3-tl-node">
+        <div class="s3-tl-dot"></div>
+        <span class="s3-tl-label">L5</span>
+        <span class="s3-tl-sub">ANCHOR&#8482;</span>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <a href="/how-it-works/" class="vm-cta-glow">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Built for Phase 1 -->
+<section id="s3-founding" class="vm-reveal vm-depth vm-texture-gold" data-label="Phase 1" aria-label="Built for Phase 1" style="background:var(--vm-purple); padding:140px 0;">
+  <span class="vm-section-num">05</span>
+  <div class="container">
+    <div class="s3-founding">
+      <p class="eyebrow-convert" style="justify-content:center;">Phase 1</p>
+      <h2 class="vm-font-sharpen" style="text-align:center;">Built for <em>Phase 1</em></h2>
+      <p class="sec-sub" style="text-align:center; margin-left:auto; margin-right:auto;">VitalMatrix is accepting a carefully selected group of UK functional medicine practitioners as founding members.</p>
+      <div class="s3-founding-box vm-glass vm-card-glow">
+        <p style="font-family:var(--vm-fm); font-size:10px; letter-spacing:0.18em; color:var(--vm-gold); text-transform:uppercase; margin-bottom:20px;">Founding Practitioner Programme</p>
+        <p>Ten founding practitioners will shape the platform alongside Dr Faisal. Founding rate locked. Direct input on clinical architecture and feature roadmap. Applications reviewed personally.</p>
+        <a href="/founding-practitioners/" class="vm-cta-glow">Learn About the Founding Programme</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Five Commitments -->
+<section id="s3-commitments" class="vm-reveal vm-depth vm-texture-teal" data-label="Commitments" aria-label="Five commitments" style="background:var(--vm-prussian); padding:140px 0;">
+  <span class="vm-section-num">06</span>
+  <div class="container">
+    <p class="eyebrow-clinical" style="justify-content:center;">Commitments</p>
+    <h2 class="vm-font-sharpen" style="text-align:center;">Five <em>Commitments</em></h2>
+    <p class="sec-sub" style="text-align:center; margin-left:auto; margin-right:auto;">What we hold ourselves to. Without exception.</p>
+
+    <div style="max-width:800px; margin:0 auto;">
+      <div class="s3-commit">
+        <div class="s3-commit-num">01</div>
+        <p class="s3-commit-text"><strong>Transparent about what it is.</strong> VitalMatrix generates terrain intelligence working documents for practitioner review. It does not diagnose, prescribe, or replace clinical judgement.</p>
+      </div>
+      <div class="s3-commit">
+        <div class="s3-commit-num">02</div>
+        <p class="s3-commit-text"><strong>Practitioner is always the authority.</strong> Every output is a draft until the practitioner reviews, edits, and approves it. The platform supports. It does not decide.</p>
+      </div>
+      <div class="s3-commit">
+        <div class="s3-commit-num">03</div>
+        <p class="s3-commit-text"><strong>Evidence tier transparency.</strong> Every clinical reference includes its evidence tier. The practitioner always knows what level of evidence supports each output.</p>
+      </div>
+      <div class="s3-commit">
+        <div class="s3-commit-num">04</div>
+        <p class="s3-commit-text"><strong>Protective of patient data.</strong> Registered with the ICO (ZC101813). Data governance documentation in progress. Patient data is treated as clinical infrastructure, not a product.</p>
+      </div>
+      <div class="s3-commit">
+        <div class="s3-commit-num">05</div>
+        <p class="s3-commit-text"><strong>Calibrated to improve.</strong> Practitioner feedback is the primary signal for platform development. The system improves because practitioners tell it where it falls short.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section id="s3-cta" class="vm-reveal vm-depth vm-texture-gold s3-cta-section" data-label="Get Started" aria-label="Call to action" style="background:linear-gradient(155deg, var(--vm-deep-teal) 0%, var(--vm-purple) 100%); padding:160px 0;">
+  <span class="vm-section-num">07</span>
+  <div class="container">
+    <p class="eyebrow-convert" style="justify-content:center;">Next Step</p>
+    <h2 class="vm-font-sharpen" style="text-align:center;">See This in Your <em>Own Practice</em></h2>
+    <p class="sec-sub" style="text-align:center; margin-left:auto; margin-right:auto;">A structured conversation with Dr Faisal. See how VitalMatrix handles a real case type from your practice.</p>
+    <div class="cta-group">
+      <a href="/book/" class="vm-cta-glow">Book a Walkthrough</a>
+    </div>
+    <p class="s3-cta-note">Registered with the ICO (ZC101813). For practitioner use only.</p>
+  </div>
+</section>
+
+<!-- Floating CTA -->
+<div class="vm-floating-cta">
+  <a href="/book/" class="vm-floating-cta-btn">Book a Walkthrough</a>
+  <div class="vm-floating-cta-close"><svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></div>
+</div>
+
+<!-- Footer -->
+<footer class="vm-footer-landmark" role="contentinfo" style="background:#071C33; padding:100px 24px 32px;">
+  <div class="s3-footer-brand">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="80" alt="VitalMatrix" style="display:inline-block;">
+  </div>
+  <p style="font-family:var(--vm-fs); font-size:1.4rem; font-weight:300; color:rgba(244,244,242,0.45); text-align:center; margin-bottom:56px;">Clinical Intelligence Platform</p>
+  <div class="footer-links">
+    <div>
+      <p class="foot-nav-t">Platform</p>
+      <ul class="foot-nav">
+        <li><a href="/platform/">Platform</a></li>
+        <li><a href="/our-approach/">Our Approach</a></li>
+        <li><a href="/how-it-works/">How It Works</a></li>
+        <li><a href="/ncz-architecture/">NCZ&#8482; Architecture</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-nav-t">Company</p>
+      <ul class="foot-nav">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/mission/">Mission</a></li>
+        <li><a href="/founding-practitioners/">Founding Practitioners</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-nav-t">Contact</p>
+      <ul class="foot-nav">
+        <li><a href="/book/">Book a Walkthrough</a></li>
+        <li><a href="/clinical-ethics/">Clinical Ethics</a></li>
+        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <hr style="border:none; height:1px; background:rgba(255,255,255,0.06); max-width:900px; margin:0 auto 40px;">
+  <p class="foot-comply">MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement.<br>Phase 1 practitioner use only. All clinical decisions remain with the registered practitioner.<br>Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+  <p class="foot-practitioner-notice">For practitioner use only. Not a diagnostic tool.</p>
+  <p class="foot-tm">VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <div class="foot-bot">
+    <p class="foot-copy">&#169; VitalMatrix Ltd 2026. All rights reserved.</p>
+    <p class="foot-ico">ICO ZC101813 | For practitioner use only</p>
+  </div>
+</footer>
+
+</body>
+</html>

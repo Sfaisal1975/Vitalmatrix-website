@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'accepted\');document.getElementById(\'vm-consent-banner\').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'declined\');document.getElementById(\'vm-consent-banner\').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCZ&#8482; Architecture | Seven Nodes, Five Zones | VitalMatrix</title>
+<meta name="description" content="The NCZ&#8482; framework maps seven biological nodes into five terrain convergence zones. Zone compositions, activation thresholds, and the memory method for functional medicine practitioners.">
+<link rel="canonical" href="https://vitalmatrix.co.uk/ncz-architecture/">
+<meta property="og:title" content="NCZ&#8482; Architecture | Seven Nodes, Five Zones | VitalMatrix">
+<meta property="og:description" content="The NCZ&#8482; framework maps seven biological nodes into five terrain convergence zones. Zone compositions, activation thresholds, and the memory method for functional medicine practitioners.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Clinician"
+  }
+}
+</script>
+<style>
+/* ---- @font-face: local only, no CDN ---- */
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300;src:local('Cormorant Garamond Light'),local('CormorantGaramond-Light');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400;src:local('Cormorant Garamond Regular'),local('CormorantGaramond-Regular');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400;src:local('Cormorant Garamond Italic'),local('CormorantGaramond-Italic');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;src:local('Cormorant Garamond SemiBold'),local('CormorantGaramond-SemiBold');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300;src:local('Outfit Light'),local('Outfit-Light');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:400;src:local('Outfit Regular'),local('Outfit-Regular');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:500;src:local('Outfit Medium'),local('Outfit-Medium');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:600;src:local('Outfit SemiBold'),local('Outfit-SemiBold');font-display:swap}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:400;src:local('DM Mono Regular'),local('DMMono-Regular');font-display:swap}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:500;src:local('DM Mono Medium'),local('DMMono-Medium');font-display:swap}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vm-prussian:#0D2B4E;
+  --vm-charcoal:#1A2030;
+  --vm-deep-teal:#0C4452;
+  --vm-gold:#C9A84C;
+  --vm-teal:#1A7A8A;
+  --vm-teal-light:#2A9BAD;
+  --vm-cream:#FAF8F4;
+  --vm-white:#F4F4F2;
+  --vm-text:rgba(244,244,242,0.80);
+  --vm-text-muted:rgba(244,244,242,0.50);
+  --vm-border:rgba(244,244,242,0.10);
+  --vm-purple:#7B5EA7;
+  --vm-sage:#5F7C6C;
+  --vm-fm:'DM Mono',monospace;
+  --vm-fs:'Cormorant Garamond',Georgia,serif;
+  --vm-fd:'Outfit',system-ui,sans-serif;
+  --z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#4A90C4;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',system-ui,-apple-system,sans-serif;
+  background:var(--vm-deep-teal);
+  color:var(--vm-text);
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---- NAV ---- */
+.vm-nav{position:sticky;top:0;z-index:1000;height:52px;background:rgba(12,68,82,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.15)}
+.vm-nav-inner{max-width:1200px;margin:0 auto;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.vm-nav-logo{display:flex;align-items:center;text-decoration:none;line-height:0;font-size:0}
+.vm-nav-logo img{height:48px;width:auto;display:block;margin:0;padding:0;border:none}
+.vm-nav-links{display:flex;align-items:center;gap:4px}
+.vm-nav-links a{font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:400;color:rgba(244,244,242,0.70);text-decoration:none;padding:8px 14px;border-radius:6px;transition:color 0.2s,background 0.2s}
+.vm-nav-links a:hover{color:var(--vm-white);background:rgba(244,244,242,0.06)}
+.vm-nav-cta{font-family:'Outfit',sans-serif;font-size:0.8rem !important;font-weight:600 !important;color:var(--vm-prussian) !important;background:var(--vm-gold);padding:8px 20px;border-radius:6px;text-decoration:none;transition:background 0.2s,transform 0.15s}
+.vm-nav-cta:hover{background:#d4b256;transform:translateY(-1px)}
+
+/* ---- HERO (Type B) ---- */
+.vm-hero{position:relative;background:var(--vm-deep-teal);padding:72px 24px 64px;text-align:center;overflow:hidden}
+#particle-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.hero-fallback{display:none;position:absolute;inset:0;pointer-events:none}
+@media(prefers-reduced-motion:reduce){
+  #particle-canvas{display:none!important}
+  .hero-fallback{display:block!important;background:radial-gradient(ellipse 50% 50% at 60% 40%,rgba(26,122,138,.1) 0%,transparent 50%),var(--vm-deep-teal)}
+}
+.vm-hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.vm-hero-eyebrow{font-family:var(--vm-fm);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--vm-teal-light);margin-bottom:20px}
+.vm-hero h1{font-family:var(--vm-fs);font-size:clamp(2.2rem,4.5vw,3.2rem);font-weight:300;color:var(--vm-white);line-height:1.18;margin-bottom:20px;letter-spacing:-0.01em}
+.vm-hero h1 em{color:var(--vm-gold);font-style:italic}
+.vm-hero-sub{font-size:1.05rem;color:var(--vm-text);max-width:620px;margin:0 auto 36px;line-height:1.7}
+.vm-btn-gold{display:inline-block;font-family:'Outfit',sans-serif;font-size:0.92rem;font-weight:600;color:var(--vm-prussian);background:var(--vm-gold);padding:14px 36px;border-radius:8px;text-decoration:none;transition:background 0.2s,transform 0.15s;letter-spacing:0.02em}
+.vm-btn-gold:hover{background:#d4b256;transform:translateY(-2px)}
+.vm-btn-ghost{display:inline-block;font-family:'Outfit',sans-serif;font-size:0.92rem;font-weight:500;color:var(--vm-white);background:transparent;border:1.5px solid rgba(244,244,242,0.25);padding:13px 36px;border-radius:8px;text-decoration:none;transition:border-color 0.2s,transform 0.15s;letter-spacing:0.02em}
+.vm-btn-ghost:hover{border-color:rgba(244,244,242,0.50);transform:translateY(-2px)}
+.vm-hero-ico{font-family:var(--vm-fm);font-size:0.6rem;color:rgba(244,244,242,0.30);letter-spacing:0.06em;margin-top:28px}
+
+/* ---- SHARED ---- */
+.vm-eyebrow{font-family:var(--vm-fm);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:14px}
+.vm-heading{font-family:var(--vm-fs);font-size:clamp(1.75rem,3.5vw,2.6rem);font-weight:400;line-height:1.15;margin-bottom:12px}
+.vm-container{max-width:1180px;margin:0 auto;padding:0 48px}
+.vm-container-narrow{max-width:800px;margin:0 auto;padding:0 48px}
+
+/* ---- ZONE PILL ---- */
+.vm-zone-pill{display:inline-block;font-family:var(--vm-fm);font-size:0.54rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:3px;font-weight:500}
+.vm-zone-pill-z1{background:rgba(201,168,76,0.15);color:var(--z1);border:1px solid rgba(201,168,76,0.25)}
+.vm-zone-pill-z2{background:rgba(26,122,138,0.15);color:var(--z2);border:1px solid rgba(26,122,138,0.25)}
+.vm-zone-pill-z3{background:rgba(123,94,167,0.15);color:var(--z3);border:1px solid rgba(123,94,167,0.25)}
+.vm-zone-pill-z4{background:rgba(95,124,108,0.15);color:var(--z4);border:1px solid rgba(95,124,108,0.25)}
+.vm-zone-pill-z5{background:rgba(212,184,112,0.15);color:var(--z5);border:1px solid rgba(212,184,112,0.25)}
+.vm-zone-pill-p2{background:rgba(201,168,76,0.10);color:rgba(201,168,76,0.6);border:1px solid rgba(201,168,76,0.15)}
+.vm-badge-4zones{display:inline-block;font-family:var(--vm-fm);font-size:0.54rem;letter-spacing:0.1em;padding:3px 10px;border-radius:3px;border:1px solid var(--vm-gold);color:var(--vm-gold);margin-left:6px}
+.vm-badge-phase2{display:inline-block;font-family:var(--vm-fm);font-size:0.54rem;letter-spacing:0.1em;padding:3px 10px;border-radius:3px;background:rgba(201,168,76,0.12);color:rgba(201,168,76,0.7);border:1px solid rgba(201,168,76,0.2)}
+
+/* ---- SECTION 02: SEVEN NODES (Charcoal) ---- */
+.vm-nodes-section{background:var(--vm-charcoal);padding:88px 0}
+.vm-nodes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.vm-node-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:8px;padding:28px 24px;transition:transform 0.2s,box-shadow 0.2s}
+.vm-node-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+.vm-node-card.muted{opacity:0.5}
+.vm-node-icon{width:40px;height:40px;margin-bottom:14px}
+.vm-node-label{font-family:var(--vm-fm);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--vm-teal-light);margin-bottom:4px}
+.vm-node-name{font-family:var(--vm-fs);font-size:1.2rem;font-weight:400;color:var(--vm-white);margin-bottom:8px}
+.vm-node-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.vm-node-body{font-size:0.82rem;color:rgba(244,244,242,0.65);line-height:1.7}
+.vm-mes-bar{font-family:var(--vm-fm);font-size:0.65rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:24px;line-height:1.7}
+
+/* ---- SECTION 03: MEDTERRAIN DIAGRAM (Light Sage) ---- */
+.vm-medterrain-section{background:#EAF0EB;padding:88px 0}
+.vm-medterrain-row{display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(13,43,78,0.12)}
+.vm-medterrain-row:last-of-type{border-bottom:none}
+.vm-medterrain-row.muted{opacity:0.5}
+.vm-medterrain-node{font-family:var(--vm-fm);font-size:0.72rem;font-weight:500;color:#0D2B4E;letter-spacing:0.06em}
+.vm-medterrain-name{font-family:var(--vm-fs);font-size:1rem;font-weight:400;color:#0D2B4E}
+.vm-medterrain-pills{display:flex;gap:6px;flex-wrap:wrap}
+.vm-medterrain-note{font-family:var(--vm-fm);font-size:0.65rem;color:rgba(13,43,78,0.55);text-align:center;margin-top:20px;line-height:1.7}
+.vm-medterrain-row.n6-highlight{border:1px solid var(--vm-gold);border-radius:6px;background:rgba(201,168,76,0.06)}
+
+/* ---- SECTION 04: FIVE ZONES (Deep Teal) ---- */
+.vm-zones-section{background:var(--vm-deep-teal);padding:88px 0}
+.vm-zone-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:8px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden}
+.vm-zone-card:last-child{margin-bottom:0}
+.vm-zone-border{position:absolute;top:0;left:0;right:0;height:3px}
+.vm-zone-label{font-family:var(--vm-fm);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
+.vm-zone-nodes{font-family:var(--vm-fm);font-size:0.62rem;color:rgba(244,244,242,0.55);letter-spacing:0.06em;margin-bottom:8px}
+.vm-zone-threshold{font-family:var(--vm-fm);font-size:0.62rem;color:var(--vm-gold);letter-spacing:0.06em;margin-bottom:12px}
+.vm-zone-body{font-size:0.85rem;color:var(--vm-text);line-height:1.7}
+.vm-zone-phase-note{font-family:var(--vm-fm);font-size:0.62rem;color:rgba(201,168,76,0.7);margin-top:12px;line-height:1.6}
+.vm-gmcnote{background:rgba(255,255,255,0.04);border-left:2px solid var(--vm-teal);padding:16px 20px;border-radius:4px;margin-bottom:32px;font-family:var(--vm-fm);font-size:0.7rem;color:rgba(255,255,255,0.85);line-height:1.7}
+
+/* ---- SECTION 05: MEMORY METHOD (Light Purple) ---- */
+.vm-memory-section{background:#F0EBF8;padding:88px 0}
+.vm-memory-card{background:#FFFFFF;border-radius:8px;padding:24px 28px;margin-bottom:16px;border-left:3px solid transparent}
+.vm-memory-card:last-child{margin-bottom:0}
+.vm-memory-zone{font-family:var(--vm-fm);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#0D2B4E;margin-bottom:8px}
+.vm-memory-cue{font-family:var(--vm-fd);font-style:italic;font-size:0.92rem;color:rgba(13,43,78,0.75);line-height:1.6}
+
+/* ---- SECTION 06: FLINT CONTEXT (Charcoal) ---- */
+.vm-flint-section{background:var(--vm-charcoal);padding:88px 0}
+.vm-flint-body{font-size:0.92rem;color:var(--vm-text);line-height:1.75;max-width:720px;margin-bottom:24px}
+.vm-flint-link{font-size:0.85rem;color:var(--vm-teal-light);text-decoration:none;border-bottom:1px solid rgba(42,155,173,0.3);transition:border-color 0.2s}
+.vm-flint-link:hover{border-color:var(--vm-teal-light)}
+
+/* ---- SECTION 07: CTA (Prussian Blue) ---- */
+.vm-cta-section{background:var(--vm-prussian);text-align:center;padding:88px 24px}
+.vm-cta-section h2{font-family:var(--vm-fs);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:300;color:var(--vm-white);margin-bottom:14px;line-height:1.25}
+.vm-cta-section p{font-size:0.95rem;color:var(--vm-text);max-width:520px;margin:0 auto 32px;line-height:1.7}
+
+/* ---- FOOTER ---- */
+.vm-footer{background:#071C33;padding:48px 24px 36px;text-align:center;border-top:1px solid var(--vm-border)}
+.vm-footer-brand{font-family:var(--vm-fs);font-size:1.2rem;font-weight:400;color:var(--vm-gold);margin-bottom:20px}
+.vm-footer-tm{font-family:var(--vm-fm);font-size:0.58rem;color:var(--vm-text-muted);line-height:1.9;max-width:720px;margin:0 auto 16px;letter-spacing:0.02em}
+.vm-footer-legal{font-family:var(--vm-fm);font-size:0.54rem;color:rgba(244,244,242,0.30);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+
+/* ---- REVEAL ANIMATION ---- */
+.vm-reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.vm-reveal.visible{opacity:1;transform:translateY(0)}
+.vm-stagger-grid > *{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease}
+.vm-stagger-grid.visible > *:nth-child(1){transition-delay:0s}
+.vm-stagger-grid.visible > *:nth-child(2){transition-delay:0.12s}
+.vm-stagger-grid.visible > *:nth-child(3){transition-delay:0.24s}
+.vm-stagger-grid.visible > *:nth-child(4){transition-delay:0.36s}
+.vm-stagger-grid.visible > *:nth-child(5){transition-delay:0.48s}
+.vm-stagger-grid.visible > *:nth-child(6){transition-delay:0.60s}
+.vm-stagger-grid.visible > *:nth-child(7){transition-delay:0.72s}
+.vm-stagger-grid.visible > *{opacity:1;transform:translateY(0)}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:900px){
+  .vm-nodes-grid{grid-template-columns:1fr}
+  .vm-container,.vm-container-narrow{padding:0 24px}
+  .vm-medterrain-row{grid-template-columns:50px 1fr auto}
+}
+@media(max-width:768px){
+  .vm-nav-links a:not(.vm-nav-cta){display:none}
+  .vm-hero{padding:80px 20px 64px}
+  .vm-medterrain-row{grid-template-columns:1fr;gap:8px}
+  .vm-medterrain-pills{margin-top:4px}
+}
+
+/* ═══ CINEMATIC HERO LAYERS (21 April 2026) ═══ */
+.vm-hero-grade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.05) 35%,rgba(0,0,0,0.0) 50%,rgba(0,0,0,0.15) 75%,rgba(0,0,0,0.6) 100%),linear-gradient(135deg,rgba(13,43,78,0.25) 0%,transparent 50%,rgba(201,168,76,0.04) 100%)}
+.vm-hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 42%,transparent 0%,rgba(0,0,0,0.70) 100%)}
+.vm-hero-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.vm-hero-orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.vm-hero-orb--gold{width:500px;height:500px;background:#C9A84C;opacity:0.18;top:-15%;left:-8%;animation:vmOrbA 20s ease-in-out infinite alternate}
+.vm-hero-orb--teal{width:400px;height:400px;background:#1A7A8A;opacity:0.14;bottom:-18%;right:-10%;animation:vmOrbB 24s ease-in-out infinite alternate}
+.vm-hero-orb--purple{width:300px;height:300px;background:#7B5EA7;opacity:0.10;top:20%;right:0%;animation:vmOrbC 22s ease-in-out infinite alternate}
+@keyframes vmOrbA{0%{transform:translate(0,0)}100%{transform:translate(40px,-30px)}}
+@keyframes vmOrbB{0%{transform:translate(0,0)}100%{transform:translate(-35px,20px)}}
+@keyframes vmOrbC{0%{transform:translate(0,0)}100%{transform:translate(-20px,-18px)}}
+.vm-hero-glass{position:absolute;inset:0;z-index:3;background:rgba(0,3,8,0.06);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);pointer-events:none}
+.vm-hero-grain{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;animation:vmGrain 0.3s steps(4) infinite}
+@keyframes vmGrain{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0,0)}}
+.vm-hero-mesh{position:absolute;z-index:4;pointer-events:none;width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.15;animation:vmMeshR 90s linear infinite}
+@keyframes vmMeshR{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.vm-hero-content{position:relative;z-index:10}
+.vm-hero h1{text-shadow:0 4px 60px rgba(0,0,0,0.70),0 2px 8px rgba(0,0,0,0.45),0 0 120px rgba(13,43,78,0.40)}
+@media(prefers-reduced-motion:reduce){.vm-hero-orb,.vm-hero-grain,.vm-hero-mesh{animation:none!important}}
+@media(max-width:768px){.vm-hero-mesh{width:260px;height:260px}}
+</style>
+<link rel="stylesheet" href="vm-font-optimise.css">
+<link rel="stylesheet" href="vm-award-tier2.css">
+<script src="vm-award-tier2.js" defer></script>
+<link rel="stylesheet" href="vm-cta-crosslinks.css">
+</head>
+<body>
+
+<!-- ======== NAV ======== -->
+<nav class="vm-nav">
+  <div class="vm-nav-inner">
+    <a href="/" class="vm-nav-logo">
+      <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" alt="VitalMatrix">
+    </a>
+    <div class="vm-nav-links">
+      <a href="/platform/">Platform</a>
+      <a href="/our-approach/">Our Approach</a>
+      <a href="/mission/">Mission</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/about/">About</a>
+      <a href="/book-a-walkthrough/" class="vm-nav-cta">Book Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 01 — HERO (Type B: Particle Field) — Deep Teal #0C4452
+     ════════════════════════════════════════════════════════════════ -->
+<section class="vm-hero" id="hero">
+  <!-- Cinematic hero layers -->
+  <div class="vm-hero-grade"></div>
+  <div class="vm-hero-orbs"><div class="vm-hero-orb vm-hero-orb--gold"></div><div class="vm-hero-orb vm-hero-orb--teal"></div><div class="vm-hero-orb vm-hero-orb--purple"></div></div>
+  <div class="vm-hero-vignette"></div>
+  <div class="vm-hero-glass"></div>
+  <svg class="vm-hero-mesh" viewBox="0 0 400 400" fill="none"><polygon points="200,25 365,148 300,350 100,350 35,148" stroke="rgba(201,168,76,0.35)" stroke-width="0.7" fill="none"/><polygon points="200,95 310,182 275,305 125,305 90,182" stroke="rgba(26,122,138,0.22)" stroke-width="0.5" fill="none"/><circle cx="200" cy="25" r="3.5" fill="rgba(201,168,76,0.45)"/><circle cx="35" cy="148" r="3.5" fill="rgba(26,122,138,0.40)"/><circle cx="300" cy="350" r="3.5" fill="rgba(123,94,167,0.35)"/><circle cx="100" cy="350" r="3.5" fill="rgba(95,124,108,0.35)"/><circle cx="365" cy="148" r="3.5" fill="rgba(212,184,112,0.35)"/></svg>
+  <div class="vm-hero-grain"></div>
+  <canvas id="particle-canvas"></canvas>
+  <div class="hero-fallback"></div>
+  <div class="vm-hero-content">
+    <p class="vm-hero-eyebrow">NCZ&#8482; — Node-Cascade Zones</p>
+    <h1>Seven nodes. Five zones. <em>One architecture.</em></h1>
+    <p class="vm-hero-sub">The NCZ&#8482; framework maps seven biological nodes into five terrain convergence zones. Zone compositions, activation thresholds, and the memory method for functional medicine practitioners.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="/cascade-atlas/" class="vm-btn-gold">See the Complete Architecture</a>
+      <a href="/book-a-walkthrough/" class="vm-btn-ghost">Book a Clinical Walkthrough</a>
+    </div>
+    <p class="vm-hero-ico">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 02 — SEVEN NODES — Charcoal #1A2030
+     ════════════════════════════════════════════════════════════════ -->
+<section class="vm-reveal vm-nodes-section" id="nodes">
+  <div class="vm-container">
+    <p class="vm-eyebrow" style="color:var(--vm-gold);">The Seven Nodes</p>
+    <h2 class="vm-heading" style="color:var(--vm-white);">Seven biological systems. The foundation of terrain intelligence.</h2>
+
+    <div class="vm-nodes-grid vm-stagger-grid">
+
+      <!-- N1 -->
+      <div class="vm-node-card">
+        <svg class="vm-node-icon" viewBox="0 0 40 40" fill="none"><line x1="8" y1="12" x2="32" y2="12" stroke="#1A7A8A" stroke-width="1.5"/><line x1="8" y1="20" x2="32" y2="20" stroke="#1A7A8A" stroke-width="1.5"/><line x1="8" y1="28" x2="32" y2="28" stroke="#1A7A8A" stroke-width="1.5"/></svg>
+        <p class="vm-node-label">N1</p>
+        <h3 class="vm-node-name">Assimilation</h3>
+        <div class="vm-node-pills"><span class="vm-zone-pill vm-zone-pill-z2">Z2</span></div>
+        <p class="vm-node-body">Nutrient absorption, gut barrier integrity, and the processing of dietary inputs. N1 dysfunction manifests as malabsorption, intestinal permeability, and dysbiotic terrain.</p>
+      </div>
+
+      <!-- N2 -->
+      <div class="vm-node-card">
+        <svg class="vm-node-icon" viewBox="0 0 40 40" fill="none"><path d="M20 6 L32 16 L28 32 H12 L8 16 Z" stroke="#1A7A8A" stroke-width="1.5"/><line x1="20" y1="14" x2="20" y2="26" stroke="#1A7A8A" stroke-width="1.5"/><line x1="14" y1="20" x2="26" y2="20" stroke="#1A7A8A" stroke-width="1.5"/></svg>
+        <p class="vm-node-label">N2</p>
+        <h3 class="vm-node-name">Defence and Repair</h3>
+        <div class="vm-node-pills"><span class="vm-zone-pill vm-zone-pill-z2">Z2</span><span class="vm-zone-pill vm-zone-pill-z4">Z4</span></div>
+        <p class="vm-node-body">Immune regulation, inflammatory response, and tissue repair capacity. N2 appears in both Z2 and Z4, making it a shared node across the resilience and detoxification zones.</p>
+      </div>
+
+      <!-- N3 -->
+      <div class="vm-node-card">
+        <svg class="vm-node-icon" viewBox="0 0 40 40" fill="none"><path d="M22 6 L16 18 H24 L18 34" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="vm-node-label">N3</p>
+        <h3 class="vm-node-name">Energy</h3>
+        <div class="vm-node-pills"><span class="vm-zone-pill vm-zone-pill-z1">Z1</span><span class="vm-zone-pill vm-zone-pill-z5">Z5</span></div>
+        <p class="vm-node-body">Mitochondrial function, ATP production, and metabolic output. N3 anchors both Z1 and Z5, making it the shared metabolic driver across the two most clinically significant zones.</p>
+      </div>
+
+      <!-- N4 -->
+      <div class="vm-node-card">
+        <svg class="vm-node-icon" viewBox="0 0 40 40" fill="none"><path d="M20 6 L20 18" stroke="#5F7C6C" stroke-width="1.5" stroke-linecap="round"/><path d="M20 18 L12 32" stroke="#5F7C6C" stroke-width="1.5" stroke-linecap="round"/><path d="M20 18 L28 32" stroke="#5F7C6C" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <p class="vm-node-label">N4</p>
+        <h3 class="vm-node-name">Biotransformation and Elimination</h3>
+        <div class="vm-node-pills"><span class="vm-zone-pill vm-zone-pill-z4">Z4</span><span class="vm-zone-pill vm-zone-pill-z5">Z5</span></div>
+        <p class="vm-node-body">Phase I and Phase II detoxification, conjugation pathways, and elimination. N4 bridges detoxification and hormonal terrain, reflecting the clinical link between toxic burden and hormonal disruption.</p>
+      </div>
+
+      <!-- N5 -->
+      <div class="vm-node-card">
+        <svg class="vm-node-icon" viewBox="0 0 40 40" fill="none"><path d="M8 28 C14 28,14 12,20 12 S26 28,32 28" stroke="#7B5EA7" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+        <p class="vm-node-label">N5</p>
+        <h3 class="vm-node-name">Transport</h3>
+        <div class="vm-node-pills"><span class="vm-zone-pill vm-zone-pill-z3">Z3</span></div>
+        <p class="vm-node-body">Cardiovascular function, lymphatic flow, and the movement of nutrients, hormones, and waste products. N5 is the sole node in Z3, making the cardiovascular-neural zone entirely dependent on transport integrity.</p>
+      </div>
+
+      <!-- N6 -->
+      <div class="vm-node-card">
+        <svg class="vm-node-icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="12" stroke="#C9A84C" stroke-width="1.5"/><circle cx="20" cy="20" r="6" stroke="#C9A84C" stroke-width="1.5"/><circle cx="20" cy="20" r="2" fill="#C9A84C"/></svg>
+        <p class="vm-node-label">N6</p>
+        <h3 class="vm-node-name">N6 (endocrine signalling)</h3>
+        <div class="vm-node-pills">
+          <span class="vm-zone-pill vm-zone-pill-z1">Z1</span>
+          <span class="vm-zone-pill vm-zone-pill-z2">Z2</span>
+          <span class="vm-zone-pill vm-zone-pill-z3">Z3</span>
+          <span class="vm-zone-pill vm-zone-pill-z5">Z5</span>
+          <span class="vm-badge-4zones">&#9733; 4 Zones</span>
+        </div>
+        <p class="vm-node-body">The dominant anchor node. N6 (endocrine signalling) appears in four of five zones: Z1, Z2, Z3, and Z5. HPA axis, HPT axis, neurotransmitter regulation, insulin signalling, and vagal afferents all fall within N6 terrain. Z4 is the only zone with no N6 component.</p>
+      </div>
+
+      <!-- N7 -->
+      <div class="vm-node-card muted">
+        <div class="vm-node-icon" style="width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.5);margin-bottom:14px;"></div>
+        <p class="vm-node-label">N7</p>
+        <h3 class="vm-node-name">Structural Integrity</h3>
+        <div class="vm-node-pills"><span class="vm-badge-phase2">Phase 2</span></div>
+        <p class="vm-node-body">N7 Structural Integrity is deferred to Phase 2. It is not scored in Phase 1. Do not reference N7 as active or available.</p>
+      </div>
+
+    </div>
+
+    <p class="vm-mes-bar">MES — Metabolic Environment and Substrate: foundational context for all seven nodes. Not a node. Not scored. Not displayed in zone calculations.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 03 — MEDTERRAIN DIAGRAM — Light Sage #EAF0EB
+     ════════════════════════════════════════════════════════════════ -->
+<section class="vm-reveal vm-medterrain-section" id="medterrain">
+  <div class="vm-container-narrow">
+    <p class="vm-eyebrow" style="color:#1A7A8A;">MedTerrain&#8482; — Node to Zone Mapping</p>
+    <h2 class="vm-heading" style="color:#0D2B4E;">How nodes map to zones.</h2>
+
+    <div class="vm-stagger-grid">
+      <div class="vm-medterrain-row">
+        <span class="vm-medterrain-node">N1</span>
+        <span class="vm-medterrain-name">Assimilation</span>
+        <div class="vm-medterrain-pills"><span class="vm-zone-pill vm-zone-pill-z2">Z2</span></div>
+      </div>
+      <div class="vm-medterrain-row">
+        <span class="vm-medterrain-node">N2</span>
+        <span class="vm-medterrain-name">Defence and Repair</span>
+        <div class="vm-medterrain-pills"><span class="vm-zone-pill vm-zone-pill-z2">Z2</span><span class="vm-zone-pill vm-zone-pill-z4">Z4</span></div>
+      </div>
+      <div class="vm-medterrain-row">
+        <span class="vm-medterrain-node">N3</span>
+        <span class="vm-medterrain-name">Energy</span>
+        <div class="vm-medterrain-pills"><span class="vm-zone-pill vm-zone-pill-z1">Z1</span><span class="vm-zone-pill vm-zone-pill-z5">Z5</span></div>
+      </div>
+      <div class="vm-medterrain-row">
+        <span class="vm-medterrain-node">N4</span>
+        <span class="vm-medterrain-name">Biotransformation and Elimination</span>
+        <div class="vm-medterrain-pills"><span class="vm-zone-pill vm-zone-pill-z4">Z4</span><span class="vm-zone-pill vm-zone-pill-z5">Z5</span></div>
+      </div>
+      <div class="vm-medterrain-row">
+        <span class="vm-medterrain-node">N5</span>
+        <span class="vm-medterrain-name">Transport</span>
+        <div class="vm-medterrain-pills"><span class="vm-zone-pill vm-zone-pill-z3">Z3</span></div>
+      </div>
+      <div class="vm-medterrain-row n6-highlight">
+        <span class="vm-medterrain-node">N6</span>
+        <span class="vm-medterrain-name">N6 (endocrine signalling)</span>
+        <div class="vm-medterrain-pills">
+          <span class="vm-zone-pill vm-zone-pill-z1">Z1</span>
+          <span class="vm-zone-pill vm-zone-pill-z2">Z2</span>
+          <span class="vm-zone-pill vm-zone-pill-z3">Z3</span>
+          <span class="vm-zone-pill vm-zone-pill-z5">Z5</span>
+          <span class="vm-badge-4zones" style="border-color:rgba(13,43,78,0.3);color:#0D2B4E;">&#9733; 4 Zones</span>
+        </div>
+      </div>
+      <div class="vm-medterrain-row muted">
+        <span class="vm-medterrain-node">N7</span>
+        <span class="vm-medterrain-name">Structural Integrity</span>
+        <div class="vm-medterrain-pills"><span class="vm-badge-phase2">Phase 2</span></div>
+      </div>
+    </div>
+
+    <p class="vm-medterrain-note">MES (Metabolic Environment and Substrate) provides foundational context for all nodes. It is not a node, not scored, and does not appear in zone calculations.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 04 — FIVE ZONES — Deep Teal #0C4452
+     ════════════════════════════════════════════════════════════════ -->
+<section class="vm-reveal vm-zones-section" id="zones">
+  <div class="vm-container-narrow">
+    <p class="vm-eyebrow" style="color:var(--vm-gold);">The Five Zones</p>
+    <h2 class="vm-heading" style="color:var(--vm-white);">Five terrain convergence zones. Activation thresholds. Compositions.</h2>
+
+    <div class="vm-gmcnote">VitalMatrix&#8482; generates working documents for practitioner review. All clinical decisions remain with the registered practitioner.</div>
+
+    <div class="vm-stagger-grid">
+
+      <!-- Z1 -->
+      <div class="vm-zone-card">
+        <div class="vm-zone-border" style="background:#C9A84C;"></div>
+        <p class="vm-zone-label" style="color:#C9A84C;">Z1 — Metabolic Energy Axis</p>
+        <p class="vm-zone-nodes">N3 Energy + N6 (endocrine signalling)</p>
+        <p class="vm-zone-threshold">Activation threshold: 40</p>
+        <p class="vm-zone-body">Z1 is the metabolic anchor of the NCZ&#8482; architecture. When both N3 and N6 are burdened simultaneously, the zone crosses its threshold and begins driving downstream cascade activity. Z1 is the most frequent Driver zone in clinical practice.</p>
+      </div>
+
+      <!-- Z2 -->
+      <div class="vm-zone-card">
+        <div class="vm-zone-border" style="background:#1A7A8A;"></div>
+        <p class="vm-zone-label" style="color:#1A7A8A;">Z2 — Resilience Network</p>
+        <p class="vm-zone-nodes">N1 Assimilation + N2 Defence and Repair + N6 (endocrine signalling)</p>
+        <p class="vm-zone-threshold">Activation threshold: 40</p>
+        <p class="vm-zone-body">Z2 integrates the gut, immune, and communication nodes. Z2 burden is a common upstream driver of Z1 suppression. The three-node composition makes Z2 the most complex zone to activate but also the most clinically informative when active.</p>
+      </div>
+
+      <!-- Z3 -->
+      <div class="vm-zone-card">
+        <div class="vm-zone-border" style="background:#7B5EA7;"></div>
+        <p class="vm-zone-label" style="color:#7B5EA7;">Z3 — Cardiovascular-Neural Axis</p>
+        <p class="vm-zone-nodes">N5 Transport + N6 (endocrine signalling)</p>
+        <p class="vm-zone-threshold">Activation threshold: 40</p>
+        <p class="vm-zone-phase-note">Z3 composite scoring is not active in Phase 1. Z3 appears in the cascade architecture as a receiver zone: S5 (FAST, Emerging) from Z2, and S6 UNIDIRECTIONAL (MEDIUM, Established) from Z1.</p>
+        <p class="vm-zone-body">Z3 is primarily a receiver zone in Phase 1. From Z1, N3 leaves. N5 (Transport) enters. Z3 receives cascade input from Z1 via S6 (UNIDIRECTIONAL) and from Z2 via S5.</p>
+      </div>
+
+      <!-- Z4 -->
+      <div class="vm-zone-card">
+        <div class="vm-zone-border" style="background:#5F7C6C;"></div>
+        <p class="vm-zone-label" style="color:#5F7C6C;">Z4 — Detoxification Trident</p>
+        <p class="vm-zone-nodes">N2 Defence and Repair + N4 Biotransformation and Elimination</p>
+        <p class="vm-zone-threshold">Activation threshold: 40</p>
+        <p class="vm-zone-phase-note">Z4 composite scoring is not active in Phase 1. Z4 appears as the origin zone for S3: Detoxification drives Metabolic Energy (SLOW, Emerging).</p>
+        <p class="vm-zone-body">Z4 is the only zone with no N6 (endocrine signalling) node. This is the memory anchor: Z4 breaks the pattern. Two-Four Break. No N6.</p>
+      </div>
+
+      <!-- Z5 -->
+      <div class="vm-zone-card">
+        <div class="vm-zone-border" style="background:#4A90C4;"></div>
+        <p class="vm-zone-label" style="color:#4A90C4;">Z5 — Hormonal Terrain Axis</p>
+        <p class="vm-zone-nodes">N6 (endocrine signalling) + N4 Biotransformation and Elimination + N3 Energy</p>
+        <p class="vm-zone-threshold">Activation threshold: <span style="color:#C9A84C;font-weight:500;">32</span> — <span style="font-family:var(--vm-fm);color:#C9A84C;">lower threshold: hormonal sensitivity</span></p>
+        <p class="vm-zone-body">Z5 carries the lowest activation threshold in the NCZ&#8482; framework: 32 versus 40 for Z1 through Z4. Z5 is almost always a Reactor zone. Z5 engages Z2 via S4 (Theoretical — excluded from DRD&#8482; cascade trace). Three nodes: the most complex zone composition.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 05 — MEMORY METHOD — Light Purple #F0EBF8
+     ════════════════════════════════════════════════════════════════ -->
+<section class="vm-reveal vm-memory-section" id="memory-method">
+  <div class="vm-container-narrow">
+    <p class="vm-eyebrow" style="color:var(--vm-purple);">Memory Method</p>
+    <h2 class="vm-heading" style="color:#0D2B4E;">Five zones. Five stories. One architecture.</h2>
+
+    <div class="vm-stagger-grid">
+
+      <div class="vm-memory-card" style="border-left-color:#C9A84C;">
+        <p class="vm-memory-zone">Z1 — Metabolic Energy Axis</p>
+        <p class="vm-memory-cue">Three-Six Core. Energy and Communication. The simplest zone. Two nodes. The metabolic core.</p>
+      </div>
+
+      <div class="vm-memory-card" style="border-left-color:#1A7A8A;">
+        <p class="vm-memory-zone">Z2 — Resilience Network</p>
+        <p class="vm-memory-cue">One-Two-Six Expansion. Z1 plus Assimilation and Defence. One joins the core pair. The Resilience Network builds on Z1.</p>
+      </div>
+
+      <div class="vm-memory-card" style="border-left-color:#7B5EA7;">
+        <p class="vm-memory-zone">Z3 — Cardiovascular-Neural Axis</p>
+        <p class="vm-memory-cue">Five-Six Shift. From Z1, N3 leaves. N5 (Transport) enters. The zone shifts from metabolic to vascular-neural.</p>
+      </div>
+
+      <div class="vm-memory-card" style="border-left-color:#5F7C6C;">
+        <p class="vm-memory-zone">Z4 — Detoxification Trident</p>
+        <p class="vm-memory-cue">Two-Four Break. No N6. The only zone with no Communication node. This is how you remember it: Z4 breaks the pattern.</p>
+      </div>
+
+      <div class="vm-memory-card" style="border-left-color:#4A90C4;">
+        <p class="vm-memory-zone">Z5 — Hormonal Terrain Axis</p>
+        <p class="vm-memory-cue">Three-Four-Six Build. Energy returns, Biotransformation joins, Communication completes. The most complex zone. Three nodes. Hormonal terrain requires all three pillars.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 06 — FLINT CONTEXT — Charcoal #1A2030
+     ════════════════════════════════════════════════════════════════ -->
+<section class="vm-reveal vm-flint-section" id="flint-context">
+  <div class="vm-container-narrow">
+    <p class="vm-eyebrow" style="color:var(--vm-gold);">FLINT&#8482; Pipeline Context</p>
+    <h2 class="vm-heading" style="color:var(--vm-white);">NCZ&#8482; operates at FLINT&#8482; Layers 1 and 2.</h2>
+    <p class="vm-flint-body">The NCZ&#8482; framework is the engine behind FLINT&#8482; Layer 1 (Node Intelligence: WHERE is the burden?) and Layer 2 (Zone Intelligence: WHICH zones are active?). Node scoring at L1 feeds directly into zone convergence at L2. The five-zone activation picture produced at L2 then drives Layers 3, 4, and 5 of the FLINT&#8482; pipeline.</p>
+    <a href="/how-it-works/" class="vm-flint-link">See the full FLINT&#8482; pipeline &#8594;</a>
+  </div>
+</section>
+
+<!-- ======== LA-2: NCZ INTERACTIVE ARCHITECTURE ======== -->
+<!-- LA-2: NCZ Living Architecture V2 | D-53 | ALB v1.5 -->
+<section id="vm-la2-ncz" class="vm-reveal" style="background:#0C4452;padding:80px 24px;margin:0;border:none;">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap');
+#vm-la2-ncz{--z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#D4B870;
+  --bg:#0C4452;--text:#F4F4F2;--muted:#8BA5B8;--card:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.11);font-family:'Outfit',sans-serif;color:var(--text);max-width:960px;margin:0 auto}
+#vm-la2-ncz *{box-sizing:border-box}
+#vm-la2-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--z2);text-align:center;margin-bottom:12px}
+#vm-la2-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,40px);
+  font-weight:700;text-align:center;margin:0 0 48px;line-height:1.2}
+#vm-la2-grid{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:start}
+@media(max-width:720px){#vm-la2-grid{grid-template-columns:1fr;gap:24px}}
+#vm-la2-nodes{display:flex;flex-direction:column;gap:8px}
+.vm-la2-node{padding:14px 16px;border-radius:10px;background:var(--card);border:1px solid var(--border);
+  cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:12px}
+.vm-la2-node:hover,.vm-la2-node.active{border-color:var(--z2);background:rgba(26,122,138,0.12)}
+.vm-la2-node-id{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;
+  width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.08);flex-shrink:0}
+.vm-la2-node-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:500}
+.vm-la2-node-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
+.vm-la2-node.phase2{opacity:0.45;cursor:default}
+.vm-la2-node.phase2 .vm-la2-badge{font-family:'DM Mono',monospace;font-size:9px;
+  padding:2px 8px;border-radius:20px;border:1px solid var(--muted);color:var(--muted);margin-left:auto}
+.vm-la2-node.dampened .vm-la2-coeff{font-family:'DM Mono',monospace;font-size:9px;
+  padding:2px 8px;border-radius:20px;background:rgba(201,168,76,0.15);color:var(--z1);margin-left:auto}
+#vm-la2-zones{display:flex;flex-direction:column;gap:10px}
+.vm-la2-zone{padding:18px 20px;border-radius:12px;background:var(--card);
+  border:1px solid var(--border);cursor:pointer;transition:all 0.25s}
+.vm-la2-zone:hover,.vm-la2-zone.active{transform:translateY(-2px)}
+.vm-la2-zone-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.vm-la2-zone-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.vm-la2-zone-id{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700}
+.vm-la2-zone-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}
+.vm-la2-zone-systems{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+.vm-la2-zone-nodes{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);
+  padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.04);margin-top:6px}
+.vm-la2-zone-nodes .vm-la2-hl{font-weight:500;color:var(--text)}
+.vm-la2-dim{opacity:0.25!important;transform:none!important}
+.vm-la2-node.vm-la2-dim{opacity:0.25!important}
+</style>
+
+<p id="vm-la2-eyebrow">Node-Cascade Zone Architecture</p>
+<h2 id="vm-la2-heading">Seven Nodes. Five Zones. One Architecture.</h2>
+
+<div id="vm-la2-grid">
+  <div id="vm-la2-nodes">
+    <div class="vm-la2-node" data-node="N1">
+      <span class="vm-la2-node-id">N1</span>
+      <div><div class="vm-la2-node-name">Assimilation</div>
+      <div class="vm-la2-node-sub">Feeds Z2</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N2">
+      <span class="vm-la2-node-id">N2</span>
+      <div><div class="vm-la2-node-name">Defence and Repair</div>
+      <div class="vm-la2-node-sub">Feeds Z2, Z4</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N3">
+      <span class="vm-la2-node-id">N3</span>
+      <div><div class="vm-la2-node-name">Energy</div>
+      <div class="vm-la2-node-sub">Feeds Z1, Z5</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N4">
+      <span class="vm-la2-node-id">N4</span>
+      <div><div class="vm-la2-node-name">Biotransformation and Elimination</div>
+      <div class="vm-la2-node-sub">Feeds Z4, Z5</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N5">
+      <span class="vm-la2-node-id">N5</span>
+      <div><div class="vm-la2-node-name">Transport</div>
+      <div class="vm-la2-node-sub">Feeds Z3</div></div>
+    </div>
+    <div class="vm-la2-node dampened" data-node="N6">
+      <span class="vm-la2-node-id">N6</span>
+      <div><div class="vm-la2-node-name">Communication</div>
+      <div class="vm-la2-node-sub">Feeds Z1, Z2, Z3, Z5</div></div>
+      <span class="vm-la2-coeff">0.7x</span>
+    </div>
+    <div class="vm-la2-node phase2" data-node="N7">
+      <span class="vm-la2-node-id">N7</span>
+      <div><div class="vm-la2-node-name">Structural Integrity</div>
+      <div class="vm-la2-node-sub">No zone assignment</div></div>
+      <span class="vm-la2-badge">Phase 2</span>
+    </div>
+  </div>
+
+  <div id="vm-la2-zones">
+    <div class="vm-la2-zone" data-zone="Z1" style="border-color:var(--z1)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z1)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z1)">Z1</span>
+        <div><div class="vm-la2-zone-name">Metabolic Energy Axis</div>
+        <div class="vm-la2-zone-systems">Adrenal &middot; Thyroid &middot; Pancreatic</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N3</span> (Energy) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z2" style="border-color:var(--z2)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z2)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z2)">Z2</span>
+        <div><div class="vm-la2-zone-name">Resilience Network</div>
+        <div class="vm-la2-zone-systems">Gut &middot; Immune &middot; Brain</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N1</span> (Assimilation) + <span class="vm-la2-hl">N2</span> (Defence and Repair) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z3" style="border-color:var(--z3)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z3)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z3)">Z3</span>
+        <div><div class="vm-la2-zone-name">Cardiovascular-Neural Axis</div>
+        <div class="vm-la2-zone-systems">Cardiac &middot; Pulmonary &middot; Neurovascular</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N5</span> (Transport) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z4" style="border-color:var(--z4)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z4)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z4)">Z4</span>
+        <div><div class="vm-la2-zone-name">Detoxification Trident</div>
+        <div class="vm-la2-zone-systems">Hepatic &middot; Lymphatic &middot; Renal</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N2</span> (Defence and Repair) + <span class="vm-la2-hl">N4</span> (Biotransformation and Elimination)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z5" style="border-color:var(--z5)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z5)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z5)">Z5</span>
+        <div><div class="vm-la2-zone-name">Hormonal Terrain Axis</div>
+        <div class="vm-la2-zone-systems">Androgenic &middot; Estrogenic &middot; Progestogenic</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N3</span> (Energy) + <span class="vm-la2-hl">N4</span> (Biotransformation and Elimination) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var MAP={N1:["Z2"],N2:["Z2","Z4"],N3:["Z1","Z5"],N4:["Z4","Z5"],N5:["Z3"],N6:["Z1","Z2","Z3","Z5"],N7:[]};
+  var REV={Z1:["N3","N6"],Z2:["N1","N2","N6"],Z3:["N5","N6"],Z4:["N2","N4"],Z5:["N3","N4","N6"]};
+  var nodes=document.querySelectorAll(".vm-la2-node");
+  var zones=document.querySelectorAll(".vm-la2-zone");
+  var activeNode=null,activeZone=null;
+
+  function clearAll(){
+    activeNode=null;activeZone=null;
+    nodes.forEach(function(n){n.classList.remove("active","vm-la2-dim")});
+    zones.forEach(function(z){z.classList.remove("active","vm-la2-dim")});
+  }
+
+  function highlightFromNode(nid){
+    var feeds=MAP[nid]||[];
+    nodes.forEach(function(n){
+      var id=n.getAttribute("data-node");
+      if(id===nid){n.classList.add("active");n.classList.remove("vm-la2-dim")}
+      else{n.classList.remove("active");n.classList.add("vm-la2-dim")}
+    });
+    zones.forEach(function(z){
+      var id=z.getAttribute("data-zone");
+      if(feeds.indexOf(id)!==-1){z.classList.add("active");z.classList.remove("vm-la2-dim")}
+      else{z.classList.remove("active");z.classList.add("vm-la2-dim")}
+    });
+  }
+
+  function highlightFromZone(zid){
+    var src=REV[zid]||[];
+    zones.forEach(function(z){
+      var id=z.getAttribute("data-zone");
+      if(id===zid){z.classList.add("active");z.classList.remove("vm-la2-dim")}
+      else{z.classList.remove("active");z.classList.add("vm-la2-dim")}
+    });
+    nodes.forEach(function(n){
+      var id=n.getAttribute("data-node");
+      if(src.indexOf(id)!==-1){n.classList.add("active");n.classList.remove("vm-la2-dim")}
+      else{n.classList.remove("active");n.classList.add("vm-la2-dim")}
+    });
+  }
+
+  nodes.forEach(function(n){
+    n.addEventListener("click",function(){
+      var nid=n.getAttribute("data-node");
+      if(nid==="N7")return;
+      if(activeNode===nid){clearAll();return}
+      clearAll();activeNode=nid;highlightFromNode(nid);
+    });
+  });
+
+  zones.forEach(function(z){
+    z.addEventListener("click",function(){
+      var zid=z.getAttribute("data-zone");
+      if(activeZone===zid){clearAll();return}
+      clearAll();activeZone=zid;highlightFromZone(zid);
+    });
+  });
+})();
+</script>
+</section>
+<div class="vm-crosslink-bar" style="background:#0C4452;">
+  <a href="/cascade-atlas/" class="vm-cta-explore" style="color:#F4F4F2;">See how zones cascade <svg class="vm-cta-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  <a href="/how-it-works/" class="vm-cta-inline" style="color:#2A9BAD;">See the full FLINT pipeline <svg class="vm-cta-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 07 — CTA — Prussian Blue #0D2B4E
+     ════════════════════════════════════════════════════════════════ -->
+<section class="vm-reveal vm-cta-section">
+  <p class="vm-eyebrow" style="color:var(--vm-teal);">Next Step</p>
+  <h2>See the complete architecture in action.</h2>
+  <p>Book a 30-minute clinical walkthrough with Dr Faisal. Live platform demonstration using your own case profile.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;">
+    <a href="/book-a-walkthrough/" class="vm-btn-gold">Book a Clinical Walkthrough</a>
+    <a href="/how-it-works/" class="vm-btn-ghost">See How It Works</a>
+  </div>
+  <p class="vm-hero-ico">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer class="vm-footer">
+  <p class="vm-footer-brand">VitalMatrix&#8482;</p>
+  <p class="vm-footer-legal">MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p style="font-family:'DM Mono',monospace;font-size:0.54rem;color:rgba(244,244,242,0.30);letter-spacing:0.08em;margin-bottom:12px;">For practitioner use only. Not a diagnostic tool.</p>
+  <p class="vm-footer-tm">
+    VOS&#8482; (VitalMatrix Operating System).
+    VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;,
+    CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;,
+    MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;,
+    KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;,
+    SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;,
+    COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;,
+    VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd.
+    All rights reserved. ICO ZC101813.
+  </p>
+  <p class="vm-footer-legal">For practitioner use only. Terrain intelligence for practitioner review. Not a diagnosis. VitalMatrix Ltd 2026.</p>
+</footer>
+
+<!-- ======== PARTICLE SYSTEM ======== -->
+<script>
+(function(){
+  var canvas = document.getElementById('particle-canvas');
+  if (!canvas) return;
+
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq.matches) {
+    canvas.style.display = 'none';
+    var fb = document.querySelector('.hero-fallback');
+    if (fb) fb.style.display = 'block';
+    return;
+  }
+
+  var ctx = canvas.getContext('2d');
+  var zoneColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#4A90C4'];
+  var particles = [];
+  var COUNT = 60;
+  var LINE_DIST = 120;
+  var raf;
+
+  function resize() {
+    var hero = canvas.parentElement;
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+
+  function createParticle() {
+    return {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      r: 2 + Math.random() * 3,
+      color: zoneColors[Math.floor(Math.random() * zoneColors.length)],
+      opacity: 0.4 + Math.random() * 0.3
+    };
+  }
+
+  function init() {
+    resize();
+    particles = [];
+    for (var i = 0; i < COUNT; i++) {
+      particles.push(createParticle());
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i + 1; j < particles.length; j++) {
+        var dx = particles[i].x - particles[j].x;
+        var dy = particles[i].y - particles[j].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < LINE_DIST) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    for (var k = 0; k < particles.length; k++) {
+      var p = particles[k];
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.globalAlpha = p.opacity;
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < -10) p.x = canvas.width + 10;
+      if (p.x > canvas.width + 10) p.x = -10;
+      if (p.y < -10) p.y = canvas.height + 10;
+      if (p.y > canvas.height + 10) p.y = -10;
+    }
+    raf = requestAnimationFrame(draw);
+  }
+
+  init();
+  draw();
+  window.addEventListener('resize', function() { resize(); });
+})();
+</script>
+
+<!-- Reveal on scroll -->
+<script>
+(function(){
+  var els=document.querySelectorAll('.vm-reveal,.vm-stagger-grid');
+  if(!els.length)return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}
+    });
+  },{threshold:0.12});
+  els.forEach(function(el){obs.observe(el)});
+})();
+</script>
+<script src="vm-phase1-design.js"></script>
+</body>
+</html>

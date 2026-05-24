@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mnemonic Intelligence Centre | VitalMatrix&#8482;</title>
+<meta name="description" content="20 award-winning features for 41 VitalMatrix mnemonics. From 3D card flips to constellation maps.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --vm-prussian:#0D2B4E;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;--vm-navy:#071C33;
+  --vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-teal-l:#2A9BAD;--vm-purple:#7B5EA7;
+  --vm-sage:#5F7C6C;--vm-z5:#2E6DB4;--vm-white:#F4F4F2;--vm-text:rgba(244,244,242,0.80);
+  --vm-text-s:rgba(244,244,242,0.55);--vm-text-t:rgba(244,244,242,0.35);
+  --vm-border:rgba(255,255,255,0.11);--vm-card:rgba(255,255,255,0.06);
+  --vm-fs:'Cormorant Garamond',Georgia,serif;--vm-fd:'Outfit',sans-serif;--vm-fm:'DM Mono',monospace;
+  --vm-ease:cubic-bezier(0.4,0,0.2,1);--vm-spring:cubic-bezier(0.34,1.56,0.64,1);
+  --cat-card:#C9A84C;--cat-spatial:#1A7A8A;--cat-study:#7B5EA7;--cat-intel:#5F7C6C;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--vm-fd);background:var(--vm-prussian);color:var(--vm-text);-webkit-font-smoothing:antialiased}
+
+/* Nav */
+.mw-nav{position:sticky;top:0;z-index:100;height:52px;background:rgba(13,43,78,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.mw-nav img{height:48px;display:block;border:none;padding:0;margin:0}
+.mw-nav-links{display:flex;gap:20px;align-items:center}
+.mw-nav-links a{font-family:var(--vm-fd);font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--vm-text-s);text-decoration:none;transition:color 0.2s}
+.mw-nav-links a:hover{color:var(--vm-white)}
+.mw-nav-cta{background:var(--vm-gold);color:var(--vm-prussian);font-family:var(--vm-fd);font-size:0.62rem;font-weight:700;padding:8px 18px;border-radius:4px;text-decoration:none;letter-spacing:0.08em;text-transform:uppercase}
+
+/* Hero */
+.mw-hero{padding:100px 24px 80px;text-align:center;position:relative;overflow:hidden}
+.mw-hero::before{content:'';position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none;animation:mwHeroGlow 6s ease-in-out infinite}
+@keyframes mwHeroGlow{0%,100%{opacity:0.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
+.mw-eyebrow{font-family:var(--vm-fm);font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--vm-teal-l);margin-bottom:16px}
+.mw-hero h1{font-family:var(--vm-fs);font-size:clamp(2rem,4vw,3rem);font-weight:300;color:var(--vm-white);line-height:1.15;margin-bottom:16px}
+.mw-hero h1 em{color:var(--vm-gold);font-style:italic}
+.mw-hero-sub{font-size:0.92rem;color:var(--vm-text);max-width:540px;margin:0 auto 28px;line-height:1.7}
+.mw-hero-stats{display:flex;justify-content:center;gap:40px;margin-top:20px}
+.mw-stat-num{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold)}
+.mw-stat-label{font-family:var(--vm-fm);font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--vm-text-t)}
+
+/* Filter */
+.mw-filter{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:24px;position:sticky;top:52px;z-index:50;background:rgba(13,43,78,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.04)}
+.mw-pill{font-family:var(--vm-fm);font-size:0.6rem;letter-spacing:0.08em;padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--vm-text-s);cursor:pointer;transition:all 0.25s var(--vm-spring)}
+.mw-pill.active{background:rgba(201,168,76,0.12);border-color:var(--vm-gold);color:var(--vm-gold)}
+.mw-pill:hover:not(.active){border-color:rgba(255,255,255,0.25);color:var(--vm-white)}
+
+/* Grid */
+.mw-grid{max-width:1100px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+
+/* Cards */
+.mw-card{background:var(--vm-card);border:1px solid var(--vm-border);border-radius:12px;padding:24px 20px;position:relative;overflow:hidden;transition:all 0.3s var(--vm-spring);cursor:pointer}
+.mw-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.2)}
+.mw-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+.mw-card[data-cat="card"]::before{background:var(--cat-card)}
+.mw-card[data-cat="spatial"]::before{background:var(--cat-spatial)}
+.mw-card[data-cat="study"]::before{background:var(--cat-study)}
+.mw-card[data-cat="intel"]::before{background:var(--cat-intel)}
+.mw-card::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.02) 50%,transparent 60%);transform:translateX(-100%) rotate(45deg);transition:transform 0.7s ease;pointer-events:none}
+.mw-card:hover::after{transform:translateX(100%) rotate(45deg)}
+.mw-badges{display:flex;gap:8px;margin-bottom:12px}
+.mw-badge{font-family:var(--vm-fm);font-size:0.52rem;letter-spacing:0.08em;padding:3px 10px;border-radius:3px}
+.mw-badge-cat{border:1px solid}
+.mw-badge-id{background:rgba(255,255,255,0.06);color:var(--vm-text-s)}
+.mw-card-title{font-family:var(--vm-fs);font-size:1.15rem;font-weight:600;color:var(--vm-white);margin-bottom:8px}
+.mw-card-desc{font-size:0.78rem;color:var(--vm-text);line-height:1.65}
+.mw-card-detail{margin-top:14px;padding-top:14px;border-top:1px solid var(--vm-border);display:none}
+.mw-card.open .mw-card-detail{display:block}
+.mw-detail-badges{display:flex;flex-wrap:wrap;gap:6px}
+.mw-detail-badge{font-family:var(--vm-fm);font-size:0.5rem;padding:3px 8px;border-radius:3px;display:inline-block}
+.mw-expand{font-family:var(--vm-fm);font-size:0.6rem;color:var(--vm-gold);margin-top:10px;display:inline-block;transition:transform 0.3s var(--vm-spring)}
+.mw-card.open .mw-expand{transform:rotate(45deg)}
+
+/* Scroll reveal */
+.mw-reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s var(--vm-ease),transform 0.7s var(--vm-ease)}
+.mw-reveal.revealed{opacity:1;transform:translateY(0)}
+
+/* Footer */
+.mw-footer{background:var(--vm-navy);padding:48px 24px 28px;border-top:1px solid var(--vm-border);text-align:center}
+.mw-footer-brand{font-family:var(--vm-fs);font-size:1.15rem;color:var(--vm-gold);margin-bottom:16px}
+.mw-footer-tm{font-family:var(--vm-fm);font-size:0.62rem;color:var(--vm-text-t);line-height:1.9;max-width:720px;margin:0 auto 12px}
+.mw-footer-gov{font-family:var(--vm-fd);font-size:0.62rem;color:var(--vm-text-t);max-width:720px;margin:0 auto 8px;line-height:1.7}
+.mw-footer-legal{font-family:var(--vm-fm);font-size:0.62rem;color:var(--vm-text-t)}
+
+/* Responsive */
+@media(max-width:768px){.mw-grid{grid-template-columns:1fr}.mw-nav-links a:not(.mw-nav-cta){display:none}.mw-hero{padding:72px 20px 56px}.mw-hero-stats{gap:24px}}
+@media(prefers-reduced-motion:reduce){.mw-reveal{opacity:1;transform:none;transition:none}.mw-hero::before{animation:none}.mw-card::after{display:none}}
+</style>
+</head>
+<body>
+
+<nav class="mw-nav">
+  <a href="/"><img src="../VM_Logo_1000_x_1000_px_png_New_Transparent.png" alt="VitalMatrix" style="line-height:0"></a>
+  <div class="mw-nav-links">
+    <a href="/how-it-works/">Platform</a>
+    <a href="/our-approach/">Approach</a>
+    <a href="/about/">About</a>
+    <a href="/book/" class="mw-nav-cta">Book Demo</a>
+  </div>
+</nav>
+
+<section class="mw-hero">
+  <p class="mw-eyebrow">Mnemonic Intelligence Centre</p>
+  <h1>Forty-one mnemonics. <em>One intelligence ecosystem.</em></h1>
+  <p class="mw-hero-sub">From 3D card flips to constellation maps. Twenty features designed to make 41 mnemonics memorable, navigable, and clinically intuitive.</p>
+  <div class="mw-hero-stats">
+    <div><div class="mw-stat-num">20</div><div class="mw-stat-label">Features</div></div>
+    <div><div class="mw-stat-num">41</div><div class="mw-stat-label">Mnemonics</div></div>
+    <div><div class="mw-stat-num">4</div><div class="mw-stat-label">Categories</div></div>
+    <div><div class="mw-stat-num">4</div><div class="mw-stat-label">Tiers</div></div>
+  </div>
+</section>
+
+<div class="mw-filter" id="mwFilter"></div>
+<div class="mw-grid" id="mwGrid"></div>
+
+<footer class="mw-footer">
+  <p class="mw-footer-brand">VitalMatrix&#8482;</p>
+  <p class="mw-footer-tm">VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482;, VOLTERRAIN&#8482;, VANTAGE&#8482;, VERITY&#8482;, VISTA&#8482;, CADENCE&#8482;, TerrainSpiral&#8482;, MODES&#8482;, GRADE&#8482;, NEXUS&#8482;, VAULT&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p class="mw-footer-gov">MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p class="mw-footer-legal">For practitioner use only. Not a diagnostic tool. VitalMatrix Ltd 2026.</p>
+</footer>
+
+<script>
+(function(){
+  var CATS = [
+    {id:'all',label:'All',color:'#C9A84C',count:20},
+    {id:'card',label:'Card Experience',color:'#C9A84C',count:5},
+    {id:'spatial',label:'Spatial Navigation',color:'#1A7A8A',count:5},
+    {id:'study',label:'Study Tools',color:'#7B5EA7',count:5},
+    {id:'intel',label:'Intelligence Views',color:'#5F7C6C',count:5}
+  ];
+  var FEATURES = [
+    {id:'MW-01',name:'3D Card Flip',cat:'card',desc:'CSS perspective 1200px with rotateY 180deg. Spring physics on rotation. Shadow depth changes during flip: shallow on front, deep at 90 degrees, shallow on landing. Front face: Prussian with gold name and pulsing glow ring. Back face: white with category header.'},
+    {id:'MW-02',name:'Category Particle Background',cat:'card',desc:'Canvas per card with category-specific particle styles. Foundation: slow gold drift. Processes: flowing teal streams. Outputs: pulsing sage rings. Governs: purple grid lines. Monitors: purple scanning beams. 20 particles per canvas.'},
+    {id:'MW-08',name:'Overlay Architecture Separator',cat:'card',desc:'Animated gold line divider between VECTOR (mnemonic 30) and VOLTERRAIN (mnemonic 31). "FLINT Five-Layer Engine" above the line, "Overlay Architecture" below. Overlay cards get a faint diagonal hatch marking them as overlay components.'},
+    {id:'MW-09',name:'Quiz per Card',cat:'card',desc:'Test yourself button on each card back. Four question types: "What does it stand for?", "Which tier?", "What is the analogy?", "What is it NOT?". Running score tracked. Gold confetti burst on 10-streak correct answers (6 particles, desktop only).'},
+    {id:'MW-18',name:'Morphing Transitions',cat:'card',desc:'Letter-by-letter morph between mnemonic names when navigating next and previous. Shared letters stay in place. Departing letters fade upward. Arriving letters fade in from below. 0.4s spring transition. Category colour cross-fades simultaneously.'},
+    {id:'MW-02b',name:'Tier Orbit Visualisation',cat:'spatial',desc:'SVG concentric rings representing 4 tiers. Tier 1 at centre, Tier 4 outermost. Each mnemonic is a dot on its ring in its category colour. Current card dot pulses gold. Click any dot to jump to that card. The practitioner sees the full 41-mnemonic ecosystem spatially.'},
+    {id:'MW-06',name:'DNA Strand Animation',cat:'spatial',desc:'Double helix layout. Left strand: Foundation, Collects, Monitors. Right strand: Processes, Outputs, Governs. Cross-links connect related pairs (RECON to COMPASS, CascadeIQ to KINETICS). Gentle rotation on scroll. Hover pauses rotation and highlights connections.'},
+    {id:'MW-11',name:'Constellation Map',cat:'spatial',desc:'Full-viewport SVG star map. X-axis: pipeline stage (intake to output). Y-axis: abstraction level (concrete to meta). Stars sized by tier (Tier 1 largest). Connecting lines show data flow. Overlay mnemonics float above as a separate cluster. Gold nebula behind Tier 1.'},
+    {id:'MW-12',name:'Timeline Chronicle',cat:'spatial',desc:'Horizontal scrollable timeline ordered by D-series ruling date. Each mnemonic pinned to its creation date. D-63 founding cluster highlighted. D-100+ overlay expansion highlighted. Cards fade in with staggered reveal on scroll. Gap periods shown as quiet date markers.'},
+    {id:'MW-19',name:'Architecture Depth Meter',cat:'spatial',desc:'Persistent vertical gauge on card deck edge. Top: surface (practitioner outputs like AXIS, CZR). Middle: engine (FLINT, CascadeIQ, DRD). Bottom: foundation (INTAKE, SPHERE). Far bottom: overlay substrate (VOLTERRAIN, MODES). FLINT layer tick marks. Animated marker.'},
+    {id:'MW-05',name:'Spaced Repetition',cat:'study',desc:'Confidence decay algorithm upgrading the known and review binary system. Cards marked "known" return at 1, 3, 7, then 14 card intervals. Cards marked "review" return after 2 cards. Confidence bar fills progressively. Gold checkmark on full mastery. Deprioritised in shuffle mode.'},
+    {id:'MW-07',name:'Audio Pronunciation',cat:'study',desc:'Web Audio API generates a tone signature per mnemonic. Tier determines octave (Tier 1 deep, Tier 4 bright). Category determines chord type (Foundation: major, Processes: suspended, Outputs: minor seventh). SpeechSynthesis reads the one-liner. Toggle off by default.'},
+    {id:'MW-10',name:'Export Cheat Sheet',cat:'study',desc:'Copy to clipboard button. Generates formatted plain-text summary of all 41 mnemonics: name, expansion, tier, one-liner. Toast notification: "41 mnemonics copied to clipboard." T-01 language enforced throughout. The practitioner can paste into any notes application.'},
+    {id:'MW-15',name:'Bingo Board',cat:'study',desc:'5x5 grid (25 random mnemonics per game). Each cell shows only the expansion or one-liner. Practitioner identifies the mnemonic name. Correct: cell fills with category colour and gold checkmark. Complete row, column, or diagonal: gold line draws across with confetti. Tracks best time.'},
+    {id:'MW-16',name:'Sound Signatures',cat:'study',desc:'Unique 3-note audio chord per mnemonic. Tier determines octave. Category determines chord type: Foundation major, Processes suspended, Outputs minor seventh, Governs diminished. Audio quiz mode plays a chord and the practitioner identifies the mnemonic. Toggle off by default.'},
+    {id:'MW-04',name:'Relationship Thread Drawer',cat:'intel',desc:'Slide-out panel on the right edge showing connected mnemonics. RECON to COMPASS (sequential). CascadeIQ to KINETICS (child). TerrainLock to CascadeIQ (pattern). SVG bezier curves between mini-dots. Hover shows relationship type. Navigate by clicking a connected mnemonic.'},
+    {id:'MW-13',name:'Category Ecosystem Panels',cat:'intel',desc:'Six expandable panels, one per category (Foundation, Collects, Processes, Outputs, Monitors, Governs). Each header shows count and tier distribution bar chart. Inside: kanban column with all mnemonics in that category. "notThis" warnings shown as red-bordered callout per card.'},
+    {id:'MW-14',name:'Dependency Chain Builder',cat:'intel',desc:'Click any mnemonic. System builds full upstream chain (what feeds it) and downstream chain (what it feeds). DRD upstream: DRD from CascadeIQ from NCZ from INTAKE from SPHERE. Animated gold arrows per link. Chain depth counter. Overlay mnemonics branch as parallel paths from FLINT endpoints.'},
+    {id:'MW-17',name:'Usage Context Heat Map',cat:'intel',desc:'Grid: 41 rows (mnemonics) x 5 columns (Pre-consultation, During, Post, Follow-up, Audit). Filled cells use intensity gradient (dark: heavily used, light: occasionally, empty: not applicable). SPHERE and INTAKE hot in Pre. DRD and AXIS hot in During. Overlay mnemonics cluster in Post synthesis.'},
+    {id:'MW-20',name:'Comparison Theatre',cat:'intel',desc:'Split-screen mode. Two dropdown pickers. Both cards render side by side with gold divider. Auto-generated comparison: shared tier, shared category, pipeline proximity (adjacent or distant), data flow direction (A feeds B, B feeds A, independent), and clinical context sentence explaining when both matter together.'}
+  ];
+
+  var currentFilter = 'all';
+  var filterBar = document.getElementById('mwFilter');
+  var grid = document.getElementById('mwGrid');
+
+  function catColor(c) {
+    var m = {card:'#C9A84C',spatial:'#1A7A8A',study:'#7B5EA7',intel:'#5F7C6C'};
+    return m[c] || '#C9A84C';
+  }
+  function catLabel(c) {
+    var m = {card:'Card Experience',spatial:'Spatial Navigation',study:'Study Tools',intel:'Intelligence Views'};
+    return m[c] || c;
+  }
+
+  function renderFilters() {
+    filterBar.innerHTML = '';
+    for (var i = 0; i < CATS.length; i++) {
+      var c = CATS[i];
+      var btn = document.createElement('button');
+      btn.className = 'mw-pill' + (currentFilter === c.id ? ' active' : '');
+      btn.textContent = c.label + ' (' + c.count + ')';
+      btn.setAttribute('data-cat', c.id);
+      btn.addEventListener('click', function(e) {
+        currentFilter = e.target.getAttribute('data-cat');
+        renderFilters();
+        renderGrid();
+      });
+      filterBar.appendChild(btn);
+    }
+  }
+
+  function renderGrid() {
+    grid.innerHTML = '';
+    var items = currentFilter === 'all' ? FEATURES : FEATURES.filter(function(f) { return f.cat === currentFilter; });
+    for (var i = 0; i < items.length; i++) {
+      (function(f, idx) {
+        var card = document.createElement('div');
+        card.className = 'mw-card mw-reveal';
+        card.setAttribute('data-cat', f.cat);
+        card.style.transitionDelay = (idx * 0.06) + 's';
+        var cc = catColor(f.cat);
+        card.innerHTML =
+          '<div class="mw-badges">' +
+            '<span class="mw-badge mw-badge-cat" style="background:' + cc + '15;color:' + cc + ';border-color:' + cc + '30">' + catLabel(f.cat) + '</span>' +
+            '<span class="mw-badge mw-badge-id">' + f.id + '</span>' +
+          '</div>' +
+          '<div class="mw-card-title">' + f.name + '</div>' +
+          '<div class="mw-card-desc">' + f.desc + '</div>' +
+          '<div class="mw-card-detail">' +
+            '<div class="mw-detail-badges">' +
+              '<span class="mw-detail-badge" style="background:rgba(26,122,138,0.10);color:#1A7A8A;border:1px solid rgba(26,122,138,0.20)">41 mnemonics</span>' +
+              '<span class="mw-detail-badge" style="background:rgba(95,124,108,0.10);color:#5F7C6C;border:1px solid rgba(95,124,108,0.20)">prefers-reduced-motion</span>' +
+              '<span class="mw-detail-badge" style="background:rgba(201,168,76,0.10);color:#C9A84C;border:1px solid rgba(201,168,76,0.20)">Award-winning</span>' +
+            '</div>' +
+          '</div>' +
+          '<span class="mw-expand">+</span>';
+        card.addEventListener('click', function() {
+          var wasOpen = card.classList.contains('open');
+          var allCards = grid.querySelectorAll('.mw-card');
+          for (var j = 0; j < allCards.length; j++) allCards[j].classList.remove('open');
+          if (!wasOpen) card.classList.add('open');
+        });
+        grid.appendChild(card);
+      })(items[i], i);
+    }
+    initReveal();
+  }
+
+  function initReveal() {
+    var prefersMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var els = document.querySelectorAll('.mw-reveal');
+    if (!prefersMotion) {
+      for (var i = 0; i < els.length; i++) els[i].classList.add('revealed');
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          entries[i].target.classList.add('revealed');
+          obs.unobserve(entries[i].target);
+        }
+      }
+    }, {threshold: 0.1, rootMargin: '0px 0px -30px 0px'});
+    for (var i = 0; i < els.length; i++) obs.observe(els[i]);
+  }
+
+  renderFilters();
+  renderGrid();
+})();
+</script>
+<script src="../vm-award-tier2.js"></script>
+</body>
+</html>

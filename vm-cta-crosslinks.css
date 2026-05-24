@@ -1,0 +1,145 @@
+/* ================================================================
+   VITALMATRIX CTA CROSS-LINK SYSTEM
+   Connects Living Architecture sections across website pages
+   6 May 2026 | VitalMatrix Ltd | ICO ZC101813
+================================================================ */
+
+/* ---- PRIMARY CTA: Gold background, conversion action ---- */
+.vm-cta-primary{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Outfit',sans-serif;
+  font-size:0.88rem;
+  font-weight:600;
+  color:var(--vm-prussian,#0D2B4E);
+  background:var(--vm-gold,#C9A84C);
+  padding:14px 32px;
+  border-radius:8px;
+  text-decoration:none;
+  transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
+  letter-spacing:0.02em;
+  border:none;
+  cursor:pointer;
+}
+.vm-cta-primary:hover{
+  background:#d4b256;
+  transform:translateY(-2px);
+  box-shadow:0 4px 20px rgba(201,168,76,0.25);
+}
+
+/* ---- EXPLORE CTA: Ghost button, navigate deeper ---- */
+.vm-cta-explore{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Outfit',sans-serif;
+  font-size:0.88rem;
+  font-weight:500;
+  color:var(--vm-white,#F4F4F2);
+  background:transparent;
+  border:1px solid rgba(244,244,242,0.25);
+  padding:14px 32px;
+  border-radius:8px;
+  text-decoration:none;
+  transition:border-color 0.2s,transform 0.15s,background 0.2s;
+  letter-spacing:0.02em;
+  cursor:pointer;
+}
+.vm-cta-explore:hover{
+  border-color:rgba(244,244,242,0.50);
+  background:rgba(244,244,242,0.04);
+  transform:translateY(-2px);
+}
+
+/* ---- INLINE CTA: Text link with arrow ---- */
+.vm-cta-inline{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:'Outfit',sans-serif;
+  font-size:0.82rem;
+  font-weight:500;
+  text-decoration:none;
+  transition:gap 0.2s,opacity 0.2s;
+  opacity:0.8;
+}
+.vm-cta-inline:hover{
+  gap:10px;
+  opacity:1;
+}
+.vm-cta-inline svg{
+  transition:transform 0.2s;
+}
+.vm-cta-inline:hover svg{
+  transform:translateX(3px);
+}
+
+/* ---- CTA GROUP: Flex container for button pairs ---- */
+.vm-cta-group{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-top:40px;
+  flex-wrap:wrap;
+}
+.vm-cta-group--center{
+  justify-content:center;
+}
+
+/* ---- CTA ARROW ICON (inline SVG) ---- */
+.vm-cta-arrow{
+  width:16px;
+  height:16px;
+  stroke:currentColor;
+  stroke-width:2;
+  fill:none;
+  flex-shrink:0;
+}
+
+/* ---- SECTION CONNECTOR: Visual bridge between sections ---- */
+.vm-section-bridge{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 0;
+  position:relative;
+}
+.vm-section-bridge::before{
+  content:'';
+  position:absolute;
+  top:0;bottom:0;left:50%;
+  width:1px;
+  background:linear-gradient(180deg,rgba(201,168,76,0.3),rgba(201,168,76,0.05));
+}
+.vm-section-bridge-label{
+  position:relative;
+  z-index:1;
+  font-family:'DM Mono',monospace;
+  font-size:0.55rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:rgba(244,244,242,0.35);
+  background:var(--vm-charcoal,#1A2030);
+  padding:6px 16px;
+  border-radius:20px;
+  border:1px solid rgba(244,244,242,0.08);
+}
+
+/* ---- CROSS-PAGE FOOTER CTA BAR ---- */
+.vm-crosslink-bar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  padding:48px 24px;
+  background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,0.03) 100%);
+  flex-wrap:wrap;
+}
+
+/* ---- Responsive ---- */
+@media(max-width:768px){
+  .vm-cta-group{flex-direction:column;align-items:stretch}
+  .vm-cta-primary,.vm-cta-explore{text-align:center;justify-content:center}
+  .vm-crosslink-bar{flex-direction:column;gap:12px}
+}

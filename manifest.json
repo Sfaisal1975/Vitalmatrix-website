@@ -1,0 +1,31 @@
+{
+  "name": "VitalMatrix - Clinical Intelligence Platform",
+  "short_name": "VitalMatrix",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0D2B4E",
+  "background_color": "#0C4452",
+  "description": "Clinical intelligence platform for functional medicine practitioners. ICO ZC101813.",
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/VM_Logo_1000_x_1000_px_png_New_Transparent.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

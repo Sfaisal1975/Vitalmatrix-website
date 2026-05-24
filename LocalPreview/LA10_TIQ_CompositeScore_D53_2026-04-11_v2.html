@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="audience-tier" content="practitioner">
+<title>LA-10: TIQ&#8482; Composite Score | VitalMatrix&#8482;</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C4452;--card:rgba(7,28,51,.90);--card2:rgba(13,43,78,.55);
+  --z1:#C9A84C;--z1r:201,168,76;--z1l:#D4B86A;
+  --z2:#1A7A8A;--z2r:26,122,138;--z2l:#2A9BAD;
+  --z3:#7B5EA7;--z3r:123,94,167;--z3l:#9B7EC8;
+  --z4:#5F7C6C;--z4r:95,124,108;--z4l:#7A9485;
+  --z5:#2E6DB4;--z5r:212,184,112;--z5l:#DCC888;
+  --gold:#C9A84C;--gold-l:#D4B86A;--teal:#1A7A8A;--teal-l:#2A9BAD;
+  --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
+  --t35:rgba(244,244,242,.55);--t12:rgba(244,244,242,.12);--t06:rgba(244,244,242,.06);
+  --fs:'Cormorant Garamond',Georgia,serif;--fd:'Outfit',system-ui,sans-serif;--fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:2px;}
+body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+.comp-header{background:rgba(7,28,51,.92);border-bottom:1px solid rgba(201,168,76,.20);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+.comp-id{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+.comp-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);}
+
+.comp-body{max-width:1100px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:1fr 360px;gap:20px;}
+@media(max-width:860px){.comp-body{grid-template-columns:1fr;}}
+
+/* SCORE DISPLAY */
+.score-area{display:flex;flex-direction:column;gap:14px;}
+.tiq-score-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;text-align:center;position:relative;overflow:hidden;}
+.tiq-score-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);}
+.tiq-eyebrow{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;}
+.tiq-number{font-family:var(--fs);font-size:5rem;font-weight:600;line-height:1;color:var(--white);transition:color .4s;}
+.tiq-denom{font-family:var(--fm);font-size:14px;color:var(--t35);margin-left:4px;}
+.tiq-label{font-family:var(--fm);font-size:8px;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;}
+.tiq-bar{width:200px;height:8px;background:rgba(255,255,255,.07);border-radius:4px;margin:12px auto 0;overflow:hidden;}
+.tiq-bar-fill{height:100%;border-radius:4px;transition:width .6s ease,background .4s;}
+.tiq-descriptor{font-family:var(--fd);font-size:13px;font-weight:300;color:var(--t55);margin-top:8px;}
+
+/* COMPONENT INPUTS */
+.components-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:18px;}
+.card-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+
+.comp-input-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.ci-label{font-family:var(--fm);font-size:9px;color:var(--t55);flex:1;line-height:1.35;}
+.ci-val{font-family:var(--fm);font-size:9px;font-weight:500;min-width:28px;text-align:right;}
+.ci-weight{font-family:var(--fm);font-size:8px;color:var(--t35);}
+input[type=range]{width:100%;height:4px;border-radius:2px;outline:none;cursor:pointer;background:rgba(255,255,255,.10);-webkit-appearance:none;appearance:none;margin-top:4px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;border:2px solid var(--bg);cursor:pointer;background:var(--gold);}
+
+/* FAILURE MODES */
+.failure-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;overflow:hidden;}
+.fm-item{border-bottom:1px solid var(--t06);cursor:pointer;transition:background .15s;}
+.fm-item:last-child{border-bottom:none;}
+.fm-item:hover{background:rgba(255,255,255,.02);}
+.fm-head{display:flex;align-items:center;gap:10px;padding:12px 16px;}
+.fm-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.fm-title{font-family:var(--fm);font-size:9px;font-weight:500;color:var(--t80);flex:1;}
+.fm-status{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:100px;}
+.fm-status.risk{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.28);color:var(--gold);}
+.fm-status.clear{background:rgba(42,155,173,.08);border:1px solid rgba(42,155,173,.20);color:var(--teal-l);}
+.fm-body{padding:0 16px 12px;font-family:var(--fd);font-size:12.5px;font-weight:300;color:var(--t35);line-height:1.7;display:none;}
+.fm-body.open{display:block;}
+
+/* EXPLAINER */
+.explainer-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:16px;}
+.explainer-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--t06);font-family:var(--fm);font-size:8.5px;}
+.explainer-row:last-child{border-bottom:none;}
+.er-label{color:var(--t55);}
+.er-contrib{font-weight:500;}
+.er-bar-wrap{width:80px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-left:8px;}
+.er-bar-fill{height:100%;border-radius:2px;background:var(--gold);transition:width .4s;}
+
+.page-footer{background:#1A2030;border-top:1px solid rgba(201,168,76,.3);padding:16px 24px;border-radius:6px;font-family:var(--fm);font-size:8px;color:rgba(244,244,242,.65);line-height:1.9;}
+.page-footer strong{color:#C9A84C;}
+</style>
+<link rel="stylesheet" href="vm-la-crosscut.css">
+<link rel="stylesheet" href="vm-la-crosscut-2.css">
+<script src="vm-la-crosscut.js" defer></script>
+<script src="vm-la-crosscut-2.js" defer></script>
+</head>
+<body>
+
+<header class="comp-header">
+  <div>
+    <div class="comp-id">LA-10 | GENOME&#8482; Handbook V7 | D-53 | ALB v1.6</div>
+    <div class="comp-title">TIQ&#8482; Composite Score: Terrain Intelligence Quotient</div>
+  </div>
+  <div style="font-family:var(--fm);font-size:8px;color:var(--t35);">Display: 0-10 inverted | lower display = higher burden</div>
+</header>
+
+<div class="comp-body">
+
+<!-- SCORE DISPLAY AREA -->
+<div class="score-area">
+
+  <!-- TIQ SCORE -->
+  <div class="tiq-score-card">
+    <div class="tiq-eyebrow">TIQ&#8482; Terrain Intelligence Quotient</div>
+    <div>
+      <span class="tiq-number" id="tiq-display">3.2</span>
+      <span class="tiq-denom">/ 10</span>
+    </div>
+    <div class="tiq-bar"><div class="tiq-bar-fill" id="tiq-bar" style="width:68%;background:#C9A84C;"></div></div>
+    <div class="tiq-label" id="tiq-label" style="color:#C9A84C;">Moderate Burden</div>
+    <div class="tiq-descriptor" id="tiq-desc">Multiple zones active. Cascade patterns established. Sustained protocol required.</div>
+    <div style="margin-top:12px;font-family:var(--fm);font-size:8px;color:var(--t35);">Internal composite: <span id="internal-display">68</span> / 100 (high = greater burden) &nbsp;|&nbsp; Inverted for display: <span id="inverted-display">3.2</span></div>
+    <div style="margin-top:6px;font-family:var(--fm);font-size:7.5px;color:var(--t35);font-style:italic;">TIQ&#8482; is a theoretical framework for practitioner orientation. It is not a validated clinical instrument.</div>
+  </div>
+
+  <!-- COMPONENT INPUTS -->
+  <div class="components-card">
+    <div class="card-label">Four Input Components</div>
+
+    <div class="comp-input-row">
+      <div class="ci-label">Zone Composite Score<br><span style="color:var(--t35);font-size:8px;">Average of all five zone internal scores</span></div>
+      <div class="ci-val" id="v-zone">68</div>
+      <div class="ci-weight">x0.45</div>
+    </div>
+    <input type="range" id="sl-zone" min="0" max="100" value="68" oninput="update()">
+
+    <div style="margin-top:12px;">
+    <div class="comp-input-row">
+      <div class="ci-label">Cascade Complexity<br><span style="color:var(--t35);font-size:8px;">Number of active stacks (0-6 stacks, scaled 0-100). KINETICS&#8482; velocities: S1 MEDIUM, S2 FAST, S3 SLOW, S4 THEORETICAL MEDIUM, S5 FAST, S6 MEDIUM UNIDIRECTIONAL.</span></div>
+      <div class="ci-val" id="v-cascade">67</div>
+      <div class="ci-weight">x0.25</div>
+    </div>
+    <input type="range" id="sl-cascade" min="0" max="100" value="67" oninput="update()">
+    </div>
+
+    <div style="margin-top:12px;">
+    <div class="comp-input-row">
+      <div class="ci-label">Data Coverage<br><span style="color:var(--t35);font-size:8px;">Percentage of expected node inputs received. ANCHOR&#8482; minimum: 60% data coverage required for DRD&#8482; confidence designation.</span></div>
+      <div class="ci-val" id="v-data">80</div>
+      <div class="ci-weight">x0.15</div>
+    </div>
+    <input type="range" id="sl-data" min="0" max="100" value="80" oninput="update()">
+    </div>
+
+    <div style="margin-top:12px;">
+    <div class="comp-input-row">
+      <div class="ci-label">Confidence Weighting (ANCHOR&#8482;)<br><span style="color:var(--t35);font-size:8px;">Data coverage and consistency quality</span></div>
+      <div class="ci-val" id="v-conf">75</div>
+      <div class="ci-weight">x0.15</div>
+    </div>
+    <input type="range" id="sl-conf" min="0" max="100" value="75" oninput="update()">
+    </div>
+
+    <div style="margin-top:14px;padding:10px;background:rgba(255,255,255,.03);border-radius:6px;">
+      <div class="card-label" style="margin-bottom:8px;">Component Contributions</div>
+      <div id="explainer-rows"></div>
+    </div>
+  </div>
+
+  <!-- FAILURE MODES -->
+  <div class="failure-card">
+    <div class="card-label" style="padding:12px 16px 8px;border-bottom:1px solid var(--t06);margin-bottom:0;">Three Known Failure Modes</div>
+
+    <div class="fm-item" onclick="toggleFM('fm1')">
+      <div class="fm-head">
+        <div class="fm-icon" style="background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);">N6</div>
+        <div class="fm-title">Zone Masking via N6 Dominance</div>
+        <span class="fm-status" id="fm1-status">Checking...</span>
+      </div>
+      <div class="fm-body" id="fm1-body">
+        When N6 (endocrine signalling) burden is very high, it dominates the composite score across all four zones it participates in (Z1, Z2, Z3, Z5). This can mask lower burden in the remaining nodes and inflate the apparent zone composite. N6 dampening at 0.7x mitigates this, but does not eliminate it. Flag: if N6 raw score exceeds 80 and zone composite is above 70, review individual node scores before accepting TIQ at face value.
+      </div>
+    </div>
+
+    <div class="fm-item" onclick="toggleFM('fm2')">
+      <div class="fm-head">
+        <div class="fm-icon" style="background:rgba(123,94,167,.12);border:1px solid rgba(123,94,167,.2);">TH</div>
+        <div class="fm-title">Threshold Artefact</div>
+        <span class="fm-status" id="fm2-status">Checking...</span>
+      </div>
+      <div class="fm-body" id="fm2-body">
+        A zone scoring at 41 (just above the 40-point Z1-Z4 threshold) contributes as an active zone to TIQ. A zone scoring at 39 (just below) does not. A 2-point difference in input produces a discrete jump in TIQ output. This is not a bug: it reflects the clinical reality of threshold activation. Practitioners should treat near-threshold zones (35-39 for Z1-Z4, 27-31 for Z5) as monitoring zones and not assume they are definitively inactive.
+      </div>
+    </div>
+
+    <div class="fm-item" onclick="toggleFM('fm3')">
+      <div class="fm-head">
+        <div class="fm-icon" style="background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.2);">N6</div>
+        <div class="fm-title">N6 Cascade Across All Zones</div>
+        <span class="fm-status" id="fm3-status">Checking...</span>
+      </div>
+      <div class="fm-body" id="fm3-body">
+        N6 (endocrine signalling) participates in Z1, Z2, Z3, and Z5. If N6 burden is extreme (internal score above 85), TIQ will show very high composite burden even when individual system burdens are moderate. This is architecturally correct: N6 dysregulation does genuinely affect four zones simultaneously. However, it means TIQ composite can reach high values from a single node failure rather than a true multi-zone clinical picture. DRD&#8482; designation should be reviewed carefully in N6-dominant cases.
+      </div>
+    </div>
+  </div>
+
+</div><!-- end score-area -->
+
+<!-- RIGHT PANEL: EXPLAINER + DISPLAY RULES -->
+<div style="display:flex;flex-direction:column;gap:14px;">
+
+  <div class="explainer-card">
+    <div class="card-label">Display Formula</div>
+    <div style="font-family:var(--fm);font-size:9px;color:var(--t55);line-height:1.8;padding:8px;background:rgba(255,255,255,.03);border-radius:6px;">
+      Internal composite = (Zone x 0.45) + (Cascade x 0.25) + (Data x 0.15) + (Confidence x 0.15)<br><br>
+      Display (0-10) = ROUND((100 - internal) / 10, 0)<br><br>
+      <strong style="color:var(--white);">High internal = high burden = low display score.</strong><br>
+      A TIQ of 2 indicates higher burden than a TIQ of 7.
+    </div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="card-label">TIQ Scale Reference</div>
+    <div id="scale-rows"></div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="card-label">TIQ&#8482; Architecture Notes</div>
+    <div style="font-family:var(--fd);font-size:12.5px;font-weight:300;color:var(--t55);line-height:1.8;">
+      TIQ is a composite index: it summarises terrain complexity in a single number for practitioner orientation and patient communication. It is not a primary clinical decision input. DRD&#8482; designation and individual zone scores govern protocol design. TIQ governs the pace and intensity of the approach. A TIQ of 2-3 warrants a slower, deeper protocol horizon than a TIQ of 7-8.
+    </div>
+  </div>
+
+</div><!-- end right panel -->
+</div>
+
+<footer class="page-footer">
+  <p><strong>Trademarks:</strong> VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p style="margin-top:6px;">MHRA Compliant SaMD. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p style="margin-top:6px;">GENOME&#8482; Handbook V7 | LA-10 TIQ&#8482; Composite Score | ALB v1.6 (D-46) | D-53 | For practitioner use only. Not a diagnostic tool. VitalMatrix&#8482; is a clinical intelligence platform. | Dr Shahzad Faisal, MBBS, FAAMFM | &copy; 2026 VitalMatrix Ltd | ICO ZC101813</p>
+</footer>
+
+<script>
+'use strict';
+
+var SCALE = [
+  {range:'9-10',label:'Low Burden',desc:'Minimal zone activation. Maintenance and prevention focus.',col:'#2D9C6A'},
+  {range:'7-8',label:'Mild Burden',desc:'One or two zones active. Early intervention opportunity.',col:'#2A9BAD'},
+  {range:'5-6',label:'Moderate',desc:'Multiple zones engaged. Protocol required.',col:'#C9A84C'},
+  {range:'3-4',label:'High Burden',desc:'Multi-zone activation with cascades. Sustained protocol.',col:'#C9A84C'},
+  {range:'1-2',label:'Critical Burden',desc:'All zones active. TerrainLock possible. Extended horizon.',col:'#C0392B'},
+];
+
+function renderScale(currentTiq){
+  var html='';
+  SCALE.forEach(function(s){
+    var lo=parseInt(s.range.split('-')[0]);
+    var hi=parseInt(s.range.split('-')[1]);
+    var isCurrent=currentTiq>=lo&&currentTiq<=hi;
+    html+='<div class="explainer-row" style="background:'+(isCurrent?'rgba(201,168,76,.05)':'')+'">'+
+      '<div class="er-label">'+s.range+' &nbsp;<span style="color:'+s.col+'">'+s.label+'</span></div>'+
+      '<div style="font-family:var(--fm);font-size:8px;color:var(--t35);flex:1;padding:0 8px;">'+s.desc+'</div>'+
+      (isCurrent?'<span style="font-family:var(--fm);font-size:7.5px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:1px 7px;border-radius:100px;">Current</span>':'')+'</div>';
+  });
+  document.getElementById('scale-rows').innerHTML=html;
+}
+
+function renderExplainer(zone,cascade,data,conf){
+  var weights=[{label:'Zone Composite',val:zone,w:0.45},{label:'Cascade Complexity',val:cascade,w:0.25},{label:'Data Coverage',val:data,w:0.15},{label:'ANCHOR Confidence',val:conf,w:0.15}];
+  var html='';
+  weights.forEach(function(c){
+    var contrib=(c.val*c.w).toFixed(1);
+    var pct=Math.round(c.val*c.w);
+    html+='<div class="explainer-row">'+
+      '<div class="er-label">'+c.label+'</div>'+
+      '<div class="er-contrib" style="color:var(--t80);">'+contrib+'</div>'+
+      '<div class="er-bar-wrap"><div class="er-bar-fill" style="width:'+pct+'%;"></div></div>'+
+    '</div>';
+  });
+  document.getElementById('explainer-rows').innerHTML=html;
+}
+
+function toggleFM(id){
+  var body=document.getElementById(id+'-body');
+  body.classList.toggle('open');
+}
+
+function update(){
+  var zone=parseInt(document.getElementById('sl-zone').value);
+  var cascade=parseInt(document.getElementById('sl-cascade').value);
+  var data=parseInt(document.getElementById('sl-data').value);
+  var conf=parseInt(document.getElementById('sl-conf').value);
+
+  document.getElementById('v-zone').textContent=zone;
+  document.getElementById('v-cascade').textContent=cascade;
+  document.getElementById('v-data').textContent=data;
+  document.getElementById('v-conf').textContent=conf;
+
+  var internal=Math.round(zone*0.45+cascade*0.25+data*0.15+conf*0.15);
+  var display=Math.round((100-internal)/10*10)/10;
+  display=Math.max(0,Math.min(10,display));
+
+  document.getElementById('internal-display').textContent=internal;
+  document.getElementById('inverted-display').textContent=display.toFixed(1);
+  document.getElementById('tiq-display').textContent=display.toFixed(1);
+
+  var col,label,desc;
+  if(display>=9){col='#2D9C6A';label='Low Burden';desc='Minimal zone activation. Maintenance focus.';}
+  else if(display>=7){col='#2A9BAD';label='Mild Burden';desc='Early intervention. One or two zones active.';}
+  else if(display>=5){col='#C9A84C';label='Moderate Burden';desc='Multiple zones engaged. Protocol required.';}
+  else if(display>=3){col='#C9A84C';label='High Burden';desc='Multi-zone activation. Sustained protocol horizon required.';}
+  else{col='#C0392B';label='Critical Burden';desc='All zones active. TerrainLock possible. Extended protocol.';}
+
+  document.getElementById('tiq-display').style.color=col;
+  document.getElementById('tiq-bar').style.width=((100-internal))+'%';
+  document.getElementById('tiq-bar').style.background=col;
+  document.getElementById('tiq-label').style.color=col;
+  document.getElementById('tiq-label').textContent=label;
+  document.getElementById('tiq-desc').textContent=desc;
+
+  // Failure mode checks
+  var fm1Risk=zone>70&&cascade>60;
+  var fm2Risk=zone>=38&&zone<=44||data<65;
+  var fm3Risk=conf<60&&zone>75;
+  setFMStatus('fm1',fm1Risk);
+  setFMStatus('fm2',fm2Risk);
+  setFMStatus('fm3',fm3Risk);
+
+  renderExplainer(zone,cascade,data,conf);
+  renderScale(Math.round(display));
+}
+
+function setFMStatus(id,isRisk){
+  var el=document.getElementById(id+'-status');
+  if(el){el.textContent=isRisk?'Possible risk':'Clear';el.className='fm-status '+(isRisk?'risk':'clear');}
+}
+
+update();
+</script>
+<!-- ================================================================ -->
+<!-- LA10F1: Four-Component Weight Donut                               -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f1-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:16px auto;max-width:1100px;}
+.vm-la10f1-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f1-content{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.vm-la10f1-svg{width:200px;height:200px;}
+.vm-la10f1-legend{display:flex;flex-direction:column;gap:6px;}
+.vm-la10f1-leg-row{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la10f1-leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f1-wrap">
+  <div class="vm-la10f1-label">LA10F1: Four-Component Weight Donut</div>
+  <div class="vm-la10f1-content">
+    <svg class="vm-la10f1-svg" viewBox="0 0 200 200" id="vm-la10f1-svg"></svg>
+    <div class="vm-la10f1-legend" id="vm-la10f1-legend"></div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var COMPONENTS=[
+    {name:'Zone Composite',pct:45,col:'#C9A84C'},
+    {name:'Cascade Complexity',pct:25,col:'#1A7A8A'},
+    {name:'Data Coverage',pct:15,col:'#7B5EA7'},
+    {name:'ANCHOR Confidence',pct:15,col:'#5F7C6C'}
+  ];
+  var cx=100,cy=100,r=70,strokeW=20;
+  var circumference=2*Math.PI*r;
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var svg=document.getElementById('vm-la10f1-svg');
+
+  // Background circle
+  var bgCircle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  bgCircle.setAttribute('cx',cx);bgCircle.setAttribute('cy',cy);bgCircle.setAttribute('r',r);
+  bgCircle.setAttribute('fill','none');bgCircle.setAttribute('stroke','rgba(244,244,242,.05)');
+  bgCircle.setAttribute('stroke-width',strokeW);
+  svg.appendChild(bgCircle);
+
+  // Centre text
+  var centreText=document.createElementNS('http://www.w3.org/2000/svg','text');
+  centreText.setAttribute('x',cx);centreText.setAttribute('y',cy-4);
+  centreText.setAttribute('text-anchor','middle');centreText.setAttribute('fill','rgba(244,244,242,.5)');
+  centreText.setAttribute('font-family','DM Mono,monospace');centreText.setAttribute('font-size','9');
+  centreText.textContent='TIQ Weights';
+  svg.appendChild(centreText);
+  var centreText2=document.createElementNS('http://www.w3.org/2000/svg','text');
+  centreText2.setAttribute('x',cx);centreText2.setAttribute('y',cy+10);
+  centreText2.setAttribute('text-anchor','middle');centreText2.setAttribute('fill','rgba(244,244,242,.3)');
+  centreText2.setAttribute('font-family','DM Mono,monospace');centreText2.setAttribute('font-size','7');
+  centreText2.textContent='4 components';
+  svg.appendChild(centreText2);
+
+  var offset=0;
+  for(var i=0;i<COMPONENTS.length;i++){
+    var c=COMPONENTS[i];
+    var segLen=circumference*c.pct/100;
+    var gap=2;
+    var circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',cx);circle.setAttribute('cy',cy);circle.setAttribute('r',r);
+    circle.setAttribute('fill','none');circle.setAttribute('stroke',c.col);
+    circle.setAttribute('stroke-width',strokeW);
+    circle.setAttribute('stroke-dasharray',(segLen-gap)+' '+(circumference-segLen+gap));
+    circle.setAttribute('stroke-dashoffset',String(-offset));
+    circle.setAttribute('transform','rotate(-90 '+cx+' '+cy+')');
+    circle.style.opacity=reducedMotion?'1':'0';
+    if(!reducedMotion){
+      circle.style.transition='opacity .5s ease '+(i*0.2)+'s';
+    }
+    circle.setAttribute('data-seg',String(i));
+    svg.appendChild(circle);
+    offset+=segLen;
+  }
+
+  // Legend
+  var legend=document.getElementById('vm-la10f1-legend');
+  for(var i=0;i<COMPONENTS.length;i++){
+    var row=document.createElement('div');
+    row.className='vm-la10f1-leg-row';
+    var dot=document.createElement('div');
+    dot.className='vm-la10f1-leg-dot';
+    dot.style.background=COMPONENTS[i].col;
+    var txt=document.createElement('span');
+    txt.textContent=COMPONENTS[i].name+' ('+COMPONENTS[i].pct+'%)';
+    row.appendChild(dot);
+    row.appendChild(txt);
+    legend.appendChild(row);
+  }
+
+  // Animate on load
+  setTimeout(function(){
+    var segs=svg.querySelectorAll('circle[data-seg]');
+    for(var i=0;i<segs.length;i++){segs[i].style.opacity='1';}
+  },100);
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F2: Composite Score Breakdown Bars                            -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f2-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f2-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f2-bars{display:flex;flex-direction:column;gap:10px;}
+.vm-la10f2-row{display:flex;align-items:center;gap:10px;}
+.vm-la10f2-name{font-family:var(--fm);font-size:9px;color:var(--t55);width:110px;flex-shrink:0;}
+.vm-la10f2-bar-bg{flex:1;height:18px;background:rgba(244,244,242,.04);border-radius:4px;overflow:hidden;position:relative;}
+.vm-la10f2-bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+.vm-la10f2-val{font-family:var(--fm);font-size:9px;min-width:30px;text-align:right;}
+.vm-la10f2-weakest{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:100px;background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:#E07070;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la10f2-bar-fill{transition:none !important;}
+}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f2-wrap">
+  <div class="vm-la10f2-label">LA10F2: Composite Score Breakdown Bars</div>
+  <div class="vm-la10f2-bars" id="vm-la10f2-bars"></div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var COMPS=[
+    {id:'sl-zone',name:'Zone Composite',col:'#C9A84C',weight:0.45},
+    {id:'sl-cascade',name:'Cascade Complexity',col:'#1A7A8A',weight:0.25},
+    {id:'sl-data',name:'Data Coverage',col:'#7B5EA7',weight:0.15},
+    {id:'sl-conf',name:'ANCHOR Confidence',col:'#5F7C6C',weight:0.15}
+  ];
+
+  function renderBars(){
+    var container=document.getElementById('vm-la10f2-bars');
+    container.innerHTML='';
+    var vals=[];
+    for(var i=0;i<COMPS.length;i++){
+      vals.push(parseInt(document.getElementById(COMPS[i].id).value)||0);
+    }
+    // Find weakest (highest value = most burden = weakest)
+    var weakestIdx=0;
+    for(var i=1;i<vals.length;i++){if(vals[i]*COMPS[i].weight>vals[weakestIdx]*COMPS[weakestIdx].weight)weakestIdx=i;}
+
+    for(var i=0;i<COMPS.length;i++){
+      var row=document.createElement('div');
+      row.className='vm-la10f2-row';
+
+      var name=document.createElement('div');
+      name.className='vm-la10f2-name';
+      name.textContent=COMPS[i].name;
+
+      var barBg=document.createElement('div');
+      barBg.className='vm-la10f2-bar-bg';
+
+      var fill=document.createElement('div');
+      fill.className='vm-la10f2-bar-fill';
+      fill.style.background=i===weakestIdx?'#C0392B':COMPS[i].col;
+      fill.style.width='0%';
+
+      barBg.appendChild(fill);
+
+      var val=document.createElement('div');
+      val.className='vm-la10f2-val';
+      val.style.color=COMPS[i].col;
+      val.textContent=vals[i];
+
+      row.appendChild(name);
+      row.appendChild(barBg);
+      row.appendChild(val);
+
+      if(i===weakestIdx){
+        var badge=document.createElement('div');
+        badge.className='vm-la10f2-weakest';
+        badge.textContent='Weakest';
+        row.appendChild(badge);
+      }
+
+      container.appendChild(row);
+
+      (function(f,v){
+        setTimeout(function(){f.style.width=v+'%';},50+i*100);
+      })(fill,vals[i]);
+    }
+  }
+
+  renderBars();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',renderBars);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F3: TIQ vs Zone Radar Comparison                              -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f3-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f3-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f3-content{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;}
+.vm-la10f3-svg{width:240px;height:240px;}
+.vm-la10f3-controls{display:flex;flex-direction:column;gap:6px;}
+.vm-la10f3-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:4px;cursor:pointer;border:1px solid var(--t12);background:transparent;color:var(--t55);transition:all .2s;}
+.vm-la10f3-btn:hover{border-color:rgba(201,168,76,.3);color:var(--gold);}
+.vm-la10f3-btn.vm-la10f3-active{background:rgba(201,168,76,.1);border-color:var(--gold);color:var(--gold);}
+.vm-la10f3-legend-row{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:8px;color:var(--t55);margin-top:8px;}
+.vm-la10f3-leg-swatch{width:20px;height:3px;border-radius:2px;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f3-wrap">
+  <div class="vm-la10f3-label">LA10F3: TIQ vs Zone Radar Comparison</div>
+  <div class="vm-la10f3-content">
+    <svg class="vm-la10f3-svg" viewBox="0 0 240 240" id="vm-la10f3-svg">
+      <polygon id="vm-la10f3-grid" fill="none" stroke="rgba(244,244,242,.06)" stroke-width="1"/>
+      <polygon id="vm-la10f3-composite" fill="rgba(201,168,76,.12)" stroke="#C9A84C" stroke-width="1.5" style="transition:all .5s ease;"/>
+      <polygon id="vm-la10f3-individual" fill="rgba(26,122,138,.12)" stroke="#1A7A8A" stroke-width="1.5" style="transition:all .5s ease;"/>
+      <g id="vm-la10f3-labels"></g>
+    </svg>
+    <div class="vm-la10f3-controls">
+      <button class="vm-la10f3-btn vm-la10f3-active" id="vm-la10f3-btn-both">Both</button>
+      <button class="vm-la10f3-btn" id="vm-la10f3-btn-composite">Composite Only</button>
+      <button class="vm-la10f3-btn" id="vm-la10f3-btn-individual">Individual Only</button>
+      <div class="vm-la10f3-legend-row"><div class="vm-la10f3-leg-swatch" style="background:#C9A84C;"></div>TIQ Composite</div>
+      <div class="vm-la10f3-legend-row"><div class="vm-la10f3-leg-swatch" style="background:#1A7A8A;"></div>Individual Zones</div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var cx=120,cy=120,maxR=90;
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneLabels=['Z1','Z2','Z3','Z4','Z5'];
+  var ZONE_SCORES=[72,78,35,48,65]; // default from Mark
+  var mode='both'; // 'both','composite','individual'
+
+  function angleFor(i){return -Math.PI/2+i*(2*Math.PI/5);}
+  function polyPoints(scores){
+    var pts=[];
+    for(var i=0;i<5;i++){
+      var r=scores[i]/100*maxR;
+      var a=angleFor(i);
+      pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1));
+    }
+    return pts.join(' ');
+  }
+
+  // Grid
+  var gridPts=[];
+  for(var i=0;i<5;i++){var a=angleFor(i);gridPts.push((cx+maxR*Math.cos(a)).toFixed(1)+','+(cy+maxR*Math.sin(a)).toFixed(1));}
+  document.getElementById('vm-la10f3-grid').setAttribute('points',gridPts.join(' '));
+
+  // Labels
+  var labelsG=document.getElementById('vm-la10f3-labels');
+  for(var i=0;i<5;i++){
+    var a=angleFor(i);
+    var lx=cx+(maxR+12)*Math.cos(a);
+    var ly=cy+(maxR+12)*Math.sin(a);
+    var txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',lx.toFixed(1));txt.setAttribute('y',ly.toFixed(1));
+    txt.setAttribute('text-anchor','middle');txt.setAttribute('dominant-baseline','central');
+    txt.setAttribute('fill',zoneColours[i]);
+    txt.setAttribute('font-family','DM Mono,monospace');txt.setAttribute('font-size','9');
+    txt.textContent=zoneLabels[i];
+    labelsG.appendChild(txt);
+  }
+
+  function render(){
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var internal=Math.round(zone*0.45+cascade*0.25+data*0.15+conf*0.15);
+
+    // Composite: uniform polygon at internal level
+    var compositeScores=[internal,internal,internal,internal,internal];
+    document.getElementById('vm-la10f3-composite').setAttribute('points',polyPoints(compositeScores));
+    document.getElementById('vm-la10f3-individual').setAttribute('points',polyPoints(ZONE_SCORES));
+
+    var compEl=document.getElementById('vm-la10f3-composite');
+    var indEl=document.getElementById('vm-la10f3-individual');
+    if(mode==='composite'){compEl.style.opacity='1';indEl.style.opacity='0';}
+    else if(mode==='individual'){compEl.style.opacity='0';indEl.style.opacity='1';}
+    else{compEl.style.opacity='1';indEl.style.opacity='1';}
+  }
+
+  function setMode(m){
+    mode=m;
+    var btns=document.querySelectorAll('.vm-la10f3-btn');
+    for(var i=0;i<btns.length;i++){btns[i].classList.remove('vm-la10f3-active');}
+    document.getElementById('vm-la10f3-btn-'+m).classList.add('vm-la10f3-active');
+    render();
+  }
+
+  document.getElementById('vm-la10f3-btn-both').addEventListener('click',function(){setMode('both');});
+  document.getElementById('vm-la10f3-btn-composite').addEventListener('click',function(){setMode('composite');});
+  document.getElementById('vm-la10f3-btn-individual').addEventListener('click',function(){setMode('individual');});
+
+  render();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',render);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F4: Confidence Sensitivity Slider                             -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f4-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f4-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f4-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.vm-la10f4-slider-col{flex:1;min-width:200px;}
+.vm-la10f4-slider-label{font-family:var(--fm);font-size:9px;color:var(--t55);margin-bottom:4px;}
+.vm-la10f4-result{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 20px;background:rgba(244,244,242,.03);border-radius:8px;border:1px solid var(--t06);min-width:140px;}
+.vm-la10f4-result-score{font-family:var(--fs);font-size:2rem;font-weight:600;line-height:1;}
+.vm-la10f4-result-label{font-family:var(--fm);font-size:8px;color:var(--t35);}
+.vm-la10f4-delta{font-family:var(--fm);font-size:9px;padding:2px 8px;border-radius:100px;}
+.vm-la10f4-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:8px;line-height:1.5;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f4-wrap">
+  <div class="vm-la10f4-label">LA10F4: Confidence Sensitivity Slider (ANCHOR Weight)</div>
+  <div class="vm-la10f4-row">
+    <div class="vm-la10f4-slider-col">
+      <div class="vm-la10f4-slider-label">ANCHOR weight: <span id="vm-la10f4-wt">15</span>%</div>
+      <input type="range" id="vm-la10f4-slider" min="5" max="40" value="15" style="width:100%;">
+    </div>
+    <div class="vm-la10f4-result">
+      <div class="vm-la10f4-result-label">Baseline TIQ</div>
+      <div class="vm-la10f4-result-score" id="vm-la10f4-base" style="color:var(--gold);">--</div>
+    </div>
+    <div class="vm-la10f4-result">
+      <div class="vm-la10f4-result-label">Adjusted TIQ</div>
+      <div class="vm-la10f4-result-score" id="vm-la10f4-adj" style="color:var(--teal-l);">--</div>
+    </div>
+    <div id="vm-la10f4-delta-wrap"></div>
+  </div>
+  <div class="vm-la10f4-note">Adjusting ANCHOR confidence weight redistributes the remaining weight proportionally across Zone, Cascade, and Data components. This demonstrates TIQ sensitivity to confidence weighting.</div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  function computeTIQ(zone,cascade,data,conf,anchorWeight){
+    var remaining=100-anchorWeight;
+    var zW=remaining*45/85;
+    var cW=remaining*25/85;
+    var dW=remaining*15/85;
+    var internal=Math.round(zone*(zW/100)+cascade*(cW/100)+data*(dW/100)+conf*(anchorWeight/100));
+    var display=Math.max(0,Math.min(10,Math.round((100-internal)/10*10)/10));
+    return display;
+  }
+
+  function render(){
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var anchorWt=parseInt(document.getElementById('vm-la10f4-slider').value)||15;
+
+    document.getElementById('vm-la10f4-wt').textContent=anchorWt;
+
+    var baseTIQ=computeTIQ(zone,cascade,data,conf,15);
+    var adjTIQ=computeTIQ(zone,cascade,data,conf,anchorWt);
+
+    document.getElementById('vm-la10f4-base').textContent=baseTIQ.toFixed(1);
+    document.getElementById('vm-la10f4-adj').textContent=adjTIQ.toFixed(1);
+
+    var delta=adjTIQ-baseTIQ;
+    var deltaWrap=document.getElementById('vm-la10f4-delta-wrap');
+    deltaWrap.innerHTML='';
+    if(Math.abs(delta)>=0.1){
+      var badge=document.createElement('div');
+      badge.className='vm-la10f4-delta';
+      if(delta>0){
+        badge.style.background='rgba(45,156,106,.12)';
+        badge.style.border='1px solid rgba(45,156,106,.25)';
+        badge.style.color='#5DD88F';
+        badge.textContent='+'+delta.toFixed(1)+' improvement';
+      }else{
+        badge.style.background='rgba(192,57,43,.10)';
+        badge.style.border='1px solid rgba(192,57,43,.25)';
+        badge.style.color='#E07070';
+        badge.textContent=delta.toFixed(1)+' worsened';
+      }
+      deltaWrap.appendChild(badge);
+    }
+  }
+
+  document.getElementById('vm-la10f4-slider').addEventListener('input',render);
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',render);}
+  render();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F5: Score Trajectory Sparkline                                -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f5-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f5-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f5-content{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.vm-la10f5-svg{width:300px;height:80px;flex-shrink:0;}
+.vm-la10f5-info{display:flex;flex-direction:column;gap:6px;}
+.vm-la10f5-scores{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la10f5-badge{font-family:var(--fm);font-size:8px;padding:3px 10px;border-radius:100px;display:inline-block;}
+.vm-la10f5-improving{background:rgba(45,156,106,.12);border:1px solid rgba(45,156,106,.25);color:#5DD88F;}
+.vm-la10f5-degrading{background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:#E07070;}
+.vm-la10f5-stable{background:rgba(244,244,242,.04);border:1px solid var(--t06);color:var(--t35);}
+.vm-la10f5-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:8px;line-height:1.5;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f5-wrap">
+  <div class="vm-la10f5-label">LA10F5: Score Trajectory Sparkline (T1 vs T2)</div>
+  <div class="vm-la10f5-content">
+    <svg class="vm-la10f5-svg" viewBox="0 0 300 80" id="vm-la10f5-svg"></svg>
+    <div class="vm-la10f5-info" id="vm-la10f5-info"></div>
+  </div>
+  <div class="vm-la10f5-note">T1 uses default values (Zone 68, Cascade 67, Data 80, ANCHOR 75). T2 uses current slider values. Threshold markers at TIQ 3 (High) and TIQ 7 (Mild).</div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var T1_INTERNAL=Math.round(68*0.45+67*0.25+80*0.15+75*0.15);
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function tiqFromInternal(internal){
+    return Math.max(0,Math.min(10,Math.round((100-internal)/10*10)/10));
+  }
+
+  function render(){
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var t2Internal=Math.round(zone*0.45+cascade*0.25+data*0.15+conf*0.15);
+
+    var t1TIQ=tiqFromInternal(T1_INTERNAL);
+    var t2TIQ=tiqFromInternal(t2Internal);
+
+    var svg=document.getElementById('vm-la10f5-svg');
+    svg.innerHTML='';
+
+    var padL=30,padR=20,padT=10,padB=15;
+    var w=300-padL-padR,h=80-padT-padB;
+
+    // Threshold lines
+    var thresholds=[{val:3,label:'High',col:'#C0392B'},{val:7,label:'Mild',col:'#2A9BAD'}];
+    for(var t=0;t<thresholds.length;t++){
+      var y=padT+h-(thresholds[t].val/10*h);
+      var line=document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1',padL);line.setAttribute('x2',300-padR);
+      line.setAttribute('y1',y.toFixed(1));line.setAttribute('y2',y.toFixed(1));
+      line.setAttribute('stroke',thresholds[t].col);line.setAttribute('stroke-width','1');
+      line.setAttribute('stroke-dasharray','4 3');line.setAttribute('opacity','.4');
+      svg.appendChild(line);
+
+      var label=document.createElementNS('http://www.w3.org/2000/svg','text');
+      label.setAttribute('x',padL-4);label.setAttribute('y',(y+3).toFixed(1));
+      label.setAttribute('text-anchor','end');label.setAttribute('fill',thresholds[t].col);
+      label.setAttribute('font-family','DM Mono,monospace');label.setAttribute('font-size','7');
+      label.setAttribute('opacity','.5');label.textContent=thresholds[t].val;
+      svg.appendChild(label);
+    }
+
+    // Sparkline: T1 to T2
+    var x1=padL+20,x2=300-padR-20;
+    var y1=padT+h-(t1TIQ/10*h);
+    var y2=padT+h-(t2TIQ/10*h);
+
+    var sparkLine=document.createElementNS('http://www.w3.org/2000/svg','line');
+    sparkLine.setAttribute('x1',x1);sparkLine.setAttribute('y1',y1.toFixed(1));
+    sparkLine.setAttribute('x2',x2);sparkLine.setAttribute('y2',y2.toFixed(1));
+    sparkLine.setAttribute('stroke','#C9A84C');sparkLine.setAttribute('stroke-width','2');
+    if(!reducedMotion){
+      sparkLine.setAttribute('stroke-dasharray','250');
+      sparkLine.setAttribute('stroke-dashoffset','250');
+      sparkLine.style.transition='stroke-dashoffset .8s ease';
+    }
+    svg.appendChild(sparkLine);
+
+    // Dots
+    var dot1=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot1.setAttribute('cx',x1);dot1.setAttribute('cy',y1.toFixed(1));dot1.setAttribute('r','4');
+    dot1.setAttribute('fill','#1A7A8A');dot1.setAttribute('stroke','var(--bg)');dot1.setAttribute('stroke-width','2');
+    svg.appendChild(dot1);
+
+    var dot2=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot2.setAttribute('cx',x2);dot2.setAttribute('cy',y2.toFixed(1));dot2.setAttribute('r','4');
+    dot2.setAttribute('fill','#C9A84C');dot2.setAttribute('stroke','var(--bg)');dot2.setAttribute('stroke-width','2');
+    svg.appendChild(dot2);
+
+    // Labels on dots
+    var lbl1=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl1.setAttribute('x',x1);lbl1.setAttribute('y',(y1-8).toFixed(1));
+    lbl1.setAttribute('text-anchor','middle');lbl1.setAttribute('fill','#1A7A8A');
+    lbl1.setAttribute('font-family','DM Mono,monospace');lbl1.setAttribute('font-size','8');
+    lbl1.textContent='T1: '+t1TIQ.toFixed(1);
+    svg.appendChild(lbl1);
+
+    var lbl2=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl2.setAttribute('x',x2);lbl2.setAttribute('y',(y2-8).toFixed(1));
+    lbl2.setAttribute('text-anchor','middle');lbl2.setAttribute('fill','#C9A84C');
+    lbl2.setAttribute('font-family','DM Mono,monospace');lbl2.setAttribute('font-size','8');
+    lbl2.textContent='T2: '+t2TIQ.toFixed(1);
+    svg.appendChild(lbl2);
+
+    // Animate sparkline
+    if(!reducedMotion){
+      setTimeout(function(){sparkLine.style.strokeDashoffset='0';},100);
+    }
+
+    // Info panel
+    var info=document.getElementById('vm-la10f5-info');
+    info.innerHTML='';
+
+    var scores=document.createElement('div');
+    scores.className='vm-la10f5-scores';
+    scores.textContent='T1: '+t1TIQ.toFixed(1)+' / 10  |  T2: '+t2TIQ.toFixed(1)+' / 10';
+    info.appendChild(scores);
+
+    var delta=t2TIQ-t1TIQ;
+    var badge=document.createElement('div');
+    if(delta>0.5){
+      badge.className='vm-la10f5-badge vm-la10f5-improving';
+      badge.textContent='Improving (+'+delta.toFixed(1)+')';
+    }else if(delta<-0.5){
+      badge.className='vm-la10f5-badge vm-la10f5-degrading';
+      badge.textContent='Degrading ('+delta.toFixed(1)+')';
+    }else{
+      badge.className='vm-la10f5-badge vm-la10f5-stable';
+      badge.textContent='Stable';
+    }
+    info.appendChild(badge);
+  }
+
+  render();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',render);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10-UP1: Component Weight Adjuster                               -->
+<!-- ================================================================ -->
+<style>
+.la10-up1-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1000px;}
+.la10-up1-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la10-up1-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:600px){.la10-up1-grid{grid-template-columns:1fr;}}
+.la10-up1-slider-card{background:rgba(244,244,242,.03);border:1px solid var(--t06);border-radius:8px;padding:12px;}
+.la10-up1-slider-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.la10-up1-comp-name{font-family:var(--fm);font-size:9px;font-weight:500;}
+.la10-up1-comp-val{font-family:var(--fm);font-size:9px;}
+.la10-up1-result{text-align:center;margin-top:16px;padding:16px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:8px;}
+.la10-up1-score{font-family:var(--fs);font-size:2rem;font-weight:600;color:var(--gold);}
+.la10-up1-band{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:4px;}
+.la10-up1-note{font-family:var(--fm);font-size:7.5px;color:var(--t35);text-align:center;margin-top:8px;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="la10-up1-wrap">
+  <div class="la10-up1-label">LA10-UP1: Component Weight Adjuster (Default: 45/25/15/15)</div>
+  <div class="la10-up1-grid" id="la10-up1-grid"></div>
+  <div class="la10-up1-result"><div class="la10-up1-score" id="la10-up1-score">--</div><div class="la10-up1-band" id="la10-up1-band">Adjust weights to recalculate</div></div>
+  <div class="la10-up1-note" id="la10-up1-note">Weights must sum to 100. Default: Zone Burden 45%, Cascade Pattern 25%, Data Coverage 15%, ANCHOR Confidence 15%.</div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var COMPS=[
+    {name:'Zone Burden',colour:'#C9A84C',defaultW:45,rawScore:62},
+    {name:'Cascade Pattern',colour:'#1A7A8A',defaultW:25,rawScore:55},
+    {name:'Data Coverage',colour:'#5F7C6C',defaultW:15,rawScore:70},
+    {name:'ANCHOR Confidence',colour:'#7B5EA7',defaultW:15,rawScore:78}
+  ];
+  var weights=[45,25,15,15];
+  var grid=document.getElementById('la10-up1-grid');
+
+  function buildSliders(){
+    grid.innerHTML='';
+    for(var i=0;i<COMPS.length;i++){
+      var card=document.createElement('div');
+      card.className='la10-up1-slider-card';
+      var head=document.createElement('div');
+      head.className='la10-up1-slider-head';
+      var nm=document.createElement('span');
+      nm.className='la10-up1-comp-name';
+      nm.style.color=COMPS[i].colour;
+      nm.textContent=COMPS[i].name+' (raw: '+COMPS[i].rawScore+')';
+      var vl=document.createElement('span');
+      vl.className='la10-up1-comp-val';
+      vl.id='la10-up1-wval-'+i;
+      vl.style.color=COMPS[i].colour;
+      vl.textContent=weights[i]+'%';
+      head.appendChild(nm);head.appendChild(vl);
+      var inp=document.createElement('input');
+      inp.type='range';inp.min='0';inp.max='100';inp.value=String(weights[i]);
+      inp.setAttribute('data-idx',String(i));
+      inp.addEventListener('input',function(e){
+        var idx=parseInt(e.target.getAttribute('data-idx'));
+        weights[idx]=parseInt(e.target.value);
+        recalc();
+      });
+      card.appendChild(head);card.appendChild(inp);
+      grid.appendChild(card);
+    }
+  }
+
+  function recalc(){
+    var total=0;for(var i=0;i<4;i++)total+=weights[i];
+    for(var i=0;i<4;i++){
+      var el=document.getElementById('la10-up1-wval-'+i);
+      if(el)el.textContent=weights[i]+'%';
+    }
+    var tiq=0;
+    if(total>0){
+      for(var i=0;i<4;i++){tiq+=COMPS[i].rawScore*(weights[i]/total);}
+    }
+    tiq=Math.round(tiq);
+    document.getElementById('la10-up1-score').textContent=tiq+'/100';
+    var band='';
+    if(tiq>=70)band='Low terrain burden';
+    else if(tiq>=50)band='Moderate terrain burden';
+    else if(tiq>=30)band='Elevated terrain burden';
+    else band='High terrain burden';
+    document.getElementById('la10-up1-band').textContent=band+' | Weights sum: '+total+'%'+(total!==100?' (not 100, normalised)':'');
+  }
+
+  buildSliders();
+  recalc();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10-UP2: Confidence Impact Visualiser                            -->
+<!-- ================================================================ -->
+<style>
+.la10-up2-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1000px;}
+.la10-up2-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la10-up2-bar-area{position:relative;height:40px;background:rgba(244,244,242,.04);border-radius:6px;margin:16px 0;overflow:hidden;}
+.la10-up2-centre{position:absolute;height:100%;background:var(--gold);border-radius:6px;transition:all .4s ease;}
+.la10-up2-band-low{position:absolute;height:100%;border-radius:6px;background:rgba(201,168,76,.15);border:1px dashed rgba(201,168,76,.3);transition:all .4s ease;}
+.la10-up2-band-high{position:absolute;height:100%;border-radius:6px;background:rgba(201,168,76,.15);border:1px dashed rgba(201,168,76,.3);transition:all .4s ease;}
+.la10-up2-slider-row{display:flex;align-items:center;gap:12px;}
+.la10-up2-slider-label{font-family:var(--fm);font-size:9px;color:var(--t55);min-width:120px;}
+.la10-up2-slider-val{font-family:var(--fm);font-size:9px;color:var(--gold);min-width:40px;text-align:right;}
+.la10-up2-explain{font-family:var(--fm);font-size:8.5px;color:var(--t55);line-height:1.7;margin-top:10px;}
+@media(prefers-reduced-motion:reduce){.la10-up2-centre,.la10-up2-band-low,.la10-up2-band-high{transition:none !important;}}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="la10-up2-wrap">
+  <div class="la10-up2-label">LA10-UP2: Confidence Impact Visualiser</div>
+  <div class="la10-up2-slider-row">
+    <div class="la10-up2-slider-label">ANCHOR Confidence Level:</div>
+    <input type="range" id="la10-up2-conf" min="10" max="100" value="78" style="flex:1;">
+    <div class="la10-up2-slider-val" id="la10-up2-confval">78%</div>
+  </div>
+  <div class="la10-up2-bar-area" id="la10-up2-bar">
+    <div class="la10-up2-band-low" id="la10-up2-bandlow"></div>
+    <div class="la10-up2-centre" id="la10-up2-centre"></div>
+    <div class="la10-up2-band-high" id="la10-up2-bandhigh"></div>
+  </div>
+  <div class="la10-up2-explain" id="la10-up2-explain"></div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var BASE_TIQ=64;
+  var slider=document.getElementById('la10-up2-conf');
+
+  function renderConfidence(){
+    var conf=parseInt(slider.value);
+    document.getElementById('la10-up2-confval').textContent=conf+'%';
+    var uncertainty=Math.round((100-conf)/100*20);
+    var low=Math.max(0,BASE_TIQ-uncertainty);
+    var high=Math.min(100,BASE_TIQ+uncertainty);
+    var pctLow=low;var pctHigh=high;var pctCentre=BASE_TIQ;
+
+    var centre=document.getElementById('la10-up2-centre');
+    centre.style.left=pctCentre+'%';centre.style.width='3px';
+
+    var bandLow=document.getElementById('la10-up2-bandlow');
+    bandLow.style.left=pctLow+'%';bandLow.style.width=(pctCentre-pctLow)+'%';
+
+    var bandHigh=document.getElementById('la10-up2-bandhigh');
+    bandHigh.style.left=pctCentre+'%';bandHigh.style.width=(pctHigh-pctCentre)+'%';
+
+    var explain=document.getElementById('la10-up2-explain');
+    if(conf>=80){
+      explain.textContent='High confidence ('+conf+'%). Uncertainty band is narrow: TIQ ranges from '+low+' to '+high+'. The composite score can be relied upon with reasonable assurance.';
+    }else if(conf>=50){
+      explain.textContent='Moderate confidence ('+conf+'%). Uncertainty band is widening: TIQ ranges from '+low+' to '+high+'. Additional data coverage would narrow the band.';
+    }else{
+      explain.textContent='Low confidence ('+conf+'%). Wide uncertainty band: TIQ ranges from '+low+' to '+high+'. The score should be interpreted with caution. Consider Tier 2 or Tier 3 investigations to improve data coverage.';
+    }
+  }
+
+  slider.addEventListener('input',renderConfidence);
+  renderConfidence();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10-UP3: TIQ Trend Sparkline                                     -->
+<!-- ================================================================ -->
+<style>
+.la10-up3-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1000px;}
+.la10-up3-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la10-up3-svg{width:100%;height:100px;}
+.la10-up3-scores{display:flex;justify-content:space-between;margin-top:8px;}
+.la10-up3-score-box{text-align:center;}
+.la10-up3-score-val{font-family:var(--fm);font-size:14px;font-weight:500;}
+.la10-up3-score-lbl{font-family:var(--fm);font-size:7px;color:var(--t35);}
+.la10-up3-badge{font-family:var(--fm);font-size:8px;padding:3px 10px;border-radius:100px;text-align:center;margin-top:10px;display:inline-block;}
+.la10-up3-improving{background:rgba(45,156,106,.12);border:1px solid rgba(45,156,106,.3);color:#5DD88F;}
+.la10-up3-degrading{background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:#E07070;}
+.la10-up3-stable{background:rgba(244,244,242,.04);border:1px solid var(--t06);color:var(--t35);}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="la10-up3-wrap">
+  <div class="la10-up3-label">LA10-UP3: TIQ Trend Sparkline (T1 vs T2)</div>
+  <svg class="la10-up3-svg" viewBox="0 0 400 80" preserveAspectRatio="xMidYMid meet" id="la10-up3-svg"></svg>
+  <div class="la10-up3-scores">
+    <div class="la10-up3-score-box"><div class="la10-up3-score-val" id="la10-up3-t1val" style="color:var(--teal);">--</div><div class="la10-up3-score-lbl">T1 TIQ</div></div>
+    <div style="text-align:center;" id="la10-up3-badge-wrap"></div>
+    <div class="la10-up3-score-box"><div class="la10-up3-score-val" id="la10-up3-t2val" style="color:var(--gold);">--</div><div class="la10-up3-score-lbl">T2 TIQ</div></div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var T1_TIQ=48;
+  var T2_TIQ=64;
+  var THRESHOLD_LOW=30;
+  var THRESHOLD_HIGH=70;
+  var ns='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('la10-up3-svg');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function yForScore(s){return 75-(s/100*70);}
+
+  svg.innerHTML='';
+
+  // Threshold lines
+  var thLow=document.createElementNS(ns,'line');
+  thLow.setAttribute('x1','20');thLow.setAttribute('x2','380');
+  thLow.setAttribute('y1',yForScore(THRESHOLD_LOW));thLow.setAttribute('y2',yForScore(THRESHOLD_LOW));
+  thLow.setAttribute('stroke','rgba(192,57,43,.3)');thLow.setAttribute('stroke-dasharray','4,4');
+  svg.appendChild(thLow);
+
+  var thHigh=document.createElementNS(ns,'line');
+  thHigh.setAttribute('x1','20');thHigh.setAttribute('x2','380');
+  thHigh.setAttribute('y1',yForScore(THRESHOLD_HIGH));thHigh.setAttribute('y2',yForScore(THRESHOLD_HIGH));
+  thHigh.setAttribute('stroke','rgba(45,156,106,.3)');thHigh.setAttribute('stroke-dasharray','4,4');
+  svg.appendChild(thHigh);
+
+  // Labels
+  var lblLow=document.createElementNS(ns,'text');
+  lblLow.setAttribute('x','385');lblLow.setAttribute('y',yForScore(THRESHOLD_LOW)+3);
+  lblLow.setAttribute('fill','rgba(192,57,43,.5)');lblLow.setAttribute('font-family','DM Mono,monospace');lblLow.setAttribute('font-size','6');
+  lblLow.textContent='High burden';svg.appendChild(lblLow);
+
+  var lblHigh=document.createElementNS(ns,'text');
+  lblHigh.setAttribute('x','385');lblHigh.setAttribute('y',yForScore(THRESHOLD_HIGH)+3);
+  lblHigh.setAttribute('fill','rgba(45,156,106,.5)');lblHigh.setAttribute('font-family','DM Mono,monospace');lblHigh.setAttribute('font-size','6');
+  lblHigh.textContent='Low burden';svg.appendChild(lblHigh);
+
+  // Sparkline path
+  var x1=80,y1=yForScore(T1_TIQ);
+  var x2=320,y2=yForScore(T2_TIQ);
+  var line=document.createElementNS(ns,'line');
+  line.setAttribute('x1',x1);line.setAttribute('y1',y1);
+  line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+  line.setAttribute('stroke','#C9A84C');line.setAttribute('stroke-width','2');
+  svg.appendChild(line);
+
+  // Dots
+  var dot1=document.createElementNS(ns,'circle');
+  dot1.setAttribute('cx',x1);dot1.setAttribute('cy',y1);dot1.setAttribute('r','5');
+  dot1.setAttribute('fill','#1A7A8A');dot1.setAttribute('stroke','var(--bg)');dot1.setAttribute('stroke-width','2');
+  svg.appendChild(dot1);
+
+  var dot2=document.createElementNS(ns,'circle');
+  dot2.setAttribute('cx',x2);dot2.setAttribute('cy',y2);dot2.setAttribute('r','5');
+  dot2.setAttribute('fill','#C9A84C');dot2.setAttribute('stroke','var(--bg)');dot2.setAttribute('stroke-width','2');
+  svg.appendChild(dot2);
+
+  // Score labels on SVG
+  var t1lbl=document.createElementNS(ns,'text');
+  t1lbl.setAttribute('x',x1);t1lbl.setAttribute('y',y1-10);t1lbl.setAttribute('text-anchor','middle');
+  t1lbl.setAttribute('fill','#1A7A8A');t1lbl.setAttribute('font-family','DM Mono,monospace');t1lbl.setAttribute('font-size','9');
+  t1lbl.textContent='T1: '+T1_TIQ;svg.appendChild(t1lbl);
+
+  var t2lbl=document.createElementNS(ns,'text');
+  t2lbl.setAttribute('x',x2);t2lbl.setAttribute('y',y2-10);t2lbl.setAttribute('text-anchor','middle');
+  t2lbl.setAttribute('fill','#C9A84C');t2lbl.setAttribute('font-family','DM Mono,monospace');t2lbl.setAttribute('font-size','9');
+  t2lbl.textContent='T2: '+T2_TIQ;svg.appendChild(t2lbl);
+
+  document.getElementById('la10-up3-t1val').textContent=T1_TIQ;
+  document.getElementById('la10-up3-t2val').textContent=T2_TIQ;
+
+  var delta=T2_TIQ-T1_TIQ;
+  var badgeWrap=document.getElementById('la10-up3-badge-wrap');
+  var badge=document.createElement('span');
+  badge.className='la10-up3-badge';
+  if(delta>5){badge.classList.add('la10-up3-improving');badge.textContent='Improving (+'+delta+' pts)';}
+  else if(delta<-5){badge.classList.add('la10-up3-degrading');badge.textContent='Degrading ('+delta+' pts)';}
+  else{badge.classList.add('la10-up3-stable');badge.textContent='Stable ('+delta+' pts)';}
+  badgeWrap.appendChild(badge);
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10-SV1: TIQ State Bridge                                        -->
+<!-- ================================================================ -->
+<style>
+.la10-sv1-bridge{position:sticky;bottom:0;z-index:90;background:rgba(7,28,51,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(201,168,76,.22);padding:12px 24px;opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.la10-sv1-bridge.la10-sv1-visible{opacity:1;transform:translateY(0);}
+.la10-sv1-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.la10-sv1-title{font-family:var(--fm);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);flex-shrink:0;}
+.la10-sv1-gauge-wrap{display:flex;align-items:center;gap:12px;}
+.la10-sv1-gauge{position:relative;width:52px;height:52px;}
+.la10-sv1-gauge-svg{width:52px;height:52px;}
+.la10-sv1-gauge-score{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--gold);}
+.la10-sv1-weights{display:flex;gap:6px;flex:1;min-width:0;flex-wrap:wrap;}
+.la10-sv1-weight{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 8px;border-radius:5px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:transform .3s ease,box-shadow .3s ease;min-width:64px;}
+.la10-sv1-weight:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(201,168,76,.12);}
+.la10-sv1-weight-label{font-family:var(--fm);font-size:6.5px;color:var(--t35);text-transform:uppercase;letter-spacing:.06em;}
+.la10-sv1-weight-val{font-family:var(--fm);font-size:10px;font-weight:500;color:var(--white);}
+.la10-sv1-weight-pct{font-family:var(--fm);font-size:7px;color:var(--gold);}
+.la10-sv1-cta{font-family:var(--fd);font-size:.72rem;font-weight:500;color:#0C4452;background:var(--gold);border:none;padding:7px 18px;border-radius:5px;cursor:pointer;transition:background .3s ease;white-space:nowrap;flex-shrink:0;}
+.la10-sv1-cta:hover{background:#D4B86A;}
+.la10-sv1-particles{position:absolute;top:0;left:0;right:0;height:2px;overflow:hidden;pointer-events:none;}
+.la10-sv1-particle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:0;}
+@keyframes la10-sv1-drift{0%{opacity:0;transform:translateX(0) translateY(0);}20%{opacity:.6;}80%{opacity:.4;}100%{opacity:0;transform:translateX(55px) translateY(-7px);}}
+@media(prefers-reduced-motion:reduce){
+  .la10-sv1-bridge{transition:none !important;}
+  .la10-sv1-weight{transition:none !important;}
+  .la10-sv1-particle{display:none !important;}
+}
+</style>
+<div class="la10-sv1-bridge" id="la10-sv1-bridge" role="complementary" aria-label="TIQ State Bridge">
+  <div class="la10-sv1-particles" id="la10-sv1-particles"></div>
+  <div class="la10-sv1-inner">
+    <div class="la10-sv1-title">TIQ State Bridge</div>
+    <div class="la10-sv1-gauge-wrap">
+      <div class="la10-sv1-gauge">
+        <svg class="la10-sv1-gauge-svg" viewBox="0 0 52 52" id="la10-sv1-gauge-svg">
+          <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(244,244,242,.06)" stroke-width="3"></circle>
+          <circle cx="26" cy="26" r="22" fill="none" stroke="#C9A84C" stroke-width="3" stroke-dasharray="138" stroke-dashoffset="138" stroke-linecap="round" transform="rotate(-90 26 26)" id="la10-sv1-gauge-arc"></circle>
+        </svg>
+        <div class="la10-sv1-gauge-score" id="la10-sv1-gauge-score">--</div>
+      </div>
+    </div>
+    <div class="la10-sv1-weights" id="la10-sv1-weights"></div>
+    <button class="la10-sv1-cta" id="la10-sv1-cta" type="button">Open in CascadeAtlas</button>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var COMPONENTS=[
+    {key:'sl-zone',label:'Zone Burden',pct:'45%'},
+    {key:'sl-cascade',label:'Cascade Pattern',pct:'25%'},
+    {key:'sl-data',label:'Data Coverage',pct:'15%'},
+    {key:'sl-conf',label:'ANCHOR Confidence',pct:'15%'}
+  ];
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var bridge=document.getElementById('la10-sv1-bridge');
+  var weightsContainer=document.getElementById('la10-sv1-weights');
+  var particlesContainer=document.getElementById('la10-sv1-particles');
+
+  function renderBridge(){
+    weightsContainer.innerHTML='';
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var vals=[zone,cascade,data,conf];
+    var internal=Math.round(zone*0.45+cascade*0.25+data*0.15+conf*0.15);
+    var display=Math.max(0,Math.min(10,Math.round((100-internal)/10)));
+
+    var circumference=2*Math.PI*22;
+    var offset=circumference-(display/10)*circumference;
+    var arc=document.getElementById('la10-sv1-gauge-arc');
+    arc.setAttribute('stroke-dasharray',circumference.toFixed(0));
+    arc.setAttribute('stroke-dashoffset',offset.toFixed(0));
+    document.getElementById('la10-sv1-gauge-score').textContent=display+'/10';
+
+    for(var i=0;i<COMPONENTS.length;i++){
+      var w=document.createElement('div');
+      w.className='la10-sv1-weight';
+      var lbl=document.createElement('div');
+      lbl.className='la10-sv1-weight-label';
+      lbl.textContent=COMPONENTS[i].label;
+      var val=document.createElement('div');
+      val.className='la10-sv1-weight-val';
+      val.textContent=String(vals[i]);
+      var pct=document.createElement('div');
+      pct.className='la10-sv1-weight-pct';
+      pct.textContent=COMPONENTS[i].pct;
+      w.appendChild(lbl);w.appendChild(val);w.appendChild(pct);
+      weightsContainer.appendChild(w);
+    }
+  }
+
+  function emitParticle(){
+    if(reducedMotion)return;
+    var p=document.createElement('div');
+    p.className='la10-sv1-particle';
+    p.style.left=Math.random()*90+'%';
+    p.style.animation='la10-sv1-drift 2s ease forwards';
+    particlesContainer.appendChild(p);
+    setTimeout(function(){if(p.parentNode)p.parentNode.removeChild(p);},2200);
+  }
+
+  var particleTimer;
+  function startParticles(){if(particleTimer)return;particleTimer=setInterval(emitParticle,400);}
+  function stopParticles(){clearInterval(particleTimer);particleTimer=null;}
+
+  function checkVisibility(){
+    var scrolled=window.scrollY||window.pageYOffset;
+    if(scrolled>300){bridge.classList.add('la10-sv1-visible');startParticles();}
+    else{bridge.classList.remove('la10-sv1-visible');stopParticles();}
+  }
+
+  document.getElementById('la10-sv1-cta').addEventListener('click',function(){
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var encoded='tiq-z:'+zone+'-c:'+cascade+'-d:'+data+'-a:'+conf;
+    window.location.href='../CascadeAtlas_latest.html?state='+encodeURIComponent(encoded);
+  });
+
+  renderBridge();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',renderBridge);}
+  window.addEventListener('scroll',checkVisibility);
+  checkVisibility();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10-SV2: TIQ Composite Trace Overlay                             -->
+<!-- ================================================================ -->
+<style>
+.la10-sv2-trigger{position:sticky;bottom:56px;z-index:88;display:flex;justify-content:flex-end;padding:0 24px;pointer-events:none;}
+.la10-sv2-btn{pointer-events:all;font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:rgba(7,28,51,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(201,168,76,.25);padding:8px 16px;border-radius:6px;cursor:pointer;transition:background .3s ease,transform .3s ease;}
+.la10-sv2-btn:hover{background:rgba(201,168,76,.12);transform:scale(1.04);}
+.la10-sv2-overlay{display:none;z-index:200;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(7,28,51,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow-y:auto;}
+.la10-sv2-overlay.la10-sv2-active{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;}
+.la10-sv2-close{position:absolute;top:20px;right:24px;font-family:var(--fm);font-size:10px;color:var(--gold);background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:6px 14px;border-radius:4px;cursor:pointer;z-index:201;}
+.la10-sv2-close:hover{background:rgba(201,168,76,.16);}
+.la10-sv2-title{font-family:var(--fs);font-size:1.6rem;font-weight:300;color:var(--white);margin-bottom:8px;text-align:center;}
+.la10-sv2-subtitle{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;text-align:center;}
+.la10-sv2-components{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:640px;width:100%;margin-bottom:24px;}
+.la10-sv2-comp{padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);text-align:center;min-width:120px;flex:1;opacity:0;transform:scale(.85);transition:opacity .6s ease,transform .6s ease,box-shadow .4s ease;}
+.la10-sv2-comp.la10-sv2-comp-active{opacity:1;transform:scale(1);}
+.la10-sv2-comp.la10-sv2-comp-current{box-shadow:0 0 24px rgba(201,168,76,.2);border-color:rgba(201,168,76,.3);}
+.la10-sv2-comp-label{font-family:var(--fd);font-size:.8rem;font-weight:500;color:var(--white);margin-bottom:4px;}
+.la10-sv2-comp-pct{font-family:var(--fs);font-size:1.6rem;font-weight:600;color:var(--gold);}
+.la10-sv2-comp-desc{font-family:var(--fm);font-size:7.5px;color:var(--t55);margin-top:4px;}
+.la10-sv2-merge{opacity:0;transform:scale(.8);transition:opacity .8s ease,transform .8s ease;text-align:center;}
+.la10-sv2-merge.la10-sv2-merge-active{opacity:1;transform:scale(1);}
+.la10-sv2-merge-score{font-family:var(--fs);font-size:2.4rem;font-weight:300;color:var(--gold);}
+.la10-sv2-merge-label{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.la10-sv2-glow{position:absolute;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.08) 0%,transparent 70%);pointer-events:none;opacity:0;transition:opacity 1s ease;}
+.la10-sv2-overlay.la10-sv2-active .la10-sv2-glow{opacity:1;}
+@media(prefers-reduced-motion:reduce){
+  .la10-sv2-comp{opacity:1;transform:none;transition:none !important;}
+  .la10-sv2-merge{opacity:1;transform:none;transition:none !important;}
+  .la10-sv2-btn{transition:none !important;}
+  .la10-sv2-glow{display:none !important;}
+}
+</style>
+<div class="la10-sv2-trigger">
+  <button class="la10-sv2-btn" id="la10-sv2-btn" type="button">Show TIQ Computation Trace</button>
+</div>
+<div class="la10-sv2-overlay" id="la10-sv2-overlay" role="dialog" aria-label="TIQ Composite Trace Overlay">
+  <button class="la10-sv2-close" id="la10-sv2-close" type="button">Close</button>
+  <div class="la10-sv2-glow" style="top:12%;left:8%;"></div>
+  <div class="la10-sv2-glow" style="bottom:18%;right:10%;width:80px;height:80px;"></div>
+  <div class="la10-sv2-title">TIQ Composite Computation</div>
+  <div class="la10-sv2-subtitle">Four-component weighted merge into single score</div>
+  <div class="la10-sv2-components" id="la10-sv2-components"></div>
+  <div class="la10-sv2-merge" id="la10-sv2-merge">
+    <div class="la10-sv2-merge-score" id="la10-sv2-merge-score">--/10</div>
+    <div class="la10-sv2-merge-label">TIQ Composite Score</div>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var COMPS=[
+    {label:'Zone Burden',pct:'45%',desc:'Weighted average of five zone internal scores. N6 (endocrine signalling) dampened at 0.7x.'},
+    {label:'Cascade Pattern',pct:'25%',desc:'CascadeIQ stack activation density. Six stacks assessed. S4 is THEORETICAL.'},
+    {label:'Data Coverage',pct:'15%',desc:'Percentage of biomarker data available across all zones.'},
+    {label:'ANCHOR Confidence',pct:'15%',desc:'Cross-layer verification confidence from ANCHOR overlay.'}
+  ];
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var overlay=document.getElementById('la10-sv2-overlay');
+  var compsContainer=document.getElementById('la10-sv2-components');
+  var mergeEl=document.getElementById('la10-sv2-merge');
+
+  function buildComps(){
+    compsContainer.innerHTML='';
+    mergeEl.classList.remove('la10-sv2-merge-active');
+    for(var i=0;i<COMPS.length;i++){
+      var comp=document.createElement('div');
+      comp.className='la10-sv2-comp';
+      var lbl=document.createElement('div');
+      lbl.className='la10-sv2-comp-label';
+      lbl.textContent=COMPS[i].label;
+      var pct=document.createElement('div');
+      pct.className='la10-sv2-comp-pct';
+      pct.textContent=COMPS[i].pct;
+      var desc=document.createElement('div');
+      desc.className='la10-sv2-comp-desc';
+      desc.textContent=COMPS[i].desc;
+      comp.appendChild(lbl);comp.appendChild(pct);comp.appendChild(desc);
+      compsContainer.appendChild(comp);
+    }
+  }
+
+  function runSequence(){
+    var comps=compsContainer.querySelectorAll('.la10-sv2-comp');
+    var delay=reducedMotion?0:1500;
+    for(var i=0;i<comps.length;i++){
+      (function(el,idx){
+        setTimeout(function(){
+          el.classList.add('la10-sv2-comp-active');
+          el.classList.add('la10-sv2-comp-current');
+          if(idx>0){
+            var prev=compsContainer.querySelectorAll('.la10-sv2-comp')[idx-1];
+            if(prev)prev.classList.remove('la10-sv2-comp-current');
+          }
+        },idx*delay);
+      })(comps[i],i);
+    }
+    setTimeout(function(){
+      var zone=parseInt(document.getElementById('sl-zone').value)||0;
+      var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+      var dataVal=parseInt(document.getElementById('sl-data').value)||0;
+      var conf=parseInt(document.getElementById('sl-conf').value)||0;
+      var internal=Math.round(zone*0.45+cascade*0.25+dataVal*0.15+conf*0.15);
+      var display=Math.max(0,Math.min(10,Math.round((100-internal)/10)));
+      document.getElementById('la10-sv2-merge-score').textContent=display+'/10';
+      mergeEl.classList.add('la10-sv2-merge-active');
+      var allComps=compsContainer.querySelectorAll('.la10-sv2-comp');
+      for(var k=0;k<allComps.length;k++){allComps[k].classList.remove('la10-sv2-comp-current');}
+    },COMPS.length*delay+500);
+  }
+
+  function openOverlay(){
+    buildComps();
+    overlay.classList.add('la10-sv2-active');
+    document.body.style.overflow='hidden';
+    setTimeout(runSequence,300);
+  }
+
+  function closeOverlay(){
+    overlay.classList.remove('la10-sv2-active');
+    document.body.style.overflow='';
+  }
+
+  document.getElementById('la10-sv2-btn').addEventListener('click',openOverlay);
+  document.getElementById('la10-sv2-close').addEventListener('click',closeOverlay);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeOverlay();});
+  buildComps();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10-SV3: TIQ Connection Navigator                                -->
+<!-- ================================================================ -->
+<style>
+.la10-sv3-wrap{background:rgba(7,28,51,.90);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:24px;margin:24px auto;max-width:600px;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.la10-sv3-wrap.la10-sv3-visible{opacity:1;transform:translateY(0);}
+.la10-sv3-label{font-family:var(--fm);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;text-align:center;}
+.la10-sv3-svg{width:100%;max-width:400px;margin:0 auto;display:block;}
+.la10-sv3-node{cursor:pointer;transition:transform .3s ease;}
+.la10-sv3-node:hover{transform:scale(1.08);}
+.la10-sv3-tooltip{position:absolute;background:rgba(7,28,51,.95);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:8px 12px;font-family:var(--fm);font-size:8px;color:var(--white);pointer-events:none;z-index:210;display:none;max-width:200px;}
+.la10-sv3-centre-glow{animation:la10-sv3-pulse 3s ease infinite;}
+@keyframes la10-sv3-pulse{0%,100%{opacity:.15;}50%{opacity:.35;}}
+@media(prefers-reduced-motion:reduce){
+  .la10-sv3-wrap{opacity:1;transform:none;transition:none !important;}
+  .la10-sv3-node{transition:none !important;}
+  .la10-sv3-centre-glow{animation:none !important;opacity:.2;}
+}
+</style>
+<div class="la10-sv3-wrap" id="la10-sv3-wrap" role="navigation" aria-label="TIQ Connection Navigator">
+  <div class="la10-sv3-label">TIQ Connection Navigator</div>
+  <svg class="la10-sv3-svg" viewBox="0 0 300 300" id="la10-sv3-svg"></svg>
+  <div class="la10-sv3-tooltip" id="la10-sv3-tooltip"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var PAGES=[
+    {name:'CascadeAtlas',href:'../CascadeAtlas_latest.html',colour:'#C9A84C',desc:'Interactive cascade map with DRD visualiser'},
+    {name:'NCZ Architecture',href:'../NCZArchitecture_latest.html',colour:'#1A7A8A',desc:'Node-to-zone assembly architecture'},
+    {name:'KINETICS',href:'LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html',colour:'#2A9BAD',desc:'Cascade velocity classification'},
+    {name:'DeltaScan',href:'LA8_DeltaScan_ComparisonView_D53_2026-04-11_v2.html',colour:'#5F7C6C',desc:'T1 vs T2 longitudinal comparison'},
+    {name:'TRACE',href:'LA9_TRACE_Timeline_D53_2026-04-11_v2.html',colour:'#7B5EA7',desc:'Temporal reconstruction timeline'},
+    {name:'Terrain Intelligence',href:'../TerrainIntelligence_latest.html',colour:'#2E6DB4',desc:'Four-layer terrain intelligence overview'}
+  ];
+  var CX=150,CY=150,R=100;
+  var ns='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('la10-sv3-svg');
+  var tooltip=document.getElementById('la10-sv3-tooltip');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  var glow=document.createElementNS(ns,'circle');
+  glow.setAttribute('cx',CX);glow.setAttribute('cy',CY);glow.setAttribute('r','45');
+  glow.setAttribute('fill','rgba(46,109,180,.12)');glow.setAttribute('class','la10-sv3-centre-glow');
+  svg.appendChild(glow);
+
+  var cc=document.createElementNS(ns,'circle');
+  cc.setAttribute('cx',CX);cc.setAttribute('cy',CY);cc.setAttribute('r','28');
+  cc.setAttribute('fill','rgba(46,109,180,.12)');cc.setAttribute('stroke','#2E6DB4');cc.setAttribute('stroke-width','2');
+  svg.appendChild(cc);
+  var ct=document.createElementNS(ns,'text');
+  ct.setAttribute('x',CX);ct.setAttribute('y',CY+1);
+  ct.setAttribute('text-anchor','middle');ct.setAttribute('dominant-baseline','central');
+  ct.setAttribute('fill','#2E6DB4');ct.setAttribute('font-family','DM Mono,monospace');ct.setAttribute('font-size','11');ct.setAttribute('font-weight','500');
+  ct.textContent='TIQ';
+  svg.appendChild(ct);
+
+  for(var i=0;i<PAGES.length;i++){
+    var angle=-Math.PI/2+i*(2*Math.PI/PAGES.length);
+    var nx=CX+R*Math.cos(angle);
+    var ny=CY+R*Math.sin(angle);
+
+    var line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',CX);line.setAttribute('y1',CY);
+    line.setAttribute('x2',nx.toFixed(1));line.setAttribute('y2',ny.toFixed(1));
+    line.setAttribute('stroke',PAGES[i].colour);line.setAttribute('stroke-width','1');line.setAttribute('stroke-opacity','.3');
+    line.setAttribute('stroke-dasharray','4 3');
+    svg.appendChild(line);
+
+    var g=document.createElementNS(ns,'g');
+    g.setAttribute('class','la10-sv3-node');
+
+    var circle=document.createElementNS(ns,'circle');
+    circle.setAttribute('cx',nx.toFixed(1));circle.setAttribute('cy',ny.toFixed(1));circle.setAttribute('r','20');
+    circle.setAttribute('fill','rgba('+parseInt(PAGES[i].colour.slice(1,3),16)+','+parseInt(PAGES[i].colour.slice(3,5),16)+','+parseInt(PAGES[i].colour.slice(5,7),16)+',.12)');
+    circle.setAttribute('stroke',PAGES[i].colour);circle.setAttribute('stroke-width','1.5');
+    g.appendChild(circle);
+
+    var text=document.createElementNS(ns,'text');
+    text.setAttribute('x',nx.toFixed(1));text.setAttribute('y',(ny+1).toFixed(1));
+    text.setAttribute('text-anchor','middle');text.setAttribute('dominant-baseline','central');
+    text.setAttribute('fill',PAGES[i].colour);text.setAttribute('font-family','DM Mono,monospace');text.setAttribute('font-size','7');
+    text.textContent=PAGES[i].name.length>12?PAGES[i].name.substring(0,11)+'..':PAGES[i].name;
+    g.appendChild(text);
+
+    (function(page,group){
+      group.addEventListener('mouseenter',function(){
+        tooltip.style.display='block';
+        tooltip.textContent=page.name+': '+page.desc;
+      });
+      group.addEventListener('mouseleave',function(){tooltip.style.display='none';});
+      group.addEventListener('click',function(){window.location.href=page.href;});
+    })(PAGES[i],g);
+
+    svg.appendChild(g);
+  }
+
+  function checkVisible(){
+    var wrap=document.getElementById('la10-sv3-wrap');
+    var rect=wrap.getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    if(rect.top<vh*0.85||reducedMotion){wrap.classList.add('la10-sv3-visible');}
+  }
+  window.addEventListener('scroll',checkVisible);
+  checkVisible();
+})();
+</script>
+
+</body>
+</html>

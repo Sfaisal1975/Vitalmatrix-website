@@ -1,0 +1,503 @@
+<!--
+  CASCADEATLAS 3 SILICON VALLEY UPGRADES PATCH v2
+  Upgrades F7 TerrainLock, F3 Comparison, F14 Playback in-place
+  D-85 | ALB v1.5 | T-01 | 14 May 2026
+-->
+
+<style>
+/* ── UPGRADE 4: F7 TerrainLock Orbital Animation ── */
+@keyframes vm-tl-orbit{0%{offset-distance:0%}100%{offset-distance:100%}}
+@keyframes vm-tl-breathe{0%,100%{stroke-opacity:.15}50%{stroke-opacity:.5}}
+@keyframes vm-tl-gate-fill{from{width:0}to{width:var(--pct)}}
+#vm-ca-tl-orbit-svg{width:200px;height:180px;margin:16px auto;display:block}
+.vm-tl-gate-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.vm-tl-gate-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.vm-tl-gate-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.vm-tl-gate-label{font-family:'DM Mono',monospace;font-size:8px;min-width:50px;color:rgba(244,244,242,.5)}
+.vm-tl-gate-pct{font-family:'DM Mono',monospace;font-size:8px;min-width:30px;text-align:right}
+#vm-ca-tl-gates{margin-top:16px}
+.vm-tl-entry-marker{font-family:'DM Mono',monospace;font-size:7px;padding:2px 6px;border-radius:3px;background:rgba(26,122,138,.15);color:#1A7A8A;border:1px solid rgba(26,122,138,.3);display:inline-block;margin-top:8px}
+
+/* ── UPGRADE 5: F3 Morphing Transition + Terrain Distance ── */
+@keyframes vm-morph-in{from{opacity:0;stroke-dashoffset:1200}to{opacity:1;stroke-dashoffset:0}}
+#vm-ca-f3-distance{font-family:'DM Mono',monospace;font-size:.7rem;margin-top:12px;padding:10px 14px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1)}
+.vm-f3-dist-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
+.vm-f3-dist-pair{font-size:.65rem;color:rgba(244,244,242,.5)}
+.vm-f3-dist-bar{height:4px;border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.vm-f3-auto-btn{font-family:'DM Mono',monospace;font-size:.6rem;padding:5px 12px;border-radius:4px;border:1px solid rgba(201,168,76,.3);background:transparent;color:#C9A84C;cursor:pointer;transition:all .25s}
+.vm-f3-auto-btn:hover{background:rgba(201,168,76,.1)}
+
+/* ── UPGRADE 6: F14 Waveform + Ghost Trail ── */
+#vm-ca-waveform{width:100%;height:48px;margin-top:12px;border-radius:4px;background:rgba(244,244,242,.02);border:1px solid rgba(255,255,255,.06);overflow:hidden;position:relative}
+#vm-ca-waveform canvas{width:100%;height:100%;display:block}
+#vm-ca-ghost-indicator{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(201,168,76,.5);margin-top:6px;text-align:center;min-height:14px}
+.vm-ghost-legend{display:flex;gap:12px;justify-content:center;margin-top:6px}
+.vm-ghost-legend span{font-family:'DM Mono',monospace;font-size:.6rem;display:flex;align-items:center;gap:4px}
+.vm-ghost-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+</style>
+
+<script>
+(function(){
+'use strict';
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 4: F7 TERRAINLOCK — ORBITAL PARTICLES + GATE PROXIMITY BARS
+
+   What changes:
+   - When TerrainLock is ACTIVE, SVG orbital particles continuously travel
+     the Z2→Z1→Z5→Z2 triangular path (gold particles, 3s loop)
+   - The triangular path breathes with pulsing stroke opacity
+   - Three gate proximity bars show how close each gate condition is to firing
+   - Z2 entry point marker always visible when active
+   - When INACTIVE, particles stop and gates show distance-to-activation
+   ══════════════════════════════════════════════════════════════ */
+
+// Create orbital SVG inside the TerrainLock status card
+var tlStatus = document.getElementById('vm-ca-tl-status');
+if(tlStatus){
+  // Insert orbital SVG
+  var orbitSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  orbitSvg.id = 'vm-ca-tl-orbit-svg';
+  orbitSvg.setAttribute('viewBox','0 0 200 170');
+  tlStatus.appendChild(orbitSvg);
+
+  // Insert gate proximity bars
+  var gatesDiv = document.createElement('div');
+  gatesDiv.id = 'vm-ca-tl-gates';
+  tlStatus.appendChild(gatesDiv);
+}
+
+var tlParticles = [];
+
+function renderTLOrbit(){
+  var svg = document.getElementById('vm-ca-tl-orbit-svg');
+  if(!svg) return;
+  svg.innerHTML = '';
+
+  // Triangle positions for Z2, Z1, Z5
+  var triPts = [{x:100,y:20},{x:30,y:150},{x:170,y:150}]; // Z1 top, Z2 bottom-left, Z5 bottom-right
+  var zoneLabels = ['Z1','Z2','Z5'];
+  var zoneColors = [ZONES[0].color, ZONES[1].color, ZONES[4].color];
+  var zoneScores = [scores[0], scores[1], scores[4]];
+
+  // Triangle path (Z2→Z1→Z5→Z2)
+  var pathStr = 'M'+triPts[1].x+','+triPts[1].y+' L'+triPts[0].x+','+triPts[0].y+' L'+triPts[2].x+','+triPts[2].y+' Z';
+  var triPath = svgEl('path', {
+    d: pathStr,
+    fill: 'none',
+    stroke: '#FFD700',
+    'stroke-width': '2',
+    'stroke-opacity': '0.15',
+    id: 'vm-tl-tri-path'
+  });
+
+  // Check TerrainLock state
+  var s1on = isActive(1) && isActive(0);
+  var s2on = isActive(0) && isActive(4);
+  var s4on = isActive(4) && isActive(1);
+  var tlActive = s1on && s2on && s4on;
+
+  if(tlActive){
+    triPath.style.animation = 'vm-tl-breathe 2s ease-in-out infinite';
+    triPath.setAttribute('stroke-width','3');
+  }
+  svg.appendChild(triPath);
+
+  // Zone circles on triangle vertices
+  for(var i=0; i<3; i++){
+    var active = zoneScores[i] >= ZONES[[0,1,4][i]].th;
+    svg.appendChild(svgEl('circle', {
+      cx: triPts[i].x, cy: triPts[i].y, r: 14,
+      fill: zoneColors[i],
+      'fill-opacity': active ? '0.9' : '0.25',
+      stroke: zoneColors[i],
+      'stroke-width': active ? '2' : '1'
+    }));
+    var txt = svgEl('text', {
+      x: triPts[i].x, y: triPts[i].y + 4,
+      'text-anchor': 'middle', fill: '#fff',
+      'font-family': "'DM Mono',monospace", 'font-size': '9', 'font-weight': '700'
+    });
+    txt.textContent = zoneLabels[i];
+    svg.appendChild(txt);
+
+    // Score below zone
+    var scoreTxt = svgEl('text', {
+      x: triPts[i].x, y: triPts[i].y + (i===0 ? -20 : 26),
+      'text-anchor': 'middle', fill: active ? zoneColors[i] : 'rgba(244,244,242,.3)',
+      'font-family': "'DM Mono',monospace", 'font-size': '7'
+    });
+    scoreTxt.textContent = zoneScores[i] + '/100';
+    svg.appendChild(scoreTxt);
+  }
+
+  // Stack labels on triangle edges
+  var edgeLabels = [
+    {x:(triPts[1].x+triPts[0].x)/2-16, y:(triPts[1].y+triPts[0].y)/2, t:'S1', on:s1on},
+    {x:(triPts[0].x+triPts[2].x)/2+16, y:(triPts[0].y+triPts[2].y)/2, t:'S2', on:s2on},
+    {x:(triPts[2].x+triPts[1].x)/2, y:(triPts[2].y+triPts[1].y)/2+14, t:'S4*', on:s4on}
+  ];
+  edgeLabels.forEach(function(el){
+    var lbl = svgEl('text', {
+      x:el.x, y:el.y, 'text-anchor':'middle',
+      fill: el.on ? '#FFD700' : 'rgba(244,244,242,.2)',
+      'font-family': "'DM Mono',monospace", 'font-size': '7'
+    });
+    lbl.textContent = el.t;
+    svg.appendChild(lbl);
+  });
+
+  // Orbital particles when active
+  tlParticles.forEach(function(p){ if(p.parentNode) p.parentNode.removeChild(p); });
+  tlParticles = [];
+
+  if(tlActive){
+    for(var p=0; p<3; p++){
+      var particle = svgEl('circle', {
+        r: 3, fill: '#FFD700', opacity: '0.9',
+        filter: 'url(#vm-ca-glow)'
+      });
+      particle.style.offsetPath = 'path("'+pathStr+'")';
+      particle.style.animation = 'vm-tl-orbit 3s linear '+(p*1)+'s infinite';
+      svg.appendChild(particle);
+      tlParticles.push(particle);
+    }
+  }
+
+  // Gate proximity bars
+  var gates = document.getElementById('vm-ca-tl-gates');
+  if(gates){
+    var th = [ZONES[1].th, ZONES[0].th, ZONES[4].th]; // Z2, Z1, Z5 thresholds
+    var sc = [scores[1], scores[0], scores[4]];
+    var gateNames = ['Gate 1: S1 (Z2+Z1)', 'Gate 2: S2 (Z1+Z5)', 'Gate 3: S4 (Theoretical)'];
+    var gateActive = [s1on, s2on, s4on];
+    var html = '';
+
+    for(var g=0; g<3; g++){
+      var src = g===0?1:g===1?0:4;
+      var tgt = g===0?0:g===1?4:1;
+      var srcPct = Math.min(100, (scores[src] / ZONES[src].th) * 100);
+      var tgtPct = Math.min(100, (scores[tgt] / ZONES[tgt].th) * 100);
+      var gatePct = Math.min(100, (srcPct + tgtPct) / 2);
+      var gateCol = gateActive[g] ? '#FFD700' : gatePct > 80 ? '#C9A84C' : 'rgba(244,244,242,.2)';
+
+      html += '<div class="vm-tl-gate-bar">';
+      html += '<span class="vm-tl-gate-label">' + gateNames[g] + '</span>';
+      html += '<div class="vm-tl-gate-track"><div class="vm-tl-gate-fill" style="width:'+gatePct+'%;background:'+gateCol+';"></div></div>';
+      html += '<span class="vm-tl-gate-pct" style="color:'+gateCol+'">'+(gateActive[g]?'MET':Math.round(gatePct)+'%')+'</span>';
+      html += '</div>';
+    }
+
+    if(tlActive){
+      html += '<div class="vm-tl-entry-marker">ENTRY POINT: Z2 Gut Restoration (Default Tiebreaker)</div>';
+    }
+
+    gates.innerHTML = html;
+  }
+}
+
+// Patch updateTerrainLockStatus
+var origTLUpdate = updateTerrainLockStatus;
+updateTerrainLockStatus = function(){
+  origTLUpdate();
+  renderTLOrbit();
+};
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 5: F3 THREE-PATIENT COMPARISON — MORPHING TRANSITIONS + TERRAIN DISTANCE
+
+   What changes:
+   - When switching between Architecture and Compare views, polygons morph
+     smoothly (SVG polygon points animate via JS interpolation over 600ms)
+   - "Auto Cycle" button rotates through patients one at a time with
+     smooth transitions (each patient highlighted for 2s)
+   - Terrain Distance metric shows pairwise Euclidean distance between
+     patients' terrain profiles (closer = more similar)
+   - Distance bars visualise how different each pair is
+   ══════════════════════════════════════════════════════════════ */
+
+// Add Auto Cycle button and distance panel to F3
+var f3Section = document.getElementById('f3');
+if(f3Section){
+  var toggleRow = f3Section.querySelector('div[style*="display:flex;gap:8px"]');
+  if(toggleRow){
+    var autoBtn = document.createElement('button');
+    autoBtn.className = 'vm-f3-auto-btn';
+    autoBtn.textContent = 'Auto Cycle';
+    autoBtn.id = 'vm-ca-f3-auto';
+    toggleRow.appendChild(autoBtn);
+  }
+
+  // Add distance panel
+  var distDiv = document.createElement('div');
+  distDiv.id = 'vm-ca-f3-distance';
+  distDiv.style.display = 'none';
+  f3Section.appendChild(distDiv);
+}
+
+// Terrain distance calculation
+function terrainDistance(a, b){
+  var sum = 0;
+  for(var i=0; i<a.length; i++) sum += Math.pow(a[i]-b[i], 2);
+  return Math.sqrt(sum);
+}
+
+// Enhanced F3 render with distance
+var origRenderF3 = renderF3;
+renderF3 = function(){
+  origRenderF3();
+
+  var distEl = document.getElementById('vm-ca-f3-distance');
+  if(!distEl) return;
+
+  if(f3mode === 'comp'){
+    distEl.style.display = 'block';
+    var maxDist = terrainDistance([0,0,0,0,0],[100,100,100,100,100]);
+    var pairs = [
+      {a:patients[0], b:patients[1]},
+      {a:patients[0], b:patients[2]},
+      {a:patients[1], b:patients[2]}
+    ];
+    var html = '<div style="font-family:var(--vm-fm);font-size:7px;letter-spacing:.1em;color:rgba(244,244,242,.35);margin-bottom:6px;text-transform:uppercase">TERRAIN DISTANCE (lower = more similar)</div>';
+    pairs.forEach(function(p){
+      var dist = terrainDistance(p.a.scores, p.b.scores);
+      var pct = (dist / maxDist) * 100;
+      var similarity = Math.round(100 - pct);
+      html += '<div class="vm-f3-dist-row">';
+      html += '<span class="vm-f3-dist-pair">' + p.a.name + ' vs ' + p.b.name + '</span>';
+      html += '<div style="flex:1;margin:0 12px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden">';
+      html += '<div class="vm-f3-dist-bar" style="width:'+pct+'%;background:'+((pct>60)?'#D63030':(pct>30)?'#C9A84C':'#1A7A8A')+'"></div>';
+      html += '</div>';
+      html += '<span class="vm-f3-dist-pair" style="color:'+(similarity>70?'#1A7A8A':similarity>40?'#C9A84C':'#D63030')+'">' + similarity + '% similar</span>';
+      html += '</div>';
+    });
+    distEl.innerHTML = html;
+  } else {
+    distEl.style.display = 'none';
+  }
+};
+
+// Auto Cycle
+var autoCycleTimer = null;
+var autoCycleIdx = 0;
+
+var autoCycleBtn = document.getElementById('vm-ca-f3-auto');
+if(autoCycleBtn){
+  autoCycleBtn.addEventListener('click', function(){
+    if(autoCycleTimer){
+      clearInterval(autoCycleTimer);
+      autoCycleTimer = null;
+      autoCycleBtn.textContent = 'Auto Cycle';
+      return;
+    }
+
+    // Switch to compare mode
+    f3mode = 'comp';
+    document.querySelectorAll('.vm-ca-f3-toggle').forEach(function(b){
+      b.classList.toggle('active', b.dataset.v === 'comp');
+    });
+
+    autoCycleBtn.textContent = 'Stop Cycle';
+    autoCycleIdx = 0;
+
+    function cycleNext(){
+      var svg = document.getElementById('vm-ca-f3-svg');
+      drawPentagonBase(svg, pts2);
+
+      // Draw all patients dimmed
+      patients.forEach(function(p, pi){
+        var opacity = pi === autoCycleIdx ? '.3' : '.08';
+        var strokeOp = pi === autoCycleIdx ? '.8' : '.15';
+        var sw = pi === autoCycleIdx ? '2.5' : '1';
+        var sv = p.scores.map(function(s,i){
+          var r = R2*(s/100);
+          return (cx2+r*Math.cos(ang2(i)))+','+(cy2+r*Math.sin(ang2(i)));
+        }).join(' ');
+        svg.appendChild(svgEl('polygon', {
+          points: sv, fill: p.color, 'fill-opacity': opacity,
+          stroke: p.color, 'stroke-opacity': strokeOp, 'stroke-width': sw
+        }));
+      });
+
+      // Highlight current patient's zone dots
+      var current = patients[autoCycleIdx];
+      current.scores.forEach(function(s, i){
+        var r = R2*(s/100);
+        var px = cx2+r*Math.cos(ang2(i));
+        var py = cy2+r*Math.sin(ang2(i));
+        svg.appendChild(svgEl('circle', {
+          cx:px, cy:py, r:4, fill:current.color, stroke:'#fff', 'stroke-width':'1'
+        }));
+      });
+
+      // Update legend to highlight current
+      var legend = document.getElementById('vm-ca-f3-legend');
+      if(legend){
+        legend.innerHTML = '';
+        patients.forEach(function(p, pi){
+          var isCurrent = pi === autoCycleIdx;
+          legend.innerHTML += '<div class="vm-ca-card" style="margin-bottom:8px;border-color:'+p.color+(isCurrent?'55':'15')+';opacity:'+(isCurrent?'1':'0.4')+';transition:opacity .4s;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+p.color+';margin-right:6px;"></span><span style="color:'+p.color+';font-family:var(--vm-fs);font-size:1rem;">'+p.name+'</span><div class="vm-ca-mono" style="font-size:.6rem;color:var(--vm-txts);">Scores: '+p.scores.join(', ')+'</div></div>';
+        });
+      }
+
+      autoCycleIdx = (autoCycleIdx + 1) % patients.length;
+    }
+
+    cycleNext();
+    autoCycleTimer = setInterval(cycleNext, 2000);
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 6: F14 SESSION PLAYBACK — WAVEFORM + GHOST TRAIL
+
+   What changes:
+   - A waveform canvas renders below the playback bar showing the
+     entire session as a visual frequency pattern (zone changes = peaks)
+   - During playback, a ghost pentagon from the PREVIOUS state overlays
+     as a 20% opacity polygon, so the practitioner sees movement
+   - Ghost legend shows "Previous State" vs "Current State"
+   - Waveform highlights the current playback position with a gold line
+   ══════════════════════════════════════════════════════════════ */
+
+// Add waveform canvas after playback bar
+var playbackBar = document.getElementById('vm-ca-playback-bar');
+if(playbackBar){
+  var waveWrap = document.createElement('div');
+  waveWrap.id = 'vm-ca-waveform';
+  var waveCanvas = document.createElement('canvas');
+  waveCanvas.id = 'vm-ca-wave-canvas';
+  waveCanvas.width = 600;
+  waveCanvas.height = 48;
+  waveWrap.appendChild(waveCanvas);
+  playbackBar.parentNode.insertBefore(waveWrap, playbackBar.nextSibling);
+
+  var ghostDiv = document.createElement('div');
+  ghostDiv.id = 'vm-ca-ghost-indicator';
+  waveWrap.parentNode.insertBefore(ghostDiv, waveWrap.nextSibling);
+
+  var legendDiv = document.createElement('div');
+  legendDiv.className = 'vm-ghost-legend';
+  legendDiv.innerHTML = '<span><span class="vm-ghost-dot" style="background:rgba(201,168,76,.3)"></span>Previous</span><span><span class="vm-ghost-dot" style="background:#C9A84C"></span>Current</span>';
+  ghostDiv.parentNode.insertBefore(legendDiv, ghostDiv.nextSibling);
+}
+
+function renderWaveform(){
+  var canvas = document.getElementById('vm-ca-wave-canvas');
+  if(!canvas || !recordLog.length) return;
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width, h = canvas.height;
+  ctx.clearRect(0,0,w,h);
+
+  // Background grid
+  ctx.strokeStyle = 'rgba(244,244,242,.05)';
+  ctx.lineWidth = 1;
+  for(var g=0; g<5; g++){
+    var gy = (g/4)*h;
+    ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(w,gy); ctx.stroke();
+  }
+
+  // Draw waveform per zone
+  var zoneIndices = [0,1,2,3,4];
+  zoneIndices.forEach(function(zi){
+    ctx.beginPath();
+    ctx.strokeStyle = ZONES[zi].color;
+    ctx.lineWidth = 1.2;
+    ctx.globalAlpha = 0.6;
+
+    var zoneEvents = recordLog.filter(function(e){ return e.zone === zi; });
+    if(zoneEvents.length < 2) return;
+
+    var tMin = recordLog[0].t;
+    var tMax = recordLog[recordLog.length-1].t;
+    var tRange = tMax - tMin || 1;
+
+    zoneEvents.forEach(function(e, ei){
+      var x = ((e.t - tMin) / tRange) * w;
+      var y = h - (e.val / 100) * h;
+      if(ei === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  });
+}
+
+// Patch recording to render waveform
+var origRecToggle = document.getElementById('vm-ca-rec-toggle');
+if(origRecToggle){
+  var origRecHandler = origRecToggle.onclick;
+  origRecToggle.addEventListener('click', function(){
+    // Render waveform when recording stops
+    if(!recording) setTimeout(renderWaveform, 100);
+  });
+}
+
+// Patch playback to show ghost trail and waveform position
+var origPlayBtn = document.getElementById('vm-ca-play-btn');
+if(origPlayBtn){
+  origPlayBtn.addEventListener('click', function(){
+    if(!recordLog.length) return;
+
+    var total = recordLog.length;
+    var prevScores = scores.slice();
+    var ghostEl = document.getElementById('vm-ca-ghost-indicator');
+    var waveCanvas = document.getElementById('vm-ca-wave-canvas');
+
+    // Override the playback loop with ghost
+    var idx = 0;
+    function playWithGhost(){
+      if(idx >= total){
+        if(ghostEl) ghostEl.textContent = 'Playback complete.';
+        return;
+      }
+
+      var ev = recordLog[idx];
+      prevScores = scores.slice();
+      scores[ev.zone] = ev.val;
+      document.getElementById('vm-ca-v'+ev.zone).textContent = ev.val;
+      slBox.querySelectorAll('input[type=range]')[ev.zone].value = ev.val;
+
+      var bar = document.getElementById('vm-ca-playback-progress');
+      bar.style.width = ((idx+1)/total*100)+'%';
+
+      updateAll();
+
+      // Ghost indicator
+      if(ghostEl){
+        var changed = [];
+        for(var c=0; c<5; c++){
+          if(prevScores[c] !== scores[c]) changed.push(ZONES[c].id + ': ' + prevScores[c] + ' \u2192 ' + scores[c]);
+        }
+        ghostEl.textContent = changed.length ? changed.join(' | ') : '';
+      }
+
+      // Waveform position marker
+      if(waveCanvas){
+        renderWaveform();
+        var ctx = waveCanvas.getContext('2d');
+        var tMin = recordLog[0].t;
+        var tMax = recordLog[recordLog.length-1].t;
+        var tRange = tMax - tMin || 1;
+        var xPos = ((ev.t - tMin) / tRange) * waveCanvas.width;
+        ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 2;
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath(); ctx.moveTo(xPos, 0); ctx.lineTo(xPos, waveCanvas.height); ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+
+      idx++;
+      setTimeout(playWithGhost, 250);
+    }
+
+    // Only run ghost playback if this is a fresh play
+    if(idx === 0) playWithGhost();
+  });
+}
+
+// Render waveform on any existing data
+setTimeout(renderWaveform, 1000);
+
+})();
+</script>

@@ -1,0 +1,1304 @@
+<!-- LA-6: APEX Investigation Planner — 20 Premium Interactive Features -->
+<!-- D-53 Zone Colours | ALB v1.5 | T-01 Compliant | 8 May 2026 -->
+<!-- APEX = Assessment Priority and Evidence Xray (never "Adaptive Prioritised Examination") -->
+
+<style>
+#vm-la6-20f{--z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#2E6DB4;--bg:#1A2030;--card:rgba(255,255,255,0.06);--bdr:rgba(255,255,255,0.11);--wh:#F4F4F2;--mu:rgba(244,244,242,0.55);--mu2:rgba(244,244,242,0.35);--gd:#C9A84C;--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace;background:var(--bg);color:var(--wh);font-family:var(--fd);padding:80px 24px;margin:0;border:none}
+#vm-la6-20f *{box-sizing:border-box}
+#vm-la6-20f h2{font-family:var(--fs);font-weight:700;font-size:2rem;margin-bottom:8px;line-height:1.15}
+#vm-la6-20f h3{font-family:var(--fs);font-weight:600;font-size:1.4rem;margin-bottom:6px}
+#vm-la6-20f .apex-ey{font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gd);margin-bottom:8px;display:flex;align-items:center;gap:12px}
+#vm-la6-20f .apex-ey::before{content:'';width:24px;height:1px;background:var(--gd)}
+#vm-la6-20f .apex-sub{font-size:14px;color:var(--mu);line-height:1.6;max-width:640px;margin-bottom:28px}
+#vm-la6-20f .apex-wrap{max-width:1100px;margin:0 auto}
+/* Feature nav */
+#vm-la6-fnav{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:40px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--bdr)}
+.apex-fn-btn{font-family:var(--fm);font-size:9px;padding:5px 10px;border-radius:4px;border:1px solid var(--bdr);background:transparent;color:var(--mu);cursor:pointer;transition:all .25s}
+.apex-fn-btn:hover,.apex-fn-btn.act{border-color:var(--gd);color:var(--gd);background:rgba(201,168,76,0.08)}
+/* Feature sections */
+.apex-feat{padding:48px 0;border-top:1px solid rgba(201,168,76,0.08);display:none}
+.apex-feat.vis{display:block}
+/* Zone selector */
+.apex-zsel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.apex-zb{padding:8px 16px;border-radius:6px;border:2px solid;background:transparent;font-family:var(--fm);font-size:11px;font-weight:700;cursor:pointer;transition:all .25s}
+.apex-zb:hover{box-shadow:0 0 12px rgba(255,255,255,0.08)}
+.apex-zb.act{background:rgba(255,255,255,0.12)}
+/* Tier cards */
+.apex-tier{padding:16px;border-radius:10px;border:2px solid;background:var(--card);margin-bottom:12px}
+.apex-thdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.apex-tlbl{font-family:var(--fm);font-size:12px;font-weight:700}
+.apex-tcnt{font-size:10px;color:var(--mu)}
+.apex-tdesc{font-size:11px;color:var(--mu);margin-bottom:10px;line-height:1.5}
+/* Test rows */
+.apex-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--bdr);transition:all .2s;margin-bottom:4px;position:relative}
+.apex-row:hover{background:rgba(255,255,255,0.08)}
+.apex-row.dimmed{opacity:0.35}
+.apex-row.selected{border-color:var(--gd);background:rgba(201,168,76,0.08)}
+.apex-rinfo{flex:1;min-width:0}
+.apex-rname{font-size:12px;font-weight:600}
+.apex-rph{font-size:9px;color:var(--mu);margin-left:8px}
+.apex-rmeta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.apex-rev{font-size:9px;padding:2px 7px;border-radius:3px;font-family:var(--fm);font-weight:600}
+.apex-rcost{font-family:var(--fm);font-size:10px;color:var(--mu);min-width:85px;text-align:right}
+/* Badges */
+.apex-badge{font-family:var(--fm);font-size:8px;padding:2px 6px;border-radius:3px;font-weight:700;display:inline-block;margin-left:6px}
+.apex-badge-gold{background:rgba(201,168,76,0.15);color:#C9A84C;border:1px solid rgba(201,168,76,0.3)}
+.apex-badge-teal{background:rgba(26,122,138,0.15);color:#1A7A8A;border:1px solid rgba(26,122,138,0.3)}
+.apex-badge-amber{background:rgba(218,165,32,0.15);color:#DAA520;border:1px dashed rgba(218,165,32,0.4)}
+.apex-badge-purple{background:rgba(123,94,167,0.15);color:#7B5EA7;border:1px solid rgba(123,94,167,0.3)}
+/* Checkbox for shortlist */
+.apex-cb{width:16px;height:16px;accent-color:var(--gd);cursor:pointer;margin-right:8px;flex-shrink:0}
+/* Budget bar */
+#apex-f2-bar-wrap{height:28px;background:rgba(255,255,255,0.06);border-radius:6px;overflow:hidden;position:relative;margin-bottom:8px}
+#apex-f2-bar-fill{height:100%;border-radius:6px;transition:width .4s,background .4s;display:flex;align-items:center;padding-left:10px;font-family:var(--fm);font-size:10px;font-weight:700}
+.apex-f2-line{position:absolute;top:0;height:100%;width:2px;z-index:2}
+#apex-f2-total{font-family:var(--fm);font-size:13px;color:var(--gd);font-weight:700;margin-bottom:12px}
+/* Range bars (F6) */
+.apex-range-panel{overflow:hidden;max-height:0;transition:max-height .4s;padding:0 12px}
+.apex-range-panel.open{max-height:80px;padding:8px 12px}
+.apex-range-bar{height:12px;border-radius:6px;position:relative;background:rgba(255,255,255,0.06);margin:4px 0}
+.apex-range-seg{position:absolute;height:100%;border-radius:6px;top:0}
+.apex-range-lbl{font-family:var(--fm);font-size:8px;color:var(--mu);display:flex;justify-content:space-between;margin-bottom:2px}
+/* Sparklines (F12) */
+.apex-spark{display:inline-block;vertical-align:middle;margin-left:6px}
+/* Heatmap (F3) */
+#apex-f3-grid{display:grid;grid-template-columns:200px repeat(5,1fr);gap:2px;font-size:10px}
+.apex-f3-cell{padding:6px 8px;border-radius:4px;text-align:center;font-family:var(--fm);font-size:9px;transition:all .3s}
+.apex-f3-hdr{font-weight:700;color:var(--mu);padding:6px 8px}
+/* Overlap badges (F4) */
+.apex-overlap{display:flex;gap:3px;margin-left:6px}
+.apex-oz{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff}
+/* Waterfall (F5) */
+.apex-wf-tier{display:flex;align-items:center;gap:12px;padding:12px;border-radius:8px;background:var(--card);border:1px solid var(--bdr);margin-bottom:8px;cursor:pointer;transition:all .3s}
+.apex-wf-tier.active{border-color:var(--gd);background:rgba(201,168,76,0.06)}
+.apex-wf-tier.locked{opacity:0.3;pointer-events:none}
+.apex-wf-arrow{text-align:center;color:var(--mu);font-size:18px;margin-bottom:8px}
+/* Annotations (F8) */
+.apex-note{margin-top:4px;padding:6px 10px;border-radius:4px;border:1px dashed rgba(201,168,76,0.3);background:rgba(201,168,76,0.05);font-size:10px;color:var(--gd);display:none}
+.apex-note.vis{display:block}
+.apex-note-input{background:transparent;border:none;color:var(--gd);font-family:var(--fd);font-size:10px;width:100%;outline:none}
+/* Timing (F9) */
+.apex-clock{width:60px;height:60px;border-radius:50%;border:2px solid var(--bdr);position:relative;display:inline-block;margin:8px}
+.apex-clock-hand{position:absolute;bottom:50%;left:50%;transform-origin:bottom center;background:var(--gd);border-radius:2px}
+.apex-timing-row{display:flex;align-items:center;gap:16px;padding:8px 12px;border-radius:6px;background:var(--card);border:1px solid var(--bdr);margin-bottom:6px}
+.apex-timing-tag{font-family:var(--fm);font-size:9px;padding:2px 6px;border-radius:3px}
+/* Comparator (F10) */
+#apex-f10-split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.apex-f10-col{padding:16px;border-radius:10px;border:2px solid var(--bdr);background:var(--card)}
+.apex-f10-col h4{font-family:var(--fs);font-size:1.1rem;margin-bottom:8px}
+/* Source marker (F11) */
+.apex-source-stamp{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:3px;background:rgba(201,168,76,0.2);color:var(--gd);border:1px solid rgba(201,168,76,0.4);animation:apex-source-pulse 2s ease infinite}
+@keyframes apex-source-pulse{0%,100%{box-shadow:0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 0 8px rgba(201,168,76,0.3)}}
+/* Patient card (F13) */
+.apex-patient-row{padding:10px 14px;border-radius:6px;background:rgba(244,244,242,0.06);border:1px solid var(--bdr);margin-bottom:6px}
+.apex-patient-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.apex-patient-desc{font-size:10px;color:var(--mu);line-height:1.5}
+.apex-patient-cost{font-family:var(--fm);font-size:12px;color:var(--gd);margin-top:4px}
+/* Basket (F14) */
+.apex-basket-group{margin-bottom:16px}
+.apex-basket-hdr{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gd);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.apex-basket-hdr::before{content:'';width:16px;height:1px;background:var(--gd)}
+/* Lab costs (F15) */
+.apex-lab-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.apex-lab-seg{height:18px;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-family:var(--fm);font-size:8px;font-weight:600;transition:width .4s}
+.apex-lab-label{font-family:var(--fm);font-size:9px;color:var(--mu);min-width:60px}
+/* Radar (F16) */
+.apex-radar-wrap{position:absolute;right:0;top:-120px;width:100px;height:100px;background:rgba(26,32,48,0.95);border:1px solid var(--bdr);border-radius:8px;z-index:10;display:none;padding:4px}
+.apex-row:hover .apex-radar-wrap{display:block}
+/* Borderline (F17) */
+.apex-borderline-zone{border:2px dashed rgba(218,165,32,0.5);position:relative}
+.apex-borderline-tip{position:absolute;top:-24px;right:8px;font-family:var(--fm);font-size:8px;color:#DAA520;background:rgba(218,165,32,0.1);padding:2px 8px;border-radius:3px;border:1px dashed rgba(218,165,32,0.3)}
+/* Timeline (F18) */
+.apex-timeline{display:flex;align-items:center;gap:0;margin:16px 0;position:relative}
+.apex-tl-node{width:40px;height:40px;border-radius:50%;border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:10px;font-weight:700;cursor:pointer;transition:all .3s;z-index:1;background:var(--bg)}
+.apex-tl-node.act{border-color:var(--gd);color:var(--gd);box-shadow:0 0 12px rgba(201,168,76,0.3)}
+.apex-tl-line{flex:1;height:2px;background:var(--bdr)}
+.apex-tl-badge{font-family:var(--fm);font-size:7px;padding:1px 5px;border-radius:3px;margin-left:4px}
+/* Efficiency (F19) */
+.apex-eff{font-family:var(--fm);font-size:8px;color:var(--mu);margin-left:6px;white-space:nowrap}
+/* Provenance (F20) */
+.apex-prov{font-family:var(--fm);font-size:8px;color:var(--mu2);margin-top:2px;display:none;font-style:italic}
+.apex-row:hover .apex-prov{display:block}
+/* Feature footer */
+.apex-ft{font-size:10px;color:var(--mu);font-style:italic;text-align:center;margin-top:24px;line-height:1.5}
+/* Responsive */
+@media(max-width:768px){
+  #vm-la6-20f{padding:40px 16px}
+  #apex-f10-split{grid-template-columns:1fr}
+  #apex-f3-grid{grid-template-columns:120px repeat(5,1fr);font-size:8px}
+  .apex-row{flex-direction:column;align-items:flex-start;gap:6px}
+  .apex-rmeta{align-self:flex-end}
+}
+</style>
+
+<div id="vm-la6-20f">
+<div class="apex-wrap">
+  <p class="apex-ey">Examination Intelligence</p>
+  <h2>Prioritised Investigation. Three Budget Tiers.</h2>
+  <p class="apex-sub">APEX&#8482;: Assessment Priority and Evidence Xray. Twenty interactive components demonstrating budget-tiered investigation planning with evidence tiers, cascade integration, and practitioner workflow tools. T-01 compliant.</p>
+
+  <!-- Feature navigation -->
+  <div id="vm-la6-fnav"></div>
+
+  <!-- F1: Cascade-Linked Investigation Sequencing -->
+  <div class="apex-feat vis" id="apex-f1">
+    <p class="apex-ey">Feature 1</p>
+    <h3>Cascade-Linked Investigation Sequencing</h3>
+    <p class="apex-sub">Select the highest burden zone. APEX shows cascade-connected zones and recommends investigation order: source zone first, then downstream reactors via active stacks.</p>
+    <div class="apex-zsel" id="apex-f1-zsel"></div>
+    <div id="apex-f1-sequence"></div>
+    <div id="apex-f1-tiers"></div>
+  </div>
+
+  <!-- F2: Live Budget Accumulator -->
+  <div class="apex-feat" id="apex-f2">
+    <p class="apex-ey">Feature 2</p>
+    <h3>Live Budget Accumulator with Shortlist</h3>
+    <p class="apex-sub">Tick investigations to build a shortlist. Running total updates in real time. Budget ceiling lines appear at tier boundaries.</p>
+    <div class="apex-zsel" id="apex-f2-zsel"></div>
+    <div id="apex-f2-total">Selected: GBP 0</div>
+    <div id="apex-f2-bar-wrap">
+      <div id="apex-f2-bar-fill" style="width:0;background:var(--z2)"></div>
+      <div class="apex-f2-line" style="left:33%;background:var(--z2);opacity:0.5"></div>
+      <div class="apex-f2-line" style="left:66%;background:var(--gd);opacity:0.5"></div>
+    </div>
+    <div id="apex-f2-tiers"></div>
+    <div id="apex-f2-shortlist" style="margin-top:16px;padding:12px;border-radius:8px;border:1px dashed rgba(201,168,76,0.3);display:none">
+      <div style="font-family:var(--fm);font-size:10px;color:var(--gd);margin-bottom:8px">SELECTED INVESTIGATIONS</div>
+      <div id="apex-f2-list"></div>
+    </div>
+  </div>
+
+  <!-- F3: Evidence Confidence Heatmap -->
+  <div class="apex-feat" id="apex-f3">
+    <p class="apex-ey">Feature 3</p>
+    <h3>Evidence Confidence Heatmap</h3>
+    <p class="apex-sub">Grid view showing evidence density across all investigations for the selected zone. Brighter cells indicate stronger evidence clustering.</p>
+    <div class="apex-zsel" id="apex-f3-zsel"></div>
+    <div id="apex-f3-grid"></div>
+  </div>
+
+  <!-- F4: Cross-Zone Investigation Overlap Detector -->
+  <div class="apex-feat" id="apex-f4">
+    <p class="apex-ey">Feature 4</p>
+    <h3>Cross-Zone Investigation Overlap Detector</h3>
+    <p class="apex-sub">Investigations that appear in multiple zones are flagged as dual-yield. One test, multiple zones covered. Potential cost savings highlighted.</p>
+    <div id="apex-f4-overlaps"></div>
+    <div id="apex-f4-saving" style="margin-top:12px;font-family:var(--fm);font-size:11px;color:var(--gd)"></div>
+  </div>
+
+  <!-- F5: Tier Progression Waterfall -->
+  <div class="apex-feat" id="apex-f5">
+    <p class="apex-ey">Feature 5</p>
+    <h3>Tier Progression Waterfall</h3>
+    <p class="apex-sub">Click Tier 1 results to mark as flagged or within range. Tier 2 and Tier 3 investigations unlock conditionally based on Tier 1 findings.</p>
+    <div class="apex-zsel" id="apex-f5-zsel"></div>
+    <div id="apex-f5-waterfall"></div>
+  </div>
+
+  <!-- F6: Functional Optimal Range Lens -->
+  <div class="apex-feat" id="apex-f6">
+    <p class="apex-ey">Feature 6</p>
+    <h3>Functional Optimal Range Lens</h3>
+    <p class="apex-sub">Click any investigation to reveal conventional vs functional optimal ranges. The narrower functional window is where terrain intelligence focuses.</p>
+    <div class="apex-zsel" id="apex-f6-zsel"></div>
+    <div id="apex-f6-tests"></div>
+  </div>
+
+  <!-- F7: Investigation Dependency Chain -->
+  <div class="apex-feat" id="apex-f7">
+    <p class="apex-ey">Feature 7</p>
+    <h3>Investigation Dependency Chain</h3>
+    <p class="apex-sub">Some tests are redundant when a comprehensive panel is ordered. Selecting the full panel auto-dims covered individual tests.</p>
+    <div class="apex-zsel" id="apex-f7-zsel"></div>
+    <div id="apex-f7-tests"></div>
+  </div>
+
+  <!-- F8: Practitioner Annotation Sticky Notes -->
+  <div class="apex-feat" id="apex-f8">
+    <p class="apex-ey">Feature 8</p>
+    <h3>Practitioner Annotation Sticky Notes</h3>
+    <p class="apex-sub">Click the pin icon to attach a free-text note to any investigation. Notes persist within the session. Documentation layer only.</p>
+    <div class="apex-zsel" id="apex-f8-zsel"></div>
+    <div id="apex-f8-tests"></div>
+  </div>
+
+  <!-- F9: Specimen Timing Advisor -->
+  <div class="apex-feat" id="apex-f9">
+    <p class="apex-ey">Feature 9</p>
+    <h3>Seasonal and Circadian Specimen Timing Advisor</h3>
+    <p class="apex-sub">Optimal collection windows, fasting requirements, and seasonal considerations for each investigation type. Logistical intelligence, not clinical.</p>
+    <div class="apex-zsel" id="apex-f9-zsel"></div>
+    <div id="apex-f9-tests"></div>
+  </div>
+
+  <!-- F10: Budget Scenario Comparator -->
+  <div class="apex-feat" id="apex-f10">
+    <p class="apex-ey">Feature 10</p>
+    <h3>Budget Scenario Comparator</h3>
+    <p class="apex-sub">Side-by-side comparison of two budget scenarios. See what additional spend buys in terms of zone coverage and evidence strength.</p>
+    <div class="apex-zsel" id="apex-f10-zsel"></div>
+    <div id="apex-f10-split">
+      <div class="apex-f10-col" id="apex-f10-left">
+        <h4>Scenario A: Tier 1 Only</h4>
+        <div id="apex-f10-a"></div>
+      </div>
+      <div class="apex-f10-col" id="apex-f10-right">
+        <h4>Scenario B: Tier 1 + Tier 2</h4>
+        <div id="apex-f10-b"></div>
+      </div>
+    </div>
+    <div id="apex-f10-delta" style="margin-top:12px;padding:12px;border-radius:8px;border:1px solid var(--bdr);background:var(--card)"></div>
+  </div>
+
+  <!-- F11: Cascade Source Priority Marker -->
+  <div class="apex-feat" id="apex-f11">
+    <p class="apex-ey">Feature 11</p>
+    <h3>Cascade Source Priority Marker</h3>
+    <p class="apex-sub">DRD designates the highest burden zone. APEX reorders zone tabs: source zone first with a pulsing gold ring. Reactor zones show their stack connection.</p>
+    <div id="apex-f11-sliders" style="margin-bottom:16px"></div>
+    <div class="apex-zsel" id="apex-f11-zsel"></div>
+    <div id="apex-f11-tiers"></div>
+  </div>
+
+  <!-- F12: Evidence Tier Confidence Trajectory -->
+  <div class="apex-feat" id="apex-f12">
+    <p class="apex-ey">Feature 12</p>
+    <h3>Evidence Tier Confidence Trajectory</h3>
+    <p class="apex-sub">Micro-sparklines show how evidence strength for each test has shifted over recent years. Rising trajectories indicate growing confidence.</p>
+    <div class="apex-zsel" id="apex-f12-zsel"></div>
+    <div id="apex-f12-tests"></div>
+  </div>
+
+  <!-- F13: Patient Cost Transparency Card -->
+  <div class="apex-feat" id="apex-f13">
+    <p class="apex-ey">Feature 13</p>
+    <h3>Patient Cost Transparency Card</h3>
+    <p class="apex-sub">Toggle to patient-friendly view: plain English names, single midpoint costs, one-sentence explanations. Suitable for screen-sharing during consultations.</p>
+    <div class="apex-zsel" id="apex-f13-zsel"></div>
+    <div style="margin-bottom:12px">
+      <button id="apex-f13-toggle" class="apex-zb" style="border-color:var(--gd);color:var(--gd)">Switch to Patient View</button>
+    </div>
+    <div id="apex-f13-tests"></div>
+  </div>
+
+  <!-- F14: Multi-Zone Basket Consolidation -->
+  <div class="apex-feat" id="apex-f14">
+    <p class="apex-ey">Feature 14</p>
+    <h3>Multi-Zone Basket Consolidation</h3>
+    <p class="apex-sub">Investigations from all active zones merged into a single list, grouped by specimen type. Duplicates collapsed with zone badges.</p>
+    <div id="apex-f14-basket"></div>
+    <div id="apex-f14-summary" style="margin-top:12px;font-family:var(--fm);font-size:10px;color:var(--mu)"></div>
+  </div>
+
+  <!-- F15: Lab Provider Cost Comparison -->
+  <div class="apex-feat" id="apex-f15">
+    <p class="apex-ey">Feature 15</p>
+    <h3>Lab Provider Cost Comparison Grid</h3>
+    <p class="apex-sub">Three price tiers per investigation: NHS pathway, private lab standard, specialist functional lab. Horizontal bars show cost spectrum. No lab named.</p>
+    <div class="apex-zsel" id="apex-f15-zsel"></div>
+    <div style="margin-bottom:12px">
+      <button id="apex-f15-nhs" class="apex-zb" style="border-color:var(--z2);color:var(--z2)">NHS Only</button>
+    </div>
+    <div id="apex-f15-tests"></div>
+    <p style="font-family:var(--fm);font-size:9px;color:var(--mu2);margin-top:12px">Indicative pricing only. Verify with your preferred laboratory.</p>
+  </div>
+
+  <!-- F16: Investigation Impact Radar -->
+  <div class="apex-feat" id="apex-f16">
+    <p class="apex-ey">Feature 16</p>
+    <h3>Investigation Impact Radar</h3>
+    <p class="apex-sub">Hover over any investigation to see a mini pentagon radar showing which zones that single test provides data for. High-value tests light multiple axes.</p>
+    <div class="apex-zsel" id="apex-f16-zsel"></div>
+    <div id="apex-f16-tests"></div>
+  </div>
+
+  <!-- F17: Borderline Zone Investigation Escalation -->
+  <div class="apex-feat" id="apex-f17">
+    <p class="apex-ey">Feature 17</p>
+    <h3>Borderline Zone Investigation Escalation</h3>
+    <p class="apex-sub">Zones within the D-38 near-threshold window (5 internal points below activation) show confirmation-focused framing. Tier 3 dimmed unless Tier 1 supports escalation.</p>
+    <div id="apex-f17-sliders" style="margin-bottom:16px"></div>
+    <div id="apex-f17-zones"></div>
+  </div>
+
+  <!-- F18: Historical Investigation Tracker -->
+  <div class="apex-feat" id="apex-f18">
+    <p class="apex-ey">Feature 18</p>
+    <h3>Historical Investigation Tracker</h3>
+    <p class="apex-sub">Timeline showing investigation shortlists from previous DeltaScan timepoints. REPEAT, NEW, and DROPPED badges reveal how the diagnostic strategy evolved.</p>
+    <div class="apex-timeline" id="apex-f18-timeline"></div>
+    <div id="apex-f18-comparison"></div>
+  </div>
+
+  <!-- F19: Cascade-Weighted Cost Efficiency Score -->
+  <div class="apex-feat" id="apex-f19">
+    <p class="apex-ey">Feature 19</p>
+    <h3>Cascade-Weighted Cost Efficiency Score</h3>
+    <p class="apex-sub">Each investigation scored by cost divided by number of zones it informs. Sort by efficiency to find the best diagnostic value per pound across the terrain.</p>
+    <div class="apex-zsel" id="apex-f19-zsel"></div>
+    <div style="margin-bottom:12px">
+      <button id="apex-f19-sort" class="apex-zb" style="border-color:var(--gd);color:var(--gd)">Sort by Efficiency</button>
+    </div>
+    <div id="apex-f19-tests"></div>
+  </div>
+
+  <!-- F20: Regulatory Provenance Watermark -->
+  <div class="apex-feat" id="apex-f20">
+    <p class="apex-ey">Feature 20</p>
+    <h3>Regulatory Provenance Watermark</h3>
+    <p class="apex-sub">Hover any investigation to reveal its evidence source. Filter by evidence tier. Transparent provenance accountability built into the interaction surface.</p>
+    <div class="apex-zsel" id="apex-f20-zsel"></div>
+    <div style="margin-bottom:12px">
+      <button class="apex-zb apex-f20-filter act" data-ev="all" style="border-color:var(--mu);color:var(--mu)">All</button>
+      <button class="apex-zb apex-f20-filter" data-ev="Established" style="border-color:var(--z2);color:var(--z2)">Established</button>
+      <button class="apex-zb apex-f20-filter" data-ev="Emerging" style="border-color:var(--gd);color:var(--gd)">Emerging</button>
+    </div>
+    <div id="apex-f20-tests"></div>
+    <p style="font-family:var(--fm);font-size:9px;color:var(--mu2);margin-top:16px;border-top:1px solid var(--bdr);padding-top:8px">All evidence tiers assigned per D-05 five-tier classification. No Contested-tier investigations included in Phase 1 demonstration.</p>
+  </div>
+
+  <p class="apex-ft">LA-6 APEX&#8482; Investigation Planner | 20 Premium Features | ALB v1.5 | D-53 | T-01 compliant | Educational demonstration only | Evidence tiers on every investigation<br>
+  VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.<br>
+  MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+/* ══════════════════════════════════════════════════════════════════
+   APEX 20 FEATURES — SHARED DATA
+   ══════════════════════════════════════════════════════════════════ */
+var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+var ZN={Z1:'Metabolic Energy Axis',Z2:'Resilience Network',Z3:'Cardiovascular-Neural Axis',Z4:'Detoxification Trident',Z5:'Hormonal Terrain Axis'};
+var ZTH={Z1:40,Z2:40,Z3:40,Z4:40,Z5:32};
+var STACKS=[
+  {id:'S1',from:'Z2',to:'Z1',vel:'MEDIUM',tier:'Mechanism Established, Cascade Emerging'},
+  {id:'S2',from:'Z1',to:'Z5',vel:'FAST',tier:'Established'},
+  {id:'S3',from:'Z4',to:'Z1',vel:'SLOW',tier:'Emerging'},
+  {id:'S4',from:'Z5',to:'Z2',vel:'MEDIUM',tier:'Theoretical'},
+  {id:'S5',from:'Z2',to:'Z3',vel:'FAST',tier:'Emerging'},
+  {id:'S6',from:'Z1',to:'Z3',vel:'MEDIUM',tier:'Established'}
+];
+var evCol=function(e){return e==='Established'?'#1A7A8A':e==='Emerging'?'#C9A84C':e==='Observed in Practice'?'#7B5EA7':'#8A9AAA'};
+
+/* Enhanced investigation data with fields for all 20 features */
+var INV={
+  Z1:{
+    tier1:[
+      {t:'HbA1c',co:'GBP 15-25',ev:'Established',ph:'Phase 1',pt:'Long-term blood sugar test',fr:[4.0,6.5,4.0,5.3],spec:'blood',fast:false,time:'Any time',zones:['Z1','Z3'],prov:'IFM Textbook 4th ed, ADA Guidelines',nhs:0,priv:20,func:35,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Fasting glucose',co:'GBP 10-20',ev:'Established',ph:'Phase 1',pt:'Blood sugar level (fasting)',fr:[3.9,5.6,3.9,4.7],spec:'blood',fast:true,time:'08:00-10:00',zones:['Z1'],prov:'WHO diagnostic criteria',nhs:0,priv:15,func:25,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Fasting insulin',co:'GBP 30-50',ev:'Established',ph:'Phase 1',pt:'Insulin level (fasting)',fr:[2.0,25.0,2.0,8.0],spec:'blood',fast:true,time:'08:00-10:00',zones:['Z1','Z5'],prov:'IFM Clinical Practice Guidelines',nhs:0,priv:40,func:50,traj:[4,4,5,5,5],dep:null,covers:null,season:null},
+      {t:'Thyroid panel (TSH, fT4, fT3)',co:'GBP 60-90',ev:'Established',ph:'Phase 1',pt:'Thyroid function check',fr:[0.5,4.5,1.0,2.5],spec:'blood',fast:false,time:'08:00-10:00',zones:['Z1','Z5'],prov:'BTA Guidelines 2022',nhs:0,priv:75,func:90,traj:[5,5,5,5,5],dep:'thyroid_full',covers:['tsh_solo'],season:null},
+      {t:'Vitamin D (25-OH)',co:'GBP 30-40',ev:'Established',ph:'Phase 1',pt:'Vitamin D level',fr:[30,100,50,80],spec:'blood',fast:false,time:'Any time',zones:['Z1','Z2'],prov:'Endocrine Society Guidelines',nhs:0,priv:35,func:40,traj:[4,5,5,5,5],dep:null,covers:null,season:'Winter specimen preferred for baseline'},
+      {t:'Ferritin',co:'GBP 15-25',ev:'Established',ph:'Phase 1',pt:'Iron storage level',fr:[12,300,40,150],spec:'blood',fast:false,time:'Any time',zones:['Z1'],prov:'WHO/NICE iron deficiency guidelines',nhs:0,priv:20,func:25,traj:[5,5,5,5,5],dep:null,covers:null,season:null}
+    ],
+    tier2:[
+      {t:'Comprehensive metabolic panel',co:'GBP 80-120',ev:'Established',ph:'Phase 2',pt:'Full body chemistry check',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z1','Z4'],prov:'Standard clinical biochemistry',nhs:0,priv:100,func:120,traj:[5,5,5,5,5],dep:'cmp_full',covers:['glucose_solo','electrolytes'],season:null},
+      {t:'Organic acids test',co:'GBP 200-300',ev:'Emerging',ph:'Phase 2',pt:'Cell energy and nutrient processing test',fr:null,spec:'urine',fast:false,time:'First morning void',zones:['Z1','Z4'],prov:'Great Plains/Mosaic Diagnostics validation',nhs:null,priv:null,func:250,traj:[2,3,3,4,4],dep:null,covers:null,season:null},
+      {t:'CoQ10 levels',co:'GBP 60-90',ev:'Emerging',ph:'Phase 2',pt:'Cellular energy nutrient test',fr:[0.4,1.5,0.8,1.5],spec:'blood',fast:false,time:'Any time',zones:['Z1','Z3'],prov:'Mitochondrial medicine literature',nhs:null,priv:75,func:90,traj:[3,3,4,4,4],dep:null,covers:null,season:null},
+      {t:'Homocysteine',co:'GBP 30-50',ev:'Established',ph:'Phase 2',pt:'Heart and brain risk marker',fr:[5,15,5,8],spec:'blood',fast:true,time:'08:00-10:00',zones:['Z1','Z3','Z4'],prov:'AHA Cardiovascular Guidelines',nhs:0,priv:40,func:50,traj:[4,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Iron studies (full panel)',co:'GBP 40-60',ev:'Established',ph:'Phase 2',pt:'Complete iron assessment',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z1'],prov:'NICE NG24 Blood Transfusion',nhs:0,priv:50,func:60,traj:[5,5,5,5,5],dep:'iron_full',covers:['ferritin'],season:null}
+    ],
+    tier3:[
+      {t:'Mitochondrial function panel',co:'GBP 300-500',ev:'Emerging',ph:'Phase 3',pt:'Advanced cell energy test',fr:null,spec:'blood',fast:false,time:'Any time',zones:['Z1'],prov:'Emerging mitochondrial research',nhs:null,priv:null,func:400,traj:[2,2,3,3,4],dep:null,covers:null,season:null},
+      {t:'Nutrigenomics panel',co:'GBP 250-400',ev:'Observed in Practice',ph:'Phase 3',pt:'Genetic nutrition test',fr:null,spec:'saliva',fast:false,time:'Any time',zones:['Z1','Z4','Z5'],prov:'Nutrigenomics clinical literature',nhs:null,priv:null,func:325,traj:[2,2,3,3,3],dep:null,covers:null,season:null},
+      {t:'Advanced thyroid antibodies',co:'GBP 80-120',ev:'Established',ph:'Phase 3',pt:'Thyroid immune markers',fr:null,spec:'blood',fast:false,time:'08:00-10:00',zones:['Z1','Z2'],prov:'BTA/ETA autoimmune thyroid guidelines',nhs:0,priv:100,func:120,traj:[4,5,5,5,5],dep:null,covers:null,season:null}
+    ]
+  },
+  Z2:{
+    tier1:[
+      {t:'Full blood count with differential',co:'GBP 10-20',ev:'Established',ph:'Phase 1',pt:'General blood health check',fr:null,spec:'blood',fast:false,time:'Any time',zones:['Z1','Z2','Z3'],prov:'NICE NG47 Haematological cancers',nhs:0,priv:15,func:20,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'CRP (high sensitivity)',co:'GBP 15-25',ev:'Established',ph:'Phase 1',pt:'Inflammation marker',fr:[0,10,0,1],spec:'blood',fast:false,time:'Any time',zones:['Z2','Z3'],prov:'ACC/AHA Cardiovascular Risk Guidelines',nhs:0,priv:20,func:25,traj:[4,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'IgA total',co:'GBP 20-35',ev:'Established',ph:'Phase 1',pt:'Immune protein level',fr:[0.7,4.0,0.7,4.0],spec:'blood',fast:false,time:'Any time',zones:['Z2'],prov:'BSI Immunology Guidelines',nhs:0,priv:28,func:35,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Vitamin D (25-OH)',co:'GBP 30-40',ev:'Established',ph:'Phase 1',pt:'Vitamin D level',fr:[30,100,50,80],spec:'blood',fast:false,time:'Any time',zones:['Z1','Z2'],prov:'Endocrine Society Guidelines',nhs:0,priv:35,func:40,traj:[4,5,5,5,5],dep:null,covers:null,season:'Winter specimen preferred for baseline'},
+      {t:'Zinc',co:'GBP 25-40',ev:'Emerging',ph:'Phase 1',pt:'Zinc mineral level',fr:[60,120,80,120],spec:'blood',fast:true,time:'08:00-10:00',zones:['Z2'],prov:'Emerging immune-nutrition evidence',nhs:null,priv:33,func:40,traj:[3,3,4,4,4],dep:null,covers:null,season:null}
+    ],
+    tier2:[
+      {t:'Comprehensive stool analysis',co:'GBP 250-350',ev:'Emerging',ph:'Phase 2',pt:'Detailed gut health test',fr:null,spec:'stool',fast:false,time:'First morning',zones:['Z2'],prov:'GI-MAP validation studies',nhs:null,priv:null,func:300,traj:[2,3,3,4,4],dep:'stool_full',covers:['siga_stool'],season:null},
+      {t:'Intestinal permeability (zonulin)',co:'GBP 80-120',ev:'Emerging',ph:'Phase 2',pt:'Gut barrier integrity test',fr:[0,50,0,30],spec:'blood',fast:false,time:'Any time',zones:['Z2'],prov:'Fasano A. zonulin research 2011-2023',nhs:null,priv:null,func:100,traj:[2,2,3,3,4],dep:null,covers:null,season:null},
+      {t:'Food sensitivity panel (IgG)',co:'GBP 200-300',ev:'Observed in Practice',ph:'Phase 2',pt:'Food reaction screening',fr:null,spec:'blood',fast:false,time:'Any time',zones:['Z2'],prov:'Clinical practice observation, not consensus',nhs:null,priv:null,func:250,traj:[2,2,3,3,3],dep:null,covers:null,season:null},
+      {t:'Secretory IgA (stool)',co:'GBP 40-60',ev:'Emerging',ph:'Phase 2',pt:'Gut immune defence marker',fr:[510,2040,510,2040],spec:'stool',fast:false,time:'First morning',zones:['Z2'],prov:'Mucosal immunology research',nhs:null,priv:null,func:50,traj:[3,3,4,4,4],dep:null,covers:null,season:null}
+    ],
+    tier3:[
+      {t:'Advanced microbiome sequencing',co:'GBP 300-500',ev:'Emerging',ph:'Phase 3',pt:'Full gut bacteria mapping',fr:null,spec:'stool',fast:false,time:'First morning',zones:['Z2'],prov:'Human Microbiome Project data',nhs:null,priv:null,func:400,traj:[2,2,3,3,4],dep:null,covers:null,season:null},
+      {t:'Cytokine panel',co:'GBP 200-350',ev:'Emerging',ph:'Phase 3',pt:'Immune signalling markers',fr:null,spec:'blood',fast:false,time:'08:00-10:00',zones:['Z2','Z3'],prov:'Immunology research, not routine clinical',nhs:null,priv:null,func:275,traj:[2,3,3,4,4],dep:null,covers:null,season:null},
+      {t:'Lymphocyte subset analysis',co:'GBP 150-250',ev:'Established',ph:'Phase 3',pt:'Immune cell type breakdown',fr:null,spec:'blood',fast:false,time:'08:00-10:00',zones:['Z2'],prov:'BSI Clinical Immunology Standards',nhs:0,priv:200,func:250,traj:[4,5,5,5,5],dep:null,covers:null,season:null}
+    ]
+  },
+  Z3:{
+    tier1:[
+      {t:'Lipid panel (full)',co:'GBP 20-35',ev:'Established',ph:'Phase 1',pt:'Cholesterol and fats check',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z3'],prov:'NICE CG181 Cardiovascular Disease',nhs:0,priv:28,func:35,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'HbA1c',co:'GBP 15-25',ev:'Established',ph:'Phase 1',pt:'Long-term blood sugar test',fr:[4.0,6.5,4.0,5.3],spec:'blood',fast:false,time:'Any time',zones:['Z1','Z3'],prov:'ADA/WHO Guidelines',nhs:0,priv:20,func:25,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Blood pressure monitoring',co:'GBP 10-20',ev:'Established',ph:'Phase 1',pt:'Blood pressure check',fr:null,spec:'device',fast:false,time:'Morning and evening',zones:['Z3'],prov:'NICE NG136 Hypertension',nhs:0,priv:15,func:15,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Magnesium (RBC)',co:'GBP 30-50',ev:'Emerging',ph:'Phase 1',pt:'Magnesium inside red blood cells',fr:[4.2,6.8,5.0,6.8],spec:'blood',fast:false,time:'Any time',zones:['Z1','Z3'],prov:'Emerging cardiovascular nutrition data',nhs:null,priv:40,func:50,traj:[3,3,4,4,4],dep:null,covers:null,season:null}
+    ],
+    tier2:[
+      {t:'Advanced lipid panel (LDL-P, sdLDL)',co:'GBP 150-250',ev:'Established',ph:'Phase 2',pt:'Detailed cholesterol particle test',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z3'],prov:'NLA Expert Panel on LDL-P',nhs:null,priv:200,func:250,traj:[4,4,5,5,5],dep:null,covers:null,season:null},
+      {t:'Homocysteine',co:'GBP 30-50',ev:'Established',ph:'Phase 2',pt:'Heart and brain risk marker',fr:[5,15,5,8],spec:'blood',fast:true,time:'08:00-10:00',zones:['Z1','Z3','Z4'],prov:'AHA Cardiovascular Guidelines',nhs:0,priv:40,func:50,traj:[4,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Omega-3 index',co:'GBP 60-90',ev:'Established',ph:'Phase 2',pt:'Healthy fat level in blood',fr:[4,8,8,12],spec:'blood',fast:false,time:'Any time',zones:['Z3'],prov:'Harris WS Omega-3 Index research',nhs:null,priv:75,func:90,traj:[3,4,4,5,5],dep:null,covers:null,season:null},
+      {t:'TMAO',co:'GBP 80-120',ev:'Emerging',ph:'Phase 2',pt:'Gut-heart connection marker',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z2','Z3'],prov:'Cleveland Clinic TMAO research',nhs:null,priv:null,func:100,traj:[2,3,3,4,4],dep:null,covers:null,season:null}
+    ],
+    tier3:[
+      {t:'Coronary artery calcium score',co:'GBP 150-300',ev:'Established',ph:'Phase 3',pt:'Heart artery calcium scan',fr:null,spec:'imaging',fast:false,time:'Any time',zones:['Z3'],prov:'SCCT/AHA CAC Guidelines',nhs:0,priv:225,func:300,traj:[4,4,5,5,5],dep:null,covers:null,season:null},
+      {t:'Carotid intima-media thickness',co:'GBP 200-350',ev:'Established',ph:'Phase 3',pt:'Neck artery thickness scan',fr:null,spec:'imaging',fast:false,time:'Any time',zones:['Z3'],prov:'ESC Cardiovascular Prevention',nhs:0,priv:275,func:350,traj:[4,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Advanced cardiovascular panel',co:'GBP 300-450',ev:'Emerging',ph:'Phase 3',pt:'Full heart risk assessment',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z3'],prov:'Emerging CV biomarker literature',nhs:null,priv:null,func:375,traj:[2,3,3,4,4],dep:null,covers:null,season:null}
+    ]
+  },
+  Z4:{
+    tier1:[
+      {t:'Liver function tests',co:'GBP 15-25',ev:'Established',ph:'Phase 1',pt:'Liver health check',fr:null,spec:'blood',fast:false,time:'Any time',zones:['Z4'],prov:'NICE NG50 Cirrhosis',nhs:0,priv:20,func:25,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'GGT',co:'GBP 10-20',ev:'Established',ph:'Phase 1',pt:'Liver enzyme level',fr:[5,40,5,25],spec:'blood',fast:false,time:'Any time',zones:['Z4'],prov:'NICE liver disease pathway',nhs:0,priv:15,func:20,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Kidney function (eGFR, creatinine)',co:'GBP 15-25',ev:'Established',ph:'Phase 1',pt:'Kidney health check',fr:null,spec:'blood',fast:false,time:'Any time',zones:['Z4'],prov:'NICE NG203 Chronic Kidney Disease',nhs:0,priv:20,func:25,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Uric acid',co:'GBP 10-20',ev:'Established',ph:'Phase 1',pt:'Uric acid level',fr:[2.4,7.0,2.4,5.5],spec:'blood',fast:false,time:'Any time',zones:['Z4'],prov:'BSR Gout Guidelines',nhs:0,priv:15,func:20,traj:[5,5,5,5,5],dep:null,covers:null,season:null}
+    ],
+    tier2:[
+      {t:'Glutathione (reduced)',co:'GBP 60-90',ev:'Emerging',ph:'Phase 2',pt:'Master antioxidant level',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z4'],prov:'Oxidative stress research literature',nhs:null,priv:null,func:75,traj:[3,3,4,4,4],dep:null,covers:null,season:null},
+      {t:'Urinary toxic metals',co:'GBP 150-250',ev:'Observed in Practice',ph:'Phase 2',pt:'Heavy metal exposure test',fr:null,spec:'urine',fast:false,time:'First morning void',zones:['Z4'],prov:'ATSDR toxicology profiles',nhs:null,priv:null,func:200,traj:[3,3,3,3,3],dep:null,covers:null,season:null},
+      {t:'Organic acids (detox markers)',co:'GBP 200-300',ev:'Emerging',ph:'Phase 2',pt:'Detox pathway activity test',fr:null,spec:'urine',fast:false,time:'First morning void',zones:['Z1','Z4'],prov:'Functional medicine organic acid panels',nhs:null,priv:null,func:250,traj:[2,3,3,4,4],dep:null,covers:null,season:null}
+    ],
+    tier3:[
+      {t:'Genetic SNP panel (Phase II detox)',co:'GBP 200-350',ev:'Emerging',ph:'Phase 3',pt:'Detoxification gene test',fr:null,spec:'saliva',fast:false,time:'Any time',zones:['Z4'],prov:'Pharmacogenomics literature',nhs:null,priv:null,func:275,traj:[2,3,3,4,4],dep:null,covers:null,season:null},
+      {t:'Environmental toxin panel',co:'GBP 300-500',ev:'Observed in Practice',ph:'Phase 3',pt:'Chemical exposure screening',fr:null,spec:'blood',fast:false,time:'Any time',zones:['Z4'],prov:'Environmental health research',nhs:null,priv:null,func:400,traj:[2,2,3,3,3],dep:null,covers:null,season:null},
+      {t:'Mycotoxin panel',co:'GBP 250-400',ev:'Observed in Practice',ph:'Phase 3',pt:'Mould toxin exposure test',fr:null,spec:'urine',fast:false,time:'First morning void',zones:['Z4'],prov:'ISEAI mould illness literature',nhs:null,priv:null,func:325,traj:[2,2,3,3,3],dep:null,covers:null,season:null}
+    ]
+  },
+  Z5:{
+    tier1:[
+      {t:'4-point cortisol (salivary)',co:'GBP 80-120',ev:'Established',ph:'Phase 1',pt:'Stress hormone rhythm test',fr:null,spec:'saliva',fast:false,time:'Waking, +30min, noon, 10pm',zones:['Z5'],prov:'Endocrine Society adrenal guidelines',nhs:null,priv:null,func:100,traj:[4,4,5,5,5],dep:null,covers:null,season:null},
+      {t:'DHEA-S',co:'GBP 25-40',ev:'Established',ph:'Phase 1',pt:'Adrenal reserve marker',fr:null,spec:'blood',fast:false,time:'08:00-10:00',zones:['Z5'],prov:'Endocrine Society androgen guidelines',nhs:0,priv:33,func:40,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Testosterone (total and free)',co:'GBP 40-60',ev:'Established',ph:'Phase 1',pt:'Testosterone level check',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z5'],prov:'AUA/EAU testosterone guidelines',nhs:0,priv:50,func:60,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Oestradiol',co:'GBP 25-40',ev:'Established',ph:'Phase 1',pt:'Oestrogen level check',fr:null,spec:'blood',fast:false,time:'Day 3 of cycle (pre-menopausal)',zones:['Z5'],prov:'RCOG/NICE menopause guidelines',nhs:0,priv:33,func:40,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Thyroid panel (TSH, fT4, fT3)',co:'GBP 60-90',ev:'Established',ph:'Phase 1',pt:'Thyroid function check',fr:[0.5,4.5,1.0,2.5],spec:'blood',fast:false,time:'08:00-10:00',zones:['Z1','Z5'],prov:'BTA Guidelines 2022',nhs:0,priv:75,func:90,traj:[5,5,5,5,5],dep:'thyroid_full',covers:['tsh_solo'],season:null}
+    ],
+    tier2:[
+      {t:'DUTCH complete hormone panel',co:'GBP 250-350',ev:'Emerging',ph:'Phase 2',pt:'Full hormone metabolism test',fr:null,spec:'urine',fast:false,time:'Specific collection protocol',zones:['Z5'],prov:'Precision Analytical validation data',nhs:null,priv:null,func:300,traj:[2,3,3,4,4],dep:'dutch_full',covers:['oestradiol','dheas'],season:null},
+      {t:'Sex hormone binding globulin',co:'GBP 30-50',ev:'Established',ph:'Phase 2',pt:'Hormone carrier protein test',fr:null,spec:'blood',fast:true,time:'08:00-10:00',zones:['Z5'],prov:'Endocrine Society guidelines',nhs:0,priv:40,func:50,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Progesterone',co:'GBP 25-40',ev:'Established',ph:'Phase 2',pt:'Progesterone level',fr:null,spec:'blood',fast:false,time:'Day 21 of cycle (pre-menopausal)',zones:['Z5'],prov:'RCOG progesterone guidelines',nhs:0,priv:33,func:40,traj:[5,5,5,5,5],dep:null,covers:null,season:null},
+      {t:'Insulin-like growth factor 1',co:'GBP 40-60',ev:'Emerging',ph:'Phase 2',pt:'Growth and repair marker',fr:null,spec:'blood',fast:false,time:'Any time',zones:['Z1','Z5'],prov:'Emerging longevity research',nhs:0,priv:50,func:60,traj:[3,3,4,4,4],dep:null,covers:null,season:null}
+    ],
+    tier3:[
+      {t:'Comprehensive hormone metabolite panel',co:'GBP 350-500',ev:'Emerging',ph:'Phase 3',pt:'Complete hormone breakdown test',fr:null,spec:'urine',fast:false,time:'Specific collection protocol',zones:['Z5'],prov:'Steroid metabolomics research',nhs:null,priv:null,func:425,traj:[2,2,3,3,4],dep:null,covers:null,season:null},
+      {t:'Adrenal stress index (extended)',co:'GBP 200-300',ev:'Observed in Practice',ph:'Phase 3',pt:'Extended stress hormone profile',fr:null,spec:'saliva',fast:false,time:'Waking to bedtime (6 points)',zones:['Z5'],prov:'Clinical practice observation',nhs:null,priv:null,func:250,traj:[3,3,3,3,3],dep:null,covers:null,season:null},
+      {t:'Thyroid antibodies (TPO, TgAb, TSI)',co:'GBP 80-120',ev:'Established',ph:'Phase 3',pt:'Thyroid immune markers',fr:null,spec:'blood',fast:false,time:'08:00-10:00',zones:['Z1','Z2','Z5'],prov:'BTA/ETA autoimmune thyroid guidelines',nhs:0,priv:100,func:120,traj:[4,5,5,5,5],dep:null,covers:null,season:null}
+    ]
+  }
+};
+
+var TIER_META=[
+  {key:'tier1',label:'Tier 1: GBP 200-400',c:'#1A7A8A',desc:'Core confirmation investigations. Non-invasive. NHS and private lab accessible.'},
+  {key:'tier2',label:'Tier 2: GBP 400-800',c:'#C9A84C',desc:'Extended reactor investigations. Specialist lab panels. 4-point cortisol included.'},
+  {key:'tier3',label:'Tier 3: GBP 800+',c:'#7B5EA7',desc:'Comprehensive structural and advanced investigations. Genomics, advanced panels, imaging.'}
+];
+
+var FEATURES=[
+  {id:'apex-f1',label:'F1 Cascade Sequence'},
+  {id:'apex-f2',label:'F2 Budget Accumulator'},
+  {id:'apex-f3',label:'F3 Evidence Heatmap'},
+  {id:'apex-f4',label:'F4 Overlap Detector'},
+  {id:'apex-f5',label:'F5 Tier Waterfall'},
+  {id:'apex-f6',label:'F6 Range Lens'},
+  {id:'apex-f7',label:'F7 Dependencies'},
+  {id:'apex-f8',label:'F8 Annotations'},
+  {id:'apex-f9',label:'F9 Timing Advisor'},
+  {id:'apex-f10',label:'F10 Scenario Compare'},
+  {id:'apex-f11',label:'F11 Source Priority'},
+  {id:'apex-f12',label:'F12 Evidence Trajectory'},
+  {id:'apex-f13',label:'F13 Patient Card'},
+  {id:'apex-f14',label:'F14 Basket Consolidation'},
+  {id:'apex-f15',label:'F15 Lab Cost Compare'},
+  {id:'apex-f16',label:'F16 Impact Radar'},
+  {id:'apex-f17',label:'F17 Borderline Escalation'},
+  {id:'apex-f18',label:'F18 History Tracker'},
+  {id:'apex-f19',label:'F19 Cost Efficiency'},
+  {id:'apex-f20',label:'F20 Provenance'}
+];
+
+/* ══════════════════════════════════════════════════════════════════
+   HELPERS
+   ══════════════════════════════════════════════════════════════════ */
+function getAllTests(zone){var a=[];var z=INV[zone];if(!z)return a;['tier1','tier2','tier3'].forEach(function(k){(z[k]||[]).forEach(function(t){a.push({test:t,tier:k})})});return a;}
+function parseCostMid(co){var m=co.match(/(\d+)[\-\u2013](\d+)/);if(m)return(parseInt(m[1])+parseInt(m[2]))/2;var s=co.match(/(\d+)/);return s?parseInt(s[1]):0;}
+function parseCostRange(co){var m=co.match(/(\d+)[\-\u2013](\d+)/);if(m)return{lo:parseInt(m[1]),hi:parseInt(m[2])};var s=co.match(/(\d+)/);return s?{lo:parseInt(s[1]),hi:parseInt(s[1])}:{lo:0,hi:0};}
+function makeZoneSelector(containerId,callback,selected){
+  var el=document.getElementById(containerId);if(!el)return;el.innerHTML='';
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    var b=document.createElement('button');b.className='apex-zb'+(selected===z?' act':'');
+    b.style.borderColor=ZC[z];b.style.color=ZC[z];
+    if(selected===z)b.style.background=ZC[z]+'22';
+    b.textContent=z+': '+ZN[z];
+    b.onclick=function(){callback(z)};
+    el.appendChild(b);
+  });
+}
+function makeEvBadge(ev){return '<span class="apex-rev" style="background:'+evCol(ev)+'20;color:'+evCol(ev)+'">'+ev+'</span>';}
+function drawMiniRadar(canvas,zones){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;
+  var cx=w/2,cy=h/2,r=w/2-8;ctx.clearRect(0,0,w,h);
+  var pts=[];var allZ=['Z1','Z2','Z3','Z4','Z5'];
+  for(var i=0;i<5;i++){var a=(-90+i*72)*Math.PI/180;pts.push({x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)});}
+  ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1;ctx.beginPath();
+  for(var j=0;j<5;j++){ctx.moveTo(pts[j].x,pts[j].y);ctx.lineTo(pts[(j+1)%5].x,pts[(j+1)%5].y);}
+  ctx.stroke();
+  ctx.beginPath();
+  var first=true;
+  for(var k=0;k<5;k++){
+    var active=zones.indexOf(allZ[k])>=0;
+    var px=cx+(active?r:r*0.15)*Math.cos((-90+k*72)*Math.PI/180);
+    var py=cy+(active?r:r*0.15)*Math.sin((-90+k*72)*Math.PI/180);
+    if(first){ctx.moveTo(px,py);first=false;}else{ctx.lineTo(px,py);}
+  }
+  ctx.closePath();ctx.fillStyle='rgba(201,168,76,0.2)';ctx.fill();
+  ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=1.5;ctx.stroke();
+  for(var m=0;m<5;m++){
+    var act2=zones.indexOf(allZ[m])>=0;
+    ctx.fillStyle=act2?ZC[allZ[m]]:'rgba(255,255,255,0.15)';
+    ctx.beginPath();ctx.arc(pts[m].x,pts[m].y,act2?3:2,0,Math.PI*2);ctx.fill();
+  }
+}
+function sparkSVG(traj){
+  var w=40,h=14,pts=[];
+  for(var i=0;i<traj.length;i++){pts.push((i/(traj.length-1))*w+','+(h-((traj[i]-1)/4)*h));}
+  return '<svg class="apex-spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><polyline points="'+pts.join(' ')+'" fill="none" stroke="'+evCol('Emerging')+'" stroke-width="1.5" stroke-linecap="round"/></svg>';
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   FEATURE NAV
+   ══════════════════════════════════════════════════════════════════ */
+var fnav=document.getElementById('vm-la6-fnav');
+FEATURES.forEach(function(f){
+  var b=document.createElement('button');
+  b.className='apex-fn-btn'+(f.id==='apex-f1'?' act':'');
+  b.textContent=f.label;
+  b.setAttribute('data-target',f.id);
+  b.onclick=function(){
+    document.querySelectorAll('.apex-feat').forEach(function(el){el.classList.remove('vis')});
+    document.querySelectorAll('.apex-fn-btn').forEach(function(el){el.classList.remove('act')});
+    document.getElementById(f.id).classList.add('vis');
+    b.classList.add('act');
+  };
+  fnav.appendChild(b);
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   F1: CASCADE-LINKED INVESTIGATION SEQUENCING
+   ══════════════════════════════════════════════════════════════════ */
+var f1Zone='Z2';
+function f1Render(){
+  makeZoneSelector('apex-f1-zsel',function(z){f1Zone=z;f1Render();},f1Zone);
+  var seq=document.getElementById('apex-f1-sequence');
+  var tiers=document.getElementById('apex-f1-tiers');
+  // Find downstream zones via cascade stacks
+  var downstream=[];
+  STACKS.forEach(function(s){
+    if(s.from===f1Zone&&s.id!=='S4'){downstream.push({zone:s.to,stack:s.id,vel:s.vel,tier:s.tier});}
+  });
+  var order=[f1Zone];downstream.forEach(function(d){if(order.indexOf(d.zone)<0)order.push(d.zone);});
+  var html='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px">';
+  order.forEach(function(z,i){
+    var isSource=i===0;
+    html+='<div style="padding:8px 16px;border-radius:8px;border:2px solid '+ZC[z]+';background:'+ZC[z]+'15;font-family:var(--fm);font-size:11px;color:'+ZC[z]+';font-weight:700">';
+    html+=z+(isSource?' <span class="apex-source-stamp">SOURCE ZONE</span>':'');
+    var conn=downstream.filter(function(d){return d.zone===z;});
+    if(conn.length>0)html+=' <span class="apex-badge apex-badge-teal">via '+conn[0].stack+'</span>';
+    html+='</div>';
+    if(i<order.length-1)html+='<div style="color:var(--gd);font-size:18px">&#8594;</div>';
+  });
+  html+='</div>';
+  if(downstream.length===0)html+='<p style="font-size:11px;color:var(--mu)">No outgoing cascade stacks from '+f1Zone+'. This zone does not propagate downstream in the current architecture.</p>';
+  seq.innerHTML=html;
+  // Show tier 1 tests for source zone
+  var tHtml='<div style="font-family:var(--fm);font-size:10px;color:var(--mu);margin-bottom:8px">RECOMMENDED INVESTIGATION ORDER: Start with '+f1Zone+' (source)</div>';
+  var tests=INV[f1Zone];
+  if(tests&&tests.tier1){
+    tests.tier1.forEach(function(t){
+      tHtml+='<div class="apex-row"><div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span><span class="apex-rph">'+t.ph+'</span></div>';
+      tHtml+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+    });
+  }
+  tiers.innerHTML=tHtml;
+}
+f1Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F2: LIVE BUDGET ACCUMULATOR
+   ══════════════════════════════════════════════════════════════════ */
+var f2Zone='Z1';var f2Selected={};
+function f2Render(){
+  makeZoneSelector('apex-f2-zsel',function(z){f2Zone=z;f2Render();},f2Zone);
+  var el=document.getElementById('apex-f2-tiers');el.innerHTML='';
+  TIER_META.forEach(function(tier){
+    var tests=(INV[f2Zone]||{})[tier.key]||[];
+    var card=document.createElement('div');card.className='apex-tier';card.style.borderColor=tier.c+'55';
+    var h='<div class="apex-thdr"><span class="apex-tlbl" style="color:'+tier.c+'">'+tier.label+'</span><span class="apex-tcnt">'+tests.length+' investigations</span></div>';
+    h+='<div class="apex-tdesc">'+tier.desc+'</div>';
+    tests.forEach(function(t,i){
+      var key=f2Zone+'-'+tier.key+'-'+i;
+      var checked=f2Selected[key]?'checked':'';
+      h+='<div class="apex-row'+(f2Selected[key]?' selected':'')+'">';
+      h+='<input type="checkbox" class="apex-cb" data-key="'+key+'" data-cost="'+parseCostMid(t.co)+'" '+checked+'>';
+      h+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span><span class="apex-rph">'+t.ph+'</span></div>';
+      h+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+    });
+    card.innerHTML=h;el.appendChild(card);
+  });
+  el.querySelectorAll('.apex-cb').forEach(function(cb){
+    cb.addEventListener('change',function(){
+      var k=cb.getAttribute('data-key');
+      if(cb.checked){f2Selected[k]={cost:parseFloat(cb.getAttribute('data-cost'))};}
+      else{delete f2Selected[k];}
+      f2UpdateBar();
+    });
+  });
+  f2UpdateBar();
+}
+function f2UpdateBar(){
+  var total=0;var items=[];
+  Object.keys(f2Selected).forEach(function(k){total+=f2Selected[k].cost;items.push(k);});
+  document.getElementById('apex-f2-total').textContent='Selected: GBP '+Math.round(total);
+  var maxBudget=1200;var pct=Math.min(100,(total/maxBudget)*100);
+  var bar=document.getElementById('apex-f2-bar-fill');
+  bar.style.width=pct+'%';
+  bar.style.background=total<=400?'#1A7A8A':total<=800?'#C9A84C':'#7B5EA7';
+  bar.textContent='GBP '+Math.round(total);
+  var sl=document.getElementById('apex-f2-shortlist');
+  var list=document.getElementById('apex-f2-list');
+  if(items.length>0){sl.style.display='block';list.innerHTML=items.length+' investigations selected';}
+  else{sl.style.display='none';}
+}
+f2Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F3: EVIDENCE CONFIDENCE HEATMAP
+   ══════════════════════════════════════════════════════════════════ */
+var f3Zone='Z1';
+function f3Render(){
+  makeZoneSelector('apex-f3-zsel',function(z){f3Zone=z;f3Render();},f3Zone);
+  var grid=document.getElementById('apex-f3-grid');
+  var tiers=['Established','Emerging','Observed in Practice','Theoretical','Contested'];
+  var html='<div class="apex-f3-hdr"></div>';
+  tiers.forEach(function(t){html+='<div class="apex-f3-hdr" style="color:'+evCol(t)+'">'+t+'</div>';});
+  var all=getAllTests(f3Zone);
+  all.forEach(function(item){
+    html+='<div class="apex-f3-hdr" style="text-align:left;color:var(--wh)">'+item.test.t+'</div>';
+    tiers.forEach(function(tier){
+      var match=item.test.ev===tier;
+      var intensity=match?0.6:0.05;
+      html+='<div class="apex-f3-cell" style="background:'+evCol(tier)+(match?'40':'08')+';color:'+(match?evCol(tier):'transparent')+'">'+
+        (match?'&#9679;':'')+'</div>';
+    });
+  });
+  grid.innerHTML=html;
+  grid.style.gridTemplateColumns='200px repeat('+tiers.length+',1fr)';
+}
+f3Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F4: CROSS-ZONE OVERLAP DETECTOR
+   ══════════════════════════════════════════════════════════════════ */
+function f4Render(){
+  var testMap={};
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    var all=getAllTests(z);
+    all.forEach(function(item){
+      var name=item.test.t;
+      if(!testMap[name])testMap[name]={zones:[],test:item.test};
+      if(testMap[name].zones.indexOf(z)<0)testMap[name].zones.push(z);
+    });
+  });
+  var overlaps=[];var totalSaving=0;
+  Object.keys(testMap).forEach(function(name){
+    if(testMap[name].zones.length>1){overlaps.push(testMap[name]);totalSaving+=parseCostMid(testMap[name].test.co)*(testMap[name].zones.length-1);}
+  });
+  var el=document.getElementById('apex-f4-overlaps');
+  var html='';
+  overlaps.forEach(function(o){
+    html+='<div class="apex-row"><div class="apex-rinfo"><span class="apex-rname">'+o.test.t+'</span>';
+    html+='<span class="apex-badge apex-badge-gold">DUAL-YIELD</span>';
+    html+='<span class="apex-overlap">';
+    o.zones.forEach(function(z){html+='<span class="apex-oz" style="background:'+ZC[z]+'">'+z.replace('Z','')+'</span>';});
+    html+='</span></div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(o.test.ev)+'<span class="apex-rcost">'+o.test.co+'</span></div></div>';
+  });
+  if(overlaps.length===0)html='<p style="font-size:11px;color:var(--mu)">No cross-zone overlaps detected.</p>';
+  el.innerHTML=html;
+  document.getElementById('apex-f4-saving').textContent=overlaps.length+' investigations cover 2+ zones. Potential saving: GBP '+Math.round(totalSaving);
+}
+f4Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F5: TIER PROGRESSION WATERFALL
+   ══════════════════════════════════════════════════════════════════ */
+var f5Zone='Z1';var f5Flagged={};
+function f5Render(){
+  makeZoneSelector('apex-f5-zsel',function(z){f5Zone=z;f5Flagged={};f5Render();},f5Zone);
+  var el=document.getElementById('apex-f5-waterfall');var html='';
+  var z=INV[f5Zone];if(!z){el.innerHTML='';return;}
+  var flagCount=Object.keys(f5Flagged).filter(function(k){return f5Flagged[k]==='flagged';}).length;
+  var tiers=[
+    {key:'tier1',label:'Tier 1: Core Confirmation',locked:false,desc:'Click each test to mark as Flagged or Within Range'},
+    {key:'tier2',label:'Tier 2: Extended Reactor',locked:flagCount<1,desc:flagCount<1?'Unlock by flagging at least 1 Tier 1 result':'Unlocked based on Tier 1 findings'},
+    {key:'tier3',label:'Tier 3: Structural',locked:flagCount<2,desc:flagCount<2?'Unlock by flagging at least 2 Tier 1 results':'Unlocked based on Tier 1 findings'}
+  ];
+  tiers.forEach(function(tier,ti){
+    if(ti>0)html+='<div class="apex-wf-arrow">'+(tier.locked?'&#128274;':'&#8595;')+'</div>';
+    html+='<div class="apex-tier'+(tier.locked?' locked':'')+'" style="border-color:'+(tier.locked?'var(--bdr)':TIER_META[ti].c)+'55">';
+    html+='<div class="apex-thdr"><span class="apex-tlbl" style="color:'+TIER_META[ti].c+'">'+tier.label+'</span></div>';
+    html+='<div class="apex-tdesc">'+tier.desc+'</div>';
+    var tests=z[tier.key]||[];
+    tests.forEach(function(t,i){
+      var k=tier.key+'-'+i;var st=f5Flagged[k]||'none';
+      var bg=st==='flagged'?'rgba(201,168,76,0.12)':st==='normal'?'rgba(26,122,138,0.08)':'rgba(255,255,255,0.04)';
+      var badge=st==='flagged'?'<span class="apex-badge apex-badge-gold">FLAGGED</span>':st==='normal'?'<span class="apex-badge apex-badge-teal">WITHIN RANGE</span>':'';
+      html+='<div class="apex-row apex-f5-row" data-key="'+k+'" data-tier="'+tier.key+'" style="background:'+bg+';cursor:pointer">';
+      html+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span>'+badge+'</div>';
+      html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.apex-f5-row').forEach(function(row){
+    row.addEventListener('click',function(){
+      var k=row.getAttribute('data-key');var tier=row.getAttribute('data-tier');
+      if(tier!=='tier1')return;
+      if(!f5Flagged[k])f5Flagged[k]='flagged';
+      else if(f5Flagged[k]==='flagged')f5Flagged[k]='normal';
+      else f5Flagged[k]='flagged';
+      f5Render();
+    });
+  });
+}
+f5Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F6: FUNCTIONAL OPTIMAL RANGE LENS
+   ══════════════════════════════════════════════════════════════════ */
+var f6Zone='Z1';var f6Open={};
+function f6Render(){
+  makeZoneSelector('apex-f6-zsel',function(z){f6Zone=z;f6Open={};f6Render();},f6Zone);
+  var el=document.getElementById('apex-f6-tests');var html='';
+  var all=getAllTests(f6Zone);
+  all.forEach(function(item,i){
+    var t=item.test;var k='f6-'+i;var isOpen=f6Open[k];
+    html+='<div class="apex-row apex-f6-click" data-k="'+k+'" style="cursor:pointer;flex-wrap:wrap">';
+    html+='<div class="apex-rinfo"><span class="apex-rname">'+(t.fr?'&#128269; ':'')+t.t+'</span><span class="apex-rph">'+t.ph+'</span></div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div>';
+    if(t.fr){
+      var maxVal=Math.max(t.fr[1],t.fr[3])*1.2;
+      html+='<div class="apex-range-panel'+(isOpen?' open':'')+'" style="width:100%">';
+      html+='<div class="apex-range-lbl"><span>Conventional: '+t.fr[0]+' - '+t.fr[1]+'</span><span style="color:var(--gd)">Functional: '+t.fr[2]+' - '+t.fr[3]+'</span></div>';
+      html+='<div class="apex-range-bar">';
+      html+='<div class="apex-range-seg" style="left:'+(t.fr[0]/maxVal*100)+'%;width:'+((t.fr[1]-t.fr[0])/maxVal*100)+'%;background:rgba(255,255,255,0.15)"></div>';
+      html+='<div class="apex-range-seg" style="left:'+(t.fr[2]/maxVal*100)+'%;width:'+((t.fr[3]-t.fr[2])/maxVal*100)+'%;background:rgba(201,168,76,0.4);border:1px solid rgba(201,168,76,0.6)"></div>';
+      html+='</div></div>';
+    }
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.apex-f6-click').forEach(function(row){
+    row.addEventListener('click',function(){var k=row.getAttribute('data-k');f6Open[k]=!f6Open[k];f6Render();});
+  });
+}
+f6Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F7: INVESTIGATION DEPENDENCY CHAIN
+   ══════════════════════════════════════════════════════════════════ */
+var f7Zone='Z1';var f7Active={};
+function f7Render(){
+  makeZoneSelector('apex-f7-zsel',function(z){f7Zone=z;f7Active={};f7Render();},f7Zone);
+  var el=document.getElementById('apex-f7-tests');var html='';
+  var all=getAllTests(f7Zone);
+  // Build coverage map
+  var coverMap={};
+  all.forEach(function(item){if(item.test.dep&&item.test.covers){
+    item.test.covers.forEach(function(c){coverMap[c]=item.test.dep;});
+  }});
+  // Check which dep keys are active
+  var activeDeps={};
+  all.forEach(function(item,i){if(item.test.dep&&f7Active['f7-'+i])activeDeps[item.test.dep]=true;});
+  all.forEach(function(item,i){
+    var t=item.test;var k='f7-'+i;
+    var dimmed=false;var coveredBy='';
+    if(t.dep){/* this is a parent panel */}
+    all.forEach(function(other){
+      if(other.test.covers&&other.test.covers.indexOf(t.t.toLowerCase().replace(/[^a-z]/g,'_'))>=0&&f7Active['f7-'+all.indexOf(other)]){
+        dimmed=true;coveredBy=other.test.t;
+      }
+    });
+    // Check if this test name matches any covers entry (simplified)
+    Object.keys(f7Active).forEach(function(ak){
+      var idx=parseInt(ak.replace('f7-',''));
+      var parent=all[idx];
+      if(parent&&parent.test.covers){
+        parent.test.covers.forEach(function(c){
+          if(t.t.toLowerCase().indexOf(c.replace(/_/g,' '))>=0){dimmed=true;coveredBy=parent.test.t;}
+        });
+      }
+    });
+    html+='<div class="apex-row'+(dimmed?' dimmed':'')+'">';
+    if(t.dep){
+      html+='<input type="checkbox" class="apex-cb apex-f7-cb" data-k="'+k+'" '+(f7Active[k]?'checked':'')+'>';
+    }
+    html+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span>';
+    if(t.covers)html+='<span class="apex-badge apex-badge-gold">COMPREHENSIVE</span>';
+    if(dimmed)html+='<span class="apex-badge apex-badge-teal">Covered by '+coveredBy+'</span>';
+    html+='<span class="apex-rph">'+t.ph+'</span></div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.apex-f7-cb').forEach(function(cb){
+    cb.addEventListener('change',function(){
+      var k=cb.getAttribute('data-k');f7Active[k]=cb.checked;f7Render();
+    });
+  });
+}
+f7Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F8: PRACTITIONER ANNOTATION STICKY NOTES
+   ══════════════════════════════════════════════════════════════════ */
+var f8Zone='Z1';var f8Notes={};
+function f8Render(){
+  makeZoneSelector('apex-f8-zsel',function(z){f8Zone=z;f8Render();},f8Zone);
+  var el=document.getElementById('apex-f8-tests');var html='';
+  var all=getAllTests(f8Zone);
+  all.forEach(function(item,i){
+    var t=item.test;var k='f8-'+f8Zone+'-'+i;var note=f8Notes[k]||'';
+    html+='<div class="apex-row" style="flex-wrap:wrap">';
+    html+='<div style="cursor:pointer;margin-right:8px;font-size:14px" class="apex-f8-pin" data-k="'+k+'" title="Add annotation">&#128204;</div>';
+    html+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span><span class="apex-rph">'+t.ph+'</span></div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div>';
+    html+='<div class="apex-note'+(note?' vis':'')+'" id="note-'+k+'" style="width:100%"><input class="apex-note-input" data-k="'+k+'" value="'+note+'" placeholder="Add practitioner note (max 140 chars)" maxlength="140"></div>';
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.apex-f8-pin').forEach(function(pin){
+    pin.addEventListener('click',function(){
+      var k=pin.getAttribute('data-k');var note=document.getElementById('note-'+k);
+      note.classList.toggle('vis');if(note.classList.contains('vis'))note.querySelector('input').focus();
+    });
+  });
+  el.querySelectorAll('.apex-note-input').forEach(function(inp){
+    inp.addEventListener('input',function(){f8Notes[inp.getAttribute('data-k')]=inp.value;});
+  });
+}
+f8Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F9: SPECIMEN TIMING ADVISOR
+   ══════════════════════════════════════════════════════════════════ */
+var f9Zone='Z1';
+function f9Render(){
+  makeZoneSelector('apex-f9-zsel',function(z){f9Zone=z;f9Render();},f9Zone);
+  var el=document.getElementById('apex-f9-tests');var html='';
+  var all=getAllTests(f9Zone);
+  all.forEach(function(item){
+    var t=item.test;
+    html+='<div class="apex-timing-row">';
+    html+='<div style="min-width:50px;text-align:center">';
+    var specIcon=t.spec==='blood'?'&#129656;':t.spec==='urine'?'&#128167;':t.spec==='saliva'?'&#128172;':t.spec==='stool'?'&#128220;':t.spec==='imaging'?'&#128248;':'&#9881;';
+    html+='<div style="font-size:20px">'+specIcon+'</div>';
+    html+='<div style="font-family:var(--fm);font-size:8px;color:var(--mu);text-transform:uppercase">'+t.spec+'</div>';
+    html+='</div>';
+    html+='<div style="flex:1"><div style="font-size:12px;font-weight:600">'+t.t+'</div>';
+    html+='<div style="font-size:10px;color:var(--mu);margin-top:2px">'+t.time+'</div>';
+    if(t.fast)html+='<span class="apex-timing-tag" style="background:rgba(201,168,76,0.15);color:var(--gd);margin-top:4px">Fasting required</span>';
+    if(t.season)html+='<div style="font-size:9px;color:var(--mu2);margin-top:4px;font-style:italic">'+t.season+'</div>';
+    html+='</div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'</div>';
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+f9Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F10: BUDGET SCENARIO COMPARATOR
+   ══════════════════════════════════════════════════════════════════ */
+var f10Zone='Z1';
+function f10Render(){
+  makeZoneSelector('apex-f10-zsel',function(z){f10Zone=z;f10Render();},f10Zone);
+  var z=INV[f10Zone];if(!z)return;
+  var t1=z.tier1||[];var t2=z.tier2||[];
+  // Scenario A: Tier 1 only
+  var costA={lo:0,hi:0,count:t1.length,zones:{}};
+  t1.forEach(function(t){var r=parseCostRange(t.co);costA.lo+=r.lo;costA.hi+=r.hi;t.zones.forEach(function(zz){costA.zones[zz]=true;});});
+  // Scenario B: Tier 1 + Tier 2
+  var costB={lo:costA.lo,hi:costA.hi,count:t1.length+t2.length,zones:{}};
+  Object.keys(costA.zones).forEach(function(k){costB.zones[k]=true;});
+  t2.forEach(function(t){var r=parseCostRange(t.co);costB.lo+=r.lo;costB.hi+=r.hi;t.zones.forEach(function(zz){costB.zones[zz]=true;});});
+  var aHtml='<div style="font-family:var(--fm);font-size:11px;color:var(--gd);margin-bottom:8px">GBP '+costA.lo+'-'+costA.hi+'</div>';
+  aHtml+='<div style="font-size:10px;color:var(--mu)">'+costA.count+' investigations | '+Object.keys(costA.zones).length+' zones covered</div>';
+  t1.forEach(function(t){aHtml+='<div style="font-size:10px;padding:4px 0;border-bottom:1px solid var(--bdr)">'+t.t+'</div>';});
+  document.getElementById('apex-f10-a').innerHTML=aHtml;
+  var bHtml='<div style="font-family:var(--fm);font-size:11px;color:var(--gd);margin-bottom:8px">GBP '+costB.lo+'-'+costB.hi+'</div>';
+  bHtml+='<div style="font-size:10px;color:var(--mu)">'+costB.count+' investigations | '+Object.keys(costB.zones).length+' zones covered</div>';
+  t1.concat(t2).forEach(function(t){bHtml+='<div style="font-size:10px;padding:4px 0;border-bottom:1px solid var(--bdr)">'+t.t+'</div>';});
+  document.getElementById('apex-f10-b').innerHTML=bHtml;
+  var diffCost=(costB.lo-costA.lo)+'-'+(costB.hi-costA.hi);
+  var diffZones=Object.keys(costB.zones).length-Object.keys(costA.zones).length;
+  document.getElementById('apex-f10-delta').innerHTML='<div style="font-family:var(--fm);font-size:10px;color:var(--gd)">DELTA: Additional GBP '+diffCost+' buys '+(costB.count-costA.count)+' more investigations and '+diffZones+' additional zone(s) covered.</div>';
+}
+f10Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F11: CASCADE SOURCE PRIORITY MARKER
+   ══════════════════════════════════════════════════════════════════ */
+var f11Scores={Z1:55,Z2:65,Z3:30,Z4:25,Z5:50};
+function f11Render(){
+  // Sliders
+  var sl=document.getElementById('apex-f11-sliders');
+  sl.innerHTML='';
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    var row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:6px';
+    row.innerHTML='<span style="font-family:var(--fm);font-size:10px;color:'+ZC[z]+';min-width:28px;font-weight:700">'+z+'</span><input type="range" min="0" max="100" value="'+f11Scores[z]+'" style="flex:1;accent-color:'+ZC[z]+'" data-z="'+z+'"><span style="font-family:var(--fm);font-size:10px;min-width:24px;text-align:right" id="apex-f11-v-'+z+'">'+f11Scores[z]+'</span>';
+    sl.appendChild(row);
+    row.querySelector('input').addEventListener('input',function(e){f11Scores[e.target.getAttribute('data-z')]=parseInt(e.target.value);document.getElementById('apex-f11-v-'+e.target.getAttribute('data-z')).textContent=e.target.value;f11Render2();});
+  });
+  f11Render2();
+}
+function f11Render2(){
+  // Find DRD (highest burden among active zones)
+  var drd=null;var maxScore=0;
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    if(f11Scores[z]>=ZTH[z]&&f11Scores[z]>maxScore){maxScore=f11Scores[z];drd=z;}
+  });
+  if(!drd&&f11Scores.Z2>=ZTH.Z2)drd='Z2';// Z2 tiebreaker
+  // Reorder zones: DRD first, then cascade-connected, then rest
+  var order=[];if(drd)order.push(drd);
+  STACKS.forEach(function(s){if(s.from===drd&&s.id!=='S4'&&order.indexOf(s.to)<0)order.push(s.to);});
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){if(order.indexOf(z)<0)order.push(z);});
+  var zsel=document.getElementById('apex-f11-zsel');zsel.innerHTML='';
+  order.forEach(function(z){
+    var b=document.createElement('button');b.className='apex-zb';
+    b.style.borderColor=ZC[z];b.style.color=ZC[z];
+    var label=z+': '+ZN[z];
+    if(z===drd){b.innerHTML=label+' <span class="apex-source-stamp">HIGHEST BURDEN</span>';b.style.background=ZC[z]+'22';}
+    else{
+      var conn=STACKS.filter(function(s){return s.from===drd&&s.to===z&&s.id!=='S4';});
+      b.textContent=label+(conn.length>0?' (via '+conn[0].id+')':'');
+    }
+    zsel.appendChild(b);
+  });
+  // Show tier 1 for DRD zone
+  var tiers=document.getElementById('apex-f11-tiers');
+  if(drd){
+    var tests=(INV[drd]||{}).tier1||[];
+    var html='<div style="font-family:var(--fm);font-size:10px;color:var(--mu);margin-top:12px">SOURCE ZONE TIER 1 INVESTIGATIONS</div>';
+    tests.forEach(function(t){
+      html+='<div class="apex-row"><div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span><span class="apex-source-stamp" style="margin-left:6px">SOURCE</span></div>';
+      html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+    });
+    tiers.innerHTML=html;
+  }else{tiers.innerHTML='<p style="font-size:11px;color:var(--mu)">No zone above activation threshold. Adjust sliders.</p>';}
+}
+f11Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F12: EVIDENCE TIER CONFIDENCE TRAJECTORY
+   ══════════════════════════════════════════════════════════════════ */
+var f12Zone='Z1';
+function f12Render(){
+  makeZoneSelector('apex-f12-zsel',function(z){f12Zone=z;f12Render();},f12Zone);
+  var el=document.getElementById('apex-f12-tests');var html='';
+  var all=getAllTests(f12Zone);
+  all.forEach(function(item){
+    var t=item.test;
+    html+='<div class="apex-row">';
+    html+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span>';
+    if(t.traj)html+=sparkSVG(t.traj);
+    html+='<span class="apex-rph">'+t.ph+'</span></div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+  });
+  el.innerHTML=html;
+}
+f12Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F13: PATIENT COST TRANSPARENCY CARD
+   ══════════════════════════════════════════════════════════════════ */
+var f13Zone='Z1';var f13Patient=false;
+function f13Render(){
+  makeZoneSelector('apex-f13-zsel',function(z){f13Zone=z;f13Render();},f13Zone);
+  var btn=document.getElementById('apex-f13-toggle');
+  btn.textContent=f13Patient?'Switch to Practitioner View':'Switch to Patient View';
+  btn.onclick=function(){f13Patient=!f13Patient;f13Render();};
+  var el=document.getElementById('apex-f13-tests');var html='';
+  var t1=(INV[f13Zone]||{}).tier1||[];
+  t1.forEach(function(t){
+    if(f13Patient){
+      html+='<div class="apex-patient-row">';
+      html+='<div class="apex-patient-name">'+t.pt+'</div>';
+      html+='<div class="apex-patient-desc">This test helps your practitioner understand your '+ZN[f13Zone].toLowerCase()+' terrain.</div>';
+      html+='<div class="apex-patient-cost">Approximate cost: GBP '+Math.round(parseCostMid(t.co))+'</div>';
+      html+='</div>';
+    }else{
+      html+='<div class="apex-row"><div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span><span class="apex-rph">'+t.ph+'</span></div>';
+      html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+    }
+  });
+  el.innerHTML=html;
+}
+f13Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F14: MULTI-ZONE BASKET CONSOLIDATION
+   ══════════════════════════════════════════════════════════════════ */
+function f14Render(){
+  var specGroups={blood:[],urine:[],saliva:[],stool:[],imaging:[],device:[]};
+  var seen={};
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    var t1=(INV[z]||{}).tier1||[];
+    t1.forEach(function(t){
+      var key=t.t;
+      if(!seen[key]){
+        seen[key]={test:t,zones:[z]};
+        var spec=t.spec||'blood';
+        if(!specGroups[spec])specGroups[spec]=[];
+        specGroups[spec].push(seen[key]);
+      }else{
+        if(seen[key].zones.indexOf(z)<0)seen[key].zones.push(z);
+      }
+    });
+  });
+  var el=document.getElementById('apex-f14-basket');var html='';
+  var totalTests=0;var specCounts={};
+  Object.keys(specGroups).forEach(function(spec){
+    var items=specGroups[spec];if(items.length===0)return;
+    specCounts[spec]=items.length;totalTests+=items.length;
+    var specIcon=spec==='blood'?'&#129656;':spec==='urine'?'&#128167;':spec==='saliva'?'&#128172;':spec==='stool'?'&#128220;':spec==='imaging'?'&#128248;':'&#9881;';
+    html+='<div class="apex-basket-group">';
+    html+='<div class="apex-basket-hdr">'+specIcon+' '+spec.toUpperCase()+' ('+items.length+')</div>';
+    items.forEach(function(item){
+      html+='<div class="apex-row"><div class="apex-rinfo"><span class="apex-rname">'+item.test.t+'</span>';
+      if(item.zones.length>1)html+='<span class="apex-badge apex-badge-gold">'+item.zones.length+' ZONES</span>';
+      html+='<span class="apex-overlap">';
+      item.zones.forEach(function(z){html+='<span class="apex-oz" style="background:'+ZC[z]+'">'+z.replace('Z','')+'</span>';});
+      html+='</span></div>';
+      html+='<div class="apex-rmeta">'+makeEvBadge(item.test.ev)+'<span class="apex-rcost">'+item.test.co+'</span></div></div>';
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  var sumParts=[];
+  Object.keys(specCounts).forEach(function(s){sumParts.push(specCounts[s]+' '+s);});
+  document.getElementById('apex-f14-summary').textContent='Total: '+totalTests+' unique investigations across Tier 1 of all zones. Specimen types: '+sumParts.join(', ')+'.';
+}
+f14Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F15: LAB PROVIDER COST COMPARISON
+   ══════════════════════════════════════════════════════════════════ */
+var f15Zone='Z1';var f15NhsOnly=false;
+function f15Render(){
+  makeZoneSelector('apex-f15-zsel',function(z){f15Zone=z;f15Render();},f15Zone);
+  var btn=document.getElementById('apex-f15-nhs');
+  btn.textContent=f15NhsOnly?'Show All':'NHS Only';
+  btn.onclick=function(){f15NhsOnly=!f15NhsOnly;f15Render();};
+  var el=document.getElementById('apex-f15-tests');var html='';
+  var all=getAllTests(f15Zone);
+  var maxCost=500;
+  all.forEach(function(item){
+    var t=item.test;
+    if(f15NhsOnly&&t.nhs===null)return;
+    html+='<div style="margin-bottom:10px">';
+    html+='<div style="font-size:11px;font-weight:600;margin-bottom:4px">'+t.t+' '+makeEvBadge(t.ev)+'</div>';
+    if(t.nhs!==null){
+      html+='<div class="apex-lab-bar"><span class="apex-lab-label">NHS</span><div class="apex-lab-seg" style="width:'+Math.max(3,(t.nhs||1)/maxCost*100)+'%;background:rgba(26,122,138,0.4);color:#1A7A8A">'+(t.nhs===0?'Free (NHS)':'GBP '+t.nhs)+'</div></div>';
+    }
+    if(t.priv!==null&&!f15NhsOnly){
+      html+='<div class="apex-lab-bar"><span class="apex-lab-label">Private</span><div class="apex-lab-seg" style="width:'+(t.priv/maxCost*100)+'%;background:rgba(201,168,76,0.4);color:#C9A84C">GBP '+t.priv+'</div></div>';
+    }
+    if(t.func!==null&&!f15NhsOnly){
+      html+='<div class="apex-lab-bar"><span class="apex-lab-label">Specialist</span><div class="apex-lab-seg" style="width:'+(t.func/maxCost*100)+'%;background:rgba(123,94,167,0.4);color:#7B5EA7">GBP '+t.func+'</div></div>';
+    }
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+f15Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F16: INVESTIGATION IMPACT RADAR
+   ══════════════════════════════════════════════════════════════════ */
+var f16Zone='Z1';
+function f16Render(){
+  makeZoneSelector('apex-f16-zsel',function(z){f16Zone=z;f16Render();},f16Zone);
+  var el=document.getElementById('apex-f16-tests');var html='';
+  var all=getAllTests(f16Zone);
+  all.forEach(function(item,i){
+    var t=item.test;
+    html+='<div class="apex-row" style="position:relative" id="apex-f16-row-'+i+'">';
+    html+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span>';
+    html+='<span class="apex-badge apex-badge-'+(t.zones.length>1?'gold':'teal')+'">'+t.zones.length+' zone'+(t.zones.length>1?'s':'')+'</span>';
+    html+='<span class="apex-rph">'+t.ph+'</span></div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div>';
+    html+='<div class="apex-radar-wrap"><canvas id="apex-f16-c-'+i+'" width="92" height="92"></canvas></div>';
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  // Draw radars
+  all.forEach(function(item,i){
+    var canvas=document.getElementById('apex-f16-c-'+i);
+    if(canvas)drawMiniRadar(canvas,item.test.zones);
+  });
+}
+f16Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F17: BORDERLINE ZONE INVESTIGATION ESCALATION
+   ══════════════════════════════════════════════════════════════════ */
+var f17Scores={Z1:38,Z2:55,Z3:37,Z4:28,Z5:30};
+function f17Render(){
+  var sl=document.getElementById('apex-f17-sliders');sl.innerHTML='';
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    var row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:6px';
+    row.innerHTML='<span style="font-family:var(--fm);font-size:10px;color:'+ZC[z]+';min-width:28px;font-weight:700">'+z+'</span><input type="range" min="0" max="100" value="'+f17Scores[z]+'" style="flex:1;accent-color:'+ZC[z]+'" data-z="'+z+'"><span style="font-family:var(--fm);font-size:10px;min-width:24px;text-align:right" id="apex-f17-v-'+z+'">'+f17Scores[z]+'</span>';
+    sl.appendChild(row);
+    row.querySelector('input').addEventListener('input',function(e){f17Scores[e.target.getAttribute('data-z')]=parseInt(e.target.value);document.getElementById('apex-f17-v-'+e.target.getAttribute('data-z')).textContent=e.target.value;f17Render2();});
+  });
+  f17Render2();
+}
+function f17Render2(){
+  var el=document.getElementById('apex-f17-zones');var html='';
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    var score=f17Scores[z];var th=ZTH[z];
+    var status=score>=th?'active':(score>=th-5?'borderline':'inactive');
+    if(status==='inactive')return;
+    var isBorderline=status==='borderline';
+    html+='<div class="apex-tier'+(isBorderline?' apex-borderline-zone':'')+'" style="border-color:'+ZC[z]+'55;margin-bottom:16px;position:relative">';
+    if(isBorderline)html+='<div class="apex-borderline-tip">BORDERLINE (D-38)</div>';
+    html+='<div class="apex-thdr"><span class="apex-tlbl" style="color:'+ZC[z]+'">'+z+': '+ZN[z]+' ('+score+'/100)</span>';
+    html+='<span class="apex-badge '+(isBorderline?'apex-badge-amber':'apex-badge-teal')+'">'+(isBorderline?'NEAR THRESHOLD':'ACTIVE')+'</span></div>';
+    if(isBorderline){
+      html+='<div class="apex-tdesc" style="color:#DAA520">This zone has not met the activation threshold. Terrain data is presented for practitioner review. Clinical relevance is at the sole discretion of the treating practitioner.</div>';
+      html+='<div class="apex-tdesc">Confirmation investigations recommended. Tier 3 dimmed unless Tier 1 supports escalation.</div>';
+    }
+    var tests=INV[z];if(tests){
+      ['tier1','tier2','tier3'].forEach(function(tk,ti){
+        var tlist=tests[tk]||[];
+        var dimTier3=isBorderline&&tk==='tier3';
+        tlist.forEach(function(t){
+          html+='<div class="apex-row'+(dimTier3?' dimmed':'')+'">';
+          html+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span>';
+          if(dimTier3)html+='<span class="apex-badge apex-badge-amber">Consider if Tier 1 supports</span>';
+          html+='<span class="apex-rph">'+t.ph+'</span></div>';
+          html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+        });
+      });
+    }
+    html+='</div>';
+  });
+  if(!html)html='<p style="font-size:11px;color:var(--mu)">No zones above borderline threshold. Adjust sliders.</p>';
+  el.innerHTML=html;
+}
+f17Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F18: HISTORICAL INVESTIGATION TRACKER
+   ══════════════════════════════════════════════════════════════════ */
+var f18Active='T2';
+var f18History={
+  T1:{date:'15 Jan 2026',tests:['HbA1c','Fasting glucose','Thyroid panel (TSH, fT4, fT3)','Full blood count with differential','CRP (high sensitivity)','Lipid panel (full)']},
+  T2:{date:'15 Apr 2026',tests:['HbA1c','Fasting insulin','Thyroid panel (TSH, fT4, fT3)','Organic acids test','CRP (high sensitivity)','Vitamin D (25-OH)','Omega-3 index']},
+  T3:{date:'15 Jul 2026',tests:['HbA1c','Fasting insulin','Comprehensive stool analysis','DUTCH complete hormone panel','Advanced lipid panel (LDL-P, sdLDL)']}
+};
+function f18Render(){
+  var tl=document.getElementById('apex-f18-timeline');var html='';
+  var points=['T1','T2','T3'];
+  points.forEach(function(tp,i){
+    html+='<div class="apex-tl-node'+(f18Active===tp?' act':'')+'" data-tp="'+tp+'" style="cursor:pointer">'+tp+'</div>';
+    if(i<points.length-1)html+='<div class="apex-tl-line"></div>';
+  });
+  tl.innerHTML=html;
+  tl.querySelectorAll('.apex-tl-node').forEach(function(nd){
+    nd.addEventListener('click',function(){f18Active=nd.getAttribute('data-tp');f18Render();});
+  });
+  // Comparison
+  var comp=document.getElementById('apex-f18-comparison');
+  var current=f18History[f18Active];
+  var prev=f18Active==='T2'?f18History.T1:f18Active==='T3'?f18History.T2:null;
+  var cHtml='<div style="font-family:var(--fm);font-size:10px;color:var(--mu);margin-bottom:8px">'+f18Active+' | '+current.date+' | '+current.tests.length+' investigations</div>';
+  current.tests.forEach(function(name){
+    var badge='';
+    if(prev){
+      var inPrev=prev.tests.indexOf(name)>=0;
+      badge=inPrev?'<span class="apex-tl-badge" style="background:rgba(26,122,138,0.15);color:#1A7A8A">REPEAT</span>':'<span class="apex-tl-badge" style="background:rgba(201,168,76,0.15);color:#C9A84C">NEW</span>';
+    }
+    cHtml+='<div class="apex-row"><div class="apex-rinfo"><span class="apex-rname">'+name+'</span>'+badge+'</div></div>';
+  });
+  if(prev){
+    var dropped=prev.tests.filter(function(n){return current.tests.indexOf(n)<0;});
+    if(dropped.length>0){
+      cHtml+='<div style="font-family:var(--fm);font-size:10px;color:var(--mu);margin-top:12px;margin-bottom:8px">DROPPED FROM PREVIOUS</div>';
+      dropped.forEach(function(name){
+        cHtml+='<div class="apex-row dimmed"><div class="apex-rinfo"><span class="apex-rname">'+name+'</span><span class="apex-tl-badge" style="background:rgba(192,57,43,0.15);color:#C0392B">DROPPED</span></div></div>';
+      });
+    }
+  }
+  comp.innerHTML=cHtml;
+}
+f18Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F19: CASCADE-WEIGHTED COST EFFICIENCY SCORE
+   ══════════════════════════════════════════════════════════════════ */
+var f19Zone='Z1';var f19Sorted=false;
+function f19Render(){
+  makeZoneSelector('apex-f19-zsel',function(z){f19Zone=z;f19Sorted=false;f19Render();},f19Zone);
+  var btn=document.getElementById('apex-f19-sort');
+  btn.textContent=f19Sorted?'Sort by Default':'Sort by Efficiency';
+  btn.onclick=function(){f19Sorted=!f19Sorted;f19Render();};
+  var el=document.getElementById('apex-f19-tests');var html='';
+  var all=getAllTests(f19Zone);
+  // Calculate efficiency
+  all.forEach(function(item){
+    var mid=parseCostMid(item.test.co);
+    var zoneCount=item.test.zones?item.test.zones.length:1;
+    item.efficiency=zoneCount>0?Math.round(mid/zoneCount):mid;
+  });
+  if(f19Sorted){all.sort(function(a,b){return a.efficiency-b.efficiency;});}
+  var totalCost=0;var totalZones={};
+  all.forEach(function(item){totalCost+=parseCostMid(item.test.co);(item.test.zones||[]).forEach(function(z){totalZones[z]=true;});});
+  html+='<div style="font-family:var(--fm);font-size:10px;color:var(--mu);margin-bottom:12px">Average: GBP '+Math.round(totalCost/Object.keys(totalZones).length)+' per zone covered across '+all.length+' investigations</div>';
+  all.forEach(function(item){
+    var t=item.test;
+    html+='<div class="apex-row"><div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span>';
+    html+='<span class="apex-eff">GBP '+item.efficiency+'/zone</span>';
+    html+='<span class="apex-badge apex-badge-'+(t.zones.length>1?'gold':'teal')+'">'+t.zones.length+' zone'+(t.zones.length>1?'s':'')+'</span>';
+    html+='</div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div></div>';
+  });
+  el.innerHTML=html;
+}
+f19Render();
+
+/* ══════════════════════════════════════════════════════════════════
+   F20: REGULATORY PROVENANCE WATERMARK
+   ══════════════════════════════════════════════════════════════════ */
+var f20Zone='Z1';var f20Filter='all';
+function f20Render(){
+  makeZoneSelector('apex-f20-zsel',function(z){f20Zone=z;f20Render();},f20Zone);
+  document.querySelectorAll('.apex-f20-filter').forEach(function(b){
+    b.classList.toggle('act',b.getAttribute('data-ev')===f20Filter);
+    b.onclick=function(){f20Filter=b.getAttribute('data-ev');f20Render();};
+  });
+  var el=document.getElementById('apex-f20-tests');var html='';
+  var all=getAllTests(f20Zone);
+  all.forEach(function(item){
+    var t=item.test;
+    if(f20Filter!=='all'&&t.ev!==f20Filter)return;
+    html+='<div class="apex-row" style="flex-wrap:wrap">';
+    html+='<div class="apex-rinfo"><span class="apex-rname">'+t.t+'</span><span class="apex-rph">'+t.ph+'</span></div>';
+    html+='<div class="apex-rmeta">'+makeEvBadge(t.ev)+'<span class="apex-rcost">'+t.co+'</span></div>';
+    html+='<div class="apex-prov" style="width:100%;display:block">Source: '+t.prov+'</div>';
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+f20Render();
+
+})();
+</script>

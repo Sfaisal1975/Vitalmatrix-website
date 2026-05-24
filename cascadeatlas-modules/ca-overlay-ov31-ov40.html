@@ -1,0 +1,1681 @@
+.vm-ov31-legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
+.vm-ov31-legend-item{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(244,244,242,.6);display:flex;align-items:center;gap:6px;cursor:pointer}
+.vm-ov31-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+</style>
+<section id="vm-ov31-section">
+<div class="vm-ov31-wrap">
+<div class="vm-ov31-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov31-heading">Zone Dominance Pie Chart</h2>
+<div class="vm-ov31-svg-wrap">
+<svg id="vm-ov31-svg" width="340" height="340" viewBox="0 0 340 340"></svg>
+<div class="vm-ov31-tooltip" id="vm-ov31-tooltip"></div>
+</div>
+<div class="vm-ov31-legend" id="vm-ov31-legend"></div>
+</div>
+</section>
+<script>
+(function(){
+var ZD=[
+{id:'Z1',name:'Metabolic Energy Axis',color:'#C9A84C',score:45,th:40},
+{id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:55,th:40},
+{id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40},
+{id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:25,th:40},
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:50,th:32}
+];
+function ds(internal){return Math.max(0,Math.min(10,(100-internal)/10)).toFixed(1);}
+var totalBurden=0;
+for(var i=0;i<ZD.length;i++){totalBurden+=ZD[i].score;}
+var highestIdx=0;
+for(var i=1;i<ZD.length;i++){if(ZD[i].score>ZD[highestIdx].score){highestIdx=i;}}
+var svg=document.getElementById('vm-ov31-svg');
+var ns='http://www.w3.org/2000/svg';
+var cx=170,cy=170,outerR=130,innerR=80,glowR=138;
+var isolatedIdx=-1;
+var segments=[];
+var animProgress=[];
+for(var i=0;i<ZD.length;i++){animProgress.push(0);}
+
+function describeArc(cx,cy,r,startAngle,endAngle){
+var start={x:cx+r*Math.cos(startAngle),y:cy+r*Math.sin(startAngle)};
+var end={x:cx+r*Math.cos(endAngle),y:cy+r*Math.sin(endAngle)};
+var largeArc=(endAngle-startAngle)>Math.PI?1:0;
+return 'M '+start.x+' '+start.y+' A '+r+' '+r+' 0 '+largeArc+' 1 '+end.x+' '+end.y;
+}
+
+function buildDonut(){
+while(svg.firstChild){svg.removeChild(svg.firstChild);}
+segments=[];
+var startAngle=-Math.PI/2;
+// Gold glow ring for highest
+var glowCirc=document.createElementNS(ns,'circle');
+glowCirc.setAttribute('cx',String(cx));
+glowCirc.setAttribute('cy',String(cy));
+glowCirc.setAttribute('r',String(glowR));
+glowCirc.setAttribute('fill','none');
+glowCirc.setAttribute('stroke','rgba(201,168,76,0.3)');
+glowCirc.setAttribute('stroke-width','3');
+glowCirc.setAttribute('filter','url(#vm-ov31-glow-filter)');
+glowCirc.setAttribute('id','vm-ov31-glow-ring');
+var defs=document.createElementNS(ns,'defs');
+var filter=document.createElementNS(ns,'filter');
+filter.setAttribute('id','vm-ov31-glow-filter');
+filter.setAttribute('x','-50%');filter.setAttribute('y','-50%');
+filter.setAttribute('width','200%');filter.setAttribute('height','200%');
+var blur=document.createElementNS(ns,'feGaussianBlur');
+blur.setAttribute('stdDeviation','4');blur.setAttribute('result','glow');
+filter.appendChild(blur);
+var merge=document.createElementNS(ns,'feMerge');
+var mn1=document.createElementNS(ns,'feMergeNode');mn1.setAttribute('in','glow');
+var mn2=document.createElementNS(ns,'feMergeNode');mn2.setAttribute('in','SourceGraphic');
+merge.appendChild(mn1);merge.appendChild(mn2);
+filter.appendChild(merge);
+defs.appendChild(filter);
+svg.appendChild(defs);
+svg.appendChild(glowCirc);
+
+for(var i=0;i<ZD.length;i++){
+var frac=ZD[i].score/totalBurden;
+var sweep=frac*2*Math.PI;
+var endAngle=startAngle+sweep;
+var midAngle=startAngle+sweep/2;
+// Segment as thick arc path
+var seg=document.createElementNS(ns,'path');
+var iR=isolatedIdx>=0&&isolatedIdx!==i?innerR+18:innerR;
+var oR=isolatedIdx>=0&&isolatedIdx!==i?innerR+22:outerR;
+var p1x=cx+iR*Math.cos(startAngle);var p1y=cy+iR*Math.sin(startAngle);
+var p2x=cx+oR*Math.cos(startAngle);var p2y=cy+oR*Math.sin(startAngle);
+var p3x=cx+oR*Math.cos(endAngle);var p3y=cy+oR*Math.sin(endAngle);
+var p4x=cx+iR*Math.cos(endAngle);var p4y=cy+iR*Math.sin(endAngle);
+var la=sweep>Math.PI?1:0;
+var d='M '+p1x+' '+p1y+' L '+p2x+' '+p2y+' A '+oR+' '+oR+' 0 '+la+' 1 '+p3x+' '+p3y+' L '+p4x+' '+p4y+' A '+iR+' '+iR+' 0 '+la+' 0 '+p1x+' '+p1y+' Z';
+seg.setAttribute('d',d);
+seg.setAttribute('fill',ZD[i].color);
+seg.setAttribute('opacity','0.85');
+seg.setAttribute('cursor','pointer');
+seg.setAttribute('data-idx',String(i));
+seg.setAttribute('style','transition:transform 0.3s cubic-bezier(.34,1.56,.64,1),opacity 0.4s ease');
+seg.setAttribute('transform-origin',cx+' '+cy);
+segments.push({el:seg,midAngle:midAngle,startAngle:startAngle,endAngle:endAngle,idx:i});
+(function(idx,ma){
+seg.addEventListener('mouseenter',function(){
+var tt=document.getElementById('vm-ov31-tooltip');
+var pct=(ZD[idx].score/totalBurden*100).toFixed(1);
+tt.innerHTML=ZD[idx].id+': '+ZD[idx].name+'<br>Internal: '+ZD[idx].score+'/100 | Display: '+ds(ZD[idx].score)+'/10<br>'+pct+'% of total burden';
+tt.style.display='block';
+this.setAttribute('opacity','1');
+// Lift outward 8px
+var dx=8*Math.cos(ma);var dy=8*Math.sin(ma);
+this.setAttribute('transform','translate('+dx+','+dy+')');
+});
+seg.addEventListener('mouseleave',function(){
+document.getElementById('vm-ov31-tooltip').style.display='none';
+this.setAttribute('opacity','0.85');
+this.setAttribute('transform','translate(0,0)');
+});
+seg.addEventListener('click',function(){
+if(isolatedIdx===idx){isolatedIdx=-1;}else{isolatedIdx=idx;}
+buildDonut();
+});
+})(i,midAngle);
+svg.appendChild(seg);
+startAngle=endAngle;
+}
+// Centre text
+var ct1=document.createElementNS(ns,'text');
+ct1.setAttribute('x',String(cx));ct1.setAttribute('y',String(cy-12));
+ct1.setAttribute('class','vm-ov31-centre-text');
+ct1.textContent='Total burden';
+svg.appendChild(ct1);
+var ct2=document.createElementNS(ns,'text');
+ct2.setAttribute('x',String(cx));ct2.setAttribute('y',String(cy+16));
+ct2.setAttribute('class','vm-ov31-centre-num');
+ct2.setAttribute('id','vm-ov31-counter');
+ct2.textContent=String(totalBurden);
+svg.appendChild(ct2);
+}
+// Animate counter
+function animateCounter(){
+var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(reduced){document.getElementById('vm-ov31-counter').textContent=String(totalBurden);buildDonut();return;}
+var start=0;var dur=1200;var t0=null;
+function step(ts){
+if(!t0)t0=ts;
+var p=Math.min((ts-t0)/dur,1);
+var ease=1-Math.pow(1-p,3);
+var v=Math.round(ease*totalBurden);
+var el=document.getElementById('vm-ov31-counter');
+if(el)el.textContent=String(v);
+if(p<1)requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+}
+// Legend
+var leg=document.getElementById('vm-ov31-legend');
+var lh='';
+for(var i=0;i<ZD.length;i++){
+lh+='<div class="vm-ov31-legend-item" data-idx="'+i+'">';
+lh+='<span class="vm-ov31-legend-dot" style="background:'+ZD[i].color+'"></span>';
+lh+=ZD[i].id+' '+ZD[i].name;
+if(i===highestIdx){lh+=' <span style="color:#C9A84C;margin-left:4px">&#9733;</span>';}
+lh+='</div>';
+}
+leg.innerHTML=lh;
+buildDonut();
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateCounter();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.2});
+obs.observe(document.getElementById('vm-ov31-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV32: Cascade Momentum Gauge ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov32-needle,.vm-ov32-arc-fill,.vm-ov32-gauge{transition:none!important;animation:none!important}
+}
+#vm-ov32-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov32-section *{box-sizing:border-box}
+.vm-ov32-wrap{max-width:800px;margin:0 auto;text-align:center}
+.vm-ov32-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov32-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:8px}
+.vm-ov32-summary{font-family:'DM Mono',monospace;font-size:.85rem;color:rgba(244,244,242,.5);margin-bottom:28px}
+.vm-ov32-summary-num{color:#C9A84C;font-size:1.2rem;font-weight:500}
+.vm-ov32-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:600px){.vm-ov32-grid{grid-template-columns:repeat(2,1fr)}}
+.vm-ov32-gauge{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:20px 12px 14px;text-align:center;transition:transform .3s cubic-bezier(.34,1.56,.64,1);cursor:default;position:relative}
+.vm-ov32-gauge:hover{transform:scale(1.08)}
+.vm-ov32-gauge-label{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.5);margin-top:10px;letter-spacing:1px}
+.vm-ov32-badge{font-family:'DM Mono',monospace;font-size:.55rem;padding:2px 8px;border-radius:3px;display:inline-block;margin-top:6px}
+.vm-ov32-badge-theoretical{color:#7B5EA7;border:1px dashed rgba(123,94,167,.5);background:rgba(123,94,167,.08)}
+.vm-ov32-badge-uni{color:#C9A84C;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08)}
+.vm-ov32-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:.6rem;color:#F4F4F2;white-space:nowrap;pointer-events:none;z-index:10;display:none;line-height:1.5}
+.vm-ov32-gauge:hover .vm-ov32-tooltip{display:block}
+</style>
+<section id="vm-ov32-section">
+<div class="vm-ov32-wrap">
+<div class="vm-ov32-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov32-heading">Cascade Momentum Gauge</h2>
+<div class="vm-ov32-summary">Total cascade momentum: <span class="vm-ov32-summary-num" id="vm-ov32-total">0</span></div>
+<div class="vm-ov32-grid" id="vm-ov32-grid"></div>
+</div>
+</section>
+<script>
+(function(){
+var stacks=[
+{id:'S1',from:'Z2',to:'Z1',vel:'MEDIUM',tier:'Emerging',srcColor:'#1A7A8A',pct:0.6,theoretical:false,uni:false},
+{id:'S2',from:'Z1',to:'Z5',vel:'FAST',tier:'Established',srcColor:'#C9A84C',pct:1.0,theoretical:false,uni:false},
+{id:'S3',from:'Z4',to:'Z1',vel:'SLOW',tier:'Emerging',srcColor:'#5F7C6C',pct:0.3,theoretical:false,uni:false},
+{id:'S4',from:'Z5',to:'Z2',vel:'MEDIUM',tier:'Theoretical',srcColor:'#2E6DB4',pct:0.6,theoretical:true,uni:false},
+{id:'S5',from:'Z2',to:'Z3',vel:'FAST',tier:'Emerging',srcColor:'#1A7A8A',pct:1.0,theoretical:false,uni:false},
+{id:'S6',from:'Z1',to:'Z3',vel:'MEDIUM',tier:'Established',srcColor:'#C9A84C',pct:0.6,theoretical:false,uni:true}
+];
+var totalMomentum=0;
+for(var i=0;i<stacks.length;i++){totalMomentum+=Math.round(stacks[i].pct*100);}
+var grid=document.getElementById('vm-ov32-grid');
+var html='';
+for(var i=0;i<stacks.length;i++){
+var s=stacks[i];
+var gaugeId='vm-ov32-g-'+i;
+html+='<div class="vm-ov32-gauge" id="'+gaugeId+'">';
+html+='<div class="vm-ov32-tooltip">Velocity: '+s.vel+' | Evidence: '+s.tier+'<br>'+s.from+' to '+s.to+' | Fill: '+Math.round(s.pct*100)+'%</div>';
+html+='<svg width="120" height="80" viewBox="0 0 120 80">';
+// Background arc
+html+='<path d="M 10 70 A 50 50 0 0 1 110 70" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8" stroke-linecap="round"/>';
+// Fill arc
+var dashLen=Math.PI*50;
+var fillLen=dashLen*s.pct;
+var dashStyle=s.theoretical?'4,4':'none';
+html+='<path d="M 10 70 A 50 50 0 0 1 110 70" fill="none" stroke="'+s.srcColor+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+fillLen+' '+dashLen+'" stroke-dashoffset="0" class="vm-ov32-arc-fill" id="vm-ov32-arc-'+i+'"';
+if(s.theoretical){html+=' style="stroke-dasharray:4 4"';}
+html+='/>';
+// Needle
+var needleAngle=Math.PI+s.pct*Math.PI;
+var nx=60+40*Math.cos(needleAngle);
+var ny=70+40*Math.sin(needleAngle);
+html+='<line x1="60" y1="70" x2="'+nx.toFixed(1)+'" y2="'+ny.toFixed(1)+'" stroke="#F4F4F2" stroke-width="2" stroke-linecap="round" class="vm-ov32-needle" id="vm-ov32-needle-'+i+'"/>';
+html+='<circle cx="60" cy="70" r="4" fill="'+s.srcColor+'"/>';
+html+='</svg>';
+html+='<div class="vm-ov32-gauge-label">'+s.id+': '+s.from+' &#8594; '+s.to+'</div>';
+if(s.theoretical){html+='<div class="vm-ov32-badge vm-ov32-badge-theoretical">THEORETICAL</div>';}
+if(s.uni){html+='<div class="vm-ov32-badge vm-ov32-badge-uni">UNIDIRECTIONAL</div>';}
+html+='</div>';
+}
+grid.innerHTML=html;
+// Animate
+function animateGauges(){
+var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var totalEl=document.getElementById('vm-ov32-total');
+if(reduced){totalEl.textContent=String(totalMomentum);return;}
+var dur=1400;var t0=null;
+function step(ts){
+if(!t0)t0=ts;
+var p=Math.min((ts-t0)/dur,1);
+var ease=1-Math.pow(1-p,3);
+totalEl.textContent=String(Math.round(ease*totalMomentum));
+for(var j=0;j<stacks.length;j++){
+var s=stacks[j];
+var cp=ease*s.pct;
+var needleAngle=Math.PI+cp*Math.PI;
+var nx=60+40*Math.cos(needleAngle);
+var ny=70+40*Math.sin(needleAngle);
+var needle=document.getElementById('vm-ov32-needle-'+j);
+if(needle){needle.setAttribute('x2',nx.toFixed(1));needle.setAttribute('y2',ny.toFixed(1));}
+}
+if(p<1)requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+}
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateGauges();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById('vm-ov32-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV33: Node Contribution Radar Chart ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov33-poly,.vm-ov33-dot{transition:none!important;animation:none!important}
+}
+#vm-ov33-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov33-section *{box-sizing:border-box}
+.vm-ov33-wrap{max-width:700px;margin:0 auto;text-align:center}
+.vm-ov33-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov33-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:8px}
+.vm-ov33-toggle{font-family:'DM Mono',monospace;font-size:.6rem;padding:6px 16px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(244,244,242,.5);cursor:pointer;margin-bottom:20px;transition:background .2s ease,border-color .2s ease}
+.vm-ov33-toggle:hover{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3)}
+.vm-ov33-tooltip{position:absolute;background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:.6rem;color:#F4F4F2;white-space:nowrap;pointer-events:none;z-index:10;display:none;line-height:1.5}
+.vm-ov33-svg-wrap{position:relative;display:inline-block}
+.vm-ov33-badge-n6{font-family:'DM Mono',monospace;font-size:.55rem;color:#C9A84C;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);padding:2px 6px;border-radius:3px}
+.vm-ov33-badge-n7{font-family:'DM Mono',monospace;font-size:.55rem;color:#7B5EA7;border:1px dashed rgba(123,94,167,.4);background:rgba(123,94,167,.06);padding:2px 6px;border-radius:3px}
+</style>
+<section id="vm-ov33-section">
+<div class="vm-ov33-wrap">
+<div class="vm-ov33-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov33-heading">Node Contribution Radar Chart</h2>
+<button class="vm-ov33-toggle" id="vm-ov33-scale-btn">Scale: Internal (0-100)</button>
+<div class="vm-ov33-svg-wrap">
+<svg id="vm-ov33-svg" width="400" height="400" viewBox="0 0 400 400"></svg>
+<div class="vm-ov33-tooltip" id="vm-ov33-tooltip"></div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var nodes=[
+{id:'N1',name:'Assimilation',score:60,zones:['Z2'],color:'#1A7A8A'},
+{id:'N2',name:'Defence and Repair',score:55,zones:['Z2','Z4'],color:'#1A7A8A'},
+{id:'N3',name:'Energy',score:50,zones:['Z1','Z5'],color:'#C9A84C'},
+{id:'N4',name:'Biotransformation and Elimination',score:45,zones:['Z4','Z5'],color:'#5F7C6C'},
+{id:'N5',name:'Transport',score:35,zones:['Z3'],color:'#7B5EA7'},
+{id:'N6',name:'Communication',score:65,zones:['Z1','Z2','Z3','Z5'],color:'#C9A84C',dampened:true},
+{id:'N7',name:'Structural Integrity',score:20,zones:[],color:'#7B5EA7',phase2:true}
+];
+var thresholdVal=40;
+var cx=200,cy=200,maxR=140;
+var ns='http://www.w3.org/2000/svg';
+var showDisplay=false;
+var animated=false;
+var animT=0;
+function getAngle(i){return(-Math.PI/2+i*2*Math.PI/7);}
+function getPoint(i,val,max){
+var r=(val/max)*maxR;
+var a=getAngle(i);
+return{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};
+}
+function displayVal(v){return Math.max(0,Math.min(10,(100-v)/10)).toFixed(1);}
+function render(progress){
+var svg=document.getElementById('vm-ov33-svg');
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var maxVal=showDisplay?10:100;
+// Grid rings
+for(var ring=1;ring<=4;ring++){
+var pts='';
+for(var j=0;j<7;j++){
+var p=getPoint(j,(ring/4)*maxVal,maxVal);
+pts+=p.x+','+p.y+' ';
+}
+var poly=document.createElementNS(ns,'polygon');
+poly.setAttribute('points',pts.trim());
+poly.setAttribute('fill','none');
+poly.setAttribute('stroke','rgba(255,255,255,0.08)');
+poly.setAttribute('stroke-width','1');
+svg.appendChild(poly);
+}
+// Axis lines
+for(var j=0;j<7;j++){
+var p=getPoint(j,maxVal,maxVal);
+var line=document.createElementNS(ns,'line');
+line.setAttribute('x1',String(cx));line.setAttribute('y1',String(cy));
+line.setAttribute('x2',String(p.x));line.setAttribute('y2',String(p.y));
+line.setAttribute('stroke','rgba(255,255,255,0.06)');
+line.setAttribute('stroke-width','1');
+svg.appendChild(line);
+}
+// Threshold polygon (dashed)
+var thPts='';
+for(var j=0;j<7;j++){
+var tv=showDisplay?displayVal(thresholdVal):thresholdVal;
+var p=getPoint(j,tv,maxVal);
+thPts+=p.x+','+p.y+' ';
+}
+var thPoly=document.createElementNS(ns,'polygon');
+thPoly.setAttribute('points',thPts.trim());
+thPoly.setAttribute('fill','none');
+thPoly.setAttribute('stroke','rgba(201,168,76,0.3)');
+thPoly.setAttribute('stroke-width','1');
+thPoly.setAttribute('stroke-dasharray','6 4');
+svg.appendChild(thPoly);
+// Data polygon
+var dataPts='';
+for(var j=0;j<7;j++){
+var raw=nodes[j].score;
+if(nodes[j].dampened)raw=Math.round(raw*0.7);
+var val=showDisplay?parseFloat(displayVal(raw)):raw;
+val=val*progress;
+var p=getPoint(j,val,maxVal);
+dataPts+=p.x+','+p.y+' ';
+}
+var dataPoly=document.createElementNS(ns,'polygon');
+dataPoly.setAttribute('points',dataPts.trim());
+dataPoly.setAttribute('fill','rgba(201,168,76,0.25)');
+dataPoly.setAttribute('stroke','#C9A84C');
+dataPoly.setAttribute('stroke-width','2');
+svg.appendChild(dataPoly);
+// Vertex dots + labels
+for(var j=0;j<7;j++){
+var raw=nodes[j].score;
+if(nodes[j].dampened)raw=Math.round(raw*0.7);
+var val=showDisplay?parseFloat(displayVal(raw)):raw;
+val=val*progress;
+var p=getPoint(j,val,maxVal);
+var dot=document.createElementNS(ns,'circle');
+dot.setAttribute('cx',String(p.x));dot.setAttribute('cy',String(p.y));
+dot.setAttribute('r','6');dot.setAttribute('fill',nodes[j].color);
+dot.setAttribute('stroke','#F4F4F2');dot.setAttribute('stroke-width','2');
+dot.setAttribute('cursor','pointer');dot.setAttribute('data-idx',String(j));
+(function(idx){
+dot.addEventListener('mouseenter',function(ev){
+var tt=document.getElementById('vm-ov33-tooltip');
+var raw2=nodes[idx].score;
+if(nodes[idx].dampened)raw2=Math.round(raw2*0.7);
+var feedsStr=nodes[idx].zones.length>0?nodes[idx].zones.join(', '):'None (Phase 2)';
+tt.innerHTML=nodes[idx].id+': '+nodes[idx].name+'<br>Score: '+raw2+'/100 (display: '+displayVal(raw2)+'/10)<br>Feeds: '+feedsStr;
+tt.style.display='block';
+tt.style.left=(ev.offsetX+10)+'px';
+tt.style.top=(ev.offsetY-40)+'px';
+});
+dot.addEventListener('mouseleave',function(){
+document.getElementById('vm-ov33-tooltip').style.display='none';
+});
+})(j);
+svg.appendChild(dot);
+// Label
+var lp=getPoint(j,maxVal*1.15,maxVal);
+var label=document.createElementNS(ns,'text');
+label.setAttribute('x',String(lp.x));label.setAttribute('y',String(lp.y));
+label.setAttribute('text-anchor','middle');label.setAttribute('dominant-baseline','central');
+label.setAttribute('fill','rgba(244,244,242,0.6)');
+label.setAttribute('font-family',"'DM Mono',monospace");
+label.setAttribute('font-size','10');
+label.textContent=nodes[j].id;
+svg.appendChild(label);
+// Badges
+if(nodes[j].dampened){
+var badge=document.createElementNS(ns,'text');
+badge.setAttribute('x',String(lp.x));badge.setAttribute('y',String(lp.y+14));
+badge.setAttribute('text-anchor','middle');badge.setAttribute('fill','#C9A84C');
+badge.setAttribute('font-family',"'DM Mono',monospace");
+badge.setAttribute('font-size','8');
+badge.textContent='x0.7 dampened';
+svg.appendChild(badge);
+}
+if(nodes[j].phase2){
+var badge2=document.createElementNS(ns,'text');
+badge2.setAttribute('x',String(lp.x));badge2.setAttribute('y',String(lp.y+14));
+badge2.setAttribute('text-anchor','middle');badge2.setAttribute('fill','#7B5EA7');
+badge2.setAttribute('font-family',"'DM Mono',monospace");
+badge2.setAttribute('font-size','8');
+badge2.textContent='Phase 2';
+svg.appendChild(badge2);
+}
+}
+}
+// Scale toggle
+document.getElementById('vm-ov33-scale-btn').addEventListener('click',function(){
+showDisplay=!showDisplay;
+this.textContent=showDisplay?'Scale: Display (0-10)':'Scale: Internal (0-100)';
+render(animated?1:0);
+});
+// Animate on scroll
+function animateRadar(){
+var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(reduced){animated=true;render(1);return;}
+var dur=800;var t0=null;
+function step(ts){
+if(!t0)t0=ts;
+var p=Math.min((ts-t0)/dur,1);
+var ease=1-Math.pow(1-p,3);
+render(ease);
+if(p<1)requestAnimationFrame(step);else{animated=true;}
+}
+requestAnimationFrame(step);
+}
+render(0);
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateRadar();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById('vm-ov33-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV34: Cascade Direction Compass Rose ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov34-arrow,.vm-ov34-particle{transition:none!important;animation:none!important}
+}
+#vm-ov34-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov34-section *{box-sizing:border-box}
+.vm-ov34-wrap{max-width:800px;margin:0 auto;text-align:center}
+.vm-ov34-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov34-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov34-svg-wrap{position:relative;display:inline-block;cursor:grab}
+.vm-ov34-svg-wrap:active{cursor:grabbing}
+.vm-ov34-detail{position:absolute;right:-220px;top:50%;transform:translateY(-50%);width:200px;background:rgba(26,32,48,.95);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:14px;font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(244,244,242,.7);text-align:left;line-height:1.6;display:none;z-index:10}
+@media(max-width:700px){.vm-ov34-detail{right:auto;left:50%;top:calc(100% + 12px);transform:translateX(-50%) translateY(0);width:280px}}
+.vm-ov34-detail-title{color:#C9A84C;font-size:.7rem;font-weight:500;margin-bottom:6px}
+.vm-ov34-badge{font-family:'DM Mono',monospace;font-size:.5rem;padding:2px 6px;border-radius:3px;display:inline-block;margin-top:4px}
+@keyframes vm-ov34-flow{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}
+</style>
+<section id="vm-ov34-section">
+<div class="vm-ov34-wrap">
+<div class="vm-ov34-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov34-heading">Cascade Direction Compass Rose</h2>
+<div class="vm-ov34-svg-wrap" id="vm-ov34-svg-wrap">
+<svg id="vm-ov34-svg" width="420" height="420" viewBox="0 0 420 420"></svg>
+<div class="vm-ov34-detail" id="vm-ov34-detail">
+<div class="vm-ov34-detail-title" id="vm-ov34-detail-title"></div>
+<div id="vm-ov34-detail-body"></div>
+</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var ns='http://www.w3.org/2000/svg';
+var cx=210,cy=210;
+var zonePos=[
+{id:'Z1',color:'#C9A84C',score:45},
+{id:'Z2',color:'#1A7A8A',score:55},
+{id:'Z3',color:'#7B5EA7',score:30},
+{id:'Z4',color:'#5F7C6C',score:25},
+{id:'Z5',color:'#2E6DB4',score:50}
+];
+var stacks=[
+{id:'S1',fromIdx:1,toIdx:0,vel:'MEDIUM',tier:'Emerging',narr:'Gut-driven immune disruption reaches metabolic energy burden. Mechanism Established, Cascade Emerging.',active:true,theoretical:false,uni:false},
+{id:'S2',fromIdx:0,toIdx:4,vel:'FAST',tier:'Established',narr:'Metabolic disruption impacts hormonal terrain rapidly via HPA axis. Established.',active:true,theoretical:false,uni:false},
+{id:'S3',fromIdx:3,toIdx:0,vel:'SLOW',tier:'Emerging',narr:'Detoxification burden accumulates slowly upstream. Emerging.',active:false,theoretical:false,uni:false},
+{id:'S4',fromIdx:4,toIdx:1,vel:'MEDIUM',tier:'Theoretical',narr:'Hormonal-to-resilience feedback. Theoretical. Excluded from DRD cascade trace (D-12).',active:false,theoretical:true,uni:false},
+{id:'S5',fromIdx:1,toIdx:2,vel:'FAST',tier:'Emerging',narr:'Immune-cardiovascular axis activates rapidly. Emerging.',active:true,theoretical:false,uni:false},
+{id:'S6',fromIdx:0,toIdx:2,vel:'MEDIUM',tier:'Established',narr:'Metabolic burden loads cardiovascular-neural axis. Established. UNIDIRECTIONAL: Z1 to Z3 only.',active:true,theoretical:false,uni:true}
+];
+var rotation=0;
+var dragging=false;var dragStartX=0;var dragStartRot=0;
+var svg=document.getElementById('vm-ov34-svg');
+var wrap=document.getElementById('vm-ov34-svg-wrap');
+function getAngle(i){return -Math.PI/2+i*2*Math.PI/5;}
+function render(){
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var defs=document.createElementNS(ns,'defs');
+var marker=document.createElementNS(ns,'marker');
+marker.setAttribute('id','vm-ov34-arrowhead');
+marker.setAttribute('markerWidth','8');marker.setAttribute('markerHeight','6');
+marker.setAttribute('refX','8');marker.setAttribute('refY','3');
+marker.setAttribute('orient','auto');
+var mp=document.createElementNS(ns,'polygon');
+mp.setAttribute('points','0 0, 8 3, 0 6');
+mp.setAttribute('fill','#C9A84C');
+marker.appendChild(mp);
+defs.appendChild(marker);
+svg.appendChild(defs);
+// Centre pentagon
+var pentPts='';
+for(var i=0;i<5;i++){
+var a=getAngle(i)+rotation;
+var px=cx+30*Math.cos(a);var py=cy+30*Math.sin(a);
+pentPts+=px.toFixed(1)+','+py.toFixed(1)+' ';
+}
+var pent=document.createElementNS(ns,'polygon');
+pent.setAttribute('points',pentPts.trim());
+pent.setAttribute('fill','rgba(255,255,255,0.05)');
+pent.setAttribute('stroke','rgba(201,168,76,0.3)');
+pent.setAttribute('stroke-width','1.5');
+svg.appendChild(pent);
+// Zone labels at pentagon vertices
+for(var i=0;i<5;i++){
+var a=getAngle(i)+rotation;
+var lx=cx+42*Math.cos(a);var ly=cy+42*Math.sin(a);
+var lbl=document.createElementNS(ns,'text');
+lbl.setAttribute('x',String(lx.toFixed(1)));lbl.setAttribute('y',String(ly.toFixed(1)));
+lbl.setAttribute('text-anchor','middle');lbl.setAttribute('dominant-baseline','central');
+lbl.setAttribute('fill',zonePos[i].color);
+lbl.setAttribute('font-family',"'DM Mono',monospace");
+lbl.setAttribute('font-size','10');lbl.setAttribute('font-weight','600');
+lbl.textContent=zonePos[i].id;
+svg.appendChild(lbl);
+}
+// Arrows
+for(var s=0;s<stacks.length;s++){
+var st=stacks[s];
+var fromA=getAngle(st.fromIdx)+rotation;
+var toA=getAngle(st.toIdx)+rotation;
+var combinedBurden=zonePos[st.fromIdx].score+zonePos[st.toIdx].score;
+var velMag=st.vel==='FAST'?150:st.vel==='MEDIUM'?110:70;
+var sw=Math.max(2,combinedBurden/30);
+var fx=cx+50*Math.cos(fromA);var fy=cy+50*Math.sin(fromA);
+var tx=cx+velMag*Math.cos(toA);var ty=cy+velMag*Math.sin(toA);
+var line=document.createElementNS(ns,'line');
+line.setAttribute('x1',fx.toFixed(1));line.setAttribute('y1',fy.toFixed(1));
+line.setAttribute('x2',tx.toFixed(1));line.setAttribute('y2',ty.toFixed(1));
+line.setAttribute('stroke',st.active?zonePos[st.fromIdx].color:'rgba(255,255,255,0.15)');
+line.setAttribute('stroke-width',String(st.active?sw:1.5));
+line.setAttribute('marker-end','url(#vm-ov34-arrowhead)');
+line.setAttribute('cursor','pointer');
+if(st.theoretical||!st.active){line.setAttribute('stroke-dasharray','6 4');}
+else if(st.active){
+line.setAttribute('stroke-dasharray','10 10');
+line.setAttribute('style','animation:vm-ov34-flow 0.8s linear infinite');
+}
+(function(idx){
+line.addEventListener('click',function(){
+var det=document.getElementById('vm-ov34-detail');
+var dtitle=document.getElementById('vm-ov34-detail-title');
+var dbody=document.getElementById('vm-ov34-detail-body');
+dtitle.textContent=stacks[idx].id+': '+zonePos[stacks[idx].fromIdx].id+' to '+zonePos[stacks[idx].toIdx].id;
+var extra='';
+if(stacks[idx].theoretical)extra='<br><span class="vm-ov34-badge" style="color:#7B5EA7;border:1px dashed rgba(123,94,167,.5);background:rgba(123,94,167,.08)">THEORETICAL</span>';
+if(stacks[idx].uni)extra+='<br><span class="vm-ov34-badge" style="color:#C9A84C;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08)">UNIDIRECTIONAL</span>';
+dbody.innerHTML=stacks[idx].narr+'<br>Velocity: '+stacks[idx].vel+' | Evidence: '+stacks[idx].tier+extra;
+det.style.display='block';
+});
+})(s);
+svg.appendChild(line);
+// Uni label
+if(st.uni){
+var mx=(fx+tx)/2;var my=(fy+ty)/2;
+var ulbl=document.createElementNS(ns,'text');
+ulbl.setAttribute('x',String(mx.toFixed(1)));ulbl.setAttribute('y',String((my-10).toFixed(1)));
+ulbl.setAttribute('text-anchor','middle');ulbl.setAttribute('fill','#C9A84C');
+ulbl.setAttribute('font-family',"'DM Mono',monospace");
+ulbl.setAttribute('font-size','7');ulbl.setAttribute('opacity','0.7');
+ulbl.textContent='UNIDIRECTIONAL';
+svg.appendChild(ulbl);
+}
+if(st.theoretical){
+var mx2=(fx+tx)/2;var my2=(fy+ty)/2;
+var tlbl=document.createElementNS(ns,'text');
+tlbl.setAttribute('x',String(mx2.toFixed(1)));tlbl.setAttribute('y',String((my2+10).toFixed(1)));
+tlbl.setAttribute('text-anchor','middle');tlbl.setAttribute('fill','rgba(123,94,167,0.5)');
+tlbl.setAttribute('font-family',"'DM Mono',monospace");
+tlbl.setAttribute('font-size','7');
+tlbl.textContent='THEORETICAL';
+svg.appendChild(tlbl);
+}
+// Stack label
+var slx=(fx+tx)*0.65-cx*0.3;var sly=(fy+ty)*0.65-cy*0.3;
+var slbl=document.createElementNS(ns,'text');
+slbl.setAttribute('x',String(((fx+tx)/2).toFixed(1)));
+slbl.setAttribute('y',String(((fy+ty)/2+4).toFixed(1)));
+slbl.setAttribute('text-anchor','middle');slbl.setAttribute('fill','rgba(244,244,242,0.4)');
+slbl.setAttribute('font-family',"'DM Mono',monospace");
+slbl.setAttribute('font-size','8');
+slbl.textContent=st.id;
+svg.appendChild(slbl);
+}
+}
+// Drag to rotate
+wrap.addEventListener('mousedown',function(e){dragging=true;dragStartX=e.clientX;dragStartRot=rotation;e.preventDefault();});
+document.addEventListener('mousemove',function(e){
+if(!dragging)return;
+var dx=e.clientX-dragStartX;
+rotation=dragStartRot+dx*0.01;
+render();
+});
+document.addEventListener('mouseup',function(){dragging=false;});
+// Close detail on outside click
+document.addEventListener('click',function(e){
+if(!wrap.contains(e.target)){document.getElementById('vm-ov34-detail').style.display='none';}
+});
+render();
+})();
+</script>
+
+
+<!-- ═══════ OV35: Zone Activation Timeline ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov35-cursor,.vm-ov35-marker,.vm-ov35-pulse{transition:none!important;animation:none!important}
+}
+#vm-ov35-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov35-section *{box-sizing:border-box}
+.vm-ov35-wrap{max-width:800px;margin:0 auto}
+.vm-ov35-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov35-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:24px}
+.vm-ov35-timeline{position:relative;height:180px;margin-bottom:20px}
+.vm-ov35-track{position:absolute;top:80px;left:40px;right:40px;height:4px;background:rgba(255,255,255,.1);border-radius:2px}
+.vm-ov35-cursor{position:absolute;top:72px;width:4px;height:20px;background:#C9A84C;border-radius:2px;left:40px;transition:left 0.05s linear;z-index:5}
+.vm-ov35-marker{position:absolute;top:50px;text-align:center;transition:opacity .3s ease}
+.vm-ov35-marker-dot{width:16px;height:16px;border-radius:50%;margin:0 auto 4px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);transition:background .3s ease,border-color .3s ease,box-shadow .3s ease}
+.vm-ov35-marker-dot.lit{border-color:currentColor;background:currentColor;box-shadow:0 0 12px currentColor}
+.vm-ov35-marker-label{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(244,244,242,.5)}
+.vm-ov35-marker-th{font-family:'DM Mono',monospace;font-size:.5rem;color:rgba(244,244,242,.3);margin-top:2px}
+.vm-ov35-near-band{position:absolute;top:78px;height:8px;background:rgba(201,168,76,.15);border-radius:2px;z-index:1}
+.vm-ov35-controls{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px}
+.vm-ov35-btn{font-family:'DM Mono',monospace;font-size:.6rem;padding:6px 14px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(244,244,242,.5);cursor:pointer;transition:background .2s ease}
+.vm-ov35-btn:hover{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3)}
+.vm-ov35-btn.active{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.4);color:#C9A84C}
+.vm-ov35-insight{font-family:'DM Mono',monospace;font-size:.65rem;color:#C9A84C;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:8px 14px;display:inline-block;margin-top:8px;text-align:center}
+.vm-ov35-score-display{font-family:'DM Mono',monospace;font-size:.75rem;color:rgba(244,244,242,.5);text-align:center;margin-top:8px}
+.vm-ov35-score-val{color:#C9A84C;font-weight:500}
+</style>
+<section id="vm-ov35-section">
+<div class="vm-ov35-wrap">
+<div class="vm-ov35-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov35-heading">Zone Activation Timeline</h2>
+<div class="vm-ov35-controls">
+<button class="vm-ov35-btn active" id="vm-ov35-play">Play</button>
+<button class="vm-ov35-btn" id="vm-ov35-pause">Pause</button>
+<button class="vm-ov35-btn" id="vm-ov35-speed1">1x</button>
+<button class="vm-ov35-btn" id="vm-ov35-speed2">2x</button>
+<button class="vm-ov35-btn" id="vm-ov35-speed3">4x</button>
+</div>
+<div class="vm-ov35-score-display">Score cursor: <span class="vm-ov35-score-val" id="vm-ov35-score-val">0</span>/100</div>
+<div class="vm-ov35-timeline" id="vm-ov35-timeline">
+<div class="vm-ov35-track"></div>
+<div class="vm-ov35-cursor" id="vm-ov35-cursor"></div>
+</div>
+<div style="text-align:center">
+<div class="vm-ov35-insight" id="vm-ov35-insight">Z5 activates first (threshold 32)</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var zones=[
+{id:'Z1',color:'#C9A84C',th:40,near:35},
+{id:'Z2',color:'#1A7A8A',th:40,near:35},
+{id:'Z3',color:'#7B5EA7',th:40,near:35},
+{id:'Z4',color:'#5F7C6C',th:40,near:35},
+{id:'Z5',color:'#2E6DB4',th:32,near:27}
+];
+var timeline=document.getElementById('vm-ov35-timeline');
+var trackLeft=40;var trackRight=40;
+var trackWidth=timeline.offsetWidth-trackLeft-trackRight;
+if(trackWidth<=0)trackWidth=600;
+// Place markers + near-threshold bands
+for(var i=0;i<zones.length;i++){
+var z=zones[i];
+var pos=trackLeft+(z.th/100)*trackWidth;
+var nearPos=trackLeft+(z.near/100)*trackWidth;
+var nearWidth=(5/100)*trackWidth;
+// Near-threshold band (amber)
+var band=document.createElement('div');
+band.className='vm-ov35-near-band';
+band.style.left=nearPos+'px';
+band.style.width=nearWidth+'px';
+band.setAttribute('title','D-38 near-threshold band for '+z.id);
+timeline.appendChild(band);
+// Marker
+var mk=document.createElement('div');
+mk.className='vm-ov35-marker';
+mk.style.left=(pos-20)+'px';
+mk.style.width='40px';
+mk.setAttribute('id','vm-ov35-mk-'+i);
+mk.innerHTML='<div class="vm-ov35-marker-dot" id="vm-ov35-dot-'+i+'" style="color:'+z.color+'"></div><div class="vm-ov35-marker-label">'+z.id+'</div><div class="vm-ov35-marker-th">'+z.th+'</div>';
+timeline.appendChild(mk);
+}
+var currentScore=0;
+var playing=true;
+var speed=1;
+var cursor=document.getElementById('vm-ov35-cursor');
+var scoreVal=document.getElementById('vm-ov35-score-val');
+var litZones=[];
+function update(){
+var pos=trackLeft+(currentScore/100)*trackWidth;
+cursor.style.left=pos+'px';
+scoreVal.textContent=String(Math.round(currentScore));
+for(var i=0;i<zones.length;i++){
+var dot=document.getElementById('vm-ov35-dot-'+i);
+if(currentScore>=zones[i].th&&litZones.indexOf(i)===-1){
+dot.classList.add('lit');
+litZones.push(i);
+}
+if(currentScore<zones[i].th){
+dot.classList.remove('lit');
+var li=litZones.indexOf(i);
+if(li>-1)litZones.splice(li,1);
+}
+}
+}
+var raf=null;
+var lastTime=null;
+function tick(ts){
+if(!playing){raf=requestAnimationFrame(tick);return;}
+if(!lastTime)lastTime=ts;
+var dt=(ts-lastTime)/1000;
+lastTime=ts;
+var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(reduced){currentScore=100;update();return;}
+currentScore+=dt*20*speed;
+if(currentScore>100){currentScore=0;litZones=[];}
+update();
+raf=requestAnimationFrame(tick);
+}
+// Controls
+document.getElementById('vm-ov35-play').addEventListener('click',function(){playing=true;lastTime=null;this.classList.add('active');document.getElementById('vm-ov35-pause').classList.remove('active');});
+document.getElementById('vm-ov35-pause').addEventListener('click',function(){playing=false;this.classList.add('active');document.getElementById('vm-ov35-play').classList.remove('active');});
+document.getElementById('vm-ov35-speed1').addEventListener('click',function(){speed=1;document.getElementById('vm-ov35-speed2').classList.remove('active');document.getElementById('vm-ov35-speed3').classList.remove('active');this.classList.add('active');});
+document.getElementById('vm-ov35-speed2').addEventListener('click',function(){speed=2;document.getElementById('vm-ov35-speed1').classList.remove('active');document.getElementById('vm-ov35-speed3').classList.remove('active');this.classList.add('active');});
+document.getElementById('vm-ov35-speed3').addEventListener('click',function(){speed=4;document.getElementById('vm-ov35-speed1').classList.remove('active');document.getElementById('vm-ov35-speed2').classList.remove('active');this.classList.add('active');});
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){raf=requestAnimationFrame(tick);obs.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById('vm-ov35-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV36: FLINT Layer Dependency Web ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov36-node,.vm-ov36-arrow,.vm-ov36-particle{transition:none!important;animation:none!important}
+}
+#vm-ov36-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov36-section *{box-sizing:border-box}
+.vm-ov36-wrap{max-width:700px;margin:0 auto;text-align:center}
+.vm-ov36-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov36-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov36-svg-wrap{position:relative;display:inline-block}
+.vm-ov36-detail{display:none;background:rgba(26,32,48,.95);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:16px;font-family:'Outfit',sans-serif;font-size:.78rem;color:rgba(244,244,242,.7);text-align:left;line-height:1.6;margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto}
+.vm-ov36-detail-title{font-family:'DM Mono',monospace;font-size:.7rem;color:#C9A84C;margin-bottom:6px;font-weight:500}
+.vm-ov36-badge-onepass{font-family:'DM Mono',monospace;font-size:.55rem;color:#C9A84C;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);padding:3px 8px;border-radius:3px;display:inline-block;margin-top:12px}
+@keyframes vm-ov36-flow{0%{stroke-dashoffset:16}100%{stroke-dashoffset:0}}
+</style>
+<section id="vm-ov36-section">
+<div class="vm-ov36-wrap">
+<div class="vm-ov36-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov36-heading">FLINT&#8482; Layer Dependency Web</h2>
+<div class="vm-ov36-svg-wrap">
+<svg id="vm-ov36-svg" width="400" height="480" viewBox="0 0 400 480"></svg>
+</div>
+<div class="vm-ov36-detail" id="vm-ov36-detail">
+<div class="vm-ov36-detail-title" id="vm-ov36-detail-title"></div>
+<div id="vm-ov36-detail-body"></div>
+</div>
+<div><span class="vm-ov36-badge-onepass">One-pass, no write-back</span></div>
+</div>
+</section>
+<script>
+(function(){
+var ns='http://www.w3.org/2000/svg';
+var layers=[
+{id:'L1',name:'Node Intelligence',question:'WHERE?',y:40,detail:'L1 answers WHERE the burden sits at node level. MSQ-71 + ATM + MedTerrain intake. Seven nodes scored on 0 to 100 internal scale.'},
+{id:'L2',name:'Zone Intelligence',question:'WHICH?',y:120,detail:'L2 answers WHICH zone carries the highest burden. Five zones computed from node composites. Z5 threshold at 32, others at 40.'},
+{id:'L3',name:'Cascade Intelligence',question:'HOW?',y:200,detail:'L3 answers HOW burden propagates between zones. Six cascade stacks with velocity ratings. TerrainLock detection active.'},
+{id:'L4',name:'Causality Intelligence',question:'WHO?',y:280,detail:'L4 answers WHO is the highest burden zone. DRD designation identifies the zone driving the terrain pattern.'},
+{id:'L5',name:'Examination Intelligence',question:'WHAT?',y:360,detail:'L5 answers WHAT to investigate. APEX budget tiers guide practitioner investigation selection.'}
+];
+var vantageY=440;
+var svg=document.getElementById('vm-ov36-svg');
+var hoveredLayer=-1;
+function render(){
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var defs=document.createElementNS(ns,'defs');
+var marker=document.createElementNS(ns,'marker');
+marker.setAttribute('id','vm-ov36-ah');marker.setAttribute('markerWidth','6');
+marker.setAttribute('markerHeight','5');marker.setAttribute('refX','6');marker.setAttribute('refY','2.5');
+marker.setAttribute('orient','auto');
+var mp=document.createElementNS(ns,'polygon');
+mp.setAttribute('points','0 0, 6 2.5, 0 5');mp.setAttribute('fill','#C9A84C');
+marker.appendChild(mp);defs.appendChild(marker);svg.appendChild(defs);
+var cx=200;
+// Main chain arrows L1->L2->L3->L4->L5
+for(var i=0;i<4;i++){
+var line=document.createElementNS(ns,'line');
+line.setAttribute('x1',String(cx));line.setAttribute('y1',String(layers[i].y+20));
+line.setAttribute('x2',String(cx));line.setAttribute('y2',String(layers[i+1].y-10));
+line.setAttribute('stroke','rgba(201,168,76,0.3)');line.setAttribute('stroke-width','2');
+line.setAttribute('marker-end','url(#vm-ov36-ah)');
+var isUpstream=hoveredLayer>=0&&i<hoveredLayer;
+var isDown=hoveredLayer>=0&&i>=hoveredLayer;
+if(isUpstream){line.setAttribute('stroke','#C9A84C');line.setAttribute('stroke-width','3');line.setAttribute('stroke-dasharray','8 4');line.setAttribute('style','animation:vm-ov36-flow 0.6s linear infinite');}
+if(isDown&&hoveredLayer>=0){line.setAttribute('opacity','0.3');}
+svg.appendChild(line);
+}
+// VANTAGE connections (all layers feed VANTAGE)
+for(var i=0;i<5;i++){
+var vline=document.createElementNS(ns,'line');
+var offsetX=i*30-60;
+vline.setAttribute('x1',String(cx+offsetX));vline.setAttribute('y1',String(layers[i].y+20));
+vline.setAttribute('x2',String(cx));vline.setAttribute('y2',String(vantageY-10));
+vline.setAttribute('stroke','rgba(201,168,76,0.12)');vline.setAttribute('stroke-width','1');
+vline.setAttribute('stroke-dasharray','4 4');
+vline.setAttribute('marker-end','url(#vm-ov36-ah)');
+svg.appendChild(vline);
+}
+// Layer nodes
+for(var i=0;i<5;i++){
+var l=layers[i];
+var rect=document.createElementNS(ns,'rect');
+rect.setAttribute('x',String(cx-80));rect.setAttribute('y',String(l.y-15));
+rect.setAttribute('width','160');rect.setAttribute('height','30');
+rect.setAttribute('rx','6');rect.setAttribute('fill','rgba(255,255,255,0.06)');
+rect.setAttribute('stroke',hoveredLayer===i?'#C9A84C':'rgba(255,255,255,0.15)');
+rect.setAttribute('stroke-width',hoveredLayer===i?'2':'1');
+rect.setAttribute('cursor','pointer');
+(function(idx){
+rect.addEventListener('mouseenter',function(){hoveredLayer=idx;render();});
+rect.addEventListener('mouseleave',function(){hoveredLayer=-1;render();});
+rect.addEventListener('click',function(){
+var det=document.getElementById('vm-ov36-detail');
+document.getElementById('vm-ov36-detail-title').textContent=layers[idx].id+': '+layers[idx].name+' ('+layers[idx].question+')';
+document.getElementById('vm-ov36-detail-body').textContent=layers[idx].detail;
+det.style.display='block';
+});
+})(i);
+svg.appendChild(rect);
+var txt=document.createElementNS(ns,'text');
+txt.setAttribute('x',String(cx));txt.setAttribute('y',String(l.y+2));
+txt.setAttribute('text-anchor','middle');txt.setAttribute('dominant-baseline','central');
+txt.setAttribute('fill',hoveredLayer===i?'#C9A84C':'rgba(244,244,242,0.7)');
+txt.setAttribute('font-family',"'DM Mono',monospace");txt.setAttribute('font-size','11');
+txt.setAttribute('pointer-events','none');
+txt.textContent=l.id+': '+l.question;
+svg.appendChild(txt);
+}
+// VANTAGE node
+var vRect=document.createElementNS(ns,'rect');
+vRect.setAttribute('x',String(cx-60));vRect.setAttribute('y',String(vantageY-15));
+vRect.setAttribute('width','120');vRect.setAttribute('height','30');
+vRect.setAttribute('rx','6');vRect.setAttribute('fill','rgba(201,168,76,0.1)');
+vRect.setAttribute('stroke','rgba(201,168,76,0.4)');vRect.setAttribute('stroke-width','1.5');
+svg.appendChild(vRect);
+var vTxt=document.createElementNS(ns,'text');
+vTxt.setAttribute('x',String(cx));vTxt.setAttribute('y',String(vantageY+2));
+vTxt.setAttribute('text-anchor','middle');vTxt.setAttribute('dominant-baseline','central');
+vTxt.setAttribute('fill','#C9A84C');
+vTxt.setAttribute('font-family',"'DM Mono',monospace");vTxt.setAttribute('font-size','10');
+vTxt.textContent='VANTAGE (NOT a layer)';
+svg.appendChild(vTxt);
+}
+render();
+// Animate particle flow on scroll entry
+function animateFlow(){
+var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(reduced)return;
+var cx2=200;
+for(var i=0;i<4;i++){
+(function(idx){
+setTimeout(function(){
+var p=document.createElementNS(ns,'circle');
+p.setAttribute('cx',String(cx2));p.setAttribute('cy',String(layers[idx].y+20));
+p.setAttribute('r','4');p.setAttribute('fill','#C9A84C');p.setAttribute('opacity','0.8');
+svg.appendChild(p);
+var startY=layers[idx].y+20;var endY=layers[idx+1].y-10;
+var dur=400;var t0=null;
+function step(ts){
+if(!t0)t0=ts;
+var prog=Math.min((ts-t0)/dur,1);
+p.setAttribute('cy',String(startY+(endY-startY)*prog));
+p.setAttribute('opacity',String(0.8*(1-prog*0.5)));
+if(prog<1)requestAnimationFrame(step);
+else{if(p.parentNode)p.parentNode.removeChild(p);}
+}
+requestAnimationFrame(step);
+},300*idx);
+})(i);
+}
+}
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateFlow();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById('vm-ov36-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV37: Patient Burden Heat Calendar ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov37-cell{transition:none!important;animation:none!important}
+}
+#vm-ov37-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov37-section *{box-sizing:border-box}
+.vm-ov37-wrap{max-width:700px;margin:0 auto;text-align:center}
+.vm-ov37-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov37-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov37-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:500px;margin:0 auto 16px}
+.vm-ov37-cell{aspect-ratio:1;border-radius:4px;cursor:pointer;position:relative;opacity:0;transition:opacity .3s ease,transform .2s ease,box-shadow .2s ease}
+.vm-ov37-cell:hover{transform:scale(1.1);box-shadow:0 0 10px rgba(255,255,255,.15);z-index:2}
+.vm-ov37-cell-tooltip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:8px 10px;font-family:'DM Mono',monospace;font-size:.55rem;color:#F4F4F2;white-space:nowrap;pointer-events:none;z-index:20;display:none;line-height:1.5}
+.vm-ov37-cell:hover .vm-ov37-cell-tooltip{display:block}
+.vm-ov37-day-labels{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:500px;margin:0 auto 6px}
+.vm-ov37-day-label{font-family:'DM Mono',monospace;font-size:.5rem;color:rgba(244,244,242,.3);text-align:center}
+.vm-ov37-trajectory{font-family:'DM Mono',monospace;font-size:.65rem;color:#E74C3C;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);border-radius:4px;padding:6px 12px;display:inline-block;margin-top:12px}
+.vm-ov37-mini-pent{display:none;background:rgba(26,32,48,.95);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:12px;margin-top:16px;max-width:300px;margin-left:auto;margin-right:auto}
+</style>
+<section id="vm-ov37-section">
+<div class="vm-ov37-wrap">
+<div class="vm-ov37-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov37-heading">Patient Burden Heat Calendar</h2>
+<div class="vm-ov37-day-labels">
+<div class="vm-ov37-day-label">Mon</div><div class="vm-ov37-day-label">Tue</div><div class="vm-ov37-day-label">Wed</div>
+<div class="vm-ov37-day-label">Thu</div><div class="vm-ov37-day-label">Fri</div><div class="vm-ov37-day-label">Sat</div><div class="vm-ov37-day-label">Sun</div>
+</div>
+<div class="vm-ov37-grid" id="vm-ov37-grid"></div>
+<div class="vm-ov37-mini-pent" id="vm-ov37-pent">
+<svg id="vm-ov37-pent-svg" width="160" height="160" viewBox="0 0 160 160"></svg>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var ns='http://www.w3.org/2000/svg';
+var zColors=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+// Patient B T1 data (first 17 days - lower burden)
+// Patient B T2 data (days 18-35 - escalating burden)
+var dayData=[];
+for(var d=0;d<35;d++){
+var isT2=d>=17;
+var base=isT2?[55+d*0.8,60+d*0.5,35+d*0.4,30+d*0.3,52+d*0.7]:[30+d*0.3,35+d*0.2,20+d*0.15,18+d*0.1,28+d*0.25];
+var total=0;
+for(var z=0;z<5;z++){base[z]=Math.min(95,Math.round(base[z]));total+=base[z];}
+dayData.push({scores:base,total:total,isT2:isT2,day:d+1});
+}
+function burdenToColor(total){
+var norm=Math.min(1,Math.max(0,(total-100)/300));
+if(norm<0.33)return 'rgba(95,124,108,'+(0.3+norm*1.5)+')';
+if(norm<0.66)return 'rgba(201,168,76,'+(0.3+norm)+')';
+return 'rgba(210,70,60,'+(0.3+norm)+')';
+}
+var grid=document.getElementById('vm-ov37-grid');
+var html='';
+for(var d=0;d<35;d++){
+var dd=dayData[d];
+var bg=burdenToColor(dd.total);
+html+='<div class="vm-ov37-cell" id="vm-ov37-cell-'+d+'" style="background:'+bg+'" data-day="'+d+'">';
+html+='<div class="vm-ov37-cell-tooltip">Day '+dd.day+(dd.isT2?' (T2)':' (T1)')+'<br>';
+html+='Z1:'+dd.scores[0]+' Z2:'+dd.scores[1]+' Z3:'+dd.scores[2]+'<br>Z4:'+dd.scores[3]+' Z5:'+dd.scores[4]+'<br>Total: '+dd.total+'</div>';
+html+='</div>';
+}
+grid.innerHTML=html;
+// Click to show mini pentagon
+var cells=grid.querySelectorAll('.vm-ov37-cell');
+for(var c=0;c<cells.length;c++){
+(function(cell){
+cell.addEventListener('click',function(){
+var idx=parseInt(this.getAttribute('data-day'));
+var dd=dayData[idx];
+var pentDiv=document.getElementById('vm-ov37-pent');
+pentDiv.style.display='block';
+var svg=document.getElementById('vm-ov37-pent-svg');
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var pcx=80,pcy=80,pR=55;
+// Pentagon outline
+var outPts='';
+for(var i=0;i<5;i++){
+var a=-Math.PI/2+i*2*Math.PI/5;
+outPts+=(pcx+pR*Math.cos(a)).toFixed(1)+','+(pcy+pR*Math.sin(a)).toFixed(1)+' ';
+}
+var outPoly=document.createElementNS(ns,'polygon');
+outPoly.setAttribute('points',outPts.trim());
+outPoly.setAttribute('fill','none');
+outPoly.setAttribute('stroke','rgba(255,255,255,0.1)');
+outPoly.setAttribute('stroke-width','1');
+svg.appendChild(outPoly);
+// Data polygon
+var dataPts='';
+for(var i=0;i<5;i++){
+var a=-Math.PI/2+i*2*Math.PI/5;
+var r=pR*(dd.scores[i]/100);
+dataPts+=(pcx+r*Math.cos(a)).toFixed(1)+','+(pcy+r*Math.sin(a)).toFixed(1)+' ';
+}
+var dataPoly=document.createElementNS(ns,'polygon');
+dataPoly.setAttribute('points',dataPts.trim());
+dataPoly.setAttribute('fill','rgba(201,168,76,0.2)');
+dataPoly.setAttribute('stroke','#C9A84C');
+dataPoly.setAttribute('stroke-width','1.5');
+svg.appendChild(dataPoly);
+// Zone dots
+for(var i=0;i<5;i++){
+var a=-Math.PI/2+i*2*Math.PI/5;
+var r=pR*(dd.scores[i]/100);
+var dot=document.createElementNS(ns,'circle');
+dot.setAttribute('cx',String((pcx+r*Math.cos(a)).toFixed(1)));
+dot.setAttribute('cy',String((pcy+r*Math.sin(a)).toFixed(1)));
+dot.setAttribute('r','4');dot.setAttribute('fill',zColors[i]);
+svg.appendChild(dot);
+// Label
+var lbl=document.createElementNS(ns,'text');
+var la=-Math.PI/2+i*2*Math.PI/5;
+lbl.setAttribute('x',String((pcx+(pR+14)*Math.cos(la)).toFixed(1)));
+lbl.setAttribute('y',String((pcy+(pR+14)*Math.sin(la)).toFixed(1)));
+lbl.setAttribute('text-anchor','middle');lbl.setAttribute('dominant-baseline','central');
+lbl.setAttribute('fill',zColors[i]);lbl.setAttribute('font-family',"'DM Mono',monospace");
+lbl.setAttribute('font-size','8');
+lbl.textContent='Z'+(i+1);
+svg.appendChild(lbl);
+}
+// Day label
+var dayLbl=document.createElementNS(ns,'text');
+dayLbl.setAttribute('x','80');dayLbl.setAttribute('y','155');
+dayLbl.setAttribute('text-anchor','middle');dayLbl.setAttribute('fill','rgba(244,244,242,0.5)');
+dayLbl.setAttribute('font-family',"'DM Mono',monospace");dayLbl.setAttribute('font-size','9');
+dayLbl.textContent='Day '+dd.day+(dd.isT2?' (T2)':' (T1)');
+svg.appendChild(dayLbl);
+});
+})(cells[c]);
+}
+// Animate cells on scroll
+function animateCells(){
+var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var allCells=document.querySelectorAll('.vm-ov37-cell');
+for(var i=0;i<allCells.length;i++){
+if(reduced){allCells[i].style.opacity='1';continue;}
+(function(idx,el){
+setTimeout(function(){el.style.opacity='1';},50*idx);
+})(i,allCells[i]);
+}
+// Show trajectory label when T2 cells appear
+if(!reduced){
+setTimeout(function(){
+var traj=document.createElement('div');
+traj.className='vm-ov37-trajectory';
+traj.textContent='Progressively destabilising';
+document.querySelector('.vm-ov37-wrap').appendChild(traj);
+},50*20);
+}else{
+var traj=document.createElement('div');
+traj.className='vm-ov37-trajectory';
+traj.textContent='Progressively destabilising';
+document.querySelector('.vm-ov37-wrap').appendChild(traj);
+}
+}
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateCells();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById('vm-ov37-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV38: Intervention Impact Simulator ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov38-card,.vm-ov38-count,.vm-ov38-pent{transition:none!important;animation:none!important}
+}
+#vm-ov38-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov38-section *{box-sizing:border-box}
+.vm-ov38-wrap{max-width:800px;margin:0 auto}
+.vm-ov38-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov38-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:24px}
+.vm-ov38-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:600px){.vm-ov38-cards{grid-template-columns:repeat(3,1fr)}}
+.vm-ov38-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:14px 8px;text-align:center;transition:border-color .3s ease}
+.vm-ov38-card-label{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.5);margin-bottom:6px}
+.vm-ov38-card-score{font-family:'DM Mono',monospace;font-size:1.2rem;font-weight:500;margin-bottom:8px}
+.vm-ov38-btn{font-family:'DM Mono',monospace;font-size:.7rem;width:28px;height:28px;border-radius:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(244,244,242,.6);cursor:pointer;margin:0 4px;transition:background .2s ease}
+.vm-ov38-btn:hover{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.3)}
+.vm-ov38-status-row{display:flex;justify-content:center;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.vm-ov38-cascade-count{font-family:'DM Mono',monospace;font-size:.8rem;color:#C9A84C;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:6px 14px;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.vm-ov38-cascade-count.bounce{transform:scale(1.15)}
+.vm-ov38-tl-badge{font-family:'DM Mono',monospace;font-size:.6rem;padding:4px 10px;border-radius:4px}
+.vm-ov38-best{font-family:'DM Mono',monospace;font-size:.65rem;color:#C9A84C;text-align:center;margin-top:12px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:4px;padding:8px}
+.vm-ov38-pent-wrap{text-align:center;margin-top:16px}
+</style>
+<section id="vm-ov38-section">
+<div class="vm-ov38-wrap">
+<div class="vm-ov38-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov38-heading">Intervention Impact Simulator</h2>
+<div class="vm-ov38-cards" id="vm-ov38-cards"></div>
+<div class="vm-ov38-status-row">
+<div class="vm-ov38-cascade-count" id="vm-ov38-cascade-count">Active cascades: 0</div>
+<div class="vm-ov38-tl-badge" id="vm-ov38-tl-badge" style="color:#5F7C6C;border:1px solid rgba(95,124,108,.3);background:rgba(95,124,108,.08)">TerrainLock: Inactive</div>
+</div>
+<div class="vm-ov38-best" id="vm-ov38-best"></div>
+<div class="vm-ov38-pent-wrap">
+<svg id="vm-ov38-pent-svg" width="200" height="200" viewBox="0 0 200 200"></svg>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var ns='http://www.w3.org/2000/svg';
+var zones=[
+{id:'Z1',name:'Metabolic Energy Axis',color:'#C9A84C',th:40},
+{id:'Z2',name:'Resilience Network',color:'#1A7A8A',th:40},
+{id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',th:40},
+{id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',th:40},
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',th:32}
+];
+var stacks=[
+{from:1,to:0},{from:0,to:4},{from:3,to:0},
+{from:4,to:1},{from:1,to:2},{from:0,to:2}
+];
+var simScores=[45,55,30,25,50];
+var cardsDiv=document.getElementById('vm-ov38-cards');
+var html='';
+for(var i=0;i<5;i++){
+html+='<div class="vm-ov38-card" id="vm-ov38-card-'+i+'" style="border-color:'+zones[i].color+'">';
+html+='<div class="vm-ov38-card-label">'+zones[i].id+'</div>';
+html+='<div class="vm-ov38-card-score" id="vm-ov38-score-'+i+'" style="color:'+zones[i].color+'">'+simScores[i]+'</div>';
+html+='<button class="vm-ov38-btn" onclick="window.vmOv38Adjust('+i+',-5)">-</button>';
+html+='<button class="vm-ov38-btn" onclick="window.vmOv38Adjust('+i+',5)">+</button>';
+html+='</div>';
+}
+cardsDiv.innerHTML=html;
+function updateSim(){
+var activeCount=0;
+for(var s=0;s<stacks.length;s++){
+var src=stacks[s].from;var tgt=stacks[s].to;
+if(simScores[src]>=zones[src].th&&simScores[tgt]>=zones[tgt].th){activeCount++;}
+}
+var countEl=document.getElementById('vm-ov38-cascade-count');
+countEl.textContent='Active cascades: '+activeCount;
+countEl.classList.add('bounce');
+setTimeout(function(){countEl.classList.remove('bounce');},300);
+// TerrainLock check: S1+S2+S4
+var s1=simScores[1]>=zones[1].th&&simScores[0]>=zones[0].th;
+var s2=simScores[0]>=zones[0].th&&simScores[4]>=zones[4].th;
+var s4=simScores[4]>=zones[4].th&&simScores[1]>=zones[1].th;
+var tlActive=s1&&s2&&s4;
+var tlBadge=document.getElementById('vm-ov38-tl-badge');
+if(tlActive){
+tlBadge.textContent='TerrainLock: ACTIVE';
+tlBadge.style.color='#E74C3C';tlBadge.style.borderColor='rgba(231,76,60,.4)';tlBadge.style.background='rgba(231,76,60,.1)';
+}else{
+tlBadge.textContent='TerrainLock: Inactive';
+tlBadge.style.color='#5F7C6C';tlBadge.style.borderColor='rgba(95,124,108,.3)';tlBadge.style.background='rgba(95,124,108,.08)';
+}
+// Best intervention target: which zone reduction breaks most cascades
+var bestZone=-1;var bestBreaks=-1;
+for(var z=0;z<5;z++){
+var testScores=simScores.slice();
+testScores[z]=Math.max(0,testScores[z]-5);
+var broken=0;
+for(var s=0;s<stacks.length;s++){
+var wasSrcActive=simScores[stacks[s].from]>=zones[stacks[s].from].th;
+var wasTgtActive=simScores[stacks[s].to]>=zones[stacks[s].to].th;
+var wasActive=wasSrcActive&&wasTgtActive;
+var nowSrcActive=testScores[stacks[s].from]>=zones[stacks[s].from].th;
+var nowTgtActive=testScores[stacks[s].to]>=zones[stacks[s].to].th;
+var nowActive=nowSrcActive&&nowTgtActive;
+if(wasActive&&!nowActive)broken++;
+}
+if(broken>bestBreaks){bestBreaks=broken;bestZone=z;}
+}
+var bestEl=document.getElementById('vm-ov38-best');
+if(bestBreaks>0){
+bestEl.textContent='Best intervention target: '+zones[bestZone].id+' ('+zones[bestZone].name+') : reducing by 5 breaks '+bestBreaks+' cascade'+(bestBreaks>1?'s':'');
+}else{
+bestEl.textContent='No single 5-point reduction currently breaks a cascade';
+}
+// Mini pentagon
+drawPent();
+// Update score displays
+for(var i=0;i<5;i++){
+var scoreEl=document.getElementById('vm-ov38-score-'+i);
+scoreEl.textContent=String(simScores[i]);
+var card=document.getElementById('vm-ov38-card-'+i);
+card.style.borderColor=simScores[i]>=zones[i].th?zones[i].color:'rgba(255,255,255,0.1)';
+}
+}
+function drawPent(){
+var svg=document.getElementById('vm-ov38-pent-svg');
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var pcx=100,pcy=100,pR=70;
+var outPts='';
+for(var i=0;i<5;i++){
+var a=-Math.PI/2+i*2*Math.PI/5;
+outPts+=(pcx+pR*Math.cos(a)).toFixed(1)+','+(pcy+pR*Math.sin(a)).toFixed(1)+' ';
+}
+var outPoly=document.createElementNS(ns,'polygon');
+outPoly.setAttribute('points',outPts.trim());
+outPoly.setAttribute('fill','none');
+outPoly.setAttribute('stroke','rgba(255,255,255,0.08)');
+outPoly.setAttribute('stroke-width','1');
+svg.appendChild(outPoly);
+for(var i=0;i<5;i++){
+var a=-Math.PI/2+i*2*Math.PI/5;
+var active=simScores[i]>=zones[i].th;
+var dot=document.createElementNS(ns,'circle');
+dot.setAttribute('cx',String((pcx+pR*Math.cos(a)).toFixed(1)));
+dot.setAttribute('cy',String((pcy+pR*Math.sin(a)).toFixed(1)));
+dot.setAttribute('r',active?'10':'6');
+dot.setAttribute('fill',active?zones[i].color:'rgba(255,255,255,0.1)');
+dot.setAttribute('stroke',zones[i].color);dot.setAttribute('stroke-width','2');
+dot.setAttribute('opacity',active?'1':'0.3');
+svg.appendChild(dot);
+var lbl=document.createElementNS(ns,'text');
+lbl.setAttribute('x',String((pcx+(pR+18)*Math.cos(a)).toFixed(1)));
+lbl.setAttribute('y',String((pcy+(pR+18)*Math.sin(a)).toFixed(1)));
+lbl.setAttribute('text-anchor','middle');lbl.setAttribute('dominant-baseline','central');
+lbl.setAttribute('fill',active?zones[i].color:'rgba(244,244,242,0.3)');
+lbl.setAttribute('font-family',"'DM Mono',monospace");lbl.setAttribute('font-size','9');
+lbl.textContent=zones[i].id;
+svg.appendChild(lbl);
+}
+}
+window.vmOv38Adjust=function(idx,delta){
+simScores[idx]=Math.max(0,Math.min(100,simScores[idx]+delta));
+updateSim();
+};
+updateSim();
+})();
+</script>
+
+
+<!-- ═══════ OV39: Evidence Tier Confidence Rings ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov39-ring,.vm-ov39-dot{transition:none!important;animation:none!important}
+}
+#vm-ov39-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov39-section *{box-sizing:border-box}
+.vm-ov39-wrap{max-width:700px;margin:0 auto;text-align:center}
+.vm-ov39-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov39-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov39-svg-wrap{position:relative;display:inline-block}
+.vm-ov39-tooltip{position:absolute;background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:.6rem;color:#F4F4F2;white-space:nowrap;pointer-events:none;z-index:10;display:none;line-height:1.5;left:50%;top:50%;transform:translate(-50%,-50%)}
+.vm-ov39-floor-badge{font-family:'DM Mono',monospace;font-size:.65rem;color:#C9A84C;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:6px 12px;display:inline-block;margin-top:16px}
+.vm-ov39-filter-note{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(244,244,242,.3);margin-top:8px}
+</style>
+<section id="vm-ov39-section">
+<div class="vm-ov39-wrap">
+<div class="vm-ov39-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov39-heading">Evidence Tier Confidence Rings</h2>
+<div class="vm-ov39-svg-wrap">
+<svg id="vm-ov39-svg" width="360" height="360" viewBox="0 0 360 360"></svg>
+<div class="vm-ov39-tooltip" id="vm-ov39-tooltip"></div>
+</div>
+<div class="vm-ov39-floor-badge" id="vm-ov39-floor">Floor tier: Theoretical</div>
+<div class="vm-ov39-filter-note" id="vm-ov39-filter-note">Click any ring to filter connections by tier</div>
+</div>
+</section>
+<script>
+(function(){
+var ns='http://www.w3.org/2000/svg';
+var tiers=[
+{name:'Verified',color:'#2ECC71',radius:40,connections:[]},
+{name:'Established',color:'#C9A84C',radius:70,connections:['S2','S6']},
+{name:'Emerging',color:'#1A7A8A',radius:100,connections:['S1','S3','S5']},
+{name:'Theoretical',color:'#7B5EA7',radius:130,connections:['S4']},
+{name:'Contested',color:'#E74C3C',radius:160,connections:[]}
+];
+var cx=180,cy=180;
+var activeTier=-1;
+var animated=false;
+var animProgress=[];
+for(var i=0;i<tiers.length;i++){animProgress.push(0);}
+// Find floor tier (lowest tier with active connections)
+var floorTier='None';
+for(var i=tiers.length-1;i>=0;i--){
+if(tiers[i].connections.length>0){floorTier=tiers[i].name;break;}
+}
+document.getElementById('vm-ov39-floor').textContent='Floor tier: '+floorTier;
+var totalConns=0;
+for(var i=0;i<tiers.length;i++){totalConns+=tiers[i].connections.length;}
+function render(){
+var svg=document.getElementById('vm-ov39-svg');
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+for(var i=tiers.length-1;i>=0;i--){
+var t=tiers[i];
+var opacity=t.connections.length>0?(0.3+t.connections.length*0.15):0.1;
+if(activeTier>=0&&activeTier!==i)opacity=0.05;
+var progress=animated?1:animProgress[i];
+var dashLen=2*Math.PI*t.radius;
+var dashFill=dashLen*progress;
+var ring=document.createElementNS(ns,'circle');
+ring.setAttribute('cx',String(cx));ring.setAttribute('cy',String(cy));
+ring.setAttribute('r',String(t.radius));
+ring.setAttribute('fill','none');
+ring.setAttribute('stroke',t.color);
+ring.setAttribute('stroke-width','12');
+ring.setAttribute('opacity',String(opacity));
+ring.setAttribute('stroke-dasharray',dashFill+' '+dashLen);
+ring.setAttribute('stroke-dashoffset','0');
+ring.setAttribute('cursor','pointer');
+ring.setAttribute('data-tier',String(i));
+(function(idx){
+ring.addEventListener('mouseenter',function(ev){
+var tt=document.getElementById('vm-ov39-tooltip');
+var pct=totalConns>0?(tiers[idx].connections.length/totalConns*100).toFixed(0):'0';
+tt.innerHTML=tiers[idx].name+'<br>Connections: '+tiers[idx].connections.length+'<br>'+pct+'% of total';
+tt.style.display='block';
+});
+ring.addEventListener('mouseleave',function(){
+document.getElementById('vm-ov39-tooltip').style.display='none';
+});
+ring.addEventListener('click',function(){
+if(activeTier===idx){activeTier=-1;}else{activeTier=idx;}
+render();
+});
+})(i);
+svg.appendChild(ring);
+// Connection dots on ring
+for(var c=0;c<t.connections.length;c++){
+var connAngle=-Math.PI/2+c*(2*Math.PI/Math.max(t.connections.length,1));
+var dx=cx+t.radius*Math.cos(connAngle);
+var dy=cy+t.radius*Math.sin(connAngle);
+var dot=document.createElementNS(ns,'circle');
+dot.setAttribute('cx',String(dx.toFixed(1)));dot.setAttribute('cy',String(dy.toFixed(1)));
+dot.setAttribute('r','5');dot.setAttribute('fill',t.color);
+dot.setAttribute('stroke','#F4F4F2');dot.setAttribute('stroke-width','1.5');
+if(activeTier>=0&&activeTier!==i){dot.setAttribute('opacity','0.05');}
+// S4 gets dashed outline
+if(t.connections[c]==='S4'){
+dot.setAttribute('stroke-dasharray','2 2');
+dot.setAttribute('stroke','rgba(123,94,167,0.8)');
+}
+svg.appendChild(dot);
+// Label
+var lbl=document.createElementNS(ns,'text');
+lbl.setAttribute('x',String((dx+12*Math.cos(connAngle)).toFixed(1)));
+lbl.setAttribute('y',String((dy+12*Math.sin(connAngle)).toFixed(1)));
+lbl.setAttribute('text-anchor','middle');lbl.setAttribute('dominant-baseline','central');
+lbl.setAttribute('fill','rgba(244,244,242,0.5)');
+lbl.setAttribute('font-family',"'DM Mono',monospace");lbl.setAttribute('font-size','8');
+if(activeTier>=0&&activeTier!==i){lbl.setAttribute('opacity','0.05');}
+lbl.textContent=t.connections[c];
+svg.appendChild(lbl);
+}
+// Tier name label
+var tLbl=document.createElementNS(ns,'text');
+tLbl.setAttribute('x',String(cx));tLbl.setAttribute('y',String(cy-t.radius-8));
+tLbl.setAttribute('text-anchor','middle');
+tLbl.setAttribute('fill',activeTier>=0&&activeTier!==i?'rgba(244,244,242,0.05)':t.color);
+tLbl.setAttribute('font-family',"'DM Mono',monospace");tLbl.setAttribute('font-size','8');
+tLbl.setAttribute('opacity','0.6');
+tLbl.textContent=t.name;
+svg.appendChild(tLbl);
+}
+}
+function animateRings(){
+var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(reduced){animated=true;render();return;}
+var totalDur=1500;
+for(var i=0;i<tiers.length;i++){
+(function(idx){
+var delay=300*idx;
+var dur=600;
+var t0=null;
+function step(ts){
+if(!t0)t0=ts;
+var elapsed=ts-t0-delay;
+if(elapsed<0){requestAnimationFrame(step);return;}
+var p=Math.min(elapsed/dur,1);
+animProgress[idx]=p;
+render();
+if(p<1)requestAnimationFrame(step);
+else if(idx===tiers.length-1){animated=true;}
+}
+requestAnimationFrame(step);
+})(i);
+}
+}
+render();
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateRings();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById('vm-ov39-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV40: Session Summary Export Card ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  #vm-ov40-card{transition:none!important;animation:none!important;transform:none!important;opacity:1!important}
+}
+#vm-ov40-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov40-section *{box-sizing:border-box}
+.vm-ov40-wrap{max-width:700px;margin:0 auto}
+.vm-ov40-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov40-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:24px}
+#vm-ov40-card{background:rgba(255,255,255,.04);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:28px 24px;transform:translateY(40px);opacity:0;transition:transform 0.8s cubic-bezier(.4,0,.2,1),opacity 0.8s ease}
+#vm-ov40-card.visible{transform:translateY(0);opacity:1}
+.vm-ov40-protective{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:10px 14px;margin-bottom:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(244,244,242,.4);line-height:1.7}
+.vm-ov40-protective strong{color:#C9A84C}
+.vm-ov40-section-title{font-family:'DM Mono',monospace;font-size:.7rem;color:#C9A84C;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;margin-top:18px}
+.vm-ov40-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-family:'Outfit',sans-serif;font-size:.78rem;color:rgba(244,244,242,.65)}
+.vm-ov40-row-label{color:rgba(244,244,242,.4);font-family:'DM Mono',monospace;font-size:.6rem}
+.vm-ov40-bars{display:flex;gap:6px;align-items:center}
+.vm-ov40-bar{height:14px;border-radius:3px;min-width:4px}
+.vm-ov40-stack-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.vm-ov40-stack-badge{font-family:'DM Mono',monospace;font-size:.55rem;padding:3px 8px;border-radius:3px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.vm-ov40-stack-badge.active{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.08);color:#C9A84C}
+.vm-ov40-stack-badge.inactive{color:rgba(244,244,242,.3)}
+.vm-ov40-drd-crown{color:#C9A84C;margin-right:4px}
+.vm-ov40-pcd{border:2px dashed rgba(201,168,76,.2);border-radius:8px;padding:16px;margin-top:16px}
+.vm-ov40-pcd-title{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.4);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.vm-ov40-pcd-sub{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(244,244,242,.3);margin-bottom:4px}
+.vm-ov40-pcd-blank{min-height:24px;border-bottom:1px dashed rgba(255,255,255,.08);margin-bottom:8px}
+.vm-ov40-btns{display:flex;gap:10px;justify-content:center;margin-top:20px}
+.vm-ov40-btn{font-family:'DM Mono',monospace;font-size:.6rem;padding:8px 18px;border-radius:4px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:#C9A84C;cursor:pointer;transition:background .2s ease}
+.vm-ov40-btn:hover{background:rgba(201,168,76,.2)}
+</style>
+<section id="vm-ov40-section">
+<div class="vm-ov40-wrap">
+<div class="vm-ov40-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov40-heading">Session Summary Export Card</h2>
+<div id="vm-ov40-card">
+<div class="vm-ov40-protective">
+<strong>T-01 PROTECTIVE HEADER</strong><br>
+For practitioner use only. Not a diagnostic tool. This output provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. VitalMatrix&#8482; clinical intelligence platform. ICO ZC101813.
+</div>
+
+<div class="vm-ov40-section-title">Zone Pattern: Patient B T2</div>
+<div id="vm-ov40-zone-bars"></div>
+
+<div class="vm-ov40-section-title">Cascade Pattern</div>
+<div class="vm-ov40-stack-row" id="vm-ov40-stacks"></div>
+
+<div class="vm-ov40-section-title">Designations</div>
+<div class="vm-ov40-row">
+<span class="vm-ov40-row-label">DRD (Highest burden zone)</span>
+<span id="vm-ov40-drd"></span>
+</div>
+<div class="vm-ov40-row">
+<span class="vm-ov40-row-label">TerrainLock&#8482;</span>
+<span id="vm-ov40-tl"></span>
+</div>
+<div class="vm-ov40-row">
+<span class="vm-ov40-row-label">TerrainSpiral&#8482;</span>
+<span id="vm-ov40-spiral"></span>
+</div>
+<div class="vm-ov40-row">
+<span class="vm-ov40-row-label">GRADE State</span>
+<span id="vm-ov40-grade"></span>
+</div>
+<div class="vm-ov40-row">
+<span class="vm-ov40-row-label">NEXUS State</span>
+<span id="vm-ov40-nexus"></span>
+</div>
+<div class="vm-ov40-row">
+<span class="vm-ov40-row-label">APEX&#8482; Tier</span>
+<span id="vm-ov40-apex"></span>
+</div>
+<div class="vm-ov40-row">
+<span class="vm-ov40-row-label">Synthesis Confidence</span>
+<span id="vm-ov40-synth"></span>
+</div>
+
+<div class="vm-ov40-pcd">
+<div class="vm-ov40-pcd-title">
+<svg width="14" height="14" viewBox="0 0 14 14"><path d="M10 1L13 4 4.5 12.5 1 13 1.5 9.5z" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1.2"/></svg>
+Practitioner Clinical Decision
+</div>
+<div class="vm-ov40-pcd-sub">1. Primary clinical impression</div><div class="vm-ov40-pcd-blank"></div>
+<div class="vm-ov40-pcd-sub">2. Investigation priorities</div><div class="vm-ov40-pcd-blank"></div>
+<div class="vm-ov40-pcd-sub">3. Terrain support considerations</div><div class="vm-ov40-pcd-blank"></div>
+<div class="vm-ov40-pcd-sub">4. Patient communication plan</div><div class="vm-ov40-pcd-blank"></div>
+<div class="vm-ov40-pcd-sub">5. Follow-up schedule</div><div class="vm-ov40-pcd-blank"></div>
+</div>
+
+<div class="vm-ov40-btns">
+<button class="vm-ov40-btn" id="vm-ov40-copy">Copy to clipboard</button>
+<button class="vm-ov40-btn" id="vm-ov40-print">Print</button>
+</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+// Patient B T2 data
+var zones=[
+{id:'Z1',name:'Metabolic Energy Axis',color:'#C9A84C',score:68,th:40},
+{id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:72,th:40},
+{id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:45,th:40},
+{id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:38,th:40},
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:65,th:32}
+];
+var stacks=[
+{id:'S1',from:1,to:0,active:true,label:'S1: Z2>Z1'},
+{id:'S2',from:0,to:4,active:true,label:'S2: Z1>Z5'},
+{id:'S3',from:3,to:0,active:false,label:'S3: Z4>Z1'},
+{id:'S4',from:4,to:1,active:true,label:'S4: Z5>Z2',theoretical:true},
+{id:'S5',from:1,to:2,active:true,label:'S5: Z2>Z3'},
+{id:'S6',from:0,to:2,active:true,label:'S6: Z1>Z3'}
+];
+function ds(v){return Math.max(0,Math.min(10,(100-v)/10)).toFixed(1);}
+// Zone bars
+var barsHtml='';
+for(var i=0;i<zones.length;i++){
+var z=zones[i];
+barsHtml+='<div class="vm-ov40-row">';
+barsHtml+='<span class="vm-ov40-row-label">'+z.id+' ('+ds(z.score)+'/10)</span>';
+barsHtml+='<div class="vm-ov40-bars">';
+barsHtml+='<div class="vm-ov40-bar" style="width:'+z.score+'px;background:'+z.color+';opacity:0.7"></div>';
+barsHtml+='<span style="font-family:\'DM Mono\',monospace;font-size:.55rem;color:'+z.color+'">'+z.score+'</span>';
+barsHtml+='</div></div>';
+}
+document.getElementById('vm-ov40-zone-bars').innerHTML=barsHtml;
+// Stack badges
+var stackHtml='';
+for(var i=0;i<stacks.length;i++){
+var s=stacks[i];
+var cls=s.active?'active':'inactive';
+var extra='';
+if(s.theoretical)extra=' [THEORETICAL]';
+stackHtml+='<div class="vm-ov40-stack-badge '+cls+'">'+s.label+(s.active?' Active':' Inactive')+extra+'</div>';
+}
+document.getElementById('vm-ov40-stacks').innerHTML=stackHtml;
+// DRD
+var drdIdx=0;var drdMax=0;
+for(var i=0;i<zones.length;i++){if(zones[i].score>drdMax){drdMax=zones[i].score;drdIdx=i;}}
+document.getElementById('vm-ov40-drd').innerHTML='<span class="vm-ov40-drd-crown">&#9733;</span>'+zones[drdIdx].id+' '+zones[drdIdx].name+' ('+drdMax+')';
+// TerrainLock
+var s1a=zones[1].score>=zones[1].th&&zones[0].score>=zones[0].th;
+var s2a=zones[0].score>=zones[0].th&&zones[4].score>=zones[4].th;
+var s4a=zones[4].score>=zones[4].th&&zones[1].score>=zones[1].th;
+var tlActive=s1a&&s2a&&s4a;
+document.getElementById('vm-ov40-tl').textContent=tlActive?'ACTIVE: Z2>Z1>Z5>Z2 loop':'Inactive';
+document.getElementById('vm-ov40-tl').style.color=tlActive?'#E74C3C':'#5F7C6C';
+// Other designations
+document.getElementById('vm-ov40-spiral').textContent='Progressively Destabilising';
+document.getElementById('vm-ov40-spiral').style.color='#E74C3C';
+document.getElementById('vm-ov40-grade').textContent='Moderate (Phase 1 placeholder)';
+document.getElementById('vm-ov40-nexus').textContent='Multi-zone convergence detected';
+document.getElementById('vm-ov40-apex').textContent='Tier 2 (GBP 400 to 800)';
+document.getElementById('vm-ov40-synth').textContent='Emerging (floor tier constraint)';
+// Copy
+document.getElementById('vm-ov40-copy').addEventListener('click',function(){
+var lines=[];
+lines.push('=== SESSION SUMMARY: Patient B T2 ===');
+lines.push('');
+lines.push('ZONE PATTERN:');
+for(var i=0;i<zones.length;i++){
+var z=zones[i];
+lines.push(z.id+' '+z.name+': Internal '+z.score+'/100, Display '+ds(z.score)+'/10'+(z.score>=z.th?' [ACTIVE]':' [Inactive]'));
+}
+lines.push('');
+lines.push('CASCADE PATTERN:');
+for(var i=0;i<stacks.length;i++){
+var s=stacks[i];
+lines.push(s.label+': '+(s.active?'Active':'Inactive')+(s.theoretical?' [THEORETICAL]':''));
+}
+lines.push('');
+lines.push('DRD (Highest burden zone): '+zones[drdIdx].id+' '+zones[drdIdx].name+' ('+drdMax+')');
+lines.push('TerrainLock: '+(tlActive?'ACTIVE':'Inactive'));
+lines.push('TerrainSpiral: Progressively Destabilising');
+lines.push('GRADE: Moderate');
+lines.push('NEXUS: Multi-zone convergence detected');
+lines.push('APEX Tier: Tier 2 (GBP 400 to 800)');
+lines.push('Synthesis Confidence: Emerging (floor tier constraint)');
+lines.push('');
+lines.push('PRACTITIONER CLINICAL DECISION:');
+lines.push('1. Primary clinical impression: ___');
+lines.push('2. Investigation priorities: ___');
+lines.push('3. Terrain support considerations: ___');
+lines.push('4. Patient communication plan: ___');
+lines.push('5. Follow-up schedule: ___');
+lines.push('');
+lines.push('For practitioner use only. Not a diagnostic tool.');
+lines.push('VitalMatrix Ltd | ICO ZC101813');
+var text=lines.join('\n');
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText(text).then(function(){
+var btn=document.getElementById('vm-ov40-copy');
+btn.textContent='Copied!';
+setTimeout(function(){btn.textContent='Copy to clipboard';},2000);
+});
+}
+});
+// Print
+document.getElementById('vm-ov40-print').addEventListener('click',function(){
+window.print();
+});
+// Card entrance animation
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){
+document.getElementById('vm-ov40-card').classList.add('visible');
+obs.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById('vm-ov40-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV41: Zone Cross-Talk Network Visualiser ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov41-pulse,.vm-ov41-particle,.vm-ov41-glow{transition:none!important;animation:none!important}
+}
+#vm-ov41-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov41-section *{box-sizing:border-box}
+.vm-ov41-wrap{max-width:800px;margin:0 auto;text-align:center}
+.vm-ov41-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov41-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov41-canvas-wrap{position:relative;display:inline-block;border-radius:12px;overflow:hidden}
+#vm-ov41-canvas{display:block;cursor:pointer}
+.vm-ov41-detail{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(26,32,48,.95);border:1px solid rgba(201,168,76,.4);border-radius:8px;padding:16px 20px;font-family:'DM Mono',monospace;font-size:.7rem;color:#F4F4F2;display:none;z-index:10;max-width:260px;text-align:left;line-height:1.6}

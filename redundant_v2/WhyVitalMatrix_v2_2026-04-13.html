@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'accepted\');document.getElementById(\'vm-consent-banner\').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'declined\');document.getElementById(\'vm-consent-banner\').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why VitalMatrix | The Case for Clinical Intelligence Infrastructure</title>
+<meta name="description" content="The infrastructure gap in functional medicine practice. Why general-purpose AI fails clinical depth. Why VitalMatrix was built as infrastructure, not a tool.">
+<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform, FLINT, cascade mapping, infrastructure">
+<meta property="og:title" content="Why VitalMatrix | The Case for Clinical Intelligence Infrastructure">
+<meta property="og:description" content="The infrastructure gap in functional medicine practice. Why general-purpose AI fails clinical depth. Why VitalMatrix was built as infrastructure, not a tool.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://vitalmatrix.co.uk/why-vitalmatrix/">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vm-prussian:#0D2B4E;
+  --vm-charcoal:#1A2030;
+  --vm-deep-teal:#0C4452;
+  --vm-gold:#C9A84C;
+  --vm-teal:#1A7A8A;
+  --vm-teal-light:#2A9BAD;
+  --vm-cream:#FAF8F4;
+  --vm-white:#F4F4F2;
+  --vm-text:rgba(244,244,242,0.80);
+  --vm-text-muted:rgba(244,244,242,0.50);
+  --vm-border:rgba(244,244,242,0.10);
+  --vm-purple:#7B5EA7;
+  --vm-sage:#5F7C6C;
+  --vm-red:#D63030;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',system-ui,-apple-system,sans-serif;
+  background:var(--vm-prussian);
+  color:var(--vm-text);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---- NAV ---- */
+.vm-nav{
+  position:sticky;top:0;z-index:1000;
+  height:52px;
+  background:rgba(13,43,78,0.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,168,76,0.15);
+}
+.vm-nav-inner{
+  max-width:1200px;margin:0 auto;
+  height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+}
+.vm-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;line-height:0;font-size:0}
+.vm-nav-logo img{height:48px;width:auto;display:block;margin:0;padding:0;border:none}
+.vm-nav-links{display:flex;align-items:center;gap:4px}
+.vm-nav-links a{
+  font-family:'Outfit',sans-serif;
+  font-size:0.82rem;font-weight:400;
+  color:rgba(244,244,242,0.70);
+  text-decoration:none;
+  padding:8px 14px;
+  border-radius:6px;
+  transition:color 0.2s,background 0.2s;
+}
+.vm-nav-links a:hover{color:var(--vm-white);background:rgba(244,244,242,0.06)}
+.vm-nav-cta{
+  font-family:'Outfit',sans-serif;
+  font-size:0.8rem;font-weight:600;
+  color:var(--vm-prussian);
+  background:var(--vm-gold);
+  padding:8px 20px;
+  border-radius:6px;
+  text-decoration:none;
+  transition:background 0.2s,transform 0.15s;
+}
+.vm-nav-cta:hover{background:#d4b256;transform:translateY(-1px)}
+
+/* ---- HERO ---- */
+
+  padding:72px 24px 64px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.vm-hero::before{
+  content:'';position:absolute;
+  top:-40%;left:50%;transform:translateX(-50%);
+  width:800px;height:800px;
+  background:radial-gradient(circle,rgba(26,122,138,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.vm-hero-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--vm-teal);
+  margin-bottom:20px;
+}
+.vm-hero h1{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(2.2rem,4.5vw,3.2rem);
+  font-weight:400;
+  color:var(--vm-white);
+  line-height:1.18;
+  margin-bottom:20px;
+  letter-spacing:-0.01em;
+  max-width:820px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.vm-hero-sub{
+  font-size:1.05rem;
+  color:var(--vm-text);
+  max-width:580px;
+  margin:0 auto 36px;
+  line-height:1.7;
+}
+.vm-hero-ctas{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.vm-btn-gold{
+  display:inline-block;
+  font-family:'Outfit',sans-serif;
+  font-size:0.92rem;font-weight:600;
+  color:var(--vm-prussian);
+  background:var(--vm-gold);
+  padding:14px 36px;
+  border-radius:8px;
+  text-decoration:none;
+  transition:background 0.2s,transform 0.15s;
+  letter-spacing:0.02em;
+}
+.vm-btn-gold:hover{background:#d4b256;transform:translateY(-2px)}
+.vm-btn-ghost{
+  display:inline-block;
+  font-family:'Outfit',sans-serif;
+  font-size:0.92rem;font-weight:500;
+  color:rgba(244,244,242,0.80);
+  background:transparent;
+  border:1px solid rgba(244,244,242,0.25);
+  padding:14px 36px;
+  border-radius:8px;
+  text-decoration:none;
+  transition:background 0.2s,border-color 0.2s,transform 0.15s;
+  letter-spacing:0.02em;
+}
+.vm-btn-ghost:hover{background:rgba(244,244,242,0.06);border-color:rgba(244,244,242,0.40);transform:translateY(-2px)}
+.vm-ico-note{
+  font-family:'DM Mono',monospace;
+  font-size:0.62rem;
+  color:var(--vm-text-muted);
+  letter-spacing:0.04em;
+  line-height:1.6;
+}
+
+/* ---- SECTION SHARED ---- */
+.vm-section{
+  max-width:1080px;
+  margin:0 auto;
+  padding:80px 24px;
+}
+.vm-section-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--vm-teal);
+  margin-bottom:12px;
+}
+.vm-section h2{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(1.8rem,3.5vw,2.4rem);
+  font-weight:400;
+  color:var(--vm-white);
+  margin-bottom:16px;
+  line-height:1.2;
+}
+.vm-section-intro{
+  font-size:0.95rem;
+  color:var(--vm-text);
+  max-width:640px;
+  line-height:1.7;
+  margin-bottom:48px;
+}
+
+/* ---- PROBLEM CARDS (Beige Section) ---- */
+.vm-problems-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+.vm-problem-card{
+  background:#FFFFFF;
+  border:1px solid #E0DDD8;
+  border-radius:12px;
+  padding:24px 28px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+.vm-problem-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:0.65rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:rgba(180,40,40,0.75);
+  margin-bottom:10px;
+}
+.vm-problem-icon{
+  width:28px;height:28px;
+  margin-bottom:12px;
+}
+.vm-problem-icon svg{
+  width:28px;height:28px;
+}
+.vm-problem-title{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.3rem;
+  font-weight:400;
+  color:#0D2B4E;
+  margin-bottom:10px;
+  line-height:1.25;
+}
+.vm-problem-desc{
+  font-size:0.86rem;
+  color:#555;
+  line-height:1.7;
+}
+
+/* ---- COMPARISON TABLE (Charcoal Section) ---- */
+.vm-compare-table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+}
+.vm-compare-table th{
+  font-family:'DM Mono',monospace;
+  font-size:0.65rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(244,244,242,0.45);
+  padding:14px 18px;
+  text-align:left;
+  background:rgba(255,255,255,0.02);
+  border-bottom:1px solid rgba(255,255,255,0.12);
+}
+.vm-compare-table th.vm-col-vm{
+  color:#C9A84C;
+  border-left:2px solid #C9A84C;
+}
+.vm-compare-table td{
+  font-size:0.83rem;
+  color:rgba(244,244,242,0.55);
+  padding:16px 18px;
+  line-height:1.6;
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  vertical-align:top;
+}
+.vm-compare-table td.vm-col-vm{
+  color:rgba(244,244,242,0.85);
+  border-left:2px solid #C9A84C;
+  background:rgba(201,168,76,0.04);
+}
+.vm-compare-table td.vm-col-feature{
+  font-family:'DM Mono',monospace;
+  font-size:0.7rem;
+  letter-spacing:0.06em;
+  color:rgba(244,244,242,0.40);
+  background:rgba(255,255,255,0.02);
+  white-space:nowrap;
+  vertical-align:middle;
+}
+
+/* ---- INFRASTRUCTURE CARDS (Deep Teal Section) ---- */
+.vm-infra-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.vm-infra-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.10);
+  border-radius:12px;
+  padding:32px 28px;
+  position:relative;
+  overflow:hidden;
+}
+.vm-infra-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+}
+.vm-infra-card.vm-accent-gold::before{background:#C9A84C}
+.vm-infra-card.vm-accent-teal::before{background:#1A7A8A}
+.vm-num-circle{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid rgba(244,244,242,0.20);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;
+  color:rgba(244,244,242,0.50);
+  margin-bottom:18px;
+}
+.vm-infra-title{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.25rem;
+  font-weight:400;
+  color:var(--vm-white);
+  margin-bottom:12px;
+  line-height:1.25;
+}
+.vm-infra-body{
+  font-size:0.86rem;
+  color:var(--vm-text);
+  line-height:1.7;
+}
+
+/* ---- CTA SECTION ---- */
+.vm-cta-section{
+  text-align:center;
+  padding:80px 24px;
+  background:var(--vm-prussian);
+}
+.vm-cta-section h2{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:400;
+  color:var(--vm-white);
+  margin-bottom:12px;
+}
+.vm-cta-section p{
+  font-size:0.95rem;
+  color:var(--vm-text);
+  max-width:520px;
+  margin:0 auto 32px;
+  line-height:1.65;
+}
+
+/* ---- FOOTER ---- */
+.vm-footer{
+  padding:48px 24px 36px;
+  text-align:center;
+  background:#071C33;
+  border-top:1px solid var(--vm-border);
+}
+.vm-footer-brand{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.2rem;
+  font-weight:400;
+  color:var(--vm-gold);
+  margin-bottom:20px;
+}
+.vm-footer-practitioner{
+  font-family:'DM Mono',monospace;
+  font-size:0.54rem;
+  color:rgba(244,244,242,0.30);
+  letter-spacing:0.08em;
+  margin-bottom:16px;
+}
+.vm-footer-tm{
+  font-family:'DM Mono',monospace;
+  font-size:0.58rem;
+  color:var(--vm-text-muted);
+  line-height:1.9;
+  max-width:720px;
+  margin:0 auto 16px;
+  letter-spacing:0.02em;
+}
+.vm-footer-legal{
+  font-family:'DM Mono',monospace;
+  font-size:0.54rem;
+  color:rgba(244,244,242,0.30);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  line-height:1.8;
+  max-width:720px;
+  margin:0 auto 12px;
+}
+
+/* ---- HERO TYPE C: PARALLAX TERRAIN ---- */
+.vm-hero-parallax-terrain{
+  position:relative;
+  overflow:hidden;
+}
+.vm-hero-parallax-terrain .vm-parallax-layer{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  pointer-events:none;
+  will-change:transform;
+}
+.vm-parallax-layer--back{
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(244,244,242,0.02) 39px,rgba(244,244,242,0.02) 40px),
+    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(244,244,242,0.02) 39px,rgba(244,244,242,0.02) 40px);
+  opacity:0.5;
+}
+.vm-parallax-layer--front{
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 70%,rgba(12,68,82,0.18) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 50% at 75% 30%,rgba(201,168,76,0.06) 0%,transparent 70%);
+}
+@media(prefers-reduced-motion:reduce){
+  .vm-parallax-layer--back,
+  .vm-parallax-layer--front{
+    transform:none!important;
+  }
+}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:900px){
+  .vm-problems-grid{grid-template-columns:1fr}
+  .vm-infra-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .vm-nav-links a:not(.vm-nav-cta){display:none}
+  .vm-hero{padding:56px 20px 48px}
+  .vm-section{padding:56px 20px}
+  .vm-compare-table td.vm-col-feature{white-space:normal}
+}
+@media(max-width:480px){
+  .vm-hero h1{font-size:1.7rem}
+  .vm-problem-title{font-size:1.15rem}
+  .vm-compare-table{font-size:0.75rem}
+  .vm-compare-table th,
+  .vm-compare-table td{padding:10px 12px}
+}
+
+/* ═══ CINEMATIC HERO LAYERS (21 April 2026) ═══ */
+.vm-hero-grade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.05) 35%,rgba(0,0,0,0.0) 50%,rgba(0,0,0,0.15) 75%,rgba(0,0,0,0.6) 100%),linear-gradient(135deg,rgba(13,43,78,0.25) 0%,transparent 50%,rgba(201,168,76,0.04) 100%)}
+.vm-hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 42%,transparent 0%,rgba(0,0,0,0.70) 100%)}
+.vm-hero-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.vm-hero-orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.vm-hero-orb--gold{width:500px;height:500px;background:#C9A84C;opacity:0.18;top:-15%;left:-8%;animation:vmOrbA 20s ease-in-out infinite alternate}
+.vm-hero-orb--teal{width:400px;height:400px;background:#1A7A8A;opacity:0.14;bottom:-18%;right:-10%;animation:vmOrbB 24s ease-in-out infinite alternate}
+.vm-hero-orb--purple{width:300px;height:300px;background:#7B5EA7;opacity:0.10;top:20%;right:0%;animation:vmOrbC 22s ease-in-out infinite alternate}
+@keyframes vmOrbA{0%{transform:translate(0,0)}100%{transform:translate(40px,-30px)}}
+@keyframes vmOrbB{0%{transform:translate(0,0)}100%{transform:translate(-35px,20px)}}
+@keyframes vmOrbC{0%{transform:translate(0,0)}100%{transform:translate(-20px,-18px)}}
+.vm-hero-glass{position:absolute;inset:0;z-index:3;background:rgba(0,3,8,0.06);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);pointer-events:none}
+.vm-hero-grain{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;animation:vmGrain 0.3s steps(4) infinite}
+@keyframes vmGrain{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0,0)}}
+.vm-hero-mesh{position:absolute;z-index:4;pointer-events:none;width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.15;animation:vmMeshR 90s linear infinite}
+@keyframes vmMeshR{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.vm-hero-content{position:relative;z-index:10}
+.vm-hero h1{text-shadow:0 4px 60px rgba(0,0,0,0.70),0 2px 8px rgba(0,0,0,0.45),0 0 120px rgba(13,43,78,0.40)}
+@media(prefers-reduced-motion:reduce){.vm-hero-orb,.vm-hero-grain,.vm-hero-mesh{animation:none!important}}
+@media(max-width:768px){.vm-hero-mesh{width:260px;height:260px}}
+</style>
+<link rel="stylesheet" href="vm-phase1-design.css">
+<link rel="stylesheet" href="vm-font-optimise.css">
+</head>
+<body class="vm-kinetic-grid vm-page-transition">
+
+<!-- ======== NAV ======== -->
+<nav class="vm-nav">
+  <div class="vm-nav-inner">
+    <a href="/" class="vm-nav-logo" style="line-height:0;font-size:0">
+      <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" style="display:block;margin:0;padding:0;border:none" alt="VitalMatrix">
+    </a>
+    <div class="vm-nav-links">
+      <a href="/platform/">Platform</a>
+      <a href="/our-approach/">Our Approach</a>
+      <a href="/mission/">Mission</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/about/">About</a>
+      <a href="/book-a-walkthrough/" class="vm-cta-glow vm-nav-cta">Book Demo</a>
+    </div>
+  </div>
+</nav>
+<div class="vm-progress-bar"></div>
+<div class="vm-sticky-label"></div>
+
+<!-- ======== SECTION 01: HERO — Prussian Blue #0D2B4E ======== -->
+<section class="vm-texture-gold vm-reveal vm-hero vm-hero-parallax-terrain">
+  <!-- Cinematic hero layers -->
+  <div class="vm-hero-grade"></div>
+  <div class="vm-hero-orbs"><div class="vm-hero-orb vm-hero-orb--gold"></div><div class="vm-hero-orb vm-hero-orb--teal"></div><div class="vm-hero-orb vm-hero-orb--purple"></div></div>
+  <div class="vm-hero-vignette"></div>
+  <div class="vm-hero-glass"></div>
+  <svg class="vm-hero-mesh" viewBox="0 0 400 400" fill="none"><polygon points="200,25 365,148 300,350 100,350 35,148" stroke="rgba(201,168,76,0.35)" stroke-width="0.7" fill="none"/><polygon points="200,95 310,182 275,305 125,305 90,182" stroke="rgba(26,122,138,0.22)" stroke-width="0.5" fill="none"/><circle cx="200" cy="25" r="3.5" fill="rgba(201,168,76,0.45)"/><circle cx="35" cy="148" r="3.5" fill="rgba(26,122,138,0.40)"/><circle cx="300" cy="350" r="3.5" fill="rgba(123,94,167,0.35)"/><circle cx="100" cy="350" r="3.5" fill="rgba(95,124,108,0.35)"/><circle cx="365" cy="148" r="3.5" fill="rgba(212,184,112,0.35)"/></svg>
+  <div class="vm-hero-grain"></div>
+  <div class="vm-parallax-layer vm-parallax-layer--back"></div>
+  <div class="vm-parallax-layer vm-parallax-layer--front"></div>
+  <p class="vm-hero-eyebrow">The Case for Infrastructure</p>
+  <h1 class="vm-font-sharpen">Functional medicine has the map. VitalMatrix builds the engine.</h1>
+  <p class="vm-hero-sub">The infrastructure gap in functional medicine practice. Why general-purpose AI fails clinical depth. Why VitalMatrix was built as infrastructure, not a tool.</p>
+  <div class="vm-hero-ctas">
+    <a href="/book-a-walkthrough/" class="vm-btn-gold vm-cta-glow">Book a Walkthrough</a>
+    <a href="/how-it-works/" class="vm-btn-ghost">See How It Works</a>
+  </div>
+  <p class="vm-ico-note">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+  <div class="vm-scroll-prompt">
+    <span class="vm-scroll-prompt-text">Scroll to explore</span>
+    <div class="vm-scroll-prompt-line">
+      <div class="vm-scroll-prompt-dot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 02: PROBLEM CARDS — Beige #F5EFE6 ======== -->
+<section class="vm-depth vm-reveal" style="background:#F5EFE6;padding:88px 0;margin:0;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 48px;">
+    <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:#1A7A8A;display:block;margin-bottom:14px;">The Infrastructure Gap</p>
+    <h2 class="vm-font-sharpen" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(1.75rem,3.5vw,2.6rem);color:#0D2B4E;line-height:1.15;margin-bottom:48px;">The tools practitioners have do not match the complexity of what they do.</h2>
+
+    <div class="vm-problems-grid vm-stagger-grid">
+
+      <!-- Card 01: Documentation Gap -->
+      <div class="vm-problem-card">
+        <p class="vm-problem-eyebrow">Documentation Gap</p>
+        <div class="vm-problem-icon">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="2" width="18" height="24" rx="2" stroke="rgba(180,40,40,0.75)" stroke-width="1.5" fill="none"/>
+            <line x1="9" y1="8" x2="19" y2="8" stroke="rgba(180,40,40,0.55)" stroke-width="1.2"/>
+            <line x1="9" y1="12" x2="19" y2="12" stroke="rgba(180,40,40,0.55)" stroke-width="1.2"/>
+            <line x1="9" y1="16" x2="15" y2="16" stroke="rgba(180,40,40,0.55)" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <h3 class="vm-problem-title">Clinical depth gets lost in generic notes.</h3>
+        <p class="vm-problem-desc">Functional medicine consultations generate complex terrain data. Generic documentation tools were not built to capture it, organise it, or make it actionable across sessions.</p>
+      </div>
+
+      <!-- Card 02: AI Limitation -->
+      <div class="vm-problem-card">
+        <p class="vm-problem-eyebrow">AI Limitation</p>
+        <div class="vm-problem-icon">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="12" r="8" stroke="rgba(180,40,40,0.75)" stroke-width="1.5" fill="none"/>
+            <path d="M10 8L18 16M18 8L10 16" stroke="rgba(180,40,40,0.55)" stroke-width="1.2"/>
+            <line x1="14" y1="20" x2="14" y2="26" stroke="rgba(180,40,40,0.55)" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <h3 class="vm-problem-title">General-purpose AI cannot hold terrain logic.</h3>
+        <p class="vm-problem-desc">Large language models generate plausible-sounding output. They do not carry the directional architecture, zone activation thresholds, or cascade logic that functional medicine reasoning requires.</p>
+      </div>
+
+      <!-- Card 03: Consistency -->
+      <div class="vm-problem-card">
+        <p class="vm-problem-eyebrow">Consistency</p>
+        <div class="vm-problem-icon">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="14" width="5" height="10" rx="1" fill="rgba(180,40,40,0.55)"/>
+            <rect x="11.5" y="8" width="5" height="16" rx="1" fill="rgba(180,40,40,0.65)"/>
+            <rect x="19" y="18" width="5" height="6" rx="1" fill="rgba(180,40,40,0.45)"/>
+            <line x1="3" y1="26" x2="25" y2="26" stroke="rgba(180,40,40,0.35)" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3 class="vm-problem-title">Quality varies with cognitive load.</h3>
+        <p class="vm-problem-desc">Without structured infrastructure, clinical output quality depends on how tired the practitioner is, how many patients they saw that morning, and whether they remembered to check every node. That is not a sustainable model.</p>
+      </div>
+
+      <!-- Card 04: Scalability -->
+      <div class="vm-problem-card">
+        <p class="vm-problem-eyebrow">Scalability</p>
+        <div class="vm-problem-icon">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="10" width="22" height="3" rx="1" fill="rgba(180,40,40,0.75)"/>
+            <line x1="8" y1="4" x2="8" y2="10" stroke="rgba(180,40,40,0.55)" stroke-width="1.5"/>
+            <line x1="14" y1="4" x2="14" y2="10" stroke="rgba(180,40,40,0.55)" stroke-width="1.5"/>
+            <line x1="20" y1="4" x2="20" y2="10" stroke="rgba(180,40,40,0.55)" stroke-width="1.5"/>
+            <path d="M6 18L14 22L22 18" stroke="rgba(180,40,40,0.45)" stroke-width="1.2" fill="none"/>
+          </svg>
+        </div>
+        <h3 class="vm-problem-title">The workaround breaks at volume.</h3>
+        <p class="vm-problem-desc">The workaround works when you have two patients per week. It breaks when you have ten. Infrastructure is what makes practice scalable without sacrificing clinical depth.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 03: COMPARISON TABLE — Charcoal #1A2030 ======== -->
+<section id="comparison" class="vm-depth vm-texture-gold vm-reveal" style="background:#1A2030;padding:88px 0;margin:0;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 48px;">
+    <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:#C9A84C;display:block;margin-bottom:14px;">The Difference</p>
+    <h2 class="vm-font-sharpen" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(1.75rem,3.5vw,2.6rem);color:#F4F4F2;line-height:1.15;margin-bottom:20px;">Infrastructure versus improvisation.</h2>
+    <p style="font-size:0.92rem;color:rgba(244,244,242,0.70);max-width:680px;line-height:1.78;margin-bottom:48px;">Every functional medicine practitioner has been trained to see the nodes. VitalMatrix&#8482; adds the one thing the training does not: the direction of flow between them, the identification of which zone carries the highest terrain burden, the velocity at which it is moving, and the sequence in which to address it. That is not a feature. That is a different way of thinking about the terrain.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="vm-compare-table">
+        <thead>
+          <tr>
+            <th style="width:22%;">Feature</th>
+            <th class="vm-col-vm" style="width:30%;">VitalMatrix&#8482;</th>
+            <th style="width:24%;">General-purpose AI</th>
+            <th style="width:24%;">Manual workflow</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="vm-col-feature">Terrain architecture</td>
+            <td class="vm-col-vm">Seven-node, five-zone FLINT&#8482; framework</td>
+            <td>None</td>
+            <td>Practitioner-dependent</td>
+          </tr>
+          <tr>
+            <td class="vm-col-feature">Directional cascade logic</td>
+            <td class="vm-col-vm">Six directional stacks, velocity-classified</td>
+            <td>Not available</td>
+            <td>Ad hoc</td>
+          </tr>
+          <tr>
+            <td class="vm-col-feature">Highest burden zone identification</td>
+            <td class="vm-col-vm">DRD&#8482;: systematic, structured. Identifies the zone originating the terrain cascade and the zones reacting to it. Treating a Reactor zone without addressing the originating zone produces temporary improvement at best. The originating zone is the ignition point. The Reactors are the smoke. The fire brigade does not spray water on the smoke. It locates the ignition point.</td>
+            <td>Approximated from prompt</td>
+            <td>Intuition-based</td>
+          </tr>
+          <tr>
+            <td class="vm-col-feature">Evidence tier labelling</td>
+            <td class="vm-col-vm">Mandatory on every clinical claim</td>
+            <td>Absent</td>
+            <td>Inconsistent</td>
+          </tr>
+          <tr>
+            <td class="vm-col-feature">Longitudinal tracking</td>
+            <td class="vm-col-vm">DeltaScan&#8482; across sessions</td>
+            <td>Not available</td>
+            <td>Manual notes</td>
+          </tr>
+          <tr>
+            <td class="vm-col-feature">Practitioner authority</td>
+            <td class="vm-col-vm">Mandatory review gate on every output</td>
+            <td>None</td>
+            <td>Inherent</td>
+          </tr>
+          <tr>
+            <td class="vm-col-feature">Regulatory positioning</td>
+            <td class="vm-col-vm">MHRA SaMD classification has not yet commenced: protective language active</td>
+            <td>No clinical governance</td>
+            <td>No applicable framework</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.06em;color:rgba(244,244,242,0.25);margin-top:18px;line-height:1.8;">
+      Comparison reflects platform architecture. Text values only. No checkmarks or cross icons used.
+      For practitioner use only.</p>
+  </div>
+</section>
+
+<!-- ======== SECTION 04: INFRASTRUCTURE ARGUMENT — Deep Teal #0C4452 ======== -->
+<section class="vm-depth vm-reveal" style="background:#0C4452;padding:88px 0;margin:0;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 48px;">
+    <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--vm-teal-light);display:block;margin-bottom:14px;">What Infrastructure Means</p>
+    <h2 class="vm-font-sharpen" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(1.75rem,3.5vw,2.6rem);color:#F4F4F2;line-height:1.15;margin-bottom:48px;">A tool helps you do a task. Infrastructure changes what is possible.</h2>
+
+    <div class="vm-infra-grid vm-stagger-grid">
+
+      <!-- Card 01 -->
+      <div class="vm-infra-card vm-accent-gold vm-card-glow">
+        <div class="vm-num-circle">01</div>
+        <h3 class="vm-infra-title">Consistent clinical depth across every patient.</h3>
+        <p class="vm-infra-body">VitalMatrix runs the same seven-node scoring, five-zone convergence, and cascade mapping logic on every intake. Not because the practitioner remembered to check every node. Because the architecture does not allow anything to be skipped.</p>
+      </div>
+
+      <!-- Card 02 -->
+      <div class="vm-infra-card vm-accent-teal vm-card-glow">
+        <div class="vm-num-circle">02</div>
+        <h3 class="vm-infra-title">Directionality, not description.</h3>
+        <p class="vm-infra-body">Most clinical tools describe what is present. VitalMatrix maps which direction the terrain is moving, which zone is carrying the highest burden, and which cascade stacks are active. Direction informs sequencing. Description does not.</p>
+      </div>
+
+      <!-- Card 03 -->
+      <div class="vm-infra-card vm-accent-gold vm-card-glow">
+        <div class="vm-num-circle">03</div>
+        <h3 class="vm-infra-title">Practitioner authority preserved by design.</h3>
+        <p class="vm-infra-body">Every output VitalMatrix generates is a working document for practitioner review. The mandatory review gate is not a disclaimer added for legal reasons. It is an architectural principle. The practitioner decides. The platform informs.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 05: IFM AMPLIFICATION — BLOCKED SW-05 -->
+<!-- Do not build until W02 issues clearance confirmation from Karen Sigmon-Smith -->
+<!-- Section spec: Light Gold #FBF6E9 — "Not a replacement. An amplifier." — Principle cards -->
+
+<!-- ======== SECTION 06: CTA — Prussian Blue #0D2B4E ======== -->
+<section class="vm-texture-gold vm-reveal vm-cta-section">
+  <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--vm-teal);margin-bottom:14px;">Next Step</p>
+  <h2 class="vm-font-sharpen">See the infrastructure working.</h2>
+  <p>Book a 30-minute clinical walkthrough with Dr Faisal. Live platform demonstration using your own case profile.</p>
+  <a href="/book-a-walkthrough/" class="vm-cta-glow vm-btn-gold">See This in Your Own Practice</a>
+  <p class="vm-ico-note" style="margin-top:20px;">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+</section>
+
+<div class="vm-floating-cta">
+  <a href="/book-a-walkthrough/" class="vm-cta-glow vm-floating-cta-btn">Book a Walkthrough</a>
+  <div class="vm-floating-cta-close"><svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></div>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<footer class="vm-footer-landmark vm-footer">
+  <p class="vm-footer-brand">VitalMatrix&#8482;</p>
+  <p class="vm-footer-practitioner">For practitioner use only. Not a diagnostic tool.</p>
+  <p class="vm-footer-tm">
+    VOS&#8482; (VitalMatrix Operating System).
+    VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;,
+    CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;,
+    MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;,
+    KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;,
+    SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;,
+    COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;,
+    VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd.
+    All rights reserved. ICO ZC101813.
+  </p>
+  <p class="vm-footer-legal">MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+</footer>
+
+<script>
+(function(){
+  var back=document.querySelector('.vm-parallax-layer--back');
+  var front=document.querySelector('.vm-parallax-layer--front');
+  if(!back||!front)return;
+  var mq=window.matchMedia('(prefers-reduced-motion:reduce)');
+  if(mq&&mq.matches)return;
+  window.addEventListener('scroll',function(){
+    var y=window.pageYOffset;
+    back.style.transform='translateY('+y*0.08+'px)';
+    front.style.transform='translateY('+y*0.15+'px)';
+  },{passive:true});
+})();
+</script>
+<script src="vm-phase1-design.js"></script>
+<script src="vm-scroll-choreography.js"></script>
+<script src="vm-svg-illustrations.js"></script>
+<script src="vm-premium-polish.js"></script>
+</body>
+</html>

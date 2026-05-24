@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSQ-71 Terrain Intake | VitalMatrix&#8482;</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D2B4E;--card:#1A2030;--deep:#0C4452;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#2E6DB4;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--border:rgba(255,255,255,.11);--z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#2E6DB4;--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+body{background:var(--bg);color:var(--white);font-family:var(--fd);font-size:15px;line-height:1.7}
+.msq-wrap{max-width:900px;margin:0 auto;padding:24px}
+.msq-header{text-align:center;padding:40px 0 32px;border-bottom:1px solid rgba(201,168,76,.12)}
+.msq-header h1{font-family:var(--fs);font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:8px}
+.msq-header h1 em{color:var(--gold);font-style:italic}
+.msq-header p{font-size:13px;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.7}
+.msq-warning{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-left:3px solid var(--gold);padding:12px 16px;border-radius:4px;margin:20px 0;font-family:var(--fm);font-size:10px;color:var(--gold);line-height:1.6}
+.msq-progress{height:4px;background:rgba(255,255,255,.06);border-radius:2px;margin:20px 0;overflow:hidden}
+.msq-progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s}
+.msq-progress-text{font-family:var(--fm);font-size:10px;color:var(--muted);text-align:right;margin-bottom:4px}
+/* Domain sections */
+.msq-domain{margin:24px 0;padding:20px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--border)}
+.msq-domain-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;cursor:pointer}
+.msq-domain-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msq-domain-title{font-family:var(--fs);font-size:1.2rem;font-weight:400}
+.msq-domain-node{font-family:var(--fm);font-size:8px;color:var(--muted);letter-spacing:.08em}
+.msq-domain-score{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--gold);font-weight:700;min-width:40px;text-align:right}
+/* Items */
+.msq-item{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:8px 12px;border-radius:4px;margin-bottom:4px;transition:background .2s}
+.msq-item:hover{background:rgba(255,255,255,.04)}
+.msq-item-name{font-size:13px}
+.msq-item-scores{display:flex;gap:2px}
+.msq-score-btn{width:28px;height:28px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--fm);font-size:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.msq-score-btn:hover{border-color:var(--gold);color:var(--gold)}
+.msq-score-btn.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:700}
+.msq-score-btn.active-48{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:700}
+.msq-window-label{font-family:var(--fm);font-size:7px;color:var(--muted);text-align:center;letter-spacing:.06em;margin-bottom:2px}
+/* Score legend */
+.msq-legend{display:flex;gap:12px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.msq-legend span{font-family:var(--fm);font-size:9px;color:var(--muted)}
+/* Output section */
+#msq-output{display:none;margin-top:32px;padding:24px;border-radius:10px;background:var(--card);border:1px solid rgba(201,168,76,.15)}
+.msq-output-header{font-family:var(--fs);font-size:1.4rem;margin-bottom:4px}
+.msq-output-sub{font-family:var(--fm);font-size:9px;color:var(--muted);letter-spacing:.1em;margin-bottom:16px}
+.msq-node-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.msq-node-label{font-family:var(--fm);font-size:10px;min-width:24px;font-weight:700}
+.msq-node-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.msq-node-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.msq-node-val{font-family:var(--fm);font-size:10px;min-width:28px;text-align:right}
+.msq-zone-card{padding:12px 16px;border-radius:6px;margin-bottom:8px;border:2px solid;transition:all .4s}
+.msq-zone-card.active{background:rgba(255,255,255,.06)}
+.msq-zone-card.borderline{border-style:dashed}
+.msq-zone-card.inactive{opacity:.4}
+.msq-drd-badge{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:3px;background:rgba(201,168,76,.2);color:var(--gold);border:1px solid rgba(201,168,76,.4)}
+.msq-cascade-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12px}
+.msq-cascade-active{color:var(--gold)}
+.msq-cascade-inactive{color:rgba(244,244,242,.2)}
+/* Buttons */
+.msq-btn{font-family:var(--fm);font-size:11px;padding:10px 24px;border-radius:6px;border:2px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;transition:all .25s;letter-spacing:.06em}
+.msq-btn:hover{background:rgba(201,168,76,.12)}
+.msq-btn-primary{background:var(--gold);color:var(--bg);font-weight:700}
+.msq-btn-primary:hover{background:#D4B060}
+/* TIQ ring */
+#msq-tiq-wrap{text-align:center;margin:20px 0}
+#msq-tiq-svg{width:120px;height:120px}
+/* Footer */
+.msq-footer{margin-top:32px;padding:24px 0;border-top:1px solid rgba(201,168,76,.08);text-align:center;font-family:var(--fm);font-size:8px;color:rgba(244,244,242,.2);line-height:1.9}
+/* Responsive */
+@media(max-width:600px){
+  .msq-item{grid-template-columns:1fr;gap:4px}
+  .msq-item-scores{justify-content:flex-start}
+  .msq-wrap{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="msq-wrap">
+  <div class="msq-header">
+    <h1>MSQ-71 <em>Terrain Intake</em></h1>
+    <p>Medical Symptoms Questionnaire. 71 items across 15 body system domains. Rate each symptom for the past 30 days and the past 48 hours. The dual-window captures both chronic burden and acute state.</p>
+  </div>
+
+  <div class="msq-warning">FOR PRACTITIONER USE ONLY. This form generates illustrative terrain intelligence for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. Do not enter real patient data into this demonstration tool.</div>
+
+  <div class="msq-legend">
+    <span>0 = Never/rarely</span>
+    <span>1 = Occasional, mild</span>
+    <span>2 = Occasional, severe</span>
+    <span>3 = Frequent, mild</span>
+    <span>4 = Frequent, severe</span>
+  </div>
+
+  <div class="msq-progress-text"><span id="msq-answered">0</span> of 71 items rated</div>
+  <div class="msq-progress"><div class="msq-progress-fill" id="msq-progress-bar" style="width:0"></div></div>
+
+  <div id="msq-domains"></div>
+
+  <div style="text-align:center;margin:32px 0">
+    <button class="msq-btn msq-btn-primary" id="msq-compute-btn">Compute Terrain Assessment</button>
+  </div>
+
+  <div id="msq-output">
+    <div class="msq-output-sub">TERRAIN ASSESSMENT OUTPUT</div>
+    <div class="msq-output-header">Node Scores (Internal 0-100)</div>
+    <div id="msq-node-bars" style="margin:16px 0"></div>
+
+    <div class="msq-output-header" style="margin-top:24px">Zone Activation</div>
+    <div id="msq-zone-cards" style="margin:16px 0"></div>
+
+    <div id="msq-tiq-wrap">
+      <svg id="msq-tiq-svg" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="8"/>
+        <circle id="msq-tiq-arc" cx="60" cy="60" r="50" fill="none" stroke="#C9A84C" stroke-width="8" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .8s,stroke .4s"/>
+        <text id="msq-tiq-val" x="60" y="56" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="28" font-weight="300" fill="#C9A84C">0</text>
+        <text x="60" y="72" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="rgba(244,244,242,.4)" letter-spacing=".1em">TIQ SCORE</text>
+      </svg>
+      <div id="msq-tiq-band" style="font-family:var(--fm);font-size:11px;margin-top:4px"></div>
+    </div>
+
+    <div class="msq-output-header" style="margin-top:24px">Cascade Detection</div>
+    <div id="msq-cascades" style="margin:16px 0"></div>
+
+    <div id="msq-terrainlock" style="text-align:center;margin:16px 0;font-family:var(--fm);font-size:11px"></div>
+
+    <div class="msq-output-header" style="margin-top:24px">DRD Designation</div>
+    <div id="msq-drd" style="margin:16px 0;text-align:center;font-family:var(--fm);font-size:12px"></div>
+
+    <div class="msq-output-header" style="margin-top:24px">Trajectory (30-day vs 48-hour)</div>
+    <div id="msq-trajectory" style="margin:16px 0;font-family:var(--fm);font-size:11px;text-align:center"></div>
+
+    <div style="margin-top:24px;padding:16px;border-radius:6px;border:1px dashed rgba(201,168,76,.2);background:rgba(201,168,76,.04)">
+      <div style="font-family:var(--fm);font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px">PRACTITIONER CLINICAL DECISION</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.7">
+        <div style="margin-bottom:4px">Clinical interpretation: _______________</div>
+        <div style="margin-bottom:4px">Adjusted priorities: _______________</div>
+        <div style="margin-bottom:4px">Deferred items: _______________</div>
+        <div style="margin-bottom:4px">Follow-up interval: _______________</div>
+        <div>Additional notes: _______________</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="msq-footer">
+    VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.<br>
+    MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.<br>
+    MSQ-71 Terrain Intake | ALB v1.5 | D-85 | T-01 Active | For practitioner use only. Not a diagnostic tool.
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ══════════════════════════════════════════════════════
+   MSQ-71 DATA: 15 DOMAINS, 71 ITEMS
+   Domain-to-node mapping from node_mappings.ts
+   ══════════════════════════════════════════════════════ */
+var DOMAINS = [
+  { id:'head', name:'Head', icon:'&#129504;', colour:'#7B5EA7', primary:'N6', secondary:'N5', items:[
+    'Headaches','Faintness','Dizziness','Insomnia'
+  ]},
+  { id:'eyes', name:'Eyes', icon:'&#128065;', colour:'#1A7A8A', primary:'N2', secondary:'N6', items:[
+    'Watery or itchy eyes','Swollen, reddened or sticky eyelids','Bags or dark circles under eyes','Blurred or tunnel vision'
+  ]},
+  { id:'ears', name:'Ears', icon:'&#128066;', colour:'#1A7A8A', primary:'N2', secondary:'N1', items:[
+    'Itchy ears','Earaches or ear infections','Drainage from ear','Ringing in ears or hearing loss'
+  ]},
+  { id:'nose', name:'Nose', icon:'&#128067;', colour:'#1A7A8A', primary:'N2', secondary:'N1', items:[
+    'Stuffy nose','Sinus problems','Hay fever','Sneezing attacks','Excessive mucus formation'
+  ]},
+  { id:'mouth_throat', name:'Mouth and Throat', icon:'&#128068;', colour:'#C9A84C', primary:'N1', secondary:'N2', items:[
+    'Chronic coughing','Gagging or frequent need to clear throat','Sore throat, hoarseness, loss of voice','Swollen or discoloured tongue, gums or lips','Canker sores'
+  ]},
+  { id:'skin', name:'Skin', icon:'&#129306;', colour:'#1A7A8A', primary:'N2', secondary:'N4', items:[
+    'Acne','Hives, rashes or dry skin','Hair loss','Flushing or hot flushes','Excessive sweating'
+  ]},
+  { id:'heart', name:'Heart', icon:'&#10084;', colour:'#7B5EA7', primary:'N5', secondary:'N3', items:[
+    'Irregular or skipped heartbeat','Rapid or pounding heartbeat','Chest pain'
+  ]},
+  { id:'lungs', name:'Lungs', icon:'&#127788;', colour:'#7B5EA7', primary:'N5', secondary:'N2', items:[
+    'Chest congestion','Asthma or bronchitis','Shortness of breath','Difficulty breathing'
+  ]},
+  { id:'digestive', name:'Digestive Tract', icon:'&#127860;', colour:'#C9A84C', primary:'N1', secondary:'N2', items:[
+    'Nausea or vomiting','Diarrhoea','Constipation','Bloated feeling','Belching or passing gas','Heartburn','Intestinal or stomach pain'
+  ]},
+  { id:'joints', name:'Joints and Muscles', icon:'&#128170;', colour:'#5F7C6C', primary:'N7', secondary:'N2', items:[
+    'Pain or aches in joints','Arthritis','Stiffness or limitation of movement','Pain or aches in muscles','Feeling of weakness or tiredness'
+  ]},
+  { id:'weight', name:'Weight', icon:'&#9878;', colour:'#C9A84C', primary:'N6', secondary:'N3', items:[
+    'Binge eating or drinking','Craving certain foods','Excessive weight','Compulsive eating','Water retention'
+  ]},
+  { id:'energy', name:'Energy and Activity', icon:'&#9889;', colour:'#C9A84C', primary:'N6', secondary:'N3', items:[
+    'Fatigue or sluggishness','Apathy or lethargy','Hyperactivity','Restlessness'
+  ]},
+  { id:'mind', name:'Mind', icon:'&#129504;', colour:'#C9A84C', primary:'N6', secondary:'N3', items:[
+    'Poor memory','Confusion or poor comprehension','Poor concentration','Poor physical coordination','Difficulty in making decisions','Slurred speech'
+  ]},
+  { id:'emotions', name:'Emotions', icon:'&#128156;', colour:'#7B5EA7', primary:'N6', secondary:null, items:[
+    'Mood swings','Anxiety, fear or nervousness','Anger, irritability or aggressiveness','Depression','Frequent crying'
+  ]},
+  { id:'other', name:'Other', icon:'&#128300;', colour:'#5F7C6C', primary:'N6', secondary:null, items:[
+    'Frequent illness','Frequent or urgent urination','Genital itch or discharge'
+  ]}
+];
+
+var NODES = [
+  {id:'N1',name:'Assimilation',colour:'#C9A84C'},
+  {id:'N2',name:'Defence and Repair',colour:'#1A7A8A'},
+  {id:'N3',name:'Energy',colour:'#7B5EA7'},
+  {id:'N4',name:'Biotransformation and Elimination',colour:'#5F7C6C'},
+  {id:'N5',name:'Transport',colour:'#2E6DB4'},
+  {id:'N6',name:'Communication',colour:'#C9A84C'},
+  {id:'N7',name:'Structural Integrity',colour:'#5F7C6C'}
+];
+
+var ZONE_DEFS = [
+  {id:'Z1',name:'Metabolic Energy Axis',nodes:['N3','N6'],threshold:40,colour:'#C9A84C'},
+  {id:'Z2',name:'Resilience Network',nodes:['N1','N2','N6'],threshold:40,colour:'#1A7A8A'},
+  {id:'Z3',name:'Cardiovascular-Neural Axis',nodes:['N5','N6'],threshold:40,colour:'#7B5EA7'},
+  {id:'Z4',name:'Detoxification Trident',nodes:['N2','N4'],threshold:40,colour:'#5F7C6C'},
+  {id:'Z5',name:'Hormonal Terrain Axis',nodes:['N3','N4','N6'],threshold:32,colour:'#2E6DB4'}
+];
+
+var STACKS = [
+  {id:'S1',from:1,to:0,vel:'MEDIUM',tier:'Mechanism Established, Cascade Emerging'},
+  {id:'S2',from:0,to:4,vel:'FAST',tier:'Established'},
+  {id:'S3',from:3,to:0,vel:'SLOW',tier:'Emerging'},
+  {id:'S4',from:4,to:1,vel:'MEDIUM',tier:'Theoretical'},
+  {id:'S5',from:1,to:2,vel:'FAST',tier:'Emerging'},
+  {id:'S6',from:0,to:2,vel:'MEDIUM',tier:'Established'}
+];
+
+var N6_DAMP = 0.7;
+
+/* State: scores[domainId][itemIdx] = { s30: number, s48: number } */
+var msqScores = {};
+var totalItems = 0;
+DOMAINS.forEach(function(d){
+  msqScores[d.id] = [];
+  d.items.forEach(function(){
+    msqScores[d.id].push({s30:0,s48:0});
+    totalItems++;
+  });
+});
+
+/* ══════════════════════════════════════════════════════
+   BUILD FORM
+   ══════════════════════════════════════════════════════ */
+var container = document.getElementById('msq-domains');
+
+DOMAINS.forEach(function(domain, di){
+  var sec = document.createElement('div');
+  sec.className = 'msq-domain';
+  sec.id = 'msq-dom-' + domain.id;
+
+  var header = '<div class="msq-domain-header">';
+  header += '<div class="msq-domain-icon" style="background:' + domain.colour + '22;border:1px solid ' + domain.colour + '44">' + domain.icon + '</div>';
+  header += '<div><div class="msq-domain-title">' + domain.name + '</div>';
+  header += '<div class="msq-domain-node">Primary: ' + domain.primary + (domain.secondary ? ' | Secondary: ' + domain.secondary : '') + '</div></div>';
+  header += '<div class="msq-domain-score" id="msq-dscore-' + domain.id + '">0</div>';
+  header += '</div>';
+
+  var items = '';
+  // Column headers
+  items += '<div style="display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:0 12px 8px;border-bottom:1px solid rgba(255,255,255,.04);margin-bottom:4px">';
+  items += '<div style="font-family:var(--fm);font-size:8px;color:var(--muted);letter-spacing:.08em">SYMPTOM</div>';
+  items += '<div style="text-align:center"><div class="msq-window-label">30 DAYS</div></div>';
+  items += '<div style="text-align:center"><div class="msq-window-label">48 HOURS</div></div>';
+  items += '</div>';
+
+  domain.items.forEach(function(itemName, ii){
+    items += '<div class="msq-item">';
+    items += '<div class="msq-item-name">' + itemName + '</div>';
+    // 30-day buttons
+    items += '<div class="msq-item-scores">';
+    for(var s=0; s<=4; s++){
+      items += '<button class="msq-score-btn" data-dom="' + domain.id + '" data-item="' + ii + '" data-window="s30" data-val="' + s + '">' + s + '</button>';
+    }
+    items += '</div>';
+    // 48-hour buttons
+    items += '<div class="msq-item-scores">';
+    for(var s2=0; s2<=4; s2++){
+      items += '<button class="msq-score-btn" data-dom="' + domain.id + '" data-item="' + ii + '" data-window="s48" data-val="' + s2 + '">' + s2 + '</button>';
+    }
+    items += '</div>';
+    items += '</div>';
+  });
+
+  sec.innerHTML = header + items;
+  container.appendChild(sec);
+});
+
+/* ══════════════════════════════════════════════════════
+   SCORE BUTTON HANDLERS
+   ══════════════════════════════════════════════════════ */
+document.querySelectorAll('.msq-score-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var dom = btn.getAttribute('data-dom');
+    var item = parseInt(btn.getAttribute('data-item'));
+    var win = btn.getAttribute('data-window');
+    var val = parseInt(btn.getAttribute('data-val'));
+
+    msqScores[dom][item][win] = val;
+
+    // Update active state for this item's window buttons
+    var siblings = btn.parentNode.querySelectorAll('.msq-score-btn');
+    siblings.forEach(function(sb){ sb.classList.remove('active','active-48'); });
+    btn.classList.add(win === 's30' ? 'active' : 'active-48');
+
+    updateDomainScore(dom);
+    updateProgress();
+  });
+});
+
+function updateDomainScore(domId){
+  var total30 = 0;
+  msqScores[domId].forEach(function(s){ total30 += s.s30; });
+  var el = document.getElementById('msq-dscore-' + domId);
+  if(el) el.textContent = total30;
+}
+
+function updateProgress(){
+  var answered = 0;
+  DOMAINS.forEach(function(d){
+    msqScores[d.id].forEach(function(s){
+      if(s.s30 > 0 || s.s48 > 0) answered++;
+    });
+  });
+  document.getElementById('msq-answered').textContent = answered;
+  document.getElementById('msq-progress-bar').style.width = (answered/totalItems*100) + '%';
+}
+
+/* ══════════════════════════════════════════════════════
+   COMPUTE TERRAIN ASSESSMENT
+   ══════════════════════════════════════════════════════ */
+document.getElementById('msq-compute-btn').addEventListener('click', function(){
+  computeTerrain();
+  document.getElementById('msq-output').style.display = 'block';
+  document.getElementById('msq-output').scrollIntoView({behavior:'smooth'});
+});
+
+function computeTerrain(){
+  /* Step 1: Domain scores (30-day and 48-hour) */
+  var domainScores30 = {};
+  var domainScores48 = {};
+  DOMAINS.forEach(function(d){
+    var t30 = 0, t48 = 0;
+    msqScores[d.id].forEach(function(s){ t30 += s.s30; t48 += s.s48; });
+    domainScores30[d.id] = t30;
+    domainScores48[d.id] = t48;
+  });
+
+  /* Step 2: Map domain scores to node scores
+     Each domain contributes to its primary node (weight 1.0) and secondary node (weight 0.5)
+     Node score = sum of weighted domain contributions, normalised to 0-100 */
+  var nodeRaw = {N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+  var nodeCount = {N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+
+  DOMAINS.forEach(function(d){
+    var maxDomScore = d.items.length * 4; // max possible for domain
+    var normScore = maxDomScore > 0 ? (domainScores30[d.id] / maxDomScore) * 100 : 0;
+
+    nodeRaw[d.primary] += normScore;
+    nodeCount[d.primary]++;
+
+    if(d.secondary){
+      nodeRaw[d.secondary] += normScore * 0.5;
+      nodeCount[d.secondary] += 0.5;
+    }
+  });
+
+  var nodeScores = {};
+  NODES.forEach(function(n){
+    var raw = nodeCount[n.id] > 0 ? nodeRaw[n.id] / nodeCount[n.id] : 0;
+    nodeScores[n.id] = Math.round(Math.min(100, Math.max(0, raw)));
+  });
+
+  /* Step 3: Zone computation with N6 dampening and floor formula */
+  var zoneResults = [];
+  ZONE_DEFS.forEach(function(z){
+    var adjusted = z.nodes.map(function(nid){
+      return nid === 'N6' ? nodeScores[nid] * N6_DAMP : nodeScores[nid];
+    });
+    var avg = adjusted.reduce(function(a,b){return a+b;},0) / adjusted.length;
+    var maxDamp = Math.max.apply(null, adjusted);
+    var floor = maxDamp - 10;
+    var internal = Math.round(Math.max(avg, floor));
+    internal = Math.min(100, Math.max(0, internal));
+    var display = Math.max(0, Math.min(10, Math.round((100 - internal) / 10)));
+    var active = internal >= z.threshold;
+    var borderline = !active && internal >= (z.threshold - 5);
+
+    zoneResults.push({
+      id: z.id, name: z.name, colour: z.colour,
+      internal: internal, display: display,
+      active: active, borderline: borderline,
+      threshold: z.threshold
+    });
+  });
+
+  /* Step 4: DRD designation (highest burden, Z2 tiebreaker) */
+  var drdZone = null;
+  var maxInternal = 0;
+  zoneResults.forEach(function(z){
+    if(z.active && z.internal > maxInternal){ maxInternal = z.internal; drdZone = z; }
+    if(z.active && z.internal === maxInternal && z.id === 'Z2'){ drdZone = z; }
+  });
+
+  /* Step 5: Cascade detection */
+  var cascadeResults = [];
+  STACKS.forEach(function(s){
+    var srcActive = zoneResults[s.from].active;
+    var tgtActive = zoneResults[s.to].active;
+    cascadeResults.push({
+      id: s.id,
+      from: zoneResults[s.from].id,
+      to: zoneResults[s.to].id,
+      active: srcActive && tgtActive,
+      vel: s.vel,
+      tier: s.tier
+    });
+  });
+
+  /* Step 6: TerrainLock */
+  var s1on = cascadeResults[0].active;
+  var s2on = cascadeResults[1].active;
+  var s4on = cascadeResults[3].active;
+  var terrainLock = s1on && s2on && s4on;
+
+  /* Step 7: TIQ */
+  var activeZones = zoneResults.filter(function(z){return z.active;});
+  var tiqRaw = activeZones.length > 0 ? activeZones.reduce(function(s,z){return s+z.internal;},0) / activeZones.length : 0;
+  var tiq = Math.round(tiqRaw);
+
+  /* Step 8: Trajectory */
+  var total30 = 0, total48 = 0;
+  DOMAINS.forEach(function(d){
+    msqScores[d.id].forEach(function(s){ total30 += s.s30; total48 += s.s48; });
+  });
+  var delta = total48 - total30;
+  var pctChange = total30 > 0 ? delta / total30 : 0;
+  var trajectory = pctChange > 0.1 ? 'Worsening' : pctChange < -0.1 ? 'Improving' : 'Stable';
+
+  /* ══════════════════════════════════════════════════════
+     RENDER OUTPUT
+     ══════════════════════════════════════════════════════ */
+
+  // Node bars
+  var nodeBars = document.getElementById('msq-node-bars');
+  nodeBars.innerHTML = '';
+  NODES.forEach(function(n){
+    var val = nodeScores[n.id];
+    var dampNote = n.id === 'N6' ? ' (dampened to ' + Math.round(val * N6_DAMP) + ')' : '';
+    nodeBars.innerHTML += '<div class="msq-node-bar">' +
+      '<span class="msq-node-label" style="color:' + n.colour + '">' + n.id + '</span>' +
+      '<div class="msq-node-track"><div class="msq-node-fill" style="width:' + val + '%;background:' + n.colour + '"></div></div>' +
+      '<span class="msq-node-val" style="color:' + n.colour + '">' + val + dampNote + '</span></div>';
+  });
+
+  // Zone cards
+  var zoneCards = document.getElementById('msq-zone-cards');
+  zoneCards.innerHTML = '';
+  zoneResults.forEach(function(z){
+    var cls = z.active ? 'active' : z.borderline ? 'borderline' : 'inactive';
+    var isDrd = drdZone && drdZone.id === z.id;
+    var statusLabel = z.active ? 'ACTIVE' : z.borderline ? 'BORDERLINE (D-38)' : 'INACTIVE';
+    zoneCards.innerHTML += '<div class="msq-zone-card ' + cls + '" style="border-color:' + z.colour + '">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center">' +
+      '<div><span style="font-family:var(--fm);font-size:12px;font-weight:700;color:' + z.colour + '">' + z.id + '</span> ' +
+      '<span style="font-size:13px">' + z.name + '</span>' +
+      (isDrd ? ' <span class="msq-drd-badge">HIGHEST BURDEN</span>' : '') + '</div>' +
+      '<div style="text-align:right"><div style="font-family:var(--fs);font-size:1.4rem;color:' + z.colour + '">' + z.display + '/10</div>' +
+      '<div style="font-family:var(--fm);font-size:8px;color:var(--muted)">' + statusLabel + ' (internal: ' + z.internal + ')</div></div>' +
+      '</div></div>';
+  });
+
+  // TIQ ring
+  var circumference = 2 * Math.PI * 50;
+  var pct = Math.min(100, tiq);
+  var offset = circumference - (pct / 100) * circumference;
+  var tiqCol = tiq > 60 ? '#D63030' : tiq > 35 ? '#C9A84C' : '#4CAF50';
+  var arc = document.getElementById('msq-tiq-arc');
+  arc.setAttribute('stroke', tiqCol);
+  arc.setAttribute('stroke-dashoffset', offset.toFixed(1));
+  document.getElementById('msq-tiq-val').textContent = tiq;
+  document.getElementById('msq-tiq-val').setAttribute('fill', tiqCol);
+  var bandText = tiq > 60 ? 'HIGH BURDEN' : tiq > 35 ? 'MODERATE' : 'LOW BURDEN';
+  document.getElementById('msq-tiq-band').innerHTML = '<span style="color:' + tiqCol + '">' + bandText + '</span>';
+
+  // Cascades
+  var cascadesEl = document.getElementById('msq-cascades');
+  cascadesEl.innerHTML = '';
+  cascadeResults.forEach(function(c){
+    var cls2 = c.active ? 'msq-cascade-active' : 'msq-cascade-inactive';
+    var qual = c.id === 'S4' ? ' (THEORETICAL, excluded from DRD D-12)' : c.id === 'S6' ? ' (UNIDIRECTIONAL: ' + c.from + ' to ' + c.to + ' only)' : '';
+    cascadesEl.innerHTML += '<div class="msq-cascade-row ' + cls2 + '">' +
+      '<span style="font-family:var(--fm);font-size:11px;font-weight:700;min-width:24px">' + c.id + '</span>' +
+      '<span>' + c.from + ' &#8594; ' + c.to + '</span>' +
+      '<span style="font-family:var(--fm);font-size:9px">' + c.vel + '</span>' +
+      '<span style="font-family:var(--fm);font-size:9px;color:var(--muted)">' + c.tier + qual + '</span>' +
+      '<span style="font-family:var(--fm);font-size:9px">' + (c.active ? '&#9679; ACTIVE' : '&#9675; Inactive') + '</span></div>';
+  });
+
+  // TerrainLock
+  var tlEl = document.getElementById('msq-terrainlock');
+  if(terrainLock){
+    tlEl.innerHTML = '<span style="color:#FFD700;font-size:14px">&#9888; TERRAINLOCK&#8482; ACTIVE</span><br><span style="color:var(--muted);font-size:10px">Self-perpetuating loop: Z2 &#8594; Z1 &#8594; Z5 &#8594; Z2. Default entry point: Z2 gut restoration.</span>';
+  } else {
+    var missing = [];
+    if(!s1on) missing.push('S1');
+    if(!s2on) missing.push('S2');
+    if(!s4on) missing.push('S4');
+    tlEl.innerHTML = '<span style="color:var(--muted)">TerrainLock&#8482; Inactive' + (missing.length ? '. Missing: ' + missing.join(', ') : '') + '</span>';
+  }
+
+  // DRD
+  var drdEl = document.getElementById('msq-drd');
+  if(drdZone){
+    drdEl.innerHTML = '<div style="font-size:1.2rem;color:' + drdZone.colour + ';font-family:var(--fs)">' + drdZone.id + ': ' + drdZone.name + '</div>' +
+      '<div style="color:var(--muted);font-size:10px;margin-top:4px">Internal: ' + drdZone.internal + ' | Display: ' + drdZone.display + '/10 | Z2 tiebreaker rule applied</div>';
+  } else {
+    drdEl.innerHTML = '<span style="color:var(--muted)">No active zones. No DRD designation.</span>';
+  }
+
+  // Trajectory
+  var trajEl = document.getElementById('msq-trajectory');
+  var trajCol = trajectory === 'Worsening' ? '#D63030' : trajectory === 'Improving' ? '#4CAF50' : 'var(--muted)';
+  var trajArrow = trajectory === 'Worsening' ? '&#8593;' : trajectory === 'Improving' ? '&#8595;' : '&#8594;';
+  trajEl.innerHTML = '<span style="color:' + trajCol + ';font-size:18px">' + trajArrow + '</span> ' +
+    '<span style="color:' + trajCol + '">' + trajectory + '</span>' +
+    '<div style="color:var(--muted);font-size:9px;margin-top:4px">30-day total: ' + total30 + ' | 48-hour total: ' + total48 + ' | Delta: ' + (delta >= 0 ? '+' : '') + delta + '</div>';
+}
+
+})();
+</script>
+</body>
+</html>

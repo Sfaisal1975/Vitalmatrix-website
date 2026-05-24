@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem('vm-analytics-consent','accepted');document.getElementById('vm-consent-banner').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem('vm-analytics-consent','declined');document.getElementById('vm-consent-banner').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Dr Faisal | VitalMatrix&#8482; &#8212; Clinical Intelligence Platform</title>
+<meta name="description" content="Dr Shahzad Faisal, MBBS, FAAMFM. Founder of VitalMatrix™. Functional medicine physician building terrain intelligence for practitioners.">
+<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform, Dr Shahzad Faisal, MBBS, FAAMFM, Harley Street, root-cause medicine, terrain-based medicine, NCZ, CascadeAtlas, FLINT">
+<link rel="canonical" href="https://vitalmatrix.co.uk/about/">
+<meta property="og:title" content="About Dr Faisal | VitalMatrix&#8482; &#8212; Clinical Intelligence Platform">
+<meta property="og:description" content="Dr Shahzad Faisal, MBBS, FAAMFM. Founder of VitalMatrix™. Functional medicine physician building terrain intelligence for practitioners.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vm-prussian:        #0D2B4E;
+  --vm-charcoal:        #1A2030;
+  --vm-deep-teal:       #0C4452;
+  --vm-charcoal-deep:   #111820;
+  --vm-charcoal-mid:    #232B3E;
+  --vm-prussian-light:  #153A62;
+  --vm-navy-d:          #071C33;
+  --vm-navy-m:          #0F3460;
+  --vm-sage-deep:       #3D5245;
+  --vm-teal:            #1A7A8A;
+  --vm-teal-l:          #2A9BAD;
+  --vm-gold:            #C9A84C;
+  --vm-gold-w:          #D4B870;
+  --vm-gold-d:          #A8873A;
+  --zone-z1:            #C9A84C;
+  --zone-z2:            #1A7A8A;
+  --zone-z3:            #7B5EA7;
+  --zone-z4:            #5F7C6C;
+  --zone-z5:            #4A90C4;
+  --vm-sage:            #5F7C6C;
+  --vm-purple:          #7B5EA7;
+  --vm-white:           #F4F4F2;
+  --vm-text:            rgba(244,244,242,0.80);
+  --vm-text-s:          rgba(244,244,242,0.55);
+  --vm-text-t:          rgba(244,244,242,0.35);
+  --vm-brd-gold:        rgba(201,168,76,0.18);
+  --vm-brd-white:       rgba(255,255,255,0.06);
+  --vm-surface-1:       rgba(255,255,255,0.025);
+  --vm-surface-2:       rgba(255,255,255,0.04);
+  --vm-fs: 'Cormorant Garamond', Georgia, serif;
+  --vm-fd: 'Outfit', system-ui, sans-serif;
+  --vm-fm: 'DM Mono', monospace;
+  --vm-ease: cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--vm-charcoal);
+  color: var(--vm-text);
+  font-family: var(--vm-fd);
+  font-weight: 400;
+  font-size: 0.88rem;
+  line-height: 1.78;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════ */
+
+.vm-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 48px);
+  background: rgba(26,32,48,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--vm-brd-gold);
+}
+
+.vm-nav-logo img {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  line-height: 0;
+}
+
+.vm-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.vm-nav-links a {
+  font-family: var(--vm-fd);
+  font-weight: 500;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--vm-text-s);
+  text-decoration: none;
+  transition: color 0.3s var(--vm-ease);
+}
+
+.vm-nav-links a:hover { color: var(--vm-gold); }
+
+.vm-nav-cta {
+  display: inline-block;
+  background: var(--vm-gold);
+  color: var(--vm-prussian);
+  font-family: var(--vm-fd);
+  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  transition: background 0.3s var(--vm-ease);
+}
+
+.vm-nav-cta:hover { background: var(--vm-gold-w); }
+
+.vm-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.vm-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--vm-text-s);
+  border-radius: 1px;
+  transition: all 0.3s var(--vm-ease);
+}
+
+/* ═══════════════════════════════════════
+   SECTION 1: HERO
+   ═══════════════════════════════════════ */
+
+.vm-hero {
+  position: relative;
+  background: linear-gradient(145deg, #111820 0%, #1A2030 60%, #1A2030 100%);
+  padding: clamp(64px, 8vw, 80px) clamp(24px, 6vw, 80px) clamp(80px, 10vw, 140px);
+  overflow: hidden;
+}
+
+.vm-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(26,122,138,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 20% 70%, rgba(201,168,76,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.vm-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+}
+
+.vm-eyebrow {
+  font-family: var(--vm-fm);
+  font-size: 0.62rem;
+  color: var(--vm-teal-l);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-bottom: 24px;
+}
+
+.vm-hero h1 {
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.15;
+  color: var(--vm-white);
+  margin-bottom: 28px;
+  animation: heroFadeUp 0.8s var(--vm-ease) both;
+}
+
+.vm-hero h1 em {
+  color: var(--vm-gold);
+  font-style: italic;
+}
+
+.vm-hero-sub {
+  font-family: var(--vm-fd);
+  font-weight: 400;
+  font-size: clamp(0.88rem, 1.2vw, 1rem);
+  color: var(--vm-text);
+  max-width: 560px;
+  line-height: 1.78;
+  margin-bottom: 36px;
+  animation: heroFadeUp 0.8s var(--vm-ease) 0.12s both;
+}
+
+.vm-btn-gold {
+  display: inline-block;
+  background: var(--vm-gold);
+  color: var(--vm-prussian);
+  font-family: var(--vm-fd);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 4px;
+  transition: background 0.3s var(--vm-ease);
+  animation: heroFadeUp 0.8s var(--vm-ease) 0.24s both;
+}
+
+.vm-btn-gold:hover { background: var(--vm-gold-w); }
+
+.vm-hero-meta {
+  font-family: var(--vm-fm);
+  font-size: 0.58rem;
+  color: var(--vm-text-t);
+  margin-top: 40px;
+  animation: heroFadeUp 0.8s var(--vm-ease) 0.36s both;
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   SECTION 2: CREDENTIALS STRIP
+   ═══════════════════════════════════════ */
+
+.vm-credentials {
+  background: var(--vm-prussian);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.vm-cred-cell {
+  padding: clamp(28px, 4vw, 48px) clamp(16px, 2vw, 32px);
+  border-right: 1px solid var(--vm-brd-gold);
+  text-align: center;
+}
+
+.vm-cred-cell:last-child { border-right: none; }
+
+.vm-cred-cell .cred-main {
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.vm-cred-cell .cred-main.gold { color: var(--vm-gold); }
+.vm-cred-cell .cred-main.teal { color: var(--vm-teal-l); }
+
+.vm-cred-cell .cred-label {
+  font-family: var(--vm-fm);
+  font-size: 0.62rem;
+  color: var(--vm-teal-l);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   SECTION 3: BIOGRAPHICAL BLOCK
+   ═══════════════════════════════════════ */
+
+.vm-bio {
+  background: var(--vm-charcoal);
+  padding: 80px clamp(24px, 6vw, 80px);
+}
+
+.vm-bio-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.vm-bio h2 {
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  color: var(--vm-white);
+  border-left: 3px solid var(--vm-gold);
+  padding-left: 20px;
+  margin-bottom: 36px;
+}
+
+.vm-bio .vm-eyebrow { margin-bottom: 16px; }
+
+.vm-bio p {
+  font-family: var(--vm-fd);
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--vm-text);
+  line-height: 1.78;
+  margin-bottom: 20px;
+}
+
+.vm-bio p:last-child { margin-bottom: 0; }
+
+/* ═══════════════════════════════════════
+   SECTION 4: QUOTE BLOCK
+   ═══════════════════════════════════════ */
+
+.vm-quote {
+  background: var(--vm-charcoal-mid);
+  padding: 80px clamp(24px, 6vw, 80px);
+}
+
+.vm-quote-inner {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  border-left: 3px solid var(--vm-gold);
+  padding-left: 28px;
+  min-height: 120px;
+}
+
+.vm-quote-inner::before {
+  content: '\201C';
+  font-family: var(--vm-fs);
+  font-size: 9rem;
+  color: rgba(201,168,76,0.07);
+  position: absolute;
+  top: -20px;
+  left: -10px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.vm-quote blockquote {
+  font-family: var(--vm-fs);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--vm-text);
+  line-height: 1.65;
+}
+
+.vm-quote-attr {
+  font-family: var(--vm-fm);
+  font-size: 0.62rem;
+  color: var(--vm-gold);
+  margin-top: 20px;
+}
+
+/* ═══════════════════════════════════════
+   SECTION 5: THREE REASONS
+   ═══════════════════════════════════════ */
+
+.vm-reasons {
+  background: var(--vm-prussian);
+  padding: 80px clamp(24px, 6vw, 80px);
+}
+
+.vm-reasons-header {
+  max-width: 820px;
+  margin: 0 auto 56px;
+}
+
+.vm-reasons-header h2 {
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  color: var(--vm-white);
+  line-height: 1.25;
+}
+
+.vm-reasons-header h2 em {
+  color: var(--vm-gold);
+  font-style: italic;
+}
+
+.vm-pillar {
+  position: relative;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 40px 0 40px 72px;
+  border-bottom: 1px solid var(--vm-brd-white);
+}
+
+.vm-pillar:last-child { border-bottom: none; }
+
+.vm-pillar-num {
+  position: absolute;
+  left: 0;
+  top: 36px;
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: 3.5rem;
+  color: rgba(201,168,76,0.12);
+  line-height: 1;
+}
+
+.vm-pillar .vm-eyebrow { margin-bottom: 12px; }
+
+.vm-pillar h3 {
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  color: var(--vm-white);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.vm-pillar h3 em {
+  color: var(--vm-gold);
+  font-style: italic;
+}
+
+.vm-pillar p {
+  font-family: var(--vm-fd);
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--vm-text);
+  line-height: 1.78;
+}
+
+/* ═══════════════════════════════════════
+   SECTION 6: ORIGIN STORY
+   ═══════════════════════════════════════ */
+
+.vm-origin {
+  background: var(--vm-charcoal-mid);
+  padding: 80px clamp(24px, 6vw, 80px);
+}
+
+.vm-origin-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+}
+
+.vm-origin-col .vm-eyebrow { margin-bottom: 16px; }
+.vm-origin-col .vm-eyebrow.gold { color: var(--vm-gold); }
+
+.vm-origin-col h2 {
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  color: var(--vm-white);
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+
+.vm-origin-col p {
+  font-family: var(--vm-fd);
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--vm-text);
+  line-height: 1.78;
+  margin-bottom: 20px;
+}
+
+.vm-origin-col p:last-child { margin-bottom: 0; }
+
+/* ═══════════════════════════════════════
+   SECTION 7: CTA
+   ═══════════════════════════════════════ */
+
+.vm-cta {
+  position: relative;
+  background: var(--vm-prussian);
+  padding: 80px clamp(24px, 6vw, 80px);
+  text-align: center;
+  overflow: hidden;
+}
+
+.vm-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(26,122,138,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.vm-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.vm-cta h2 {
+  font-family: var(--vm-fs);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  color: var(--vm-white);
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+
+.vm-cta h2 em {
+  color: var(--vm-gold);
+  font-style: italic;
+}
+
+.vm-cta p {
+  font-family: var(--vm-fd);
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--vm-text);
+  line-height: 1.78;
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+
+.vm-cta .vm-btn-gold { animation: none; }
+
+.vm-cta-meta {
+  font-family: var(--vm-fm);
+  font-size: 0.58rem;
+  color: var(--vm-text-t);
+  margin-top: 24px;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════ */
+
+.vm-footer {
+  background: var(--vm-navy-d);
+  padding: 56px clamp(24px, 6vw, 80px) 40px;
+}
+
+.vm-footer-grid {
+  max-width: 1080px;
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.vm-footer-col h4 {
+  font-family: var(--vm-fd);
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--vm-text-s);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.vm-footer-col a {
+  display: block;
+  font-family: var(--vm-fd);
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--vm-text-s);
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 0.3s var(--vm-ease);
+}
+
+.vm-footer-col a:hover { color: var(--vm-gold); }
+
+.vm-footer-governance {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-top: 28px;
+  border-top: 1px solid var(--vm-brd-white);
+}
+
+.vm-footer-governance p {
+  font-family: var(--vm-fd);
+  font-size: 0.6rem;
+  color: var(--vm-text-t);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.vm-footer-tm {
+  font-family: var(--vm-fm);
+  font-size: 0.55rem;
+  color: var(--vm-text-t);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.vm-footer-copy {
+  font-family: var(--vm-fd);
+  font-size: 0.6rem;
+  color: var(--vm-text-t);
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .vm-nav-links { display: none; }
+  .vm-nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 52px;
+    left: 0;
+    right: 0;
+    background: rgba(26,32,48,0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 20px 24px;
+    gap: 16px;
+    border-bottom: 1px solid var(--vm-brd-gold);
+  }
+  .vm-hamburger { display: flex; }
+
+  .vm-credentials { grid-template-columns: 1fr 1fr; }
+  .vm-cred-cell:nth-child(2) { border-right: none; }
+  .vm-cred-cell:nth-child(3),
+  .vm-cred-cell:nth-child(4) { border-top: 1px solid var(--vm-brd-gold); }
+
+  .vm-origin-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .vm-footer-grid { grid-template-columns: 1fr; gap: 28px; }
+
+  .vm-btn-gold { display: block; width: 100%; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .vm-credentials { grid-template-columns: 1fr; }
+  .vm-cred-cell { border-right: none; border-bottom: 1px solid var(--vm-brd-gold); }
+  .vm-cred-cell:last-child { border-bottom: none; }
+
+  .vm-pillar { padding-left: 52px; }
+  .vm-pillar-num { font-size: 2.6rem; }
+}
+
+/* ═══ CINEMATIC HERO LAYERS (21 April 2026) ═══ */
+.vm-hero-grade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.05) 35%,rgba(0,0,0,0.0) 50%,rgba(0,0,0,0.15) 75%,rgba(0,0,0,0.6) 100%),linear-gradient(135deg,rgba(13,43,78,0.25) 0%,transparent 50%,rgba(201,168,76,0.04) 100%)}
+.vm-hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 42%,transparent 0%,rgba(0,0,0,0.70) 100%)}
+.vm-hero-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.vm-hero-orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.vm-hero-orb--gold{width:500px;height:500px;background:#C9A84C;opacity:0.18;top:-15%;left:-8%;animation:vmOrbA 20s ease-in-out infinite alternate}
+.vm-hero-orb--teal{width:400px;height:400px;background:#1A7A8A;opacity:0.14;bottom:-18%;right:-10%;animation:vmOrbB 24s ease-in-out infinite alternate}
+.vm-hero-orb--purple{width:300px;height:300px;background:#7B5EA7;opacity:0.10;top:20%;right:0%;animation:vmOrbC 22s ease-in-out infinite alternate}
+@keyframes vmOrbA{0%{transform:translate(0,0)}100%{transform:translate(40px,-30px)}}
+@keyframes vmOrbB{0%{transform:translate(0,0)}100%{transform:translate(-35px,20px)}}
+@keyframes vmOrbC{0%{transform:translate(0,0)}100%{transform:translate(-20px,-18px)}}
+.vm-hero-glass{position:absolute;inset:0;z-index:3;background:rgba(0,3,8,0.06);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);pointer-events:none}
+.vm-hero-grain{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;animation:vmGrain 0.3s steps(4) infinite}
+@keyframes vmGrain{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0,0)}}
+.vm-hero-mesh{position:absolute;z-index:4;pointer-events:none;width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.15;animation:vmMeshR 90s linear infinite}
+@keyframes vmMeshR{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.vm-hero-content{position:relative;z-index:10}
+.vm-hero h1{text-shadow:0 4px 60px rgba(0,0,0,0.70),0 2px 8px rgba(0,0,0,0.45),0 0 120px rgba(13,43,78,0.40)}
+@media(prefers-reduced-motion:reduce){.vm-hero-orb,.vm-hero-grain,.vm-hero-mesh{animation:none!important}}
+@media(max-width:768px){.vm-hero-mesh{width:260px;height:260px}}
+</style>
+<link rel="stylesheet" href="vm-phase1-design.css">
+<link rel="stylesheet" href="vm-font-optimise.css">
+<link rel="stylesheet" href="vm-award-tier2.css">
+<script src="vm-award-tier2.js" defer></script>
+</head>
+<body class="vm-kinetic-grid vm-page-transition">
+
+<!-- ═══════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════ -->
+
+<nav class="vm-nav">
+  <a href="/" class="vm-nav-logo">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" style="display:block;margin:0;padding:0;border:none;line-height:0;" alt="VitalMatrix">
+  </a>
+  <button class="vm-hamburger" aria-label="Menu" onclick="document.querySelector('.vm-nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="vm-nav-links">
+    <li><a href="/platform/">Platform</a></li>
+    <li><a href="/approach/">Our Approach</a></li>
+    <li><a href="/mission/">Mission</a></li>
+    <li><a href="/pricing/">Pricing</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/book/" class="vm-cta-glow vm-nav-cta">Book Demo</a></li>
+  </ul>
+</nav>
+<div class="vm-progress-bar"></div>
+<div class="vm-sticky-label"></div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 1: HERO
+     ═══════════════════════════════════════ -->
+
+<section class="vm-texture-gold vm-reveal vm-hero vm-hero-ambient vm-svg-mesh">
+  <!-- Cinematic hero layers -->
+  <div class="vm-hero-grade"></div>
+  <div class="vm-hero-orbs"><div class="vm-hero-orb vm-hero-orb--gold"></div><div class="vm-hero-orb vm-hero-orb--teal"></div><div class="vm-hero-orb vm-hero-orb--purple"></div></div>
+  <div class="vm-hero-vignette"></div>
+  <div class="vm-hero-glass"></div>
+  <svg class="vm-hero-mesh" viewBox="0 0 400 400" fill="none"><polygon points="200,25 365,148 300,350 100,350 35,148" stroke="rgba(201,168,76,0.35)" stroke-width="0.7" fill="none"/><polygon points="200,95 310,182 275,305 125,305 90,182" stroke="rgba(26,122,138,0.22)" stroke-width="0.5" fill="none"/><circle cx="200" cy="25" r="3.5" fill="rgba(201,168,76,0.45)"/><circle cx="35" cy="148" r="3.5" fill="rgba(26,122,138,0.40)"/><circle cx="300" cy="350" r="3.5" fill="rgba(123,94,167,0.35)"/><circle cx="100" cy="350" r="3.5" fill="rgba(95,124,108,0.35)"/><circle cx="365" cy="148" r="3.5" fill="rgba(212,184,112,0.35)"/></svg>
+  <div class="vm-hero-grain"></div>
+  <div class="vm-hero-inner">
+    <p class="vm-eyebrow">Founder and CEO · VitalMatrix™</p>
+    <h1 class="vm-font-sharpen">Dr Shahzad Faisal,<br><em>MBBS, FAAMFM.</em></h1>
+    <p class="vm-hero-sub">Functional medicine physician. Terrain-based clinical practice. More than two decades of experience in root-cause medicine. Builder of the platform he always needed but could not find.</p>
+<p class="vm-reading-meta">5 min read</p>
+    <a href="/book/" class="vm-btn-gold vm-cta-glow">Talk to Dr Faisal</a>
+<p style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:16px;">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+    <p class="vm-hero-meta">Harley Street, London · VitalMatrix Ltd · ICO ZC101813</p>
+  </div>
+    <div class="vm-scroll-prompt">
+      <span class="vm-scroll-prompt-text">Scroll to explore</span>
+      <div class="vm-scroll-prompt-line">
+        <div class="vm-scroll-prompt-dot"></div>
+      </div>
+    </div>
+</section>
+<div class="vm-proof-strip">
+  Phase 1 <span>|</span> 10 Founding Practitioners <span>|</span> UK Only <span>|</span> ICO ZC101813 <span>|</span> MHRA SaMD Classification Has Not Yet Commenced
+</div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 2: CREDENTIALS STRIP
+     ═══════════════════════════════════════ -->
+
+<section class="vm-depth vm-texture-teal vm-reveal vm-credentials">
+  <div class="vm-cred-cell">
+    <div class="cred-main gold">MBBS</div>
+    <div class="cred-label">Bachelor of Medicine</div>
+  </div>
+  <div class="vm-cred-cell">
+    <div class="cred-main teal">FAAMFM</div>
+    <div class="cred-label">Fellow, Anti-Aging Metabolic<br>and Functional Medicine</div>
+  </div>
+  <div class="vm-cred-cell">
+    <div class="cred-main gold">Harley Street</div>
+    <div class="cred-label">London, UK</div>
+  </div>
+  <div class="vm-cred-cell">
+    <div class="cred-main teal">Phase 1</div>
+    <div class="cred-label">VitalMatrix™ Active</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 3: BIOGRAPHICAL BLOCK
+     ═══════════════════════════════════════ -->
+
+<section class="vm-depth vm-texture-gold vm-reveal vm-bio">
+  <div class="vm-bio-inner">
+    <p class="vm-eyebrow">The Clinician Behind the Platform</p>
+    <h2 class="vm-font-sharpen">Built from inside the discipline.</h2>
+    <p>Dr Shahzad Faisal is a functional medicine physician practising from Harley Street, London. He holds the credentials MBBS and FAAMFM: Advanced Fellow in Anti-Aging, Metabolic and Functional Medicine, conferred by the American Academy of Anti-Aging Medicine. His clinical focus is the root-cause reversal of chronic complex presentations through terrain-based medicine.</p>
+    <p>VitalMatrix™ was built because the platform he needed in clinical practice did not exist. Functional medicine is one of the most sophisticated clinical frameworks in modern medicine. What it has lacked is a platform designed to implement it at the depth it deserves: for every patient, consistently, without requiring practitioners to absorb the administrative cost of that depth personally.</p>
+    <p>The result is a clinical intelligence platform that adds the directionality layer on top of any functional medicine methodology. Not a replacement for clinical training. An amplifier of it.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     WHY DR FAISAL BUILT THIS — THREE PILLARS
+     ═══════════════════════════════════════ -->
+
+<section id="pillars" class="vm-depth vm-texture-teal vm-reveal" style="background:#0D2B4E;padding:88px 0;margin:0;">
+  <div style="max-width:1180px;margin:0 auto;padding:0 48px;">
+    <span style="font-family:var(--vm-fm,'DM Mono',monospace);font-size:0.6rem;
+      letter-spacing:0.22em;text-transform:uppercase;color:#C9A84C;
+      display:block;margin-bottom:14px;">Why This Platform</span>
+    <h2 class="vm-font-sharpen" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;
+      font-size:clamp(1.75rem,3.5vw,2.6rem);color:#F4F4F2;
+      line-height:1.15;margin-bottom:48px;">Three things that made
+      this inevitable.</h2>
+    <div class="vm-stagger-grid"
+      style="display:flex;flex-direction:column;gap:2px;">
+
+      <!-- Pillar I -->
+      <div style="display:grid;grid-template-columns:80px 1fr;
+        border:1px solid rgba(255,255,255,0.06);">
+        <div style="background:rgba(201,168,76,0.08);
+          border-right:2px solid #C9A84C;
+          display:flex;flex-direction:column;align-items:center;
+          justify-content:center;padding:32px 12px;text-align:center;">
+          <span style="font-family:var(--vm-fm,'DM Mono',monospace);
+            font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;
+            color:#C9A84C;display:block;">Pillar</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;
+            font-size:1.5rem;color:#C9A84C;line-height:1;">I</span>
+        </div>
+        <div style="padding:32px 36px;">
+          <h3 style="font-family:'Cormorant Garamond',Georgia,serif;
+            font-weight:400;font-size:1.3rem;color:#F4F4F2;
+            margin-bottom:12px;">26 years. The same problem, every week.</h3>
+          <p style="font-size:0.87rem;color:rgba(244,244,242,0.75);
+            line-height:1.78;">Every complex case required the same
+            manual reconstruction: biomarker findings spread across
+            systems, cascade patterns held in clinical memory,
+            documentation assembled after the fact. The methodology
+            was sound. The infrastructure was not.</p>
+        </div>
+      </div>
+
+      <!-- Pillar II -->
+      <div style="display:grid;grid-template-columns:80px 1fr;
+        border:1px solid rgba(255,255,255,0.06);">
+        <div style="background:rgba(26,122,138,0.08);
+          border-right:2px solid #1A7A8A;
+          display:flex;flex-direction:column;align-items:center;
+          justify-content:center;padding:32px 12px;text-align:center;">
+          <span style="font-family:var(--vm-fm,'DM Mono',monospace);
+            font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;
+            color:#2A9BAD;display:block;">Pillar</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;
+            font-size:1.5rem;color:#2A9BAD;line-height:1;">II</span>
+        </div>
+        <div style="padding:32px 36px;">
+          <h3 style="font-family:'Cormorant Garamond',Georgia,serif;
+            font-weight:400;font-size:1.3rem;color:#F4F4F2;
+            margin-bottom:12px;">Built backwards from the consultation.</h3>
+          <p style="font-size:0.87rem;color:rgba(244,244,242,0.75);
+            line-height:1.78;">Every architectural decision in
+            VitalMatrix&#8482; was made by asking: what does the
+            practitioner actually need at this moment in the
+            consultation? Not what does an AI system produce
+            efficiently. What does a trained clinician need
+            to think clearly, document accurately, and govern
+            their decisions properly?</p>
+        </div>
+      </div>
+
+      <!-- Pillar III -->
+      <div style="display:grid;grid-template-columns:80px 1fr;
+        border:1px solid rgba(255,255,255,0.06);">
+        <div style="background:rgba(201,168,76,0.08);
+          border-right:2px solid #C9A84C;
+          display:flex;flex-direction:column;align-items:center;
+          justify-content:center;padding:32px 12px;text-align:center;">
+          <span style="font-family:var(--vm-fm,'DM Mono',monospace);
+            font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;
+            color:#C9A84C;display:block;">Pillar</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;
+            font-size:1.5rem;color:#C9A84C;line-height:1;">III</span>
+        </div>
+        <div style="padding:32px 36px;">
+          <h3 style="font-family:'Cormorant Garamond',Georgia,serif;
+            font-weight:400;font-size:1.3rem;color:#F4F4F2;
+            margin-bottom:12px;">Functional medicine framework
+            compatible by design.</h3>
+          <p style="font-size:0.87rem;color:rgba(244,244,242,0.75);
+            line-height:1.78;">This platform was not adapted from
+            a generic clinical tool. It was built from within
+            functional medicine methodology. The seven-node
+            architecture, the five convergence zones, the cascade
+            logic: these are not features. They are the clinical
+            reasoning framework, made structural and documented.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+@media (max-width:600px) {
+  #pillars .vm-stagger-grid > div {
+    grid-template-columns: 60px 1fr !important;
+  }
+}
+</style>
+
+<!-- ═══════════════════════════════════════
+     SECTION 4: QUOTE BLOCK — APPROVAL REQUIRED
+     ═══════════════════════════════════════ -->
+
+<section class="vm-texture-gold vm-reveal vm-quote">
+  <div class="vm-quote-inner">
+    <blockquote>
+      <!-- Founder voice quote pending approval from Dr Faisal. Do not populate. -->
+    </blockquote>
+    <p class="vm-quote-attr">Dr Shahzad Faisal, MBBS, FAAMFM</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 5: THREE REASONS THE BUILDER MATTERS
+     ═══════════════════════════════════════ -->
+
+<section class="vm-texture-teal vm-reveal vm-reasons">
+  <div class="vm-reasons-header">
+    <p class="vm-eyebrow">Why It Matters Who Built This</p>
+    <h2 class="vm-font-sharpen">A physician building for physicians<br><em>closes a gap permanently.</em></h2>
+  </div>
+
+  <div class="vm-pillar">
+    <span class="vm-pillar-num">I</span>
+    <p class="vm-eyebrow">Clinical Nuance</p>
+    <h3>Clinical intelligence tools built by non-clinicians produce outputs that <em>look plausible but fail at the level of nuance.</em></h3>
+    <p>A physician building for physicians closes that gap. Every architectural decision in VitalMatrix™ was made by someone who has sat across from the patient and needed the answer to be right: not approximately right.</p>
+  </div>
+
+  <div class="vm-pillar">
+    <span class="vm-pillar-num">II</span>
+    <p class="vm-eyebrow">Native Language</p>
+    <h3>Terrain-based medicine has specific language, specific frameworks, and <em>specific output requirements</em> that general-purpose AI does not understand.</h3>
+    <p>VitalMatrix™ was not trained on clinical data and instructed to summarise it. It was architected around the clinical reasoning process: node scoring, zone convergence, cascade directionality, highest burden zone designation: from the ground up. The clinical language is the native language of the platform.</p>
+  </div>
+
+  <div class="vm-pillar">
+    <span class="vm-pillar-num">III</span>
+    <p class="vm-eyebrow">No Translation Step</p>
+    <h3>The practitioner using VitalMatrix™ is not <em>translating AI output into clinical language.</em></h3>
+    <p>The clinical language is already there. Terrain framing, functional optimal ranges, phased intervention sequencing: these are not features added on top. They are the foundation the platform was built on.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 6: ORIGIN STORY
+     ═══════════════════════════════════════ -->
+
+<section class="vm-texture-gold vm-reveal vm-origin">
+  <div class="vm-origin-grid vm-choreo-stagger">
+    <div class="vm-origin-col">
+      <p class="vm-eyebrow gold">The Origin</p>
+      <h2 class="vm-font-sharpen">The platform every functional medicine practitioner needed but no one had built.</h2>
+      <p>After more than two decades in clinical practice, the pattern was consistent. Functional medicine frameworks gave practitioners the map. It did not give them the direction of travel, the designation of which node was driving the cascade, or the velocity at which dysfunction was moving.</p>
+      <p>Every week, that gap cost practitioners consultation time, clinical confidence, and the ability to scale their practice beyond what manual analysis allowed. VitalMatrix™ was built to close that gap: permanently, architecturally, not as a workaround.</p>
+    </div>
+    <div class="vm-origin-col">
+      <div style="background:#1E1A2E;border-left:2px solid #1A7A8A;padding:20px 24px;border-radius:6px;margin-bottom:32px;">
+<p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:rgba(255,255,255,0.85);margin:0;line-height:1.7;">VitalMatrix&#8482; generates working documents for practitioner review. All clinical decisions remain with the registered practitioner.</p>
+</div>
+      <p class="vm-eyebrow">What This Means for Your Practice</p>
+      <h2 class="vm-font-sharpen">You bring the clinical training. VitalMatrix™ brings the directionality.</h2>
+      <p>The difference is not speed or automation. It is the underlying clinical architecture. Functional optimal ranges applied by default. Terrain-based reasoning as the native output language. Seven biological nodes, five convergence zones, six directional cascade stacks: the foundation, not a feature.</p>
+      <p>You do not change how you practise. You stop doing the part that was always a manual approximation of something that deserved to be computed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 7: CTA
+     ═══════════════════════════════════════ -->
+
+<section class="vm-texture-teal vm-reveal vm-cta">
+  <div class="vm-cta-inner">
+    <p class="vm-eyebrow">Book a Discovery Call</p>
+    <h2 class="vm-font-sharpen">Thirty minutes.<br><em>Dr Faisal directly.</em></h2>
+    <p>A clinical walkthrough of the platform using a case profile from your own practice area. No sales script. No obligation. Dr Faisal takes every discovery call personally.</p>
+    <a href="/book/" class="vm-cta-glow vm-btn-gold">Talk to Dr Faisal</a>
+<p style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:16px;">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+    <p class="vm-cta-meta">30 minutes · Platform demonstration · Your case profile · UK only</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════ -->
+
+<div class="vm-floating-cta">
+  <a href="/book/" class="vm-cta-glow vm-floating-cta-btn">Book a Walkthrough</a>
+  <div class="vm-floating-cta-close"><svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></div>
+</div>
+
+<footer class="vm-footer-landmark vm-footer">
+  <div class="vm-footer-grid">
+    <div class="vm-footer-col">
+      <h4>Platform</h4>
+      <a href="/how-it-works/">How It Works</a>
+      <a href="/ncz-architecture/">NCZ™ Architecture</a>
+      <a href="/cascadeatlas/">CascadeAtlas™</a>
+      <a href="/terrain-intelligence/">Terrain Intelligence</a>
+    </div>
+    <div class="vm-footer-col">
+      <h4>Programme</h4>
+      <a href="/founding-practitioners/">Founding Practitioners</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/book/">Book a Walkthrough</a>
+      <a href="/approach/">Our Approach</a>
+    </div>
+    <div class="vm-footer-col">
+      <h4>Company</h4>
+      <a href="/about/">About</a>
+      <a href="/mission/">Mission</a>
+      <a href="/clinical-ethics/">Clinical Ethics</a>
+      <a href="/privacy/">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="vm-footer-governance">
+    <p>MHRA SaMD classification has not yet commenced. VitalMatrix™ provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+    <p style="font-family:var(--vm-fd);font-size:0.6rem;color:var(--vm-text-t);line-height:1.7;margin-bottom:16px;">For practitioner use only. Not a diagnostic tool.</p>
+    <p class="vm-footer-tm">VOS™ (VitalMatrix Operating System). VitalMatrix™, NCZ™, DRD™, APEX™, TIQ™, CIB™, CascadeIQ™, FLINT™, CZR™, TRACE™, DeltaScan™, MedTerrain™, TerrainLock™, CascadeAtlas™, PRISM™, KINETICS™, COHERENCE™, TerrainRoot™, ORBIT™, SPHERE™, HERALD™, BEACON™, MAPS™, RECON™, COMPASS™, GENOME™, ANCHOR™, AXIS™, INTAKE™, VECTOR™ and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+    <p class="vm-footer-copy">© 2026 VitalMatrix Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="vm-phase1-design.js"></script>
+<script src="vm-scroll-choreography.js"></script>
+<script src="vm-svg-illustrations.js"></script>
+<script src="vm-premium-polish.js"></script>
+</body>
+</html>

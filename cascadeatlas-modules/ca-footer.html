@@ -1,0 +1,12 @@
+</section>
+<script>
+(function(){var explored={};var count=0;var fillEl=document.getElementById('vm-joy10-fill');var countEl=document.getElementById('vm-joy10-count');var celebEl=document.getElementById('vm-joy10-celebration');var msEls=document.getElementById('vm-joy10-milestones').querySelectorAll('.vm-joy10-ms');var CEL={10:'Well done! You have explored 10 features. Apprentice level achieved.',25:'Impressive! 25 features explored. Practitioner level achieved.',50:'Outstanding! 50 features explored. You have reached Architect mastery.'};function upd(){var pct=Math.min((count/50)*100,100);fillEl.style.width=pct+'%';countEl.textContent='Features explored: '+count+' / 50';for(var m=0;m<msEls.length;m++){if(count>=parseInt(msEls[m].getAttribute('data-target'),10))msEls[m].classList.add('vm-joy10-achieved');}if(CEL[count]){celebEl.textContent=CEL[count];celebEl.classList.add('vm-joy10-show');setTimeout(function(){celebEl.classList.remove('vm-joy10-show');},4000);}}function track(id){if(!explored[id]){explored[id]=true;count++;upd();}}var sections=document.querySelectorAll('section[id]');if(typeof IntersectionObserver!=='undefined'){var obs=new IntersectionObserver(function(entries){for(var e=0;e<entries.length;e++){if(entries[e].isIntersecting)track(entries[e].target.id);}},{threshold:0.2});for(var s=0;s<sections.length;s++)obs.observe(sections[s]);}})();
+</script>
+
+
+<style>
+/* ═══════════════════════════════════════
+   INVESTOR-GRADE POLISH — D1-D10, OV1-OV30
+   Applied: 13 May 2026
+   ═══════════════════════════════════════ */
+

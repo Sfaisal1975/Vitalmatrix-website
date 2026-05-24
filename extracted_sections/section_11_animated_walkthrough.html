@@ -1,0 +1,63 @@
+<div class="vm-section-collapse" id="collapse-walkthrough">
+<section class="vm-reveal vm-depth" aria-label="Animated walkthrough" style="background:#071C33; padding:80px 0;">
+  <div class="container" style="text-align:center;">
+    <p class="eyebrow-arch" style="justify-content:center;">Watch It Work</p>
+    <h2 class="vm-font-sharpen heading-gradient" style="text-align:center;font-size:clamp(24px,3.5vw,40px);">One patient. <em>The full pipeline.</em></h2>
+    <p style="font-size:15px;color:rgba(244,244,242,0.45);max-width:520px;margin:0 auto 40px;line-height:1.7;">See how a single consultation flows through the FLINT&#8482; architecture.</p>
+    <div class="vm-walkthrough-stage" id="vw-stage">
+      <div class="vw-scene active" id="vw-s1">
+        <p class="vw-stage-label">Stage 1 &middot; L1</p>
+        <p class="vw-stage-title">Patient intake maps to seven nodes</p>
+        <div class="vw-node-grid" id="vw-nodes">
+          <div class="vw-node">N1</div><div class="vw-node">N2</div><div class="vw-node">N3</div>
+          <div class="vw-node">N4</div><div class="vw-node">N5</div><div class="vw-node">N6</div>
+          <div class="vw-node">N7</div>
+        </div>
+      </div>
+      <div class="vw-scene" id="vw-s2">
+        <p class="vw-stage-label">Stage 2 &middot; L2</p>
+        <p class="vw-stage-title">Nodes converge into five zones</p>
+        <div id="vw-zones">
+          <div class="vw-zone-row"><span class="vw-zone-label">Z1</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z1" style="background:#C9A84C;"></div></div><span class="vw-zone-score" id="vw-z1s"></span></div>
+          <div class="vw-zone-row"><span class="vw-zone-label">Z2</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z2" style="background:#1A7A8A;"></div></div><span class="vw-zone-score" id="vw-z2s"></span></div>
+          <div class="vw-zone-row"><span class="vw-zone-label">Z3</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z3" style="background:#7B5EA7;"></div></div><span class="vw-zone-score" id="vw-z3s"></span></div>
+          <div class="vw-zone-row"><span class="vw-zone-label">Z4</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z4" style="background:#5F7C6C;"></div></div><span class="vw-zone-score" id="vw-z4s"></span></div>
+          <div class="vw-zone-row"><span class="vw-zone-label">Z5</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z5" style="background:#4A85C9;"></div></div><span class="vw-zone-score" id="vw-z5s"></span></div>
+        </div>
+      </div>
+      <div class="vw-scene" id="vw-s3">
+        <p class="vw-stage-label">Stage 4 &middot; L4</p>
+        <p class="vw-stage-title">Highest burden zone designated</p>
+        <p style="font-family:var(--vm-fm);font-size:14px;color:rgba(244,244,242,0.30);margin-bottom:8px;">Highest burden zone</p>
+        <p id="vw-drd-zone" style="font-family:var(--vm-fs);font-size:clamp(32px,5vw,48px);font-weight:300;color:#1A7A8A;margin-bottom:8px;">Z2 Resilience Network</p>
+        <div class="vw-arrow visible">&#8595;</div>
+        <p style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);">Cascade trace: S1 Z2 &#8594; Z1 (Emerging)</p>
+      </div>
+      <div class="vw-scene" id="vw-s4">
+        <p class="vw-stage-label">Result</p>
+        <p class="vw-stage-title">Five clinical outputs generated</p>
+        <div class="vw-output-fan" id="vw-outputs">
+          <div class="vw-output-doc">NCZ<br>Note</div>
+          <div class="vw-output-doc">TSC</div>
+          <div class="vw-output-doc">Patient<br>Summary</div>
+          <div class="vw-output-doc">Lab<br>Report</div>
+          <div class="vw-output-doc">Gov<br>Record</div>
+        </div>
+        <p style="font-family:var(--vm-fm);font-size:10px;color:rgba(201,168,76,0.40);margin-top:24px;letter-spacing:0.08em;">Awaiting practitioner review</p>
+      </div>
+      <div class="vw-progress">
+        <div class="vw-pip active" onclick="goWalkthrough(1)"></div>
+        <div class="vw-pip" onclick="goWalkthrough(2)"></div>
+        <div class="vw-pip" onclick="goWalkthrough(3)"></div>
+        <div class="vw-pip" onclick="goWalkthrough(4)"></div>
+      </div>
+    </div>
+    <p style="font-family:var(--vm-fm);font-size:8px;color:rgba(244,244,242,0.18);margin-top:16px;letter-spacing:0.06em;">Simulated output. Not a clinical tool. For demonstration purposes only.</p>
+  </div>
+</section>
+</div>
+<div class="vm-expand-trigger" onclick="toggleCollapse('collapse-walkthrough',this)">
+  <span class="vm-expand-label">Watch it work: the full pipeline</span>
+  <span class="vm-expand-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span>
+</div>
+

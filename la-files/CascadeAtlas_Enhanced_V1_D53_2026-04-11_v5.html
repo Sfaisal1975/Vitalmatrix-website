@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CascadeAtlas&#8482; Enhanced | VitalMatrix&#8482; Clinical Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   CASCADEATLAS ENHANCED V1 | ALB v1.5 | D-53 | 11 April 2026
+   VitalMatrix Ltd | ICO ZC101813
+================================================================ */
+:root{
+  --prussian:#0D2B4E;
+  --bg:#0A0F14;
+  --bg2:#0D1E38;
+  --card:rgba(13,30,56,.85);
+  --z1:#C9A84C; --z1r:201,168,76; --z1l:#D4B86A;
+  --z2:#1A7A8A; --z2r:26,122,138; --z2l:#2A9BAD;
+  --z3:#7B5EA7; --z3r:123,94,167; --z3l:#9B7EC8;
+  --z4:#5F7C6C; --z4r:95,124,108; --z4l:#7A9485;
+  --z5:#5BA4CF; --z5r:91,164,207; --z5l:#7BB8D9;
+  --gold:#C9A84C; --gold-l:#D4B86A;
+  --teal:#1A7A8A; --teal-l:#2A9BAD;
+  --white:#F4F4F2;
+  --t80:rgba(244,244,242,.80);
+  --t55:rgba(244,244,242,.55);
+  --t35:rgba(244,244,242,.55);
+  --t20:rgba(244,244,242,.20);
+  --t08:rgba(244,244,242,.08);
+  --fs:'Cormorant Garamond',Georgia,serif;
+  --fd:'Outfit',system-ui,sans-serif;
+  --fm:'DM Mono',monospace;
+  --panel-w:340px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--fd);
+  background:var(--prussian);
+  color:var(--white);
+  line-height:1.6;
+  min-height:100vh;
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(13,43,78,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,168,76,.18);
+  height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+}
+.nav-logo{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--gold);}
+.nav-logo span{color:var(--white);font-weight:300;}
+.nav-center{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);}
+.nav-toggles{display:flex;gap:10px;align-items:center;}
+.toggle-btn{
+  font-family:var(--fm);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 14px;border-radius:4px;cursor:pointer;transition:all .2s;
+  border:1px solid rgba(201,168,76,.3);color:var(--gold);background:transparent;
+}
+.toggle-btn:hover{background:rgba(201,168,76,.12);}
+.toggle-btn.active{background:var(--gold);color:#071C33;border-color:var(--gold);}
+.toggle-btn.tl-btn{border-color:rgba(42,155,173,.3);color:var(--teal-l);}
+.toggle-btn.tl-btn:hover{background:rgba(26,122,138,.12);}
+.toggle-btn.tl-btn.active{background:var(--teal);color:var(--white);border-color:var(--teal);}
+
+/* ── PAGE BODY ── */
+.page-body{
+  display:grid;
+  grid-template-columns:1fr var(--panel-w);
+  min-height:calc(100vh - 52px);
+}
+.main-col{padding:32px 24px 60px;}
+.page-header{text-align:center;margin-bottom:28px;}
+.eyebrow{font-family:var(--fm);font-size:9px;letter-spacing:.28em;color:rgba(201,168,76,.72);text-transform:uppercase;margin-bottom:10px;}
+.page-title{font-family:var(--fs);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:var(--white);margin-bottom:6px;}
+.page-title em{color:var(--gold);font-style:italic;}
+.page-sub{font-family:var(--fm);font-size:9px;letter-spacing:.15em;color:var(--t55);}
+
+/* ── DIAGRAM WRAP ── */
+.diagram-wrap{max-width:860px;margin:0 auto 48px;position:relative;}
+.cascade-svg{width:100%;height:auto;display:block;}
+
+/* ── SVG ANIMATIONS ── */
+@keyframes bz1{0%,100%{stroke-opacity:.65}50%{stroke-opacity:.28}}
+@keyframes bz2{0%,100%{stroke-opacity:.65}50%{stroke-opacity:.28}}
+@keyframes bz3{0%,100%{stroke-opacity:.65}50%{stroke-opacity:.28}}
+@keyframes bz4{0%,100%{stroke-opacity:.65}50%{stroke-opacity:.28}}
+@keyframes bz5{0%,100%{stroke-opacity:.65}50%{stroke-opacity:.28}}
+.ring-z1{animation:bz1 3.8s ease-in-out infinite 0s;}
+.ring-z2{animation:bz2 3.8s ease-in-out infinite .6s;}
+.ring-z3{animation:bz3 3.8s ease-in-out infinite 1.2s;}
+.ring-z4{animation:bz4 3.8s ease-in-out infinite 1.8s;}
+.ring-z5{animation:bz5 3.8s ease-in-out infinite 2.4s;}
+@keyframes tl-loop{from{stroke-dashoffset:0}to{stroke-dashoffset:-200}}
+.tl-line{animation:tl-loop 8s linear infinite;}
+@keyframes coh-travel{from{stroke-dashoffset:0}to{stroke-dashoffset:-300}}
+.coh-line{animation:coh-travel 12s linear infinite;}
+@keyframes pt210{0%{stroke-dashoffset:224;opacity:0}6%{opacity:1}94%{opacity:1}100%{stroke-dashoffset:-224;opacity:0}}
+@keyframes pt293{0%{stroke-dashoffset:307;opacity:0}6%{opacity:1}94%{opacity:1}100%{stroke-dashoffset:-307;opacity:0}}
+@keyframes pt398{0%{stroke-dashoffset:412;opacity:0}6%{opacity:1}94%{opacity:1}100%{stroke-dashoffset:-412;opacity:0}}
+@keyframes pt454{0%{stroke-dashoffset:468;opacity:0}6%{opacity:1}94%{opacity:1}100%{stroke-dashoffset:-468;opacity:0}}
+@keyframes glow210{0%{stroke-dashoffset:224;opacity:0}6%{opacity:.35}94%{opacity:.35}100%{stroke-dashoffset:-224;opacity:0}}
+@keyframes glow293{0%{stroke-dashoffset:307;opacity:0}6%{opacity:.35}94%{opacity:.35}100%{stroke-dashoffset:-307;opacity:0}}
+@keyframes glow398{0%{stroke-dashoffset:412;opacity:0}6%{opacity:.35}94%{opacity:.35}100%{stroke-dashoffset:-412;opacity:0}}
+@keyframes glow454{0%{stroke-dashoffset:468;opacity:0}6%{opacity:.35}94%{opacity:.35}100%{stroke-dashoffset:-468;opacity:0}}
+@keyframes ln-osc{0%,100%{stroke-opacity:.55}50%{stroke-opacity:.20}}
+.pulse-line{stroke-linecap:round;}
+.glow-line{stroke-linecap:round;}
+#s1-line{animation:ln-osc 3.2s ease-in-out infinite 0.0s;}
+#s2-line{animation:ln-osc 3.2s ease-in-out infinite 0.5s;}
+#s3-line{animation:ln-osc 3.2s ease-in-out infinite 1.0s;}
+#s4-line{animation:ln-osc 3.2s ease-in-out infinite 1.5s;}
+#s5-line{animation:ln-osc 3.2s ease-in-out infinite 2.0s;}
+#s6-line{animation:ln-osc 3.2s ease-in-out infinite 2.5s;}
+@keyframes sentinel-pulse{0%,100%{opacity:.15}50%{opacity:.55}}
+.sentinel-ring{animation:sentinel-pulse 3s ease-in-out infinite;}
+/* breakpoint-diamond removed (Correction 6) */
+/* Mark journey animations */
+@keyframes mark-s2-pulse{0%,100%{stroke-opacity:.9}50%{stroke-opacity:.3}}
+@keyframes terrainlock-seq{
+  0%,100%{opacity:.75}
+  33%{opacity:1}
+  66%{opacity:.75}
+}
+/* Severity ring */
+@keyframes sev-fill{from{stroke-dashoffset:var(--dash-start)}to{stroke-dashoffset:var(--dash-end)}}
+
+/* ── FLOATING TOOLTIP ── */
+.tt{
+  position:fixed;background:rgba(8,12,18,.96);border:1px solid rgba(244,244,242,.12);
+  border-radius:6px;padding:12px 14px;font-family:var(--fm);font-size:9px;
+  color:var(--t80);max-width:240px;pointer-events:none;z-index:300;
+  display:none;line-height:1.65;
+}
+.tt-title{font-size:10px;font-weight:500;color:var(--white);margin-bottom:5px;letter-spacing:.05em;}
+.tt-row{color:rgba(244,244,242,.45);margin-top:3px;display:block;}
+.tt-row span{color:var(--t80);}
+.tt-vel{display:inline-block;padding:1px 7px;border-radius:100px;font-size:8px;margin-top:4px;}
+.tt-vel.fast{border:1px solid rgba(201,168,76,.65);color:var(--gold);}
+.tt-vel.medium{border:1px solid rgba(244,244,242,.35);color:var(--t55);}
+.tt-vel.slow{border:1px solid rgba(244,244,242,.20);color:var(--t35);}
+
+/* ── INTELLIGENCE PANEL ── */
+.intel-panel{
+  width:var(--panel-w);
+  background:rgba(7,20,43,.95);
+  border-left:1px solid rgba(201,168,76,.18);
+  height:calc(100vh - 52px);
+  position:sticky;top:52px;
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+}
+.panel-accent{height:3px;background:var(--gold);transition:background .3s;}
+.panel-header{
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--t08);
+}
+.panel-eyebrow{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:8px;}
+.panel-title{font-family:var(--fs);font-size:1.3rem;font-weight:600;color:var(--white);line-height:1.15;}
+.panel-body{padding:20px;flex:1;}
+.panel-section{margin-bottom:20px;}
+.panel-section-label{
+  font-family:var(--fm);font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--t35);margin-bottom:8px;padding-bottom:5px;
+  border-bottom:1px solid var(--t08);
+}
+.panel-text{font-family:var(--fd);font-size:12px;font-weight:300;color:var(--t55);line-height:1.75;margin-bottom:8px;}
+.panel-text strong{color:var(--t80);font-weight:500;}
+.panel-stat-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--t08);}
+.panel-stat-row:last-child{border-bottom:none;}
+.psr-label{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.psr-val{font-family:var(--fm);font-size:9px;color:var(--t80);font-weight:500;}
+.panel-biomarker{
+  font-family:var(--fm);font-size:9px;color:var(--t55);
+  padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);
+  line-height:1.5;
+}
+.panel-biomarker span{color:var(--t35);font-size:8px;}
+.insight-box{
+  background:rgba(255,255,255,.03);border-left:2px solid var(--gold);
+  padding:10px 12px;border-radius:0 4px 4px 0;
+  font-family:var(--fd);font-size:11.5px;font-weight:300;color:var(--t55);
+  line-height:1.7;margin-top:8px;
+}
+.insight-box.teal-accent{border-left-color:var(--teal-l);}
+.missed-box{
+  background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.12);
+  padding:8px 12px;border-radius:4px;
+  font-family:var(--fm);font-size:9px;color:rgba(201,168,76,.75);
+  line-height:1.6;margin-top:10px;
+}
+.missed-box strong{color:var(--gold);display:block;margin-bottom:4px;font-size:8px;letter-spacing:.14em;text-transform:uppercase;}
+.badge-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.badge{
+  font-family:var(--fm);font-size:7.5px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;padding:2px 8px;border-radius:100px;
+  border:1px solid;
+}
+.badge-gold{border-color:rgba(201,168,76,.3);color:var(--gold-l);background:rgba(201,168,76,.08);}
+.badge-teal{border-color:rgba(26,122,138,.3);color:var(--teal-l);background:rgba(26,122,138,.08);}
+.badge-est{border-color:rgba(39,174,96,.3);color:#5DD88F;background:rgba(39,174,96,.06);}
+.badge-emg{border-color:rgba(201,168,76,.3);color:var(--gold);background:rgba(201,168,76,.06);}
+.badge-theo{border-color:rgba(123,94,167,.3);color:#9B7EC8;background:rgba(123,94,167,.06);}
+.sequencing-box{
+  background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);
+  padding:10px 12px;border-radius:4px;
+  font-family:var(--fm);font-size:9px;color:var(--t55);
+  line-height:1.7;margin-top:8px;
+}
+.sequencing-box strong{color:var(--gold);font-size:8px;display:block;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;}
+/* TerrainLock panel */
+.tl-loop-diagram{
+  display:flex;align-items:center;justify-content:center;
+  gap:6px;padding:12px;
+  background:rgba(255,255,255,.02);border-radius:6px;
+  font-family:var(--fm);font-size:9px;margin:10px 0;
+  flex-wrap:wrap;
+}
+.tl-zone-chip{
+  padding:3px 10px;border-radius:100px;font-size:8px;
+  font-family:var(--fm);letter-spacing:.06em;
+}
+.tl-arrow{color:var(--t35);font-size:10px;}
+.tl-label{font-family:var(--fm);font-size:8px;text-align:center;color:var(--t35);margin-top:4px;}
+/* Reading path */
+.reading-step{
+  display:flex;gap:12px;padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.reading-step:last-child{border-bottom:none;}
+.step-num{
+  font-family:var(--fs);font-size:1.6rem;font-weight:600;color:rgba(201,168,76,.18);
+  line-height:1;flex-shrink:0;width:28px;
+}
+.step-content{}
+.step-title{font-family:var(--fm);font-size:9px;font-weight:500;color:var(--t80);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}
+.step-desc{font-family:var(--fd);font-size:11px;font-weight:300;color:var(--t35);line-height:1.6;}
+/* Architecture stats */
+.arch-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.arch-stat{
+  background:rgba(255,255,255,.03);border:1px solid var(--t08);border-radius:6px;
+  padding:10px;text-align:center;
+}
+.arch-stat-n{font-family:var(--fs);font-size:1.6rem;font-weight:600;color:var(--gold);}
+.arch-stat-l{font-family:var(--fm);font-size:7.5px;color:var(--t35);letter-spacing:.1em;text-transform:uppercase;margin-top:2px;}
+/* Mark panel */
+.mark-flint-row{
+  display:flex;align-items:flex-start;gap:10px;padding:7px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.mark-layer-badge{
+  font-family:var(--fm);font-size:7.5px;padding:2px 7px;border-radius:3px;
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
+  color:var(--gold);flex-shrink:0;
+}
+.mark-layer-text{font-family:var(--fd);font-size:11px;font-weight:300;color:var(--t55);line-height:1.6;}
+
+/* ── PATTERN TABLE ── */
+.table-wrap{max-width:860px;margin:0 auto 48px;overflow-x:auto;}
+.section-label{font-family:var(--fm);font-size:8px;letter-spacing:.25em;color:var(--t35);text-transform:uppercase;margin-bottom:14px;}
+table{width:100%;border-collapse:collapse;}
+thead th{font-family:var(--fm);font-size:8px;letter-spacing:.20em;color:var(--t35);text-transform:uppercase;text-align:left;padding:8px 14px;border-bottom:1px solid var(--t08);}
+tbody tr{border-bottom:1px solid rgba(244,244,242,.06);transition:background .2s;}
+tbody tr:hover{background:rgba(244,244,242,.025);}
+tbody td{font-family:var(--fm);font-size:9px;color:var(--t55);padding:10px 14px;vertical-align:middle;}
+.z-chip{display:inline-block;padding:2px 9px;border-radius:100px;font-size:8px;font-family:var(--fm);margin:1px 2px;}
+.vel-badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:8px;}
+.vel-badge.fast{border:1px solid rgba(201,168,76,.65);color:var(--gold);}
+.vel-badge.medium{border:1px solid rgba(244,244,242,.35);color:var(--t55);}
+.vel-badge.slow{border:1px solid rgba(244,244,242,.20);color:var(--t35);}
+.sid{font-weight:500;color:var(--t80);}
+.flint-tag{font-size:8px;color:var(--t35);}
+
+/* ── LEAD CAPTURE ── */
+.lead-section{
+  max-width:860px;margin:0 auto 60px;
+  background:rgba(13,43,78,.6);border:1px solid rgba(201,168,76,.15);
+  border-radius:10px;padding:32px 36px;
+  display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;
+}
+.lead-section h3{font-family:var(--fs);font-size:1.4rem;font-weight:600;color:var(--white);margin-bottom:6px;}
+.lead-section p{font-family:var(--fd);font-size:13px;font-weight:300;color:var(--t55);}
+.lead-form{display:flex;flex-direction:column;gap:8px;min-width:280px;}
+.lead-input{
+  background:rgba(255,255,255,.05);border:1px solid var(--t08);border-radius:4px;
+  padding:9px 14px;font-family:var(--fm);font-size:10px;color:var(--white);
+  letter-spacing:.05em;outline:none;
+  transition:border-color .2s;
+}
+.lead-input::placeholder{color:var(--t35);}
+.lead-input:focus{border-color:rgba(201,168,76,.4);}
+.lead-submit{
+  background:var(--gold);color:#071C33;border:none;border-radius:4px;
+  padding:10px 20px;font-family:var(--fm);font-size:10px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+  transition:background .2s;
+}
+.lead-submit:hover{background:var(--gold-l);}
+.lead-thanks{font-family:var(--fm);font-size:10px;color:var(--teal-l);display:none;padding:10px 0;}
+
+/* ── FOOTER ── */
+.page-footer{
+  max-width:860px;margin:0 auto;padding:16px 24px 40px;
+  background:#1A2030;
+  border-top:1px solid rgba(201,168,76,.3);
+  font-family:var(--fm);font-size:8px;color:rgba(244,244,242,.65);line-height:1.8;
+}
+.page-footer strong{color:#C9A84C;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .page-body{grid-template-columns:1fr;}
+  .intel-panel{
+    position:fixed;bottom:0;left:0;right:0;
+    width:100%;height:55vh;
+    border-left:none;border-top:1px solid rgba(201,168,76,.18);
+    border-radius:14px 14px 0 0;
+    transform:translateY(calc(55vh - 44px));
+    transition:transform .3s ease;
+    z-index:150;
+  }
+  .intel-panel.open{transform:translateY(0);}
+  .panel-drag{
+    width:40px;height:4px;border-radius:2px;
+    background:rgba(255,255,255,.2);margin:10px auto 0;cursor:pointer;
+  }
+  .lead-section{grid-template-columns:1fr;}
+  .nav-center{display:none;}
+}
+@media(min-width:901px){.panel-drag{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav" role="navigation" aria-label="CascadeAtlas navigation">
+  <div class="nav-logo"><span>Vital</span>Matrix&#8482;</div>
+  <div class="nav-center">CascadeAtlas&#8482; &nbsp;&#183;&nbsp; Clinical Intelligence Architecture &nbsp;&#183;&nbsp; Phase 1</div>
+  <div class="nav-toggles">
+    <button class="toggle-btn" id="btn-mark" onclick="toggleMark()" aria-pressed="false">Mark&#39;s Case</button>
+    <button class="toggle-btn tl-btn" id="btn-tl" onclick="toggleTerrainLock()" aria-pressed="false">TerrainLock&#8482;</button>
+  </div>
+</nav>
+
+<!-- ── PAGE BODY ── -->
+<div class="page-body">
+
+<!-- ── MAIN COLUMN ── -->
+<main class="main-col">
+
+<header class="page-header">
+  <p class="eyebrow">VitalMatrix&#8482; Clinical Architecture &nbsp;&#183;&nbsp; FLINT&#8482; L3 CascadeIQ&#8482;</p>
+  <h1 class="page-title">CascadeAtlas&#8482; <em>Master Connection Map</em></h1>
+  <p class="page-sub">Node-Cascade Zone&#8482; Directional Stack Reference &nbsp;&#183;&nbsp; Phase 1 &nbsp;&#183;&nbsp; Practitioner Reference</p>
+</header>
+
+<!-- ── SVG DIAGRAM ── -->
+<div class="diagram-wrap">
+<svg class="cascade-svg" viewBox="0 0 900 680" fill="none" xmlns="http://www.w3.org/2000/svg"
+  role="img" aria-label="CascadeAtlas master connection map: five Node-Cascade Zones in a pentagon with six directional cascade stacks and the TerrainLock self-perpetuating loop">
+  <title>CascadeAtlas&#8482; Master Connection Map</title>
+  <desc>Five Node-Cascade Zones arranged in a pentagon. Six directional cascade stacks. TerrainLock self-perpetuating loop: Z2 to Z1 to Z5 to Z2. COHERENCE autonomic arc.</desc>
+
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(26,122,138,0.055)" stroke-width="0.6"/>
+    </pattern>
+    <!-- Arrowheads per zone colour -->
+    <marker id="arr-z1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#C9A84C" opacity=".80"/>
+    </marker>
+    <marker id="arr-z2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#1A7A8A" opacity=".80"/>
+    </marker>
+    <marker id="arr-z4" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#5F7C6C" opacity=".80"/>
+    </marker>
+    <marker id="arr-z5" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#5BA4CF" opacity=".80"/>
+    </marker>
+    <marker id="arr-tl" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#C9A84C" opacity=".65"/>
+    </marker>
+    <marker id="arr-mark-s2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#D4B86A" opacity="1"/>
+    </marker>
+    <!-- Radial glows -->
+    <radialGradient id="glow-z1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C9A84C" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-z2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1A7A8A" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#1A7A8A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-z3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7B5EA7" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#7B5EA7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-z4" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#5F7C6C" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#5F7C6C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-z5" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#5BA4CF" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#5BA4CF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- TerrainLock gradient: Z2 teal to Z1 gold to Z5 teal -->
+    <linearGradient id="tl-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A7A8A"/>
+      <stop offset="50%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#5BA4CF"/>
+    </linearGradient>
+    <!-- Mark S2 glow filter -->
+    <filter id="mark-glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="680" fill="#0A0F14"/>
+  <rect width="900" height="680" fill="url(#grid)"/>
+
+  <!-- N7 Foundation band -->
+  <rect x="40" y="618" width="820" height="28" fill="rgba(95,124,108,.07)" rx="2"/>
+  <line x1="40" y1="618" x2="860" y2="618" stroke="rgba(95,124,108,.30)" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="450" y="634" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="#7A9485" letter-spacing="0.06em">N7 Structural Integrity Foundation</text>
+  <text x="854" y="634" text-anchor="end" font-family="DM Mono,monospace" font-size="6" fill="rgba(244,244,242,.22)" letter-spacing="0.04em">Phase 2</text>
+  <!-- Vertical connectors to foundation -->
+  <line x1="450" y1="199" x2="450" y2="618" stroke="rgba(95,124,108,.18)" stroke-width="0.7" stroke-dasharray="3 5"/>
+  <line x1="155" y1="379" x2="155" y2="618" stroke="rgba(95,124,108,.18)" stroke-width="0.7" stroke-dasharray="3 5"/>
+  <line x1="745" y1="379" x2="745" y2="618" stroke="rgba(95,124,108,.18)" stroke-width="0.7" stroke-dasharray="3 5"/>
+  <line x1="250" y1="515" x2="250" y2="618" stroke="rgba(95,124,108,.18)" stroke-width="0.7" stroke-dasharray="3 5"/>
+  <line x1="650" y1="515" x2="650" y2="618" stroke="rgba(95,124,108,.18)" stroke-width="0.7" stroke-dasharray="3 5"/>
+
+  <!-- Zone radial glows -->
+  <ellipse cx="450" cy="135" rx="130" ry="130" fill="url(#glow-z1)"/>
+  <ellipse cx="155" cy="315" rx="130" ry="130" fill="url(#glow-z5)"/>
+  <ellipse cx="745" cy="315" rx="130" ry="130" fill="url(#glow-z2)"/>
+  <ellipse cx="250" cy="515" rx="130" ry="130" fill="url(#glow-z4)"/>
+  <ellipse cx="650" cy="515" rx="130" ry="130" fill="url(#glow-z3)"/>
+
+  <!-- COHERENCE arc -->
+  <path class="coh-line" d="M 780,290 Q 860,420 680,540" fill="none" stroke="rgba(244,244,242,.15)" stroke-width="1" stroke-dasharray="3 7"/>
+  <text x="830" y="420" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(244,244,242,.30)" letter-spacing="0.12em">COHERENCE&#8482;</text>
+
+  <!-- TERRAINLOCK ELLIPSE (Z2 + Z1 + Z5 only. Z3 and Z4 excluded.) -->
+  <!-- Z1 (450,135), Z5 (155,315), Z2 (745,315). Bottom at y=380, well above Z3/Z4 at y=515. -->
+  <ellipse cx="450" cy="225" rx="358" ry="155" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="8 5" opacity="0.6"/>
+  <text x="450" y="395" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#C9A84C" letter-spacing="0.08em" opacity="0.7">&#9919; TerrainLock&#8482;</text>
+
+  <!-- STACK BASE LINES (S1-S6) -->
+  <line id="s1-line" x1="692" y1="283" x2="510" y2="172" stroke="#1A7A8A" stroke-width="1.3" stroke-opacity=".55" marker-end="url(#arr-z2)" data-stack="S1"/>
+  <line id="s2-line" x1="397" y1="167" x2="215" y2="279" stroke="#C9A84C" stroke-width="1.3" stroke-opacity=".55" marker-end="url(#arr-z1)" data-stack="S2"/>
+  <line id="s3-line" x1="280" y1="458" x2="416" y2="199" stroke="#5F7C6C" stroke-width="1.3" stroke-opacity=".55" marker-end="url(#arr-z4)" data-stack="S3"/>
+  <line id="s4-line" x1="219" y1="315" x2="675" y2="315" stroke="#5BA4CF" stroke-width="1.3" stroke-opacity=".55" stroke-dasharray="6 4" marker-end="url(#arr-z5)" data-stack="S4"/>
+  <line id="s5-line" x1="718" y1="371" x2="680" y2="452" stroke="#1A7A8A" stroke-width="1.3" stroke-opacity=".55" marker-end="url(#arr-z2)" data-stack="S5"/>
+  <line id="s6-line" x1="479" y1="190" x2="617" y2="453" stroke="#C9A84C" stroke-width="1.3" stroke-opacity=".55" marker-end="url(#arr-z1)" data-stack="S6"/>
+
+  <!-- PULSE LINES S1 -->
+  <line class="glow-line" x1="692" y1="283" x2="510" y2="172" stroke="#1A7A8A" stroke-width="8" stroke-dasharray="28 230" stroke-dashoffset="224" opacity="0" style="animation:glow210 2.4s 0s ease-in-out infinite;"/>
+  <line class="pulse-line" x1="692" y1="283" x2="510" y2="172" stroke="#2A9BAD" stroke-width="3.2" stroke-dasharray="14 230" stroke-dashoffset="224" data-plen="220" style="animation:pt210 2.4s 0s ease-in-out infinite;"/>
+  <!-- S2 -->
+  <line class="glow-line" x1="397" y1="167" x2="215" y2="279" stroke="#C9A84C" stroke-width="8" stroke-dasharray="28 240" stroke-dashoffset="234" opacity="0" style="animation:glow210 2.0s 0.5s ease-in-out infinite;"/>
+  <line id="pulse-s2" class="pulse-line" x1="397" y1="167" x2="215" y2="279" stroke="#D4B86A" stroke-width="3.2" stroke-dasharray="14 240" stroke-dashoffset="234" data-plen="228" style="animation:pt210 2.0s 0.5s ease-in-out infinite;"/>
+  <!-- S3 -->
+  <line class="glow-line" x1="280" y1="458" x2="416" y2="199" stroke="#5F7C6C" stroke-width="8" stroke-dasharray="28 313" stroke-dashoffset="307" opacity="0" style="animation:glow293 3.2s 1.0s ease-in-out infinite;"/>
+  <line class="pulse-line" x1="280" y1="458" x2="416" y2="199" stroke="#7A9485" stroke-width="3.2" stroke-dasharray="14 313" stroke-dashoffset="307" data-plen="293" style="animation:pt293 3.2s 1.0s ease-in-out infinite;"/>
+  <!-- S4 -->
+  <line class="glow-line" x1="219" y1="315" x2="675" y2="315" stroke="#5BA4CF" stroke-width="8" stroke-dasharray="28 474" stroke-dashoffset="468" opacity="0" style="animation:glow454 2.2s 1.5s ease-in-out infinite;"/>
+  <line class="pulse-line" x1="219" y1="315" x2="675" y2="315" stroke="#7BB8D9" stroke-width="3.2" stroke-dasharray="14 474" stroke-dashoffset="468" data-plen="462" style="animation:pt454 2.2s 1.5s ease-in-out infinite;"/>
+  <!-- S5 -->
+  <line class="glow-line" x1="718" y1="371" x2="680" y2="452" stroke="#1A7A8A" stroke-width="8" stroke-dasharray="28 130" stroke-dashoffset="124" opacity="0" style="animation:glow210 1.9s 2.0s ease-in-out infinite;"/>
+  <line class="pulse-line" x1="718" y1="371" x2="680" y2="452" stroke="#2A9BAD" stroke-width="3.2" stroke-dasharray="14 130" stroke-dashoffset="124" data-plen="112" style="animation:pt210 1.9s 2.0s ease-in-out infinite;"/>
+  <!-- S6 -->
+  <line class="glow-line" x1="479" y1="190" x2="617" y2="453" stroke="#C9A84C" stroke-width="8" stroke-dasharray="28 313" stroke-dashoffset="307" opacity="0" style="animation:glow293 2.4s 2.5s ease-in-out infinite;"/>
+  <line class="pulse-line" x1="479" y1="190" x2="617" y2="453" stroke="#D4B86A" stroke-width="3.2" stroke-dasharray="14 313" stroke-dashoffset="307" data-plen="305" style="animation:pt293 2.4s 2.5s ease-in-out infinite;"/>
+
+  <!-- STACK LABELS -->
+  <text x="598" y="219" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#2A9BAD" letter-spacing="0.08em" opacity=".80">S1</text>
+  <rect x="563" y="224" width="70" height="13" rx="100" fill="none" stroke="rgba(244,244,242,.30)" stroke-width=".7"/>
+  <text x="598" y="233.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(244,244,242,.55)" letter-spacing="0.06em">MEDIUM</text>
+  <text x="315" y="230" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#D4B86A" letter-spacing="0.08em" opacity=".80">S2</text>
+  <rect x="283" y="235" width="64" height="13" rx="100" fill="none" stroke="rgba(201,168,76,.60)" stroke-width=".7"/>
+  <text x="315" y="244.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="#C9A84C" letter-spacing="0.06em">FAST</text>
+  <text x="348" y="322" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#7A9485" letter-spacing="0.08em" opacity=".80">S3</text>
+  <rect x="316" y="327" width="64" height="13" rx="100" fill="none" stroke="rgba(244,244,242,.18)" stroke-width=".7"/>
+  <text x="348" y="336.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(244,244,242,.38)" letter-spacing="0.06em">SLOW</text>
+  <text x="450" y="290" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#7BB8D9" letter-spacing="0.08em" opacity=".80">S4</text>
+  <rect x="418" y="295" width="64" height="13" rx="100" fill="none" stroke="rgba(244,244,242,.30)" stroke-width=".7"/>
+  <text x="450" y="304.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(244,244,242,.55)" letter-spacing="0.06em">MEDIUM</text>
+  <text x="450" y="317" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(91,164,207,.70)" letter-spacing="0.06em">THEORETICAL</text>
+  <text x="698" y="413" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#2A9BAD" letter-spacing="0.08em" opacity=".80">S5</text>
+  <rect x="666" y="416" width="64" height="13" rx="100" fill="none" stroke="rgba(201,168,76,.60)" stroke-width=".7"/>
+  <text x="698" y="425.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="#C9A84C" letter-spacing="0.06em">FAST</text>
+  <text x="550" y="322" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#D4B86A" letter-spacing="0.08em" opacity=".80">S6</text>
+  <rect x="518" y="325" width="64" height="13" rx="100" fill="none" stroke="rgba(244,244,242,.30)" stroke-width=".7"/>
+  <text x="550" y="334.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(244,244,242,.55)" letter-spacing="0.06em">MEDIUM</text>
+  <text x="550" y="347" text-anchor="middle" font-family="DM Mono,monospace" font-size="5.5" fill="rgba(201,168,76,.75)" letter-spacing="0.06em">UNIDIRECTIONAL</text>
+
+  <!-- EXPANDING RING PULSES -->
+  <circle cx="450" cy="135" r="62" fill="none" stroke="#C9A84C" stroke-width="1"><animate attributeName="r" values="62;124" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".28;0" dur="2.8s" repeatCount="indefinite"/></circle>
+  <circle cx="450" cy="135" r="62" fill="none" stroke="#C9A84C" stroke-width=".6"><animate attributeName="r" values="62;124" dur="2.8s" begin="1.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".15;0" dur="2.8s" begin="1.4s" repeatCount="indefinite"/></circle>
+  <circle cx="155" cy="315" r="62" fill="none" stroke="#5BA4CF" stroke-width="1"><animate attributeName="r" values="62;124" dur="2.8s" begin=".6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".28;0" dur="2.8s" begin=".6s" repeatCount="indefinite"/></circle>
+  <circle cx="745" cy="315" r="62" fill="none" stroke="#1A7A8A" stroke-width="1"><animate attributeName="r" values="62;124" dur="2.8s" begin="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".28;0" dur="2.8s" begin="1.2s" repeatCount="indefinite"/></circle>
+  <circle cx="250" cy="515" r="62" fill="none" stroke="#5F7C6C" stroke-width="1"><animate attributeName="r" values="62;124" dur="2.8s" begin="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".28;0" dur="2.8s" begin="1.8s" repeatCount="indefinite"/></circle>
+  <circle cx="650" cy="515" r="62" fill="none" stroke="#7B5EA7" stroke-width="1"><animate attributeName="r" values="62;124" dur="2.8s" begin="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".28;0" dur="2.8s" begin="2.4s" repeatCount="indefinite"/></circle>
+
+  <!-- Z3 SENTINEL EARLY WARNING (amber halo -- early endothelial signal) -->
+  <circle class="sentinel-ring" id="sentinel-z3" cx="650" cy="515" r="76" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-dasharray="8 5" opacity=".20"/>
+
+  <!-- ZONE CIRCLES -->
+  <!-- Z1 RED -->
+  <circle cx="450" cy="135" r="62" fill="rgba(201,168,76,.25)" class="zone-fill" data-zone="z1"/>
+  <circle cx="450" cy="135" r="52" fill="none" stroke="rgba(201,168,76,.20)" stroke-width=".7"/>
+  <circle cx="450" cy="135" r="56" fill="rgba(10,15,20,.55)"/>
+  <!-- Severity ring Z1 (78% for Mark, shown when Mark active) -->
+  <circle id="sev-z1" cx="450" cy="135" r="68" fill="none" stroke="#C9A84C" stroke-width="3" stroke-linecap="round"
+    stroke-dasharray="0 428" stroke-dashoffset="107" opacity="0" style="transition:all .8s ease;"/>
+  <circle class="ring-z1 zone-ring" cx="450" cy="135" r="62" fill="none" stroke="#C9A84C" stroke-width="2.5" data-zone="z1"/>
+  <text x="450" y="107" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#D4B86A" letter-spacing=".14em">Z1</text>
+  <text x="450" y="124" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Metabolic</text>
+  <text x="450" y="137" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Energy Axis</text>
+  <text x="450" y="150" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(201,168,76,.60)" letter-spacing=".04em">Adrenal · Thyroid</text>
+  <!-- DRIVER indicator + Breakpoint diamond on S1 -->
+  <circle cx="432" cy="165" r="3.5" fill="#D4B86A"/>
+  <text x="440" y="168" font-family="DM Mono,monospace" font-size="6" fill="#D4B86A" letter-spacing=".06em">DRD&#8482; DRIVER</text>
+
+  <!-- STACK BREAKPOINT DIAMOND on S1 removed (Correction 6) -->
+
+  <!-- Z5 SKY BLUE -->
+  <circle cx="155" cy="315" r="62" fill="rgba(91,164,207,.08)" class="zone-fill" data-zone="z5"/>
+  <circle cx="155" cy="315" r="52" fill="none" stroke="rgba(91,164,207,.20)" stroke-width=".7"/>
+  <circle cx="155" cy="315" r="56" fill="rgba(10,15,20,.55)"/>
+  <!-- Severity ring Z5 (38% for Mark) -->
+  <circle id="sev-z5" cx="155" cy="315" r="68" fill="none" stroke="#5BA4CF" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0 428" opacity="0" style="transition:all .8s ease;"/>
+  <circle class="ring-z5 zone-ring" cx="155" cy="315" r="62" fill="none" stroke="#5BA4CF" stroke-width="1.5" data-zone="z5"/>
+  <text x="155" y="287" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#7BB8D9" letter-spacing=".14em">Z5</text>
+  <text x="155" y="304" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Hormonal</text>
+  <text x="155" y="317" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Terrain Axis</text>
+  <text x="155" y="330" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(91,164,207,.60)" letter-spacing=".04em">Androgenic · Estrogenic</text>
+  <text x="155" y="348" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(91,164,207,.50)" letter-spacing=".06em">DRD&#8482; REACTOR</text>
+
+  <!-- Z2 TEAL -->
+  <circle cx="745" cy="315" r="62" fill="rgba(26,122,138,.08)" class="zone-fill" data-zone="z2"/>
+  <circle cx="745" cy="315" r="52" fill="none" stroke="rgba(26,122,138,.20)" stroke-width=".7"/>
+  <circle cx="745" cy="315" r="56" fill="rgba(10,15,20,.55)"/>
+  <circle class="ring-z2 zone-ring" cx="745" cy="315" r="62" fill="none" stroke="#1A7A8A" stroke-width="1.5" data-zone="z2"/>
+  <text x="745" y="287" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#2A9BAD" letter-spacing=".14em">Z2</text>
+  <text x="745" y="304" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Resilience</text>
+  <text x="745" y="317" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Network</text>
+  <text x="745" y="330" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(26,122,138,.60)" letter-spacing=".04em">Gut · Immune · Brain</text>
+  <text x="745" y="348" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(26,122,138,.50)" letter-spacing=".06em">DRD&#8482; REACTOR</text>
+
+  <!-- Z4 SAGE -->
+  <circle cx="250" cy="515" r="62" fill="rgba(95,124,108,.08)" class="zone-fill" data-zone="z4"/>
+  <circle cx="250" cy="515" r="52" fill="none" stroke="rgba(95,124,108,.20)" stroke-width=".7"/>
+  <circle cx="250" cy="515" r="56" fill="rgba(10,15,20,.55)"/>
+  <circle class="ring-z4 zone-ring" cx="250" cy="515" r="62" fill="none" stroke="#5F7C6C" stroke-width="1.5" data-zone="z4"/>
+  <text x="250" y="487" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#7A9485" letter-spacing=".14em">Z4</text>
+  <text x="250" y="504" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Detoxification</text>
+  <text x="250" y="517" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Trident</text>
+  <text x="250" y="530" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(95,124,108,.60)" letter-spacing=".04em">Hepatic · Lymphatic</text>
+  <circle cx="232" cy="545" r="3.5" fill="#7A9485"/>
+  <text x="240" y="548" font-family="DM Mono,monospace" font-size="6" fill="#7A9485" letter-spacing=".06em">DRD&#8482; DRIVER</text>
+
+  <!-- Z3 PURPLE -->
+  <circle cx="650" cy="515" r="62" fill="rgba(123,94,167,.08)" class="zone-fill" data-zone="z3"/>
+  <circle cx="650" cy="515" r="52" fill="none" stroke="rgba(123,94,167,.20)" stroke-width=".7"/>
+  <circle cx="650" cy="515" r="56" fill="rgba(10,15,20,.55)"/>
+  <!-- Severity ring Z3 (12% early signal for Mark) -->
+  <circle id="sev-z3" cx="650" cy="515" r="68" fill="none" stroke="#7B5EA7" stroke-width="2" stroke-linecap="round" stroke-dasharray="0 428" opacity="0" style="transition:all .8s ease;"/>
+  <circle class="ring-z3 zone-ring" cx="650" cy="515" r="62" fill="none" stroke="#7B5EA7" stroke-width="1.5" data-zone="z3"/>
+  <text x="650" y="487" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#9B7EC8" letter-spacing=".14em">Z3</text>
+  <text x="650" y="504" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Cardiovascular</text>
+  <text x="650" y="517" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11.5" font-style="italic" fill="#F4F4F2">Neural Axis</text>
+  <text x="650" y="530" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(123,94,167,.60)" letter-spacing=".04em">Cardiac · Pulmonary</text>
+  <text x="650" y="548" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(123,94,167,.50)" letter-spacing=".06em">DRD&#8482; REACTOR</text>
+
+  <!-- INVISIBLE HIT AREAS (zones) -->
+  <circle cx="450" cy="135" r="62" fill="transparent" class="zone-hit" data-zone="z1" style="cursor:pointer" tabindex="0" role="button" aria-label="Z1 Metabolic Energy Axis: click to explore"/>
+  <circle cx="155" cy="315" r="62" fill="transparent" class="zone-hit" data-zone="z5" style="cursor:pointer" tabindex="0" role="button" aria-label="Z5 Hormonal Terrain Axis: click to explore"/>
+  <circle cx="745" cy="315" r="62" fill="transparent" class="zone-hit" data-zone="z2" style="cursor:pointer" tabindex="0" role="button" aria-label="Z2 Resilience Network: click to explore"/>
+  <circle cx="250" cy="515" r="62" fill="transparent" class="zone-hit" data-zone="z4" style="cursor:pointer" tabindex="0" role="button" aria-label="Z4 Detoxification Trident: click to explore"/>
+  <circle cx="650" cy="515" r="62" fill="transparent" class="zone-hit" data-zone="z3" style="cursor:pointer" tabindex="0" role="button" aria-label="Z3 Cardiovascular-Neural Axis: click to explore"/>
+  <!-- INVISIBLE HIT AREAS (stacks) -->
+  <line x1="692" y1="283" x2="510" y2="172" stroke="transparent" stroke-width="18" class="stack-hit" data-stack="S1" style="cursor:pointer" tabindex="0" role="button" aria-label="S1: Gut-Immune to Thyroid stack"/>
+  <line x1="397" y1="167" x2="215" y2="279" stroke="transparent" stroke-width="18" class="stack-hit" data-stack="S2" style="cursor:pointer" tabindex="0" role="button" aria-label="S2: Stress-Hormone Cascade stack"/>
+  <line x1="280" y1="458" x2="416" y2="199" stroke="transparent" stroke-width="18" class="stack-hit" data-stack="S3" style="cursor:pointer" tabindex="0" role="button" aria-label="S3: Toxic Load to Metabolic stack"/>
+  <line x1="219" y1="315" x2="675" y2="315" stroke="transparent" stroke-width="18" class="stack-hit" data-stack="S4" style="cursor:pointer" tabindex="0" role="button" aria-label="S4: Hormonal-Gut Axis stack"/>
+  <line x1="718" y1="371" x2="680" y2="452" stroke="transparent" stroke-width="18" class="stack-hit" data-stack="S5" style="cursor:pointer" tabindex="0" role="button" aria-label="S5: Gut-Cardiac Axis stack"/>
+  <line x1="479" y1="190" x2="617" y2="453" stroke="transparent" stroke-width="18" class="stack-hit" data-stack="S6" style="cursor:pointer" tabindex="0" role="button" aria-label="S6: Metabolic-Cardiac Axis (UNIDIRECTIONAL)"/>
+
+  <!-- DIAGRAM KEY -->
+  <rect x="20" y="456" width="168" height="148" rx="6" fill="rgba(13,43,78,.72)" stroke="rgba(244,244,242,.08)" stroke-width="1"/>
+  <text x="32" y="474" font-family="DM Mono,monospace" font-size="8" font-weight="500" fill="#C9A84C" letter-spacing=".12em">CASCADEATLAS&#8482;</text>
+  <text x="32" y="484" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(244,244,242,.35)" letter-spacing=".06em">VitalMatrix&#8482; Clinical Architecture</text>
+  <line x1="32" y1="497" x2="58" y2="497" stroke="rgba(244,244,242,.55)" stroke-width="1.2"/><polygon points="58,493 65,497 58,501" fill="rgba(244,244,242,.75)"/>
+  <text x="72" y="500" font-family="DM Mono,monospace" font-size="7" fill="rgba(244,244,242,.60)">Directional stack</text>
+  <line x1="32" y1="513" x2="65" y2="513" stroke="url(#tl-grad)" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <text x="72" y="516" font-family="DM Mono,monospace" font-size="7" fill="rgba(244,244,242,.60)">TerrainLock&#8482; loop</text>
+  <line x1="32" y1="529" x2="65" y2="529" stroke="rgba(244,244,242,.35)" stroke-width="1" stroke-dasharray="3 6"/>
+  <text x="72" y="532" font-family="DM Mono,monospace" font-size="7" fill="rgba(244,244,242,.60)">COHERENCE&#8482; arc</text>
+  <circle cx="38" cy="545" r="3.5" fill="#D4B86A"/>
+  <text x="48" y="548" font-family="DM Mono,monospace" font-size="7" fill="rgba(244,244,242,.60)">DRIVER zone</text>
+  <circle cx="38" cy="559" r="3.5" fill="none" stroke="rgba(244,244,242,.50)" stroke-width="1"/>
+  <text x="48" y="562" font-family="DM Mono,monospace" font-size="7" fill="rgba(244,244,242,.60)">REACTOR zone</text>
+  <rect x="32" y="571" width="42" height="11" rx="100" fill="none" stroke="rgba(201,168,76,.60)" stroke-width=".7"/>
+  <text x="53" y="579.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="#C9A84C">FAST</text>
+  <rect x="80" y="571" width="50" height="11" rx="100" fill="none" stroke="rgba(244,244,242,.30)" stroke-width=".7"/>
+  <text x="105" y="579.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(244,244,242,.55)">MEDIUM</text>
+  <rect x="136" y="571" width="42" height="11" rx="100" fill="none" stroke="rgba(244,244,242,.18)" stroke-width=".7"/>
+  <text x="157" y="579.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(244,244,242,.35)">SLOW</text>
+  <text x="104" y="597" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(244,244,242,.28)" letter-spacing=".08em">KINETICS&#8482; velocity</text>
+</svg>
+</div>
+
+<!-- ── FLOATING TOOLTIP ── -->
+<div class="tt" id="tooltip" role="tooltip">
+  <div class="tt-title" id="tt-title"></div>
+  <div id="tt-body"></div>
+</div>
+
+<!-- ── PATTERN TABLE ── -->
+<div class="table-wrap">
+  <p class="section-label">CascadeAtlas&#8482; Stack Pattern Reference</p>
+  <table aria-label="Cascade stack patterns">
+    <thead>
+      <tr>
+        <th>Pattern</th><th>Driver Zone</th><th>Reactor Zone(s)</th>
+        <th>KINETICS&#8482;</th><th>Evidence</th><th>FLINT&#8482;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="sid">S1</span> &nbsp;Gut-Immune to Thyroid</td>
+        <td><span class="z-chip" style="background:rgba(26,122,138,.10);border:1px solid rgba(26,122,138,.28);color:#2A9BAD">Z2 Resilience</span></td>
+        <td><span class="z-chip" style="background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.28);color:#D4B86A">Z1 Metabolic</span></td>
+        <td><span class="vel-badge medium">MEDIUM</span></td>
+        <td><span class="vel-badge" style="border:1px solid rgba(93,216,143,.3);color:#5DD88F;font-size:7px;">Mech. Established, Cascade Emerging</span></td>
+        <td><span class="flint-tag">L3</span></td>
+      </tr>
+      <tr>
+        <td><span class="sid">S2</span> &nbsp;Stress-Hormone Cascade</td>
+        <td><span class="z-chip" style="background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.28);color:#D4B86A">Z1 Metabolic</span></td>
+        <td><span class="z-chip" style="background:rgba(91,164,207,.10);border:1px solid rgba(91,164,207,.28);color:#7BB8D9">Z5 Hormonal</span></td>
+        <td><span class="vel-badge fast">FAST</span></td>
+        <td><span class="vel-badge" style="border:1px solid rgba(93,216,143,.3);color:#5DD88F;">Established</span></td>
+        <td><span class="flint-tag">L3</span></td>
+      </tr>
+      <tr>
+        <td><span class="sid">S3</span> &nbsp;Toxic Load to Metabolic</td>
+        <td><span class="z-chip" style="background:rgba(95,124,108,.10);border:1px solid rgba(95,124,108,.28);color:#7A9485">Z4 Detoxification</span></td>
+        <td><span class="z-chip" style="background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.28);color:#D4B86A">Z1 Metabolic</span></td>
+        <td><span class="vel-badge slow">SLOW</span></td>
+        <td><span class="vel-badge" style="border:1px solid rgba(42,155,173,.3);color:#2A9BAD;">Emerging</span></td>
+        <td><span class="flint-tag">L3</span></td>
+      </tr>
+      <tr>
+        <td><span class="sid">S4</span> &nbsp;Hormonal-Gut Axis</td>
+        <td><span class="z-chip" style="background:rgba(91,164,207,.10);border:1px solid rgba(91,164,207,.28);color:#7BB8D9">Z5 Hormonal</span></td>
+        <td><span class="z-chip" style="background:rgba(26,122,138,.10);border:1px solid rgba(26,122,138,.28);color:#2A9BAD">Z2 Resilience</span></td>
+        <td><span class="vel-badge medium">MEDIUM</span></td>
+        <td><span class="vel-badge" style="border:1px solid rgba(123,94,167,.3);color:#9B7EC8;">Theoretical</span></td>
+        <td><span class="flint-tag">L3</span></td>
+      </tr>
+      <tr>
+        <td><span class="sid">S5</span> &nbsp;Gut-Cardiac Axis</td>
+        <td><span class="z-chip" style="background:rgba(26,122,138,.10);border:1px solid rgba(26,122,138,.28);color:#2A9BAD">Z2 Resilience</span></td>
+        <td><span class="z-chip" style="background:rgba(123,94,167,.10);border:1px solid rgba(123,94,167,.28);color:#9B7EC8">Z3 Cardiovascular</span></td>
+        <td><span class="vel-badge fast">FAST</span></td>
+        <td><span class="vel-badge" style="border:1px solid rgba(42,155,173,.3);color:#2A9BAD;">Emerging</span></td>
+        <td><span class="flint-tag">L3</span></td>
+      </tr>
+      <tr>
+        <td><span class="sid">S6</span> &nbsp;Metabolic-Cardiac Axis</td>
+        <td><span class="z-chip" style="background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.28);color:#D4B86A">Z1 Metabolic</span></td>
+        <td><span class="z-chip" style="background:rgba(123,94,167,.10);border:1px solid rgba(123,94,167,.28);color:#9B7EC8">Z3 Cardiovascular</span></td>
+        <td><span class="vel-badge medium">MEDIUM</span></td>
+        <td><span class="vel-badge" style="border:1px solid rgba(93,216,143,.3);color:#5DD88F;">Established</span></td>
+        <td><span class="flint-tag">L3 UNIDIRECTIONAL</span></td>
+      </tr>
+      <tr>
+        <td><span class="sid" style="color:#C9A84C">TerrainLock&#8482;</span> &nbsp;Self-perpetuating loop</td>
+        <td><span class="z-chip" style="background:rgba(26,122,138,.10);border:1px solid rgba(26,122,138,.28);color:#2A9BAD">Z2</span> <span class="z-chip" style="background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.28);color:#D4B86A">Z1</span> <span class="z-chip" style="background:rgba(91,164,207,.10);border:1px solid rgba(91,164,207,.28);color:#7BB8D9">Z5</span></td>
+        <td style="color:rgba(244,244,242,.40);font-size:8px;">See diagram</td>
+        <td style="color:rgba(244,244,242,.30);font-size:8px;">S1 + S2 + S4</td>
+        <td></td>
+        <td><span class="flint-tag">L3</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── LEAD CAPTURE ── -->
+<div class="lead-section" id="lead-section">
+  <div>
+    <h3>CascadeAtlas&#8482; Clinical Field Guide</h3>
+    <p>Download the practitioner reference: all five zone profiles, six stack mechanisms, TerrainLock&#8482; recognition criteria, and APEX&#8482; (Assessment Priority and Evidence Xray) investigation priorities.</p>
+  </div>
+  <div class="lead-form" role="form" aria-label="Field guide download form">
+    <input class="lead-input" type="text" id="lead-name" placeholder="Name" aria-label="Name"/>
+    <input class="lead-input" type="email" id="lead-email" placeholder="Email address" aria-label="Email address"/>
+    <input class="lead-input" type="text" id="lead-practice" placeholder="Practice name" aria-label="Practice name"/>
+    <button class="lead-submit" onclick="submitLead()">Send Me the Guide</button>
+    <p class="lead-thanks" id="lead-thanks">Thank you. The Clinical Field Guide is on its way.</p>
+    <p style="font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:4px;">Practitioner use only. ICO ZC101813. Unsubscribe anytime.</p>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="page-footer" role="contentinfo">
+  <p><strong>Trademarks:</strong> VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p style="margin-top:8px;">VitalMatrix&#8482; is a clinical intelligence platform. Practitioner reference only. Does not diagnose, prescribe, or replace clinical judgement. MHRA SaMD self-assessment not yet commenced. All clinical decisions remain with the registered practitioner. &#183; ICO: ZC101813 &#183; Dr Shahzad Faisal, MBBS, FAAMFM &#183; &#169; 2026 VitalMatrix Ltd &#183; Confidential</p>
+</footer>
+
+</main>
+
+<!-- ── INTELLIGENCE PANEL ── -->
+<aside class="intel-panel" id="intel-panel" role="complementary" aria-label="Intelligence Panel">
+  <div class="panel-drag" id="panel-drag" onclick="togglePanel()" aria-label="Toggle panel"></div>
+  <div class="panel-accent" id="panel-accent"></div>
+  <div class="panel-header">
+    <p class="panel-eyebrow">CascadeIQ&#8482; Intelligence Panel</p>
+    <div class="panel-title" id="panel-title">Architecture Summary</div>
+  </div>
+  <div class="panel-body" id="panel-body">
+    <!-- Default state renders here -->
+  </div>
+</aside>
+
+</div><!-- end page-body -->
+
+<script>
+'use strict';
+
+/* ================================================================
+   DATA LAYER
+================================================================ */
+var ZONES = {
+  z1:{
+    name:'Z1 Metabolic Energy Axis', systems:'Adrenal · Thyroid · Pancreatic',
+    drd:'DRIVER', stacks:['S1','S2','S3','S6'], col:'#D4B86A', hex:'#C9A84C',
+    nodes:[
+      {code:'N6',name:'(endocrine signalling)',sys:'Adrenal (HPA axis, cortisol regulation)'},
+      {code:'N3',name:'Energy',sys:'Thyroid (metabolic rate, T3/T4 conversion)'},
+      {code:'N3',name:'Energy',sys:'Pancreatic (insulin signalling, glucose regulation)'}
+    ],
+    biomarkers:[
+      '4-point diurnal cortisol (adrenal function)',
+      'Full thyroid panel incl. rT3 (thyroid conversion)',
+      'Fasting insulin + HOMA-IR (pancreatic burden)',
+      'DHEA-S (adrenal reserve)'
+    ],
+    insight:'Z1 is the most common primary driver in executive presentations. The triad of cortisol, thyroid, and insulin dysregulation presents as fatigue, weight gain, and declining libido.',
+    missed:'Fasting insulin above 8 mIU/L with normal fasting glucose. Z1 pancreatic signal that precedes metabolic dysfunction by 5 to 15 years. Functional optimal: below 8.'
+  },
+  z2:{
+    name:'Z2 Resilience Network', systems:'Gut · Immune · Brain',
+    drd:'REACTOR', stacks:['S1','S4','S5'], col:'#2A9BAD', hex:'#1A7A8A',
+    nodes:[
+      {code:'N1',name:'Assimilation',sys:'Gut (microbiome, permeability, absorption)'},
+      {code:'N2',name:'Defence and Repair',sys:'Immune (mucosal immunity, systemic inflammation)'},
+      {code:'N6',name:'(endocrine signalling)',sys:'Brain (neuroinflammation, blood-brain barrier)'}
+    ],
+    biomarkers:[
+      'Secretory IgA (mucosal immunity)',
+      'Zonulin (gut permeability)',
+      'Calprotectin (gut inflammation)',
+      'LPS antibodies (endotoxin translocation)'
+    ],
+    insight:'Z2 is the most common indirect driver. It rarely presents as the primary complaint but initiates cascades that surface as Z1 metabolic or Z3 cardiovascular symptoms downstream.',
+    missed:'Zonulin elevation with normal calprotectin. Gut permeability without active inflammation. The barrier is failing silently.'
+  },
+  z3:{
+    name:'Z3 Cardiovascular-Neural Axis', systems:'Cardiac · Pulmonary · Neurovascular',
+    drd:'REACTOR', stacks:['S5','S6'], col:'#9B7EC8', hex:'#7B5EA7',
+    nodes:[
+      {code:'N5',name:'Transport',sys:'Cardiac (endothelial function, vascular tone)'},
+      {code:'N5',name:'Transport',sys:'Pulmonary (oxygenation, autonomic regulation)'},
+      {code:'N6',name:'(endocrine signalling)',sys:'Neurovascular (cerebral perfusion, neural delivery)'}
+    ],
+    biomarkers:[
+      'hs-CRP (systemic inflammation marker)',
+      'Homocysteine (endothelial risk)',
+      'Lp(a) (vascular burden)',
+      'HRV (autonomic coherence)'
+    ],
+    insight:'Z3 is almost always the last zone to activate and the first zone conventional medicine detects. ED, palpitations, and hypertension are often the first presentation despite being the furthest downstream signal.',
+    missed:'HRV suppression below 20ms SDNN in an otherwise fit executive. The autonomic signal connecting Z3 to the COHERENCE detection system. An early warning before biomarkers flag.'
+  },
+  z4:{
+    name:'Z4 Detoxification Trident', systems:'Hepatic · Lymphatic · Renal',
+    drd:'DRIVER', stacks:['S3'], col:'#7A9485', hex:'#5F7C6C',
+    nodes:[
+      {code:'N4',name:'Biotransformation',sys:'Hepatic (Phase 1/2 biotransformation, methylation)'},
+      {code:'N2',name:'Defence and Repair',sys:'Lymphatic (drainage, immune transport)'},
+      {code:'N4',name:'Biotransformation',sys:'Renal (filtration, mineral conservation)'}
+    ],
+    biomarkers:[
+      'GGT (hepatic Phase 2 burden)',
+      'Glutathione ratio reduced/oxidised (antioxidant reserve)',
+      'Pyroglutamic acid (glutathione depletion marker)',
+      'Urinary porphyrins (toxic accumulation)'
+    ],
+    insight:'Z4 is the silent driver. One cascade connection (S3 to Z1) but that connection is SLOW, operating for years before Z1 symptoms surface. Patients with environmental exposure history should be screened for Z4 even when Z1 is the presenting zone.',
+    missed:'GGT between 25 and 40 U/L. Within laboratory reference range. Above functional optimal. Phase 2 conjugation is under strain before conventional markers flag it.'
+  },
+  z5:{
+    name:'Z5 Hormonal Terrain Axis', systems:'Androgenic · Estrogenic · Progestogenic',
+    drd:'REACTOR', stacks:['S2','S4'], col:'#7BB8D9', hex:'#5BA4CF',
+    nodes:[
+      {code:'N6',name:'(endocrine signalling)',sys:'Androgenic (testosterone, DHT, androgen signalling)'},
+      {code:'N4',name:'Biotransformation',sys:'Estrogenic (oestradiol, oestrone, aromatisation)'},
+      {code:'N3',name:'Energy',sys:'Progestogenic (progesterone, pregnenolone, adrenal reserve)'}
+    ],
+    biomarkers:[
+      'Total and free testosterone + SHBG',
+      'Oestradiol and DHT',
+      'Pregnenolone (upstream precursor)',
+      'LH/FSH (pituitary signal)'
+    ],
+    insight:'Z5 is almost always a reactor, not a driver. Treating Z5 directly (testosterone replacement) before confirming Z1 driver status produces 6 to 18 months improvement followed by plateau and relapse. The most common sequencing error in functional medicine practice.',
+    missed:'SHBG below 25 nmol/L in males. Insulin-driven (Z1 mechanism). Treating as a Z5 problem misses the Z1 driver entirely.'
+  }
+};
+
+var STACKS = {
+  S1:{
+    name:'S1: Gut-Immune to Thyroid',
+    driver:'Z2 Resilience Network', reactor:'Z1 Metabolic Energy Axis',
+    vel:'MEDIUM', evidence:'Mechanism Established, Cascade Emerging',
+    mechanism:'Gut inflammation impairs thyroid conversion (T4 to T3) via inflammatory cytokine suppression of deiodinase activity. Gut permeability increases LPS translocation, driving hepatic acute-phase response that competes with thyroid hormone binding. Gut dysbiosis impairs insulin sensitivity via short-chain fatty acid disruption.',
+    consequence:'Treating thyroid (Z1) without addressing gut (Z2) produces dose-dependent thyroid support that escalates over time. The upstream inflammation keeps suppressing conversion.',
+    sequencing:'Z2 gut restoration first. Z1 thyroid reassess at week 8 to 12.',
+    zones:['z1','z2']
+  },
+  S2:{
+    name:'S2: Stress-Hormone Cascade',
+    driver:'Z1 Metabolic Energy Axis', reactor:'Z5 Hormonal Terrain Axis',
+    vel:'FAST', evidence:'Established',
+    mechanism:'Chronic HPA axis activation elevates cortisol, suppressing GnRH pulsatility at the hypothalamic level. Reduced gonadotrophin signalling decreases testosterone production. Simultaneously, insulin resistance reduces SHBG, increasing free oestradiol via aromatisation.',
+    consequence:'Treating Z5 (testosterone replacement) before Z1 (metabolic axis correction) produces 6 to 18 months symptomatic improvement followed by plateau and return of symptoms. The driver remains active.',
+    sequencing:'Z1 first. Z5 reassess at week 12. No Z5 intervention unless Z5 fails to respond to Z1 correction by week 16.',
+    zones:['z1','z5']
+  },
+  S3:{
+    name:'S3: Toxic Load to Metabolic',
+    driver:'Z4 Detoxification Trident', reactor:'Z1 Metabolic Energy Axis',
+    vel:'SLOW', evidence:'Emerging',
+    mechanism:'Toxic burden impairs mitochondrial electron transport chain function, reducing cellular ATP production across Z1 systems. Hepatic Phase 2 conjugation overload diverts cofactors (glutathione, glycine, taurine) from metabolic functions. Accumulation is gradual (years, not weeks).',
+    consequence:'Z1 metabolic symptoms appear idiopathic because the Z4 driver operated silently for years. Conventional metabolic workup finds no cause. The toxic exposure history is the missing timeline entry.',
+    sequencing:'Z4 detoxification support first. Z1 metabolic support concurrent. Slow resolution expected: months, not weeks.',
+    zones:['z1','z4']
+  },
+  S4:{
+    name:'S4: Hormonal-Gut Axis',
+    driver:'Z5 Hormonal Terrain Axis', reactor:'Z2 Resilience Network',
+    vel:'MEDIUM', evidence:'Theoretical',
+    mechanism:'Hormonal imbalance disrupts gut barrier integrity via beta-glucuronidase activity and oestrogen recirculation through the enterohepatic pathway. Progesterone decline reduces gut motility and mucosal immune regulation.',
+    consequence:'Gut symptoms that do not respond to gut-focused treatment may have a Z5 hormonal driver, particularly in perimenopausal presentations.',
+    sequencing:'Screen for Z5 hormonal involvement in treatment-resistant gut cases. If confirmed, hormonal support concurrent with gut restoration.',
+    zones:['z2','z5']
+  },
+  S5:{
+    name:'S5: Gut-Cardiac Axis',
+    driver:'Z2 Resilience Network', reactor:'Z3 Cardiovascular-Neural Axis',
+    vel:'FAST', evidence:'Emerging',
+    mechanism:'Gut-driven systemic inflammation (LPS translocation, inflammatory cytokine cascade) directly impairs endothelial function. hs-CRP elevation reflects the gut-cardiovascular axis. TMAO from gut microbial metabolism promotes atherosclerotic plaque formation.',
+    consequence:'Cardiovascular risk assessed without gut evaluation misses the upstream inflammatory driver. Addressing the downstream marker without resolving the upstream mechanism does not break the cascade.',
+    sequencing:'Z2 gut investigation in all Z3 cardiovascular presentations. hs-CRP as a bridge marker between Z2 and Z3.',
+    zones:['z2','z3']
+  },
+  S6:{
+    name:'S6: Metabolic-Cardiac Axis',
+    driver:'Z1 Metabolic Energy Axis', reactor:'Z3 Cardiovascular-Neural Axis',
+    vel:'MEDIUM', evidence:'Established', unidirectional:true,
+    mechanism:'Insulin resistance drives endothelial dysfunction, promotes oxidative stress in vascular endothelium, and increases sympathetic nervous system activation. Cortisol elevation promotes sodium retention and vascular stiffness. The metabolic-cardiovascular axis is the most extensively documented cascade in conventional cardiology.',
+    consequence:'ED in the context of Z1 metabolic findings is an early Z3 endothelial signal, not just a Z5 hormonal signal. ED precedes cardiovascular events by 3 to 5 years on average.',
+    sequencing:'In male patients with ED and metabolic findings, investigate Z3 endothelial markers alongside Z1 metabolic markers. Do not assume ED is purely hormonal.',
+    zones:['z1','z3']
+  }
+};
+
+/* ================================================================
+   PANEL RENDERING
+================================================================ */
+var panelState = 'default';
+var markActive = false;
+var tlActive = false;
+
+function setPanel(state, accentCol) {
+  panelState = state;
+  var accent = document.getElementById('panel-accent');
+  if(accent) accent.style.background = accentCol || '#C9A84C';
+}
+
+function renderDefaultPanel() {
+  setPanel('default','#C9A84C');
+  document.getElementById('panel-title').textContent = 'Architecture Summary';
+  document.getElementById('panel-body').innerHTML =
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">FLINT&#8482; Layer 3: CascadeIQ&#8482;</p>' +
+      '<div class="arch-stat-grid">' +
+        '<div class="arch-stat"><div class="arch-stat-n" style="color:#C9A84C">5</div><div class="arch-stat-l">NCZ Zones</div></div>' +
+        '<div class="arch-stat"><div class="arch-stat-n" style="color:#1A7A8A">6</div><div class="arch-stat-l">Cascade Stacks</div></div>' +
+        '<div class="arch-stat"><div class="arch-stat-n" style="color:#D4B86A">2</div><div class="arch-stat-l">Driver Zones</div></div>' +
+        '<div class="arch-stat"><div class="arch-stat-n" style="color:#9B7EC8">3</div><div class="arch-stat-l">Reactor Zones</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Clinical Reading Path</p>' +
+      '<div class="reading-step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Identify Active Zones</div><div class="step-desc">Which zones are lit? One active zone is a finding. Two or more is a pattern.</div></div></div>' +
+      '<div class="reading-step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Check DRD&#8482; Designation</div><div class="step-desc">Gold filled circle = DRIVER. Hollow circle = REACTOR. Treatment starts at the driver.</div></div></div>' +
+      '<div class="reading-step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Read Cascade Direction</div><div class="step-desc">Follow arrows from driver to reactor. Check KINETICS&#8482; velocity: FAST = weeks, MEDIUM = months, SLOW = years.</div></div></div>' +
+      '<div class="reading-step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Check TerrainLock&#8482; Status</div><div class="step-desc">Z2 + Z1 + Z5 all active = self-perpetuating loop. Single-zone treatment will plateau.</div></div></div>' +
+      '<div class="reading-step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Plan Investigation Sequence</div><div class="step-desc">Driver-confirming tests first. Reactor tests deferred until driver improvement is confirmed.</div></div></div>' +
+      '<div class="reading-step"><div class="step-num">6</div><div class="step-content"><div class="step-title">Track the Timeline</div><div class="step-desc">Longer dysfunction = deeper entrenchment. Treatment timelines extend proportionally.</div></div></div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Use the Panel</p>' +
+      '<p class="panel-text">Click any zone circle or stack arrow to load its clinical profile. Toggle <strong>Mark\'s Case</strong> to see a composite case architecture. Toggle <strong>TerrainLock&#8482;</strong> to watch the self-perpetuating loop animate.</p>' +
+    '</div>';
+}
+
+function renderZonePanel(zid) {
+  var z = ZONES[zid];
+  if(!z) return;
+  setPanel('zone', z.hex);
+  document.getElementById('panel-title').textContent = z.name;
+  var html = '';
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">DRD&#8482; Designation</p>';
+  html += '<div class="badge-row">';
+  if(z.drd==='DRIVER') {
+    html += '<span class="badge badge-gold">DRIVER</span>';
+  } else {
+    html += '<span class="badge badge-teal">REACTOR</span>';
+  }
+  html += '<span class="badge" style="border-color:rgba(244,244,242,.1);color:rgba(244,244,242,.4)">FLINT&#8482; L2</span>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Component Systems</p>';
+  z.nodes.forEach(function(n, i) {
+    html += '<div class="panel-stat-row"><span class="psr-label">'+n.sys+'</span><span class="psr-val" style="color:'+z.col+'">'+n.code+'</span></div>';
+  });
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Connected Stacks</p>';
+  html += '<div class="panel-stat-row"><span class="psr-label">Active cascade connections</span><span class="psr-val">'+z.stacks.length+' stacks</span></div>';
+  z.stacks.forEach(function(sid) {
+    var s = STACKS[sid];
+    if(s) {
+      html += '<div class="panel-stat-row"><span class="psr-label">'+sid+': '+s.vel+'</span><span class="psr-val" style="font-size:9px;color:rgba(244,244,242,.35)">'+s.driver.split(' ')[0]+' '+s.driver.split(' ')[1]+' to '+s.reactor.split(' ')[0]+' '+s.reactor.split(' ')[1]+'</span></div>';
+    }
+  });
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Key Biomarkers</p>';
+  z.biomarkers.forEach(function(b) {
+    html += '<div class="panel-biomarker">'+b+'</div>';
+  });
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Clinical Insight</p>';
+  html += '<div class="insight-box">'+z.insight+'</div>';
+  html += '<div class="missed-box"><strong>Most commonly missed</strong>'+z.missed+'</div>';
+  html += '</div>';
+
+  document.getElementById('panel-body').innerHTML = html;
+}
+
+function renderStackPanel(sid) {
+  var s = STACKS[sid];
+  if(!s) return;
+  var driverZone = ZONES[s.zones[0]];
+  var accentCol = driverZone ? driverZone.hex : '#C9A84C';
+  setPanel('stack', accentCol);
+  document.getElementById('panel-title').textContent = s.name;
+  var html = '';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Stack Architecture</p>';
+  html += '<div class="panel-stat-row"><span class="psr-label">Direction</span><span class="psr-val">'+s.driver+' to '+s.reactor+'</span></div>';
+  html += '<div class="panel-stat-row"><span class="psr-label">KINETICS&#8482; Velocity</span><span class="psr-val">'+s.vel+'</span></div>';
+  html += '<div class="panel-stat-row"><span class="psr-label">Evidence Tier</span><span class="psr-val">'+s.evidence+'</span></div>';
+  if(s.unidirectional) {
+    html += '<div class="panel-stat-row"><span class="psr-label">Direction Rule</span><span class="psr-val" style="color:#D4B86A">UNIDIRECTIONAL</span></div>';
+  }
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Mechanism</p>';
+  html += '<div class="insight-box">'+s.mechanism+'</div>';
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Clinical Consequence</p>';
+  html += '<div class="insight-box teal-accent">'+s.consequence+'</div>';
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Sequencing Rule</p>';
+  html += '<div class="sequencing-box"><strong>Treatment sequence</strong>'+s.sequencing+'</div>';
+  html += '</div>';
+
+  html += '<div class="panel-section">';
+  html += '<p class="panel-section-label">Individual Results Vary</p>';
+  html += '<p class="panel-text">All clinical designations require practitioner review. Evidence tiers indicate population-level research direction. Individual patient presentations may differ. VitalMatrix&#8482; is a clinical intelligence platform. It does not replace clinical judgement.</p>';
+  html += '</div>';
+
+  document.getElementById('panel-body').innerHTML = html;
+}
+
+function renderTerrainLockPanel() {
+  setPanel('terrainlock','#C9A84C');
+  document.getElementById('panel-title').textContent = 'TerrainLock&#8482;: Self-Perpetuating Loop';
+  document.getElementById('panel-body').innerHTML =
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Loop Status: ACTIVE (3 Zones, 3 Stacks)</p>' +
+      '<div class="tl-loop-diagram">' +
+        '<span class="tl-zone-chip" style="background:rgba(26,122,138,.15);border:1px solid rgba(26,122,138,.3);color:#2A9BAD">Z2 Resilience</span>' +
+        '<span class="tl-arrow">&#8594; S1 &#8594;</span>' +
+        '<span class="tl-zone-chip" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#D4B86A">Z1 Metabolic</span>' +
+        '<span class="tl-arrow">&#8594; S2 &#8594;</span>' +
+        '<span class="tl-zone-chip" style="background:rgba(91,164,207,.15);border:1px solid rgba(91,164,207,.3);color:#7BB8D9">Z5 Hormonal</span>' +
+        '<span class="tl-arrow">&#8594; S4 &#8594;</span>' +
+        '<span class="tl-zone-chip" style="background:rgba(26,122,138,.15);border:1px solid rgba(26,122,138,.3);color:#2A9BAD">Z2</span>' +
+        '<div class="tl-label">Loop closes. Self-perpetuating.</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Why It Self-Perpetuates</p>' +
+      '<div class="panel-stat-row"><span class="psr-label">Z2 to Z1 (S1)</span><span class="psr-val" style="font-size:9px;">Gut inflammation impairs thyroid and insulin function</span></div>' +
+      '<div class="panel-stat-row"><span class="psr-label">Z1 to Z5 (S2)</span><span class="psr-val" style="font-size:9px;">Metabolic stress suppresses sex hormones</span></div>' +
+      '<div class="panel-stat-row"><span class="psr-label">Z5 to Z2 (S4)</span><span class="psr-val" style="font-size:9px;">Hormonal imbalance disrupts gut barrier integrity</span></div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Clinical Recognition</p>' +
+      '<div class="insight-box">Patient improves initially (single zone treatment). Plateau at 70 to 80% improvement. Relapse when treatment intensity is reduced. Multiple failed protocols in history. Practitioner frustration: "nothing sticks."</div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Resolution Requires</p>' +
+      '<div class="sequencing-box"><strong>Multi-Zone Protocol</strong>Cannot treat one zone and expect the loop to break. Minimum: Z2 gut restoration and Z1 metabolic support simultaneously. The loop breaks when two zones improve concurrently, removing the reinforcing signal from the third.</div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Detection Criteria</p>' +
+      '<div class="panel-biomarker">Z1, Z2, Z5 simultaneously active</div>' +
+      '<div class="panel-biomarker">S1, S2, S4 all firing concurrently</div>' +
+      '<div class="panel-biomarker">Plateau pattern after initial improvement</div>' +
+      '<div class="panel-biomarker">COHERENCE&#8482; HRV remains dysregulated despite individual zone improvements</div>' +
+    '</div>';
+}
+
+function renderMarkPanel() {
+  setPanel('mark','#C9A84C');
+  document.getElementById('panel-title').textContent = 'Mark\'s Case';
+  document.getElementById('panel-body').innerHTML =
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Composite Fictional Case</p>' +
+      '<div class="insight-box" style="border-left-color:#D4B86A">Mark, 49, London. Managing Director. Fatigue (18 months). ED (12 months). Weight gain (24 months). All designations require practitioner review. Composite case for illustrative purposes only.</div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">FLINT&#8482; Five-Layer Trace</p>' +
+      '<div class="mark-flint-row"><div class="mark-layer-badge">L1</div><div class="mark-layer-text">Node Intelligence: (endocrine signalling) node elevated (ED, low testosterone). Energy node burdened (fatigue, afternoon crashes, weight gain).</div></div>' +
+      '<div class="mark-flint-row"><div class="mark-layer-badge">L2</div><div class="mark-layer-text">Zone Designation: Z1 Metabolic Energy Axis ACTIVE. Z5 Hormonal Terrain Axis ACTIVE. Z3 Cardiovascular-Neural: early monitoring signal.</div></div>' +
+      '<div class="mark-flint-row"><div class="mark-layer-badge">L3</div><div class="mark-layer-text">CascadeIQ&#8482;: S2 active (Z1 to Z5, FAST, Established). S6 early signal (Z1 to Z3, MEDIUM, UNIDIRECTIONAL: Z1 to Z3 only).</div></div>' +
+      '<div class="mark-flint-row"><div class="mark-layer-badge">L4</div><div class="mark-layer-text">DRD&#8482;: Z1 designated DRIVER (timeline, biomarker, cascade evidence). Z5 designated REACTOR (downstream of S2).</div></div>' +
+      '<div class="mark-flint-row"><div class="mark-layer-badge">L5</div><div class="mark-layer-text">APEX&#8482; (Assessment Priority and Evidence Xray) Investigation Priority: Phase 1: cortisol, insulin, thyroid panel (confirm Z1). Phase 2: testosterone panel deferred to week 12. Phase 3: endothelial markers if ED persists.</div></div>' +
+    '</div>' +
+    '<div class="panel-section">' +
+      '<p class="panel-section-label">Active Architecture</p>' +
+      '<div class="panel-stat-row"><span class="psr-label">Z1 severity</span><span class="psr-val" style="color:#D4B86A">78% (primary driver)</span></div>' +
+      '<div class="panel-stat-row"><span class="psr-label">Z5 severity</span><span class="psr-val" style="color:#7BB8D9">38% (reactor)</span></div>' +
+      '<div class="panel-stat-row"><span class="psr-label">Z3 severity</span><span class="psr-val" style="color:#9B7EC8">12% (early monitoring)</span></div>' +
+      '<div class="panel-stat-row"><span class="psr-label">TerrainLock&#8482;</span><span class="psr-val" style="color:rgba(244,244,242,.3)">Not active</span></div>' +
+    '</div>';
+}
+
+/* ================================================================
+   INTERACTIONS
+================================================================ */
+function resetOpacity() {
+  document.querySelectorAll('.zone-fill').forEach(function(el){ el.style.fillOpacity=''; });
+  document.querySelectorAll('.zone-ring').forEach(function(el){ el.style.strokeOpacity=''; });
+  ['s1-line','s2-line','s3-line','s4-line','s5-line','s6-line'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.strokeOpacity='';
+  });
+}
+
+// Zone hover tooltip
+var ttEl = document.getElementById('tooltip');
+var ttTitle = document.getElementById('tt-title');
+var ttBody = document.getElementById('tt-body');
+function showTT(x, y, title, body) {
+  ttTitle.textContent = title;
+  ttBody.innerHTML = body;
+  ttEl.style.display = 'block';
+  ttEl.style.left = (x+14)+'px';
+  ttEl.style.top = (y-10)+'px';
+}
+function hideTT() { ttEl.style.display='none'; }
+
+document.querySelectorAll('.zone-hit').forEach(function(el){
+  el.addEventListener('mouseenter', function(e){
+    if(markActive || tlActive) return;
+    var z = this.dataset.zone;
+    var zd = ZONES[z];
+    resetOpacity();
+    ['S1','S2','S3','S4','S5','S6'].forEach(function(sid){
+      var line = document.getElementById(sid.toLowerCase()+'-line');
+      if(!line) return;
+      line.style.strokeOpacity = STACKS[sid].zones.indexOf(z)>=0 ? '0.9' : '0.12';
+    });
+    var fill = document.querySelector('.zone-fill[data-zone="'+z+'"]');
+    if(fill) fill.style.fillOpacity='0.18';
+    var ring = document.querySelector('.ring-'+z);
+    if(ring) ring.style.strokeOpacity='0.9';
+    showTT(e.clientX, e.clientY, zd.name,
+      '<span class="tt-row">Systems: <span>'+zd.systems+'</span></span>' +
+      '<span class="tt-row">DRD&#8482;: <span>'+zd.drd+'</span></span>' +
+      '<span class="tt-row">Stacks: <span>'+zd.stacks.join(', ')+'</span></span>'
+    );
+  });
+  el.addEventListener('click', function(){
+    if(markActive) { return; }
+    if(tlActive) { deactivateTerrainLock(); }
+    renderZonePanel(this.dataset.zone);
+    openPanel();
+  });
+  el.addEventListener('mouseleave', function(){ if(!markActive&&!tlActive) resetOpacity(); hideTT(); });
+  el.addEventListener('mousemove', function(e){ ttEl.style.left=(e.clientX+14)+'px'; ttEl.style.top=(e.clientY-10)+'px'; });
+});
+
+document.querySelectorAll('.stack-hit').forEach(function(el){
+  el.addEventListener('mouseenter', function(e){
+    if(markActive || tlActive) return;
+    var sid = this.dataset.stack;
+    var sd = STACKS[sid];
+    resetOpacity();
+    ['S1','S2','S3','S4','S5','S6'].forEach(function(s){
+      var line = document.getElementById(s.toLowerCase()+'-line');
+      if(line) line.style.strokeOpacity = (s===sid) ? '0.95' : '0.10';
+    });
+    sd.zones.forEach(function(z){
+      var fill = document.querySelector('.zone-fill[data-zone="'+z+'"]');
+      if(fill) fill.style.fillOpacity='0.18';
+      var ring = document.querySelector('.ring-'+z);
+      if(ring) ring.style.strokeOpacity='0.90';
+    });
+    var velClass = sd.vel.toLowerCase();
+    var extra = '';
+    if(sd.evidence==='Theoretical') extra += '<span class="tt-row" style="color:rgba(155,126,200,.8)">Evidence: Theoretical</span>';
+    if(sd.unidirectional) extra += '<span class="tt-row" style="color:rgba(201,168,76,.8)">UNIDIRECTIONAL</span>';
+    showTT(e.clientX, e.clientY, sd.name,
+      '<span class="tt-row">'+sd.driver+' to '+sd.reactor+'</span>' +
+      '<span class="tt-vel '+velClass+'">KINETICS&#8482; '+sd.vel+'</span>' +
+      extra
+    );
+  });
+  el.addEventListener('click', function(){
+    if(markActive) return;
+    if(tlActive) deactivateTerrainLock();
+    renderStackPanel(this.dataset.stack);
+    openPanel();
+  });
+  el.addEventListener('mouseleave', function(){ if(!markActive&&!tlActive) resetOpacity(); hideTT(); });
+  el.addEventListener('mousemove', function(e){ ttEl.style.left=(e.clientX+14)+'px'; ttEl.style.top=(e.clientY-10)+'px'; });
+});
+
+// Breakpoint diamond hover
+var bpDiamond = document.getElementById('breakpoint-s1');
+if(bpDiamond) {
+  bpDiamond.addEventListener('mouseenter', function(e){
+    showTT(e.clientX, e.clientY, 'Stack Breakpoint: S1',
+      '<span class="tt-row">Optimal intervention point</span>' +
+      '<span class="tt-row" style="color:rgba(201,168,76,.8)">Treating Z2 gut here prevents</span>' +
+      '<span class="tt-row" style="color:rgba(201,168,76,.8)">downstream Z1 cascade propagation</span>'
+    );
+  });
+  bpDiamond.addEventListener('mouseleave', hideTT);
+  bpDiamond.addEventListener('mousemove', function(e){ ttEl.style.left=(e.clientX+14)+'px'; ttEl.style.top=(e.clientY-10)+'px'; });
+}
+
+// Sentinel ring hover
+var sentinelRing = document.getElementById('sentinel-z3');
+if(sentinelRing) {
+  sentinelRing.addEventListener('mouseenter', function(e){
+    showTT(e.clientX, e.clientY, 'Z3 Sentinel Early Warning',
+      '<span class="tt-row" style="color:rgba(201,168,76,.8)">Early endothelial signal detected</span>' +
+      '<span class="tt-row">ED as Z3 cardiovascular marker</span>' +
+      '<span class="tt-row">Upstream: S6 from Z1 (early-stage)</span>'
+    );
+  });
+  sentinelRing.addEventListener('mouseleave', hideTT);
+}
+
+/* ================================================================
+   MARK'S JOURNEY
+================================================================ */
+function toggleMark() {
+  markActive = !markActive;
+  document.getElementById('btn-mark').classList.toggle('active', markActive);
+  document.getElementById('btn-mark').setAttribute('aria-pressed', markActive);
+  if(markActive) {
+    if(tlActive) deactivateTerrainLock();
+    activateMark();
+  } else {
+    deactivateMark();
+  }
+}
+
+function activateMark() {
+  // Dim all non-Mark zones and stacks
+  resetOpacity();
+  ['z2','z3','z4'].forEach(function(z){
+    var fill = document.querySelector('.zone-fill[data-zone="'+z+'"]');
+    if(fill) fill.style.fillOpacity='0.03';
+    var ring = document.querySelector('.ring-'+z);
+    if(ring) { ring.style.strokeOpacity='0.12'; }
+  });
+  // Brighten Z1 and Z5
+  var z1fill = document.querySelector('.zone-fill[data-zone="z1"]');
+  var z5fill = document.querySelector('.zone-fill[data-zone="z5"]');
+  if(z1fill) z1fill.style.fillOpacity='0.22';
+  if(z5fill) z5fill.style.fillOpacity='0.16';
+  var r1 = document.querySelector('.ring-z1');
+  var r5 = document.querySelector('.ring-z5');
+  if(r1) r1.style.strokeOpacity='1';
+  if(r5) r5.style.strokeOpacity='0.85';
+  // Dim non-active stacks
+  ['s1-line','s3-line','s4-line','s5-line'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.strokeOpacity='0.08';
+  });
+  // Brighten S2 (primary cascade)
+  var s2 = document.getElementById('s2-line');
+  if(s2) { s2.style.strokeOpacity='1'; s2.style.strokeWidth='2.2'; }
+  var ps2 = document.getElementById('pulse-s2');
+  if(ps2) ps2.style.strokeWidth='5';
+  // S6 early signal (faint)
+  var s6 = document.getElementById('s6-line');
+  if(s6) { s6.style.strokeOpacity='0.3'; }
+  // Show severity rings
+  showSeverityRing('sev-z1', 78);
+  showSeverityRing('sev-z5', 38);
+  showSeverityRing('sev-z3', 12);
+  // Update panel
+  renderMarkPanel();
+  openPanel();
+}
+
+function showSeverityRing(id, pct) {
+  var el = document.getElementById(id);
+  if(!el) return;
+  var circumference = 2 * Math.PI * 68;
+  var filled = (pct / 100) * circumference;
+  el.style.strokeDasharray = filled + ' ' + (circumference - filled);
+  el.style.strokeDashoffset = circumference * 0.25; // start at 12 o'clock
+  el.style.opacity = '0.7';
+}
+
+function hideSeverityRings() {
+  ['sev-z1','sev-z5','sev-z3'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.opacity='0';
+  });
+}
+
+function deactivateMark() {
+  resetOpacity();
+  hideSeverityRings();
+  var s2 = document.getElementById('s2-line');
+  if(s2) { s2.style.strokeWidth=''; }
+  var ps2 = document.getElementById('pulse-s2');
+  if(ps2) ps2.style.strokeWidth='';
+  renderDefaultPanel();
+}
+
+/* ================================================================
+   TERRAINLOCK ANIMATION
+================================================================ */
+var tlInterval = null;
+var tlStep = 0;
+
+function toggleTerrainLock() {
+  tlActive = !tlActive;
+  document.getElementById('btn-tl').classList.toggle('active', tlActive);
+  document.getElementById('btn-tl').setAttribute('aria-pressed', tlActive);
+  if(tlActive) {
+    if(markActive) deactivateMark();
+    markActive = false;
+    document.getElementById('btn-mark').classList.remove('active');
+    startTerrainLockAnim();
+  } else {
+    deactivateTerrainLock();
+  }
+}
+
+function startTerrainLockAnim() {
+  tlStep = 0;
+  runTLStep();
+  tlInterval = setInterval(runTLStep, 800);
+  renderTerrainLockPanel();
+  openPanel();
+}
+
+var TL_ZONES = ['z2','z1','z5'];
+var TL_STACKS = ['s1-line','s2-line','s4-line'];
+
+function runTLStep() {
+  // Reset
+  resetOpacity();
+  ['z3','z4'].forEach(function(z){
+    var fill = document.querySelector('.zone-fill[data-zone="'+z+'"]');
+    if(fill) fill.style.fillOpacity='0.03';
+    var ring = document.querySelector('.ring-'+z);
+    if(ring) ring.style.strokeOpacity='0.08';
+  });
+  ['s3-line','s5-line','s6-line'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.strokeOpacity='0.06';
+  });
+  // Pulse current zone
+  var curZ = TL_ZONES[tlStep % 3];
+  var fill = document.querySelector('.zone-fill[data-zone="'+curZ+'"]');
+  if(fill) fill.style.fillOpacity='0.25';
+  var ring = document.querySelector('.ring-'+curZ);
+  if(ring) ring.style.strokeOpacity='1';
+  // Illuminate the stack coming from this zone
+  var curStack = TL_STACKS[tlStep % 3];
+  var stackEl = document.getElementById(curStack);
+  if(stackEl) stackEl.style.strokeOpacity='0.95';
+  // Keep completed zones visible
+  for(var i=0; i<tlStep%3; i++) {
+    var prevZ = TL_ZONES[i];
+    var pFill = document.querySelector('.zone-fill[data-zone="'+prevZ+'"]');
+    if(pFill) pFill.style.fillOpacity='0.12';
+    var pRing = document.querySelector('.ring-'+prevZ);
+    if(pRing) pRing.style.strokeOpacity='0.5';
+  }
+  tlStep++;
+}
+
+function deactivateTerrainLock() {
+  tlActive = false;
+  document.getElementById('btn-tl').classList.remove('active');
+  document.getElementById('btn-tl').setAttribute('aria-pressed','false');
+  if(tlInterval) { clearInterval(tlInterval); tlInterval=null; }
+  resetOpacity();
+  renderDefaultPanel();
+}
+
+/* ================================================================
+   PANEL UTILITY
+================================================================ */
+function openPanel() {
+  var panel = document.getElementById('intel-panel');
+  if(panel) panel.classList.add('open');
+}
+function togglePanel() {
+  var panel = document.getElementById('intel-panel');
+  if(panel) panel.classList.toggle('open');
+}
+
+/* ================================================================
+   LEAD CAPTURE
+================================================================ */
+function submitLead() {
+  var name = document.getElementById('lead-name').value.trim();
+  var email = document.getElementById('lead-email').value.trim();
+  if(!name || !email) { return; }
+  document.getElementById('lead-thanks').style.display='block';
+  document.querySelector('.lead-submit').style.display='none';
+}
+
+/* ================================================================
+   INIT
+================================================================ */
+renderDefaultPanel();
+</script>
+</body>
+</html>

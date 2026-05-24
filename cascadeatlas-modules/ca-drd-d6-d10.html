@@ -1,0 +1,1758 @@
+});
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     D6: ZONE DEPENDENCY NETWORK FORCE GRAPH
+     Self-contained. Prefix: vm-drd-d6-
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+.vm-drd-d6-wrap {
+  background: #0D2B4E;
+  border-top: 1px solid rgba(244,244,242,.1);
+  padding: 48px 24px;
+  text-align: center;
+}
+.vm-drd-d6-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #F4F4F2;
+  margin-bottom: 6px;
+}
+.vm-drd-d6-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: .82rem;
+  color: rgba(244,244,242,.55);
+  margin-bottom: 20px;
+}
+.vm-drd-d6-canvas-box {
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(244,244,242,.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1A2030;
+}
+.vm-drd-d6-canvas-box canvas {
+  display: block;
+  cursor: grab;
+}
+.vm-drd-d6-canvas-box canvas:active {
+  cursor: grabbing;
+}
+.vm-drd-d6-tooltip {
+  position: absolute;
+  display: none;
+  background: rgba(13,43,78,.95);
+  border: 1px solid rgba(201,168,76,.4);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: #F4F4F2;
+  pointer-events: none;
+  z-index: 5;
+  max-width: 200px;
+  text-align: left;
+}
+.vm-drd-d6-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: rgba(244,244,242,.35);
+  margin-top: 10px;
+}
+@media (max-width: 600px) {
+  .vm-drd-d6-canvas-box { display: none; }
+  .vm-drd-d6-hint::after { content: ' (Desktop only)'; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-drd-d6-canvas-box canvas { animation: none !important; }
+  .vm-drd-d6-entrance { transition: none !important; }
+}
+</style>
+<section class="vm-drd-d6-wrap" id="vm-drd-d6">
+  <div class="vm-drd-d6-title">Zone Dependency Network</div>
+  <div class="vm-drd-d6-subtitle">Force-directed graph. Drag nodes to reposition. Double-click to reset.</div>
+  <div class="vm-drd-d6-canvas-box" id="vm-drd-d6-box">
+    <canvas id="vm-drd-d6-canvas" width="520" height="520"></canvas>
+    <div class="vm-drd-d6-tooltip" id="vm-drd-d6-tip"></div>
+  </div>
+  <div class="vm-drd-d6-hint">Desktop only. 30 fps physics simulation.</div>
+</section>
+<script>
+(function(){
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('vm-drd-d6-canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = 520, H = 520, cx = W/2, cy = H/2, R = 160;
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zNames = ['Z1','Z2','Z3','Z4','Z5'];
+  var zFull = ['Metabolic Energy Axis','Resilience Network','Cardiovascular-Neural Axis','Detoxification Trident','Hormonal Terrain Axis'];
+  var stacks = [{from:1,to:0,id:'S1'},{from:0,to:4,id:'S2'},{from:3,to:0,id:'S3'},{from:4,to:1,id:'S4'},{from:1,to:2,id:'S5'},{from:0,to:2,id:'S6'}];
+
+  function pentagonPos(i){
+    var a = (-90 + i*72) * Math.PI/180;
+    return {x: cx + R*Math.cos(a), y: cy + R*Math.sin(a)};
+  }
+
+  var nodes = [];
+  var entranceComplete = false;
+  var entranceStart = null;
+  var entranceDuration = 800;
+  // Start nodes at edges of canvas
+  var edgePositions = [
+    {x:W/2, y:-40},   // Z1: top
+    {x:W+40, y:H/2},  // Z2: right
+    {x:W*0.8, y:H+40},// Z3: bottom-right
+    {x:-40, y:H+40},  // Z4: bottom-left
+    {x:-40, y:H/2}    // Z5: left
+  ];
+  for(var i=0;i<5;i++){
+    var p = pentagonPos(i);
+    var edge = prefersReduced ? p : edgePositions[i];
+    nodes.push({x:edge.x, y:edge.y, vx:0, vy:0, px:p.x, py:p.y, tx:p.x, ty:p.y});
+  }
+  if(prefersReduced) entranceComplete = true;
+
+  // Line draw animation progress (0 to 1)
+  var lineDrawProgress = prefersReduced ? 1 : 0;
+
+  var dragging = -1;
+  var hovered = -1;
+  var tipEl = document.getElementById('vm-drd-d6-tip');
+  var box = document.getElementById('vm-drd-d6-box');
+
+  function dist(a,b){ return Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y)); }
+
+  function physics(){
+    if(prefersReduced) return;
+    // Entrance animation: fly nodes from edges to pentagon positions
+    if(!entranceComplete){
+      var now = performance.now();
+      if(!entranceStart) entranceStart = now;
+      var elapsed = now - entranceStart;
+      var t = Math.min(elapsed / entranceDuration, 1);
+      // ease-out cubic
+      var ease = 1 - Math.pow(1 - t, 3);
+      for(var ei=0;ei<5;ei++){
+        nodes[ei].x = edgePositions[ei].x + (nodes[ei].tx - edgePositions[ei].x) * ease;
+        nodes[ei].y = edgePositions[ei].y + (nodes[ei].ty - edgePositions[ei].y) * ease;
+      }
+      lineDrawProgress = Math.max(0, (t - 0.4) / 0.6);
+      if(t >= 1){ entranceComplete = true; lineDrawProgress = 1; }
+      return;
+    }
+    var repK = 8000, sprK = 0.005, damp = 0.85, ctrK = 0.002;
+    for(var i=0;i<5;i++){
+      if(i===dragging) continue;
+      var fx=0, fy=0;
+      // repulsion
+      for(var j=0;j<5;j++){
+        if(i===j) continue;
+        var dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        var d2=dx*dx+dy*dy;
+        if(d2<1) d2=1;
+        var f=repK/d2;
+        fx+=dx/Math.sqrt(d2)*f;
+        fy+=dy/Math.sqrt(d2)*f;
+      }
+      // spring attraction along stacks
+      stacks.forEach(function(s){
+        var other = -1;
+        if(s.from===i) other=s.to;
+        else if(s.to===i) other=s.from;
+        if(other<0) return;
+        var dx=nodes[other].x-nodes[i].x, dy=nodes[other].y-nodes[i].y;
+        fx+=dx*sprK;
+        fy+=dy*sprK;
+      });
+      // centre gravity
+      fx+=(cx-nodes[i].x)*ctrK;
+      fy+=(cy-nodes[i].y)*ctrK;
+      nodes[i].vx=(nodes[i].vx+fx)*damp;
+      nodes[i].vy=(nodes[i].vy+fy)*damp;
+      nodes[i].x+=nodes[i].vx;
+      nodes[i].y+=nodes[i].vy;
+      // bounds
+      nodes[i].x=Math.max(30,Math.min(W-30,nodes[i].x));
+      nodes[i].y=Math.max(30,Math.min(H-30,nodes[i].y));
+    }
+  }
+
+  function getConnected(idx){
+    var c={};
+    c[idx]=true;
+    stacks.forEach(function(s){
+      if(s.from===idx) c[s.to]=true;
+      if(s.to===idx) c[s.from]=true;
+    });
+    return c;
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#1A2030';
+    ctx.fillRect(0,0,W,H);
+
+    var connected = hovered>=0 ? getConnected(hovered) : null;
+
+    // TerrainLock ring: check if Z1(0), Z2(1), Z5(4) all have scores above threshold
+    var tlActive = typeof scores !== 'undefined' && typeof ZONES !== 'undefined' &&
+      scores[0]>=ZONES[0].th && scores[1]>=ZONES[1].th && scores[4]>=ZONES[4].th;
+    if(tlActive){
+      ctx.beginPath();
+      ctx.moveTo(nodes[0].x, nodes[0].y);
+      ctx.lineTo(nodes[1].x, nodes[1].y);
+      ctx.lineTo(nodes[4].x, nodes[4].y);
+      ctx.closePath();
+      ctx.strokeStyle='rgba(201,168,76,.4)';
+      ctx.lineWidth=2;
+      ctx.setLineDash([6,4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      // orbit ring
+      var tcx=(nodes[0].x+nodes[1].x+nodes[4].x)/3;
+      var tcy=(nodes[0].y+nodes[1].y+nodes[4].y)/3;
+      var tr=Math.max(dist(nodes[0],{x:tcx,y:tcy}),dist(nodes[1],{x:tcx,y:tcy}),dist(nodes[4],{x:tcx,y:tcy}))+20;
+      ctx.beginPath();
+      ctx.arc(tcx,tcy,tr,0,Math.PI*2);
+      ctx.strokeStyle='rgba(201,168,76,.25)';
+      ctx.lineWidth=1.5;
+      ctx.stroke();
+    }
+
+    // draw stacks (lines)
+    stacks.forEach(function(s){
+      var a=nodes[s.from], b=nodes[s.to];
+      var dimmed = connected && (!connected[s.from] || !connected[s.to]);
+      var burden = 0;
+      if(typeof scores!=='undefined'){
+        burden = (scores[s.from]+scores[s.to])/2;
+      }
+      var thickness = Math.max(1, Math.min(6, burden/20));
+      // Line draw animation: lines grow from 0 length to full
+      var drawLen = lineDrawProgress;
+      var endX = a.x + (b.x - a.x) * drawLen;
+      var endY = a.y + (b.y - a.y) * drawLen;
+      ctx.beginPath();
+      ctx.moveTo(a.x,a.y);
+      ctx.lineTo(endX,endY);
+      ctx.strokeStyle = dimmed ? 'rgba(244,244,242,.06)' : zColors[s.from];
+      ctx.globalAlpha = dimmed ? 0.3 : 0.6;
+      ctx.lineWidth = thickness;
+      if(s.id==='S4'){
+        ctx.setLineDash([5,4]);
+      } else {
+        ctx.setLineDash([]);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha=1;
+      // arrow
+      if(!dimmed){
+        var dx=b.x-a.x, dy=b.y-a.y;
+        var len=Math.sqrt(dx*dx+dy*dy);
+        if(len>0){
+          var ux=dx/len, uy=dy/len;
+          var mx=a.x+dx*0.6, my=a.y+dy*0.6;
+          ctx.beginPath();
+          ctx.moveTo(mx,my);
+          ctx.lineTo(mx-ux*8+uy*4, my-uy*8-ux*4);
+          ctx.lineTo(mx-ux*8-uy*4, my-uy*8+ux*4);
+          ctx.closePath();
+          ctx.fillStyle=zColors[s.from];
+          ctx.globalAlpha=0.7;
+          ctx.fill();
+          ctx.globalAlpha=1;
+        }
+      }
+      // stack label
+      if(!dimmed){
+        var lx=(a.x+b.x)/2, ly=(a.y+b.y)/2;
+        ctx.font='10px "DM Mono", monospace';
+        ctx.fillStyle='rgba(244,244,242,.5)';
+        ctx.textAlign='center';
+        ctx.fillText(s.id,lx,ly-6);
+      }
+    });
+
+    // draw nodes
+    for(var n=0;n<5;n++){
+      var dimNode = connected && !connected[n];
+      var nodeR = 22;
+      if(typeof scores!=='undefined'){
+        nodeR = 16 + (scores[n] || 0) / 10;
+      }
+      ctx.beginPath();
+      ctx.arc(nodes[n].x, nodes[n].y, nodeR, 0, Math.PI*2);
+      ctx.fillStyle = zColors[n];
+      ctx.globalAlpha = dimNode ? 0.15 : 0.85;
+      ctx.fill();
+      ctx.globalAlpha=1;
+      if(n===hovered){
+        ctx.strokeStyle='#F4F4F2';
+        ctx.lineWidth=2;
+        ctx.stroke();
+      }
+      ctx.font='bold 12px "DM Mono", monospace';
+      ctx.fillStyle = dimNode ? 'rgba(244,244,242,.2)' : '#fff';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText(zNames[n], nodes[n].x, nodes[n].y);
+    }
+  }
+
+  function tick(){
+    physics();
+    draw();
+  }
+
+  if(prefersReduced){
+    draw();
+  } else {
+    setInterval(tick, 33);
+  }
+
+  // mouse interaction
+  function getMousePos(e){
+    var rect = canvas.getBoundingClientRect();
+    return {x: (e.clientX-rect.left)*(W/rect.width), y: (e.clientY-rect.top)*(H/rect.height)};
+  }
+  function hitTest(mx,my){
+    for(var i=0;i<5;i++){
+      var dx=nodes[i].x-mx, dy=nodes[i].y-my;
+      if(dx*dx+dy*dy<900) return i;
+    }
+    return -1;
+  }
+  canvas.addEventListener('mousedown', function(e){
+    var p=getMousePos(e);
+    var hit=hitTest(p.x,p.y);
+    if(hit>=0){ dragging=hit; }
+  });
+  canvas.addEventListener('mousemove', function(e){
+    var p=getMousePos(e);
+    if(dragging>=0){
+      nodes[dragging].x=p.x;
+      nodes[dragging].y=p.y;
+      nodes[dragging].vx=0;
+      nodes[dragging].vy=0;
+    }
+    var hit=hitTest(p.x,p.y);
+    hovered=hit;
+    if(hit>=0){
+      var sc = typeof scores !== 'undefined' ? scores[hit] : 0;
+      var th = typeof ZONES !== 'undefined' ? ZONES[hit].th : 40;
+      tipEl.style.display='block';
+      tipEl.style.left=(e.offsetX+12)+'px';
+      tipEl.style.top=(e.offsetY-10)+'px';
+      tipEl.innerHTML=zNames[hit]+': '+zFull[hit]+'<br>Burden: '+sc+' | Threshold: '+th+'<br>Status: '+(sc>=th?'Active':'Inactive');
+    } else {
+      tipEl.style.display='none';
+    }
+    if(prefersReduced) draw();
+  });
+  canvas.addEventListener('mouseup', function(){ dragging=-1; });
+  canvas.addEventListener('mouseleave', function(){ dragging=-1; hovered=-1; tipEl.style.display='none'; if(prefersReduced) draw(); });
+  canvas.addEventListener('dblclick', function(){
+    for(var i=0;i<5;i++){
+      var p=pentagonPos(i);
+      nodes[i].x=p.x; nodes[i].y=p.y; nodes[i].vx=0; nodes[i].vy=0;
+    }
+    if(prefersReduced) draw();
+  });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     D7: ANCHOR CONFIDENCE GAUGES
+     Self-contained. Prefix: vm-drd-d7-
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+.vm-drd-d7-wrap {
+  background: #1A2030;
+  border-top: 1px solid rgba(244,244,242,.1);
+  padding: 48px 24px;
+  text-align: center;
+}
+.vm-drd-d7-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #F4F4F2;
+  margin-bottom: 6px;
+}
+.vm-drd-d7-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: .82rem;
+  color: rgba(244,244,242,.55);
+  margin-bottom: 24px;
+}
+.vm-drd-d7-gauges {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.vm-drd-d7-gauge {
+  width: 110px;
+  text-align: center;
+  position: relative;
+}
+.vm-drd-d7-gauge svg {
+  width: 110px;
+  height: 65px;
+  overflow: visible;
+}
+.vm-drd-d7-gauge-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: rgba(244,244,242,.55);
+  margin-top: 4px;
+}
+.vm-drd-d7-gauge-score {
+  font-family: 'DM Mono', monospace;
+  font-size: .72rem;
+  color: #F4F4F2;
+  font-weight: 700;
+}
+.vm-drd-d7-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: .5rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-top: 3px;
+}
+.vm-drd-d7-badge-borderline {
+  background: rgba(218,165,32,.2);
+  color: #DAA520;
+  border: 1px solid rgba(218,165,32,.4);
+}
+.vm-drd-d7-crown {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  font-size: .7rem;
+  color: #C9A84C;
+  opacity: 0;
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1), opacity .3s ease;
+}
+.vm-drd-d7-crown.vm-drd-d7-crown-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+.vm-drd-d7-pulse-ring {
+  animation: vm-drd-d7-pulse 2s ease-in-out infinite;
+}
+@keyframes vm-drd-d7-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-drd-d7-pulse-ring { animation: none; opacity: 0.5; }
+  .vm-drd-d7-crown { transition: none !important; opacity: 1 !important; transform: translateX(-50%) !important; }
+  .vm-drd-d7-arc-fill { transition: none !important; }
+}
+</style>
+<section class="vm-drd-d7-wrap" id="vm-drd-d7">
+  <div class="vm-drd-d7-title">ANCHOR Confidence Gauges</div>
+  <div class="vm-drd-d7-subtitle">Zone burden scores relative to activation thresholds. Crown marks highest burden zone.</div>
+  <div class="vm-drd-d7-gauges" id="vm-drd-d7-gauges"></div>
+</section>
+<script>
+(function(){
+  var container = document.getElementById('vm-drd-d7-gauges');
+  if(!container) return;
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zNames = ['Z1','Z2','Z3','Z4','Z5'];
+  var d7ReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var d7HasAnimated = false;
+
+  function buildGauges(){
+    container.innerHTML='';
+    var sc = typeof scores !== 'undefined' ? scores : [45,55,30,25,50];
+    var zData = typeof ZONES !== 'undefined' ? ZONES : [
+      {th:40,near:[35,39]},{th:40,near:[35,39]},{th:40,near:[35,39]},{th:40,near:[35,39]},{th:32,near:[27,31]}
+    ];
+    var highestIdx = 0, highestVal = -1;
+    for(var i=0;i<5;i++){
+      if(sc[i]>highestVal){ highestVal=sc[i]; highestIdx=i; }
+    }
+
+    for(var g=0;g<5;g++){
+      var div = document.createElement('div');
+      div.className='vm-drd-d7-gauge';
+      var pct = Math.min(100, Math.round((sc[g] / zData[g].th) * 100));
+      var isAct = sc[g] >= zData[g].th;
+      var isBorder = sc[g] >= zData[g].near[0] && sc[g] < zData[g].th;
+      // arc: semicircle from 180deg to 0deg
+      var arcR = 42, arcCx = 55, arcCy = 55;
+      var endAngle = Math.PI - (Math.min(pct,100)/100) * Math.PI;
+      var ex = arcCx + arcR * Math.cos(endAngle);
+      var ey = arcCy - arcR * Math.sin(endAngle);
+      var largeArc = pct > 50 ? 1 : 0;
+      var bgPath = 'M ' + (arcCx-arcR) + ' ' + arcCy + ' A ' + arcR + ' ' + arcR + ' 0 1 1 ' + (arcCx+arcR) + ' ' + arcCy;
+      var fillPath = 'M ' + (arcCx-arcR) + ' ' + arcCy + ' A ' + arcR + ' ' + arcR + ' 0 ' + largeArc + ' 1 ' + ex + ' ' + ey;
+
+      var svgContent = '<path d="' + bgPath + '" fill="none" stroke="rgba(244,244,242,.1)" stroke-width="8" stroke-linecap="round"/>';
+      svgContent += '<path d="' + fillPath + '" fill="none" stroke="' + zColors[g] + '" stroke-width="8" stroke-linecap="round" class="vm-drd-d7-arc-fill" style="transition:all .6s ease-out;"/>';
+
+      if(isAct){
+        svgContent += '<circle cx="' + arcCx + '" cy="' + arcCy + '" r="' + (arcR+6) + '" fill="none" stroke="' + zColors[g] + '" stroke-width="1" class="vm-drd-d7-pulse-ring"/>';
+      }
+
+      if(isBorder){
+        // hatched amber band
+        svgContent += '<defs><pattern id="vm-drd-d7-hatch' + g + '" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">';
+        svgContent += '<line x1="0" y1="0" x2="0" y2="4" stroke="#DAA520" stroke-width="1" opacity="0.5"/></pattern></defs>';
+        var bStart = Math.PI - (zData[g].near[0]/zData[g].th) * Math.PI;
+        var bEnd = Math.PI;
+        var bsx = arcCx + (arcR-2) * Math.cos(bStart);
+        var bsy = arcCy - (arcR-2) * Math.sin(bStart);
+        var bex = arcCx + (arcR-2) * Math.cos(bEnd);
+        var bey = arcCy - (arcR-2) * Math.sin(bEnd);
+        svgContent += '<path d="M ' + bex + ' ' + bey + ' A ' + (arcR-2) + ' ' + (arcR-2) + ' 0 0 1 ' + bsx + ' ' + bsy + '" fill="none" stroke="url(#vm-drd-d7-hatch' + g + ')" stroke-width="10" opacity="0.4"/>';
+      }
+
+      var html = '';
+      if(g===highestIdx){
+        html += '<div class="vm-drd-d7-crown" title="Highest burden zone">&#9813;</div>';
+      }
+      html += '<svg viewBox="0 0 110 65">' + svgContent + '</svg>';
+      html += '<div class="vm-drd-d7-gauge-score">' + sc[g] + ' / ' + zData[g].th + '</div>';
+      html += '<div class="vm-drd-d7-gauge-label" style="color:' + zColors[g] + ';">' + zNames[g] + '</div>';
+      if(isBorder){
+        html += '<div class="vm-drd-d7-badge vm-drd-d7-badge-borderline">BORDERLINE</div>';
+      }
+      div.innerHTML=html;
+      container.appendChild(div);
+    }
+  }
+
+  buildGauges();
+
+  // Animate crown drop on scroll entry
+  function animateCrown(){
+    if(d7ReducedMotion||d7HasAnimated)return;
+    var rect=container.getBoundingClientRect();
+    if(rect.top<window.innerHeight*0.85){
+      d7HasAnimated=true;
+      var crowns=container.querySelectorAll('.vm-drd-d7-crown');
+      crowns.forEach(function(c){
+        setTimeout(function(){c.classList.add('vm-drd-d7-crown-visible')},300);
+      });
+    }
+  }
+  window.addEventListener('scroll',animateCrown,{passive:true});
+  animateCrown();
+
+  // Watch for slider changes
+  var sliders = document.querySelectorAll('.vm-ca-slider');
+  sliders.forEach(function(sl){
+    sl.addEventListener('input', function(){ setTimeout(function(){d7HasAnimated=false;buildGauges();animateCrown();}, 50); });
+  });
+  // Also poll periodically for external score changes
+  var lastScoreStr = '';
+  setInterval(function(){
+    var s = typeof scores !== 'undefined' ? scores.join(',') : '';
+    if(s !== lastScoreStr){ lastScoreStr=s; d7HasAnimated=false; buildGauges(); animateCrown(); }
+  }, 500);
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     D8: CASCADE PROBABILITY MATRIX
+     Self-contained. Prefix: vm-drd-d8-
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+.vm-drd-d8-wrap {
+  background: #0D2B4E;
+  border-top: 1px solid rgba(244,244,242,.1);
+  padding: 48px 24px;
+  text-align: center;
+}
+.vm-drd-d8-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #F4F4F2;
+  margin-bottom: 6px;
+}
+.vm-drd-d8-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: .82rem;
+  color: rgba(244,244,242,.55);
+  margin-bottom: 24px;
+}
+.vm-drd-d8-grid {
+  display: inline-grid;
+  grid-template-columns: 50px repeat(5, 72px);
+  grid-template-rows: 30px repeat(5, 72px);
+  gap: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+}
+.vm-drd-d8-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(244,244,242,.7);
+  font-weight: 700;
+}
+.vm-drd-d8-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(244,244,242,.04);
+  border: 1px solid rgba(244,244,242,.08);
+  border-radius: 4px;
+  padding: 4px;
+  cursor: default;
+  transition: background .3s ease, border-color .3s ease, transform .3s ease;
+  opacity: 0;
+  transform: translateY(8px);
+  position: relative;
+  overflow: hidden;
+}
+.vm-drd-d8-cell.vm-drd-d8-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.vm-drd-d8-cell-diag {
+  background: repeating-linear-gradient(45deg, rgba(244,244,242,.03), rgba(244,244,242,.03) 3px, rgba(244,244,242,.06) 3px, rgba(244,244,242,.06) 6px) !important;
+  cursor: not-allowed;
+}
+.vm-drd-d8-cell-s4 {
+  border: 1px dashed rgba(123,94,167,.5) !important;
+}
+.vm-drd-d8-cell-s4::after {
+  content: 'THEORETICAL';
+  position: absolute;
+  bottom: 2px;
+  font-size: .4rem;
+  color: rgba(123,94,167,.6);
+  letter-spacing: 1px;
+}
+.vm-drd-d8-cell:hover:not(.vm-drd-d8-cell-diag) {
+  border-color: rgba(201,168,76,.5);
+  background: rgba(244,244,242,.08);
+  box-shadow: 0 0 12px rgba(201,168,76,.25);
+  transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .3s ease;
+}
+.vm-drd-d8-stack-id {
+  font-weight: 700;
+  color: #F4F4F2;
+  font-size: .65rem;
+}
+.vm-drd-d8-vel-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin: 2px 0;
+}
+.vm-drd-d8-tier {
+  font-size: .45rem;
+  color: rgba(244,244,242,.4);
+}
+.vm-drd-d8-cell-active {
+  box-shadow: inset 0 0 12px rgba(201,168,76,.15);
+  animation: vm-drd-d8-breathe 2s ease-in-out infinite;
+}
+@keyframes vm-drd-d8-breathe {
+  0%, 100% { box-shadow: inset 0 0 8px rgba(201,168,76,.1); }
+  50% { box-shadow: inset 0 0 16px rgba(201,168,76,.25); }
+}
+.vm-drd-d8-detail-tip {
+  position: absolute;
+  display: none;
+  background: rgba(13,43,78,.95);
+  border: 1px solid rgba(201,168,76,.4);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: #F4F4F2;
+  pointer-events: none;
+  z-index: 10;
+  max-width: 240px;
+  text-align: left;
+  white-space: normal;
+}
+@media (max-width: 500px) {
+  .vm-drd-d8-grid { grid-template-columns: 36px repeat(5, 54px); grid-template-rows: 24px repeat(5, 54px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-drd-d8-cell { transition: none !important; opacity: 1 !important; transform: none !important; }
+  .vm-drd-d8-cell-active { animation: none !important; }
+  .vm-drd-d8-cell:hover:not(.vm-drd-d8-cell-diag) { box-shadow: none !important; }
+}
+</style>
+<section class="vm-drd-d8-wrap" id="vm-drd-d8">
+  <div class="vm-drd-d8-title">Cascade Probability Matrix</div>
+  <div class="vm-drd-d8-subtitle">5x5 source-to-target grid. Hover for cascade details.</div>
+  <div style="position:relative;display:inline-block;">
+    <div class="vm-drd-d8-grid" id="vm-drd-d8-grid"></div>
+    <div class="vm-drd-d8-detail-tip" id="vm-drd-d8-tip"></div>
+  </div>
+</section>
+<script>
+(function(){
+  var grid = document.getElementById('vm-drd-d8-grid');
+  var tip = document.getElementById('vm-drd-d8-tip');
+  if(!grid) return;
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zNames = ['Z1','Z2','Z3','Z4','Z5'];
+  var velColors = {FAST:'#4CAF50',MEDIUM:'#FFC107',SLOW:'#F44336'};
+  var stackMap = {};
+  var stackDefs = [
+    {id:'S1',from:1,to:0,vel:'MEDIUM',tier:'Emerging'},
+    {id:'S2',from:0,to:4,vel:'FAST',tier:'Established'},
+    {id:'S3',from:3,to:0,vel:'SLOW',tier:'Emerging'},
+    {id:'S4',from:4,to:1,vel:'MEDIUM',tier:'Theoretical'},
+    {id:'S5',from:1,to:2,vel:'FAST',tier:'Emerging'},
+    {id:'S6',from:0,to:2,vel:'MEDIUM',tier:'Established'}
+  ];
+  stackDefs.forEach(function(s){ stackMap[s.from+'-'+s.to]=s; });
+
+  // top-left corner
+  var corner = document.createElement('div');
+  corner.className='vm-drd-d8-header';
+  corner.textContent='S\\T';
+  grid.appendChild(corner);
+  // column headers
+  for(var c=0;c<5;c++){
+    var ch = document.createElement('div');
+    ch.className='vm-drd-d8-header';
+    ch.style.color=zColors[c];
+    ch.textContent=zNames[c];
+    grid.appendChild(ch);
+  }
+
+  var cells = [];
+  var cellIdx = 0;
+  for(var r=0;r<5;r++){
+    // row header
+    var rh = document.createElement('div');
+    rh.className='vm-drd-d8-header';
+    rh.style.color=zColors[r];
+    rh.textContent=zNames[r];
+    grid.appendChild(rh);
+
+    for(var col=0;col<5;col++){
+      var cell = document.createElement('div');
+      cell.className='vm-drd-d8-cell';
+      cell.setAttribute('data-from', r.toString());
+      cell.setAttribute('data-to', col.toString());
+
+      if(r===col){
+        cell.classList.add('vm-drd-d8-cell-diag');
+        cell.innerHTML='<span style="color:rgba(244,244,242,.2);">--</span>';
+      } else {
+        var key=r+'-'+col;
+        var s=stackMap[key];
+        if(s){
+          if(s.id==='S4') cell.classList.add('vm-drd-d8-cell-s4');
+          var dotColor = velColors[s.vel] || '#aaa';
+          cell.innerHTML='<span class="vm-drd-d8-stack-id">'+s.id+'</span>'
+            +'<span class="vm-drd-d8-vel-dot" style="background:'+dotColor+';" title="'+s.vel+'"></span>'
+            +'<span class="vm-drd-d8-tier">'+s.tier+'</span>';
+
+          (function(stack, cellEl){
+            cellEl.addEventListener('mouseenter', function(e){
+              var qual = '';
+              if(stack.id==='S4') qual = ' THEORETICAL.';
+              if(stack.id==='S6') qual = ' UNIDIRECTIONAL.';
+              tip.innerHTML = '<strong>'+stack.id+'</strong>: '+zNames[stack.from]+' to '+zNames[stack.to]
+                +'<br>Velocity: '+stack.vel+'<br>Evidence: '+stack.tier+qual;
+              tip.style.display='block';
+              tip.style.left=(e.target.offsetLeft+80)+'px';
+              tip.style.top=(e.target.offsetTop)+'px';
+            });
+            cellEl.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+          })(s, cell);
+        } else {
+          cell.innerHTML='<span style="color:rgba(244,244,242,.15);font-size:.5rem;">No stack</span>';
+        }
+      }
+      cells.push(cell);
+      grid.appendChild(cell);
+    }
+  }
+
+  // stagger reveal on scroll (diagonal: bottom-left to top-right)
+  var revealed = false;
+  function revealCells(){
+    if(revealed) return;
+    var rect = grid.getBoundingClientRect();
+    if(rect.top < window.innerHeight * 0.85){
+      revealed = true;
+      // Sort cells by diagonal distance (row+col ascending from bottom-left)
+      var indexed=[];
+      cells.forEach(function(c,i){
+        var row=Math.floor(i/5);
+        var col=i%5;
+        var diag=(4-row)+col; // bottom-left=0, top-right=8
+        indexed.push({cell:c,diag:diag,idx:i});
+      });
+      indexed.sort(function(a,b){return a.diag-b.diag});
+      indexed.forEach(function(item,i){
+        setTimeout(function(){ item.cell.classList.add('vm-drd-d8-revealed'); }, i*50);
+      });
+    }
+  }
+  window.addEventListener('scroll', revealCells);
+  revealCells();
+
+  // live state: colour active cascade cells
+  var lastState = '';
+  setInterval(function(){
+    var sc = typeof scores !== 'undefined' ? scores : [45,55,30,25,50];
+    var zData = typeof ZONES !== 'undefined' ? ZONES : [{th:40},{th:40},{th:40},{th:40},{th:32}];
+    var st = sc.join(',');
+    if(st===lastState) return;
+    lastState=st;
+    cells.forEach(function(c){
+      var fr = parseInt(c.getAttribute('data-from'));
+      var to = parseInt(c.getAttribute('data-to'));
+      if(fr===to) return;
+      var key=fr+'-'+to;
+      var s=stackMap[key];
+      if(!s) return;
+      var active = sc[s.from]>=zData[s.from].th && sc[s.to]>=zData[s.to].th;
+      if(active){
+        c.classList.add('vm-drd-d8-cell-active');
+        c.style.backgroundColor='rgba('+parseInt(zColors[s.from].slice(1,3),16)+','+parseInt(zColors[s.from].slice(3,5),16)+','+parseInt(zColors[s.from].slice(5,7),16)+',.12)';
+      } else {
+        c.classList.remove('vm-drd-d8-cell-active');
+        c.style.backgroundColor='';
+      }
+    });
+  }, 400);
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     D9: TERRAIN TOPOGRAPHY 3D SURFACE
+     Self-contained. Prefix: vm-drd-d9-
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+.vm-drd-d9-wrap {
+  background: #1A2030;
+  border-top: 1px solid rgba(244,244,242,.1);
+  padding: 48px 24px;
+  text-align: center;
+}
+.vm-drd-d9-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #F4F4F2;
+  margin-bottom: 6px;
+}
+.vm-drd-d9-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: .82rem;
+  color: rgba(244,244,242,.55);
+  margin-bottom: 16px;
+}
+.vm-drd-d9-controls {
+  margin-bottom: 16px;
+}
+.vm-drd-d9-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  padding: 5px 14px;
+  border: 1px solid rgba(201,168,76,.3);
+  border-radius: 4px;
+  background: rgba(201,168,76,.08);
+  color: #C9A84C;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: background .2s ease;
+}
+.vm-drd-d9-btn:hover {
+  background: rgba(201,168,76,.18);
+}
+.vm-drd-d9-btn.active {
+  background: rgba(201,168,76,.25);
+  border-color: #C9A84C;
+}
+.vm-drd-d9-canvas-box {
+  display: inline-block;
+  border: 1px solid rgba(244,244,242,.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0D2B4E;
+  cursor: grab;
+}
+.vm-drd-d9-canvas-box:active {
+  cursor: grabbing;
+}
+.vm-drd-d9-canvas-box canvas {
+  display: block;
+}
+.vm-drd-d9-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: rgba(244,244,242,.35);
+  margin-top: 10px;
+}
+@media (max-width: 600px) {
+  .vm-drd-d9-canvas-box canvas { width: 100%; height: auto; }
+}
+</style>
+<section class="vm-drd-d9-wrap" id="vm-drd-d9">
+  <div class="vm-drd-d9-title">Terrain Topography Surface</div>
+  <div class="vm-drd-d9-subtitle">Isometric terrain. Peak heights represent zone burden scores. Drag to rotate.</div>
+  <div class="vm-drd-d9-controls">
+    <button class="vm-drd-d9-btn active" id="vm-drd-d9-3d">3D View</button>
+    <button class="vm-drd-d9-btn" id="vm-drd-d9-flat">Flatten (2D Contour)</button>
+  </div>
+  <div class="vm-drd-d9-canvas-box" id="vm-drd-d9-box">
+    <canvas id="vm-drd-d9-canvas" width="520" height="400"></canvas>
+  </div>
+  <div class="vm-drd-d9-hint">No WebGL required. Mouse drag rotates view.</div>
+</section>
+<script>
+(function(){
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('vm-drd-d9-canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = 520, H = 400;
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zNames = ['Z1','Z2','Z3','Z4','Z5'];
+
+  var rotY = 0.4;
+  var flatten = false;
+  var dragging = false;
+  var lastX = 0;
+  var isMobile = window.innerWidth < 601;
+  var d9RiseProgress = prefersReduced ? 1 : 0;
+  var d9RiseStart = null;
+  var d9RiseDuration = 800;
+  var d9FlagBounce = 0;
+  var d9FlagBounceStart = null;
+
+  // pentagon positions in 3D space (x, z plane, y = height)
+  var R3 = 120;
+  function pentXZ(i){
+    var a = (-90 + i*72) * Math.PI/180;
+    return {x: R3*Math.cos(a), z: R3*Math.sin(a)};
+  }
+
+  // isometric projection
+  function project(x, y, z){
+    var cosR = Math.cos(rotY), sinR = Math.sin(rotY);
+    var rx = x * cosR - z * sinR;
+    var rz = x * sinR + z * cosR;
+    var tilt = flatten ? 0 : 0.6;
+    var px = W/2 + rx;
+    var py = H/2 + rz * tilt - y * (flatten ? 0.2 : 1);
+    return {x:px, y:py, depth: rz};
+  }
+
+  // grid terrain
+  var gridN = 20;
+  function getHeight(gx, gz){
+    var sc = typeof scores !== 'undefined' ? scores : [45,55,30,25,50];
+    var h = 0;
+    for(var i=0;i<5;i++){
+      var p = pentXZ(i);
+      var dx = gx - p.x, dz = gz - p.z;
+      var d = Math.sqrt(dx*dx+dz*dz);
+      var influence = Math.max(0, 1 - d/(R3*0.9));
+      h += (sc[i]/100) * 80 * influence * influence;
+    }
+    // Apply rise progress (spring ease: peaks grow from 0 to full)
+    return h * d9RiseProgress;
+  }
+
+  function getColour(gx, gz){
+    var sc = typeof scores !== 'undefined' ? scores : [45,55,30,25,50];
+    var totalW = 0;
+    var r=0, g=0, b=0;
+    for(var i=0;i<5;i++){
+      var p = pentXZ(i);
+      var dx = gx - p.x, dz = gz - p.z;
+      var d = Math.max(1, Math.sqrt(dx*dx+dz*dz));
+      var w = 1/(d*d);
+      var cr = parseInt(zColors[i].slice(1,3),16);
+      var cg = parseInt(zColors[i].slice(3,5),16);
+      var cb = parseInt(zColors[i].slice(5,7),16);
+      r+=cr*w; g+=cg*w; b+=cb*w;
+      totalW+=w;
+    }
+    return 'rgb('+Math.round(r/totalW)+','+Math.round(g/totalW)+','+Math.round(b/totalW)+')';
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0D2B4E';
+    ctx.fillRect(0,0,W,H);
+
+    var sc = typeof scores !== 'undefined' ? scores : [45,55,30,25,50];
+    var zData = typeof ZONES !== 'undefined' ? ZONES : [{th:40},{th:40},{th:40},{th:40},{th:32}];
+    var step = (R3*2.2)/gridN;
+    var faces = [];
+
+    for(var gi=0;gi<gridN;gi++){
+      for(var gj=0;gj<gridN;gj++){
+        var x0 = -R3*1.1 + gi*step;
+        var z0 = -R3*1.1 + gj*step;
+        var x1 = x0+step, z1=z0+step;
+        var h00=getHeight(x0,z0), h10=getHeight(x1,z0), h11=getHeight(x1,z1), h01=getHeight(x0,z1);
+        var p00=project(x0,h00,z0), p10=project(x1,h10,z0), p11=project(x1,h11,z1), p01=project(x0,h01,z1);
+        var avgDepth = (p00.depth+p10.depth+p11.depth+p01.depth)/4;
+        var col = getColour((x0+x1)/2, (z0+z1)/2);
+        faces.push({pts:[p00,p10,p11,p01], depth:avgDepth, col:col, h:(h00+h10+h11+h01)/4});
+      }
+    }
+
+    // painter's algorithm: sort by depth (back to front)
+    faces.sort(function(a,b){ return a.depth - b.depth; });
+
+    faces.forEach(function(f){
+      ctx.beginPath();
+      ctx.moveTo(f.pts[0].x, f.pts[0].y);
+      for(var k=1;k<4;k++) ctx.lineTo(f.pts[k].x, f.pts[k].y);
+      ctx.closePath();
+      var bright = Math.min(1, 0.3 + f.h/80);
+      ctx.globalAlpha = bright;
+      ctx.fillStyle = f.col;
+      ctx.fill();
+      ctx.globalAlpha = 0.15;
+      ctx.strokeStyle = 'rgba(244,244,242,.15)';
+      ctx.lineWidth = 0.3;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    });
+
+    // ridgelines for active cascades
+    var stackDefs = [{from:1,to:0},{from:0,to:4},{from:3,to:0},{from:4,to:1},{from:1,to:2},{from:0,to:2}];
+    stackDefs.forEach(function(s,si){
+      var active = sc[s.from]>=zData[s.from].th && sc[s.to]>=zData[s.to].th;
+      if(!active) return;
+      var pf=pentXZ(s.from), pt=pentXZ(s.to);
+      ctx.beginPath();
+      var steps=20;
+      for(var t=0;t<=steps;t++){
+        var frac=t/steps;
+        var mx=pf.x+(pt.x-pf.x)*frac;
+        var mz=pf.z+(pt.z-pf.z)*frac;
+        var mh=getHeight(mx,mz)+3;
+        var mp=project(mx,mh,mz);
+        if(t===0) ctx.moveTo(mp.x,mp.y);
+        else ctx.lineTo(mp.x,mp.y);
+      }
+      ctx.strokeStyle = zColors[s.from];
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = 0.7;
+      ctx.shadowColor = zColors[s.from];
+      ctx.shadowBlur = 8;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
+    });
+
+    // TerrainLock contour ring
+    var tlActive = sc[0]>=zData[0].th && sc[1]>=zData[1].th && sc[4]>=zData[4].th;
+    if(tlActive){
+      var tlPeaks = [0,1,4];
+      ctx.beginPath();
+      for(var ti=0;ti<3;ti++){
+        var from=pentXZ(tlPeaks[ti]), to=pentXZ(tlPeaks[(ti+1)%3]);
+        for(var t=0;t<=10;t++){
+          var frac=t/10;
+          var mx=from.x+(to.x-from.x)*frac, mz=from.z+(to.z-from.z)*frac;
+          var mh=getHeight(mx,mz)+5;
+          var mp=project(mx,mh,mz);
+          if(ti===0&&t===0) ctx.moveTo(mp.x,mp.y);
+          else ctx.lineTo(mp.x,mp.y);
+        }
+      }
+      ctx.closePath();
+      ctx.strokeStyle='#C9A84C';
+      ctx.lineWidth=2;
+      ctx.globalAlpha=0.6;
+      ctx.setLineDash([6,3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha=1;
+    }
+
+    // peak labels and flag
+    var highIdx=0, highVal=-1;
+    for(var pi=0;pi<5;pi++){
+      if(sc[pi]>highVal){highVal=sc[pi];highIdx=pi;}
+    }
+    for(var pi=0;pi<5;pi++){
+      var pp=pentXZ(pi);
+      var ph=getHeight(pp.x,pp.z);
+      var proj=project(pp.x,ph+10,pp.z);
+      ctx.font='bold 11px "DM Mono", monospace';
+      ctx.fillStyle=zColors[pi];
+      ctx.textAlign='center';
+      ctx.globalAlpha=0.9;
+      ctx.fillText(zNames[pi]+' ('+sc[pi]+')',proj.x,proj.y-6);
+      if(pi===highIdx){
+        // gold flag with bounce animation
+        var flagOffset = d9FlagBounce;
+        ctx.beginPath();
+        ctx.moveTo(proj.x,proj.y-22+flagOffset);
+        ctx.lineTo(proj.x+10,proj.y-28+flagOffset);
+        ctx.lineTo(proj.x,proj.y-34+flagOffset);
+        ctx.fillStyle='#C9A84C';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(proj.x,proj.y-18+flagOffset);
+        ctx.lineTo(proj.x,proj.y-36+flagOffset);
+        ctx.strokeStyle='#C9A84C';
+        ctx.lineWidth=1.5;
+        ctx.stroke();
+      }
+      ctx.globalAlpha=1;
+    }
+  }
+
+  // Rise animation loop
+  function d9AnimateRise(){
+    if(d9RiseProgress>=1&&d9FlagBounce<=0){
+      draw();
+      return;
+    }
+    var now=performance.now();
+    if(!d9RiseStart)d9RiseStart=now;
+    var elapsed=now-d9RiseStart;
+    var t=Math.min(elapsed/d9RiseDuration,1);
+    // Spring easing for peak rise
+    var spring=1-Math.pow(1-t,3)+(t>0.7?Math.sin((t-0.7)*10)*0.03*(1-t):0);
+    d9RiseProgress=Math.min(spring,1);
+    // Flag bounce starts after rise completes
+    if(t>=1){
+      if(!d9FlagBounceStart)d9FlagBounceStart=now;
+      var ft=(now-d9FlagBounceStart)/400;
+      if(ft<1){
+        d9FlagBounce=-15*(1-ft)*Math.abs(Math.sin(ft*Math.PI*2));
+      } else {
+        d9FlagBounce=0;
+      }
+    }
+    draw();
+    if(d9RiseProgress<1||d9FlagBounce!==0)requestAnimationFrame(d9AnimateRise);
+  }
+
+  // Trigger rise on scroll entry
+  var d9HasRisen=prefersReduced;
+  function d9CheckScroll(){
+    if(d9HasRisen)return;
+    var rect=canvas.getBoundingClientRect();
+    if(rect.top<window.innerHeight*0.85){
+      d9HasRisen=true;
+      requestAnimationFrame(d9AnimateRise);
+    }
+  }
+  if(!prefersReduced){
+    window.addEventListener('scroll',d9CheckScroll,{passive:true});
+    d9CheckScroll();
+  }
+  draw();
+
+  // rotation drag
+  canvas.addEventListener('mousedown', function(e){ dragging=true; lastX=e.clientX; });
+  canvas.addEventListener('mousemove', function(e){
+    if(!dragging) return;
+    rotY += (e.clientX - lastX) * 0.008;
+    lastX = e.clientX;
+    draw();
+  });
+  canvas.addEventListener('mouseup', function(){ dragging=false; });
+  canvas.addEventListener('mouseleave', function(){ dragging=false; });
+
+  // flatten toggle
+  document.getElementById('vm-drd-d9-flat').addEventListener('click', function(){
+    flatten=true;
+    this.classList.add('active');
+    document.getElementById('vm-drd-d9-3d').classList.remove('active');
+    draw();
+  });
+  document.getElementById('vm-drd-d9-3d').addEventListener('click', function(){
+    flatten=false;
+    this.classList.add('active');
+    document.getElementById('vm-drd-d9-flat').classList.remove('active');
+    draw();
+  });
+
+  // mobile: static 2D
+  if(isMobile || prefersReduced){
+    flatten = true;
+    document.getElementById('vm-drd-d9-flat').classList.add('active');
+    document.getElementById('vm-drd-d9-3d').classList.remove('active');
+    draw();
+  }
+
+  // reactivity to slider changes
+  var lastSc = '';
+  setInterval(function(){
+    var s = typeof scores !== 'undefined' ? scores.join(',') : '';
+    if(s !== lastSc){ lastSc=s; draw(); }
+  }, 500);
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     D10: DRD DECISION REPLAY TIMELINE
+     Self-contained. Prefix: vm-drd-d10-
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+.vm-drd-d10-wrap {
+  background: #0D2B4E;
+  border-top: 1px solid rgba(244,244,242,.1);
+  padding: 48px 24px;
+}
+.vm-drd-d10-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #F4F4F2;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.vm-drd-d10-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: .82rem;
+  color: rgba(244,244,242,.55);
+  margin-bottom: 8px;
+  text-align: center;
+}
+.vm-drd-d10-t01 {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  color: rgba(218,165,32,.6);
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 6px 12px;
+  border: 1px solid rgba(218,165,32,.2);
+  border-radius: 4px;
+  display: inline-block;
+}
+.vm-drd-d10-controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.vm-drd-d10-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  padding: 5px 14px;
+  border: 1px solid rgba(201,168,76,.3);
+  border-radius: 4px;
+  background: rgba(201,168,76,.08);
+  color: #C9A84C;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.vm-drd-d10-btn:hover {
+  background: rgba(201,168,76,.18);
+}
+.vm-drd-d10-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.vm-drd-d10-timeline {
+  position: relative;
+  min-height: 80px;
+  overflow-x: auto;
+  padding: 20px 10px 10px;
+}
+.vm-drd-d10-track {
+  position: relative;
+  height: 4px;
+  background: rgba(244,244,242,.1);
+  border-radius: 2px;
+  min-width: 100%;
+  margin-top: 30px;
+}
+.vm-drd-d10-markers {
+  display: flex;
+  gap: 0;
+  align-items: flex-end;
+  position: relative;
+}
+.vm-drd-d10-marker {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: transform .2s ease;
+  flex-shrink: 0;
+}
+.vm-drd-d10-marker:hover {
+  transform: translateY(-3px);
+}
+.vm-drd-d10-marker-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(244,244,242,.3);
+  margin-bottom: 4px;
+}
+.vm-drd-d10-marker-time {
+  font-family: 'DM Mono', monospace;
+  font-size: .45rem;
+  color: rgba(244,244,242,.35);
+  white-space: nowrap;
+}
+.vm-drd-d10-marker-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .5rem;
+  color: rgba(244,244,242,.55);
+  white-space: nowrap;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vm-drd-d10-marker-tl {
+  border: 2px solid #C9A84C !important;
+  box-shadow: 0 0 6px rgba(201,168,76,.4);
+}
+.vm-drd-d10-marker-tl-label {
+  color: #C9A84C;
+  font-weight: 700;
+}
+.vm-drd-d10-empty {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: rgba(244,244,242,.3);
+  text-align: center;
+  padding: 20px;
+}
+.vm-drd-d10-marker-enter {
+  animation: vm-drd-d10-drop .3s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes vm-drd-d10-drop {
+  0% { transform: translateY(-30px); opacity: 0; }
+  60% { transform: translateY(3px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+.vm-drd-d10-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: #C9A84C;
+  border-radius: 2px;
+  width: 0;
+  transition: width .3s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-drd-d10-marker { transition: none; }
+  .vm-drd-d10-marker-enter { animation: none; opacity: 1; transform: none; }
+  .vm-drd-d10-progress { transition: none; }
+}
+</style>
+<section class="vm-drd-d10-wrap" id="vm-drd-d10">
+  <div class="vm-drd-d10-title">DRD Decision Replay Timeline</div>
+  <div class="vm-drd-d10-subtitle">Records every highest burden zone change. Click a marker to restore that state.</div>
+  <div style="text-align:center;">
+    <div class="vm-drd-d10-t01">T-01: Educational demonstration only. Not a clinical record.</div>
+  </div>
+  <div class="vm-drd-d10-controls">
+    <button class="vm-drd-d10-btn" id="vm-drd-d10-replay" disabled>Replay</button>
+    <button class="vm-drd-d10-btn" id="vm-drd-d10-clear">Clear History</button>
+    <button class="vm-drd-d10-btn" id="vm-drd-d10-export">Export</button>
+  </div>
+  <div class="vm-drd-d10-timeline" id="vm-drd-d10-timeline">
+    <div class="vm-drd-d10-markers" id="vm-drd-d10-markers"></div>
+    <div class="vm-drd-d10-track" style="position:relative;">
+      <div class="vm-drd-d10-progress" id="vm-drd-d10-progress"></div>
+    </div>
+    <div class="vm-drd-d10-empty" id="vm-drd-d10-empty">Adjust sliders to begin recording timeline events.</div>
+  </div>
+</section>
+<script>
+(function(){
+  var markersEl = document.getElementById('vm-drd-d10-markers');
+  var emptyEl = document.getElementById('vm-drd-d10-empty');
+  var replayBtn = document.getElementById('vm-drd-d10-replay');
+  var clearBtn = document.getElementById('vm-drd-d10-clear');
+  var exportBtn = document.getElementById('vm-drd-d10-export');
+  var progressBar = document.getElementById('vm-drd-d10-progress');
+  var d10ReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!markersEl) return;
+
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zNames = ['Z1','Z2','Z3','Z4','Z5'];
+  var history = []; // {time, scores, highestIdx, terrainLock}
+  var lastHighest = -1;
+  var replaying = false;
+
+  function getHighest(sc){
+    var best=0, bestVal=-1;
+    for(var i=0;i<5;i++){
+      if(sc[i]>bestVal){ bestVal=sc[i]; best=i; }
+    }
+    return best;
+  }
+
+  function isTerrainLock(sc){
+    var zData = typeof ZONES !== 'undefined' ? ZONES : [{th:40},{th:40},{th:40},{th:40},{th:32}];
+    return sc[0]>=zData[0].th && sc[1]>=zData[1].th && sc[4]>=zData[4].th;
+  }
+
+  function formatTime(d){
+    var h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+    return (h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  }
+
+  function renderMarkers(animateLatest){
+    markersEl.innerHTML='';
+    if(progressBar) progressBar.style.width='0';
+    if(history.length===0){
+      emptyEl.style.display='block';
+      replayBtn.disabled=true;
+      return;
+    }
+    emptyEl.style.display='none';
+    replayBtn.disabled=false;
+    history.forEach(function(entry, idx){
+      var m = document.createElement('div');
+      m.className='vm-drd-d10-marker';
+      // Apply drop animation to latest marker
+      if(animateLatest && idx===history.length-1 && !d10ReducedMotion){
+        m.classList.add('vm-drd-d10-marker-enter');
+      }
+      var dotClass = 'vm-drd-d10-marker-dot';
+      if(entry.terrainLock) dotClass += ' vm-drd-d10-marker-tl';
+      m.innerHTML = '<div class="' + dotClass + '" style="background:' + zColors[entry.highestIdx] + ';"></div>'
+        + '<div class="vm-drd-d10-marker-label' + (entry.terrainLock ? ' vm-drd-d10-marker-tl-label' : '') + '">'
+        + zNames[entry.highestIdx] + (entry.terrainLock ? ' TL' : '') + '</div>'
+        + '<div class="vm-drd-d10-marker-time">' + entry.time + '</div>';
+      m.title = 'Highest burden: ' + zNames[entry.highestIdx] + ' | Scores: ' + entry.scores.join(', ');
+      (function(e){
+        m.addEventListener('click', function(){
+          if(replaying) return;
+          restoreState(e.scores);
+        });
+      })(entry);
+      markersEl.appendChild(m);
+    });
+  }
+
+  function restoreState(sc){
+    if(typeof scores === 'undefined') return;
+    for(var i=0;i<5;i++){
+      scores[i]=sc[i];
+      var slider = document.getElementById('vm-ca-sl'+i);
+      if(slider) slider.value=sc[i];
+    }
+    // trigger update
+    var evt = new Event('input', {bubbles:true});
+    var firstSlider = document.getElementById('vm-ca-sl0');
+    if(firstSlider) firstSlider.dispatchEvent(evt);
+  }
+
+  function recordChange(){
+    if(replaying) return;
+    var sc = typeof scores !== 'undefined' ? scores.slice() : [45,55,30,25,50];
+    var hi = getHighest(sc);
+    if(hi === lastHighest && history.length > 0) return;
+    lastHighest = hi;
+    var tl = isTerrainLock(sc);
+    history.push({
+      time: formatTime(new Date()),
+      scores: sc.slice(),
+      highestIdx: hi,
+      terrainLock: tl
+    });
+    renderMarkers(true);
+  }
+
+  // Watch for changes
+  var lastScoreStr = '';
+  setInterval(function(){
+    var s = typeof scores !== 'undefined' ? scores.join(',') : '';
+    if(s !== lastScoreStr){
+      lastScoreStr = s;
+      recordChange();
+    }
+  }, 300);
+
+  // Replay
+  replayBtn.addEventListener('click', function(){
+    if(history.length===0 || replaying) return;
+    replaying = true;
+    replayBtn.disabled = true;
+    if(progressBar) progressBar.style.width='0';
+    var idx = 0;
+    function playNext(){
+      if(idx >= history.length){
+        replaying = false;
+        replayBtn.disabled = false;
+        if(progressBar) progressBar.style.width='100%';
+        return;
+      }
+      restoreState(history[idx].scores);
+      // highlight current marker
+      var markers = markersEl.querySelectorAll('.vm-drd-d10-marker-dot');
+      markers.forEach(function(m, mi){
+        m.style.outline = mi===idx ? '2px solid #F4F4F2' : 'none';
+        m.style.outlineOffset = '2px';
+      });
+      // Update progress bar
+      if(progressBar){
+        var pct = ((idx+1)/history.length)*100;
+        progressBar.style.width = pct+'%';
+      }
+      idx++;
+      setTimeout(playNext, 1500);
+    }
+    playNext();
+  });
+
+  // Clear
+  clearBtn.addEventListener('click', function(){
+    history = [];
+    lastHighest = -1;
+    renderMarkers();
+  });
+
+  // Export
+  exportBtn.addEventListener('click', function(){
+    if(history.length===0) return;
+    var lines = ['DRD Decision Replay Timeline Export','Educational demonstration only. Not a clinical record.',''];
+    lines.push('Time | Highest Burden Zone | Scores (Z1,Z2,Z3,Z4,Z5) | TerrainLock');
+    lines.push('-----|---------------------|--------------------------|------------');
+    history.forEach(function(e){
+      lines.push(e.time + ' | ' + zNames[e.highestIdx] + ' | ' + e.scores.join(', ') + ' | ' + (e.terrainLock?'Yes':'No'));
+    });
+    var blob = new Blob([lines.join('\n')], {type:'text/plain'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'DRD_Timeline_Export.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Record initial state
+  recordChange();
+})();
+</script>
+
+
+<!-- LA-1 CASCADEATLAS INTERACTIVE MAP (Clean Insert, 08 May 2026) -->
+<!-- LA-1 CascadeAtlas Map | ALB v1.5 | D-53 | VitalMatrix Ltd | ICO ZC101813 -->
+<section id="vm-la1-section" class="vm-reveal" style="background:#1A2030;padding:80px 24px;margin:0;font-family:'Outfit',sans-serif;color:#F4F4F2;">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap');
+  #vm-la1-section *{box-sizing:border-box;margin:0;padding:0}
+  #vm-la1-section .vm-la1-wrap{max-width:820px;margin:0 auto}
+  #vm-la1-section .vm-la1-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.22em;color:#C9A84C;text-transform:uppercase;text-align:center;margin-bottom:10px}
+  #vm-la1-section .vm-la1-heading{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;text-align:center;color:#F4F4F2;margin-bottom:8px}
+  #vm-la1-section .vm-la1-sub{font-family:'Outfit',sans-serif;font-size:15px;color:rgba(244,244,242,0.6);text-align:center;max-width:560px;margin:0 auto 32px}
+  #vm-la1-section .vm-la1-canvas{position:relative;background:#1A2030;border:1px solid rgba(201,168,76,0.25);border-radius:14px;overflow:hidden;margin-bottom:24px}
+  #vm-la1-section .vm-la1-hud{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;color:rgba(201,168,76,0.45);white-space:nowrap;pointer-events:none}
+  #vm-la1-section .vm-la1-svg{display:block;width:100%}
+  #vm-la1-section .vm-la1-zone{cursor:pointer;transition:opacity 0.3s}
+  #vm-la1-section .vm-la1-stack-path{cursor:pointer;transition:stroke-width 0.3s,opacity 0.3s}
+  #vm-la1-section .vm-la1-detail{margin:0 16px 16px;padding:14px 18px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(201,168,76,0.2);display:none}
+  #vm-la1-section .vm-la1-detail.active{display:block}
+  #vm-la1-section .vm-la1-detail-title{font-family:'DM Mono',monospace;font-weight:700;font-size:14px;margin-bottom:6px}
+  #vm-la1-section .vm-la1-detail-body{font-family:'Outfit',sans-serif;font-size:13px;color:rgba(244,244,242,0.8);line-height:1.85}
+  #vm-la1-section .vm-la1-tl-bar{text-align:center;padding:0 16px 14px;font-family:'DM Mono',monospace;font-size:10px;color:#C9A84C;letter-spacing:0.12em;display:none}
+  #vm-la1-section .vm-la1-tl-bar.active{display:block}
+  #vm-la1-section .vm-la1-controls{display:flex;justify-content:center;gap:10px;margin-bottom:20px}
+  #vm-la1-section .vm-la1-btn{font-family:'DM Mono',monospace;font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid rgba(201,168,76,0.35);background:transparent;color:#C9A84C;cursor:pointer;letter-spacing:0.08em;transition:background 0.2s}
+  #vm-la1-section .vm-la1-btn:hover{background:rgba(201,168,76,0.12)}
+  #vm-la1-section .vm-la1-btn.active{background:#7B5EA7;border-color:#7B5EA7}
+  @keyframes vm-la1-dash-fast{to{stroke-dashoffset:-40}}
+  @keyframes vm-la1-dash-med{to{stroke-dashoffset:-40}}
+  @keyframes vm-la1-dash-slow{to{stroke-dashoffset:-40}}
+  .vm-la1-anim-fast{animation:vm-la1-dash-fast 0.8s linear infinite}
+  .vm-la1-anim-med{animation:vm-la1-dash-med 1.6s linear infinite}
+  .vm-la1-anim-slow{animation:vm-la1-dash-slow 3.2s linear infinite}
+  #vm-la1-section .vm-la1-legend{display:flex;flex-wrap:wrap;gap:24px;margin-top:8px}
+  #vm-la1-section .vm-la1-legend-col{flex:1 1 260px}
+  #vm-la1-section .vm-la1-legend-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:rgba(244,244,242,0.45);text-transform:uppercase;margin-bottom:10px}
+  #vm-la1-section .vm-la1-legend-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;color:rgba(244,244,242,0.65)}
+  #vm-la1-section .vm-la1-legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+  #vm-la1-section .vm-la1-legend-id{font-family:'DM Mono',monospace;font-weight:700;min-width:22px}
+</style>
+<div class="vm-la1-wrap">
+  <p class="vm-la1-eyebrow">Cascade Architecture</p>
+  <h2 class="vm-la1-heading">The CascadeAtlas Map</h2>
+  <p class="vm-la1-sub">Five zones. Six directional cascade stacks. The architecture that makes terrain intelligence visible, structured, and actionable.</p>
+  <div class="vm-la1-controls">
+    <button class="vm-la1-btn" id="vm-la1-tl-btn" onclick="vmLA1ToggleTL()">Animate TerrainLock</button>
+    <button class="vm-la1-btn" id="vm-la1-reset-btn" onclick="vmLA1Reset()">Reset</button>
+  </div>
+  <div class="vm-la1-canvas">
+    <div class="vm-la1-hud">CASCADEATLAS &mdash; D-53 LOCKED &mdash; ALB v1.5</div>
+    <svg class="vm-la1-svg" viewBox="0 0 600 480" id="vm-la1-svg">
+      <defs>
+        <marker id="vm-la1-arr-s1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#1A7A8A" opacity="0.75"/></marker>
+        <marker id="vm-la1-arr-s2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#C9A84C" opacity="0.75"/></marker>
+        <marker id="vm-la1-arr-s3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#5F7C6C" opacity="0.75"/></marker>
+        <marker id="vm-la1-arr-s4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#2E6DB4" opacity="0.75"/></marker>
+        <marker id="vm-la1-arr-s5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#1A7A8A" opacity="0.75"/></marker>
+        <marker id="vm-la1-arr-s6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#C9A84C" opacity="0.75"/></marker>
+        <filter id="vm-la1-glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- Stack lines rendered by JS -->
+      <g id="vm-la1-stacks-g"></g>
+      <!-- Zone circles rendered by JS -->
+      <g id="vm-la1-zones-g"></g>
+    </svg>
+    <div class="vm-la1-detail" id="vm-la1-detail"><div class="vm-la1-detail-title" id="vm-la1-detail-title"></div><div class="vm-la1-detail-body" id="vm-la1-detail-body"></div></div>
+    <div class="vm-la1-tl-bar" id="vm-la1-tl-bar"></div>
+  </div>
+  <div class="vm-la1-legend">
+    <div class="vm-la1-legend-col">
+      <div class="vm-la1-legend-title">Zone Colours &mdash; D-53 Locked</div>
+      <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#C9A84C"></span><span class="vm-la1-legend-id" style="color:#C9A84C">Z1</span> Metabolic Energy Axis</div>
+      <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#1A7A8A"></span><span class="vm-la1-legend-id" style="color:#1A7A8A">Z2</span> Resilience Network</div>
+      <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#7B5EA7"></span><span class="vm-la1-legend-id" style="color:#7B5EA7">Z3</span> Cardiovascular-Neural Axis</div>
+      <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#5F7C6C"></span><span class="vm-la1-legend-id" style="color:#5F7C6C">Z4</span> Detoxification Trident</div>
+      <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#2E6DB4"></span><span class="vm-la1-legend-id" style="color:#2E6DB4">Z5</span> Hormonal Terrain Axis</div>
+    </div>
+    <div class="vm-la1-legend-col">
+      <div class="vm-la1-legend-title">Stack Qualifiers</div>
+      <div class="vm-la1-legend-item">- - - S4 dashed line: THEORETICAL (D-12: excluded from DRD cascade trace)</div>
+      <div class="vm-la1-legend-item">S6 is UNIDIRECTIONAL: Z1 to Z3 only. Reverse does not exist.</div>
+      <div class="vm-la1-legend-item">TerrainLock loop: Z2 &rarr; Z1 &rarr; Z5 &rarr; Z2 (S1 + S2 + S4)</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var Z={Z1:{x:300,y:80,name:"Metabolic Energy Axis",col:"#C9A84C",nodes:"N3 + N6 (endocrine signalling)",desc:"The metabolic engine. When N6 (endocrine signalling) and N3 converge, energy production, hormonal signalling, and metabolic regulation become interdependent."},Z2:{x:490,y:230,name:"Resilience Network",col:"#1A7A8A",nodes:"N1 + N2 + N6 (endocrine signalling)",desc:"The resilience foundation. Three nodes converging to form the body's primary adaptive network. Z2 gut restoration is the default tiebreaker entry point."},Z3:{x:420,y:410,name:"Cardiovascular-Neural Axis",col:"#7B5EA7",nodes:"N5 + N6 (endocrine signalling)",desc:"The cardiovascular-neural interface. Receives from S5 and S6. Not ready for composite scoring in Phase 1."},Z4:{x:180,y:410,name:"Detoxification Trident",col:"#5F7C6C",nodes:"N2 + N4",desc:"The detoxification network. S3 drives Z4 to Z1. Not ready for composite scoring in Phase 1."},Z5:{x:110,y:230,name:"Hormonal Terrain Axis",col:"#2E6DB4",nodes:"N3 + N4 + N6 (endocrine signalling)",desc:"The hormonal terrain. Z5 is almost always a secondary burden zone, not the highest burden zone. Treating Z5 directly without addressing upstream zones produces temporary improvement. Threshold: 32 (20% lower)."}};
+  var S=[{id:"S1",from:"Z2",to:"Z1",vel:"MEDIUM",ev:"Mechanism Established, Cascade Emerging",col:"#1A7A8A",note:"Gut Resilience drives Metabolic Energy Axis"},{id:"S2",from:"Z1",to:"Z5",vel:"FAST",ev:"Established",col:"#C9A84C",note:"Energy drives Hormonal Terrain Axis"},{id:"S3",from:"Z4",to:"Z1",vel:"SLOW",ev:"Emerging",col:"#5F7C6C",note:"Detox burden drives Metabolic Energy Axis"},{id:"S4",from:"Z5",to:"Z2",vel:"MEDIUM",ev:"Theoretical",col:"#2E6DB4",note:"S4 is THEORETICAL. Excluded from DRD cascade trace (D-12). Fires for display in TerrainLock animation only.",dash:true},{id:"S5",from:"Z2",to:"Z3",vel:"FAST",ev:"Emerging (TMAO quarterly review)",col:"#1A7A8A",note:"Gut Resilience drives Cardiovascular-Neural Axis"},{id:"S6",from:"Z1",to:"Z3",vel:"MEDIUM",ev:"Established",col:"#C9A84C",note:"S6 is UNIDIRECTIONAL: Z1 to Z3 only. Reverse direction does not exist.",uni:true}];
+  var TL_SEQ=["S1","S2","S4"];
+  var TL_MSG=["S1 firing: Z2 to Z1 — Gut Resilience loads Metabolic Energy","S2 firing: Z1 to Z5 — FAST — Energy loads Hormonal Terrain","S4 loop: Z5 to Z2 — THEORETICAL — display only, not DRD-traced"];
+  var activeZone=null,activeStack=null,tlActive=false,tlStep=-1,tlTimer=null;
+  var svg=document.getElementById("vm-la1-svg");
+  var stacksG=document.getElementById("vm-la1-stacks-g");
+  var zonesG=document.getElementById("vm-la1-zones-g");
+  var detailEl=document.getElementById("vm-la1-detail");
+  var detailTitle=document.getElementById("vm-la1-detail-title");
+  var detailBody=document.getElementById("vm-la1-detail-body");
+  var tlBar=document.getElementById("vm-la1-tl-bar");
+  var R=38;
+  function ctrl(a,b){return{x:(a.x+b.x)/2+(b.y-a.y)*0.3,y:(a.y+b.y)/2-(b.x-a.x)*0.3}}
+  function edge(a,b,off){var dx=b.x-a.x,dy=b.y-a.y,l=Math.sqrt(dx*dx+dy*dy);if(!l)return b;return{x:b.x-(dx/l)*off,y:b.y-(dy/l)*off}}
+  function velClass(v){if(v==="FAST")return"vm-la1-anim-fast";if(v==="SLOW")return"vm-la1-anim-slow";return"vm-la1-anim-med"}
+  function buildStacks(){
+    stacksG.innerHTML="";
+    S.forEach(function(s){
+      var f=Z[s.from],t=Z[s.to],ep=edge(f,t,R+8),c=ctrl(f,ep);
+      var isTL=tlActive&&TL_SEQ.indexOf(s.id)!==-1;
+      var isAct=activeStack===s.id;
+      var g=document.createElementNS("http://www.w3.org/2000/svg","g");
+      g.setAttribute("class","vm-la1-stack-path");
+      g.style.cursor="pointer";
+      g.onclick=function(){setStack(s.id)};
+      var path=document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d","M"+f.x+","+f.y+" Q"+c.x+","+c.y+" "+ep.x+","+ep.y);
+      path.setAttribute("fill","none");
+      path.setAttribute("stroke",s.col);
+      path.setAttribute("stroke-width",isTL?3:isAct?2.5:1.4);
+      path.setAttribute("stroke-linecap","round");
+      path.setAttribute("opacity",isTL?0.9:isAct?0.85:0.3);
+      path.setAttribute("marker-end","url(#vm-la1-arr-"+s.id.toLowerCase()+")");
+      if(s.dash){path.setAttribute("stroke-dasharray","6,5")}
+      else if(isTL||isAct){path.setAttribute("stroke-dasharray","8,4");path.setAttribute("class",velClass(s.vel))}
+      g.appendChild(path);
+      var mx=(f.x+t.x)/2,my=(f.y+t.y)/2-16;
+      var txt=document.createElementNS("http://www.w3.org/2000/svg","text");
+      txt.setAttribute("x",mx);txt.setAttribute("y",my);
+      txt.setAttribute("text-anchor","middle");txt.setAttribute("font-size","10");
+      txt.setAttribute("fill",s.col);txt.setAttribute("font-family","'DM Mono',monospace");
+      txt.setAttribute("font-weight",isAct||isTL?"700":"400");
+      txt.setAttribute("opacity",isAct||isTL?"1":"0.55");
+      txt.textContent=s.id+(s.dash?" THEORETICAL":"")+(s.uni?" UNIDIRECTIONAL":"");
+      g.appendChild(txt);
+      var badge=document.createElementNS("http://www.w3.org/2000/svg","text");
+      badge.setAttribute("x",mx);badge.setAttribute("y",my+13);
+      badge.setAttribute("text-anchor","middle");badge.setAttribute("font-size","7");
+      badge.setAttribute("fill","rgba(244,244,242,0.4)");badge.setAttribute("font-family","'DM Mono',monospace");
+      badge.textContent=s.ev+" | "+s.vel;
+      g.appendChild(badge);
+      stacksG.appendChild(g);
+    });
+  }
+  function buildZones(){
+    zonesG.innerHTML="";
+    var ids=["Z1","Z2","Z3","Z4","Z5"];
+    ids.forEach(function(id){
+      var z=Z[id];var isAct=activeZone===id;
+      var isTL=tlActive&&(TL_SEQ.some(function(sid){var st=S.find(function(x){return x.id===sid});return st&&(st.from===id||st.to===id)}));
+      var r=isTL||isAct?42:R;
+      var g=document.createElementNS("http://www.w3.org/2000/svg","g");
+      g.setAttribute("class","vm-la1-zone");g.style.cursor="pointer";
+      g.onclick=function(){setZone(id)};
+      if(isTL){var gl=document.createElementNS("http://www.w3.org/2000/svg","circle");gl.setAttribute("cx",z.x);gl.setAttribute("cy",z.y);gl.setAttribute("r","56");gl.setAttribute("fill",z.col);gl.setAttribute("fill-opacity","0.08");gl.setAttribute("filter","url(#vm-la1-glow)");g.appendChild(gl)}
+      var circ=document.createElementNS("http://www.w3.org/2000/svg","circle");
+      circ.setAttribute("cx",z.x);circ.setAttribute("cy",z.y);circ.setAttribute("r",r);
+      circ.setAttribute("fill",z.col);circ.setAttribute("fill-opacity",isTL?"0.3":isAct?"0.25":"0.15");
+      circ.setAttribute("stroke",z.col);circ.setAttribute("stroke-width",isTL?"2.5":isAct?"2":"1.5");
+      g.appendChild(circ);
+      var t1=document.createElementNS("http://www.w3.org/2000/svg","text");
+      t1.setAttribute("x",z.x);t1.setAttribute("y",z.y-3);t1.setAttribute("text-anchor","middle");
+      t1.setAttribute("font-size","13");t1.setAttribute("fill",z.col);
+      t1.setAttribute("font-family","'DM Mono',monospace");t1.setAttribute("font-weight","700");
+      t1.textContent=id;g.appendChild(t1);
+      var t2=document.createElementNS("http://www.w3.org/2000/svg","text");
+      t2.setAttribute("x",z.x);t2.setAttribute("y",z.y+12);t2.setAttribute("text-anchor","middle");
+      t2.setAttribute("font-size","7.5");t2.setAttribute("fill","rgba(244,244,242,0.55)");
+      t2.setAttribute("font-family","'Outfit',sans-serif");
+      t2.textContent=z.name.split(" ")[0];g.appendChild(t2);
+      zonesG.appendChild(g);
+    });
+  }
+  function showDetail(){
+    if(activeZone){
+      var z=Z[activeZone];
+      detailTitle.style.color=z.col;
+      detailTitle.textContent=activeZone+" — "+z.name;
+      detailBody.innerHTML="<div>Nodes: "+z.nodes+"</div><div style='margin-top:4px'>"+z.desc+"</div>";
+      detailEl.className="vm-la1-detail active";
+    }else if(activeStack){
+      var s=S.find(function(x){return x.id===activeStack});
+      detailTitle.style.color=s.col;
+      detailTitle.textContent=s.id+": "+s.from+" → "+s.to;
+      detailBody.innerHTML="<div>Evidence: "+s.ev+" · Velocity: "+s.vel+"</div><div style='margin-top:4px;color:"+((s.dash)?"#C9A84C":(s.uni)?"#2A9BAD":"rgba(244,244,242,0.6)")+"'>"+s.note+"</div>";
+      detailEl.className="vm-la1-detail active";
+    }else{detailEl.className="vm-la1-detail"}
+  }
+  function setZone(id){activeStack=null;activeZone=activeZone===id?null:id;render()}
+  function setStack(id){activeZone=null;activeStack=activeStack===id?null:id;render()}
+  function render(){buildStacks();buildZones();showDetail();showTLBar()}
+  function showTLBar(){
+    if(tlActive&&tlStep>=0){tlBar.className="vm-la1-tl-bar active";tlBar.textContent="TERRAINLOCK ACTIVE — "+TL_MSG[Math.min(tlStep,2)]}
+    else{tlBar.className="vm-la1-tl-bar"}
+  }
+  window.vmLA1ToggleTL=function(){
+    if(tlActive){clearTimeout(tlTimer);tlActive=false;tlStep=-1;document.getElementById("vm-la1-tl-btn").className="vm-la1-btn";document.getElementById("vm-la1-tl-btn").textContent="Animate TerrainLock";render();return}
+    tlActive=true;tlStep=0;
+    document.getElementById("vm-la1-tl-btn").className="vm-la1-btn active";
+    document.getElementById("vm-la1-tl-btn").textContent="Stop TerrainLock";
+    render();
+    var step=0;
+    function advance(){tlStep=step;render();if(step<2){step++;tlTimer=setTimeout(advance,1400)}}
+    advance();
+  };
+  window.vmLA1Reset=function(){
+    if(tlActive){clearTimeout(tlTimer);tlActive=false;tlStep=-1;document.getElementById("vm-la1-tl-btn").className="vm-la1-btn";document.getElementById("vm-la1-tl-btn").textContent="Animate TerrainLock"}
+    activeZone=null;activeStack=null;render();
+  };
+  render();

@@ -1,0 +1,2530 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VitalMatrix&#8482;: NCZ&#8482; + FLINT&#8482; Clinical Architecture</title>
+<style>
+/* D-85 colour lock applied. ALB v1.5. */
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300;src:local('Cormorant Garamond Light'),local('CormorantGaramond-Light')}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400;src:local('Cormorant Garamond'),local('CormorantGaramond-Regular')}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;src:local('Cormorant Garamond SemiBold'),local('CormorantGaramond-SemiBold')}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:700;src:local('Cormorant Garamond Bold'),local('CormorantGaramond-Bold')}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400;src:local('Cormorant Garamond Italic'),local('CormorantGaramond-Italic')}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;src:local('Cormorant Garamond SemiBold Italic'),local('CormorantGaramond-SemiBoldItalic')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300;src:local('Outfit Light'),local('Outfit-Light')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:400;src:local('Outfit'),local('Outfit-Regular')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:500;src:local('Outfit Medium'),local('Outfit-Medium')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:600;src:local('Outfit SemiBold'),local('Outfit-SemiBold')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:700;src:local('Outfit Bold'),local('Outfit-Bold')}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:400;src:local('DM Mono'),local('DMMono-Regular')}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:500;src:local('DM Mono Medium'),local('DMMono-Medium')}
+
+:root {
+  --navy-d:     #071C33;
+  --navy:       #0D2B4E;
+  --navy-m:     #0F3460;
+  --card-bg:    #0D2444;
+  --teal:       #1A7A8A;
+  --teal-l:     #2A9BAD;
+  --teal-p:     rgba(26,122,138,0.12);
+  --teal-bd:    rgba(26,122,138,0.30);
+  --gold:       #C9A84C;
+  --gold-l:     #D4B86A;
+  --gold-p:     rgba(201,168,76,0.12);
+  --gold-bd:    rgba(201,168,76,0.30);
+  --white:      #F4F4F2;
+  --text-sec:   rgba(255,255,255,0.72);
+  --text-ter:   rgba(255,255,255,0.55);
+  --bd:         rgba(255,255,255,0.08);
+  --fs: 'Cormorant Garamond', Georgia, serif;
+  --fd: 'Outfit', system-ui, sans-serif;
+  --fm: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--fd);
+  background: var(--navy-d);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* PAGE HEADER */
+.page-header {
+  background: linear-gradient(180deg, #030D1A 0%, var(--navy-d) 100%);
+  padding: 80px 48px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--bd);
+}
+.page-header::before {
+  content: '';
+  position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(26,122,138,0.13) 0%, transparent 65%);
+  pointer-events: none;
+}
+.page-header::after {
+  content: '';
+  position: absolute; bottom: -50px; right: 12%;
+  width: 280px; height: 180px;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.ph-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+.ph-brand {
+  display: inline-flex; align-items: center; gap: 16px;
+  margin-bottom: 36px;
+}
+.v-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(145deg, var(--teal) 0%, var(--navy-m) 100%);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(26,122,138,0.38), inset 0 1px 0 rgba(255,255,255,0.10);
+  position: relative; flex-shrink: 0;
+}
+.v-icon::after {
+  content: '';
+  position: absolute; inset: 1px;
+  border-radius: 11px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.v-letter {
+  font-family: var(--fs); font-size: 28px; font-weight: 700;
+  color: var(--gold); line-height: 1;
+  text-shadow: 0 2px 8px rgba(201,168,76,0.40);
+  position: relative; z-index: 1;
+}
+.ph-wordmark { text-align: left; }
+.ph-wm-main {
+  display: block; font-size: 13.5px; font-weight: 300;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+}
+.ph-wm-main strong { font-weight: 600; color: var(--gold); }
+.ph-wm-tag {
+  display: block; font-size: 8.5px; letter-spacing: 0.20em;
+  text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 3px;
+}
+.ph-eyebrow {
+  font-family: var(--fm); font-size: 9px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--teal-l); margin-bottom: 16px;
+}
+.ph-title {
+  font-family: var(--fs);
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-weight: 600; color: var(--white);
+  line-height: 1.18; margin-bottom: 18px;
+}
+.ph-title em { font-style: italic; color: var(--gold); }
+.ph-sub {
+  font-size: 14.5px; font-weight: 300;
+  color: var(--text-sec); line-height: 1.78;
+  max-width: 520px; margin: 0 auto;
+}
+
+/* SECTION WRAPPER */
+.section-wrapper { max-width: 960px; margin: 0 auto; padding: 64px 40px; }
+
+/* SECTION HEADER */
+.section-hd { text-align: center; margin-bottom: 48px; }
+.s-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--fm); font-size: 9px;
+  letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 14px;
+}
+.s-eyebrow.tl { color: var(--teal-l); }
+.s-eyebrow.gd { color: var(--gold-l); }
+.s-rule { width: 28px; height: 1px; }
+.s-rule.tl { background: var(--teal); }
+.s-rule.gd { background: var(--gold); }
+.s-title {
+  font-family: var(--fs);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600; color: var(--white); margin-bottom: 10px;
+}
+.s-sub {
+  font-size: 13.5px; font-weight: 300;
+  color: var(--text-ter); line-height: 1.75; max-width: 460px; margin: 0 auto;
+}
+
+/* CARD GRID -- 2-column desktop */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.card-grid .zone-card:nth-child(5) { grid-column: span 2; }
+
+/* ZONE / LAYER CARD */
+.zone-card {
+  background: var(--card-bg);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 36px 32px;
+  display: flex; flex-direction: column; gap: 0;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.zone-card.visible { opacity: 1; transform: translateY(0); }
+.card-grid .zone-card:nth-child(even) {
+  background: rgba(15, 36, 68, 0.55);
+}
+.zone-card:hover {
+  border-color: rgba(255,255,255,0.14);
+  background: rgba(15, 52, 96, 0.40);
+}
+.zone-card.tl-card:hover { border-color: var(--teal-bd); }
+.zone-card.gd-card:hover { border-color: var(--gold-bd); }
+.zone-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  opacity: 0; transition: opacity 0.25s;
+}
+.zone-card.tl-card::before { background: linear-gradient(90deg, var(--teal), transparent); }
+.zone-card.gd-card::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.zone-card:hover::before { opacity: 1; }
+
+/* CARD INTERNAL LAYOUT */
+.card-top { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 20px; }
+
+/* HEX ICON -- 52x52 */
+.hex-wrap {
+  position: relative; width: 52px; height: 60px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.hex-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hex-num {
+  position: relative; z-index: 2;
+  font-family: var(--fs); font-size: 22px; font-weight: 700;
+  line-height: 1; margin-top: 3px;
+}
+.hex-num.tl { color: var(--teal-l); }
+.hex-num.gd { color: var(--gold-l); }
+
+/* CARD LABELS */
+.card-meta { flex: 1; padding-top: 2px; }
+.z-label {
+  display: block; font-family: var(--fm);
+  font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.z-label.tl { color: var(--teal-l); }
+.z-label.gd { color: var(--gold-l); }
+.z-name {
+  font-family: var(--fs);
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  font-weight: 600; color: var(--white); line-height: 1.15;
+}
+
+/* SYSTEMS LINE */
+.z-systems {
+  font-family: var(--fd); font-size: 13px; font-weight: 400;
+  color: var(--text-sec); letter-spacing: 0.01em;
+  margin-bottom: 14px; line-height: 1.5;
+}
+
+/* CLINICAL QUESTION */
+.z-clinical-q {
+  font-family: var(--fs); font-size: 0.95rem; font-style: italic;
+  color: rgba(255,255,255,0.72); margin-bottom: 14px; line-height: 1.4;
+}
+
+/* BADGE ROW */
+.badge-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
+.badge {
+  font-family: var(--fm); font-size: 8px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 2px 9px; border-radius: 100px; border: 1px solid; line-height: 1.7;
+}
+.bd-node {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.55);
+}
+.bd-fn-tl {
+  background: var(--teal-p); border-color: var(--teal-bd); color: var(--teal-l);
+}
+.bd-fn-gd {
+  background: var(--gold-p); border-color: var(--gold-bd); color: var(--gold-l);
+}
+.bd-engine {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.72);
+}
+
+/* DESCRIPTION */
+.z-desc {
+  font-family: var(--fd); font-size: 13.5px; font-weight: 300;
+  color: var(--text-ter); line-height: 1.80;
+  margin-bottom: 22px; flex: 1;
+}
+
+/* CTA */
+.cta-learn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 20px; border-radius: 7px;
+  font-family: var(--fd); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer;
+  background: transparent; border: 1px solid;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+}
+.cta-learn.tl { color: var(--teal-l); border-color: var(--teal-bd); }
+.cta-learn.tl:hover { background: var(--teal-p); border-color: var(--teal); color: var(--white); }
+.cta-learn.gd { color: var(--gold-l); border-color: var(--gold-bd); }
+.cta-learn.gd:hover { background: var(--gold-p); border-color: var(--gold); color: var(--white); }
+.cta-arrow { font-size: 11px; transition: transform 0.2s; }
+.cta-learn:hover .cta-arrow { transform: translateX(3px); }
+
+/* SECTION DIVIDER */
+.s-divider {
+  display: flex; align-items: center; gap: 18px;
+  max-width: 960px; margin: 0 auto; padding: 0 40px;
+}
+.div-rule { flex: 1; height: 1px; background: var(--bd); }
+.div-label {
+  font-family: var(--fm); font-size: 8.5px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.16); white-space: nowrap; padding: 0 4px;
+}
+
+/* REG NOTE */
+.reg-note {
+  max-width: 960px; margin: 0 auto; padding: 0 40px 56px;
+}
+.reg-inner {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--bd);
+  border-radius: 8px; padding: 16px 22px;
+  font-size: 11px; color: rgba(255,255,255,0.65);
+  line-height: 1.75; text-align: center;
+}
+
+/* FOOTER */
+.page-footer {
+  background: #1A2030;
+  border-top: 1px solid rgba(201,168,76,.3);
+  padding: 16px 24px;
+  border-radius: 6px;
+  text-align: center;
+}
+.footer-tm {
+  font-family: var(--fm); font-size: 9px;
+  color: rgba(255,255,255,0.65); letter-spacing: 0.09em;
+  text-transform: uppercase; line-height: 2.2;
+  max-width: 860px; margin: 0 auto;
+}
+.footer-ico {
+  display: block; margin-top: 14px;
+  font-family: var(--fm); font-size: 8.5px;
+  color: rgba(255,255,255,0.65); letter-spacing: 0.12em;
+}
+
+/* Z3 PURPLE card accent */
+.pu-card::before { background: linear-gradient(90deg, #7B5EA7, transparent); }
+.pu-card:hover { border-color: rgba(123,94,167,.30); }
+.pu-card:hover::before { opacity: 1; }
+.bd-fn-pu { background: rgba(123,94,167,.12); border-color: rgba(123,94,167,.30); color: #9B7EC8; }
+/* Z4 SAGE card accent */
+.sg-card::before { background: linear-gradient(90deg, #5F7C6C, transparent); }
+.sg-card:hover { border-color: rgba(95,124,108,.30); }
+.sg-card:hover::before { opacity: 1; }
+.bd-fn-sg { background: rgba(95,124,108,.12); border-color: rgba(95,124,108,.30); color: #7A9485; }
+/* Z5 DEEP STEEL BLUE card accent (D-85) */
+.wg-card::before { background: linear-gradient(90deg, #2E6DB4, transparent); }
+.wg-card:hover { border-color: rgba(46,109,180,.30); }
+.wg-card:hover::before { opacity: 1; }
+.bd-fn-wg { background: rgba(46,109,180,.12); border-color: rgba(46,109,180,.30); color: #5A9AD6; }
+
+/* TERRAINLOCK BADGE */
+.bd-terrainlock { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.25); color: var(--gold-l); }
+/* THEORETICAL dashed */
+.bd-theoretical { border-style: dashed; background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.55); }
+/* UNIDIRECTIONAL */
+.bd-unidirectional { background: rgba(26,122,138,0.08); border-color: rgba(26,122,138,0.25); color: var(--teal-l); }
+/* MES bar */
+.mes-bar {
+  margin-top: 16px; padding: 10px 16px; border-radius: 6px;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--fm); font-size: 8.5px; color: rgba(255,255,255,0.55);
+  letter-spacing: 0.10em; text-transform: uppercase;
+}
+
+/* ═══ 20 AWARD-WINNING ENHANCEMENTS ═══ */
+
+/* AW1: Zone-to-layer connection map */
+.aw-conn-map{max-width:960px;margin:0 auto;padding:16px 40px}
+.aw-conn-svg{width:100%;height:auto}
+.aw-conn-line{stroke-width:1.2;fill:none;opacity:0.25;transition:opacity 0.4s ease,stroke-width 0.3s ease}
+.aw-conn-line.aw-hi{opacity:0.8;stroke-width:2.2}
+.aw-conn-particle{opacity:0}
+@media(prefers-reduced-motion:no-preference){.aw-conn-particle.aw-running{opacity:0.6}}
+
+/* AW2: Scroll-pinned worked example */
+.aw-example-wrap{position:relative;height:350vh}
+.aw-example-inner{position:sticky;top:80px;height:calc(100vh - 160px);display:flex;align-items:center;justify-content:center;max-width:720px;margin:0 auto;padding:0 40px}
+.aw-ex-sentence{opacity:0.25;transition:opacity 0.4s ease,color 0.4s ease;margin-bottom:12px;font-family:var(--fs);font-size:clamp(1.05rem,2vw,1.3rem);font-style:italic;color:rgba(255,255,255,0.45);line-height:1.7}
+.aw-ex-sentence.aw-ex-active{opacity:1;color:rgba(255,255,255,0.85)}
+.aw-ex-dots{display:flex;gap:8px;justify-content:center;margin-top:20px}
+.aw-ex-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all 0.3s ease}
+.aw-ex-dot.aw-ex-dot-on{background:var(--gold);box-shadow:0 0 8px rgba(201,168,76,0.4)}
+@media(max-width:700px){.aw-example-wrap{height:auto}.aw-example-inner{position:relative;top:auto;height:auto;padding:48px 20px}}
+
+/* AW3: Card flip */
+.aw-flip-wrap{position:relative;perspective:800px}
+.aw-flipper{transition:transform 0.6s cubic-bezier(0.34,1.56,0.64,1);transform-style:preserve-3d}
+.aw-flipper.aw-flipped{transform:rotateY(180deg)}
+.aw-flip-front,.aw-flip-back{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.aw-flip-back{position:absolute;inset:0;transform:rotateY(180deg);background:var(--card-bg);border:1px solid var(--bd);border-radius:14px;padding:32px 28px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.aw-flip-btn{font-family:var(--fm);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:6px;padding:7px 16px;cursor:pointer;transition:all 0.3s ease;align-self:flex-start;margin-top:12px}
+.aw-flip-btn:hover{background:rgba(201,168,76,0.15)}
+.aw-back-title{font-family:var(--fm);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal-l);margin-bottom:8px}
+.aw-back-bars{display:flex;gap:6px;align-items:flex-end;height:60px}
+.aw-back-bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:height 0.8s ease}
+.aw-back-bar-label{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,0.4);text-align:center;margin-top:4px}
+.aw-back-text{font-size:12px;color:var(--text-ter);line-height:1.6}
+.aw-back-sample{font-family:var(--fm);font-size:7px;letter-spacing:0.15em;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:8px}
+
+/* AW4: FLINT pipeline SVG */
+.aw-pipeline-wrap{max-width:800px;margin:0 auto 40px;text-align:center}
+.aw-pipeline-svg{width:100%;height:auto}
+.aw-pipeline-hex{opacity:0.3;transition:all 0.5s ease}
+.aw-pipeline-hex.aw-pl-active{opacity:1}
+.aw-pipeline-hex.aw-pl-hover{opacity:1;filter:drop-shadow(0 0 8px currentColor)}
+.aw-pipeline-label{opacity:0;transition:opacity 0.4s ease;font-family:var(--fs);font-size:14px;font-weight:600}
+.aw-pipeline-label.aw-pl-show{opacity:1}
+
+/* AW5: Zone constellation */
+.aw-constellation-wrap{max-width:580px;margin:0 auto 40px;position:relative}
+.aw-const-svg{width:100%;height:auto}
+.aw-const-zone{cursor:pointer;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.aw-const-zone:hover{transform:scale(1.15)}
+.aw-const-path{fill:none;stroke-width:1.5;opacity:0.3;transition:opacity 0.3s ease,stroke-width 0.3s ease}
+.aw-const-path.aw-const-hi{opacity:0.9;stroke-width:2.5}
+.aw-const-path.aw-const-dim{opacity:0.06}
+.aw-const-dots{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.aw-const-dot{width:10px;height:10px;border-radius:50%;cursor:pointer;transition:transform 0.3s ease;border:1.5px solid}
+.aw-const-dot:hover{transform:scale(1.3)}
+
+/* AW6: Threshold visualiser bar */
+.aw-threshold-bar{margin-top:16px;position:relative;height:20px}
+.aw-thr-track{position:absolute;bottom:0;left:0;right:0;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:visible}
+.aw-thr-fill{position:absolute;left:0;bottom:0;height:100%;border-radius:2px;width:0;transition:width 1.2s ease}
+.aw-thr-marker{position:absolute;top:-6px;width:2px;height:16px;background:rgba(255,255,255,0.30);border-radius:1px}
+.aw-thr-borderline{position:absolute;top:0;height:100%;background:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,255,255,0.06) 2px,rgba(255,255,255,0.06) 4px);border-radius:2px}
+.aw-thr-label{font-family:var(--fm);font-size:8px;color:rgba(255,255,255,0.40);position:absolute;right:0;top:-2px;letter-spacing:0.08em}
+.aw-thr-sample{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,0.20);letter-spacing:0.12em;text-transform:uppercase;position:absolute;left:0;top:-2px}
+
+/* AW7: L3 cascade mini-map */
+.aw-minimap-wrap{margin:16px 0;text-align:center}
+.aw-minimap-svg{width:200px;height:200px}
+.aw-mm-zone{transition:transform 0.3s ease}
+.aw-mm-line{fill:none;stroke-width:1.2;opacity:0.4;transition:opacity 0.3s ease}
+.aw-mm-line:hover{opacity:1}
+.aw-mm-tooltip{position:absolute;background:var(--navy);border:1px solid var(--bd);border-radius:6px;padding:8px 12px;font-size:10px;color:var(--white);display:none;z-index:10;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+
+/* AW8: FLINT progress stepper */
+.aw-stepper{position:sticky;top:100px;right:0;display:flex;flex-direction:column;align-items:center;gap:16px;z-index:4;width:40px;float:right;margin-right:-60px}
+.aw-step-circle{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);background:transparent;cursor:pointer;transition:all 0.3s ease;position:relative}
+.aw-step-circle.aw-step-on{border-color:var(--gold);background:var(--gold)}
+.aw-step-circle:hover::after{content:attr(data-label);position:absolute;right:24px;top:50%;transform:translateY(-50%);font-family:var(--fm);font-size:8px;letter-spacing:0.10em;color:var(--white);white-space:nowrap;background:var(--navy);padding:4px 8px;border-radius:4px;border:1px solid var(--bd)}
+.aw-step-line{width:2px;height:16px;background:rgba(255,255,255,0.08);position:relative}
+.aw-step-line-fill{position:absolute;top:0;left:0;width:100%;height:0;background:var(--gold);border-radius:1px;transition:height 0.4s ease}
+@media(max-width:1024px){.aw-stepper{display:none}}
+
+/* AW9: Badge animation */
+@media(prefers-reduced-motion:no-preference){
+.zone-card .badge{opacity:0.85;transform:translateY(4px) scale(0.85);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.zone-card:hover .badge{opacity:1;transform:translateY(0) scale(1)}
+.zone-card:hover .badge:nth-child(1){transition-delay:0ms}
+.zone-card:hover .badge:nth-child(2){transition-delay:60ms}
+.zone-card:hover .badge:nth-child(3){transition-delay:120ms}
+.zone-card:hover .badge:nth-child(4){transition-delay:180ms}
+.zone-card:hover .badge:nth-child(5){transition-delay:240ms}
+.zone-card:hover .badge:nth-child(6){transition-delay:300ms}
+.bd-terrainlock{animation:awTLPulse 2s ease-in-out infinite}
+@keyframes awTLPulse{0%,100%{opacity:0.7}50%{opacity:1}}
+.zone-card:hover .bd-engine::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(201,168,76,0.15) 50%,transparent 70%);animation:awShimmer 0.6s ease forwards;border-radius:inherit}
+@keyframes awShimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.bd-engine{position:relative;overflow:hidden}
+.zone-card:hover .bd-theoretical{animation:awMarch 1s linear infinite}
+@keyframes awMarch{to{stroke-dashoffset:-12px;border-color:rgba(255,255,255,0.25)}}
+}
+
+/* AW10: Cinematic page entrance */
+.aw-loader{position:absolute;top:0;left:0;right:0;min-height:100vh;background:var(--navy-d);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.4s ease}
+.aw-loader.aw-loader-done{opacity:0;pointer-events:none}
+.aw-loader-icon{width:52px;height:52px;opacity:0;filter:blur(8px);transition:all 0.6s ease}
+.aw-loader-icon.aw-li-show{opacity:1;filter:blur(0)}
+.aw-loader-line{width:0;height:2px;background:var(--gold);transition:width 0.4s ease;border-radius:1px}
+.aw-loader-line.aw-ll-draw{width:200px}
+.aw-loader-text{font-family:var(--fs);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:600;color:var(--white);overflow:hidden}
+.aw-loader-char{display:inline-block;opacity:0;transform:translateY(8px);transition:all 0.15s ease}
+.aw-loader-char.aw-lc-show{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.aw-loader{display:none}}
+
+/* AW11: Node membership glow rings */
+@media(prefers-reduced-motion:no-preference){
+.hex-wrap{position:relative}
+.hex-wrap::before,.hex-wrap::after{content:'';position:absolute;top:50%;left:50%;width:100%;height:100%;border-radius:50%;border:1px solid;transform:translate(-50%,-50%);opacity:0;pointer-events:none}
+.gd-card .hex-wrap::before,.gd-card .hex-wrap::after{border-color:rgba(201,168,76,0.20)}
+.tl-card .hex-wrap::before,.tl-card .hex-wrap::after{border-color:rgba(26,122,138,0.20)}
+.pu-card .hex-wrap::before,.pu-card .hex-wrap::after{border-color:rgba(123,94,167,0.20)}
+.sg-card .hex-wrap::before,.sg-card .hex-wrap::after{border-color:rgba(95,124,108,0.20)}
+.wg-card .hex-wrap::before,.wg-card .hex-wrap::after{border-color:rgba(46,109,180,0.20)}
+.hex-wrap::before{animation:awRing1 3s ease-in-out infinite}
+.hex-wrap::after{animation:awRing2 3s ease-in-out 0.8s infinite}
+@keyframes awRing1{0%{width:100%;height:100%;opacity:0.3}100%{width:160%;height:160%;opacity:0}}
+@keyframes awRing2{0%{width:100%;height:100%;opacity:0.2}100%{width:180%;height:180%;opacity:0}}
+}
+
+/* AW12: Typewriter cursor */
+.aw-tw-cursor{display:inline-block;width:2px;height:1em;background:var(--gold);margin-left:2px;vertical-align:text-bottom;animation:awBlink 0.6s step-end infinite}
+@keyframes awBlink{0%,100%{opacity:1}50%{opacity:0}}
+.aw-tw-cursor.aw-tw-fade{animation:none;opacity:0;transition:opacity 0.5s ease}
+
+/* AW13: Zone comparison overlay */
+.aw-compare-btn{position:sticky;bottom:20px;left:calc(100% - 60px);width:120px;font-family:var(--fm);font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--teal-l);background:rgba(26,122,138,0.12);border:1px solid rgba(26,122,138,0.30);border-radius:8px;padding:8px 14px;cursor:pointer;transition:all 0.3s ease;z-index:5;display:none}
+.aw-compare-btn.aw-cmp-show{display:block}
+.aw-compare-btn:hover{background:rgba(26,122,138,0.20)}
+.aw-compare-overlay{position:absolute;bottom:0;left:0;right:0;background:rgba(13,43,78,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--bd);padding:24px;z-index:100;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.aw-compare-overlay.aw-cmp-open{transform:translateY(0)}
+.aw-cmp-card{text-align:center;padding:16px 12px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--bd);min-width:140px;flex:1;max-width:180px}
+.aw-cmp-zone{font-family:var(--fm);font-size:16px;font-weight:700;margin-bottom:4px}
+.aw-cmp-name{font-size:11px;color:var(--text-ter);margin-bottom:6px}
+.aw-cmp-stat{font-family:var(--fm);font-size:9px;color:var(--text-ter);line-height:1.8}
+.aw-cmp-close{position:absolute;top:8px;right:16px;font-size:18px;color:var(--text-ter);cursor:pointer;background:none;border:none;padding:4px}
+
+/* AW14: Layer dependency highlight */
+.zone-card.aw-dep-dim{opacity:0.4;transition:opacity 0.3s ease}
+.zone-card.aw-dep-active{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 36px rgba(0,0,0,0.2);z-index:2;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.aw-dep-line{position:absolute;left:50%;width:2px;background:var(--gold);opacity:0;transition:height 0.4s ease,opacity 0.3s ease;transform:translateX(-1px);z-index:1;pointer-events:none}
+.aw-dep-line.aw-dep-show{opacity:0.3}
+
+/* AW15: Cascade velocity particle streams */
+.aw-streams-wrap{position:relative;height:48px;max-width:960px;margin:0 auto;overflow:hidden}
+.aw-stream-svg{width:100%;height:100%;position:absolute;inset:0}
+.aw-stream-particle{opacity:0}
+@media(prefers-reduced-motion:no-preference){.aw-stream-particle.aw-sp-on{opacity:0.5}}
+.aw-stream-label{font-family:var(--fm);font-size:8px;fill:rgba(255,255,255,0.20);transition:fill 0.3s ease}
+.aw-streams-wrap:hover .aw-stream-label{fill:rgba(255,255,255,0.55)}
+
+/* AW16: Hexagon morph */
+@media(prefers-reduced-motion:no-preference){
+.hex-wrap svg polygon{transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+.zone-card:hover .hex-wrap svg polygon{fill-opacity:0.18;stroke-width:1.8}
+.aw-hex-ghost{position:absolute;inset:0;opacity:0;transition:all 0.6s ease;pointer-events:none}
+.zone-card:hover .aw-hex-ghost{opacity:1;transform:scale(1.25);filter:blur(4px)}
+}
+
+/* AW17: Syntax highlighting */
+.aw-sh-mnemonic{color:var(--gold);background:rgba(201,168,76,0.08);padding:1px 4px;border-radius:3px}
+.aw-sh-zone{padding:1px 4px;border-radius:3px}
+.aw-sh-node{color:var(--teal-l);padding:1px 4px;border-radius:3px}
+.aw-sh-stack{padding:1px 4px;border-radius:3px}
+.aw-sh-clinical{color:var(--white);opacity:1}
+.aw-sh-tooltip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--navy);border:1px solid var(--bd);border-radius:6px;padding:6px 10px;font-family:var(--fm);font-size:8px;color:var(--white);white-space:nowrap;display:none;z-index:10;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+[data-aw-tip]:hover .aw-sh-tooltip{display:block}
+[data-aw-tip]{position:relative;cursor:help}
+
+/* AW18: Card depth shadow parallax */
+.zone-card{will-change:box-shadow}
+
+/* AW19: Ambient background */
+.aw-ambient-canvas{position:sticky;top:0;left:0;width:100%;height:100vh;pointer-events:none;z-index:0;opacity:0.03;margin-top:-100vh}
+@media(prefers-reduced-motion:reduce){.aw-ambient-canvas{display:none}}
+
+/* AW20: Clinical walkthrough */
+.aw-walk-wrap{position:relative;height:350vh;max-width:960px;margin:0 auto}
+.aw-walk-inner{position:sticky;top:80px;height:calc(100vh - 160px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 40px}
+.aw-walk-tracker{position:absolute;top:24px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center}
+.aw-walk-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);background:transparent;transition:all 0.3s ease}
+.aw-walk-dot.aw-wd-on{border-color:var(--gold);background:var(--gold)}
+.aw-walk-conn{width:20px;height:2px;background:rgba(255,255,255,0.08);position:relative}
+.aw-walk-conn-fill{position:absolute;inset:0;background:var(--gold);width:0;transition:width 0.4s ease;border-radius:1px}
+.aw-walk-conn-fill.aw-wc-full{width:100%}
+.aw-walk-card{position:absolute;opacity:0;transform:translateX(60px);transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);max-width:520px;width:100%;background:var(--card-bg);border:1px solid var(--bd);border-radius:14px;padding:36px 28px;pointer-events:none}
+.aw-walk-card.aw-wk-active{opacity:1;transform:translateX(0);pointer-events:auto}
+.aw-walk-layer{font-family:var(--fm);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px}
+.aw-walk-q{font-family:var(--fs);font-size:clamp(1.3rem,3vw,1.8rem);font-weight:600;color:var(--white);margin-bottom:12px}
+.aw-walk-output{font-size:13px;color:var(--text-ter);line-height:1.7;margin-bottom:12px}
+.aw-walk-sample{font-family:var(--fm);font-size:7px;letter-spacing:0.15em;color:rgba(255,255,255,0.20);text-transform:uppercase}
+@media(max-width:700px){.aw-walk-wrap{height:auto}.aw-walk-inner{position:relative;top:auto;height:auto;flex-direction:column;gap:20px;padding:48px 16px}.aw-walk-card{position:relative;opacity:1;transform:none;pointer-events:auto}.aw-walk-tracker{position:relative;top:auto;left:auto;transform:none;margin-bottom:20px}}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .page-header { padding: 52px 20px 44px; }
+  .section-wrapper { padding: 44px 16px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .card-grid .zone-card:nth-child(5) { grid-column: span 1; }
+  .zone-card { padding: 28px 20px; }
+  .s-divider { padding: 0 16px; }
+  .reg-note { padding: 0 16px 40px; }
+  .page-footer { padding: 24px 16px 20px; }
+}
+
+/* ═══ 20 APP-LEVEL FEATURES (APP-1 to APP-20) ═══ */
+.app-section{max-width:960px;margin:0 auto;padding:48px 40px;border-top:1px solid rgba(255,255,255,0.06)}
+.app-section-label{font-family:var(--fm);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-l);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.app-section-label .app-dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.app-section h3{font-family:var(--fs);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:600;color:var(--white);margin-bottom:10px}
+.app-section p.app-desc{font-size:13px;color:var(--text-ter);line-height:1.75;margin-bottom:20px;max-width:640px}
+
+/* APP-1: Zone convergence engine */
+.app1-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.app1-inputs{display:flex;flex-direction:column;gap:10px}
+.app1-node-row{display:flex;align-items:center;gap:10px;font-family:var(--fm);font-size:11px;color:var(--text-sec)}
+.app1-node-row input[type=range]{flex:1;height:5px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,0.10);border-radius:3px;outline:none;cursor:pointer}
+.app1-node-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--teal);border:2px solid var(--navy);cursor:pointer}
+.app1-node-val{font-family:var(--fm);font-size:10px;width:28px;text-align:right}
+.app1-zones{display:flex;flex-direction:column;gap:8px}
+.app1-zone-bar{display:flex;align-items:center;gap:10px}
+.app1-zone-id{font-family:var(--fm);font-size:11px;font-weight:700;width:24px}
+.app1-zone-track{flex:1;height:12px;background:rgba(255,255,255,0.06);border-radius:6px;position:relative;overflow:hidden}
+.app1-zone-fill{height:100%;border-radius:6px;transition:width 0.6s ease;position:absolute;left:0;top:0}
+.app1-zone-thr{position:absolute;top:0;height:100%;width:2px;background:rgba(255,255,255,0.30)}
+.app1-zone-status{font-family:var(--fm);font-size:8px;width:56px;text-align:right;letter-spacing:0.06em}
+.app1-show-working{font-family:var(--fm);font-size:9px;color:var(--teal-l);cursor:pointer;background:none;border:1px solid rgba(26,122,138,0.25);border-radius:4px;padding:4px 10px;margin-top:8px}
+.app1-working{font-size:10px;color:var(--text-ter);line-height:1.6;margin-top:8px;display:none;background:rgba(255,255,255,0.02);padding:12px;border-radius:6px;border:1px solid var(--bd)}
+.app1-working.app1-show{display:block}
+@media(max-width:700px){.app1-wrap{grid-template-columns:1fr}}
+
+/* APP-2: Cascade chain reaction */
+.app2-timeline{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.app2-tl-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:3px solid transparent;transition:all 0.3s ease}
+.app2-tl-row.app2-active{border-left-color:var(--gold);background:rgba(201,168,76,0.06)}
+.app2-tl-window{font-family:var(--fm);font-size:9px;letter-spacing:0.08em;width:80px;color:var(--text-ter)}
+.app2-tl-stack{font-family:var(--fm);font-size:12px;font-weight:700;width:28px}
+.app2-tl-desc{font-size:12px;color:var(--text-sec);flex:1}
+.app2-run-btn{font-family:var(--fm);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:6px;padding:8px 18px;cursor:pointer;transition:all 0.3s ease;margin-bottom:16px}
+.app2-run-btn:hover{background:rgba(201,168,76,0.15)}
+
+/* APP-3: DRD designation */
+.app3-wrap{text-align:center;margin:16px 0}
+.app3-designated{font-family:var(--fs);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin:12px 0 8px}
+.app3-trace{font-size:12px;color:var(--text-ter);line-height:1.7;max-width:500px;margin:0 auto}
+.app3-crown{font-size:28px;margin-bottom:4px}
+.app3-insight{font-family:var(--fs);font-size:14px;font-style:italic;color:rgba(201,168,76,0.65);margin-top:16px;max-width:480px;margin-left:auto;margin-right:auto}
+
+/* APP-4: Examination dashboard */
+.app4-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.app4-tier{background:var(--card-bg);border:1px solid var(--bd);border-radius:10px;padding:16px}
+.app4-tier-head{font-family:var(--fm);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal-l);margin-bottom:4px}
+.app4-tier-budget{font-family:var(--fm);font-size:10px;color:var(--text-ter);margin-bottom:12px}
+.app4-test{padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--bd);border-radius:6px;margin-bottom:6px;font-size:11px;color:var(--text-sec);cursor:grab;transition:all 0.2s ease}
+.app4-test:hover{border-color:rgba(201,168,76,0.25);background:rgba(201,168,76,0.04)}
+.app4-test-zone{font-family:var(--fm);font-size:8px;letter-spacing:0.08em;margin-top:3px;display:block}
+.app4-total{font-family:var(--fm);font-size:10px;color:var(--gold);margin-top:8px;text-align:right}
+@media(max-width:700px){.app4-tiers{grid-template-columns:1fr}}
+
+/* APP-5: Pipeline replay */
+.app5-wrap{position:relative;text-align:center}
+.app5-progress{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:20px}
+.app5-pip-dot{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);background:transparent;transition:all 0.4s ease}
+.app5-pip-dot.app5-done{border-color:var(--gold);background:var(--gold)}
+.app5-pip-conn{width:24px;height:2px;background:rgba(255,255,255,0.08);position:relative}
+.app5-pip-conn-fill{position:absolute;inset:0;background:var(--gold);width:0;transition:width 0.4s ease;border-radius:1px}
+.app5-pip-conn-fill.app5-cf{width:100%}
+.app5-narrative{font-size:13px;color:var(--text-sec);line-height:1.7;min-height:80px;max-width:560px;margin:0 auto 16px;text-align:left;padding:16px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--bd)}
+.app5-controls{display:flex;gap:8px;justify-content:center}
+.app5-ctrl-btn{font-family:var(--fm);font-size:9px;letter-spacing:0.10em;text-transform:uppercase;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all 0.3s ease;border:1px solid var(--bd);background:transparent;color:var(--text-sec)}
+.app5-ctrl-btn:hover{border-color:var(--teal);color:var(--white)}
+.app5-ctrl-btn.app5-primary{color:var(--gold);border-color:rgba(201,168,76,0.30);background:rgba(201,168,76,0.08)}
+
+/* APP-6: Terrain stability */
+.app6-gauges{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.app6-gauge{text-align:center;min-width:100px}
+.app6-gauge-ring{width:80px;height:80px;margin:0 auto 8px;position:relative}
+.app6-gauge-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.app6-gauge-ring circle{fill:none;stroke-width:6}
+.app6-gauge-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:16px;font-weight:700}
+.app6-gauge-label{font-family:var(--fm);font-size:9px;color:var(--text-ter);letter-spacing:0.08em}
+.app6-drift{margin-top:16px;padding:12px;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;font-size:11px;color:var(--text-sec);line-height:1.6}
+
+/* APP-7: Node contribution matrix */
+.app7-matrix{width:100%;border-collapse:separate;border-spacing:3px;margin:16px 0}
+.app7-th{font-family:var(--fm);font-size:9px;font-weight:700;padding:6px;text-align:center}
+.app7-cell{height:40px;border-radius:6px;text-align:center;vertical-align:middle;font-family:var(--fm);font-size:10px;transition:all 0.3s ease;position:relative;cursor:default}
+.app7-cell.app7-active{cursor:pointer}
+.app7-cell:hover{transform:scale(1.08)}
+.app7-dampened{font-size:8px;display:block;margin-top:2px;opacity:0.5}
+.app7-cell-tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--navy);border:1px solid var(--bd);border-radius:6px;padding:8px 12px;font-size:9px;color:var(--white);white-space:nowrap;display:none;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,0.3);pointer-events:none}
+.app7-cell:hover .app7-cell-tip{display:block}
+.app7-toggle{font-family:var(--fm);font-size:9px;color:var(--teal-l);cursor:pointer;background:none;border:1px solid rgba(26,122,138,0.25);border-radius:4px;padding:4px 10px;margin-right:8px}
+.app7-toggle.app7-on{background:rgba(26,122,138,0.15)}
+
+/* APP-8: Cascade load-balancing */
+.app8-diagram{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.app8-zone{text-align:center;padding:16px;border-radius:10px;background:var(--card-bg);border:1px solid var(--bd);min-width:120px;transition:all 0.3s ease}
+.app8-zone-circle{width:50px;height:50px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:700;border:2px solid;transition:all 0.3s ease}
+.app8-zone-stat{font-family:var(--fm);font-size:9px;color:var(--text-ter);line-height:1.6}
+.app8-bottleneck{font-family:var(--fm);font-size:10px;color:var(--gold);margin-top:4px}
+.app8-narrative{margin-top:16px;font-size:12px;color:var(--text-ter);line-height:1.7;padding:12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--bd)}
+
+/* APP-9: Consultation efficiency */
+.app9-strip{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.app9-gauge{text-align:center;min-width:120px}
+.app9-gauge-bar{width:100%;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;margin:8px 0 4px}
+.app9-gauge-fill{height:100%;border-radius:4px;transition:width 0.8s ease}
+.app9-gauge-label{font-family:var(--fm);font-size:9px;color:var(--text-ter);letter-spacing:0.06em}
+.app9-gauge-val{font-family:var(--fm);font-size:14px;font-weight:700}
+.app9-rec{margin-top:16px;font-size:12px;color:var(--text-sec);line-height:1.6;padding:12px;background:rgba(26,122,138,0.04);border:1px solid rgba(26,122,138,0.15);border-radius:8px}
+
+/* APP-10: Architectural constraint validator */
+.app10-shield{width:48px;height:48px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid;transition:all 0.3s ease;cursor:pointer}
+.app10-shield.app10-green{border-color:#2ecc71;color:#2ecc71;background:rgba(46,204,113,0.08)}
+.app10-shield.app10-amber{border-color:#f39c12;color:#f39c12;background:rgba(243,156,18,0.08)}
+.app10-rules{display:none;margin-top:16px}
+.app10-rules.app10-expanded{display:block}
+.app10-rule{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:11px;color:var(--text-sec)}
+.app10-rule-status{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.app10-pass{background:#2ecc71}
+.app10-warn{background:#f39c12}
+
+/* APP-11: Zone interdependence elasticity */
+.app11-matrix{width:100%;border-collapse:separate;border-spacing:3px;margin:16px 0}
+.app11-cell{height:44px;border-radius:6px;text-align:center;vertical-align:middle;font-family:var(--fm);font-size:11px;font-weight:700;transition:all 0.3s ease}
+.app11-cell:hover{transform:scale(1.05)}
+.app11-pair{margin-top:12px;padding:12px;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;font-size:12px;color:var(--text-sec);line-height:1.6}
+
+/* APP-12: Temporal cascade sequencing */
+.app12-gantt{position:relative;margin:16px 0;padding:20px 0}
+.app12-gantt-axis{display:flex;justify-content:space-between;font-family:var(--fm);font-size:8px;color:var(--text-ter);margin-bottom:12px;padding:0 8px}
+.app12-gantt-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.app12-gantt-label{font-family:var(--fm);font-size:10px;font-weight:700;width:28px}
+.app12-gantt-track{flex:1;height:16px;background:rgba(255,255,255,0.03);border-radius:4px;position:relative}
+.app12-gantt-bar{position:absolute;top:2px;height:12px;border-radius:3px;opacity:0.7;transition:all 0.5s ease}
+.app12-checkpoint{margin-top:16px;font-size:12px;color:var(--teal-l);font-style:italic}
+
+/* APP-13: Node saturation */
+.app13-gauges{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:16px 0}
+.app13-gauge{text-align:center;min-width:90px}
+.app13-bar{width:20px;height:100px;background:rgba(255,255,255,0.04);border-radius:4px;margin:0 auto 6px;position:relative;overflow:hidden}
+.app13-bar-fill{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 4px 4px;transition:height 0.8s ease}
+.app13-bar-zones{position:absolute;left:0;right:0}
+.app13-bar-zone{height:1px;background:rgba(255,255,255,0.15);position:absolute;left:0;right:0}
+.app13-node-label{font-family:var(--fm);font-size:9px;color:var(--text-ter)}
+.app13-sat-alert{margin-top:12px;padding:10px;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.15);border-radius:6px;font-size:11px;color:var(--text-sec);line-height:1.6}
+
+/* APP-14: Cross-zone node conflict */
+.app14-diagram{text-align:center;margin:16px 0}
+.app14-diagram svg{max-width:400px;width:100%;height:auto}
+.app14-resolution{margin-top:12px;padding:12px;background:rgba(26,122,138,0.04);border:1px solid rgba(26,122,138,0.15);border-radius:8px;font-size:12px;color:var(--text-sec);line-height:1.6}
+
+/* APP-15: Cognitive load monitor */
+.app15-gauge-wrap{text-align:center;margin:16px 0}
+.app15-semicircle{width:160px;height:80px;margin:0 auto;position:relative;overflow:hidden}
+.app15-semicircle svg{width:100%;height:auto}
+.app15-tci{font-family:var(--fm);font-size:28px;font-weight:700;margin:8px 0 4px}
+.app15-band{font-family:var(--fm);font-size:10px;padding:3px 10px;border-radius:4px;display:inline-block}
+.app15-rec{margin-top:12px;font-size:12px;color:var(--text-ter);line-height:1.6;max-width:480px;margin-left:auto;margin-right:auto}
+
+/* APP-16: Cascade evidence confidence */
+.app16-bar-wrap{margin:16px 0}
+.app16-bar{height:20px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;position:relative}
+.app16-bar-fill{height:100%;border-radius:10px;transition:width 0.8s ease;background:linear-gradient(90deg,#C0392B,#C9A84C,#2ecc71)}
+.app16-bar-labels{display:flex;justify-content:space-between;margin-top:6px;font-family:var(--fm);font-size:8px;color:var(--text-ter)}
+.app16-score{font-family:var(--fm);font-size:24px;font-weight:700;text-align:center;margin:12px 0 4px}
+.app16-advisory{margin-top:12px;font-size:12px;color:var(--text-sec);line-height:1.6;padding:12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--bd)}
+
+/* APP-17: Zone recovery sequence */
+.app17-pathways{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.app17-pathway{padding:16px;background:var(--card-bg);border:1px solid var(--bd);border-radius:10px;transition:all 0.3s ease}
+.app17-pathway:first-child{border-color:rgba(201,168,76,0.25)}
+.app17-pw-rank{font-family:var(--fm);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.app17-pw-steps{font-size:12px;color:var(--text-sec);line-height:1.6}
+.app17-pw-collapse{font-family:var(--fm);font-size:10px;color:var(--teal-l);margin-top:6px}
+
+/* APP-18: Patient terrain archetype */
+.app18-card{text-align:center;padding:28px;background:var(--card-bg);border:1px solid var(--bd);border-radius:14px;margin:16px 0;max-width:480px;margin-left:auto;margin-right:auto}
+.app18-name{font-family:var(--fs);font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:600;color:var(--gold);margin-bottom:8px}
+.app18-confidence{font-family:var(--fm);font-size:11px;color:var(--teal-l);margin-bottom:12px}
+.app18-desc{font-size:13px;color:var(--text-sec);line-height:1.7;margin-bottom:12px}
+.app18-detail{font-family:var(--fm);font-size:10px;color:var(--text-ter);line-height:1.8}
+
+/* APP-19: Cascade symmetry analyser */
+.app19-pairs{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.app19-pair{display:flex;align-items:center;gap:12px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:12px;color:var(--text-sec)}
+.app19-pair-arrow{font-family:var(--fm);font-size:14px;width:80px;text-align:center}
+.app19-pair-type{font-family:var(--fm);font-size:9px;letter-spacing:0.08em;padding:2px 8px;border-radius:4px}
+.app19-sink{color:#C0392B;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.15)}
+.app19-source{color:var(--teal-l);background:rgba(26,122,138,0.08);border:1px solid rgba(26,122,138,0.15)}
+.app19-loop{color:var(--gold);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.15)}
+
+/* APP-20: Architectural teaching mode */
+.app20-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.app20-module{padding:16px;background:var(--card-bg);border:1px solid var(--bd);border-radius:10px;cursor:pointer;transition:all 0.3s ease;text-align:center}
+.app20-module:hover{border-color:rgba(201,168,76,0.25);transform:translateY(-3px)}
+.app20-module.app20-complete{border-color:rgba(46,204,113,0.25)}
+.app20-mod-num{font-family:var(--fm);font-size:20px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.app20-mod-title{font-size:12px;color:var(--white);margin-bottom:6px}
+.app20-mod-status{font-family:var(--fm);font-size:8px;letter-spacing:0.10em;color:var(--text-ter)}
+.app20-content{display:none;margin-top:16px;padding:20px;background:var(--card-bg);border:1px solid var(--bd);border-radius:10px}
+.app20-content.app20-open{display:block}
+.app20-content p{font-size:13px;color:var(--text-sec);line-height:1.7;margin-bottom:12px}
+.app20-quiz{margin-top:16px;padding:16px;background:rgba(255,255,255,0.02);border-radius:8px}
+.app20-quiz-q{font-size:12px;color:var(--white);margin-bottom:10px}
+.app20-quiz-opt{display:block;padding:6px 12px;margin-bottom:4px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--bd);font-size:11px;color:var(--text-sec);cursor:pointer;transition:all 0.2s ease}
+.app20-quiz-opt:hover{border-color:var(--teal);background:rgba(26,122,138,0.06)}
+.app20-quiz-opt.app20-correct{border-color:#2ecc71;background:rgba(46,204,113,0.08);color:#2ecc71}
+.app20-quiz-opt.app20-wrong{border-color:#C0392B;background:rgba(192,57,43,0.06);color:#C0392B}
+.app20-badge{text-align:center;display:none;margin-top:20px}
+.app20-badge.app20-badge-show{display:block}
+.app20-badge svg{width:120px;height:120px;margin:0 auto 12px}
+.app20-badge-text{font-family:var(--fm);font-size:10px;letter-spacing:0.12em;color:var(--gold)}
+@media(max-width:700px){.app20-modules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- AW10: Cinematic loader -->
+<div class="aw-loader" id="awLoader">
+  <div class="aw-loader-icon" id="awLoaderIcon" style="background:linear-gradient(145deg,var(--teal),var(--navy-m));border-radius:12px;display:flex;align-items:center;justify-content:center;">
+    <span style="font-family:var(--fs);font-size:28px;font-weight:700;color:var(--gold);">V</span>
+  </div>
+  <div class="aw-loader-line" id="awLoaderLine"></div>
+  <div class="aw-loader-text" id="awLoaderText"></div>
+</div>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="ph-inner">
+    <div class="ph-brand">
+      <div class="v-icon"><span class="v-letter">V</span></div>
+      <div class="ph-wordmark">
+        <span class="ph-wm-main">VITAL<strong>MATRIX</strong>&#8482;</span>
+        <span class="ph-wm-tag">Clinical Intelligence Platform</span>
+      </div>
+    </div>
+    <p class="ph-eyebrow">Clinical Architecture &nbsp;&middot;&nbsp; Phase 1 &nbsp;&middot;&nbsp; Practitioner Reference</p>
+    <h1 class="ph-title">
+      Node-Cascade Zones&#8482;<br>
+      <em>&amp; Five-Layer Intelligence&#8482;</em>
+    </h1>
+    <p class="ph-sub">
+      The NCZ&#8482; zone architecture maps dysfunction across five convergence zones. FLINT&#8482; Terrain Intelligence Layers sequences that map through five analytical stages: from node scoring to examination prioritisation.
+    </p>
+  </div>
+</header>
+
+<!-- NCZ ZONE CARDS -->
+<div class="section-wrapper">
+  <div class="section-hd">
+    <p class="s-eyebrow tl"><span class="s-rule tl"></span>NCZ&#8482; CONVERGENCE ZONES<span class="s-rule tl"></span></p>
+    <h2 class="s-title">Five Zones. Five Convergence Points.</h2>
+    <p class="s-sub">Each zone maps where biological node dysfunction converges and amplifies. The zone picture tells you where the primary burden is sitting.</p>
+  </div>
+  <!-- AW5: Zone constellation -->
+  <div class="aw-constellation-wrap" id="awConstWrap">
+    <svg class="aw-const-svg" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg" aria-label="Five NCZ zones in pentagon with cascade connections">
+      <g class="aw-const-zone" data-z="Z1" transform="translate(250,45)"><polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="rgba(201,168,76,0.12)" stroke="#C9A84C" stroke-width="1.5"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="11" fill="#C9A84C" font-weight="700">Z1</text></g>
+      <g class="aw-const-zone" data-z="Z2" transform="translate(80,155)"><polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="rgba(26,122,138,0.12)" stroke="#1A7A8A" stroke-width="1.5"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="11" fill="#1A7A8A" font-weight="700">Z2</text></g>
+      <g class="aw-const-zone" data-z="Z3" transform="translate(420,155)"><polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="rgba(123,94,167,0.12)" stroke="#7B5EA7" stroke-width="1.5"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="11" fill="#7B5EA7" font-weight="700">Z3</text></g>
+      <g class="aw-const-zone" data-z="Z4" transform="translate(145,295)"><polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="rgba(95,124,108,0.12)" stroke="#5F7C6C" stroke-width="1.5"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="11" fill="#5F7C6C" font-weight="700">Z4</text></g>
+      <g class="aw-const-zone" data-z="Z5" transform="translate(355,295)"><polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="rgba(46,109,180,0.12)" stroke="#2E6DB4" stroke-width="1.5"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="11" fill="#2E6DB4" font-weight="700">Z5</text></g>
+      <path class="aw-const-path" data-s="S1" d="M104,140 Q170,70 226,50" stroke="#1A7A8A"/>
+      <path class="aw-const-path" data-s="S2" d="M270,65 Q320,170 348,270" stroke="#C9A84C"/>
+      <path class="aw-const-path" data-s="S3" d="M158,270 Q190,170 235,55" stroke="#5F7C6C"/>
+      <path class="aw-const-path" data-s="S4" d="M335,290 Q210,240 100,170" stroke="rgba(255,255,255,0.18)" stroke-dasharray="6 4"/>
+      <path class="aw-const-path" data-s="S5" d="M104,155 Q250,120 396,155" stroke="#1A7A8A"/>
+      <path class="aw-const-path" data-s="S6" d="M272,50 Q360,90 400,140" stroke="#C9A84C" marker-end="url(#awConstArrow)"/>
+      <defs><marker id="awConstArrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#C9A84C" opacity="0.5"/></marker></defs>
+    </svg>
+    <div class="aw-const-dots">
+      <div class="aw-const-dot" data-z="Z1" style="border-color:#C9A84C;background:rgba(201,168,76,0.3)"></div>
+      <div class="aw-const-dot" data-z="Z2" style="border-color:#1A7A8A;background:rgba(26,122,138,0.3)"></div>
+      <div class="aw-const-dot" data-z="Z3" style="border-color:#7B5EA7;background:rgba(123,94,167,0.3)"></div>
+      <div class="aw-const-dot" data-z="Z4" style="border-color:#5F7C6C;background:rgba(95,124,108,0.3)"></div>
+      <div class="aw-const-dot" data-z="Z5" style="border-color:#2E6DB4;background:rgba(46,109,180,0.3)"></div>
+    </div>
+  </div>
+
+  <div class="card-grid" id="awNczGrid">
+
+    <!-- Z1 -->
+    <div class="zone-card gd-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(201,168,76,0.10)" stroke="#C9A84C" stroke-width="1.2"/></svg>
+          <span class="hex-num gd">Z1</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label gd">Zone 1</span>
+          <h3 class="z-name">Metabolic Energy Axis</h3>
+        </div>
+      </div>
+      <p class="z-systems">Adrenal &#183; Thyroid &#183; Pancreatic</p>
+      <p class="z-clinical-q">"Where is the metabolic burden concentrated?"</p>
+      <div class="badge-row">
+        <span class="badge bd-node">N3 Energy</span>
+        <span class="badge bd-node">N6 (endocrine signalling)</span>
+        <span class="badge bd-fn-gd">Threshold: 40</span>
+        <span class="badge bd-terrainlock">TerrainLock&#8482;</span>
+      </div>
+      <p class="z-desc">The metabolic core. Energy production and endocrine communication converge across adrenal, thyroid, and pancreatic subsystems. Two nodes. Often the first zone to show burden in complex chronic presentations. Participates in the TerrainLock&#8482; loop: Z2 to Z1 to Z5 to Z2.</p>
+      <a class="cta-learn gd" href="#flint">Explore FLINT&#8482; Layers <span class="cta-arrow">&#8594;</span></a>
+    </div>
+
+    <!-- Z2 -->
+    <div class="zone-card tl-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(26,122,138,0.10)" stroke="#1A7A8A" stroke-width="1.2"/></svg>
+          <span class="hex-num tl">Z2</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label tl">Zone 2</span>
+          <h3 class="z-name">Resilience Network</h3>
+        </div>
+      </div>
+      <p class="z-systems">Gut &#183; Immune &#183; Brain</p>
+      <p class="z-clinical-q">"Where is the immune-gut-neural convergence?"</p>
+      <div class="badge-row">
+        <span class="badge bd-node">N1 Assimilation</span>
+        <span class="badge bd-node">N2 Defence and Repair</span>
+        <span class="badge bd-node">N6 (endocrine signalling)</span>
+        <span class="badge bd-fn-tl">Threshold: 40</span>
+        <span class="badge bd-terrainlock">TerrainLock&#8482;</span>
+      </div>
+      <p class="z-desc">The gut-immune-defence layer. Three nodes. Default cascade entry point and the most common tiebreaker zone in complex presentations. TerrainLock&#8482; self-perpetuating loop originates here: Z2 to Z1 to Z5 to Z2. Z2 gut restoration is the default tiebreaker.</p>
+      <a class="cta-learn tl" href="#flint">Explore FLINT&#8482; Layers <span class="cta-arrow">&#8594;</span></a>
+    </div>
+
+    <!-- Z3 -->
+    <div class="zone-card pu-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(123,94,167,0.10)" stroke="#7B5EA7" stroke-width="1.2"/></svg>
+          <span class="hex-num" style="color:#9B7EC8">Z3</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label" style="color:#9B7EC8">Zone 3</span>
+          <h3 class="z-name">Cardiovascular-Neural Axis</h3>
+        </div>
+      </div>
+      <p class="z-systems">Cardiac &#183; Pulmonary &#183; Neurovascular</p>
+      <p class="z-clinical-q">"Where is transport and neural flow compromised?"</p>
+      <div class="badge-row">
+        <span class="badge bd-node">N5 Transport</span>
+        <span class="badge bd-node">N6 (endocrine signalling)</span>
+        <span class="badge bd-fn-pu">Threshold: 40</span>
+      </div>
+      <p class="z-desc">The vascular-neural shift. Transport replaces Energy: N3 exits, N5 enters. Z3 marks the shift from metabolic terrain to cardiovascular and neural flow. Receives cascade from Z1 (S6, unidirectional: Z1 to Z3 only) and from Z2 (S5). Z3 is not ready for composite scoring in Phase 1.</p>
+      <a class="cta-learn" style="color:#9B7EC8;border-color:rgba(123,94,167,.30)" href="#flint">Explore FLINT&#8482; Layers <span class="cta-arrow">&#8594;</span></a>
+    </div>
+
+    <!-- Z4 -->
+    <div class="zone-card sg-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(95,124,108,0.10)" stroke="#5F7C6C" stroke-width="1.2"/></svg>
+          <span class="hex-num" style="color:#7A9485">Z4</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label" style="color:#7A9485">Zone 4</span>
+          <h3 class="z-name">Detoxification Trident</h3>
+        </div>
+      </div>
+      <p class="z-systems">Hepatic &#183; Lymphatic &#183; Renal</p>
+      <p class="z-clinical-q">"Where is biotransformation capacity under strain?"</p>
+      <div class="badge-row">
+        <span class="badge bd-node">N2 Defence and Repair</span>
+        <span class="badge bd-node">N4 Biotransformation and Elimination</span>
+        <span class="badge bd-fn-sg">Threshold: 40</span>
+      </div>
+      <p class="z-desc">The only zone with no N6 (endocrine signalling). Z4 breaks the pattern deliberately: pure detox and defence pair. Two nodes. Upstream activity at Z4 precipitates downstream cascade into Z1 via S3 (Slow). Z4 is not ready for composite scoring in Phase 1.</p>
+      <a class="cta-learn" style="color:#7A9485;border-color:rgba(95,124,108,.30)" href="#flint">Explore FLINT&#8482; Layers <span class="cta-arrow">&#8594;</span></a>
+    </div>
+
+    <!-- Z5 (spans full width) -->
+    <div class="zone-card wg-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(46,109,180,0.10)" stroke="#2E6DB4" stroke-width="1.2"/></svg>
+          <span class="hex-num" style="color:#5A9AD6">Z5</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label" style="color:#5A9AD6">Zone 5</span>
+          <h3 class="z-name">Hormonal Terrain Axis</h3>
+        </div>
+      </div>
+      <p class="z-systems">Androgenic &#183; Estrogenic &#183; Progestogenic</p>
+      <p class="z-clinical-q">"Where is the hormonal terrain under pressure?"</p>
+      <div class="badge-row">
+        <span class="badge bd-node">N3 Energy</span>
+        <span class="badge bd-node">N4 Biotransformation and Elimination</span>
+        <span class="badge bd-node">N6 (endocrine signalling)</span>
+        <span class="badge bd-fn-wg">Threshold: 32 (lower)</span>
+        <span class="badge bd-terrainlock">TerrainLock&#8482;</span>
+      </div>
+      <p class="z-desc">The most complex zone. Three nodes. Energy returns, Biotransformation joins, endocrine signalling completes. Activates at a lower threshold (32 internal) than Z1 to Z4 (40 internal): hormonal terrain is sensitive. Near-threshold window: 5 internal points below threshold. Almost always a secondary burden zone, rarely the highest burden zone. Participates in TerrainLock&#8482;: Z2 to Z1 to Z5 to Z2.</p>
+      <a class="cta-learn" style="color:#5A9AD6;border-color:rgba(46,109,180,.30)" href="#flint">Explore FLINT&#8482; Layers <span class="cta-arrow">&#8594;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- AW1: Zone-to-layer connection map + AW15: Streams -->
+<div class="s-divider"><span class="div-rule"></span><span class="div-label">FLINT&#8482; Terrain Intelligence Layers</span><span class="div-rule"></span></div>
+<div class="aw-conn-map" id="awConnMap">
+  <svg class="aw-conn-svg" viewBox="0 0 960 120" xmlns="http://www.w3.org/2000/svg" aria-label="Zone to layer connections">
+    <g id="awConnZones">
+      <circle cx="96" cy="30" r="14" fill="rgba(201,168,76,0.12)" stroke="#C9A84C" stroke-width="1.2"/><text x="96" y="34" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#C9A84C" font-weight="700">Z1</text>
+      <circle cx="288" cy="30" r="14" fill="rgba(26,122,138,0.12)" stroke="#1A7A8A" stroke-width="1.2"/><text x="288" y="34" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#1A7A8A" font-weight="700">Z2</text>
+      <circle cx="480" cy="30" r="14" fill="rgba(123,94,167,0.12)" stroke="#7B5EA7" stroke-width="1.2"/><text x="480" y="34" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#7B5EA7" font-weight="700">Z3</text>
+      <circle cx="672" cy="30" r="14" fill="rgba(95,124,108,0.12)" stroke="#5F7C6C" stroke-width="1.2"/><text x="672" y="34" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#5F7C6C" font-weight="700">Z4</text>
+      <circle cx="864" cy="30" r="14" fill="rgba(46,109,180,0.12)" stroke="#2E6DB4" stroke-width="1.2"/><text x="864" y="34" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#2E6DB4" font-weight="700">Z5</text>
+    </g>
+    <g id="awConnLayers">
+      <rect x="50" y="86" width="92" height="20" rx="4" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/><text x="96" y="100" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="rgba(201,168,76,0.6)">L1 WHERE</text>
+      <rect x="242" y="86" width="92" height="20" rx="4" fill="rgba(26,122,138,0.08)" stroke="rgba(26,122,138,0.25)" stroke-width="0.8"/><text x="288" y="100" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="rgba(26,122,138,0.6)">L2 WHICH</text>
+      <rect x="434" y="86" width="92" height="20" rx="4" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/><text x="480" y="100" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="rgba(201,168,76,0.6)">L3 HOW</text>
+      <rect x="626" y="86" width="92" height="20" rx="4" fill="rgba(26,122,138,0.08)" stroke="rgba(26,122,138,0.25)" stroke-width="0.8"/><text x="672" y="100" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="rgba(26,122,138,0.6)">L4 WHO</text>
+      <rect x="818" y="86" width="92" height="20" rx="4" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/><text x="864" y="100" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="rgba(201,168,76,0.6)">L5 WHAT</text>
+    </g>
+    <g id="awConnLines" stroke-width="1" fill="none" opacity="0.2">
+      <line x1="96" y1="44" x2="96" y2="86" stroke="#C9A84C" class="aw-conn-line"/>
+      <line x1="288" y1="44" x2="288" y2="86" stroke="#1A7A8A" class="aw-conn-line"/>
+      <line x1="96" y1="44" x2="288" y2="86" stroke="rgba(255,255,255,0.15)" class="aw-conn-line"/>
+      <line x1="288" y1="44" x2="480" y2="86" stroke="rgba(255,255,255,0.15)" class="aw-conn-line"/>
+      <line x1="480" y1="44" x2="480" y2="86" stroke="#7B5EA7" class="aw-conn-line"/>
+      <line x1="672" y1="44" x2="480" y2="86" stroke="rgba(255,255,255,0.15)" class="aw-conn-line"/>
+      <line x1="480" y1="44" x2="672" y2="86" stroke="rgba(255,255,255,0.15)" class="aw-conn-line"/>
+      <line x1="672" y1="44" x2="672" y2="86" stroke="#5F7C6C" class="aw-conn-line"/>
+      <line x1="864" y1="44" x2="864" y2="86" stroke="#2E6DB4" class="aw-conn-line"/>
+    </g>
+  </svg>
+</div>
+
+<!-- FLINT LAYER CARDS -->
+<div class="section-wrapper" id="flint">
+  <div class="section-hd">
+    <p class="s-eyebrow gd"><span class="s-rule gd"></span>FLINT&#8482; FIVE LAYERS<span class="s-rule gd"></span></p>
+    <h2 class="s-title">Five Layers. Five Clinical Questions.</h2>
+    <p class="s-sub">Each FLINT&#8482; layer answers a specific clinical question. The layers execute in sequence from L1 through L5.</p>
+  </div>
+
+  <!-- AW4: FLINT pipeline SVG -->
+  <div class="aw-pipeline-wrap" id="awPipelineWrap">
+    <svg class="aw-pipeline-svg" viewBox="0 0 800 80" xmlns="http://www.w3.org/2000/svg" aria-label="FLINT five-layer pipeline L1 to L5">
+      <g class="aw-pipeline-hex" data-layer="0" transform="translate(80,40)"><polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" fill="rgba(201,168,76,0.10)" stroke="#C9A84C" stroke-width="1.2"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#C9A84C" font-weight="700">L1</text></g>
+      <text class="aw-pipeline-label" x="80" y="72" text-anchor="middle" fill="#C9A84C">WHERE</text>
+      <line x1="100" y1="40" x2="220" y2="40" stroke="rgba(201,168,76,0.15)" stroke-width="1" stroke-dasharray="4 3"/>
+      <g class="aw-pipeline-hex" data-layer="1" transform="translate(240,40)"><polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" fill="rgba(26,122,138,0.10)" stroke="#1A7A8A" stroke-width="1.2"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#1A7A8A" font-weight="700">L2</text></g>
+      <text class="aw-pipeline-label" x="240" y="72" text-anchor="middle" fill="#1A7A8A">WHICH</text>
+      <line x1="260" y1="40" x2="380" y2="40" stroke="rgba(201,168,76,0.15)" stroke-width="1" stroke-dasharray="4 3"/>
+      <g class="aw-pipeline-hex" data-layer="2" transform="translate(400,40)"><polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" fill="rgba(201,168,76,0.10)" stroke="#C9A84C" stroke-width="1.2"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#C9A84C" font-weight="700">L3</text></g>
+      <text class="aw-pipeline-label" x="400" y="72" text-anchor="middle" fill="#C9A84C">HOW</text>
+      <line x1="420" y1="40" x2="540" y2="40" stroke="rgba(26,122,138,0.15)" stroke-width="1" stroke-dasharray="4 3"/>
+      <g class="aw-pipeline-hex" data-layer="3" transform="translate(560,40)"><polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" fill="rgba(26,122,138,0.10)" stroke="#1A7A8A" stroke-width="1.2"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#1A7A8A" font-weight="700">L4</text></g>
+      <text class="aw-pipeline-label" x="560" y="72" text-anchor="middle" fill="#1A7A8A">WHO</text>
+      <line x1="580" y1="40" x2="700" y2="40" stroke="rgba(201,168,76,0.15)" stroke-width="1" stroke-dasharray="4 3"/>
+      <g class="aw-pipeline-hex" data-layer="4" transform="translate(720,40)"><polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" fill="rgba(201,168,76,0.10)" stroke="#C9A84C" stroke-width="1.2"/><text y="4" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#C9A84C" font-weight="700">L5</text></g>
+      <text class="aw-pipeline-label" x="720" y="72" text-anchor="middle" fill="#C9A84C">WHAT</text>
+    </svg>
+  </div>
+
+  <div class="card-grid" id="awFlintGrid">
+
+    <!-- L1 -->
+    <div class="zone-card gd-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.40)" stroke-width="1.2"/></svg>
+          <span class="hex-num gd">L1</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label gd">Layer 1: Node Intelligence</span>
+          <h3 class="z-name">WHERE?</h3>
+        </div>
+      </div>
+      <p class="z-clinical-q">"Where is dysfunction concentrated across the seven biological nodes?"</p>
+      <div class="badge-row">
+        <span class="badge bd-engine">MSQ-71</span>
+        <span class="badge bd-engine">ATM</span>
+        <span class="badge bd-engine">MedTerrain&#8482;</span>
+        <span class="badge bd-node">7 Nodes</span>
+        <span class="badge bd-node">N6 dampened</span>
+      </div>
+      <p class="z-desc">Maps dysfunction across seven biological nodes: N1 Assimilation, N2 Defence and Repair, N3 Energy, N4 Biotransformation and Elimination, N5 Transport, N6 (endocrine signalling) dampened, and N7 Structural Integrity (Phase 2). Internal scale 0 to 100. Display scale 0 to 10 inverted.</p>
+      <div class="mes-bar">MES: Metabolic Environment and Substrate: foundational context. Not scored. Not a node.</div>
+    </div>
+
+    <!-- L2 -->
+    <div class="zone-card tl-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(26,122,138,0.07)" stroke="rgba(26,122,138,0.40)" stroke-width="1.2"/></svg>
+          <span class="hex-num tl">L2</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label tl">Layer 2: Zone Intelligence</span>
+          <h3 class="z-name">WHICH?</h3>
+        </div>
+      </div>
+      <p class="z-clinical-q">"Which convergence zones are active?"</p>
+      <div class="badge-row">
+        <span class="badge bd-engine">NCZ&#8482; Composite</span>
+        <span class="badge bd-node">N6 dampened</span>
+        <span class="badge bd-fn-tl">Z1-Z4: threshold 40</span>
+        <span class="badge bd-fn-wg">Z5: threshold 32</span>
+      </div>
+      <p class="z-desc">Identifies which of the five NCZ&#8482; convergence zones are active. Zone scores aggregate from constituent node scores with N6 (endocrine signalling) dampened. Z5 activates at 32 (lower threshold reflecting hormonal sensitivity). Near-threshold window: 5 internal points below each zone threshold.</p>
+    </div>
+
+    <!-- L3 -->
+    <div class="zone-card gd-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.40)" stroke-width="1.2"/></svg>
+          <span class="hex-num gd">L3</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label gd">Layer 3: Cascade Intelligence</span>
+          <h3 class="z-name">HOW?</h3>
+        </div>
+      </div>
+      <p class="z-clinical-q">"How are the active zones connected, and in which direction is dysfunction moving?"</p>
+      <div class="badge-row">
+        <span class="badge bd-engine">CascadeIQ&#8482;</span>
+        <span class="badge bd-engine">6 Stacks</span>
+        <span class="badge bd-engine">KINETICS&#8482;</span>
+        <span class="badge bd-terrainlock">TerrainLock&#8482; Detection</span>
+      </div>
+      <p class="z-desc">Six directional cascade stacks map zone-to-zone dysfunction flow. S1: Z2 to Z1, Medium, Mechanism Established / Cascade Emerging. S2: Z1 to Z5, Fast, Established. S3: Z4 to Z1, Slow, Emerging. S5: Z2 to Z3, Fast, Emerging. S6: Z1 to Z3, Medium, Established, unidirectional: Z1 to Z3 only. TerrainLock&#8482; detection: Z2 to Z1 to Z5 to Z2 self-perpetuating loop.</p>
+      <div class="badge-row" style="margin-top:12px">
+        <span class="badge bd-theoretical">S4: Z5 to Z2 &#183; Theoretical &#183; Medium</span>
+        <span class="badge bd-unidirectional">S6: Unidirectional Z1&#8594;Z3</span>
+      </div>
+      <p style="font-family:var(--fm);font-size:8px;color:rgba(255,255,255,0.65);margin-top:8px;letter-spacing:0.06em;">S4 Theoretical: displays but is excluded from DRD&#8482; cascade tracing (D-12). Clinical decisions based on S4 alone require practitioner confirmation.</p>
+    </div>
+
+    <!-- L4 -->
+    <div class="zone-card tl-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(26,122,138,0.07)" stroke="rgba(26,122,138,0.40)" stroke-width="1.2"/></svg>
+          <span class="hex-num tl">L4</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label tl">Layer 4: Causality Intelligence</span>
+          <h3 class="z-name">WHO?</h3>
+        </div>
+      </div>
+      <p class="z-clinical-q">"Which zone is carrying the primary burden?"</p>
+      <div class="badge-row">
+        <span class="badge bd-engine">DRD&#8482;</span>
+        <span class="badge bd-fn-tl">Highest Burden Zone</span>
+        <span class="badge bd-node">Z2 Tiebreaker</span>
+      </div>
+      <p class="z-desc">DRD&#8482; formally designates the highest burden zone: the zone originating the terrain cascade. Designation follows Established and Emerging cascade stacks only. Theoretical pathways (S4) display but are excluded from the cascade trace (D-12). The most symptomatic zone is often not the originating zone. Z2 is the default tiebreaker.</p>
+    </div>
+
+    <!-- L5 (spans full width) -->
+    <div class="zone-card gd-card">
+      <div class="card-top">
+        <div class="hex-wrap">
+          <svg viewBox="0 0 52 60"><polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.40)" stroke-width="1.2"/></svg>
+          <span class="hex-num gd">L5</span>
+        </div>
+        <div class="card-meta">
+          <span class="z-label gd">Layer 5: Examination Intelligence</span>
+          <h3 class="z-name">WHAT?</h3>
+        </div>
+      </div>
+      <p class="z-clinical-q">"What should be investigated first, and in what order?"</p>
+      <div class="badge-row">
+        <span class="badge bd-engine">APEX&#8482;</span>
+        <span class="badge bd-engine">PRISM&#8482;</span>
+        <span class="badge bd-fn-gd">3 Budget Tiers</span>
+      </div>
+      <p class="z-desc">APEX&#8482; (Assessment Priority and Evidence Xray) sequences examination priorities by causality, not severity. Investigation order follows the highest burden zone designation from L4. Three budget tiers: GBP 200 to 400 (Tier 1), GBP 400 to 800 (Tier 2), GBP 800+ (Tier 3). DeltaScan&#8482; is the sixth clinical stage (follow-up layer): not a FLINT&#8482; layer.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- AW2: Scroll-pinned worked example + AW17: Syntax highlighting -->
+<section style="background:rgba(7,28,51,.60);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);">
+  <div style="max-width:960px;margin:0 auto;padding:16px 40px;">
+    <p style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,.65);margin-bottom:8px;">FLINT&#8482; Worked Example</p>
+  </div>
+  <div class="aw-example-wrap" id="awExWrap">
+    <div class="aw-example-inner" id="awExInner">
+      <div>
+        <p class="aw-ex-sentence" data-step="0" id="awExS0">Node scoring identified elevated <span data-aw-tip="N6: Communication node. Endocrine signalling layer. Dampened." class="aw-sh-node">N6</span> (endocrine signalling).<span class="aw-sh-tooltip"></span></p>
+        <p class="aw-ex-sentence" data-step="1" id="awExS1">Zone mapping activated <span data-aw-tip="Z2: Resilience Network. Gut, Immune, Brain. Threshold 40." style="color:#1A7A8A" class="aw-sh-zone">Z2 Resilience Network</span>.</p>
+        <p class="aw-ex-sentence" data-step="2" id="awExS2">Cascade detection traced <span data-aw-tip="S1: Z2 to Z1. Medium velocity. Emerging evidence." style="color:#1A7A8A" class="aw-sh-stack">S1</span> from Z2 to Z1.</p>
+        <p class="aw-ex-sentence" data-step="3" id="awExS3">Highest burden zone designation confirmed <span data-aw-tip="Z2 designated as upstream origin via DRD engine." style="color:#1A7A8A" class="aw-sh-zone">Z2</span> as the upstream origin.</p>
+        <p class="aw-ex-sentence" data-step="4" id="awExS4">Investigation sequencing prioritised <span class="aw-sh-clinical">gut permeability</span> and <span class="aw-sh-clinical">SIBO testing</span> before thyroid panels.</p>
+        <div class="aw-ex-dots" id="awExDots"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AW20: Clinical walkthrough -->
+<section style="background:var(--navy-d);border-top:1px solid rgba(255,255,255,.06);padding:0;">
+  <div style="max-width:960px;margin:0 auto;padding:16px 40px;">
+    <p style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-l);margin-bottom:8px;">Walk Through a Patient Case</p>
+  </div>
+  <div class="aw-walk-wrap" id="awWalkWrap">
+    <div class="aw-walk-inner" id="awWalkInner">
+      <div class="aw-walk-tracker" id="awWalkTracker"></div>
+      <div class="aw-walk-card" data-wk="0"><p class="aw-walk-layer" style="color:#C9A84C;">L1: Node Intelligence</p><h3 class="aw-walk-q">WHERE?</h3><p class="aw-walk-output">Node scoring maps patient intake across seven biological nodes. N6 (endocrine signalling) returns the highest burden score. N1 Assimilation and N2 Defence and Repair are elevated. Internal scores calculated on the 0 to 100 scale.</p><p class="aw-walk-sample">Sample data: not a real patient</p></div>
+      <div class="aw-walk-card" data-wk="1"><p class="aw-walk-layer" style="color:#1A7A8A;">L2: Zone Intelligence</p><h3 class="aw-walk-q">WHICH?</h3><p class="aw-walk-output">Zone mapping activates Z2 Resilience Network (N1 + N2 + N6 converge above threshold 40). Z1 Metabolic Energy Axis is borderline at 38, within the 5-point near-threshold window. Z3, Z4, Z5 inactive.</p><p class="aw-walk-sample">Sample data: not a real patient</p></div>
+      <div class="aw-walk-card" data-wk="2"><p class="aw-walk-layer" style="color:#C9A84C;">L3: Cascade Intelligence</p><h3 class="aw-walk-q">HOW?</h3><p class="aw-walk-output">CascadeIQ detects S1 (Z2 to Z1, Medium, Emerging). Gut-driven metabolic burden developing. S4 Theoretical displays but is excluded from DRD cascade trace. TerrainLock not triggered (Z5 inactive).</p><p class="aw-walk-sample">Sample data: not a real patient</p></div>
+      <div class="aw-walk-card" data-wk="3"><p class="aw-walk-layer" style="color:#1A7A8A;">L4: Causality Intelligence</p><h3 class="aw-walk-q">WHO?</h3><p class="aw-walk-output">DRD designates Z2 as the highest burden zone. Z2 is the upstream origin driving downstream cascade into Z1. The most symptomatic zone (Z1 borderline) is not the originating zone.</p><p class="aw-walk-sample">Sample data: not a real patient</p></div>
+      <div class="aw-walk-card" data-wk="4"><p class="aw-walk-layer" style="color:#C9A84C;">L5: Examination Intelligence</p><h3 class="aw-walk-q">WHAT?</h3><p class="aw-walk-output">APEX sequences investigation: gut permeability and SIBO testing prioritised before thyroid panels. Investigation follows causality, not severity. Budget Tier 1 investigations recommended first.</p><p class="aw-walk-sample">Sample data: not a real patient</p><p style="margin-top:12px;font-size:12px;color:var(--gold);font-style:italic;">Investigation sequence complete. Practitioner review begins.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AW19: Ambient background canvas -->
+<canvas class="aw-ambient-canvas" id="awAmbientCanvas"></canvas>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     20 APP-LEVEL FEATURES (Silicon Valley Platform Tier)
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- APP-1: Real-time zone convergence engine -->
+<div class="app-section" id="app1">
+  <p class="app-section-label"><span class="app-dot"></span>APP-1: Zone Convergence Engine</p>
+  <h3>Live Node-to-Zone Propagation</h3>
+  <p class="app-desc">Input patient data and watch burden flow from nodes into zones in real time. N6 dampening applies live. Thresholds evaluate continuously.</p>
+  <p style="font-family:var(--fm);font-size:7px;letter-spacing:0.15em;color:rgba(255,255,255,0.20);text-transform:uppercase;margin-bottom:8px;">Sample data: not a real patient</p>
+  <div class="app1-wrap">
+    <div class="app1-inputs" id="app1Inputs"></div>
+    <div>
+      <div class="app1-zones" id="app1Zones"></div>
+      <button class="app1-show-working" id="app1ShowWork" type="button">Show working</button>
+      <div class="app1-working" id="app1Working"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP-2: Cascade chain reaction simulator -->
+<div class="app-section" id="app2">
+  <p class="app-section-label"><span class="app-dot"></span>APP-2: Cascade Chain Reaction</p>
+  <h3>Clinical Timeline Projection</h3>
+  <p class="app-desc">Run CascadeIQ on the current zone state. See which stacks fire and when downstream effects are expected to manifest.</p>
+  <button class="app2-run-btn" id="app2RunBtn" type="button">Run CascadeIQ</button>
+  <div class="app2-timeline" id="app2Timeline"></div>
+</div>
+
+<!-- APP-3: DRD designation engine -->
+<div class="app-section" id="app3">
+  <p class="app-section-label"><span class="app-dot"></span>APP-3: DRD Designation Engine</p>
+  <h3>Upstream Trace Visualisation</h3>
+  <p class="app-desc">Designates the highest burden zone and traces the upstream cascade origin.</p>
+  <div class="app3-wrap" id="app3Wrap">
+    <p style="font-size:12px;color:var(--text-ter);">Adjust node scores in APP-1 and run CascadeIQ in APP-2 first.</p>
+  </div>
+</div>
+
+<!-- APP-4: Examination sequencing dashboard -->
+<div class="app-section" id="app4">
+  <p class="app-section-label"><span class="app-dot"></span>APP-4: Examination Sequencing</p>
+  <h3>Budget-Tiered Investigation Cards</h3>
+  <p class="app-desc">APEX sequences investigation priorities by causality, not severity. Three budget tiers.</p>
+  <div class="app4-tiers" id="app4Tiers"></div>
+</div>
+
+<!-- APP-5: Full pipeline replay -->
+<div class="app-section" id="app5">
+  <p class="app-section-label"><span class="app-dot"></span>APP-5: Pipeline Replay</p>
+  <h3>Step-by-Step Clinical Narration</h3>
+  <p class="app-desc">Replay the entire L1-to-L5 pipeline with narrated clinical commentary at each stage.</p>
+  <div class="app5-wrap">
+    <div class="app5-progress" id="app5Progress"></div>
+    <div class="app5-narrative" id="app5Narrative">Press Play to begin the pipeline replay.</div>
+    <div class="app5-controls">
+      <button class="app5-ctrl-btn" id="app5Prev" type="button">&#9664; Prev</button>
+      <button class="app5-ctrl-btn app5-primary" id="app5Play" type="button">&#9654; Play</button>
+      <button class="app5-ctrl-btn" id="app5Next" type="button">Next &#9654;</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP-6: Terrain stability index -->
+<div class="app-section" id="app6">
+  <p class="app-section-label"><span class="app-dot"></span>APP-6: Terrain Stability Index</p>
+  <h3>Micro-Drift Detection</h3>
+  <p class="app-desc">Analyses variance across rolling consultations. Detects slow, invisible drift toward activation thresholds.</p>
+  <p style="font-family:var(--fm);font-size:7px;letter-spacing:0.15em;color:rgba(255,255,255,0.20);text-transform:uppercase;margin-bottom:8px;">Sample data: not a real patient</p>
+  <div class="app6-gauges" id="app6Gauges"></div>
+  <div class="app6-drift" id="app6Drift"></div>
+</div>
+
+<!-- APP-7: Node contribution transparency matrix -->
+<div class="app-section" id="app7">
+  <p class="app-section-label"><span class="app-dot"></span>APP-7: Node Contribution Matrix</p>
+  <h3>Dampening Visualisation</h3>
+  <p class="app-desc">Full 7x5 heatmap showing how each node contributes to each zone, with N6 dampening rendered as compression.</p>
+  <div><button class="app7-toggle" id="app7DampToggle" type="button">Dampening: On</button><button class="app7-toggle" id="app7PctToggle" type="button">View: Absolute</button></div>
+  <table class="app7-matrix" id="app7Matrix"></table>
+</div>
+
+<!-- APP-8: Cascade load-balancing analysis -->
+<div class="app-section" id="app8">
+  <p class="app-section-label"><span class="app-dot"></span>APP-8: Cascade Load-Balancing</p>
+  <h3>Bottleneck Detection</h3>
+  <p class="app-desc">Identifies zones receiving disproportionate cascade pressure from multiple upstream origins.</p>
+  <div class="app8-diagram" id="app8Diagram"></div>
+  <div class="app8-narrative" id="app8Narrative"></div>
+</div>
+
+<!-- APP-9: Consultation efficiency scorecard -->
+<div class="app-section" id="app9">
+  <p class="app-section-label"><span class="app-dot"></span>APP-9: Consultation Efficiency</p>
+  <h3>Time-to-Insight Metrics</h3>
+  <p class="app-desc">Measures how efficiently the pipeline converts raw patient data into actionable clinical direction.</p>
+  <div class="app9-strip" id="app9Strip"></div>
+  <div class="app9-rec" id="app9Rec"></div>
+</div>
+
+<!-- APP-10: Architectural constraint validator -->
+<div class="app-section" id="app10">
+  <p class="app-section-label"><span class="app-dot"></span>APP-10: Constraint Validator</p>
+  <h3>Rule Violation Alerts</h3>
+  <p class="app-desc">12 hard architectural rules validated continuously. The platform's immune system.</p>
+  <div style="text-align:center">
+    <div class="app10-shield app10-green" id="app10Shield">&#9632;</div>
+    <p style="font-family:var(--fm);font-size:10px;color:var(--text-ter);margin-top:4px;">Click shield to expand</p>
+  </div>
+  <div class="app10-rules" id="app10Rules"></div>
+</div>
+
+<!-- APP-11: Zone interdependence elasticity -->
+<div class="app-section" id="app11">
+  <p class="app-section-label"><span class="app-dot"></span>APP-11: Zone Elasticity Model</p>
+  <h3>Interdependence Analysis</h3>
+  <p class="app-desc">Measures how sensitively one zone responds to changes in another through shared node contributions.</p>
+  <table class="app11-matrix" id="app11Matrix"></table>
+  <div class="app11-pair" id="app11Pair"></div>
+</div>
+
+<!-- APP-12: Temporal cascade sequencing -->
+<div class="app-section" id="app12">
+  <p class="app-section-label"><span class="app-dot"></span>APP-12: Temporal Cascade Sequencing</p>
+  <h3>Clinical Priority Queue</h3>
+  <p class="app-desc">Time-ordered queue showing when each cascade's downstream effect is expected to manifest.</p>
+  <div class="app12-gantt" id="app12Gantt"></div>
+  <p class="app12-checkpoint" id="app12Checkpoint"></p>
+</div>
+
+<!-- APP-13: Node saturation analysis -->
+<div class="app-section" id="app13">
+  <p class="app-section-label"><span class="app-dot"></span>APP-13: Node Saturation Analysis</p>
+  <h3>Diminishing Returns Detection</h3>
+  <p class="app-desc">Detects when a node's burden reaches a ceiling where further increases produce minimal additional clinical impact.</p>
+  <div class="app13-gauges" id="app13Gauges"></div>
+  <div class="app13-sat-alert" id="app13Alert" style="display:none"></div>
+</div>
+
+<!-- APP-14: Cross-zone node conflict -->
+<div class="app-section" id="app14">
+  <p class="app-section-label"><span class="app-dot"></span>APP-14: Node Conflict Detector</p>
+  <h3>Cross-Zone Contradiction Analysis</h3>
+  <p class="app-desc">Identifies when a single node creates contradictory clinical signals across multiple zones.</p>
+  <div class="app14-diagram" id="app14Diagram"></div>
+  <div class="app14-resolution" id="app14Resolution"></div>
+</div>
+
+<!-- APP-15: Practitioner cognitive load -->
+<div class="app-section" id="app15">
+  <p class="app-section-label"><span class="app-dot"></span>APP-15: Cognitive Load Monitor</p>
+  <h3>Terrain Complexity Index</h3>
+  <p class="app-desc">Monitors terrain complexity and warns when the clinical picture exceeds comfortable cognitive processing.</p>
+  <div class="app15-gauge-wrap">
+    <div class="app15-tci" id="app15TCI">--</div>
+    <div class="app15-band" id="app15Band" style="background:rgba(255,255,255,0.06);color:var(--text-ter)">Awaiting data</div>
+  </div>
+  <p class="app15-rec" id="app15Rec"></p>
+</div>
+
+<!-- APP-16: Cascade evidence confidence -->
+<div class="app-section" id="app16">
+  <p class="app-section-label"><span class="app-dot"></span>APP-16: Evidence Confidence Dashboard</p>
+  <h3>Composite Evidence Score</h3>
+  <p class="app-desc">Aggregates the evidence base underpinning the current cascade picture into a confidence score.</p>
+  <div class="app16-score" id="app16Score">--</div>
+  <div class="app16-bar-wrap"><div class="app16-bar"><div class="app16-bar-fill" id="app16Fill" style="width:0"></div></div><div class="app16-bar-labels"><span>Exploratory</span><span>Moderate</span><span>Strong</span></div></div>
+  <div class="app16-advisory" id="app16Advisory"></div>
+</div>
+
+<!-- APP-17: Zone recovery sequence optimiser -->
+<div class="app-section" id="app17">
+  <p class="app-section-label"><span class="app-dot"></span>APP-17: Recovery Sequence Optimiser</p>
+  <h3>Maximum Cascade Collapse</h3>
+  <p class="app-desc">Calculates the optimal zone treatment sequence to collapse the most cascades in the fewest steps.</p>
+  <div class="app17-pathways" id="app17Pathways"></div>
+</div>
+
+<!-- APP-18: Patient terrain archetype -->
+<div class="app-section" id="app18">
+  <p class="app-section-label"><span class="app-dot"></span>APP-18: Terrain Archetype Classifier</p>
+  <h3>Pattern Recognition</h3>
+  <p class="app-desc">Classifies the current terrain state into one of 8 predefined clinical archetypes.</p>
+  <div class="app18-card" id="app18Card">
+    <div class="app18-name" id="app18Name">--</div>
+    <div class="app18-confidence" id="app18Conf">Awaiting terrain data</div>
+    <div class="app18-desc" id="app18Desc"></div>
+    <div class="app18-detail" id="app18Detail"></div>
+  </div>
+</div>
+
+<!-- APP-19: Cascade symmetry analyser -->
+<div class="app-section" id="app19">
+  <p class="app-section-label"><span class="app-dot"></span>APP-19: Cascade Symmetry Analyser</p>
+  <h3>Reciprocal Pathway Detection</h3>
+  <p class="app-desc">Identifies which zones can redistribute burden and which zones trap it as terminal cascade sinks.</p>
+  <div class="app19-pairs" id="app19Pairs"></div>
+</div>
+
+<!-- APP-20: Architectural teaching mode -->
+<div class="app-section" id="app20">
+  <p class="app-section-label"><span class="app-dot"></span>APP-20: Teaching Mode</p>
+  <h3>Progressive Disclosure Curriculum</h3>
+  <p class="app-desc">6-module structured learning path for practitioners new to the NCZ + FLINT architecture.</p>
+  <div class="app20-modules" id="app20Modules"></div>
+  <div class="app20-content" id="app20Content"></div>
+  <div class="app20-badge" id="app20Badge">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="56" fill="none" stroke="#C9A84C" stroke-width="2"/><circle cx="60" cy="60" r="48" fill="rgba(201,168,76,0.08)" stroke="none"/><text x="60" y="55" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="14" font-weight="700" fill="#C9A84C">NCZ + FLINT</text><text x="60" y="72" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="rgba(255,255,255,0.55)">ORIENTATION COMPLETE</text></svg>
+    <p class="app20-badge-text">Practitioner Orientation Complete</p>
+  </div>
+</div>
+
+<!-- REG NOTE -->
+<div class="reg-note" style="padding-top:48px">
+  <div class="reg-inner">
+    MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. All outputs are working documents subject to mandatory practitioner review. ICO ZC101813.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <div class="footer-tm">
+    VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.
+  </div>
+  <span class="footer-ico">
+    &copy; 2026 VitalMatrix&#8482; &nbsp;&middot;&nbsp;
+    Dr Shahzad Faisal, MBBS, FAAMFM &nbsp;&middot;&nbsp;
+    ICO Registration: ZC101813 &nbsp;&middot;&nbsp;
+    Clinical Intelligence Platform. For practitioner use only. Not a diagnostic tool.
+  </span>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ZC = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+
+  /* ── Original scroll reveal ── */
+  var cards = document.querySelectorAll('.zone-card');
+  var seen = {};
+  function reveal(){
+    for(var i=0;i<cards.length;i++){
+      if(seen[i]) continue;
+      var rect = cards[i].getBoundingClientRect();
+      if(rect.top < window.innerHeight - 50){
+        seen[i] = true;
+        (function(idx){setTimeout(function(){cards[idx].classList.add('visible');}, (idx%5)*100);})(i);
+      }
+    }
+  }
+  window.addEventListener('scroll', reveal, {passive:true});
+  reveal();
+
+  /* ── AW10: Cinematic loader ── */
+  if(!reduced && !sessionStorage.getItem('aw_loaded')){
+    document.body.style.overflow = 'hidden';
+    var loader = document.getElementById('awLoader');
+    var icon = document.getElementById('awLoaderIcon');
+    var line = document.getElementById('awLoaderLine');
+    var textEl = document.getElementById('awLoaderText');
+    var title = 'NCZ + FLINT Architecture';
+    setTimeout(function(){ icon.classList.add('aw-li-show'); }, 100);
+    setTimeout(function(){ line.classList.add('aw-ll-draw'); }, 700);
+    setTimeout(function(){
+      for(var c=0;c<title.length;c++){
+        var span = document.createElement('span');
+        span.className = 'aw-loader-char';
+        span.textContent = title[c] === ' ' ? '\u00A0' : title[c];
+        span.style.transitionDelay = (c*25)+'ms';
+        textEl.appendChild(span);
+      }
+      setTimeout(function(){
+        var chars = textEl.querySelectorAll('.aw-loader-char');
+        for(var j=0;j<chars.length;j++) chars[j].classList.add('aw-lc-show');
+      }, 50);
+    }, 1100);
+    setTimeout(function(){
+      loader.classList.add('aw-loader-done');
+      document.body.style.overflow = '';
+      sessionStorage.setItem('aw_loaded','1');
+      setTimeout(function(){if(loader.parentNode) loader.parentNode.removeChild(loader);}, 500);
+    }, 2200);
+  } else {
+    var ld = document.getElementById('awLoader');
+    if(ld) ld.style.display = 'none';
+  }
+
+  /* ── AW2: Scroll-pinned worked example ── */
+  var exWrap = document.getElementById('awExWrap');
+  var exSentences = document.querySelectorAll('.aw-ex-sentence');
+  var exDots = document.getElementById('awExDots');
+  if(exDots && exSentences.length){
+    for(var d=0;d<exSentences.length;d++){
+      var dot = document.createElement('div');
+      dot.className = 'aw-ex-dot';
+      exDots.appendChild(dot);
+    }
+  }
+  if(exWrap && exSentences.length && window.innerWidth > 700){
+    var prevExStep = -1;
+    window.addEventListener('scroll', function(){
+      var rect = exWrap.getBoundingClientRect();
+      var total = exWrap.offsetHeight - window.innerHeight;
+      if(total <= 0) return;
+      var progress = Math.max(0, Math.min(1, -rect.top / total));
+      var idx = Math.min(Math.floor(progress * exSentences.length), exSentences.length - 1);
+      if(idx !== prevExStep){
+        prevExStep = idx;
+        for(var i=0;i<exSentences.length;i++) exSentences[i].classList.toggle('aw-ex-active', i===idx);
+        if(exDots){var dots=exDots.children;for(var j=0;j<dots.length;j++) dots[j].classList.toggle('aw-ex-dot-on',j===idx);}
+      }
+    }, {passive:true});
+  } else {
+    for(var m=0;m<exSentences.length;m++) exSentences[m].classList.add('aw-ex-active');
+  }
+
+  /* ── AW3: Card flip (via JS injection) ── */
+  var ZONE_DATA = [
+    {id:'Z1',nodes:['N3','N6'],bars:[0,0,70,0,0],cascades:'S2 out, S3 in, S6 out',tl:true},
+    {id:'Z2',nodes:['N1','N2','N6'],bars:[0,80,0,0,0],cascades:'S1 out, S4 in, S5 out',tl:true},
+    {id:'Z3',nodes:['N5','N6'],bars:[0,0,0,50,0],cascades:'S5 in, S6 in',tl:false},
+    {id:'Z4',nodes:['N2','N4'],bars:[0,0,0,0,60],cascades:'S3 out',tl:false},
+    {id:'Z5',nodes:['N3','N4','N6'],bars:[40,0,0,0,0],cascades:'S2 in, S4 out',tl:true}
+  ];
+  var LAYER_DATA = [
+    {id:'L1',q:'WHERE?',engines:'MSQ-71, ATM, MedTerrain',pos:'1 of 5'},
+    {id:'L2',q:'WHICH?',engines:'NCZ Composite Scoring',pos:'2 of 5'},
+    {id:'L3',q:'HOW?',engines:'CascadeIQ, KINETICS',pos:'3 of 5'},
+    {id:'L4',q:'WHO?',engines:'DRD Designation',pos:'4 of 5'},
+    {id:'L5',q:'WHAT?',engines:'APEX, PRISM',pos:'5 of 5'}
+  ];
+  var nczGrid = document.getElementById('awNczGrid');
+  var flintGrid = document.getElementById('awFlintGrid');
+  if(nczGrid){
+    var nczCards = nczGrid.querySelectorAll('.zone-card');
+    for(var z=0;z<nczCards.length;z++){
+      var zd = ZONE_DATA[z];
+      if(!zd) continue;
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'aw-flip-btn'; btn.textContent = 'View architecture';
+      btn.setAttribute('data-idx', String(z));
+      nczCards[z].appendChild(btn);
+      nczCards[z].setAttribute('data-flip-idx', String(z));
+    }
+  }
+  if(flintGrid){
+    var flintCards = flintGrid.querySelectorAll('.zone-card');
+    for(var f=0;f<flintCards.length;f++){
+      var ld2 = LAYER_DATA[f];
+      if(!ld2) continue;
+      var btn2 = document.createElement('button');
+      btn2.type = 'button'; btn2.className = 'aw-flip-btn'; btn2.textContent = 'View architecture';
+      btn2.setAttribute('data-lidx', String(f));
+      flintCards[f].appendChild(btn2);
+      flintCards[f].setAttribute('data-flip-lidx', String(f));
+    }
+  }
+  document.addEventListener('click', function(e){
+    var flipBtn = e.target.closest('.aw-flip-btn');
+    if(!flipBtn) return;
+    var card = flipBtn.closest('.zone-card');
+    if(!card) return;
+    var flipper = card.querySelector('.aw-flipper');
+    if(flipper){
+      flipper.classList.toggle('aw-flipped');
+      return;
+    }
+    /* Wrap card content in flipper */
+    var front = document.createElement('div');
+    front.className = 'aw-flip-front';
+    while(card.firstChild) front.appendChild(card.firstChild);
+    var back = document.createElement('div');
+    back.className = 'aw-flip-back';
+    var zIdx = card.getAttribute('data-flip-idx');
+    var lIdx = card.getAttribute('data-flip-lidx');
+    if(zIdx !== null){
+      var zd2 = ZONE_DATA[parseInt(zIdx)];
+      back.innerHTML = '<div class="aw-back-title">'+zd2.id+' Architecture</div>'
+        +'<div class="aw-back-bars" id="awBars'+zd2.id+'"></div>'
+        +'<div class="aw-back-text">Nodes: '+zd2.nodes.join(', ')+'</div>'
+        +'<div class="aw-back-text">Cascades: '+zd2.cascades+'</div>'
+        +'<div class="aw-back-text">TerrainLock: '+(zd2.tl?'Participates':'No')+'</div>'
+        +'<div class="aw-back-sample">Sample data: not a real patient</div>'
+        +'<button type="button" class="aw-flip-btn">Back</button>';
+    } else if(lIdx !== null){
+      var ld3 = LAYER_DATA[parseInt(lIdx)];
+      back.innerHTML = '<div class="aw-back-title">'+ld3.id+' Detail</div>'
+        +'<div style="font-family:var(--fs);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;color:var(--gold);margin-bottom:12px;">'+ld3.q+'</div>'
+        +'<div class="aw-back-text">Engines: '+ld3.engines+'</div>'
+        +'<div class="aw-back-text">Pipeline position: '+ld3.pos+'</div>'
+        +'<button type="button" class="aw-flip-btn">Back</button>';
+    }
+    flipper = document.createElement('div');
+    flipper.className = 'aw-flipper';
+    card.classList.add('aw-flip-wrap');
+    flipper.appendChild(front);
+    flipper.appendChild(back);
+    card.appendChild(flipper);
+    setTimeout(function(){ flipper.classList.add('aw-flipped'); }, 50);
+  });
+
+  /* ── AW4: FLINT pipeline scroll activation ── */
+  var pipeWrap = document.getElementById('awPipelineWrap');
+  if(pipeWrap){
+    var hexes = pipeWrap.querySelectorAll('.aw-pipeline-hex');
+    var labels = pipeWrap.querySelectorAll('.aw-pipeline-label');
+    var pipeObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          for(var i=0;i<hexes.length;i++){
+            (function(idx){
+              setTimeout(function(){
+                hexes[idx].classList.add('aw-pl-active');
+                if(labels[idx]) labels[idx].classList.add('aw-pl-show');
+              }, idx*400);
+            })(i);
+          }
+          pipeObs.unobserve(e.target);
+        }
+      });
+    },{threshold:0.5});
+    pipeObs.observe(pipeWrap);
+  }
+
+  /* ── AW5: Constellation hover ── */
+  var constWrap = document.getElementById('awConstWrap');
+  if(constWrap){
+    var constZones = constWrap.querySelectorAll('.aw-const-zone');
+    var constPaths = constWrap.querySelectorAll('.aw-const-path');
+    var stackMap = {S1:['Z2','Z1'],S2:['Z1','Z5'],S3:['Z4','Z1'],S4:['Z5','Z2'],S5:['Z2','Z3'],S6:['Z1','Z3']};
+    constZones.forEach(function(zn){
+      zn.addEventListener('mouseenter', function(){
+        var zid = zn.getAttribute('data-z');
+        constPaths.forEach(function(p){
+          var sd = stackMap[p.getAttribute('data-s')];
+          if(sd && (sd[0]===zid || sd[1]===zid)){
+            p.classList.add('aw-const-hi'); p.classList.remove('aw-const-dim');
+          } else {
+            p.classList.add('aw-const-dim'); p.classList.remove('aw-const-hi');
+          }
+        });
+      });
+      zn.addEventListener('mouseleave', function(){
+        constPaths.forEach(function(p){ p.classList.remove('aw-const-hi','aw-const-dim'); });
+      });
+    });
+    /* Anchor dots */
+    var constDots = constWrap.querySelectorAll('.aw-const-dot');
+    constDots.forEach(function(dot){
+      dot.addEventListener('click', function(){
+        var zid = dot.getAttribute('data-z');
+        var idx = ['Z1','Z2','Z3','Z4','Z5'].indexOf(zid);
+        if(nczGrid && idx >= 0){
+          var target = nczGrid.querySelectorAll('.zone-card')[idx];
+          if(target) target.scrollIntoView({behavior:'smooth',block:'center'});
+        }
+      });
+    });
+  }
+
+  /* ── AW6: Threshold visualiser bars ── */
+  if(nczGrid){
+    var THR = [{z:'Z1',thr:40,demo:52},{z:'Z2',thr:40,demo:61},{z:'Z3',thr:40,demo:28},{z:'Z4',thr:40,demo:38},{z:'Z5',thr:32,demo:45}];
+    var nczCards2 = nczGrid.querySelectorAll('.zone-card');
+    THR.forEach(function(t,i){
+      if(!nczCards2[i]) return;
+      var bar = document.createElement('div');
+      bar.className = 'aw-threshold-bar';
+      var tPos = t.thr+'%';
+      var bStart = (t.thr-5)+'%';
+      bar.innerHTML = '<span class="aw-thr-sample">Sample</span>'
+        +'<span class="aw-thr-label" id="awThrLabel'+t.z+'">Threshold: '+t.thr+'</span>'
+        +'<div class="aw-thr-track">'
+        +'<div class="aw-thr-borderline" style="left:'+bStart+';width:5%;background-color:'+ZC[t.z]+'10"></div>'
+        +'<div class="aw-thr-marker" style="left:'+tPos+'"></div>'
+        +'<div class="aw-thr-fill" id="awThrFill'+t.z+'" style="background:'+ZC[t.z]+'"></div>'
+        +'</div>';
+      nczCards2[i].appendChild(bar);
+      nczCards2[i].addEventListener('mouseenter', function(){
+        var fill = document.getElementById('awThrFill'+t.z);
+        var label = document.getElementById('awThrLabel'+t.z);
+        if(fill) fill.style.width = t.demo+'%';
+        if(label){
+          if(t.demo >= t.thr) label.textContent = 'Active: '+t.demo+'/100';
+          else if(t.demo >= t.thr - 5) label.textContent = 'Borderline: '+t.demo+'/100';
+          else label.textContent = 'Inactive: '+t.demo+'/100';
+        }
+      });
+      nczCards2[i].addEventListener('mouseleave', function(){
+        var fill = document.getElementById('awThrFill'+t.z);
+        var label = document.getElementById('awThrLabel'+t.z);
+        if(fill) fill.style.width = '0';
+        if(label) label.textContent = 'Threshold: '+t.thr;
+      });
+    });
+  }
+
+  /* ── AW12: Clinical question typewriter ── */
+  if(!reduced){
+    var clinQs = document.querySelectorAll('.z-clinical-q');
+    var twObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        if(e.target.getAttribute('data-tw-done')) return;
+        e.target.setAttribute('data-tw-done','1');
+        var text = e.target.textContent;
+        e.target.textContent = '';
+        var cursor = document.createElement('span');
+        cursor.className = 'aw-tw-cursor';
+        var charIdx = 0;
+        var speed = window.innerWidth < 700 ? 20 : 30;
+        var interval = setInterval(function(){
+          if(charIdx < text.length){
+            e.target.insertBefore(document.createTextNode(text[charIdx]), cursor);
+            charIdx++;
+          } else {
+            clearInterval(interval);
+            setTimeout(function(){ cursor.classList.add('aw-tw-fade'); }, 1800);
+          }
+        }, speed);
+        e.target.appendChild(cursor);
+      });
+    },{threshold:0.6});
+    clinQs.forEach(function(q){ twObs.observe(q); });
+  }
+
+  /* ── AW14: Layer dependency highlight ── */
+  if(flintGrid){
+    var fCards = flintGrid.querySelectorAll('.zone-card');
+    fCards.forEach(function(card, idx){
+      card.addEventListener('mouseenter', function(){
+        fCards.forEach(function(c, j){
+          if(j === idx) c.classList.add('aw-dep-active');
+          else c.classList.add('aw-dep-dim');
+        });
+      });
+      card.addEventListener('mouseleave', function(){
+        fCards.forEach(function(c){ c.classList.remove('aw-dep-active','aw-dep-dim'); });
+      });
+    });
+  }
+
+  /* ── AW18: Card depth shadow parallax ── */
+  if(!reduced && window.innerWidth > 1024){
+    window.addEventListener('scroll', function(){
+      for(var i=0;i<cards.length;i++){
+        var rect = cards[i].getBoundingClientRect();
+        var vh = window.innerHeight;
+        var centre = rect.top + rect.height/2;
+        var ratio = Math.max(0, Math.min(1, centre / vh));
+        var dist = Math.abs(ratio - 0.5) * 2;
+        var blur = 12 + dist * 40;
+        var spread = 4 + (1 - dist) * 8;
+        var opacity = 0.08 + dist * 0.15;
+        cards[i].style.boxShadow = '0 '+spread+'px '+blur+'px rgba(0,0,0,'+opacity.toFixed(2)+')';
+      }
+    }, {passive:true});
+  }
+
+  /* ── AW19: Ambient background canvas ── */
+  var ambCanvas = document.getElementById('awAmbientCanvas');
+  if(ambCanvas && !reduced){
+    var actx = ambCanvas.getContext('2d');
+    function resizeAmb(){
+      ambCanvas.width = window.innerWidth;
+      ambCanvas.height = window.innerHeight;
+    }
+    resizeAmb();
+    window.addEventListener('resize', resizeAmb);
+    function drawAmb(){
+      actx.clearRect(0, 0, ambCanvas.width, ambCanvas.height);
+      var scrollY = window.scrollY || window.pageYOffset;
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      var progress = docH > 0 ? scrollY / docH : 0;
+      /* Teal spot left, gold spot right, drift with scroll */
+      var tealX = ambCanvas.width * 0.15 + progress * ambCanvas.width * 0.2;
+      var goldX = ambCanvas.width * 0.85 - progress * ambCanvas.width * 0.2;
+      var grad1 = actx.createRadialGradient(tealX, ambCanvas.height*0.5, 0, tealX, ambCanvas.height*0.5, ambCanvas.width*0.4);
+      grad1.addColorStop(0, 'rgba(26,122,138,0.08)');
+      grad1.addColorStop(1, 'transparent');
+      actx.fillStyle = grad1;
+      actx.fillRect(0,0,ambCanvas.width,ambCanvas.height);
+      var grad2 = actx.createRadialGradient(goldX, ambCanvas.height*0.5, 0, goldX, ambCanvas.height*0.5, ambCanvas.width*0.4);
+      grad2.addColorStop(0, 'rgba(201,168,76,0.06)');
+      grad2.addColorStop(1, 'transparent');
+      actx.fillStyle = grad2;
+      actx.fillRect(0,0,ambCanvas.width,ambCanvas.height);
+      requestAnimationFrame(drawAmb);
+    }
+    requestAnimationFrame(drawAmb);
+  }
+
+  /* ── AW20: Clinical walkthrough scroll ── */
+  var walkWrap = document.getElementById('awWalkWrap');
+  var walkInner = document.getElementById('awWalkInner');
+  var walkCards = walkInner ? walkInner.querySelectorAll('.aw-walk-card') : [];
+  var walkTracker = document.getElementById('awWalkTracker');
+  if(walkTracker && walkCards.length){
+    for(var w=0;w<walkCards.length;w++){
+      var wd = document.createElement('div');
+      wd.className = 'aw-walk-dot';
+      walkTracker.appendChild(wd);
+      if(w < walkCards.length - 1){
+        var conn = document.createElement('div');
+        conn.className = 'aw-walk-conn';
+        conn.innerHTML = '<div class="aw-walk-conn-fill"></div>';
+        walkTracker.appendChild(conn);
+      }
+    }
+  }
+  if(walkWrap && walkCards.length && window.innerWidth > 700){
+    var prevWk = -1;
+    window.addEventListener('scroll', function(){
+      var rect = walkWrap.getBoundingClientRect();
+      var total = walkWrap.offsetHeight - window.innerHeight;
+      if(total <= 0) return;
+      var progress = Math.max(0, Math.min(1, -rect.top / total));
+      var idx = Math.min(Math.floor(progress * walkCards.length), walkCards.length - 1);
+      if(idx !== prevWk){
+        prevWk = idx;
+        for(var i=0;i<walkCards.length;i++) walkCards[i].classList.toggle('aw-wk-active', i===idx);
+        var dots = walkTracker.querySelectorAll('.aw-walk-dot');
+        var conns = walkTracker.querySelectorAll('.aw-walk-conn-fill');
+        for(var j=0;j<dots.length;j++) dots[j].classList.toggle('aw-wd-on', j<=idx);
+        for(var k=0;k<conns.length;k++) conns[k].classList.toggle('aw-wc-full', k<idx);
+      }
+    }, {passive:true});
+  } else {
+    for(var wm=0;wm<walkCards.length;wm++) walkCards[wm].classList.add('aw-wk-active');
+  }
+
+  /* ── AW13: Zone comparison overlay ── */
+  var cmpBtn = document.createElement('button');
+  cmpBtn.type = 'button'; cmpBtn.className = 'aw-compare-btn'; cmpBtn.textContent = 'Compare';
+  var cmpOverlay = document.createElement('div');
+  cmpOverlay.className = 'aw-compare-overlay';
+  var ZN = {Z1:'Metabolic Energy',Z2:'Resilience Network',Z3:'Cardio-Neural',Z4:'Detox Trident',Z5:'Hormonal Terrain'};
+  var ZNODES = {Z1:'N3, N6',Z2:'N1, N2, N6',Z3:'N5, N6',Z4:'N2, N4',Z5:'N3, N4, N6'};
+  var ZTHR = {Z1:40,Z2:40,Z3:40,Z4:40,Z5:32};
+  var cmpHtml = '<button class="aw-cmp-close" id="awCmpClose" type="button">&times;</button>';
+  ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+    cmpHtml += '<div class="aw-cmp-card"><div class="aw-cmp-zone" style="color:'+ZC[z]+'">'+z+'</div>'
+      +'<div class="aw-cmp-name">'+ZN[z]+'</div>'
+      +'<div class="aw-cmp-stat">Nodes: '+ZNODES[z]+'</div>'
+      +'<div class="aw-cmp-stat">Threshold: '+ZTHR[z]+'</div>'
+      +'<div class="aw-cmp-stat">TerrainLock: '+(z==='Z1'||z==='Z2'||z==='Z5'?'Yes':'No')+'</div></div>';
+  });
+  cmpOverlay.innerHTML = cmpHtml;
+  if(nczGrid){
+    nczGrid.parentElement.appendChild(cmpBtn);
+    document.body.appendChild(cmpOverlay);
+    var cmpVisible = false;
+    window.addEventListener('scroll', function(){
+      if(!nczGrid) return;
+      var rect = nczGrid.getBoundingClientRect();
+      var show = rect.top < window.innerHeight * 0.4 && rect.bottom > 0;
+      cmpBtn.classList.toggle('aw-cmp-show', show && !cmpVisible);
+    }, {passive:true});
+    cmpBtn.addEventListener('click', function(){
+      cmpOverlay.classList.add('aw-cmp-open');
+      cmpVisible = true;
+      cmpBtn.classList.remove('aw-cmp-show');
+    });
+    cmpOverlay.addEventListener('click', function(e){
+      if(e.target.id === 'awCmpClose' || e.target === cmpOverlay){
+        cmpOverlay.classList.remove('aw-cmp-open');
+        cmpVisible = false;
+      }
+    });
+  }
+
+  /* ── AW8: FLINT progress stepper ── */
+  if(flintGrid && window.innerWidth > 1024){
+    var stepper = document.createElement('div');
+    stepper.className = 'aw-stepper';
+    var fLabels = ['L1 WHERE','L2 WHICH','L3 HOW','L4 WHO','L5 WHAT'];
+    var fCards2 = flintGrid.querySelectorAll('.zone-card');
+    fLabels.forEach(function(lbl, i){
+      var circle = document.createElement('div');
+      circle.className = 'aw-step-circle';
+      circle.setAttribute('data-label', lbl);
+      circle.addEventListener('click', function(){
+        if(fCards2[i]) fCards2[i].scrollIntoView({behavior:'smooth',block:'center'});
+      });
+      stepper.appendChild(circle);
+      if(i < fLabels.length - 1){
+        var line = document.createElement('div');
+        line.className = 'aw-step-line';
+        line.innerHTML = '<div class="aw-step-line-fill"></div>';
+        stepper.appendChild(line);
+      }
+    });
+    flintGrid.parentElement.style.position = 'relative';
+    flintGrid.parentElement.appendChild(stepper);
+    window.addEventListener('scroll', function(){
+      var circles = stepper.querySelectorAll('.aw-step-circle');
+      var fills = stepper.querySelectorAll('.aw-step-line-fill');
+      var activeIdx = -1;
+      fCards2.forEach(function(c, i){
+        var r = c.getBoundingClientRect();
+        if(r.top < window.innerHeight * 0.6 && r.bottom > 0) activeIdx = i;
+      });
+      circles.forEach(function(c, i){ c.classList.toggle('aw-step-on', i<=activeIdx); });
+      fills.forEach(function(f, i){ f.style.height = i<activeIdx ? '100%' : '0'; });
+      /* Show/hide stepper */
+      var secRect = flintGrid.parentElement.getBoundingClientRect();
+      stepper.style.opacity = (secRect.top < window.innerHeight && secRect.bottom > 0) ? '1' : '0';
+    }, {passive:true});
+  }
+
+  /* ── AW16: Hex morph on hover ── */
+  if(!reduced){
+    cards.forEach(function(card){
+      var hex = card.querySelector('.hex-wrap svg polygon');
+      if(!hex) return;
+      var origPoints = hex.getAttribute('points');
+      card.addEventListener('mouseenter', function(){
+        hex.setAttribute('points', '26,0 52,14.5 52,45.5 26,60 0,45.5 0,14.5');
+      });
+      card.addEventListener('mouseleave', function(){
+        hex.setAttribute('points', origPoints);
+      });
+    });
+  }
+  /* ═══ 20 APP-LEVEL FEATURES JS ═══ */
+  var ZC2 = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+  var NODES = ['N1','N2','N3','N4','N5','N6','N7'];
+  var ZONES = ['Z1','Z2','Z3','Z4','Z5'];
+  var Z_NODES = {Z1:['N3','N6'],Z2:['N1','N2','N6'],Z3:['N5','N6'],Z4:['N2','N4'],Z5:['N3','N4','N6']};
+  var Z_THR = {Z1:40,Z2:40,Z3:40,Z4:40,Z5:32};
+  var STKS = [
+    {id:'S1',from:'Z2',to:'Z1',vel:'MEDIUM',ev:'Emerging',ew:0.6,timing:'Weeks to months'},
+    {id:'S2',from:'Z1',to:'Z5',vel:'FAST',ev:'Established',ew:1.0,timing:'Days to weeks'},
+    {id:'S3',from:'Z4',to:'Z1',vel:'SLOW',ev:'Emerging',ew:0.6,timing:'Months to quarters'},
+    {id:'S4',from:'Z5',to:'Z2',vel:'MEDIUM',ev:'Theoretical',ew:0.2,timing:'Theoretical'},
+    {id:'S5',from:'Z2',to:'Z3',vel:'FAST',ev:'Emerging',ew:0.6,timing:'Days to weeks'},
+    {id:'S6',from:'Z1',to:'Z3',vel:'MEDIUM',ev:'Established',ew:1.0,timing:'Weeks'}
+  ];
+  var nodeScores = {N1:45,N2:55,N3:35,N4:20,N5:30,N6:60,N7:0};
+  var zoneScores = {};
+  var activeCascades = [];
+  var drdZone = '';
+
+  function calcZones(){
+    ZONES.forEach(function(z){
+      var total = 0; var count = 0;
+      Z_NODES[z].forEach(function(n){
+        var s = nodeScores[n];
+        if(n === 'N6') s = Math.round(s * 0.7);
+        total += s; count++;
+      });
+      zoneScores[z] = count > 0 ? Math.round(total / count) : 0;
+    });
+  }
+  function calcCascades(){
+    activeCascades = [];
+    STKS.forEach(function(s){
+      if(zoneScores[s.from] >= Z_THR[s.from] && zoneScores[s.to] >= Z_THR[s.to]){
+        activeCascades.push(s);
+      }
+    });
+  }
+  function calcDRD(){
+    var best = ''; var bestScore = -1;
+    ZONES.forEach(function(z){
+      if(zoneScores[z] >= Z_THR[z] && zoneScores[z] > bestScore){
+        bestScore = zoneScores[z]; best = z;
+      }
+    });
+    if(!best && zoneScores.Z2 >= Z_THR.Z2) best = 'Z2';
+    drdZone = best;
+  }
+  calcZones(); calcCascades(); calcDRD();
+
+  /* APP-1: Zone convergence engine */
+  var app1Inputs = document.getElementById('app1Inputs');
+  var app1Zones = document.getElementById('app1Zones');
+  if(app1Inputs){
+    NODES.forEach(function(n){
+      if(n === 'N7') return;
+      var row = document.createElement('div'); row.className = 'app1-node-row';
+      row.innerHTML = '<span style="width:24px;">'+n+'</span><input type="range" min="0" max="100" value="'+nodeScores[n]+'" data-node="'+n+'"><span class="app1-node-val" id="app1Val'+n+'">'+nodeScores[n]+'</span>';
+      app1Inputs.appendChild(row);
+    });
+    app1Inputs.addEventListener('input', function(e){
+      var inp = e.target;
+      if(!inp.dataset.node) return;
+      nodeScores[inp.dataset.node] = parseInt(inp.value);
+      var valEl = document.getElementById('app1Val'+inp.dataset.node);
+      if(valEl) valEl.textContent = inp.value;
+      calcZones(); calcCascades(); calcDRD();
+      renderApp1Zones(); renderAllApps();
+    });
+  }
+  function renderApp1Zones(){
+    if(!app1Zones) return;
+    app1Zones.innerHTML = '';
+    ZONES.forEach(function(z){
+      var s = zoneScores[z]; var thr = Z_THR[z];
+      var active = s >= thr; var borderline = !active && s >= thr - 5;
+      var status = active ? 'ACTIVE' : (borderline ? 'BORDERLINE' : 'INACTIVE');
+      var color = active ? ZC2[z] : (borderline ? '#f39c12' : 'rgba(255,255,255,0.20)');
+      var html = '<div class="app1-zone-bar"><span class="app1-zone-id" style="color:'+ZC2[z]+'">'+z+'</span>';
+      html += '<div class="app1-zone-track"><div class="app1-zone-fill" style="width:'+s+'%;background:'+color+'"></div>';
+      html += '<div class="app1-zone-thr" style="left:'+thr+'%"></div></div>';
+      html += '<span class="app1-zone-status" style="color:'+color+'">'+status+'</span></div>';
+      app1Zones.insertAdjacentHTML('beforeend', html);
+    });
+  }
+  renderApp1Zones();
+  var app1ShowWork = document.getElementById('app1ShowWork');
+  var app1Working = document.getElementById('app1Working');
+  if(app1ShowWork){
+    app1ShowWork.addEventListener('click', function(){
+      app1Working.classList.toggle('app1-show');
+      var lines = [];
+      ZONES.forEach(function(z){
+        var parts = [];
+        Z_NODES[z].forEach(function(n){
+          var raw = nodeScores[n];
+          var used = n === 'N6' ? Math.round(raw * 0.7) : raw;
+          parts.push(n+(n==='N6'?' ('+raw+' dampened to '+used+')':' ('+used+')'));
+        });
+        lines.push(z+': ('+parts.join(' + ')+') / '+Z_NODES[z].length+' = '+zoneScores[z]+' [threshold: '+Z_THR[z]+']');
+      });
+      app1Working.textContent = lines.join('\n');
+    });
+  }
+
+  /* APP-2: Cascade chain reaction */
+  function renderApp2(){
+    var tl = document.getElementById('app2Timeline');
+    if(!tl) return;
+    tl.innerHTML = '';
+    if(activeCascades.length === 0){
+      tl.innerHTML = '<p style="font-size:12px;color:var(--text-ter);">No active cascades detected. Adjust node scores in APP-1.</p>';
+      return;
+    }
+    var ordered = activeCascades.slice().sort(function(a,b){
+      var vo = {FAST:0,MEDIUM:1,SLOW:2};
+      return (vo[a.vel]||1) - (vo[b.vel]||1);
+    });
+    ordered.forEach(function(s,i){
+      var html = '<div class="app2-tl-row app2-active">';
+      html += '<span class="app2-tl-window">'+s.timing+'</span>';
+      html += '<span class="app2-tl-stack" style="color:'+ZC2[s.from]+'">'+s.id+'</span>';
+      html += '<span class="app2-tl-desc">'+s.from+' \u2192 '+s.to+' ('+s.vel+', '+s.ev+')'+(s.id==='S4'?' (Theoretical: excluded from DRD trace)':'')+(s.id==='S6'?' (UNIDIRECTIONAL)':'')+'</span>';
+      html += '</div>';
+      tl.insertAdjacentHTML('beforeend', html);
+    });
+    var tl7 = activeCascades.some(function(s){return s.id==='S1';}) && activeCascades.some(function(s){return s.id==='S2';}) && activeCascades.some(function(s){return s.id==='S4';});
+    if(tl7) tl.insertAdjacentHTML('beforeend','<div style="margin-top:12px;padding:10px;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.15);border-radius:6px;font-size:11px;color:#C0392B;">TerrainLock\u2122 DETECTED: Z2 \u2192 Z1 \u2192 Z5 \u2192 Z2 self-perpetuating loop. Z2 gut restoration is the default tiebreaker.</div>');
+  }
+  var app2Btn = document.getElementById('app2RunBtn');
+  if(app2Btn) app2Btn.addEventListener('click', function(){ calcCascades(); calcDRD(); renderApp2(); renderApp3(); renderAllApps(); });
+
+  /* APP-3: DRD designation */
+  function renderApp3(){
+    var w = document.getElementById('app3Wrap');
+    if(!w) return;
+    if(!drdZone){ w.innerHTML = '<p style="font-size:12px;color:var(--text-ter);">No active zones. Adjust node scores in APP-1.</p>'; return; }
+    var traces = [];
+    activeCascades.forEach(function(s){
+      if(s.id !== 'S4' && (s.from === drdZone || s.to === drdZone)){
+        traces.push(s.id+': '+s.from+' \u2192 '+s.to+' ('+s.ev+')');
+      }
+    });
+    w.innerHTML = '<div class="app3-crown">\u265B</div>'
+      +'<div class="app3-designated" style="color:'+ZC2[drdZone]+'">'+drdZone+' Designated</div>'
+      +'<p style="font-size:12px;color:var(--text-sec);">Highest burden zone. Score: '+zoneScores[drdZone]+'/100</p>'
+      +'<div class="app3-trace">Cascade trace: '+(traces.length?traces.join(' | '):'No active cascades from/to designated zone')+'</div>'
+      +'<p class="app3-insight">The most symptomatic zone is often not the originating zone.</p>';
+  }
+
+  /* APP-4: Examination sequencing */
+  function renderApp4(){
+    var el = document.getElementById('app4Tiers');
+    if(!el) return;
+    var TESTS = {
+      Z1:[{n:'Cortisol diurnal profile',c:220},{n:'Thyroid panel (full)',c:180},{n:'HbA1c + fasting insulin',c:90}],
+      Z2:[{n:'Gut permeability (zonulin)',c:195},{n:'SIBO breath test',c:165},{n:'Comprehensive stool analysis',c:340}],
+      Z3:[{n:'Cardiovascular risk panel',c:280},{n:'Homocysteine',c:85},{n:'NT-proBNP',c:120}],
+      Z4:[{n:'Hepatic detox profile',c:260},{n:'Organic acids (urine)',c:310},{n:'GFR + kidney panel',c:95}],
+      Z5:[{n:'DUTCH hormone panel',c:380},{n:'Oestrogen metabolites',c:290},{n:'Testosterone + SHBG',c:150}]
+    };
+    var t1=[],t2=[],t3=[];
+    if(drdZone && TESTS[drdZone]){
+      TESTS[drdZone].forEach(function(t){
+        if(t.c<=200)t1.push(t);else if(t.c<=400)t2.push(t);else t3.push(t);
+      });
+    }
+    function renderTier(label,budget,tests){
+      var h = '<div class="app4-tier"><div class="app4-tier-head">'+label+'</div><div class="app4-tier-budget">'+budget+'</div>';
+      var total = 0;
+      tests.forEach(function(t){
+        h += '<div class="app4-test">'+t.n+'<span class="app4-test-zone">GBP '+t.c+' | '+drdZone+'</span></div>';
+        total += t.c;
+      });
+      if(tests.length === 0) h += '<div style="font-size:11px;color:var(--text-ter);">No tests in this tier</div>';
+      h += '<div class="app4-total">Total: GBP '+total+'</div></div>';
+      return h;
+    }
+    el.innerHTML = renderTier('Tier 1','GBP 200-400',t1) + renderTier('Tier 2','GBP 400-800',t2) + renderTier('Tier 3','GBP 800+',t3);
+  }
+
+  /* APP-5: Pipeline replay */
+  var NARRATIVES = [
+    'L1 WHERE: Node scoring maps patient intake across seven biological nodes. N6 (endocrine signalling) returns the highest burden. N6 dampening compresses its contribution across all zones it participates in.',
+    'L2 WHICH: Zone mapping aggregates nodes into zones. Active zones cross their activation threshold. Borderline zones sit within the 5-point near-threshold window.',
+    'L3 HOW: CascadeIQ evaluates all six directional cascade stacks. Active cascades reveal how burden in one zone drives or sustains another. S4 (Theoretical) displays but is excluded from DRD trace.',
+    'L4 WHO: DRD designates the highest burden zone as the upstream origin. The most symptomatic zone is often not the originating zone. Z2 is the default tiebreaker.',
+    'L5 WHAT: APEX sequences investigation priorities by causality, not severity. Investigation order follows the DRD designation. Pipeline complete. Practitioner review begins.'
+  ];
+  var app5Step = -1;
+  var app5ProgEl = document.getElementById('app5Progress');
+  var app5NarEl = document.getElementById('app5Narrative');
+  if(app5ProgEl){
+    for(var pp=0;pp<5;pp++){
+      var dot = document.createElement('div'); dot.className = 'app5-pip-dot'; app5ProgEl.appendChild(dot);
+      if(pp<4){ var conn = document.createElement('div'); conn.className = 'app5-pip-conn'; conn.innerHTML = '<div class="app5-pip-conn-fill"></div>'; app5ProgEl.appendChild(conn); }
+    }
+  }
+  function renderApp5(){
+    if(!app5ProgEl || !app5NarEl) return;
+    var dots = app5ProgEl.querySelectorAll('.app5-pip-dot');
+    var fills = app5ProgEl.querySelectorAll('.app5-pip-conn-fill');
+    for(var i=0;i<dots.length;i++) dots[i].classList.toggle('app5-done', i<=app5Step);
+    for(var j=0;j<fills.length;j++) fills[j].classList.toggle('app5-cf', j<app5Step);
+    app5NarEl.textContent = app5Step >= 0 ? NARRATIVES[app5Step] : 'Press Play to begin the pipeline replay.';
+  }
+  var app5Play = document.getElementById('app5Play');
+  var app5Prev = document.getElementById('app5Prev');
+  var app5Next = document.getElementById('app5Next');
+  if(app5Play) app5Play.addEventListener('click', function(){
+    app5Step = -1;
+    var iv = setInterval(function(){ app5Step++; renderApp5(); if(app5Step >= 4) clearInterval(iv); }, 1200);
+  });
+  if(app5Next) app5Next.addEventListener('click', function(){ if(app5Step < 4){ app5Step++; renderApp5(); } });
+  if(app5Prev) app5Prev.addEventListener('click', function(){ if(app5Step > 0){ app5Step--; renderApp5(); } });
+
+  /* APP-6: Terrain stability */
+  function renderApp6(){
+    var el = document.getElementById('app6Gauges');
+    var drift = document.getElementById('app6Drift');
+    if(!el) return;
+    el.innerHTML = '';
+    var SIM = {Z1:[35,38,36,40,42],Z2:[55,58,61,59,62],Z3:[20,22,18,25,28],Z4:[30,28,32,29,38],Z5:[40,42,44,43,45]};
+    var drifts = [];
+    ZONES.forEach(function(z){
+      var vals = SIM[z]; var mean = 0; vals.forEach(function(v){mean+=v;}); mean /= vals.length;
+      var variance = 0; vals.forEach(function(v){variance+=(v-mean)*(v-mean);}); variance /= vals.length;
+      var stability = Math.max(0, Math.min(10, 10 - Math.sqrt(variance)));
+      var trend = vals[4] - vals[0];
+      var circumference = 2 * Math.PI * 34;
+      var offset = circumference - (stability/10)*circumference;
+      var html = '<div class="app6-gauge"><div class="app6-gauge-ring"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.06)" stroke-width="6"/><circle cx="40" cy="40" r="34" stroke="'+ZC2[z]+'" stroke-width="6" stroke-dasharray="'+circumference+'" stroke-dashoffset="'+offset+'" stroke-linecap="round"/></svg><div class="app6-gauge-val" style="color:'+ZC2[z]+'">'+stability.toFixed(1)+'</div></div><div class="app6-gauge-label">'+z+'</div></div>';
+      el.insertAdjacentHTML('beforeend', html);
+      if(trend > 5 && vals[4] < Z_THR[z] && vals[4] >= Z_THR[z]-10){
+        drifts.push(z+': micro-drift detected. Score moving from '+vals[0]+' to '+vals[4]+' over 5 sessions. Projected threshold crossing in ~'+Math.ceil((Z_THR[z]-vals[4])/(trend/5))+' sessions.');
+      }
+    });
+    if(drift) drift.innerHTML = drifts.length ? drifts.join('<br>') : 'No micro-drift detected. Terrain is stable.';
+  }
+
+  /* APP-7: Node contribution matrix */
+  function renderApp7(){
+    var el = document.getElementById('app7Matrix');
+    if(!el) return;
+    el.innerHTML = '';
+    var hRow = '<tr><td class="app7-th"></td>';
+    ZONES.forEach(function(z){ hRow += '<td class="app7-th" style="color:'+ZC2[z]+'">'+z+'</td>'; });
+    hRow += '</tr>'; el.insertAdjacentHTML('beforeend', hRow);
+    NODES.forEach(function(n){
+      var row = '<tr><td class="app7-th" style="color:var(--teal-l);">'+n+'</td>';
+      ZONES.forEach(function(z){
+        var inZone = Z_NODES[z].indexOf(n) !== -1;
+        if(n==='N7'||!inZone){
+          row += '<td class="app7-cell" style="background:rgba(255,255,255,0.01);color:rgba(255,255,255,0.10);">'+(n==='N7'?'P2':'\u2014')+'</td>';
+        } else {
+          var raw = nodeScores[n]; var used = n==='N6'?Math.round(raw*0.7):raw;
+          var intensity = Math.min(1, used/80);
+          row += '<td class="app7-cell app7-active" style="background:'+ZC2[z]+Math.round(intensity*40).toString(16).padStart(2,'0')+';color:'+ZC2[z]+'">';
+          row += used;
+          if(n==='N6') row += '<span class="app7-dampened">raw:'+raw+'</span>';
+          row += '<div class="app7-cell-tip">'+n+(n==='N6'?' raw:'+raw+' dampened to '+used:' = '+used)+' \u2192 '+z+'</div></td>';
+        }
+      });
+      row += '</tr>'; el.insertAdjacentHTML('beforeend', row);
+    });
+  }
+
+  /* APP-8: Cascade load-balancing */
+  function renderApp8(){
+    var el = document.getElementById('app8Diagram');
+    var nar = document.getElementById('app8Narrative');
+    if(!el) return;
+    el.innerHTML = '';
+    var load = {}; ZONES.forEach(function(z){ load[z] = {in_:0,out:0}; });
+    activeCascades.forEach(function(s){
+      if(s.id !== 'S4'){ load[s.from].out++; load[s.to].in_++; }
+    });
+    var maxLoad = 1;
+    ZONES.forEach(function(z){ var t = load[z].in_+load[z].out; if(t>maxLoad) maxLoad=t; });
+    var bottleneck = ''; var bnScore = 0;
+    ZONES.forEach(function(z){
+      var total = load[z].in_+load[z].out;
+      var size = 30 + (total/maxLoad)*30;
+      var type = load[z].in_ > load[z].out ? 'Sink' : (load[z].out > load[z].in_ ? 'Source' : 'Balanced');
+      var typeColor = type==='Sink'?'#f39c12':(type==='Source'?ZC2[z]:'var(--text-ter)');
+      if(load[z].in_ > bnScore){ bnScore = load[z].in_; bottleneck = z; }
+      el.insertAdjacentHTML('beforeend','<div class="app8-zone"><div class="app8-zone-circle" style="width:'+size+'px;height:'+size+'px;border-color:'+ZC2[z]+';color:'+ZC2[z]+'">'+z+'</div><div class="app8-zone-stat">In: '+load[z].in_+' | Out: '+load[z].out+'</div><div class="app8-bottleneck" style="color:'+typeColor+'">'+type+'</div></div>');
+    });
+    if(nar && bottleneck && bnScore > 0){
+      nar.textContent = bottleneck+' receives cascade input from '+bnScore+' active stack'+(bnScore>1?'s':'')+'. Convergent cascade pressure detected. Intervening at '+bottleneck+' may relieve downstream pressure.';
+    } else if(nar){ nar.textContent = 'No active cascades. No bottleneck detected.'; }
+  }
+
+  /* APP-9: Consultation efficiency */
+  function renderApp9(){
+    var el = document.getElementById('app9Strip');
+    var rec = document.getElementById('app9Rec');
+    if(!el) return;
+    var filled = 0; NODES.forEach(function(n){ if(n!=='N7'&&nodeScores[n]>0) filled++; });
+    var dataComp = Math.round((filled/6)*100);
+    var depth = drdZone ? (activeCascades.length > 0 ? 'L4' : 'L2') : 'L1';
+    var conf = drdZone ? (zoneScores[drdZone] > Z_THR[drdZone]+10 ? 'High' : 'Medium') : 'Low';
+    var spec = activeCascades.length > 1 ? 'Precise' : (drdZone ? 'Targeted' : 'Generic');
+    var metrics = [
+      {label:'Data',val:dataComp+'%',pct:dataComp,color:'var(--teal)'},
+      {label:'Depth',val:depth,pct:({L1:20,L2:40,L3:60,L4:80,L5:100}[depth]||20),color:'var(--gold)'},
+      {label:'Confidence',val:conf,pct:({Low:25,Medium:60,High:90}[conf]||25),color:'#7B5EA7'},
+      {label:'Specificity',val:spec,pct:({Generic:25,Targeted:60,Precise:90}[spec]||25),color:'#5F7C6C'}
+    ];
+    el.innerHTML = '';
+    metrics.forEach(function(m){
+      el.insertAdjacentHTML('beforeend','<div class="app9-gauge"><div class="app9-gauge-label">'+m.label+'</div><div class="app9-gauge-val" style="color:'+m.color+'">'+m.val+'</div><div class="app9-gauge-bar"><div class="app9-gauge-fill" style="width:'+m.pct+'%;background:'+m.color+'"></div></div></div>');
+    });
+    if(rec) rec.textContent = dataComp < 80 ? 'Data completeness at '+dataComp+'%. Consider populating all MSQ-71 sections for optimal pipeline depth.' : 'Data completeness strong. Pipeline running at full depth.';
+  }
+
+  /* APP-10: Constraint validator */
+  function renderApp10(){
+    var el = document.getElementById('app10Rules');
+    var shield = document.getElementById('app10Shield');
+    if(!el) return;
+    var RULES = [
+      {r:'Exactly 7 nodes',pass:true},{r:'Exactly 5 zones (no Z6+)',pass:true},{r:'Exactly 6 cascade stacks',pass:true},
+      {r:'S4 always Theoretical',pass:true},{r:'S6 always unidirectional Z1\u2192Z3',pass:true},
+      {r:'Z5 threshold is 32, not 40',pass:Z_THR.Z5===32},{r:'N6 dampening applied',pass:true},
+      {r:'TerrainLock requires S1+S2+S4',pass:true},{r:'Z2 is default tiebreaker',pass:true},
+      {r:'Near-threshold window = 5 points',pass:true},{r:'Insulin maps to N6, never N3',pass:true},
+      {r:'Scoring floor formula: UNRESOLVED',pass:false}
+    ];
+    el.innerHTML = '';
+    var allPass = true;
+    RULES.forEach(function(rule){
+      if(!rule.pass) allPass = false;
+      el.insertAdjacentHTML('beforeend','<div class="app10-rule"><span class="app10-rule-status '+(rule.pass?'app10-pass':'app10-warn')+'"></span>'+rule.r+': '+(rule.pass?'PASS':'ADVISORY')+'</div>');
+    });
+    if(shield){
+      shield.className = 'app10-shield '+(allPass?'app10-green':'app10-amber');
+      shield.textContent = allPass?'\u2713':'\u26A0';
+    }
+    if(shield) shield.addEventListener('click', function(){ el.classList.toggle('app10-expanded'); });
+  }
+
+  /* APP-11: Zone elasticity */
+  function renderApp11(){
+    var el = document.getElementById('app11Matrix');
+    var pair = document.getElementById('app11Pair');
+    if(!el) return;
+    el.innerHTML = '';
+    var hRow = '<tr><td class="app7-th"></td>';
+    ZONES.forEach(function(z){ hRow += '<td class="app7-th" style="color:'+ZC2[z]+'">'+z+'</td>'; });
+    hRow += '</tr>'; el.insertAdjacentHTML('beforeend',hRow);
+    var maxE = 0; var maxPair = '';
+    ZONES.forEach(function(za){
+      var row = '<tr><td class="app7-th" style="color:'+ZC2[za]+'">'+za+'</td>';
+      ZONES.forEach(function(zb){
+        if(za===zb){ row += '<td class="app11-cell" style="background:rgba(255,255,255,0.01);color:rgba(255,255,255,0.10);">\u2014</td>'; return; }
+        var shared = 0;
+        Z_NODES[za].forEach(function(n){ if(Z_NODES[zb].indexOf(n)!==-1) shared++; });
+        var elasticity = (shared / Math.max(Z_NODES[za].length,Z_NODES[zb].length)).toFixed(2);
+        var intensity = Math.round(parseFloat(elasticity)*60);
+        if(parseFloat(elasticity)>maxE){ maxE=parseFloat(elasticity); maxPair=za+' \u2194 '+zb; }
+        row += '<td class="app11-cell" style="background:rgba(201,168,76,0.'+intensity.toString().padStart(2,'0')+');color:var(--gold);">'+elasticity+'</td>';
+      });
+      row += '</tr>'; el.insertAdjacentHTML('beforeend',row);
+    });
+    if(pair) pair.textContent = 'Most elastic pair: '+maxPair+' ('+maxE.toFixed(2)+'). Treating one may involuntarily move the other through shared node contributions.';
+  }
+
+  /* APP-12: Temporal cascade sequencing */
+  function renderApp12(){
+    var el = document.getElementById('app12Gantt');
+    var cp = document.getElementById('app12Checkpoint');
+    if(!el) return;
+    el.innerHTML = '<div class="app12-gantt-axis"><span>Days</span><span>Weeks</span><span>Months</span><span>Quarters</span></div>';
+    var VEL_POS = {FAST:{l:0,w:20},MEDIUM:{l:15,w:35},SLOW:{l:45,w:45}};
+    activeCascades.forEach(function(s){
+      var pos = VEL_POS[s.vel] || VEL_POS.MEDIUM;
+      el.insertAdjacentHTML('beforeend','<div class="app12-gantt-row"><span class="app12-gantt-label" style="color:'+ZC2[s.from]+'">'+s.id+'</span><div class="app12-gantt-track"><div class="app12-gantt-bar" style="left:'+pos.l+'%;width:'+pos.w+'%;background:'+ZC2[s.from]+'"></div></div></div>');
+    });
+    if(activeCascades.length === 0) el.insertAdjacentHTML('beforeend','<p style="font-size:11px;color:var(--text-ter);">No active cascades.</p>');
+    if(cp){
+      var hasSlow = activeCascades.some(function(s){return s.vel==='SLOW';});
+      var hasFast = activeCascades.some(function(s){return s.vel==='FAST';});
+      cp.textContent = hasFast ? 'Next checkpoint: retest at week 2 to capture Fast cascade effects.' : (hasSlow ? 'Next checkpoint: retest at month 3 for Slow cascade effects.' : '');
+    }
+  }
+
+  /* APP-13: Node saturation */
+  function renderApp13(){
+    var el = document.getElementById('app13Gauges');
+    var alert = document.getElementById('app13Alert');
+    if(!el) return;
+    el.innerHTML = '';
+    var saturated = [];
+    NODES.forEach(function(n){
+      if(n==='N7') return;
+      var s = nodeScores[n];
+      var band = s>=70?'#C0392B':(s>=40?'#f39c12':'#2ecc71');
+      var label = s>=70?'Saturated':(s>=40?'Diminishing':'Responsive');
+      el.insertAdjacentHTML('beforeend','<div class="app13-gauge"><div class="app13-bar"><div class="app13-bar-fill" style="height:'+s+'%;background:'+band+'"></div><div class="app13-bar-zone" style="bottom:40%;background:rgba(255,255,255,0.15)"></div><div class="app13-bar-zone" style="bottom:70%;background:rgba(255,255,255,0.15)"></div></div><div class="app13-node-label">'+n+'</div><div style="font-size:8px;color:'+band+'">'+label+'</div></div>');
+      if(s>=70) saturated.push(n+' ('+s+')');
+    });
+    if(alert){
+      if(saturated.length){ alert.style.display = 'block'; alert.textContent = 'Saturation alert: '+saturated.join(', ')+'. Additional burden produces minimal clinical impact. Consider treating nodes in the responsive band first.'; }
+      else { alert.style.display = 'none'; }
+    }
+  }
+
+  /* APP-14: Node conflict detector */
+  function renderApp14(){
+    var el = document.getElementById('app14Diagram');
+    var res = document.getElementById('app14Resolution');
+    if(!el||!res) return;
+    var multiZone = [];
+    NODES.forEach(function(n){
+      if(n==='N7') return;
+      var inZones = [];
+      ZONES.forEach(function(z){ if(Z_NODES[z].indexOf(n)!==-1) inZones.push(z); });
+      if(inZones.length > 1) multiZone.push({node:n,zones:inZones});
+    });
+    if(multiZone.length === 0){ el.innerHTML = '<p style="font-size:12px;color:var(--text-ter);">No multi-zone nodes active.</p>'; return; }
+    var contested = multiZone[0];
+    var svg = '<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="100" r="20" fill="rgba(26,122,138,0.15)" stroke="var(--teal)" stroke-width="1.5"/><text x="150" y="104" text-anchor="middle" font-family="\'DM Mono\',monospace" font-size="11" fill="var(--teal)" font-weight="700">'+contested.node+'</text>';
+    contested.zones.forEach(function(z,i){
+      var angle = (Math.PI * 2 * i / contested.zones.length) - Math.PI/2;
+      var x = 150 + Math.cos(angle)*70;
+      var y = 100 + Math.sin(angle)*70;
+      svg += '<line x1="150" y1="100" x2="'+x+'" y2="'+y+'" stroke="'+ZC2[z]+'" stroke-width="1.2"/>';
+      svg += '<circle cx="'+x+'" cy="'+y+'" r="16" fill="rgba(255,255,255,0.04)" stroke="'+ZC2[z]+'" stroke-width="1.2"/>';
+      svg += '<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-family="\'DM Mono\',monospace" font-size="10" fill="'+ZC2[z]+'" font-weight="700">'+z+'</text>';
+    });
+    svg += '</svg>';
+    el.innerHTML = svg;
+    res.textContent = contested.node+' participates in '+contested.zones.join(', ')+'. '+(drdZone && contested.zones.indexOf(drdZone)!==-1 ? 'DRD designation of '+drdZone+' suggests prioritising '+drdZone+'-aligned '+contested.node+' intervention first.' : 'Consider which zone\'s intervention direction takes precedence.');
+  }
+
+  /* APP-15: Cognitive load monitor */
+  function renderApp15(){
+    var tci = document.getElementById('app15TCI');
+    var band = document.getElementById('app15Band');
+    var rec = document.getElementById('app15Rec');
+    if(!tci) return;
+    var activeZones = 0; var borderlines = 0;
+    ZONES.forEach(function(z){ if(zoneScores[z]>=Z_THR[z]) activeZones++; else if(zoneScores[z]>=Z_THR[z]-5) borderlines++; });
+    var tl = activeCascades.some(function(s){return s.id==='S1';})&&activeCascades.some(function(s){return s.id==='S2';});
+    var score = Math.min(10, activeZones*1.5 + activeCascades.length*1.0 + borderlines*0.8 + (tl?1.5:0));
+    tci.textContent = score.toFixed(1);
+    var color = score<=3?'#2ecc71':(score<=6?'#f39c12':'#C0392B');
+    var label = score<=3?'Straightforward':(score<=6?'Complex':'High cognitive load');
+    tci.style.color = color;
+    band.textContent = label;
+    band.style.background = color+'18';
+    band.style.color = color;
+    band.style.borderColor = color+'40';
+    band.style.border = '1px solid';
+    if(rec){
+      if(score>6) rec.textContent = 'This terrain has '+activeZones+' active zones and '+activeCascades.length+' cascades. Recommend: run DRD designation first to identify the single highest-priority starting point.';
+      else if(score>3) rec.textContent = 'Moderate complexity. Consider reviewing one zone at a time using the pipeline replay.';
+      else rec.textContent = 'Terrain complexity is manageable. Proceed with standard clinical workflow.';
+    }
+  }
+
+  /* APP-16: Cascade evidence confidence */
+  function renderApp16(){
+    var scoreEl = document.getElementById('app16Score');
+    var fillEl = document.getElementById('app16Fill');
+    var advEl = document.getElementById('app16Advisory');
+    if(!scoreEl) return;
+    if(activeCascades.length === 0){ scoreEl.textContent = '--'; if(fillEl)fillEl.style.width='0'; if(advEl)advEl.textContent='No active cascades to evaluate.'; return; }
+    var total = 0;
+    activeCascades.forEach(function(s){ total += s.ew; });
+    var conf = (total / activeCascades.length).toFixed(2);
+    scoreEl.textContent = conf;
+    scoreEl.style.color = conf>=0.7?'#2ecc71':(conf>=0.4?'#f39c12':'#C0392B');
+    if(fillEl) fillEl.style.width = (conf*100)+'%';
+    var band = conf>=0.7?'Strong':(conf>=0.4?'Moderate':'Exploratory');
+    if(advEl) advEl.textContent = 'Cascade confidence: '+conf+' ('+band+'). '+(conf<0.7?'Some active cascades rest on Emerging or Theoretical evidence. Consider additional biomarker confirmation.':'Evidence base is robust for current cascade picture.');
+  }
+
+  /* APP-17: Zone recovery sequence */
+  function renderApp17(){
+    var el = document.getElementById('app17Pathways');
+    if(!el) return;
+    if(activeCascades.length === 0){ el.innerHTML = '<p style="font-size:12px;color:var(--text-ter);">No active cascades to optimise.</p>'; return; }
+    var results = [];
+    ZONES.forEach(function(z){
+      if(zoneScores[z] < Z_THR[z]) return;
+      var collapsed = 0;
+      activeCascades.forEach(function(s){ if(s.id!=='S4'&&(s.from===z||s.to===z)) collapsed++; });
+      results.push({zone:z,collapsed:collapsed,remaining:activeCascades.length-collapsed});
+    });
+    results.sort(function(a,b){ return b.collapsed - a.collapsed; });
+    el.innerHTML = '';
+    results.slice(0,3).forEach(function(r,i){
+      var align = r.zone === drdZone ? ' \u2714 Aligns with DRD designation' : '';
+      el.insertAdjacentHTML('beforeend','<div class="app17-pathway"><div class="app17-pw-rank">Pathway '+(i+1)+(i===0?' (Optimal)':'')+'</div><div class="app17-pw-steps">Step 1: Treat <strong style="color:'+ZC2[r.zone]+'">'+r.zone+'</strong>. Cascades collapsed: '+r.collapsed+'. Remaining: '+r.remaining+'.'+align+'</div><div class="app17-pw-collapse">Cascade collapse efficiency: '+r.collapsed+' of '+activeCascades.length+'</div></div>');
+    });
+  }
+
+  /* APP-18: Patient terrain archetype */
+  function renderApp18(){
+    var name = document.getElementById('app18Name');
+    var conf = document.getElementById('app18Conf');
+    var desc = document.getElementById('app18Desc');
+    var det = document.getElementById('app18Detail');
+    if(!name) return;
+    var archetypes = [
+      {n:'Gut-First Cascade',test:function(){return zoneScores.Z2>=Z_THR.Z2&&activeCascades.some(function(s){return s.id==='S1';});},d:'Z2 active, S1 firing. The classic IFM presentation. Gut drives thyroid.',drd:'Z2',inv:'Gut permeability, SIBO'},
+      {n:'Metabolic Dominance',test:function(){return drdZone==='Z1'&&!activeCascades.some(function(s){return s.id==='S1';});},d:'Z1 highest burden without Z2 involvement. Pure metabolic terrain.',drd:'Z1',inv:'Cortisol, thyroid panel'},
+      {n:'TerrainLock Triad',test:function(){var ids=activeCascades.map(function(s){return s.id;});return ids.indexOf('S1')!==-1&&ids.indexOf('S2')!==-1&&ids.indexOf('S4')!==-1;},d:'Z2+Z1+Z5 all active. Self-perpetuating loop. Z2 gut restoration is the tiebreaker.',drd:'Z2',inv:'Gut + hormonal panel'},
+      {n:'Detox Island',test:function(){return zoneScores.Z4>=Z_THR.Z4&&activeCascades.length<=1;},d:'Z4 active in isolation. S3 (Slow) may be the only active cascade.',drd:'Z4',inv:'Hepatic detox profile'},
+      {n:'Hormonal Secondary',test:function(){return zoneScores.Z5>=Z_THR.Z5&&drdZone!=='Z5';},d:'Z5 active but never the highest burden zone. Receiving from Z1 via S2.',drd:'Not Z5',inv:'DUTCH panel (secondary)'},
+      {n:'Multi-Zone Storm',test:function(){var ac=0;ZONES.forEach(function(z){if(zoneScores[z]>=Z_THR[z])ac++;});return ac>=4;},d:'4+ zones active. High cognitive load. Complex multi-system terrain.',drd:'Varies',inv:'DRD-guided'},
+      {n:'Emerging Threshold',test:function(){var bl=0;ZONES.forEach(function(z){if(zoneScores[z]>=Z_THR[z]-5&&zoneScores[z]<Z_THR[z])bl++;});return bl>=2;},d:'No zones fully active. 2+ borderline. Pre-clinical terrain.',drd:'None yet',inv:'Monitoring'}
+    ];
+    var match = null;
+    archetypes.forEach(function(a){ if(!match&&a.test()) match=a; });
+    if(match){
+      name.textContent = match.n; name.style.color = 'var(--gold)';
+      conf.textContent = 'Pattern matched';
+      desc.textContent = match.d;
+      det.innerHTML = 'Typical DRD: '+match.drd+'<br>Common starting investigation: '+match.inv;
+    } else {
+      name.textContent = 'Atypical Terrain'; name.style.color = 'var(--text-ter)';
+      conf.textContent = 'Does not match established archetypes';
+      desc.textContent = 'This terrain state does not conform to any of the 7 predefined clinical archetypes. This is itself clinically informative.';
+      det.textContent = '';
+    }
+  }
+
+  /* APP-19: Cascade symmetry analyser */
+  function renderApp19(){
+    var el = document.getElementById('app19Pairs');
+    if(!el) return;
+    el.innerHTML = '';
+    var outCount = {}; var inCount = {};
+    ZONES.forEach(function(z){ outCount[z]=0; inCount[z]=0; });
+    activeCascades.forEach(function(s){ if(s.id!=='S4'){ outCount[s.from]++; inCount[s.to]++; } });
+    ZONES.forEach(function(z){
+      var type = inCount[z]>0&&outCount[z]===0?'Terminal sink':(outCount[z]>0&&inCount[z]===0?'Pure source':(inCount[z]>0&&outCount[z]>0?'Pass-through':'Isolated'));
+      var cls = type==='Terminal sink'?'app19-sink':(type==='Pure source'?'app19-source':(type==='Pass-through'?'app19-loop':''));
+      el.insertAdjacentHTML('beforeend','<div class="app19-pair"><span style="color:'+ZC2[z]+';font-family:var(--fm);font-weight:700;width:28px;">'+z+'</span><span class="app19-pair-arrow">In:'+inCount[z]+' Out:'+outCount[z]+'</span><span class="app19-pair-type '+cls+'">'+type+'</span><span style="flex:1;font-size:11px;color:var(--text-ter);">'+(type==='Terminal sink'?'Burden accumulates. Must be addressed directly.':'')+'</span></div>');
+    });
+  }
+
+  /* APP-20: Teaching mode */
+  var MODULES = [
+    {t:'The Seven Nodes',content:'Every symptom, biomarker, and clinical finding maps to one of seven biological nodes: N1 Assimilation, N2 Defence and Repair, N3 Energy, N4 Biotransformation, N5 Transport, N6 Communication, N7 Structural Integrity (Phase 2). MES is foundational context, not a node.',q:'How many nodes are in the VitalMatrix architecture?',opts:['Six','Seven','Eight'],ans:1},
+    {t:'Node-to-Zone Mapping',content:'Nodes combine into 5 zones. Z1 = N3+N6. Z2 = N1+N2+N6. Z3 = N5+N6. Z4 = N2+N4 (no N6). Z5 = N3+N4+N6. N6 appears in 4 of 5 zones. Z4 is the only zone without N6.',q:'Which zone does NOT contain N6?',opts:['Z1','Z4','Z5'],ans:1},
+    {t:'Scoring and Thresholds',content:'Internal scale: 0-100 (high = burden). Display scale: 0-10 inverted. N6 dampened. Z1-Z4 threshold: 40. Z5 threshold: 32 (lower, hormonal sensitivity). Near-threshold window: 5 internal points below threshold.',q:'What is Z5\'s activation threshold?',opts:['40','32','28'],ans:1},
+    {t:'Cascade Mechanics',content:'Six directional stacks: S1 Z2\u2192Z1, S2 Z1\u2192Z5, S3 Z4\u2192Z1, S4 Z5\u2192Z2 (Theoretical), S5 Z2\u2192Z3, S6 Z1\u2192Z3 (UNIDIRECTIONAL). Each carries evidence tier and velocity.',q:'Which stack is classified as Theoretical?',opts:['S3','S4','S6'],ans:1},
+    {t:'TerrainLock',content:'When S1, S2, and S4 fire simultaneously: Z2\u2192Z1\u2192Z5\u2192Z2. Self-perpetuating loop. Z2 gut restoration is the default tiebreaker.',q:'What is the default tiebreaker zone?',opts:['Z1','Z2','Z5'],ans:1},
+    {t:'DRD and Investigation',content:'DRD designates the highest burden zone. Traces Established and Emerging cascades only (S4 excluded). APEX sequences investigations by causality, not severity. Three budget tiers.',q:'S4 is excluded from DRD cascade trace because it is:',opts:['Emerging','Established','Theoretical'],ans:2}
+  ];
+  var app20ModsEl = document.getElementById('app20Modules');
+  var app20ContentEl = document.getElementById('app20Content');
+  var app20BadgeEl = document.getElementById('app20Badge');
+  var completedModules = {};
+  if(app20ModsEl){
+    MODULES.forEach(function(m,i){
+      var mod = document.createElement('div');
+      mod.className = 'app20-module';
+      mod.innerHTML = '<div class="app20-mod-num">'+(i+1)+'</div><div class="app20-mod-title">'+m.t+'</div><div class="app20-mod-status" id="app20Status'+i+'">Not started</div>';
+      mod.addEventListener('click', function(){ openModule(i); });
+      app20ModsEl.appendChild(mod);
+    });
+  }
+  function openModule(idx){
+    if(!app20ContentEl) return;
+    var m = MODULES[idx];
+    app20ContentEl.className = 'app20-content app20-open';
+    app20ContentEl.innerHTML = '<p style="font-family:var(--fm);font-size:10px;color:var(--gold);letter-spacing:0.15em;margin-bottom:8px;">MODULE '+(idx+1)+': '+m.t.toUpperCase()+'</p><p>'+m.content+'</p><div class="app20-quiz"><p class="app20-quiz-q">'+m.q+'</p><div id="app20Opts'+idx+'"></div></div>';
+    var optsEl = document.getElementById('app20Opts'+idx);
+    m.opts.forEach(function(o,j){
+      var opt = document.createElement('div');
+      opt.className = 'app20-quiz-opt';
+      opt.textContent = o;
+      opt.addEventListener('click', function(){
+        var allOpts = optsEl.querySelectorAll('.app20-quiz-opt');
+        for(var k=0;k<allOpts.length;k++) allOpts[k].style.pointerEvents='none';
+        if(j===m.ans){ opt.classList.add('app20-correct'); completedModules[idx]=true; }
+        else { opt.classList.add('app20-wrong'); allOpts[m.ans].classList.add('app20-correct'); }
+        var statusEl = document.getElementById('app20Status'+idx);
+        if(statusEl) statusEl.textContent = completedModules[idx]?'Complete':'Try again';
+        var modEl = app20ModsEl.children[idx];
+        if(modEl&&completedModules[idx]) modEl.classList.add('app20-complete');
+        /* Check all complete */
+        var allDone = true;
+        for(var c=0;c<MODULES.length;c++){ if(!completedModules[c]) allDone=false; }
+        if(allDone && app20BadgeEl) app20BadgeEl.classList.add('app20-badge-show');
+      });
+      optsEl.appendChild(opt);
+    });
+  }
+
+  /* Master render function */
+  function renderAllApps(){
+    renderApp2(); renderApp3(); renderApp4(); renderApp6();
+    renderApp7(); renderApp8(); renderApp9(); renderApp10();
+    renderApp11(); renderApp12(); renderApp13(); renderApp14();
+    renderApp15(); renderApp16(); renderApp17(); renderApp18(); renderApp19();
+  }
+  renderAllApps();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!--
+  CASCADEATLAS 4 SILICON VALLEY UPGRADES PATCH v3
+  Upgrades F9 Heatmap, F15 Pulse, F21 Radar, F27 TIQ in-place
+  D-85 | ALB v1.5 | T-01 | 14 May 2026
+-->
+
+<style>
+/* ── UPGRADE 7: F9 Radial Heat Emanation ── */
+@keyframes vm-heat-wave{0%{r:20;opacity:.5}100%{r:55;opacity:0}}
+@keyframes vm-heat-gradient{0%{fill-opacity:.03}50%{fill-opacity:.08}100%{fill-opacity:.03}}
+.vm-heat-ring{pointer-events:none}
+
+/* ── UPGRADE 8: F15 ECG Trace ── */
+#vm-ca-ecg-wrap{margin-top:16px;display:flex;flex-direction:column;gap:6px}
+.vm-ecg-row{display:flex;align-items:center;gap:8px}
+.vm-ecg-label{font-family:'DM Mono',monospace;font-size:9px;min-width:24px;font-weight:700}
+.vm-ecg-canvas{height:28px;border-radius:3px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);flex:1}
+.vm-ecg-bpm{font-family:'DM Mono',monospace;font-size:8px;min-width:44px;text-align:right;color:rgba(244,244,242,.4)}
+
+/* ── UPGRADE 9: F21 Animated Bar Race + Crown ── */
+@keyframes vm-crown-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.vm-ca-radar-row{display:flex;align-items:center;gap:8px;padding:6px 0;transition:all .5s cubic-bezier(.4,0,.2,1)}
+.vm-ca-radar-bar{height:14px;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1),opacity .4s}
+.vm-ca-radar-label{font-family:'DM Mono',monospace;font-size:.7rem;min-width:32px;font-weight:700}
+.vm-ca-radar-val{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.45);min-width:50px;text-align:right}
+.vm-radar-crown{display:inline-block;font-size:12px;margin-left:4px;animation:vm-crown-bob 1.5s ease-in-out infinite}
+.vm-radar-spark{display:inline-block;vertical-align:middle;margin-left:6px}
+
+/* ── UPGRADE 10: F27 TIQ Ring Gauge ── */
+@keyframes vm-tiq-arc{from{stroke-dashoffset:var(--circumference)}to{stroke-dashoffset:var(--offset)}}
+@keyframes vm-tiq-band-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+#vm-ca-tiq-ring-wrap{display:flex;justify-content:center;margin:16px 0}
+#vm-ca-tiq-ring-svg{width:140px;height:140px}
+.vm-tiq-band-label{font-family:'DM Mono',monospace;font-size:.65rem;text-align:center;margin-top:6px;animation:vm-tiq-band-in .6s ease forwards}
+#vm-ca-tiq-breakdown-enhanced{display:flex;justify-content:center;gap:16px;margin-top:8px}
+.vm-tiq-metric{text-align:center}
+.vm-tiq-metric-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;line-height:1}
+.vm-tiq-metric-label{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(244,244,242,.4);letter-spacing:.06em}
+</style>
+
+<script>
+(function(){
+'use strict';
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 7: F9 HEATMAP — RADIAL HEAT EMANATION + THERMAL PENTAGON FILL
+
+   What changes:
+   - Hot zones (score > 50) emit pulsing radial heat wave rings
+     at a rate proportional to burden (higher = faster, more waves)
+   - Pentagon interior gets a radial gradient fill from the hottest
+     zone, creating a thermal centre-of-mass effect
+   - Heat colour transitions smoothly: teal (<40) to gold (40-60) to red (>60)
+   ══════════════════════════════════════════════════════════════ */
+var heatWaveTimer = null;
+var heatWavePool = [];
+
+var origRenderHeatmap = renderHeatmap;
+renderHeatmap = function(){
+  origRenderHeatmap();
+
+  var svg = document.getElementById('vm-ca-f9-svg');
+  if(!svg) return;
+
+  // Clear previous heat waves
+  heatWavePool.forEach(function(el){ if(el.parentNode) el.parentNode.removeChild(el); });
+  heatWavePool = [];
+
+  // Find hottest zone for gradient centre
+  var maxBurden = 0, maxIdx = 0;
+  ZONES.forEach(function(z,i){
+    if(scores[i] > maxBurden){ maxBurden = scores[i]; maxIdx = i; }
+  });
+
+  // Thermal gradient fill on pentagon interior
+  if(maxBurden > 30){
+    var gradId = 'vm-heat-grad-' + Date.now();
+    var defs = svg.querySelector('defs');
+    if(!defs){ defs = svgEl('defs',{}); svg.insertBefore(defs, svg.firstChild); }
+
+    var heatCol = maxBurden > 60 ? '#D63030' : maxBurden > 40 ? '#C9A84C' : '#1A7A8A';
+    var grad = document.createElementNS('http://www.w3.org/2000/svg','radialGradient');
+    grad.id = gradId;
+    grad.setAttribute('cx', pts2[maxIdx].x / 420);
+    grad.setAttribute('cy', pts2[maxIdx].y / 420);
+    grad.setAttribute('r', '0.6');
+    var stop1 = svgEl('stop', {'offset':'0%','stop-color':heatCol,'stop-opacity':'0.12'});
+    var stop2 = svgEl('stop', {'offset':'100%','stop-color':heatCol,'stop-opacity':'0'});
+    grad.appendChild(stop1); grad.appendChild(stop2);
+    defs.appendChild(grad);
+
+    var pentPoints = pts2.map(function(p){ return p.x+','+p.y; }).join(' ');
+    var thermalFill = svgEl('polygon', {
+      points: pentPoints,
+      fill: 'url(#'+gradId+')',
+      'fill-opacity': '1',
+      stroke: 'none'
+    });
+    thermalFill.style.animation = 'vm-heat-gradient 3s ease-in-out infinite';
+    // Insert before zone circles (after base grid)
+    var firstCircle = svg.querySelector('circle');
+    if(firstCircle) svg.insertBefore(thermalFill, firstCircle);
+    else svg.appendChild(thermalFill);
+    heatWavePool.push(thermalFill);
+    heatWavePool.push(grad);
+  }
+
+  // Radial heat waves from hot zones
+  ZONES.forEach(function(z,i){
+    if(scores[i] < 45) return;
+    var intensity = Math.min(3, Math.floor((scores[i] - 40) / 15) + 1);
+    for(var w=0; w<intensity; w++){
+      var ring = svgEl('circle', {
+        cx: pts2[i].x, cy: pts2[i].y, r: 20,
+        fill: 'none',
+        stroke: scores[i]>60?'#D63030':scores[i]>45?'#C9A84C':'#1A7A8A',
+        'stroke-width': '1.5'
+      });
+      ring.classList.add('vm-heat-ring');
+      var dur = 2 - (scores[i]/100);
+      ring.style.animation = 'vm-heat-wave '+dur.toFixed(1)+'s ease-out '+(w*0.6)+'s infinite';
+      svg.appendChild(ring);
+      heatWavePool.push(ring);
+    }
+  });
+};
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 8: F15 PULSE MONITOR — ECG TRACE WAVEFORM
+
+   What changes:
+   - Below the pulse circles, an ECG-style canvas trace draws per zone
+   - Each zone's trace shows a heartbeat spike pattern at a frequency
+     proportional to burden (high burden = fast heartbeat = more spikes)
+   - Active zones draw coloured traces, inactive zones are flatlined
+   - Traces scroll left continuously like a hospital monitor
+   ══════════════════════════════════════════════════════════════ */
+var ecgCanvases = [];
+var ecgAnimFrame = null;
+var ecgData = {};
+
+// Create ECG container after pulse zones
+var pulseZonesEl = document.getElementById('vm-ca-pulse-zones');
+if(pulseZonesEl){
+  var ecgWrap = document.createElement('div');
+  ecgWrap.id = 'vm-ca-ecg-wrap';
+  pulseZonesEl.parentNode.insertBefore(ecgWrap, pulseZonesEl.nextSibling);
+
+  ZONES.forEach(function(z,i){
+    var row = document.createElement('div');
+    row.className = 'vm-ecg-row';
+
+    var label = document.createElement('span');
+    label.className = 'vm-ecg-label';
+    label.style.color = z.color;
+    label.textContent = z.id;
+
+    var canvas = document.createElement('canvas');
+    canvas.className = 'vm-ecg-canvas';
+    canvas.width = 300;
+    canvas.height = 28;
+    canvas.id = 'vm-ca-ecg-' + i;
+
+    var bpm = document.createElement('span');
+    bpm.className = 'vm-ecg-bpm';
+    bpm.id = 'vm-ca-ecg-bpm-' + i;
+
+    row.appendChild(label);
+    row.appendChild(canvas);
+    row.appendChild(bpm);
+    ecgWrap.appendChild(row);
+
+    ecgCanvases.push(canvas);
+    ecgData[i] = { buffer: new Array(300).fill(14), phase: 0 };
+  });
+}
+
+function ecgTick(){
+  ZONES.forEach(function(z,i){
+    var canvas = ecgCanvases[i];
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width, h = canvas.height;
+    var active = isActive(i);
+    var bpmVal = active ? Math.round(40 + (scores[i]/100)*120) : 0;
+    var bpmEl = document.getElementById('vm-ca-ecg-bpm-'+i);
+    if(bpmEl) bpmEl.textContent = active ? bpmVal + ' BPM' : 'FLAT';
+    if(bpmEl) bpmEl.style.color = active ? z.color : 'rgba(244,244,242,.2)';
+
+    // Shift buffer left
+    ecgData[i].buffer.shift();
+
+    // Generate new value
+    if(active){
+      ecgData[i].phase += 0.05 + (scores[i]/100)*0.15;
+      var spike = Math.sin(ecgData[i].phase);
+      var val = h/2;
+      if(spike > 0.8) val = 3; // QRS spike up
+      else if(spike > 0.6) val = h - 3; // recovery dip
+      else val = h/2 + (Math.random()-0.5)*4; // baseline noise
+      ecgData[i].buffer.push(val);
+    } else {
+      ecgData[i].buffer.push(h/2); // flatline
+    }
+
+    // Draw
+    ctx.clearRect(0,0,w,h);
+    ctx.strokeStyle = active ? z.color : 'rgba(244,244,242,.08)';
+    ctx.lineWidth = active ? 1.5 : 0.5;
+    ctx.beginPath();
+    for(var x=0; x<w; x++){
+      var y = ecgData[i].buffer[x] || h/2;
+      if(x===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  });
+
+  if(pulseActive) ecgAnimFrame = requestAnimationFrame(ecgTick);
+}
+
+// Patch pulse toggle to start/stop ECG
+var origPulseToggle = document.getElementById('vm-ca-pulse-toggle');
+if(origPulseToggle){
+  origPulseToggle.addEventListener('click', function(){
+    if(pulseActive){
+      ecgTick();
+    } else {
+      if(ecgAnimFrame) cancelAnimationFrame(ecgAnimFrame);
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 9: F21 DOMINANCE RADAR — ANIMATED BAR RACE + CROWN + SPARKLINES
+
+   What changes:
+   - Bars animate to new widths and positions when ranking changes
+     (CSS transition 0.5s cubic-bezier for smooth sliding)
+   - #1 ranked stack gets a gold crown icon that bobs
+   - Each bar gets a 5-point sparkline showing the last 5 values
+     of that stack's combined power score (tracks as sliders move)
+   - S4 bar always has dashed border and "THEORETICAL" suffix
+   ══════════════════════════════════════════════════════════════ */
+var radarHistory = {};
+STACKS.forEach(function(s){ radarHistory[s.id] = []; });
+
+var origUpdateRadar2 = updateRadar;
+updateRadar = function(){
+  // Record history
+  STACKS.forEach(function(s){
+    var power = scores[s.from] + scores[s.to];
+    var hist = radarHistory[s.id];
+    hist.push(power);
+    if(hist.length > 5) hist.shift();
+  });
+
+  var container = document.getElementById('vm-ca-radar-bars');
+  if(!container) return;
+  container.innerHTML = '';
+
+  var ranked = STACKS.map(function(s,i){
+    return { idx:i, id:s.id, power:scores[s.from]+scores[s.to], active:isActive(s.from)&&isActive(s.to), vel:s.vel };
+  }).sort(function(a,b){ return b.power - a.power; });
+
+  ranked.forEach(function(r, rank){
+    var pct = (r.power/200)*100;
+    var col = ZONES[STACKS[r.idx].from].color;
+    var isS4 = r.id === 'S4';
+    var isTop = rank === 0 && r.active;
+
+    // Sparkline SVG
+    var hist = radarHistory[r.id];
+    var sparkHtml = '';
+    if(hist.length >= 2){
+      var sparkW = 36, sparkH = 10;
+      var sparkPts = hist.map(function(v, si){
+        return (si/(hist.length-1))*sparkW + ',' + (sparkH - (v/200)*sparkH);
+      }).join(' ');
+      sparkHtml = '<svg class="vm-radar-spark" width="'+sparkW+'" height="'+sparkH+'" viewBox="0 0 '+sparkW+' '+sparkH+'"><polyline points="'+sparkPts+'" fill="none" stroke="'+col+'" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/></svg>';
+    }
+
+    var row = document.createElement('div');
+    row.className = 'vm-ca-radar-row';
+    row.innerHTML =
+      '<span class="vm-ca-radar-label" style="color:'+col+';">'+r.id+
+      (isS4?' <span style="font-size:6px;opacity:.5">THEO</span>':'')+
+      (isTop?'<span class="vm-radar-crown">&#128081;</span>':'')+
+      '</span>'+
+      '<div style="flex:1;height:14px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden;position:relative">'+
+      '<div class="vm-ca-radar-bar" style="width:'+pct+'%;background:'+col+';opacity:'+(r.active?1:0.25)+';height:100%;border-radius:3px;'+
+      (isS4?'border:1px dashed rgba(255,255,255,.2);':'')+'"></div></div>'+
+      sparkHtml+
+      '<span class="vm-ca-radar-val" style="color:'+(r.active?col:'rgba(244,244,242,.3)')+';">'+
+      r.power+(isTop?' TOP':'')+' | '+r.vel+'</span>';
+
+    container.appendChild(row);
+  });
+};
+
+/* ══════════════════════════════════════════════════════════════
+   UPGRADE 10: F27 TIQ BADGE — SVG RING GAUGE + BAND LABEL ANIMATION
+
+   What changes:
+   - Large SVG ring (140x140) fills proportionally with TIQ score
+     using stroke-dasharray animation (arc grows clockwise)
+   - Ring colour transitions: green (<35), gold (35-60), red (>60)
+   - Band label ("Low Burden" / "Moderate" / "High Burden") fades in
+     below the ring with translateY animation
+   - Three metric cards below: Active Zones, Active Cascades, TerrainLock
+   ══════════════════════════════════════════════════════════════ */
+
+// Create ring gauge SVG in F27 section
+var f27Section = document.getElementById('f27');
+if(f27Section){
+  var ringWrap = document.createElement('div');
+  ringWrap.id = 'vm-ca-tiq-ring-wrap';
+
+  var ringSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  ringSvg.id = 'vm-ca-tiq-ring-svg';
+  ringSvg.setAttribute('viewBox','0 0 140 140');
+
+  // Background ring
+  var bgRing = svgEl('circle', {
+    cx:70, cy:70, r:58,
+    fill:'none', stroke:'rgba(244,244,242,.06)', 'stroke-width':'8'
+  });
+  ringSvg.appendChild(bgRing);
+
+  // Value ring
+  var valRing = svgEl('circle', {
+    cx:70, cy:70, r:58,
+    fill:'none', stroke:'#C9A84C', 'stroke-width':'8',
+    'stroke-linecap':'round',
+    'stroke-dasharray': (2*Math.PI*58).toFixed(1),
+    'stroke-dashoffset': (2*Math.PI*58).toFixed(1),
+    transform:'rotate(-90 70 70)',
+    id:'vm-ca-tiq-arc'
+  });
+  ringSvg.appendChild(valRing);
+
+  // Centre text
+  var centreText = svgEl('text', {
+    x:70, y:66, 'text-anchor':'middle',
+    'font-family':"'Cormorant Garamond',serif",
+    'font-size':'32', 'font-weight':'300',
+    fill:'#C9A84C',
+    id:'vm-ca-tiq-ring-val'
+  });
+  centreText.textContent = '0';
+  ringSvg.appendChild(centreText);
+
+  var unitText = svgEl('text', {
+    x:70, y:82, 'text-anchor':'middle',
+    'font-family':"'DM Mono',monospace",
+    'font-size':'7', fill:'rgba(244,244,242,.4)',
+    'letter-spacing':'.1em'
+  });
+  unitText.textContent = 'TIQ SCORE';
+  ringSvg.appendChild(unitText);
+
+  ringWrap.appendChild(ringSvg);
+
+  // Band label
+  var bandLabel = document.createElement('div');
+  bandLabel.className = 'vm-tiq-band-label';
+  bandLabel.id = 'vm-ca-tiq-band';
+  ringWrap.appendChild(bandLabel);
+
+  // Metric cards
+  var metricsDiv = document.createElement('div');
+  metricsDiv.id = 'vm-ca-tiq-breakdown-enhanced';
+  metricsDiv.innerHTML =
+    '<div class="vm-tiq-metric"><div class="vm-tiq-metric-val" id="vm-tiq-m-zones" style="color:#1A7A8A">0</div><div class="vm-tiq-metric-label">ACTIVE ZONES</div></div>'+
+    '<div class="vm-tiq-metric"><div class="vm-tiq-metric-val" id="vm-tiq-m-stacks" style="color:#C9A84C">0</div><div class="vm-tiq-metric-label">ACTIVE CASCADES</div></div>'+
+    '<div class="vm-tiq-metric"><div class="vm-tiq-metric-val" id="vm-tiq-m-tl" style="color:#FFD700">-</div><div class="vm-tiq-metric-label">TERRAINLOCK</div></div>';
+
+  // Insert before the existing interpretation card
+  var existingCard = f27Section.querySelector('.vm-ca-card');
+  if(existingCard){
+    f27Section.insertBefore(ringWrap, existingCard);
+    f27Section.insertBefore(metricsDiv, existingCard);
+  }
+}
+
+var origUpdateTIQ2 = updateTIQ;
+updateTIQ = function(){
+  origUpdateTIQ2();
+
+  var tiq = computeTIQ(scores);
+  var circumference = 2 * Math.PI * 58;
+  var pct = Math.min(100, tiq);
+  var offset = circumference - (pct / 100) * circumference;
+
+  var arc = document.getElementById('vm-ca-tiq-arc');
+  if(arc){
+    var col = tiq > 60 ? '#D63030' : tiq > 35 ? '#C9A84C' : '#4CAF50';
+    arc.setAttribute('stroke', col);
+    arc.setAttribute('stroke-dashoffset', offset.toFixed(1));
+    arc.style.transition = 'stroke-dashoffset .8s cubic-bezier(.4,0,.2,1), stroke .4s';
+  }
+
+  var valEl = document.getElementById('vm-ca-tiq-ring-val');
+  if(valEl){
+    valEl.textContent = tiq;
+    valEl.setAttribute('fill', tiq > 60 ? '#D63030' : tiq > 35 ? '#C9A84C' : '#4CAF50');
+  }
+
+  var bandEl = document.getElementById('vm-ca-tiq-band');
+  if(bandEl){
+    var bandText = tiq > 60 ? 'HIGH BURDEN' : tiq > 35 ? 'MODERATE BURDEN' : 'LOW BURDEN';
+    var bandCol = tiq > 60 ? '#D63030' : tiq > 35 ? '#C9A84C' : '#4CAF50';
+    bandEl.textContent = bandText;
+    bandEl.style.color = bandCol;
+  }
+
+  // Metrics
+  var activeZones = ZONES.filter(function(z,i){ return scores[i] >= z.th; }).length;
+  var activeStacks = STACKS.filter(function(s){ return isActive(s.from) && isActive(s.to); }).length;
+  var s1on = isActive(1) && isActive(0);
+  var s2on = isActive(0) && isActive(4);
+  var s4on = isActive(4) && isActive(1);
+  var tlActive = s1on && s2on && s4on;
+
+  var mZones = document.getElementById('vm-tiq-m-zones');
+  var mStacks = document.getElementById('vm-tiq-m-stacks');
+  var mTL = document.getElementById('vm-tiq-m-tl');
+  if(mZones) mZones.textContent = activeZones;
+  if(mStacks) mStacks.textContent = activeStacks;
+  if(mTL){
+    mTL.textContent = tlActive ? 'ACTIVE' : 'NO';
+    mTL.style.color = tlActive ? '#FFD700' : 'rgba(244,244,242,.3)';
+  }
+};
+
+// Initial render
+if(typeof updateTIQ === 'function') updateTIQ();
+if(typeof updateRadar === 'function') updateRadar();
+if(typeof renderHeatmap === 'function') renderHeatmap();
+
+})();
+</script>

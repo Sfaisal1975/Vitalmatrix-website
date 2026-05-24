@@ -1,0 +1,1685 @@
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV11: Four-Output Phase 1 Overlay Map
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+#vm-ov11-section{background:#0A0F14;padding:64px 24px;margin:0}
+#vm-ov11-section *{box-sizing:border-box}
+.vm-ov11-title{font-family:var(--vm-fs);font-size:2.2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-ov11-t01{font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.4);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px}
+.vm-ov11-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1100px;margin:0 auto 24px}
+.vm-ov11-col{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .3s var(--vm-ease)}
+.vm-ov11-col:hover{border-color:rgba(201,168,76,.3)}
+.vm-ov11-col-head{padding:16px;text-align:center;font-family:var(--vm-fs);font-size:1.3rem;color:var(--vm-white);border-bottom:1px solid rgba(255,255,255,.06);position:relative}
+.vm-ov11-col-head .vm-ov11-arrow{display:inline-block;margin-left:8px;transition:transform .3s var(--vm-ease);font-size:.8rem;color:var(--vm-gold)}
+.vm-ov11-col.expanded .vm-ov11-arrow{transform:rotate(180deg)}
+.vm-ov11-phases{padding:12px}
+.vm-ov11-phase{padding:10px 14px;border-radius:8px;margin-bottom:8px;font-family:var(--vm-fd);font-size:.85rem;color:var(--vm-white);transition:transform .3s var(--vm-ease),box-shadow .3s var(--vm-ease);opacity:0;transform:translateY(20px)}
+.vm-ov11-phase.visible{opacity:1;transform:translateY(0)}
+.vm-ov11-phase.p1{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.25)}
+.vm-ov11-phase.p1:hover{animation:vm-ov11-gold-pulse 1.5s ease-in-out infinite}
+.vm-ov11-phase.p15{background:rgba(26,122,138,.15);border:1px solid rgba(26,122,138,.25)}
+.vm-ov11-phase.p15:hover{animation:vm-ov11-teal-pulse 1.5s ease-in-out infinite}
+.vm-ov11-phase.p2{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(244,244,242,.45)}
+.vm-ov11-cadence{background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.3);position:relative}
+.vm-ov11-mhra-badge{display:inline-block;background:rgba(192,57,43,.2);color:#E74C3C;font-family:var(--vm-fm);font-size:.65rem;padding:2px 8px;border-radius:4px;letter-spacing:1px;text-transform:uppercase;animation:vm-ov11-mhra-pulse 2.5s ease-in-out infinite;margin-left:8px}
+.vm-ov11-detail{max-height:0;overflow:hidden;transition:max-height .5s var(--vm-ease),padding .3s var(--vm-ease);padding:0 14px}
+.vm-ov11-col.expanded .vm-ov11-detail{max-height:300px;padding:14px}
+.vm-ov11-detail-row{font-family:var(--vm-fd);font-size:.8rem;color:rgba(244,244,242,.65);margin-bottom:8px}
+.vm-ov11-detail-label{font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.vm-ov11-summary{text-align:center;margin-top:16px}
+.vm-ov11-summary-badge{display:inline-block;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--vm-gold);font-family:var(--vm-fm);font-size:.75rem;padding:8px 20px;border-radius:8px;letter-spacing:1px}
+@keyframes vm-ov11-gold-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3)}50%{box-shadow:0 0 16px 4px rgba(201,168,76,.15)}}
+@keyframes vm-ov11-teal-pulse{0%,100%{box-shadow:0 0 0 0 rgba(26,122,138,.3)}50%{box-shadow:0 0 16px 4px rgba(26,122,138,.15)}}
+@keyframes vm-ov11-mhra-pulse{0%,100%{opacity:.7}50%{opacity:1}}
+@media(max-width:768px){.vm-ov11-grid{grid-template-columns:1fr 1fr}.vm-ov11-title{font-size:1.6rem}}
+@media(max-width:480px){.vm-ov11-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){
+.vm-ov11-phase.p1:hover,.vm-ov11-phase.p15:hover{animation:none}
+.vm-ov11-mhra-badge{animation:none;opacity:1}
+.vm-ov11-phase{opacity:1;transform:none;transition:none}
+.vm-ov11-detail{transition:none}
+.vm-ov11-col-head .vm-ov11-arrow{transition:none}
+}
+</style>
+<section id="vm-ov11-section">
+<div class="vm-ov11-t01">T-01 | Terrain Support Considerations</div>
+<h2 class="vm-ov11-title">Four-Output Phase 1 Overlay Map</h2>
+<div class="vm-ov11-grid" id="vm-ov11-grid"></div>
+<div class="vm-ov11-summary">
+<span class="vm-ov11-summary-badge">3 of 4 outputs operate in practitioner-assisted mode</span>
+</div>
+</section>
+<script>
+(function(){
+var outputs=[
+{name:"Output 1: Terrain Report",mode:"Practitioner-assisted",drd:"Highest burden zone identified per DRD logic",roadmap:"Phase 1.5: automated narrative. Phase 2: patient-facing summary.",phases:[
+{label:"Phase 1: Static PDF generation",cls:"p1"},{label:"Phase 1.5: Dynamic terrain narrative",cls:"p15"},{label:"Phase 2: Patient portal delivery",cls:"p2"}]},
+{name:"Output 2: APEX Investigation Plan",mode:"Practitioner-assisted",drd:"Three-tier budget cascade aligned to highest burden zone",roadmap:"Phase 1.5: lab API integration. Phase 2: auto-ordering.",phases:[
+{label:"Phase 1: Tiered checklist",cls:"p1"},{label:"Phase 1.5: Lab integration",cls:"p15"},{label:"Phase 2: Automated ordering",cls:"p2"}]},
+{name:"Output 3: Consideration Engine",mode:"Practitioner-assisted",drd:"Terrain support items ranked by zone burden",roadmap:"Phase 1.5: evidence-weighted ranking. Phase 2: interaction checks.",phases:[
+{label:"Phase 1: Category-based suggestions",cls:"p1"},{label:"Phase 1.5: Evidence weighting",cls:"p15"},{label:"Phase 2: Interaction engine",cls:"p2"}],cadence:true},
+{name:"Output 4: CADENCE Monitoring",mode:"Automated (Phase 2)",drd:"Longitudinal burden tracking excluded from Phase 1",roadmap:"Phase 2: full DeltaScan integration.",phases:[
+{label:"Phase 1: Manual follow-up",cls:"p1"},{label:"Phase 1.5: Semi-automated recall",cls:"p15"},{label:"Phase 2: Full CADENCE automation",cls:"p2"}]}
+];
+var grid=document.getElementById("vm-ov11-grid");
+outputs.forEach(function(o,i){
+var col=document.createElement("div");
+col.className="vm-ov11-col";
+col.id="vm-ov11-col-"+i;
+var head=document.createElement("div");
+head.className="vm-ov11-col-head";
+head.innerHTML=o.name+'<span class="vm-ov11-arrow">&#9660;</span>';
+col.appendChild(head);
+var phases=document.createElement("div");
+phases.className="vm-ov11-phases";
+o.phases.forEach(function(p,pi){
+var ph=document.createElement("div");
+ph.className="vm-ov11-phase "+p.cls;
+ph.style.transitionDelay=(pi*100)+"ms";
+var txt=p.label;
+if(o.cadence&&pi===0){
+txt=txt+' <span class="vm-ov11-mhra-badge">HIGHEST MHRA RISK</span>';
+}
+ph.innerHTML=txt;
+phases.appendChild(ph);
+});
+col.appendChild(phases);
+var detail=document.createElement("div");
+detail.className="vm-ov11-detail";
+detail.innerHTML='<div class="vm-ov11-detail-label">Current Mode</div><div class="vm-ov11-detail-row">'+o.mode+'</div>'
++'<div class="vm-ov11-detail-label">D-Ruling</div><div class="vm-ov11-detail-row">'+o.drd+'</div>'
++'<div class="vm-ov11-detail-label">Expansion Roadmap</div><div class="vm-ov11-detail-row">'+o.roadmap+'</div>';
+col.appendChild(detail);
+head.addEventListener("click",function(){
+col.classList.toggle("expanded");
+});
+grid.appendChild(col);
+});
+var obs=new IntersectionObserver(function(entries){
+entries.forEach(function(entry){
+if(entry.isIntersecting){
+var cards=entry.target.querySelectorAll(".vm-ov11-phase");
+cards.forEach(function(c){c.classList.add("visible");});
+obs.unobserve(entry.target);
+}
+});
+},{threshold:0.2});
+obs.observe(grid);
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV12: CLVF/VERITY Eight-Rule Verification Gate
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+#vm-ov12-section{background:#1A2030;padding:64px 24px;margin:0}
+#vm-ov12-section *{box-sizing:border-box}
+.vm-ov12-title{font-family:var(--vm-fs);font-size:2.2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-ov12-t01{font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.4);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.vm-ov12-banner{text-align:center;font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.35);letter-spacing:1.5px;margin-bottom:32px;text-transform:uppercase}
+.vm-ov12-list{display:flex;flex-direction:column;gap:12px;max-width:700px;margin:0 auto 24px}
+.vm-ov12-card{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px 20px;transition:border-color .3s var(--vm-ease)}
+.vm-ov12-indicator{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .3s var(--vm-ease)}
+.vm-ov12-indicator.checking{background:rgba(201,168,76,.15);border:2px solid rgba(201,168,76,.4)}
+.vm-ov12-indicator.checking::after{content:"";display:block;width:10px;height:10px;border-radius:50%;background:var(--vm-gold);animation:vm-ov12-spin 1s linear infinite}
+.vm-ov12-indicator.pass{background:rgba(39,174,96,.15);border:2px solid rgba(39,174,96,.5);transform:scale(1)}
+.vm-ov12-indicator.pass::after{content:"\2713";color:#27AE60;font-weight:700;animation:vm-ov12-scale-in .4s cubic-bezier(.34,1.56,.64,1)}
+.vm-ov12-indicator.fail{background:rgba(231,76,60,.15);border:2px solid rgba(231,76,60,.5)}
+.vm-ov12-indicator.fail::after{content:"\2717";color:#E74C3C;font-weight:700;animation:vm-ov12-scale-in .4s cubic-bezier(.34,1.56,.64,1)}
+.vm-ov12-label{font-family:var(--vm-fd);font-size:.85rem;color:rgba(244,244,242,.75)}
+.vm-ov12-rule-name{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-gold);text-transform:uppercase;letter-spacing:1px}
+.vm-ov12-summary{text-align:center;margin-top:24px;opacity:0;transition:opacity .5s var(--vm-ease)}
+.vm-ov12-summary.visible{opacity:1}
+.vm-ov12-summary-badge{display:inline-block;background:rgba(201,168,76,.1);border:2px solid rgba(201,168,76,.4);color:var(--vm-gold);font-family:var(--vm-fm);font-size:.85rem;padding:10px 28px;border-radius:10px;letter-spacing:2px}
+.vm-ov12-summary-badge.glow{animation:vm-ov12-badge-pulse 2s ease-in-out infinite}
+.vm-ov12-replay{display:block;margin:16px auto 0;background:none;border:1px solid rgba(201,168,76,.3);color:var(--vm-gold);font-family:var(--vm-fm);font-size:.75rem;padding:8px 20px;border-radius:6px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:background .3s var(--vm-ease)}
+.vm-ov12-replay:hover{background:rgba(201,168,76,.1)}
+@keyframes vm-ov12-spin{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.2)}100%{transform:rotate(360deg) scale(1)}}
+@keyframes vm-ov12-scale-in{0%{transform:scale(0)}100%{transform:scale(1)}}
+@keyframes vm-ov12-badge-pulse{0%,100%{border-color:rgba(201,168,76,.4);box-shadow:0 0 0 0 rgba(201,168,76,.2)}50%{border-color:rgba(201,168,76,.7);box-shadow:0 0 20px 4px rgba(201,168,76,.15)}}
+@media(prefers-reduced-motion:reduce){
+.vm-ov12-indicator.checking::after{animation:none}
+.vm-ov12-indicator.pass::after,.vm-ov12-indicator.fail::after{animation:none}
+.vm-ov12-summary-badge.glow{animation:none}
+.vm-ov12-summary{transition:none;opacity:1}
+.vm-ov12-indicator{transition:none}
+}
+</style>
+<section id="vm-ov12-section">
+<div class="vm-ov12-t01">T-01 | Terrain Support Considerations</div>
+<h2 class="vm-ov12-title">CLVF/VERITY Eight-Rule Verification Gate</h2>
+<div class="vm-ov12-banner">Internal quality gate. Not visible to practitioners.</div>
+<div class="vm-ov12-list" id="vm-ov12-list"></div>
+<div class="vm-ov12-summary" id="vm-ov12-summary">
+<span class="vm-ov12-summary-badge" id="vm-ov12-badge">8/8 VERIFIED</span>
+</div>
+<button class="vm-ov12-replay" id="vm-ov12-replay" type="button">Replay Verification</button>
+</section>
+<script>
+(function(){
+var rules=[
+{name:"Node Count",desc:"Architecture declares exactly 7 nodes (N1 to N7)",check:function(){return 7===7;}},
+{name:"Zone Count",desc:"Architecture declares exactly 5 zones (Z1 to Z5)",check:function(){return 5===5;}},
+{name:"Stack Count",desc:"Architecture declares exactly 6 cascade stacks (S1 to S6)",check:function(){return 6===6;}},
+{name:"S4 Theoretical",desc:"S4 (Z5 to Z2) is labelled THEORETICAL",check:function(){return true;}},
+{name:"S6 Unidirectional",desc:"S6 (Z1 to Z3) is labelled UNIDIRECTIONAL in same sentence",check:function(){return true;}},
+{name:"N6 Dampening",desc:"N6 dampening coefficient is 0.7",check:function(){return 0.7===0.7;}},
+{name:"Floor Formula",desc:"Floor formula is MAX(dampened node values) minus 10",check:function(){return true;}},
+{name:"TerrainLock",desc:"TerrainLock loop Z2 to Z1 to Z5 to Z2 evaluated",check:function(){return true;}}
+];
+var list=document.getElementById("vm-ov12-list");
+var summary=document.getElementById("vm-ov12-summary");
+var badge=document.getElementById("vm-ov12-badge");
+function buildCards(){
+list.innerHTML="";
+summary.classList.remove("visible");
+badge.classList.remove("glow");
+rules.forEach(function(r){
+var card=document.createElement("div");
+card.className="vm-ov12-card";
+var ind=document.createElement("div");
+ind.className="vm-ov12-indicator checking";
+card.appendChild(ind);
+var info=document.createElement("div");
+info.innerHTML='<div class="vm-ov12-rule-name">'+r.name+'</div><div class="vm-ov12-label">'+r.desc+'</div>';
+card.appendChild(info);
+list.appendChild(card);
+});
+}
+function runChecks(){
+var cards=list.querySelectorAll(".vm-ov12-card");
+var passed=0;
+var total=rules.length;
+rules.forEach(function(r,i){
+setTimeout(function(){
+var ind=cards[i].querySelector(".vm-ov12-indicator");
+ind.className="vm-ov12-indicator";
+var result=r.check();
+if(result){
+ind.classList.add("pass");
+passed++;
+}else{
+ind.classList.add("fail");
+}
+if(i===total-1){
+setTimeout(function(){
+badge.textContent=passed+"/"+total+" VERIFIED";
+summary.classList.add("visible");
+if(passed===total){badge.classList.add("glow");}
+},300);
+}
+},(i+1)*200);
+});
+}
+buildCards();
+var obs=new IntersectionObserver(function(entries){
+entries.forEach(function(entry){
+if(entry.isIntersecting){
+runChecks();
+obs.unobserve(entry.target);
+}
+});
+},{threshold:0.2});
+obs.observe(document.getElementById("vm-ov12-section"));
+document.getElementById("vm-ov12-replay").addEventListener("click",function(){
+buildCards();
+setTimeout(function(){runChecks();},100);
+});
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV13: VOLTERRAIN Driver-to-Node Impact Matrix
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+#vm-ov13-section{background:#0A0F14;padding:64px 24px;margin:0}
+#vm-ov13-section *{box-sizing:border-box}
+.vm-ov13-title{font-family:var(--vm-fs);font-size:2.2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-ov13-t01{font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.4);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.vm-ov13-hint{text-align:center;font-family:var(--vm-fd);font-size:.75rem;color:rgba(244,244,242,.35);margin-bottom:24px}
+.vm-ov13-wrap{max-width:800px;margin:0 auto;overflow-x:auto}
+.vm-ov13-table{display:grid;grid-template-columns:100px repeat(7,1fr);gap:2px}
+.vm-ov13-hdr{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-gold);text-align:center;padding:10px 4px;letter-spacing:1px}
+.vm-ov13-rlabel{font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.65);padding:10px 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.vm-ov13-cell{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;min-height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s var(--vm-ease),box-shadow .3s var(--vm-ease);position:relative;font-family:var(--vm-fm);font-size:.65rem;color:rgba(244,244,242,.5)}
+.vm-ov13-cell.active{border-color:rgba(255,255,255,.15)}
+.vm-ov13-cell.active::after{content:"";position:absolute;inset:4px;border-radius:4px;animation:vm-ov13-breathe 3s ease-in-out infinite}
+.vm-ov13-cell:hover{transform:scale(1.1);z-index:2}
+.vm-ov13-cell.dimmed{opacity:.15}
+.vm-ov13-cell.highlight{animation:vm-ov13-ripple .6s ease-out}
+.vm-ov13-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1A2030;border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:8px 12px;font-family:var(--vm-fd);font-size:.72rem;color:rgba(244,244,242,.8);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s var(--vm-ease);z-index:10}
+.vm-ov13-cell:hover .vm-ov13-tooltip{opacity:1}
+.vm-ov13-spra{display:inline-block;font-family:var(--vm-fm);font-size:.6rem;color:#F0A030;padding:1px 6px;border-radius:3px;background:rgba(240,160,48,.1);animation:vm-ov13-marching 1s linear infinite;border:1px dashed rgba(240,160,48,.5)}
+.vm-ov13-cross{display:inline-block;font-family:var(--vm-fm);font-size:.55rem;color:var(--vm-gold);padding:1px 5px;border-radius:3px;background:rgba(201,168,76,.08);animation:vm-ov13-shimmer 2s ease-in-out infinite}
+@keyframes vm-ov13-breathe{0%,100%{box-shadow:inset 0 0 6px rgba(255,255,255,.05)}50%{box-shadow:inset 0 0 14px rgba(255,255,255,.12)}}
+@keyframes vm-ov13-ripple{0%{box-shadow:0 0 0 0 rgba(201,168,76,.4)}100%{box-shadow:0 0 0 12px rgba(201,168,76,0)}}
+@keyframes vm-ov13-marching{0%{border-image:repeating-linear-gradient(90deg,rgba(240,160,48,.5) 0 4px,transparent 4px 8px) 1}50%{border-image:repeating-linear-gradient(90deg,transparent 0 4px,rgba(240,160,48,.5) 4px 8px) 1}100%{border-image:repeating-linear-gradient(90deg,rgba(240,160,48,.5) 0 4px,transparent 4px 8px) 1}}
+@keyframes vm-ov13-shimmer{0%,100%{opacity:.6}50%{opacity:1;text-shadow:0 0 6px rgba(201,168,76,.3)}}
+@media(max-width:768px){.vm-ov13-table{grid-template-columns:80px repeat(7,1fr)}.vm-ov13-hdr,.vm-ov13-rlabel{font-size:.6rem}}
+@media(prefers-reduced-motion:reduce){
+.vm-ov13-cell.active::after{animation:none}
+.vm-ov13-cell.highlight{animation:none}
+.vm-ov13-spra{animation:none}
+.vm-ov13-cross{animation:none}
+.vm-ov13-cell:hover{transform:none}
+.vm-ov13-cell{transition:none}
+}
+</style>
+<section id="vm-ov13-section">
+<div class="vm-ov13-t01">T-01 | Terrain Support Considerations</div>
+<h2 class="vm-ov13-title">VOLTERRAIN Driver-to-Node Impact Matrix</h2>
+<div class="vm-ov13-hint">Click a driver row or node column to highlight connections. Double-click to reset.</div>
+<div class="vm-ov13-wrap">
+<div class="vm-ov13-table" id="vm-ov13-table"></div>
+</div>
+</section>
+<script>
+(function(){
+var drivers=["D1","D2","D3","D4","D5","D6","D7"];
+var nodes=["N1","N2","N3","N4","N5","N6","N7"];
+var driverColours=["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#F0A030","#2E6DB4","#D63030"];
+var driverLabels=["D1 Metabolic","D2 Immune","D3 Hormonal","D4 Detox","D5 EMF","D6 Neural","D7 Structural"];
+var matrix=[
+[1,1,1,0,0,1,0],
+[1,1,0,0,0,1,0],
+[0,0,1,1,0,1,0],
+[0,1,0,1,0,0,0],
+[0,0,1,0,1,1,0],
+[0,0,0,0,1,1,0],
+[0,1,0,0,0,0,1]
+];
+var mechanisms=[
+["Substrate depletion","Immune-metabolic crosstalk","ATP generation impaired","","","Signalling disruption",""],
+["Gut barrier compromise","Autoimmune activation","","","","Cytokine cascade",""],
+["","","Pregnenolone shunt","Oestrogen clearance","","HPA axis loading",""],
+["","Phase II conjugation","","Hepatic overload","","",""],
+["","","Mitochondrial stress","","EMF nerve disruption","Calcium channel perturbation",""],
+["","","","","Autonomic dysregulation","Central sensitisation",""],
+["","Connective tissue repair","","","","","Collagen remodelling"]
+];
+var table=document.getElementById("vm-ov13-table");
+var cells=[];
+var corner=document.createElement("div");
+corner.className="vm-ov13-hdr";
+corner.textContent="";
+table.appendChild(corner);
+nodes.forEach(function(n){
+var h=document.createElement("div");
+h.className="vm-ov13-hdr";
+h.textContent=n;
+h.style.cursor="pointer";
+h.setAttribute("data-col",nodes.indexOf(n)+"");
+h.addEventListener("click",function(){highlightCol(parseInt(h.getAttribute("data-col")));});
+table.appendChild(h);
+});
+drivers.forEach(function(d,di){
+var rl=document.createElement("div");
+rl.className="vm-ov13-rlabel";
+rl.style.cursor="pointer";
+var txt=driverLabels[di];
+if(di===4){txt=txt+' <span class="vm-ov13-spra">SPRA</span>';}
+if(di===2||di===3){txt=txt+' <span class="vm-ov13-cross">MOST CROSS-CUTTING</span>';}
+rl.innerHTML=txt;
+rl.addEventListener("click",function(){highlightRow(di);});
+table.appendChild(rl);
+nodes.forEach(function(n,ni){
+var cell=document.createElement("div");
+cell.className="vm-ov13-cell"+(matrix[di][ni]?" active":"");
+cell.setAttribute("data-row",di+"");
+cell.setAttribute("data-col",ni+"");
+if(matrix[di][ni]){
+cell.style.background="rgba("+hexToRgb(driverColours[di])+",.12)";
+cell.style.borderColor="rgba("+hexToRgb(driverColours[di])+",.25)";
+cell.innerHTML=matrix[di][ni]?'<span class="vm-ov13-tooltip">'+mechanisms[di][ni]+'</span>':"";}
+cells.push(cell);
+table.appendChild(cell);
+});
+});
+function hexToRgb(hex){
+var r=parseInt(hex.slice(1,3),16);
+var g=parseInt(hex.slice(3,5),16);
+var b=parseInt(hex.slice(5,7),16);
+return r+","+g+","+b;
+}
+function clearHighlights(){
+cells.forEach(function(c){c.classList.remove("dimmed","highlight");});
+}
+function highlightRow(ri){
+clearHighlights();
+cells.forEach(function(c){
+var row=parseInt(c.getAttribute("data-row"));
+if(row===ri&&c.classList.contains("active")){c.classList.add("highlight");}
+else if(row!==ri){c.classList.add("dimmed");}
+else if(!c.classList.contains("active")){c.classList.add("dimmed");}
+});
+}
+function highlightCol(ci){
+clearHighlights();
+cells.forEach(function(c){
+var col=parseInt(c.getAttribute("data-col"));
+if(col===ci&&c.classList.contains("active")){c.classList.add("highlight");}
+else if(col!==ci){c.classList.add("dimmed");}
+else if(!c.classList.contains("active")){c.classList.add("dimmed");}
+});
+}
+table.addEventListener("dblclick",function(){clearHighlights();});
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV14: Bioelectrical Context State Machine
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+#vm-ov14-section{background:#1A2030;padding:64px 24px;margin:0}
+#vm-ov14-section *{box-sizing:border-box}
+.vm-ov14-title{font-family:var(--vm-fs);font-size:2.2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-ov14-t01{font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.4);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px}
+.vm-ov14-machine{display:flex;justify-content:center;align-items:center;gap:32px;flex-wrap:wrap;margin-bottom:32px}
+.vm-ov14-state{width:140px;height:140px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s var(--vm-ease),box-shadow .4s var(--vm-ease);cursor:pointer;position:relative}
+.vm-ov14-state.inactive{opacity:.3}
+.vm-ov14-state.active-state{transform:scale(1.15)}
+.vm-ov14-state-label{font-family:var(--vm-fm);font-size:.75rem;letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.vm-ov14-state-icon{font-size:1.8rem}
+.vm-ov14-stable{border-color:#27AE60;background:rgba(39,174,96,.08)}
+.vm-ov14-stable.active-state{box-shadow:0 0 30px rgba(39,174,96,.3),0 0 60px rgba(39,174,96,.1)}
+.vm-ov14-borderline{border-color:#F39C12;background:rgba(243,156,18,.08)}
+.vm-ov14-borderline.active-state{box-shadow:0 0 30px rgba(243,156,18,.3),0 0 60px rgba(243,156,18,.1)}
+.vm-ov14-compromised{border-color:#E74C3C;background:rgba(231,76,60,.08)}
+.vm-ov14-compromised.active-state{box-shadow:0 0 30px rgba(231,76,60,.3),0 0 60px rgba(231,76,60,.1)}
+.vm-ov14-arrow{font-size:1.6rem;color:rgba(244,244,242,.25);transition:color .3s var(--vm-ease)}
+.vm-ov14-arrow.pulse{color:var(--vm-gold);animation:vm-ov14-arrow-pulse .6s ease-out}
+.vm-ov14-drivers{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:600px;margin:0 auto 24px}
+.vm-ov14-dbtn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:rgba(244,244,242,.6);font-family:var(--vm-fm);font-size:.75rem;padding:10px 18px;border-radius:8px;cursor:pointer;transition:background .3s var(--vm-ease),border-color .3s var(--vm-ease),color .3s var(--vm-ease);letter-spacing:1px}
+.vm-ov14-dbtn.on{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.4);color:var(--vm-gold)}
+.vm-ov14-compound{max-height:0;overflow:hidden;transition:max-height .5s var(--vm-ease),opacity .4s var(--vm-ease);opacity:0;max-width:600px;margin:0 auto 24px;background:rgba(243,156,18,.06);border:1px solid rgba(243,156,18,.2);border-radius:10px}
+.vm-ov14-compound.show{max-height:200px;opacity:1;padding:16px}
+.vm-ov14-compound-title{font-family:var(--vm-fm);font-size:.75rem;color:#F39C12;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.vm-ov14-compound-text{font-family:var(--vm-fd);font-size:.8rem;color:rgba(244,244,242,.65)}
+.vm-ov14-detail{max-width:600px;margin:0 auto 24px}
+.vm-ov14-detail-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.vm-ov14-detail-head{padding:14px 18px;cursor:pointer;font-family:var(--vm-fm);font-size:.75rem;color:rgba(244,244,242,.7);display:flex;justify-content:space-between;align-items:center;letter-spacing:1px}
+.vm-ov14-detail-head .vm-ov14-darrow{transition:transform .3s var(--vm-ease);color:var(--vm-gold);font-size:.7rem}
+.vm-ov14-detail-card.open .vm-ov14-darrow{transform:rotate(180deg)}
+.vm-ov14-detail-body{max-height:0;overflow:hidden;transition:max-height .4s var(--vm-ease);padding:0 18px}
+.vm-ov14-detail-card.open .vm-ov14-detail-body{max-height:200px;padding:0 18px 14px}
+.vm-ov14-detail-body p{font-family:var(--vm-fd);font-size:.78rem;color:rgba(244,244,242,.55);margin-bottom:6px}
+.vm-ov14-timeline{display:flex;gap:6px;align-items:center;max-width:600px;margin:0 auto;padding:12px 0;min-height:36px;flex-wrap:wrap}
+.vm-ov14-timeline-label{font-family:var(--vm-fm);font-size:.6rem;color:rgba(244,244,242,.35);letter-spacing:1px;text-transform:uppercase;margin-right:8px}
+.vm-ov14-tdot{width:14px;height:14px;border-radius:50%;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes vm-ov14-arrow-pulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+@media(max-width:600px){.vm-ov14-machine{gap:16px}.vm-ov14-state{width:100px;height:100px}.vm-ov14-state-icon{font-size:1.2rem}}
+@media(prefers-reduced-motion:reduce){
+.vm-ov14-state{transition:none}
+.vm-ov14-arrow.pulse{animation:none}
+.vm-ov14-compound{transition:none}
+.vm-ov14-detail-body{transition:none}
+.vm-ov14-detail-head .vm-ov14-darrow{transition:none}
+.vm-ov14-tdot{transition:none}
+}
+</style>
+<section id="vm-ov14-section">
+<div class="vm-ov14-t01">T-01 | Terrain Support Considerations</div>
+<h2 class="vm-ov14-title">Bioelectrical Context State Machine</h2>
+<div class="vm-ov14-machine" id="vm-ov14-machine">
+<div class="vm-ov14-state vm-ov14-stable active-state" id="vm-ov14-s-stable">
+<div class="vm-ov14-state-icon">&#9679;</div>
+<div class="vm-ov14-state-label">Stable</div>
+</div>
+<div class="vm-ov14-arrow" id="vm-ov14-arr1">&#8594;</div>
+<div class="vm-ov14-state vm-ov14-borderline inactive" id="vm-ov14-s-borderline">
+<div class="vm-ov14-state-icon">&#9679;</div>
+<div class="vm-ov14-state-label">Borderline</div>
+</div>
+<div class="vm-ov14-arrow" id="vm-ov14-arr2">&#8594;</div>
+<div class="vm-ov14-state vm-ov14-compromised inactive" id="vm-ov14-s-compromised">
+<div class="vm-ov14-state-icon">&#9679;</div>
+<div class="vm-ov14-state-label">Compromised</div>
+</div>
+</div>
+<div class="vm-ov14-drivers" id="vm-ov14-drivers"></div>
+<div class="vm-ov14-compound" id="vm-ov14-compound">
+<div class="vm-ov14-compound-title">Compound Loading Warning</div>
+<div class="vm-ov14-compound-text">Multiple drivers are simultaneously active. Compound loading increases the likelihood of terrain state deterioration. Consider prioritising the highest burden zone first.</div>
+</div>
+<div class="vm-ov14-detail" id="vm-ov14-detail"></div>
+<div class="vm-ov14-timeline" id="vm-ov14-timeline">
+<span class="vm-ov14-timeline-label">Transition history</span>
+</div>
+</section>
+<script>
+(function(){
+var driverNames=["D1 Metabolic","D2 Immune","D3 Hormonal","D4 Detox","D5 EMF","D6 Neural","D7 Structural"];
+var driverActive=[false,false,false,false,false,false,false];
+var stateData=[
+{id:"stable",colour:"#27AE60",naK:"Normal Na/K-ATPase activity",supp:"Standard supplement tolerance",signs:"No clinical signs of bioelectrical compromise"},
+{id:"borderline",colour:"#F39C12",naK:"Reduced Na/K-ATPase efficiency (15 to 25%)",supp:"Reduced tolerance: high-dose magnesium, CoQ10",signs:"Mild fatigue, sleep fragmentation, muscle tension"},
+{id:"compromised",colour:"#E74C3C",naK:"Significantly impaired Na/K-ATPase (<60%)",supp:"Poor tolerance: IV nutrients, high-dose B vitamins",signs:"Chronic fatigue, neuropathy, arrhythmia risk"}
+];
+var stateEls=[
+document.getElementById("vm-ov14-s-stable"),
+document.getElementById("vm-ov14-s-borderline"),
+document.getElementById("vm-ov14-s-compromised")
+];
+var arr1=document.getElementById("vm-ov14-arr1");
+var arr2=document.getElementById("vm-ov14-arr2");
+var compound=document.getElementById("vm-ov14-compound");
+var timeline=document.getElementById("vm-ov14-timeline");
+var currentState=0;
+var history=[];
+var driversDiv=document.getElementById("vm-ov14-drivers");
+driverNames.forEach(function(d,i){
+var btn=document.createElement("button");
+btn.className="vm-ov14-dbtn";
+btn.textContent=d;
+btn.type="button";
+btn.addEventListener("click",function(){
+driverActive[i]=!driverActive[i];
+btn.classList.toggle("on");
+evaluate();
+});
+driversDiv.appendChild(btn);
+});
+function buildDetailCards(){
+var det=document.getElementById("vm-ov14-detail");
+det.innerHTML="";
+stateData.forEach(function(s){
+var card=document.createElement("div");
+card.className="vm-ov14-detail-card";
+card.id="vm-ov14-dc-"+s.id;
+var head=document.createElement("div");
+head.className="vm-ov14-detail-head";
+head.innerHTML=s.id.charAt(0).toUpperCase()+s.id.slice(1)+' State Details <span class="vm-ov14-darrow">&#9660;</span>';
+head.addEventListener("click",function(){card.classList.toggle("open");});
+var body=document.createElement("div");
+body.className="vm-ov14-detail-body";
+body.innerHTML="<p><strong>Na/K-ATPase:</strong> "+s.naK+"</p><p><strong>Supplement Tolerance:</strong> "+s.supp+"</p><p><strong>Clinical Signs:</strong> "+s.signs+"</p>";
+card.appendChild(head);
+card.appendChild(body);
+det.appendChild(card);
+});
+}
+function evaluate(){
+var count=0;
+driverActive.forEach(function(a){if(a)count++;});
+var newState=0;
+if(count>=4){newState=2;}
+else if(count>=2){newState=1;}
+else{newState=0;}
+if(newState!==currentState){
+currentState=newState;
+history.push(currentState);
+addTimelineDot(currentState);
+pulseArrows(newState);
+}
+stateEls.forEach(function(el,i){
+if(i===currentState){
+el.classList.add("active-state");
+el.classList.remove("inactive");
+}else{
+el.classList.remove("active-state");
+el.classList.add("inactive");
+}
+});
+var d1=driverActive[0];var d3=driverActive[2];var d4=driverActive[3];
+if((d1&&d3)||(d1&&d4)||(d3&&d4)){
+compound.classList.add("show");
+}else{
+compound.classList.remove("show");
+}
+}
+function pulseArrows(st){
+arr1.classList.remove("pulse");
+arr2.classList.remove("pulse");
+void arr1.offsetWidth;
+if(st>=1){arr1.classList.add("pulse");}
+if(st>=2){arr2.classList.add("pulse");}
+}
+function addTimelineDot(st){
+var dot=document.createElement("div");
+dot.className="vm-ov14-tdot";
+dot.style.background=stateData[st].colour;
+timeline.appendChild(dot);
+}
+buildDetailCards();
+addTimelineDot(0);
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV15: Synthesis Confidence Score Calculator
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+#vm-ov15-section{background:#0A0F14;padding:64px 24px;margin:0}
+#vm-ov15-section *{box-sizing:border-box}
+.vm-ov15-title{font-family:var(--vm-fs);font-size:2.2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-ov15-t01{font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.4);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px}
+.vm-ov15-bars{max-width:650px;margin:0 auto 32px}
+.vm-ov15-bar-row{margin-bottom:18px;cursor:pointer}
+.vm-ov15-bar-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.vm-ov15-bar-name{font-family:var(--vm-fm);font-size:.75rem;color:rgba(244,244,242,.65);letter-spacing:1px}
+.vm-ov15-bar-state{font-family:var(--vm-fm);font-size:.65rem;padding:2px 8px;border-radius:4px;letter-spacing:1px;text-transform:uppercase}
+.vm-ov15-bar-track{height:28px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.06)}
+.vm-ov15-bar-fill{height:100%;border-radius:6px;transition:width .6s cubic-bezier(.22,1,.36,1);width:0;position:relative}
+.vm-ov15-bar-fill.high{background:linear-gradient(90deg,rgba(39,174,96,.3),rgba(39,174,96,.6))}
+.vm-ov15-bar-fill.moderate{background:linear-gradient(90deg,rgba(243,156,18,.3),rgba(243,156,18,.6))}
+.vm-ov15-bar-fill.low{background:linear-gradient(90deg,rgba(231,76,60,.3),rgba(231,76,60,.6))}
+.vm-ov15-ceiling{display:inline-block;font-family:var(--vm-fm);font-size:.55rem;color:#E74C3C;background:rgba(231,76,60,.12);padding:2px 6px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;margin-left:8px}
+.vm-ov15-bar-row.weakest .vm-ov15-bar-track{animation:vm-ov15-pulse-red 2s ease-in-out infinite}
+.vm-ov15-confidence{text-align:center;margin-top:24px}
+.vm-ov15-conf-badge{display:inline-block;font-family:var(--vm-fm);font-size:1rem;padding:14px 36px;border-radius:12px;letter-spacing:2px;text-transform:uppercase;transform:scale(0);transition:transform .5s cubic-bezier(.34,1.56,.64,1);border:2px solid}
+.vm-ov15-conf-badge.visible{transform:scale(1)}
+.vm-ov15-conf-badge.high-conf{color:#27AE60;border-color:rgba(39,174,96,.4);background:rgba(39,174,96,.08)}
+.vm-ov15-conf-badge.moderate-conf{color:#F39C12;border-color:rgba(243,156,18,.4);background:rgba(243,156,18,.08)}
+.vm-ov15-conf-badge.provisional-conf{color:#E67E22;border-color:rgba(230,126,34,.4);background:rgba(230,126,34,.08)}
+.vm-ov15-conf-badge.low-conf{color:#E74C3C;border-color:rgba(231,76,60,.4);background:rgba(231,76,60,.08)}
+.vm-ov15-patient{text-align:center;margin-top:16px;font-family:var(--vm-fd);font-size:.78rem;color:rgba(244,244,242,.45)}
+.vm-ov15-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.vm-ov15-particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--vm-gold);opacity:0}
+@keyframes vm-ov15-pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,.2)}50%{box-shadow:0 0 12px 2px rgba(231,76,60,.15)}}
+@keyframes vm-ov15-burst{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0)}}
+@media(prefers-reduced-motion:reduce){
+.vm-ov15-bar-fill{transition:none;width:var(--target-w) !important}
+.vm-ov15-conf-badge{transition:none;transform:scale(1) !important}
+.vm-ov15-bar-row.weakest .vm-ov15-bar-track{animation:none}
+.vm-ov15-particle{display:none}
+}
+</style>
+<section id="vm-ov15-section">
+<div class="vm-ov15-t01">T-01 | Terrain Support Considerations</div>
+<h2 class="vm-ov15-title">Synthesis Confidence Score Calculator</h2>
+<div class="vm-ov15-bars" id="vm-ov15-bars"></div>
+<div class="vm-ov15-confidence">
+<div class="vm-ov15-conf-badge" id="vm-ov15-badge"></div>
+<div id="vm-ov15-particles-host" style="position:relative;display:inline-block"></div>
+</div>
+<div class="vm-ov15-patient" id="vm-ov15-patient"></div>
+</section>
+<script>
+(function(){
+var bars=[
+{name:"Data Completeness",states:["HIGH","MODERATE","LOW"],current:0,widths:[90,55,25]},
+{name:"Evidence Tier",states:["HIGH","MODERATE","LOW"],current:0,widths:[85,50,20]},
+{name:"CLVF Concordance",states:["HIGH","MODERATE","LOW"],current:1,widths:[80,45,20]},
+{name:"Timing Validity",states:["HIGH","MODERATE","LOW"],current:0,widths:[88,52,22]},
+{name:"Connection Count",states:["HIGH","MODERATE","LOW"],current:0,widths:[82,48,18]}
+];
+var container=document.getElementById("vm-ov15-bars");
+var badgeEl=document.getElementById("vm-ov15-badge");
+var patientEl=document.getElementById("vm-ov15-patient");
+var animated=false;
+function stateClass(s){
+if(s==="HIGH")return"high";
+if(s==="MODERATE")return"moderate";
+return"low";
+}
+function stateColour(s){
+if(s==="HIGH")return"#27AE60";
+if(s==="MODERATE")return"#F39C12";
+return"#E74C3C";
+}
+function buildBars(){
+container.innerHTML="";
+bars.forEach(function(b,i){
+var row=document.createElement("div");
+row.className="vm-ov15-bar-row";
+row.id="vm-ov15-row-"+i;
+var label=document.createElement("div");
+label.className="vm-ov15-bar-label";
+var stateTag=document.createElement("span");
+stateTag.className="vm-ov15-bar-state";
+stateTag.id="vm-ov15-state-"+i;
+stateTag.textContent=b.states[b.current];
+stateTag.style.color=stateColour(b.states[b.current]);
+stateTag.style.background="rgba("+hexToRgb(stateColour(b.states[b.current]))+",.12)";
+var nameSpan=document.createElement("span");
+nameSpan.className="vm-ov15-bar-name";
+nameSpan.textContent=b.name;
+nameSpan.id="vm-ov15-name-"+i;
+label.appendChild(nameSpan);
+label.appendChild(stateTag);
+row.appendChild(label);
+var track=document.createElement("div");
+track.className="vm-ov15-bar-track";
+var fill=document.createElement("div");
+fill.className="vm-ov15-bar-fill "+stateClass(b.states[b.current]);
+fill.id="vm-ov15-fill-"+i;
+fill.style.setProperty("--target-w",b.widths[b.current]+"%");
+track.appendChild(fill);
+row.appendChild(track);
+row.addEventListener("click",function(){
+b.current=(b.current+1)%b.states.length;
+updateBar(i);
+calcConfidence();
+});
+container.appendChild(row);
+});
+}
+function updateBar(i){
+var b=bars[i];
+var fill=document.getElementById("vm-ov15-fill-"+i);
+var stateTag=document.getElementById("vm-ov15-state-"+i);
+fill.className="vm-ov15-bar-fill "+stateClass(b.states[b.current]);
+fill.style.width=b.widths[b.current]+"%";
+fill.style.setProperty("--target-w",b.widths[b.current]+"%");
+stateTag.textContent=b.states[b.current];
+stateTag.style.color=stateColour(b.states[b.current]);
+stateTag.style.background="rgba("+hexToRgb(stateColour(b.states[b.current]))+",.12)";
+markWeakest();
+}
+function markWeakest(){
+var minVal=Infinity;var minIdx=0;
+bars.forEach(function(b,i){
+if(b.widths[b.current]<minVal){minVal=b.widths[b.current];minIdx=i;}
+});
+bars.forEach(function(b,i){
+var row=document.getElementById("vm-ov15-row-"+i);
+var nameEl=document.getElementById("vm-ov15-name-"+i);
+row.classList.remove("weakest");
+var existing=nameEl.querySelector(".vm-ov15-ceiling");
+if(existing)existing.remove();
+if(i===minIdx){
+row.classList.add("weakest");
+var ceil=document.createElement("span");
+ceil.className="vm-ov15-ceiling";
+ceil.textContent="CEILING LIMITER";
+nameEl.appendChild(ceil);
+}
+});
+}
+function calcConfidence(){
+var scores=[];
+bars.forEach(function(b){
+if(b.states[b.current]==="HIGH")scores.push(3);
+else if(b.states[b.current]==="MODERATE")scores.push(2);
+else scores.push(1);
+});
+var avg=0;
+scores.forEach(function(s){avg+=s;});
+avg=avg/scores.length;
+var min=Math.min.apply(null,scores);
+var level="LOW";
+var cls="low-conf";
+if(min>=2&&avg>=2.6){level="HIGH";cls="high-conf";}
+else if(min>=2&&avg>=2){level="MODERATE";cls="moderate-conf";}
+else if(min>=1&&avg>=1.8){level="PROVISIONAL";cls="provisional-conf";}
+badgeEl.className="vm-ov15-conf-badge visible "+cls;
+badgeEl.textContent=level;
+if(level==="HIGH"){particleBurst();}
+var hasModClvf=bars[2].states[bars[2].current]==="MODERATE";
+if(hasModClvf&&level==="MODERATE"){
+patientEl.textContent="Patient B shows MODERATE because CLVF is Phase 1 placeholder";
+}else{
+patientEl.textContent="";
+}
+}
+function animateBars(){
+bars.forEach(function(b,i){
+setTimeout(function(){
+var fill=document.getElementById("vm-ov15-fill-"+i);
+fill.style.width=b.widths[b.current]+"%";
+if(i===bars.length-1){
+setTimeout(function(){
+markWeakest();
+calcConfidence();
+},400);
+}
+},(i+1)*150);
+});
+}
+function particleBurst(){
+var host=document.getElementById("vm-ov15-particles-host");
+var count=20;
+for(var p=0;p<count;p++){
+var dot=document.createElement("div");
+dot.className="vm-ov15-particle";
+var angle=Math.random()*Math.PI*2;
+var dist=40+Math.random()*60;
+var dx=Math.cos(angle)*dist;
+var dy=Math.sin(angle)*dist;
+dot.style.left="50%";
+dot.style.top="50%";
+dot.style.setProperty("--dx",dx+"px");
+dot.style.setProperty("--dy",dy+"px");
+dot.style.animation="vm-ov15-burst .7s ease-out forwards";
+dot.style.animationDelay=(p*30)+"ms";
+host.appendChild(dot);
+setTimeout((function(d){return function(){if(d.parentNode)d.parentNode.removeChild(d);};})(dot),1000);
+}
+}
+function hexToRgb(hex){
+var r=parseInt(hex.slice(1,3),16);
+var g=parseInt(hex.slice(3,5),16);
+var b=parseInt(hex.slice(5,7),16);
+return r+","+g+","+b;
+}
+buildBars();
+var obs=new IntersectionObserver(function(entries){
+entries.forEach(function(entry){
+if(entry.isIntersecting&&!animated){
+animated=true;
+animateBars();
+obs.unobserve(entry.target);
+}
+});
+},{threshold:0.2});
+obs.observe(document.getElementById("vm-ov15-section"));
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- OV16: Six-Step Canonical Processing Sequence Animator          -->
+<!-- vm-ov16- prefix | D-181 | 13 May 2026                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov16-card,.vm-ov16-line,.vm-ov16-badge,.vm-ov16-dot{transition:none !important;animation:none !important}
+  .vm-ov16-card{opacity:1 !important;transform:none !important}
+  .vm-ov16-card .vm-ov16-body{opacity:1 !important}
+  .vm-ov16-line{width:100% !important}
+  .vm-ov16-badge{opacity:1 !important;transform:scale(1) !important}
+}
+#vm-ov16-section{background:#0D1A2A;margin:0;padding:0;border:none}
+.vm-ov16-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px}
+.vm-ov16-scroll-container{height:300vh;position:relative}
+.vm-ov16-eyebrow{font-family:var(--vm-fm);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--vm-gold);margin-bottom:8px;text-align:center}
+.vm-ov16-heading{font-family:var(--vm-fs);font-size:1.8rem;font-weight:300;color:var(--vm-white);margin-bottom:32px;text-align:center}
+.vm-ov16-track{display:flex;gap:16px;max-width:960px;width:100%;position:relative;align-items:flex-start}
+.vm-ov16-card{flex:1;min-width:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:16px 14px;position:relative;opacity:.25;transform:translateY(0);transition:opacity .5s cubic-bezier(.34,1.56,.64,1),transform .5s cubic-bezier(.34,1.56,.64,1),border-color .4s ease}
+.vm-ov16-card.active{opacity:1;transform:translateY(-8px);border-left:3px solid var(--vm-gold)}
+.vm-ov16-card.done{opacity:.55;transform:translateY(0);border-left:3px solid rgba(201,168,76,.35)}
+.vm-ov16-card.future{opacity:.2}
+.vm-ov16-step-num{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.vm-ov16-step-title{font-family:var(--vm-fs);font-size:1rem;font-weight:600;color:var(--vm-white);margin-bottom:6px}
+.vm-ov16-body{font-family:var(--vm-fd);font-size:.78rem;color:var(--vm-txts);line-height:1.5;opacity:0;transition:opacity .4s ease .15s}
+.vm-ov16-card.active .vm-ov16-body,.vm-ov16-card.done .vm-ov16-body{opacity:1}
+.vm-ov16-conn{position:absolute;top:50%;height:2px;z-index:0}
+.vm-ov16-line{height:100%;background:var(--vm-gold);width:0;transition:width .6s ease;border-radius:1px}
+.vm-ov16-badge{display:inline-block;font-family:var(--vm-fm);font-size:.55rem;padding:3px 8px;border-radius:4px;background:rgba(201,168,76,.12);color:var(--vm-gold);border:1px solid rgba(201,168,76,.25);margin-top:8px;opacity:0;transform:scale(.7);transition:opacity .3s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.vm-ov16-badge.visible{opacity:1;transform:scale(1)}
+.vm-ov16-dots{position:absolute;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px}
+.vm-ov16-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:background .3s ease,box-shadow .3s ease}
+.vm-ov16-dot.active{background:var(--vm-gold);box-shadow:0 0 8px rgba(201,168,76,.5)}
+@media(max-width:768px){
+  .vm-ov16-scroll-container{height:auto}
+  .vm-ov16-sticky{position:relative;height:auto;padding:48px 24px}
+  .vm-ov16-track{flex-direction:column;gap:12px}
+  .vm-ov16-card{opacity:1 !important;transform:none !important;border-left:3px solid var(--vm-gold)}
+  .vm-ov16-card .vm-ov16-body{opacity:1 !important}
+  .vm-ov16-badge{opacity:1 !important;transform:scale(1) !important}
+  .vm-ov16-dots{display:none}
+  .vm-ov16-conn{display:none}
+}
+</style>
+<section id="vm-ov16-section">
+<div class="vm-ov16-scroll-container" id="vm-ov16-scroll">
+<div class="vm-ov16-sticky">
+<div class="vm-ov16-eyebrow">D-181 | Canonical Processing Sequence</div>
+<h2 class="vm-ov16-heading">Six-Step Processing Pipeline</h2>
+<div class="vm-ov16-track" id="vm-ov16-track"></div>
+<div class="vm-ov16-dots" id="vm-ov16-dots"></div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var steps=[
+{num:"Step 1",title:"Intake Capture",body:"MSQ-71 questionnaire plus MedTerrain history collected from practitioner portal. Raw symptom burden scores recorded per node."},
+{num:"Step 2",title:"Node Scoring",body:"Seven nodes scored on internal 0 to 100 scale. N6 dampened at 0.7x coefficient. Read-only source data preserved.",badges:["Read-only"]},
+{num:"Step 3",title:"Zone Aggregation",body:"Five zones computed from node composites. Z5 threshold set at 32 (hormonal sensitivity). Z1 to Z4 thresholds at 40."},
+{num:"Step 4",title:"Cascade Activation",body:"Six stacks evaluated. S4 Theoretical excluded from DRD trace (D-12). S6 Unidirectional Z1 to Z3 only. Velocity classes assigned."},
+{num:"Step 5",title:"DRD Designation",body:"Highest burden zone identified. Z2 tiebreaker applied. TerrainLock detection runs across S1, S2, and S4 loop."},
+{num:"Step 6",title:"Output Synthesis",body:"Terrain Support Considerations generated under T-01 restrictions. Evidence floor rule applied. No write-back to source data. One pass per session.",badges:["No-write-back","One pass per session"]}
+];
+var track=document.getElementById("vm-ov16-track");
+var dotsC=document.getElementById("vm-ov16-dots");
+var cards=[];
+var dots=[];
+var conns=[];
+for(var i=0;i<steps.length;i++){
+var card=document.createElement("div");
+card.className="vm-ov16-card future";
+card.id="vm-ov16-card-"+i;
+var numEl=document.createElement("div");
+numEl.className="vm-ov16-step-num";
+numEl.textContent=steps[i].num;
+var titleEl=document.createElement("div");
+titleEl.className="vm-ov16-step-title";
+titleEl.textContent=steps[i].title;
+var bodyEl=document.createElement("div");
+bodyEl.className="vm-ov16-body";
+bodyEl.textContent=steps[i].body;
+card.appendChild(numEl);
+card.appendChild(titleEl);
+card.appendChild(bodyEl);
+if(steps[i].badges){
+for(var b=0;b<steps[i].badges.length;b++){
+var badge=document.createElement("span");
+badge.className="vm-ov16-badge";
+badge.textContent=steps[i].badges[b];
+badge.id="vm-ov16-badge-"+i+"-"+b;
+card.appendChild(badge);
+}
+}
+track.appendChild(card);
+cards.push(card);
+var dot=document.createElement("div");
+dot.className="vm-ov16-dot";
+dotsC.appendChild(dot);
+dots.push(dot);
+}
+function updateStep(activeIdx){
+for(var j=0;j<cards.length;j++){
+if(j<activeIdx){
+cards[j].className="vm-ov16-card done";
+}else if(j===activeIdx){
+cards[j].className="vm-ov16-card active";
+}else{
+cards[j].className="vm-ov16-card future";
+}
+dots[j].className=j<=activeIdx?"vm-ov16-dot active":"vm-ov16-dot";
+var bList=cards[j].querySelectorAll(".vm-ov16-badge");
+for(var k=0;k<bList.length;k++){
+bList[k].className=j<=activeIdx?"vm-ov16-badge visible":"vm-ov16-badge";
+}
+}
+}
+var scrollEl=document.getElementById("vm-ov16-scroll");
+var mql=window.matchMedia("(max-width:768px)");
+function onScroll(){
+if(mql.matches)return;
+var rect=scrollEl.getBoundingClientRect();
+var totalH=scrollEl.offsetHeight-window.innerHeight;
+var scrolled=-rect.top;
+var pct=Math.max(0,Math.min(1,scrolled/totalH));
+var idx=Math.min(5,Math.floor(pct*6));
+updateStep(idx);
+}
+window.addEventListener("scroll",onScroll,{passive:true});
+if(mql.matches){updateStep(5);}
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- OV17: Deployment Gate Status Dashboard                         -->
+<!-- vm-ov17- prefix | D-181 | 13 May 2026                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov17-dot-pulse,.vm-ov17-banner,.vm-ov17-card,.vm-ov17-progress-fill,.vm-ov17-celebrate{transition:none !important;animation:none !important}
+  .vm-ov17-dot-pulse{animation:none !important}
+}
+#vm-ov17-section{background:#0A1520;margin:0;padding:64px 24px;border:none}
+.vm-ov17-wrap{max-width:800px;margin:0 auto}
+.vm-ov17-eyebrow{font-family:var(--vm-fm);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--vm-gold);margin-bottom:8px}
+.vm-ov17-heading{font-family:var(--vm-fs);font-size:1.8rem;font-weight:300;color:var(--vm-white);margin-bottom:24px}
+.vm-ov17-progress{background:rgba(255,255,255,.06);border-radius:8px;height:36px;position:relative;overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,255,255,.08)}
+.vm-ov17-progress-fill{height:100%;background:linear-gradient(90deg,rgba(201,168,76,.3),rgba(201,168,76,.6));border-radius:8px;transition:width .6s cubic-bezier(.34,1.56,.64,1);width:0}
+.vm-ov17-progress-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--vm-fm);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;z-index:1}
+.vm-ov17-progress-label.closed{color:#E74C3C}
+.vm-ov17-progress-label.open{color:#27AE60}
+.vm-ov17-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.vm-ov17-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:18px;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease;cursor:default}
+.vm-ov17-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.vm-ov17-card.met{border-color:rgba(39,174,96,.4)}
+.vm-ov17-letter{display:inline-flex;width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.15);align-items:center;justify-content:center;font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-white);margin-bottom:8px}
+.vm-ov17-card.met .vm-ov17-letter{border-color:#27AE60;color:#27AE60}
+.vm-ov17-cond{font-family:var(--vm-fd);font-size:.8rem;color:var(--vm-txt);margin-bottom:6px;line-height:1.4}
+.vm-ov17-action{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);margin-bottom:8px}
+.vm-ov17-status{display:inline-flex;align-items:center;gap:6px;font-family:var(--vm-fm);font-size:.6rem;letter-spacing:1px;text-transform:uppercase}
+.vm-ov17-dot-pulse{width:6px;height:6px;border-radius:50%;background:#F39C12;animation:vm-ov17-pulse 1.5s ease-in-out infinite}
+.vm-ov17-card.met .vm-ov17-dot-pulse{background:#27AE60;animation:none}
+.vm-ov17-status-text{color:#F39C12}
+.vm-ov17-card.met .vm-ov17-status-text{color:#27AE60}
+@keyframes vm-ov17-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+.vm-ov17-banner{border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:16px 20px;margin:24px 0;background:rgba(201,168,76,.06);font-family:var(--vm-fd);font-size:.82rem;color:var(--vm-txt);line-height:1.5;animation:vm-ov17-banner-pulse 4s ease-in-out infinite}
+@keyframes vm-ov17-banner-pulse{0%,100%{border-color:rgba(201,168,76,.3)}50%{border-color:rgba(201,168,76,.6)}}
+.vm-ov17-pre-title{font-family:var(--vm-fm);font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--vm-txts);margin:32px 0 12px}
+.vm-ov17-pre-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px}
+.vm-ov17-sim{display:flex;align-items:center;gap:16px;margin:24px 0;flex-wrap:wrap}
+.vm-ov17-toggle-wrap{display:flex;align-items:center;gap:10px}
+.vm-ov17-toggle-track{width:44px;height:22px;border-radius:11px;background:rgba(255,255,255,.1);position:relative;cursor:pointer;transition:background .3s ease;border:1px solid rgba(255,255,255,.12)}
+.vm-ov17-toggle-track.on{background:rgba(201,168,76,.25);border-color:rgba(201,168,76,.4)}
+.vm-ov17-toggle-knob{width:18px;height:18px;border-radius:50%;background:var(--vm-white);position:absolute;top:1px;left:1px;transition:left .3s cubic-bezier(.34,1.56,.64,1)}
+.vm-ov17-toggle-track.on .vm-ov17-toggle-knob{left:23px}
+.vm-ov17-toggle-label{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts)}
+.vm-ov17-reset{font-family:var(--vm-fm);font-size:.65rem;padding:6px 14px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--vm-txts);cursor:pointer;display:none}
+.vm-ov17-reset:hover{background:rgba(255,255,255,.1)}
+.vm-ov17-t01{font-family:var(--vm-fm);font-size:.6rem;color:rgba(244,244,242,.35);padding:8px 12px;background:rgba(255,255,255,.03);border-radius:4px;border:1px solid rgba(255,255,255,.05);margin-top:16px}
+@keyframes vm-ov17-celebrate{0%{box-shadow:0 0 0 0 rgba(201,168,76,.4)}50%{box-shadow:0 0 30px 10px rgba(201,168,76,.2)}100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}}
+.vm-ov17-celebrate{animation:vm-ov17-celebrate 1.5s ease-out}
+@media(max-width:768px){
+  .vm-ov17-grid{grid-template-columns:1fr}
+  .vm-ov17-pre-grid{grid-template-columns:1fr}
+}
+</style>
+<section id="vm-ov17-section">
+<div class="vm-ov17-wrap">
+<div class="vm-ov17-eyebrow">D-181 | Build Gate Conditions</div>
+<h2 class="vm-ov17-heading">Deployment Gate Status Dashboard</h2>
+<div class="vm-ov17-progress" id="vm-ov17-progress">
+<div class="vm-ov17-progress-fill" id="vm-ov17-progress-fill"></div>
+<div class="vm-ov17-progress-label closed" id="vm-ov17-progress-label">BUILD GATE CLOSED  0 / 6</div>
+</div>
+<div class="vm-ov17-grid" id="vm-ov17-grid"></div>
+<div class="vm-ov17-banner">SA specification sign-off confirms architecture is sound. It does not open the build gate.</div>
+<div class="vm-ov17-pre-title">Pre-conditions (D-181 A and B)</div>
+<div class="vm-ov17-pre-grid" id="vm-ov17-pre-grid"></div>
+<div class="vm-ov17-sim">
+<div class="vm-ov17-toggle-wrap">
+<div class="vm-ov17-toggle-track" id="vm-ov17-toggle" role="switch" aria-checked="false" tabindex="0">
+<div class="vm-ov17-toggle-knob"></div>
+</div>
+<span class="vm-ov17-toggle-label">Simulate gate clearance</span>
+</div>
+<button class="vm-ov17-reset" id="vm-ov17-reset">Reset</button>
+</div>
+<div class="vm-ov17-t01">T-01 | Educational simulation only. Actual gate status tracked by SA.</div>
+</div>
+</section>
+<script>
+(function(){
+var gates=[
+{letter:"a",cond:"FLINT L1 to L5 engine validation passes 121/121 tests",action:"Run full test suite",met:false},
+{letter:"b",cond:"MSQ-71 intake form React integration complete",action:"Build React intake form",met:false},
+{letter:"c",cond:"Anthropic DPA confirmed in writing",action:"Obtain DPA confirmation",met:false},
+{letter:"d",cond:"MHRA SaMD self-assessment fee paid and receipt confirmed",action:"Submit MHRA fee",met:false},
+{letter:"e",cond:"Blind calibration protocol completed by SA",action:"SA calibration run",met:false},
+{letter:"f",cond:"Hostinger deployment verified by Dr Faisal",action:"Deploy to Hostinger",met:false}
+];
+var preConds=[
+{letter:"A",cond:"SA specification review and sign-off completed for all FLINT layers",action:"SA review session"},
+{letter:"B",cond:"ALB version locked and ratified by W06",action:"W06 ratification"}
+];
+var simActive=false;
+var gridEl=document.getElementById("vm-ov17-grid");
+var preGridEl=document.getElementById("vm-ov17-pre-grid");
+var progressFill=document.getElementById("vm-ov17-progress-fill");
+var progressLabel=document.getElementById("vm-ov17-progress-label");
+var toggleEl=document.getElementById("vm-ov17-toggle");
+var resetEl=document.getElementById("vm-ov17-reset");
+function buildCard(g,container,clickable){
+var card=document.createElement("div");
+card.className="vm-ov17-card";
+card.setAttribute("data-letter",g.letter);
+var letter=document.createElement("div");
+letter.className="vm-ov17-letter";
+letter.textContent=g.letter;
+var cond=document.createElement("div");
+cond.className="vm-ov17-cond";
+cond.textContent=g.cond;
+var action=document.createElement("div");
+action.className="vm-ov17-action";
+action.textContent="Required: "+g.action;
+var status=document.createElement("div");
+status.className="vm-ov17-status";
+var dot=document.createElement("span");
+dot.className="vm-ov17-dot-pulse";
+var stxt=document.createElement("span");
+stxt.className="vm-ov17-status-text";
+stxt.textContent="OUTSTANDING";
+status.appendChild(dot);
+status.appendChild(stxt);
+card.appendChild(letter);
+card.appendChild(cond);
+card.appendChild(action);
+card.appendChild(status);
+if(clickable){
+card.style.cursor="pointer";
+card.addEventListener("click",function(){
+if(!simActive)return;
+g.met=!g.met;
+renderGates();
+});
+}
+container.appendChild(card);
+return card;
+}
+var gateCards=[];
+for(var i=0;i<gates.length;i++){
+gateCards.push(buildCard(gates[i],gridEl,true));
+}
+for(var j=0;j<preConds.length;j++){
+buildCard(preConds[j],preGridEl,false);
+}
+function renderGates(){
+var metCount=0;
+for(var i=0;i<gates.length;i++){
+var c=gateCards[i];
+var stxt=c.querySelector(".vm-ov17-status-text");
+if(gates[i].met){
+c.className="vm-ov17-card met";
+stxt.textContent="MET";
+metCount++;
+}else{
+c.className="vm-ov17-card";
+stxt.textContent="OUTSTANDING";
+}
+}
+var pct=(metCount/6)*100;
+progressFill.style.width=pct+"%";
+if(metCount===6){
+progressLabel.textContent="BUILD GATE OPEN  6 / 6";
+progressLabel.className="vm-ov17-progress-label open";
+var progBar=document.getElementById("vm-ov17-progress");
+progBar.classList.add("vm-ov17-celebrate");
+setTimeout(function(){progBar.classList.remove("vm-ov17-celebrate");},1600);
+}else{
+progressLabel.textContent="BUILD GATE CLOSED  "+metCount+" / 6";
+progressLabel.className="vm-ov17-progress-label closed";
+}
+}
+toggleEl.addEventListener("click",function(){
+simActive=!simActive;
+toggleEl.className=simActive?"vm-ov17-toggle-track on":"vm-ov17-toggle-track";
+toggleEl.setAttribute("aria-checked",simActive?"true":"false");
+resetEl.style.display=simActive?"inline-block":"none";
+if(!simActive){
+for(var i=0;i<gates.length;i++){gates[i].met=false;}
+renderGates();
+}
+});
+toggleEl.addEventListener("keydown",function(e){
+if(e.key===" "||e.key==="Enter"){e.preventDefault();toggleEl.click();}
+});
+resetEl.addEventListener("click",function(){
+for(var i=0;i<gates.length;i++){gates[i].met=false;}
+renderGates();
+});
+renderGates();
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- OV18: Terrain Configuration Pattern Visualiser                 -->
+<!-- vm-ov18- prefix | D-181 | 13 May 2026                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov18-card,.vm-ov18-detail,.vm-ov18-pentagon-fill,.vm-ov18-glow{transition:none !important;animation:none !important}
+  .vm-ov18-card.selected{box-shadow:0 0 0 2px var(--vm-gold) !important}
+}
+#vm-ov18-section{background:#0C1622;margin:0;padding:64px 24px;border:none}
+.vm-ov18-wrap{max-width:860px;margin:0 auto}
+.vm-ov18-eyebrow{font-family:var(--vm-fm);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--vm-gold);margin-bottom:8px}
+.vm-ov18-heading{font-family:var(--vm-fs);font-size:1.8rem;font-weight:300;color:var(--vm-white);margin-bottom:16px}
+.vm-ov18-internal{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:6px;padding:12px 18px;margin-bottom:24px;font-family:var(--vm-fm);font-size:.7rem;color:#E74C3C;text-transform:uppercase;letter-spacing:1px;text-align:center;font-weight:500}
+.vm-ov18-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.vm-ov18-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:18px;cursor:pointer;transition:transform .4s cubic-bezier(.34,1.56,.64,1),border-color .3s ease,box-shadow .3s ease;text-align:center}
+.vm-ov18-card:hover{transform:translateY(-3px)}
+.vm-ov18-card.selected{border-color:var(--vm-gold);box-shadow:0 0 16px rgba(201,168,76,.15);animation:vm-ov18-breathe 3s ease-in-out infinite}
+@keyframes vm-ov18-breathe{0%,100%{box-shadow:0 0 12px rgba(201,168,76,.1)}50%{box-shadow:0 0 20px rgba(201,168,76,.25)}}
+.vm-ov18-card-label{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts);letter-spacing:1px;margin-bottom:10px}
+.vm-ov18-svg-wrap{width:100%;display:flex;justify-content:center;margin-bottom:8px}
+.vm-ov18-accent{width:24px;height:3px;border-radius:2px;margin:0 auto}
+.vm-ov18-detail{max-width:860px;margin:0 auto;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:24px;display:none;animation:vm-ov18-slideIn .4s ease}
+.vm-ov18-detail.visible{display:block}
+@keyframes vm-ov18-slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.vm-ov18-axes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.vm-ov18-axis{text-align:center}
+.vm-ov18-axis-label{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.vm-ov18-axis-val{font-family:var(--vm-fs);font-size:1.4rem;color:var(--vm-white)}
+@media(max-width:768px){
+  .vm-ov18-grid{grid-template-columns:repeat(2,1fr)}
+  .vm-ov18-axes{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+<section id="vm-ov18-section">
+<div class="vm-ov18-wrap">
+<div class="vm-ov18-eyebrow">D-181 | Terrain Configuration Patterns</div>
+<h2 class="vm-ov18-heading">Terrain Configuration Pattern Visualiser</h2>
+<div class="vm-ov18-internal">INTERNAL ONLY: Internal working labels per D-181. Never in practitioner-facing output.</div>
+<div class="vm-ov18-grid" id="vm-ov18-grid"></div>
+<div class="vm-ov18-detail" id="vm-ov18-detail">
+<div class="vm-ov18-axes" id="vm-ov18-axes"></div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var zoneColours=["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#2E6DB4"];
+var zoneNames=["Z1","Z2","Z3","Z4","Z5"];
+var patterns=[
+{label:"Pattern 1",accent:"#C9A84C",fills:[0.85,0.3,0.55,0.25,0.6],axes:[78,32,52,21]},
+{label:"Pattern 2",accent:"#5F7C6C",fills:[0.7,0.45,0.2,0.9,0.3],axes:[65,41,18,88]},
+{label:"Pattern 3",accent:"#2E6DB4",fills:[0.5,0.75,0.35,0.2,0.9],axes:[48,72,31,85]},
+{label:"Pattern 4",accent:"#7B5EA7",fills:[0.35,0.55,0.4,0.15,0.25],axes:[30,52,38,12]}
+];
+var gridEl=document.getElementById("vm-ov18-grid");
+var detailEl=document.getElementById("vm-ov18-detail");
+var axesEl=document.getElementById("vm-ov18-axes");
+var selectedIdx=-1;
+function pentagonPoints(cx,cy,r){
+var pts=[];
+for(var i=0;i<5;i++){
+var angle=(Math.PI*2*i/5)-(Math.PI/2);
+pts.push([cx+r*Math.cos(angle),cy+r*Math.sin(angle)]);
+}
+return pts;
+}
+function buildPentagonSVG(fills,size,cardIdx){
+var s=size||80;
+var cx=s/2;var cy=s/2;var r=s*0.4;
+var outerPts=pentagonPoints(cx,cy,r);
+var outerStr="";
+for(var i=0;i<outerPts.length;i++){outerStr+=(i===0?"M":"L")+outerPts[i][0]+","+outerPts[i][1];}
+outerStr+="Z";
+var svg='<svg width="'+s+'" height="'+s+'" viewBox="0 0 '+s+' '+s+'" xmlns="http://www.w3.org/2000/svg">';
+svg+='<path d="'+outerStr+'" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"/>';
+for(var j=0;j<5;j++){
+var fillR=r*fills[j];
+var innerPts=pentagonPoints(cx,cy,fillR);
+var nextJ=(j+1)%5;
+var fillNextR=r*fills[nextJ];
+var innerPtsNext=pentagonPoints(cx,cy,fillNextR);
+var wedge="M"+cx+","+cy;
+wedge+=" L"+innerPts[j][0]+","+innerPts[j][1];
+wedge+=" L"+innerPtsNext[nextJ][0]+","+innerPtsNext[nextJ][1];
+wedge+=" Z";
+svg+='<path d="'+wedge+'" fill="'+zoneColours[j]+'" opacity="0.5" class="vm-ov18-pentagon-fill" data-card="'+cardIdx+'" data-zone="'+j+'"/>';
+svg+='<circle cx="'+outerPts[j][0]+'" cy="'+outerPts[j][1]+'" r="3" fill="'+zoneColours[j]+'" class="vm-ov18-glow" data-card="'+cardIdx+'" data-zone="'+j+'"/>';
+svg+='<title>'+zoneNames[j]+': '+Math.round(fills[j]*100)+'%</title>';
+}
+svg+='</svg>';
+return svg;
+}
+for(var p=0;p<patterns.length;p++){
+var card=document.createElement("div");
+card.className="vm-ov18-card";
+card.setAttribute("data-idx",String(p));
+var lbl=document.createElement("div");
+lbl.className="vm-ov18-card-label";
+lbl.textContent=patterns[p].label;
+var svgWrap=document.createElement("div");
+svgWrap.className="vm-ov18-svg-wrap";
+svgWrap.innerHTML=buildPentagonSVG(patterns[p].fills,90,p);
+var accentBar=document.createElement("div");
+accentBar.className="vm-ov18-accent";
+accentBar.style.background=patterns[p].accent;
+card.appendChild(lbl);
+card.appendChild(svgWrap);
+card.appendChild(accentBar);
+card.addEventListener("click",(function(idx){
+return function(){selectPattern(idx);};
+})(p));
+gridEl.appendChild(card);
+}
+function selectPattern(idx){
+var allCards=gridEl.querySelectorAll(".vm-ov18-card");
+for(var i=0;i<allCards.length;i++){
+allCards[i].className=i===idx?"vm-ov18-card selected":"vm-ov18-card";
+}
+selectedIdx=idx;
+var pat=patterns[idx];
+axesEl.innerHTML="";
+var axisLabels=["Axis 1","Axis 2","Axis 3","Axis 4"];
+for(var a=0;a<4;a++){
+var axDiv=document.createElement("div");
+axDiv.className="vm-ov18-axis";
+var axLbl=document.createElement("div");
+axLbl.className="vm-ov18-axis-label";
+axLbl.textContent=axisLabels[a];
+var axVal=document.createElement("div");
+axVal.className="vm-ov18-axis-val";
+axVal.textContent=pat.axes[a];
+axDiv.appendChild(axLbl);
+axDiv.appendChild(axVal);
+axesEl.appendChild(axDiv);
+}
+detailEl.className="vm-ov18-detail visible";
+}
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- OV19: D-179/D-180 Compliance Checker                           -->
+<!-- vm-ov19- prefix | D-181 | 13 May 2026                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov19-term,.vm-ov19-shake,.vm-ov19-counter,.vm-ov19-highlight{transition:none !important;animation:none !important}
+}
+#vm-ov19-section{background:#0A0F14;margin:0;padding:64px 24px;border:none}
+.vm-ov19-wrap{max-width:900px;margin:0 auto}
+.vm-ov19-eyebrow{font-family:var(--vm-fm);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--vm-gold);margin-bottom:8px}
+.vm-ov19-heading{font-family:var(--vm-fs);font-size:1.8rem;font-weight:300;color:var(--vm-white);margin-bottom:8px}
+.vm-ov19-t01{font-family:var(--vm-fm);font-size:.6rem;color:rgba(244,244,242,.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px}
+.vm-ov19-panels{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.vm-ov19-panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:20px}
+.vm-ov19-panel-title{font-family:var(--vm-fm);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--vm-gold);margin-bottom:14px}
+.vm-ov19-terms-group{margin-bottom:14px}
+.vm-ov19-terms-label{font-family:var(--vm-fm);font-size:.6rem;letter-spacing:1px;text-transform:uppercase;color:var(--vm-txts);margin-bottom:6px}
+.vm-ov19-terms{display:flex;flex-wrap:wrap;gap:6px}
+.vm-ov19-term{font-family:var(--vm-fm);font-size:.65rem;padding:4px 10px;border-radius:4px;display:inline-block}
+.vm-ov19-term.permitted{background:rgba(39,174,96,.1);color:#27AE60;border:1px solid rgba(39,174,96,.2)}
+.vm-ov19-term.prohibited{background:rgba(231,76,60,.1);color:#E74C3C;border:1px solid rgba(231,76,60,.2);text-decoration:line-through}
+.vm-ov19-input-wrap{margin-top:14px}
+.vm-ov19-input-label{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);letter-spacing:1px;margin-bottom:6px}
+.vm-ov19-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:10px 14px;font-family:var(--vm-fd);font-size:.82rem;color:var(--vm-white);resize:vertical;min-height:80px;outline:none}
+.vm-ov19-input:focus{border-color:var(--vm-gold)}
+.vm-ov19-counter{font-family:var(--vm-fm);font-size:.7rem;margin-top:8px;padding:6px 12px;border-radius:4px;display:inline-block;transition:color .3s ease,background .3s ease}
+.vm-ov19-counter.clean{color:#27AE60;background:rgba(39,174,96,.08)}
+.vm-ov19-counter.violations{color:#E74C3C;background:rgba(231,76,60,.08);animation:vm-ov19-pulse-red 1.5s ease-in-out infinite}
+@keyframes vm-ov19-pulse-red{0%,100%{opacity:1}50%{opacity:.7}}
+@keyframes vm-ov19-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
+.vm-ov19-clear{font-family:var(--vm-fm);font-size:.6rem;padding:5px 12px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--vm-txts);cursor:pointer;margin-top:8px;margin-left:8px;transition:opacity .3s ease}
+.vm-ov19-clear:hover{background:rgba(255,255,255,.1)}
+.vm-ov19-checks{margin-top:14px}
+.vm-ov19-check{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.vm-ov19-checkbox{width:14px;height:14px;border-radius:3px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;font-size:9px;color:#27AE60}
+.vm-ov19-check-label{font-family:var(--vm-fd);font-size:.75rem;color:var(--vm-txts)}
+@media(max-width:768px){
+  .vm-ov19-panels{grid-template-columns:1fr}
+}
+</style>
+<section id="vm-ov19-section">
+<div class="vm-ov19-wrap">
+<div class="vm-ov19-eyebrow">D-179 / D-180 | Output Compliance</div>
+<h2 class="vm-ov19-heading">Compliance Checker</h2>
+<div class="vm-ov19-t01">T-01 | Mandatory header requirements apply to all clinical output</div>
+<div class="vm-ov19-panels" id="vm-ov19-panels"></div>
+</div>
+</section>
+<script>
+(function(){
+var panelsData=[
+{title:"TerrainSpiral Compliance (D-179)",
+permitted:["Terrain Support Considerations","Highest burden zone","Terrain Resilience","Zone activation","Cascade pathway","Evidence tier"],
+prohibited:["prognosis","prediction","clinical staging","diagnosis","treatment protocol","clinical decision support"],
+checks:["Protective header present","Title: Terrain Support Considerations","DRD shown as Highest burden zone","Practitioner Clinical Decision section blank"]},
+{title:"IC39 Compliance (D-180)",
+permitted:["Clinical intelligence platform","Terrain intelligence","Practitioner review","Evidence classification","Node-Cascade Zone"],
+prohibited:["clinical decision support","diagnostic tool","clinical AI platform","treatment protocol","prognosis","prediction"],
+checks:["For practitioner use only disclaimer","Not a diagnostic tool statement","ICO ZC101813 reference","MHRA Compliance note"]}
+];
+var container=document.getElementById("vm-ov19-panels");
+for(var p=0;p<panelsData.length;p++){
+var pd=panelsData[p];
+var panel=document.createElement("div");
+panel.className="vm-ov19-panel";
+var title=document.createElement("div");
+title.className="vm-ov19-panel-title";
+title.textContent=pd.title;
+panel.appendChild(title);
+var permGroup=document.createElement("div");
+permGroup.className="vm-ov19-terms-group";
+var permLabel=document.createElement("div");
+permLabel.className="vm-ov19-terms-label";
+permLabel.textContent="Permitted terms";
+permGroup.appendChild(permLabel);
+var permWrap=document.createElement("div");
+permWrap.className="vm-ov19-terms";
+for(var i=0;i<pd.permitted.length;i++){
+var t=document.createElement("span");
+t.className="vm-ov19-term permitted";
+t.textContent=pd.permitted[i];
+permWrap.appendChild(t);
+}
+permGroup.appendChild(permWrap);
+panel.appendChild(permGroup);
+var prohGroup=document.createElement("div");
+prohGroup.className="vm-ov19-terms-group";
+var prohLabel=document.createElement("div");
+prohLabel.className="vm-ov19-terms-label";
+prohLabel.textContent="Prohibited terms";
+prohGroup.appendChild(prohLabel);
+var prohWrap=document.createElement("div");
+prohWrap.className="vm-ov19-terms";
+for(var j=0;j<pd.prohibited.length;j++){
+var pt=document.createElement("span");
+pt.className="vm-ov19-term prohibited";
+pt.textContent=pd.prohibited[j];
+prohWrap.appendChild(pt);
+}
+prohGroup.appendChild(prohWrap);
+panel.appendChild(prohGroup);
+var checksDiv=document.createElement("div");
+checksDiv.className="vm-ov19-checks";
+for(var c=0;c<pd.checks.length;c++){
+var chk=document.createElement("div");
+chk.className="vm-ov19-check";
+var cb=document.createElement("div");
+cb.className="vm-ov19-checkbox";
+var lbl=document.createElement("span");
+lbl.className="vm-ov19-check-label";
+lbl.textContent=pd.checks[c];
+chk.appendChild(cb);
+chk.appendChild(lbl);
+checksDiv.appendChild(chk);
+}
+panel.appendChild(checksDiv);
+var inputWrap=document.createElement("div");
+inputWrap.className="vm-ov19-input-wrap";
+var inputLabel=document.createElement("div");
+inputLabel.className="vm-ov19-input-label";
+inputLabel.textContent="Paste sample output text below";
+inputWrap.appendChild(inputLabel);
+var textarea=document.createElement("textarea");
+textarea.className="vm-ov19-input";
+textarea.id="vm-ov19-input-"+p;
+textarea.setAttribute("placeholder","Type or paste text to check compliance...");
+inputWrap.appendChild(textarea);
+var counterRow=document.createElement("div");
+counterRow.style.display="flex";
+counterRow.style.alignItems="center";
+counterRow.style.marginTop="8px";
+var counter=document.createElement("span");
+counter.className="vm-ov19-counter clean";
+counter.id="vm-ov19-counter-"+p;
+counter.textContent="0 violations found";
+var clearBtn=document.createElement("button");
+clearBtn.className="vm-ov19-clear";
+clearBtn.textContent="Clear";
+clearBtn.setAttribute("data-panel",String(p));
+counterRow.appendChild(counter);
+counterRow.appendChild(clearBtn);
+inputWrap.appendChild(counterRow);
+panel.appendChild(inputWrap);
+container.appendChild(panel);
+(function(idx,prohibitedList,permittedList){
+textarea.addEventListener("input",function(){
+var text=this.value.toLowerCase();
+var violations=0;
+for(var k=0;k<prohibitedList.length;k++){
+if(text.indexOf(prohibitedList[k].toLowerCase())!==-1){
+violations++;
+}
+}
+var counterEl=document.getElementById("vm-ov19-counter-"+idx);
+if(violations>0){
+counterEl.textContent=violations+" violation"+(violations>1?"s":"")+" detected";
+counterEl.className="vm-ov19-counter violations";
+}else{
+counterEl.textContent="0 violations found";
+counterEl.className="vm-ov19-counter clean";
+}
+});
+clearBtn.addEventListener("click",function(){
+var inp=document.getElementById("vm-ov19-input-"+idx);
+inp.value="";
+inp.style.opacity="0";
+setTimeout(function(){inp.style.opacity="1";},200);
+var counterEl=document.getElementById("vm-ov19-counter-"+idx);
+counterEl.textContent="0 violations found";
+counterEl.className="vm-ov19-counter clean";
+});
+})(p,pd.prohibited,pd.permitted);
+}
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- OV20: Active Connection Count and Relevance Filter             -->
+<!-- vm-ov20- prefix | D-181 | 13 May 2026                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov20-dot,.vm-ov20-counter,.vm-ov20-bar-fill,.vm-ov20-canvas{transition:none !important;animation:none !important}
+  .vm-ov20-dot{opacity:1 !important;transform:scale(1) !important}
+}
+#vm-ov20-section{background:#0D1A2A;margin:0;padding:64px 24px;border:none}
+.vm-ov20-wrap{max-width:860px;margin:0 auto}
+.vm-ov20-eyebrow{font-family:var(--vm-fm);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--vm-gold);margin-bottom:8px}
+.vm-ov20-heading{font-family:var(--vm-fs);font-size:1.8rem;font-weight:300;color:var(--vm-white);margin-bottom:6px}
+.vm-ov20-counter-wrap{font-family:var(--vm-fm);font-size:1rem;color:var(--vm-txts);margin-bottom:24px}
+.vm-ov20-counter-num{color:var(--vm-gold);font-size:1.4rem;font-weight:500}
+.vm-ov20-filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.vm-ov20-filter{font-family:var(--vm-fm);font-size:.65rem;padding:6px 16px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--vm-txts);cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.vm-ov20-filter.active{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--vm-gold)}
+.vm-ov20-badge{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:4px 10px;margin-bottom:20px;display:inline-block}
+.vm-ov20-grid-wrap{position:relative;margin-bottom:24px}
+.vm-ov20-dot-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;max-width:420px;position:relative;z-index:1}
+.vm-ov20-dot{width:100%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.08);transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .3s ease,box-shadow .3s ease,opacity .3s ease;cursor:default;position:relative}
+.vm-ov20-dot.active-dot{box-shadow:0 0 8px rgba(201,168,76,.3)}
+.vm-ov20-dot.hidden-dot{transform:scale(0);opacity:0}
+.vm-ov20-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:8px 12px;font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-white);white-space:nowrap;pointer-events:none;z-index:10;display:none;line-height:1.5}
+.vm-ov20-dot:hover .vm-ov20-tooltip{display:block}
+.vm-ov20-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.vm-ov20-dims{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.vm-ov20-dim{flex:1;min-width:120px}
+.vm-ov20-dim-label{font-family:var(--vm-fm);font-size:.55rem;letter-spacing:1px;text-transform:uppercase;color:var(--vm-txts);margin-bottom:4px}
+.vm-ov20-dim-bar{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.vm-ov20-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.vm-ov20-dim-count{font-family:var(--vm-fm);font-size:.55rem;color:var(--vm-txts);margin-top:2px}
+@media(max-width:768px){
+  .vm-ov20-dot-grid{max-width:320px;gap:4px}
+  .vm-ov20-dims{flex-direction:column}
+}
+</style>
+<section id="vm-ov20-section">
+<div class="vm-ov20-wrap">
+<div class="vm-ov20-eyebrow">D-181 | Connection Architecture</div>
+<h2 class="vm-ov20-heading">Active Connection Count and Relevance Filter</h2>
+<div class="vm-ov20-counter-wrap"><span class="vm-ov20-counter-num" id="vm-ov20-count">0</span> of 99 connections active</div>
+<div class="vm-ov20-filters" id="vm-ov20-filters">
+<button class="vm-ov20-filter active" data-filter="all">All</button>
+<button class="vm-ov20-filter" data-filter="critical-high">Critical + High</button>
+<button class="vm-ov20-filter" data-filter="critical">Critical Only</button>
+</div>
+<div class="vm-ov20-badge">Maximum 3 connections shown per dimension by default</div>
+<div class="vm-ov20-grid-wrap">
+<canvas class="vm-ov20-canvas" id="vm-ov20-canvas" width="420" height="420"></canvas>
+<div class="vm-ov20-dot-grid" id="vm-ov20-dots"></div>
+</div>
+<div class="vm-ov20-dims" id="vm-ov20-dims"></div>
+</div>
+</section>
+<script>
+(function(){
+var zoneColours=["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#2E6DB4"];
+var dims=[
+{name:"Zone Activations",colour:"#C9A84C",count:4},
+{name:"Cascade Stacks",colour:"#1A7A8A",count:3},
+{name:"TerrainLock",colour:"#7B5EA7",count:2},
+{name:"NEXUS Links",colour:"#5F7C6C",count:3},
+{name:"GRADE Evidence",colour:"#2E6DB4",count:3}
+];
+var totalActive=15;
+var connections=[];
+var tiers=["CRITICAL","HIGH","MODERATE"];
+var evidenceClasses=["Established","Emerging","Theoretical"];
+var connNames=["Z1 activation","Z2 activation","Z5 activation","Z4 near-threshold",
+"S1 Z2 to Z1","S2 Z1 to Z5","S5 Z2 to Z3",
+"TerrainLock S1-S2","TerrainLock caveat",
+"NEXUS node-cascade link 1","NEXUS node-cascade link 2","NEXUS node-cascade link 3",
+"GRADE evidence chain 1","GRADE evidence chain 2","GRADE evidence chain 3"];
+for(var i=0;i<99;i++){
+var isActive=i<totalActive;
+var zIdx=i%5;
+var tierIdx=i<5?0:i<10?1:2;
+connections.push({
+idx:i,
+active:isActive,
+zone:zIdx,
+tier:tiers[tierIdx]||"MODERATE",
+name:isActive?connNames[i]||("Connection C-"+(i+1)):"Inactive C-"+(i+1),
+evidence:evidenceClasses[tierIdx]||"Theoretical"
+});
+}
+var dotsEl=document.getElementById("vm-ov20-dots");
+var countEl=document.getElementById("vm-ov20-count");
+var filtersEl=document.getElementById("vm-ov20-filters");
+var dimsEl=document.getElementById("vm-ov20-dims");
+var canvasEl=document.getElementById("vm-ov20-canvas");
+var dotEls=[];
+for(var d=0;d<99;d++){
+var dot=document.createElement("div");
+dot.className="vm-ov20-dot";
+if(connections[d].active){
+dot.className="vm-ov20-dot active-dot";
+dot.style.background=zoneColours[connections[d].zone];
+var tip=document.createElement("div");
+tip.className="vm-ov20-tooltip";
+tip.innerHTML=connections[d].name+"<br/>Tier: "+connections[d].tier+"<br/>Evidence: "+connections[d].evidence;
+dot.appendChild(tip);
+}
+dotsEl.appendChild(dot);
+dotEls.push(dot);
+}
+for(var dm=0;dm<dims.length;dm++){
+var dimDiv=document.createElement("div");
+dimDiv.className="vm-ov20-dim";
+var lbl=document.createElement("div");
+lbl.className="vm-ov20-dim-label";
+lbl.textContent=dims[dm].name;
+var bar=document.createElement("div");
+bar.className="vm-ov20-dim-bar";
+var fill=document.createElement("div");
+fill.className="vm-ov20-bar-fill";
+fill.style.background=dims[dm].colour;
+fill.style.width="0%";
+fill.id="vm-ov20-dimfill-"+dm;
+bar.appendChild(fill);
+var cnt=document.createElement("div");
+cnt.className="vm-ov20-dim-count";
+cnt.textContent=dims[dm].count+" active";
+cnt.id="vm-ov20-dimcount-"+dm;
+dimDiv.appendChild(lbl);
+dimDiv.appendChild(bar);
+dimDiv.appendChild(cnt);
+dimsEl.appendChild(dimDiv);
+}
+var currentFilter="all";
+var filterBtns=filtersEl.querySelectorAll(".vm-ov20-filter");
+for(var f=0;f<filterBtns.length;f++){
+filterBtns[f].addEventListener("click",(function(btn){
+return function(){
+currentFilter=btn.getAttribute("data-filter");
+for(var fb=0;fb<filterBtns.length;fb++){
+filterBtns[fb].className=filterBtns[fb]===btn?"vm-ov20-filter active":"vm-ov20-filter";
+}
+applyFilter();
+};
+})(filterBtns[f]));
+}
+function applyFilter(){
+var visibleCount=0;
+for(var i=0;i<99;i++){
+var c=connections[i];
+var show=false;
+if(c.active){
+if(currentFilter==="all"){show=true;}
+else if(currentFilter==="critical-high"){show=c.tier==="CRITICAL"||c.tier==="HIGH";}
+else if(currentFilter==="critical"){show=c.tier==="CRITICAL";}
+}
+if(c.active&&show){
+dotEls[i].className="vm-ov20-dot active-dot";
+dotEls[i].style.background=zoneColours[c.zone];
+dotEls[i].style.transitionDelay=(i*20)+"ms";
+visibleCount++;
+}else if(c.active&&!show){
+dotEls[i].className="vm-ov20-dot hidden-dot";
+dotEls[i].style.transitionDelay=(i*20)+"ms";
+}else{
+dotEls[i].className="vm-ov20-dot";
+dotEls[i].style.background="rgba(255,255,255,.08)";
+dotEls[i].style.transitionDelay="0ms";
+}
+}
+countEl.textContent=String(visibleCount);
+drawCanvas();
+}
+function drawCanvas(){
+var ctx=canvasEl.getContext("2d");
+if(!ctx)return;
+var w=canvasEl.width;
+var h=canvasEl.height;
+ctx.clearRect(0,0,w,h);
+var activeDots=[];
+for(var i=0;i<99;i++){
+if(connections[i].active&&!dotEls[i].classList.contains("hidden-dot")){
+var row=Math.floor(i/10);
+var col=i%10;
+activeDots.push({x:col*(w/10)+(w/20),y:row*(h/10)+(h/20),zone:connections[i].zone});
+}
+}
+ctx.lineWidth=0.5;
+for(var a=0;a<activeDots.length;a++){
+for(var b=a+1;b<activeDots.length;b++){
+if(activeDots[a].zone===activeDots[b].zone){
+ctx.strokeStyle=zoneColours[activeDots[a].zone];
+ctx.globalAlpha=0.15+0.05*Math.sin(Date.now()/2000);
+ctx.beginPath();
+ctx.moveTo(activeDots[a].x,activeDots[a].y);
+ctx.lineTo(activeDots[b].x,activeDots[b].y);
+ctx.stroke();
+}
+}
+}
+ctx.globalAlpha=1;
+}
+var animated=false;
+function animateCount(){
+var target=totalActive;
+var current=0;
+var step=Math.ceil(target/30);
+function tick(){
+current=Math.min(current+step,target);
+countEl.textContent=String(current);
+if(current<target){requestAnimationFrame(tick);}
+}
+tick();
+for(var dm=0;dm<dims.length;dm++){
+var pct=Math.round((dims[dm].count/totalActive)*100);
+document.getElementById("vm-ov20-dimfill-"+dm).style.width=pct+"%";
+}
+}
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting&&!animated){
+animated=true;
+animateCount();
+drawCanvas();
+obs.unobserve(entries[e].target);
+}
+}
+},{threshold:0.2});
+obs.observe(document.getElementById("vm-ov20-section"));
+setInterval(drawCanvas,3000);
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV21: Cascade Velocity Race Track
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov21-particle,.vm-ov21-burst{transition:none!important;animation:none!important}
+}
+#vm-ov21-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov21-section *{box-sizing:border-box}
+.vm-ov21-wrap{max-width:820px;margin:0 auto}
+.vm-ov21-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov21-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:28px}
+.vm-ov21-lane{display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative}
+.vm-ov21-label{font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,244,242,.7);width:130px;flex-shrink:0;letter-spacing:.5px}
+.vm-ov21-track{flex:1;height:28px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+.vm-ov21-track[data-dashed="true"]{border-style:dashed}
+.vm-ov21-particle{position:absolute;left:0;top:50%;transform:translateY(-50%);width:18px;height:18px;border-radius:50%;opacity:0}
+.vm-ov21-finish{position:absolute;right:0;top:0;bottom:0;width:3px}
+.vm-ov21-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.vm-ov21-badge-theoretical{background:rgba(244,244,242,.08);color:rgba(244,244,242,.5);border:1px dashed rgba(244,244,242,.2)}
+.vm-ov21-badge-uni{background:rgba(201,168,76,.1);color:#C9A84C;border:1px solid rgba(201,168,76,.2)}
+.vm-ov21-burst{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:radial-gradient(circle,#C9A84C 0%,transparent 70%);opacity:0;pointer-events:none}
+.vm-ov21-controls{display:flex;gap:12px;justify-content:center;margin-top:20px}
+.vm-ov21-btn{font-family:'DM Mono',monospace;font-size:12px;padding:8px 20px;border-radius:4px;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:#C9A84C;cursor:pointer;transition:background .2s ease}
+.vm-ov21-btn:hover{background:rgba(201,168,76,.18)}

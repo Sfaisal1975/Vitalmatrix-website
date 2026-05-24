@@ -1,0 +1,1135 @@
+.vm-ov21-uni-arrow{font-size:14px;color:#C9A84C;margin-left:4px}
+@keyframes vm-ov21-race{0%{left:0;opacity:1}100%{left:calc(100% - 18px);opacity:1}}
+@keyframes vm-ov21-burstAnim{0%{opacity:0;transform:translateY(-50%) scale(0.5)}30%{opacity:1;transform:translateY(-50%) scale(1.8)}100%{opacity:0;transform:translateY(-50%) scale(2.5)}}
+</style>
+<section id="vm-ov21-section">
+<div class="vm-ov21-wrap">
+<div class="vm-ov21-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov21-heading">Cascade Velocity Race Track</h2>
+<div id="vm-ov21-lanes"></div>
+<div class="vm-ov21-controls">
+<button class="vm-ov21-btn" id="vm-ov21-race-btn" onclick="window.vmOv21Race()">Race</button>
+<button class="vm-ov21-btn" id="vm-ov21-replay-btn" onclick="window.vmOv21Reset()" style="opacity:.5;pointer-events:none">Replay</button>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var stacks=[
+{id:"S1",from:"Z2",to:"Z1",vel:"MEDIUM",dur:2500,colour:"#1A7A8A",toColour:"#C9A84C",dashed:false,badge:"",arrow:""},
+{id:"S2",from:"Z1",to:"Z5",vel:"FAST",dur:1000,colour:"#C9A84C",toColour:"#2E6DB4",dashed:false,badge:"",arrow:""},
+{id:"S3",from:"Z4",to:"Z1",vel:"SLOW",dur:5000,colour:"#5F7C6C",toColour:"#C9A84C",dashed:false,badge:"",arrow:""},
+{id:"S4",from:"Z5",to:"Z2",vel:"THEORETICAL",dur:2500,colour:"#2E6DB4",toColour:"#1A7A8A",dashed:true,badge:"THEORETICAL",arrow:""},
+{id:"S5",from:"Z2",to:"Z3",vel:"FAST",dur:1000,colour:"#1A7A8A",toColour:"#7B5EA7",dashed:false,badge:"",arrow:""},
+{id:"S6",from:"Z1",to:"Z3",vel:"MEDIUM",dur:2500,colour:"#C9A84C",toColour:"#7B5EA7",dashed:false,badge:"",arrow:"UNIDIRECTIONAL"}
+];
+var container=document.getElementById("vm-ov21-lanes");
+var html="";
+for(var i=0;i<stacks.length;i++){
+var s=stacks[i];
+var extra="";
+if(s.badge){extra=extra+'<span class="vm-ov21-badge vm-ov21-badge-theoretical">'+s.badge+"</span>";}
+if(s.arrow){extra=extra+'<span class="vm-ov21-badge vm-ov21-badge-uni">'+s.arrow+'</span><span class="vm-ov21-uni-arrow">&#8594;</span>';}
+html=html+'<div class="vm-ov21-lane">';
+html=html+'<div class="vm-ov21-label">'+s.id+" "+s.from+" &#8594; "+s.to+" "+s.vel+extra+"</div>";
+html=html+'<div class="vm-ov21-track" data-dashed="'+s.dashed+'">';
+html=html+'<div class="vm-ov21-particle" id="vm-ov21-p'+i+'" style="background:'+s.colour+'"></div>';
+html=html+'<div class="vm-ov21-finish" style="background:'+s.toColour+'"></div>';
+html=html+'<div class="vm-ov21-burst" id="vm-ov21-burst'+i+'"></div>';
+html=html+"</div></div>";
+}
+container.innerHTML=html;
+var racing=false;
+window.vmOv21Race=function(){
+if(racing)return;
+racing=true;
+var raceBtn=document.getElementById("vm-ov21-race-btn");
+raceBtn.style.opacity=".5";raceBtn.style.pointerEvents="none";
+var fastest=Infinity;
+var fastIdx=[];
+for(var i=0;i<stacks.length;i++){
+if(stacks[i].dur<fastest){fastest=stacks[i].dur;fastIdx=[i];}
+else if(stacks[i].dur===fastest){fastIdx.push(i);}
+}
+var reducedMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+for(var i=0;i<stacks.length;i++){
+var p=document.getElementById("vm-ov21-p"+i);
+p.style.opacity="1";
+if(reducedMotion){
+p.style.left="calc(100% - 18px)";
+}else{
+p.style.animation="vm-ov21-race "+stacks[i].dur+"ms cubic-bezier(.4,0,.2,1) forwards";
+}
+(function(idx,dur){
+setTimeout(function(){
+if(fastIdx.indexOf(idx)!==-1){
+var burst=document.getElementById("vm-ov21-burst"+idx);
+burst.style.animation="vm-ov21-burstAnim 600ms ease-out forwards";
+}
+},dur);
+})(i,reducedMotion?0:stacks[i].dur);
+}
+setTimeout(function(){
+var replayBtn=document.getElementById("vm-ov21-replay-btn");
+replayBtn.style.opacity="1";replayBtn.style.pointerEvents="auto";
+},reducedMotion?100:(Math.max.apply(null,stacks.map(function(s){return s.dur;}))+700));
+};
+window.vmOv21Reset=function(){
+racing=false;
+for(var i=0;i<stacks.length;i++){
+var p=document.getElementById("vm-ov21-p"+i);
+p.style.animation="none";p.style.left="0";p.style.opacity="0";
+var b=document.getElementById("vm-ov21-burst"+i);
+b.style.animation="none";
+}
+var raceBtn=document.getElementById("vm-ov21-race-btn");
+raceBtn.style.opacity="1";raceBtn.style.pointerEvents="auto";
+var replayBtn=document.getElementById("vm-ov21-replay-btn");
+replayBtn.style.opacity=".5";replayBtn.style.pointerEvents="none";
+};
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV22: Zone Burden Breathing Pentagon
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov22-zone-circle,.vm-ov22-tl-line{animation:none!important;transition:none!important}
+}
+#vm-ov22-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov22-section *{box-sizing:border-box}
+.vm-ov22-wrap{max-width:700px;margin:0 auto;text-align:center}
+.vm-ov22-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov22-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:28px}
+.vm-ov22-svg-wrap{width:100%;max-width:500px;margin:0 auto 20px;position:relative}
+.vm-ov22-zone-circle{cursor:pointer;transform-origin:center;transition:opacity .3s ease}
+.vm-ov22-zone-circle.frozen{animation:none!important}
+.vm-ov22-tooltip{position:absolute;font-family:'DM Mono',monospace;font-size:11px;color:#F4F4F2;background:rgba(10,15,20,.92);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:8px 12px;pointer-events:none;opacity:0;transition:opacity .2s ease;z-index:10;white-space:nowrap}
+.vm-ov22-tooltip.visible{opacity:1}
+.vm-ov22-tl-line{stroke-dasharray:6 4;opacity:.4;transition:opacity .3s ease}
+.vm-ov22-tl-badge{font-family:'DM Mono',monospace;font-size:10px;text-align:center;color:#C9A84C;margin-top:8px}
+.vm-ov22-controls{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.vm-ov22-btn{font-family:'DM Mono',monospace;font-size:12px;padding:8px 20px;border-radius:4px;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:#C9A84C;cursor:pointer;transition:background .2s ease}
+.vm-ov22-btn:hover{background:rgba(201,168,76,.18)}
+</style>
+<section id="vm-ov22-section">
+<div class="vm-ov22-wrap">
+<div class="vm-ov22-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov22-heading">Zone Burden Breathing Pentagon</h2>
+<div class="vm-ov22-svg-wrap" id="vm-ov22-svg-wrap">
+<svg id="vm-ov22-svg" viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg"></svg>
+<div class="vm-ov22-tooltip" id="vm-ov22-tooltip"></div>
+</div>
+<div class="vm-ov22-tl-badge" id="vm-ov22-tl-badge"></div>
+<div class="vm-ov22-controls">
+<button class="vm-ov22-btn" id="vm-ov22-tl-btn" onclick="window.vmOv22ToggleTL()">TerrainLock: OFF</button>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var zones=[
+{id:"Z1",label:"Z1 Metabolic Energy",colour:"#C9A84C",score:55,threshold:40,cx:200,cy:50},
+{id:"Z2",label:"Z2 Resilience Network",colour:"#1A7A8A",score:48,threshold:40,cx:362,cy:168},
+{id:"Z3",label:"Z3 Cardiovascular-Neural",colour:"#7B5EA7",score:30,threshold:40,cx:300,cy:340},
+{id:"Z4",label:"Z4 Detoxification Trident",colour:"#5F7C6C",score:35,threshold:40,cx:100,cy:340},
+{id:"Z5",label:"Z5 Hormonal Terrain",colour:"#2E6DB4",score:42,threshold:32,cx:38,cy:168}
+];
+var terrainLock=false;
+var frozen=[];
+var svg=document.getElementById("vm-ov22-svg");
+var tooltip=document.getElementById("vm-ov22-tooltip");
+var reducedMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+function buildSVG(){
+svg.innerHTML="";
+var tlIdxs=[1,0,4];
+if(terrainLock){
+for(var t=0;t<tlIdxs.length;t++){
+var a=zones[tlIdxs[t]];
+var b=zones[tlIdxs[(t+1)%tlIdxs.length]];
+var line=document.createElementNS("http://www.w3.org/2000/svg","line");
+line.setAttribute("x1",String(a.cx));line.setAttribute("y1",String(a.cy));
+line.setAttribute("x2",String(b.cx));line.setAttribute("y2",String(b.cy));
+line.setAttribute("stroke","#C9A84C");line.setAttribute("stroke-width","2");
+line.setAttribute("class","vm-ov22-tl-line");
+svg.appendChild(line);
+}
+}
+for(var i=0;i<zones.length;i++){
+var z=zones[i];
+var r=28;
+var intensity=Math.min(1,Math.max(0.3,z.score/80));
+var g=document.createElementNS("http://www.w3.org/2000/svg","g");
+g.setAttribute("class","vm-ov22-zone-circle");
+g.setAttribute("data-idx",String(i));
+var circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+circle.setAttribute("cx",String(z.cx));circle.setAttribute("cy",String(z.cy));
+circle.setAttribute("r",String(r));
+circle.setAttribute("fill",z.colour);circle.setAttribute("fill-opacity",String(intensity));
+circle.setAttribute("stroke",z.colour);circle.setAttribute("stroke-width","2");
+circle.setAttribute("id","vm-ov22-circle-"+i);
+g.appendChild(circle);
+var txt=document.createElementNS("http://www.w3.org/2000/svg","text");
+txt.setAttribute("x",String(z.cx));txt.setAttribute("y",String(z.cy+4));
+txt.setAttribute("text-anchor","middle");txt.setAttribute("fill","#F4F4F2");
+txt.setAttribute("font-family","DM Mono, monospace");txt.setAttribute("font-size","11");
+txt.textContent=z.id;
+g.appendChild(txt);
+g.addEventListener("click",function(ev){
+var idx=parseInt(ev.currentTarget.getAttribute("data-idx"),10);
+var fi=frozen.indexOf(idx);
+if(fi===-1){frozen.push(idx);}else{frozen.splice(fi,1);}
+var zn=zones[idx];
+var aboveThreshold=zn.score>=zn.threshold;
+tooltip.textContent=zn.label+": Score "+zn.score+"/100 | Threshold "+zn.threshold+(aboveThreshold?" (ACTIVE)":" (Inactive)");
+tooltip.style.left=Math.min(350,Math.max(10,zn.cx-60))+"px";
+tooltip.style.top=(zn.cy+40)+"px";
+tooltip.className="vm-ov22-tooltip visible";
+setTimeout(function(){tooltip.className="vm-ov22-tooltip";},3000);
+});
+svg.appendChild(g);
+}
+}
+function breathe(){
+if(reducedMotion)return;
+var now=Date.now();
+for(var i=0;i<zones.length;i++){
+if(frozen.indexOf(i)!==-1)continue;
+var z=zones[i];
+var speed=800+(80-z.score)*30;
+if(terrainLock&&(i===0||i===1||i===4)){speed=1200;}
+var phase=Math.sin(now/speed);
+var scale=0.95+0.1*((phase+1)/2);
+var circle=document.getElementById("vm-ov22-circle-"+i);
+if(circle){
+circle.setAttribute("r",String(28*scale));
+}
+}
+if(terrainLock){
+var tlLines=svg.querySelectorAll(".vm-ov22-tl-line");
+var pulse=0.3+0.4*((Math.sin(now/1200)+1)/2);
+for(var l=0;l<tlLines.length;l++){tlLines[l].setAttribute("opacity",String(pulse));}
+}
+requestAnimationFrame(breathe);
+}
+buildSVG();
+if(!reducedMotion){requestAnimationFrame(breathe);}
+window.vmOv22ToggleTL=function(){
+terrainLock=!terrainLock;
+var btn=document.getElementById("vm-ov22-tl-btn");
+btn.textContent="TerrainLock: "+(terrainLock?"ON":"OFF");
+var badge=document.getElementById("vm-ov22-tl-badge");
+badge.textContent=terrainLock?"Z2 > Z1 > Z5 > Z2 loop synchronised":"";
+buildSVG();
+};
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV23: FLINT Pipeline Waterfall Cascade
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov23-bar-fill,.vm-ov23-drop,.vm-ov23-synth-fill{transition:none!important;animation:none!important}
+}
+#vm-ov23-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov23-section *{box-sizing:border-box}
+.vm-ov23-wrap{max-width:700px;margin:0 auto}
+.vm-ov23-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov23-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:28px}
+.vm-ov23-layer{margin-bottom:4px;position:relative}
+.vm-ov23-layer-label{font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,244,242,.6);margin-bottom:4px;display:flex;justify-content:space-between}
+.vm-ov23-bar{height:32px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);overflow:hidden;position:relative}
+.vm-ov23-bar-fill{height:100%;width:0;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.vm-ov23-drop{width:6px;height:0;margin:0 auto;transition:height .3s ease;border-radius:3px}
+.vm-ov23-synth{margin-top:12px;border:2px solid rgba(201,168,76,.3);border-radius:6px;overflow:hidden;position:relative}
+.vm-ov23-synth-label{font-family:'DM Mono',monospace;font-size:11px;color:#C9A84C;padding:4px 10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.vm-ov23-synth-badge{font-family:'DM Mono',monospace;font-size:9px;padding:2px 6px;background:rgba(201,168,76,.15);color:#C9A84C;border:1px solid rgba(201,168,76,.3);border-radius:3px}
+.vm-ov23-synth-bar{height:28px;background:rgba(255,255,255,.02)}
+.vm-ov23-synth-fill{height:100%;width:0;background:linear-gradient(90deg,#C9A84C,#D4C080);border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.vm-ov23-controls{display:flex;gap:12px;justify-content:center;margin-top:20px}
+.vm-ov23-btn{font-family:'DM Mono',monospace;font-size:12px;padding:8px 20px;border-radius:4px;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:#C9A84C;cursor:pointer;transition:background .2s ease}
+.vm-ov23-btn:hover{background:rgba(201,168,76,.18)}
+</style>
+<section id="vm-ov23-section">
+<div class="vm-ov23-wrap">
+<div class="vm-ov23-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov23-heading">FLINT Pipeline Waterfall Cascade</h2>
+<div id="vm-ov23-layers"></div>
+<div class="vm-ov23-synth" id="vm-ov23-synth">
+<div class="vm-ov23-synth-label"><span>VANTAGE Synthesis</span><span class="vm-ov23-synth-badge">Output 2: VANTAGE is NOT a sixth FLINT layer</span></div>
+<div class="vm-ov23-synth-bar"><div class="vm-ov23-synth-fill" id="vm-ov23-synth-fill"></div></div>
+</div>
+<div class="vm-ov23-controls">
+<button class="vm-ov23-btn" onclick="window.vmOv23Cascade()">Cascade</button>
+<button class="vm-ov23-btn" onclick="window.vmOv23Reset()">Replay</button>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var layers=[
+{label:"L1: Node Intelligence",question:"WHERE?",colour:"#C9A84C"},
+{label:"L2: Zone Intelligence",question:"WHICH?",colour:"#1A7A8A"},
+{label:"L3: Cascade Intelligence",question:"HOW?",colour:"#7B5EA7"},
+{label:"L4: Causality Intelligence",question:"WHO?",colour:"#5F7C6C"},
+{label:"L5: Examination Intelligence",question:"WHAT?",colour:"#2E6DB4"}
+];
+var container=document.getElementById("vm-ov23-layers");
+var html="";
+for(var i=0;i<layers.length;i++){
+html=html+'<div class="vm-ov23-layer">';
+html=html+'<div class="vm-ov23-layer-label"><span>'+layers[i].label+"</span><span>"+layers[i].question+"</span></div>";
+html=html+'<div class="vm-ov23-bar"><div class="vm-ov23-bar-fill" id="vm-ov23-fill-'+i+'" style="background:'+layers[i].colour+'"></div></div>';
+if(i<layers.length-1){html=html+'<div class="vm-ov23-drop" id="vm-ov23-drop-'+i+'" style="background:'+layers[i].colour+'"></div>';}
+html=html+"</div>";
+}
+container.innerHTML=html;
+var reducedMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+var running=false;
+window.vmOv23Cascade=function(){
+if(running)return;
+running=true;
+var delay=reducedMotion?0:800;
+var dropDelay=reducedMotion?0:300;
+for(var i=0;i<layers.length;i++){
+(function(idx){
+setTimeout(function(){
+document.getElementById("vm-ov23-fill-"+idx).style.width="100%";
+if(idx<layers.length-1){
+setTimeout(function(){
+document.getElementById("vm-ov23-drop-"+idx).style.height="12px";
+},dropDelay);
+}
+if(idx===layers.length-1){
+setTimeout(function(){
+document.getElementById("vm-ov23-synth-fill").style.width="100%";
+running=false;
+},delay+200);
+}
+},(delay+dropDelay)*idx);
+})(i);
+}
+};
+window.vmOv23Reset=function(){
+running=false;
+for(var i=0;i<layers.length;i++){
+document.getElementById("vm-ov23-fill-"+i).style.width="0";
+if(i<layers.length-1){document.getElementById("vm-ov23-drop-"+i).style.height="0";}
+}
+document.getElementById("vm-ov23-synth-fill").style.width="0";
+};
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){window.vmOv23Cascade();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.3});
+obs.observe(document.getElementById("vm-ov23-section"));
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV24: Intervention Sequence Drag Planner
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov24-card,.vm-ov24-arrow{transition:none!important;animation:none!important}
+}
+#vm-ov24-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov24-section *{box-sizing:border-box}
+.vm-ov24-wrap{max-width:600px;margin:0 auto}
+.vm-ov24-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov24-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:28px}
+.vm-ov24-list{list-style:none;padding:0;margin:0 0 16px}
+.vm-ov24-card{padding:14px 18px;margin-bottom:4px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);cursor:grab;display:flex;align-items:center;gap:12px;transition:transform .2s ease,box-shadow .2s ease;user-select:none}
+.vm-ov24-card:active{cursor:grabbing}
+.vm-ov24-card.dragging{opacity:.5;transform:scale(0.96)}
+.vm-ov24-card.dragover{border-color:rgba(201,168,76,.5);box-shadow:0 0 12px rgba(201,168,76,.15)}
+.vm-ov24-grip{font-family:'DM Mono',monospace;font-size:14px;color:rgba(244,244,242,.3)}
+.vm-ov24-zone-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.vm-ov24-zone-name{font-family:'Outfit',sans-serif;font-size:14px;color:#F4F4F2;flex:1}
+.vm-ov24-rank{font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,244,242,.4)}
+.vm-ov24-arrow{text-align:center;font-size:16px;color:rgba(201,168,76,.4);margin:2px 0;transition:color .2s ease}
+.vm-ov24-arrow.broken{color:rgba(231,76,60,.6)}
+.vm-ov24-summary{font-family:'DM Mono',monospace;font-size:12px;color:rgba(244,244,242,.6);text-align:center;padding:12px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);margin-bottom:12px}
+.vm-ov24-compare-btn{font-family:'DM Mono',monospace;font-size:12px;padding:8px 20px;border-radius:4px;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:#C9A84C;cursor:pointer;display:block;margin:0 auto;transition:background .2s ease}
+.vm-ov24-compare-btn:hover{background:rgba(201,168,76,.18)}
+.vm-ov24-divergence{font-family:'DM Mono',monospace;font-size:11px;color:#E74C3C;text-align:center;margin-top:8px;min-height:16px}
+</style>
+<section id="vm-ov24-section">
+<div class="vm-ov24-wrap">
+<div class="vm-ov24-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov24-heading">Intervention Sequence Drag Planner</h2>
+<ul class="vm-ov24-list" id="vm-ov24-list"></ul>
+<div class="vm-ov24-summary" id="vm-ov24-summary"></div>
+<button class="vm-ov24-compare-btn" onclick="window.vmOv24Compare()">Compare to DRD (Highest burden zone)</button>
+<div class="vm-ov24-divergence" id="vm-ov24-divergence"></div>
+</div>
+</section>
+<script>
+(function(){
+var zoneData=[
+{id:"Z1",name:"Z1 Metabolic Energy Axis",colour:"#C9A84C",score:55},
+{id:"Z2",name:"Z2 Resilience Network",colour:"#1A7A8A",score:48},
+{id:"Z3",name:"Z3 Cardiovascular-Neural Axis",colour:"#7B5EA7",score:30},
+{id:"Z4",name:"Z4 Detoxification Trident",colour:"#5F7C6C",score:35},
+{id:"Z5",name:"Z5 Hormonal Terrain Axis",colour:"#2E6DB4",score:42}
+];
+var drdOrder=["Z1","Z2","Z5","Z4","Z3"];
+var stacks=[
+{from:"Z2",to:"Z1"},{from:"Z1",to:"Z5"},{from:"Z4",to:"Z1"},
+{from:"Z5",to:"Z2"},{from:"Z2",to:"Z3"},{from:"Z1",to:"Z3"}
+];
+var order=[0,1,2,3,4];
+var list=document.getElementById("vm-ov24-list");
+var dragIdx=null;
+function countBrokenCascades(seq){
+var broken=0;
+var seqIds=[];
+for(var i=0;i<seq.length;i++){seqIds.push(zoneData[seq[i]].id);}
+for(var s=0;s<stacks.length;s++){
+var fi=seqIds.indexOf(stacks[s].from);
+var ti=seqIds.indexOf(stacks[s].to);
+if(fi!==-1&&ti!==-1&&fi>ti){broken++;}
+}
+return broken;
+}
+function render(){
+var html="";
+for(var i=0;i<order.length;i++){
+var z=zoneData[order[i]];
+html=html+'<li class="vm-ov24-card" draggable="true" data-idx="'+i+'">';
+html=html+'<span class="vm-ov24-grip">&#9776;</span>';
+html=html+'<span class="vm-ov24-zone-dot" style="background:'+z.colour+'"></span>';
+html=html+'<span class="vm-ov24-zone-name">'+z.name+"</span>";
+html=html+'<span class="vm-ov24-rank">#'+(i+1)+"</span></li>";
+if(i<order.length-1){
+var fromZ=zoneData[order[i]].id;var toZ=zoneData[order[i+1]].id;
+var hasStack=false;
+for(var s=0;s<stacks.length;s++){
+if(stacks[s].from===fromZ&&stacks[s].to===toZ){hasStack=true;break;}
+}
+var cls="vm-ov24-arrow"+(hasStack?"":" broken");
+html=html+'<div class="'+cls+'">&#8595;'+(hasStack?" cascade":" no direct cascade")+"</div>";
+}
+}
+list.innerHTML=html;
+var broken=countBrokenCascades(order);
+document.getElementById("vm-ov24-summary").textContent="Your sequence breaks "+broken+" cascade"+(broken!==1?"s":"")+" out of 6 stacks";
+var cards=list.querySelectorAll(".vm-ov24-card");
+for(var c=0;c<cards.length;c++){
+cards[c].addEventListener("dragstart",function(ev){
+dragIdx=parseInt(ev.target.getAttribute("data-idx"),10);
+ev.target.classList.add("dragging");
+});
+cards[c].addEventListener("dragend",function(ev){
+ev.target.classList.remove("dragging");dragIdx=null;
+var overs=list.querySelectorAll(".dragover");
+for(var o=0;o<overs.length;o++){overs[o].classList.remove("dragover");}
+});
+cards[c].addEventListener("dragover",function(ev){ev.preventDefault();ev.currentTarget.classList.add("dragover");});
+cards[c].addEventListener("dragleave",function(ev){ev.currentTarget.classList.remove("dragover");});
+cards[c].addEventListener("drop",function(ev){
+ev.preventDefault();
+var targetIdx=parseInt(ev.currentTarget.getAttribute("data-idx"),10);
+if(dragIdx!==null&&dragIdx!==targetIdx){
+var item=order.splice(dragIdx,1)[0];
+order.splice(targetIdx,0,item);
+render();
+}
+});
+}
+}
+render();
+window.vmOv24Compare=function(){
+var drdSeq=[];
+for(var d=0;d<drdOrder.length;d++){
+for(var z=0;z<zoneData.length;z++){
+if(zoneData[z].id===drdOrder[d]){drdSeq.push(z);break;}
+}
+}
+var userBroken=countBrokenCascades(order);
+var drdBroken=countBrokenCascades(drdSeq);
+var divs=0;
+for(var i=0;i<order.length;i++){if(order[i]!==drdSeq[i]){divs++;}}
+var el=document.getElementById("vm-ov24-divergence");
+el.textContent="Your sequence breaks "+userBroken+" cascades vs DRD (Highest burden zone) sequence breaks "+drdBroken+" cascades. "+divs+" position"+(divs!==1?"s":"")+" differ.";
+};
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV25: TerrainLock Loop Orbit Animation
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  #vm-ov25-canvas{display:none}
+  .vm-ov25-fallback{display:block!important}
+}
+#vm-ov25-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov25-section *{box-sizing:border-box}
+.vm-ov25-wrap{max-width:600px;margin:0 auto;text-align:center}
+.vm-ov25-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov25-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:20px}
+.vm-ov25-canvas-wrap{position:relative;width:100%;max-width:440px;margin:0 auto 16px}
+#vm-ov25-canvas{width:100%;height:380px;border-radius:8px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06)}
+.vm-ov25-fallback{display:none;font-family:'DM Mono',monospace;font-size:12px;color:rgba(244,244,242,.5);padding:20px;text-align:center}
+.vm-ov25-controls{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.vm-ov25-btn{font-family:'DM Mono',monospace;font-size:12px;padding:8px 18px;border-radius:4px;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:#C9A84C;cursor:pointer;transition:background .2s ease}
+.vm-ov25-btn:hover{background:rgba(201,168,76,.18)}
+.vm-ov25-note{font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,244,242,.4);margin-top:12px}
+.vm-ov25-status{font-family:'DM Mono',monospace;font-size:11px;color:#C9A84C;margin-top:8px;min-height:16px}
+</style>
+<section id="vm-ov25-section">
+<div class="vm-ov25-wrap">
+<div class="vm-ov25-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov25-heading">TerrainLock Loop Orbit</h2>
+<div class="vm-ov25-canvas-wrap">
+<canvas id="vm-ov25-canvas" width="440" height="380"></canvas>
+<div class="vm-ov25-fallback">TerrainLock loop: Z2 &#8594; Z1 &#8594; Z5 &#8594; Z2 (animation requires motion enabled)</div>
+</div>
+<div class="vm-ov25-status" id="vm-ov25-status">Particles orbiting: S1 &#8594; S2 &#8594; S4 loop</div>
+<div class="vm-ov25-controls">
+<button class="vm-ov25-btn" onclick="window.vmOv25Break('Z2')">Break at Z2 (recommended)</button>
+<button class="vm-ov25-btn" onclick="window.vmOv25Break('Z1')">Break at Z1</button>
+<button class="vm-ov25-btn" onclick="window.vmOv25Break('Z5')">Break at Z5</button>
+<button class="vm-ov25-btn" onclick="window.vmOv25ResetLoop()">Reset Loop</button>
+</div>
+<div class="vm-ov25-note">S4 segment: THEORETICAL, dashed. Z2 is recommended entry point (tiebreaker).</div>
+</div>
+</section>
+<script>
+(function(){
+var canvas=document.getElementById("vm-ov25-canvas");
+var ctx=canvas.getContext("2d");
+var reducedMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+if(reducedMotion)return;
+var W=440,H=380;
+var nodes={
+Z2:{x:220,y:50,colour:"#1A7A8A",label:"Z2"},
+Z1:{x:370,y:300,colour:"#C9A84C",label:"Z1"},
+Z5:{x:70,y:300,colour:"#2E6DB4",label:"Z5"}
+};
+var path=["Z2","Z1","Z5"];
+var particles=[];
+var broken=null;
+for(var p=0;p<5;p++){
+particles.push({progress:p*0.2,speed:0.0004});
+}
+function lerp(a,b,t){return a+(b-a)*t;}
+function getPos(prog){
+var total=path.length;
+var seg=Math.floor(prog*total)%total;
+var t=(prog*total)-Math.floor(prog*total);
+var fromKey=path[seg];
+var toKey=path[(seg+1)%total];
+var from=nodes[fromKey];var to=nodes[toKey];
+return{x:lerp(from.x,to.x,t),y:lerp(from.y,to.y,t),seg:seg};
+}
+function draw(){
+ctx.clearRect(0,0,W,H);
+for(var i=0;i<path.length;i++){
+var from=nodes[path[i]];
+var to=nodes[path[(i+1)%path.length]];
+ctx.beginPath();
+ctx.moveTo(from.x,from.y);ctx.lineTo(to.x,to.y);
+ctx.strokeStyle="rgba(201,168,76,0.2)";
+ctx.lineWidth=2;
+if(i===2){ctx.setLineDash([8,6]);}else{ctx.setLineDash([]);}
+ctx.stroke();ctx.setLineDash([]);
+if(i===2){
+var mx=(from.x+to.x)/2;var my=(from.y+to.y)/2;
+ctx.fillStyle="rgba(244,244,242,0.35)";
+ctx.font="10px 'DM Mono',monospace";
+ctx.fillText("THEORETICAL",mx-35,my-8);
+}
+}
+var keys=["Z2","Z1","Z5"];
+for(var k=0;k<keys.length;k++){
+var n=nodes[keys[k]];
+ctx.beginPath();
+ctx.arc(n.x,n.y,24,0,Math.PI*2);
+if(broken===keys[k]){
+ctx.fillStyle="rgba(100,100,100,0.3)";ctx.strokeStyle="rgba(100,100,100,0.3)";
+}else{
+ctx.fillStyle=n.colour;ctx.globalAlpha=0.2;ctx.fill();ctx.globalAlpha=1;
+ctx.strokeStyle=n.colour;
+}
+ctx.lineWidth=2;ctx.stroke();ctx.fill();
+ctx.globalAlpha=1;
+ctx.fillStyle=broken===keys[k]?"rgba(244,244,242,0.3)":"#F4F4F2";
+ctx.font="bold 13px 'DM Mono',monospace";
+ctx.textAlign="center";ctx.textBaseline="middle";
+ctx.fillText(n.label,n.x,n.y);
+if(keys[k]==="Z2"&&broken===null){
+ctx.strokeStyle="rgba(201,168,76,0.4)";ctx.lineWidth=1;
+ctx.beginPath();ctx.arc(n.x,n.y,30,0,Math.PI*2);ctx.stroke();
+}
+}
+if(broken===null){
+for(var p=0;p<particles.length;p++){
+var pos=getPos(particles[p].progress);
+ctx.beginPath();ctx.arc(pos.x,pos.y,5,0,Math.PI*2);
+ctx.fillStyle="#C9A84C";ctx.globalAlpha=0.8;ctx.fill();ctx.globalAlpha=1;
+particles[p].progress=(particles[p].progress+particles[p].speed)%1;
+}
+}else{
+for(var p=0;p<particles.length;p++){
+var pos=getPos(particles[p].progress);
+ctx.beginPath();ctx.arc(pos.x,pos.y,5,0,Math.PI*2);
+ctx.fillStyle="rgba(201,168,76,0.3)";ctx.fill();
+}
+}
+requestAnimationFrame(draw);
+}
+draw();
+window.vmOv25Break=function(zone){
+broken=zone;
+document.getElementById("vm-ov25-status").textContent="Loop broken at "+zone+". Cascade chain interrupted."+(zone==="Z2"?" (Recommended entry point)":"");
+};
+window.vmOv25ResetLoop=function(){
+broken=null;
+document.getElementById("vm-ov25-status").innerHTML="Particles orbiting: S1 &#8594; S2 &#8594; S4 loop";
+};
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV26: NEXUS-MODES Orthogonal Grid
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov26-cell{transition:none!important;transform:none!important}
+}
+#vm-ov26-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov26-section *{box-sizing:border-box}
+.vm-ov26-wrap{max-width:820px;margin:0 auto}
+.vm-ov26-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov26-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:8px}
+.vm-ov26-banner{font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,244,242,.5);text-align:center;margin-bottom:24px;padding:6px 14px;display:inline-block;border:1px dashed rgba(201,168,76,.3);border-radius:4px;background:rgba(201,168,76,.05)}
+.vm-ov26-banner-wrap{text-align:center;margin-bottom:20px}
+.vm-ov26-grid{display:grid;grid-template-columns:140px repeat(3,1fr);gap:2px;margin-bottom:16px}
+.vm-ov26-header{font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,244,242,.5);text-transform:uppercase;letter-spacing:1px;padding:10px;text-align:center;background:rgba(255,255,255,.03)}
+.vm-ov26-row-header{font-family:'DM Mono',monospace;font-size:11px;color:#C9A84C;padding:12px 10px;background:rgba(201,168,76,.05);display:flex;align-items:center}
+.vm-ov26-cell{padding:14px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;cursor:pointer;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;perspective:600px}
+.vm-ov26-cell:hover{transform:rotateX(2deg) rotateY(2deg);border-color:rgba(201,168,76,.3);box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.vm-ov26-cell-title{font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,244,242,.7);margin-bottom:4px}
+.vm-ov26-cell-text{font-family:'Outfit',sans-serif;font-size:12px;color:rgba(244,244,242,.5);line-height:1.5}
+.vm-ov26-detail{position:sticky;top:80px;background:rgba(10,15,20,.95);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:20px;margin-top:16px;display:none;z-index:10}
+.vm-ov26-detail.visible{display:block}
+.vm-ov26-detail-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#C9A84C;margin-bottom:8px}
+.vm-ov26-detail-body{font-family:'Outfit',sans-serif;font-size:13px;color:rgba(244,244,242,.7);line-height:1.7}
+.vm-ov26-detail-close{position:absolute;top:8px;right:12px;font-family:'DM Mono',monospace;font-size:16px;color:rgba(244,244,242,.4);cursor:pointer;background:none;border:none}
+</style>
+<section id="vm-ov26-section">
+<div class="vm-ov26-wrap">
+<div class="vm-ov26-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov26-heading">NEXUS-MODES Orthogonal Grid</h2>
+<div class="vm-ov26-banner-wrap"><span class="vm-ov26-banner">These are orthogonal dimensions: NEXUS states and MODES modalities are independent axes</span></div>
+<div class="vm-ov26-grid" id="vm-ov26-grid"></div>
+<div class="vm-ov26-detail" id="vm-ov26-detail">
+<button class="vm-ov26-detail-close" onclick="window.vmOv26CloseDetail()">&#10005;</button>
+<div class="vm-ov26-detail-title" id="vm-ov26-detail-title"></div>
+<div class="vm-ov26-detail-body" id="vm-ov26-detail-body"></div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var nexusStates=["Accumulation","Decompensation","Recovery"];
+var modesModalities=["Dietary","Supplemental","Lifestyle"];
+var zoneAccents=["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#2E6DB4","#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C"];
+var cellData=[
+{title:"Accumulation + Dietary",short:"Early burden: dietary triggers",detail:"During accumulation, dietary factors often initiate terrain burden. Focus on elimination of inflammatory triggers and nutrient density optimisation. Zone-aware meal sequencing supports early-stage terrain stabilisation.",direction:"Terrain support: reduce dietary inflammatory load"},
+{title:"Accumulation + Supplemental",short:"Early burden: foundational support",detail:"Foundational micronutrient support during the accumulation phase. Targeted B vitamins, magnesium and zinc to support primary burden zones. Evidence tier: Emerging for multi-zone protocols.",direction:"Terrain support: establish foundational nutrient base"},
+{title:"Accumulation + Lifestyle",short:"Early burden: rhythm restoration",detail:"Circadian rhythm and stress-axis support during accumulation. Sleep optimisation, light exposure timing, and gentle movement to reduce cortisol burden. Terrain-aligned timing protocols.",direction:"Terrain support: restore circadian and stress-axis rhythm"},
+{title:"Decompensation + Dietary",short:"Active burden: therapeutic dietary",detail:"When terrain decompensation is active, dietary interventions become more targeted. Zone-specific elimination protocols with clinical monitoring. Practitioner-guided reintroduction schedules.",direction:"Terrain support: zone-targeted dietary protocols"},
+{title:"Decompensation + Supplemental",short:"Active burden: clinical supplementation",detail:"Higher-dose, clinically-guided supplementation during decompensation. APEX-tier investigations guide targeted nutrient repletion. Evidence tier varies by zone: Z1-Z2 Established, Z3-Z5 Emerging.",direction:"Terrain support: investigation-guided supplementation"},
+{title:"Decompensation + Lifestyle",short:"Active burden: intensive support",detail:"Intensive lifestyle modification during active decompensation. Structured stress reduction, graded exercise protocols, and environmental assessment. Practitioner oversight essential.",direction:"Terrain support: intensive practitioner-guided lifestyle protocols"},
+{title:"Recovery + Dietary",short:"Resolving: maintenance dietary",detail:"During recovery phase, dietary protocols shift to maintenance and resilience building. Broadening of food diversity with terrain-aware monitoring. DeltaScan tracking of dietary response.",direction:"Terrain support: maintain dietary diversity with terrain monitoring"},
+{title:"Recovery + Supplemental",short:"Resolving: tapering support",detail:"Supplemental protocols taper during recovery. Practitioner-guided dose reduction based on APEX follow-up investigations. Maintain foundational support while reducing therapeutic doses.",direction:"Terrain support: evidence-guided supplemental tapering"},
+{title:"Recovery + Lifestyle",short:"Resolving: resilience building",detail:"Long-term resilience building through sustainable lifestyle practices. Terrain-aware exercise progression, mindfulness integration, and environmental optimisation. Prevention-focused terrain maintenance.",direction:"Terrain support: build sustainable terrain resilience habits"}
+];
+var grid=document.getElementById("vm-ov26-grid");
+var html='<div class="vm-ov26-header"></div>';
+for(var m=0;m<modesModalities.length;m++){
+html=html+'<div class="vm-ov26-header">'+modesModalities[m]+"</div>";
+}
+for(var n=0;n<nexusStates.length;n++){
+html=html+'<div class="vm-ov26-row-header">'+nexusStates[n]+"</div>";
+for(var m=0;m<modesModalities.length;m++){
+var idx=n*3+m;
+var accent=zoneAccents[idx];
+html=html+'<div class="vm-ov26-cell" data-idx="'+idx+'" style="border-left:3px solid '+accent+'" onclick="window.vmOv26ShowDetail('+idx+')">';
+html=html+'<div class="vm-ov26-cell-title">'+cellData[idx].title+"</div>";
+html=html+'<div class="vm-ov26-cell-text">'+cellData[idx].short+"</div></div>";
+}
+}
+grid.innerHTML=html;
+window.vmOv26ShowDetail=function(idx){
+var d=cellData[idx];
+document.getElementById("vm-ov26-detail-title").textContent=d.title;
+document.getElementById("vm-ov26-detail-body").innerHTML="<p>"+d.detail+"</p><p style=\"margin-top:10px;color:#C9A84C;font-family:'DM Mono',monospace;font-size:11px;\">"+d.direction+"</p>";
+document.getElementById("vm-ov26-detail").className="vm-ov26-detail visible";
+};
+window.vmOv26CloseDetail=function(){
+document.getElementById("vm-ov26-detail").className="vm-ov26-detail";
+};
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV27: Evidence Tier Stacked Bar Timeline
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov27-seg{transition:none!important}
+}
+#vm-ov27-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov27-section *{box-sizing:border-box}
+.vm-ov27-wrap{max-width:800px;margin:0 auto}
+.vm-ov27-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov27-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:28px}
+.vm-ov27-timeline{display:flex;align-items:flex-end;gap:4px;justify-content:center;margin-bottom:16px;min-height:220px}
+.vm-ov27-col{display:flex;flex-direction:column;align-items:center;gap:2px;width:60px}
+.vm-ov27-bar-wrap{display:flex;flex-direction:column;width:100%;gap:1px}
+.vm-ov27-seg{width:100%;border-radius:2px;transition:height 1.2s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;min-height:0}
+.vm-ov27-seg:hover{opacity:.85}
+.vm-ov27-col-label{font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,244,242,.4);margin-top:4px}
+.vm-ov27-legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.vm-ov27-legend-item{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,244,242,.5)}
+.vm-ov27-legend-dot{width:10px;height:10px;border-radius:2px}
+.vm-ov27-badge{font-family:'DM Mono',monospace;font-size:11px;padding:6px 14px;border-radius:4px;text-align:center;margin-top:8px}
+.vm-ov27-tooltip{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:#F4F4F2;background:rgba(10,15,20,.95);border:1px solid rgba(201,168,76,.3);border-radius:3px;padding:4px 8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:5}
+.vm-ov27-seg:hover .vm-ov27-tooltip{opacity:1}
+</style>
+<section id="vm-ov27-section">
+<div class="vm-ov27-wrap">
+<div class="vm-ov27-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov27-heading">Evidence Tier Stacked Bar Timeline</h2>
+<div class="vm-ov27-legend">
+<div class="vm-ov27-legend-item"><div class="vm-ov27-legend-dot" style="background:#C9A84C"></div>Verified</div>
+<div class="vm-ov27-legend-item"><div class="vm-ov27-legend-dot" style="background:#1A7A8A"></div>Emerging</div>
+<div class="vm-ov27-legend-item"><div class="vm-ov27-legend-dot" style="background:rgba(244,244,242,.25)"></div>Theoretical</div>
+<div class="vm-ov27-legend-item"><div class="vm-ov27-legend-dot" style="background:#E74C3C"></div>Contested</div>
+</div>
+<div class="vm-ov27-timeline" id="vm-ov27-timeline"></div>
+<div class="vm-ov27-badge" id="vm-ov27-badge"></div>
+</div>
+</section>
+<script>
+(function(){
+var tiers=["Verified","Emerging","Theoretical","Contested"];
+var tierColours=["#C9A84C","#1A7A8A","rgba(244,244,242,0.25)","#E74C3C"];
+var timepoints=[
+{label:"T1 Baseline",data:[15,35,40,10]},
+{label:"Month 3",data:[18,38,35,9]},
+{label:"Month 6",data:[22,40,30,8]},
+{label:"Month 9",data:[28,38,28,6]},
+{label:"Month 12",data:[32,36,26,6]},
+{label:"T2 Follow-up",data:[38,34,24,4]}
+];
+var maxH=180;
+var container=document.getElementById("vm-ov27-timeline");
+var html="";
+for(var t=0;t<timepoints.length;t++){
+html=html+'<div class="vm-ov27-col">';
+html=html+'<div class="vm-ov27-bar-wrap">';
+for(var s=tiers.length-1;s>=0;s--){
+var pct=timepoints[t].data[s];
+html=html+'<div class="vm-ov27-seg" id="vm-ov27-seg-'+t+'-'+s+'" style="background:'+tierColours[s]+';height:0px">';
+html=html+'<div class="vm-ov27-tooltip">'+tiers[s]+": "+pct+"%</div></div>";
+}
+html=html+"</div>";
+html=html+'<div class="vm-ov27-col-label">'+timepoints[t].label+"</div></div>";
+}
+container.innerHTML=html;
+var t1Verified=timepoints[0].data[0];
+var t2Verified=timepoints[timepoints.length-1].data[0];
+var badge=document.getElementById("vm-ov27-badge");
+if(t2Verified>t1Verified){
+badge.textContent="Evidence quality improved: Verified tier grew from "+t1Verified+"% to "+t2Verified+"%";
+badge.style.background="rgba(201,168,76,0.1)";badge.style.color="#C9A84C";badge.style.border="1px solid rgba(201,168,76,0.2)";
+}else{
+badge.textContent="Evidence quality degraded: Verified tier dropped from "+t1Verified+"% to "+t2Verified+"%";
+badge.style.background="rgba(231,76,60,0.1)";badge.style.color="#E74C3C";badge.style.border="1px solid rgba(231,76,60,0.2)";
+}
+function animateBars(){
+var reducedMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+for(var t=0;t<timepoints.length;t++){
+for(var s=tiers.length-1;s>=0;s--){
+var pct=timepoints[t].data[s];
+var h=Math.round((pct/100)*maxH);
+var el=document.getElementById("vm-ov27-seg-"+t+"-"+s);
+if(reducedMotion){el.style.height=h+"px";}
+else{
+(function(elem,height){
+setTimeout(function(){elem.style.height=height+"px";},100);
+})(el,h);
+}
+}
+}
+}
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateBars();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.3});
+obs.observe(document.getElementById("vm-ov27-section"));
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV28: Zone Score Sparkline Dashboard
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov28-path{transition:none!important;animation:none!important}
+}
+#vm-ov28-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov28-section *{box-sizing:border-box}
+.vm-ov28-wrap{max-width:800px;margin:0 auto}
+.vm-ov28-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov28-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:28px}
+.vm-ov28-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer;padding:6px 8px;border-radius:4px;transition:opacity .3s ease,background .2s ease}
+.vm-ov28-row:hover{background:rgba(255,255,255,.04)}
+.vm-ov28-row.dimmed{opacity:.15}
+.vm-ov28-label{font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,244,242,.6);width:90px;flex-shrink:0}
+.vm-ov28-svg-wrap{flex:1;height:40px;position:relative}
+.vm-ov28-svg-wrap svg{width:100%;height:100%}
+.vm-ov28-path{stroke-dasharray:1000;stroke-dashoffset:1000;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.vm-ov28-path.drawn{stroke-dashoffset:0}
+.vm-ov28-threshold{stroke-dasharray:4 3}
+.vm-ov28-near-band{fill:rgba(218,165,32,.08);stroke:none}
+.vm-ov28-glow{filter:drop-shadow(0 0 4px currentColor)}
+.vm-ov28-note{font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,244,242,.35);text-align:center;margin-top:12px}
+</style>
+<section id="vm-ov28-section">
+<div class="vm-ov28-wrap">
+<div class="vm-ov28-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov28-heading">Zone Score Sparkline Dashboard</h2>
+<div id="vm-ov28-container"></div>
+<div class="vm-ov28-note">Click any sparkline to isolate. Click again to restore all.</div>
+</div>
+</section>
+<script>
+(function(){
+var zones=[
+{id:"Z1",label:"Z1 Metabolic",colour:"#C9A84C",threshold:40,t1:55,t2:42,points:[55,52,48,46,44,42]},
+{id:"Z2",label:"Z2 Resilience",colour:"#1A7A8A",threshold:40,t1:48,t2:35,points:[48,46,42,40,38,35]},
+{id:"Z3",label:"Z3 Cardio-Neural",colour:"#7B5EA7",threshold:40,t1:30,t2:25,points:[30,29,28,27,26,25]},
+{id:"Z4",label:"Z4 Detox Trident",colour:"#5F7C6C",threshold:40,t1:38,t2:32,points:[38,37,36,35,34,32]},
+{id:"Z5",label:"Z5 Hormonal",colour:"#2E6DB4",threshold:32,t1:42,t2:28,points:[42,40,37,34,30,28]}
+];
+var container=document.getElementById("vm-ov28-container");
+var isolatedIdx=null;
+var svgW=600,svgH=40,padX=10,padY=4;
+function buildSparklines(){
+var html="";
+for(var i=0;i<zones.length;i++){
+var z=zones[i];
+var pts=z.points;
+var minV=0,maxV=80;
+var nearThreshold=Math.abs(z.t1-z.threshold)<=5||Math.abs(z.t2-z.threshold)<=5;
+var pathD="";
+var glowDots="";
+for(var p=0;p<pts.length;p++){
+var x=padX+((svgW-2*padX)/(pts.length-1))*p;
+var y=padY+(svgH-2*padY)*(1-(pts[p]-minV)/(maxV-minV));
+pathD=pathD+(p===0?"M":"L")+x.toFixed(1)+","+y.toFixed(1);
+if(pts[p]>=z.threshold){
+glowDots=glowDots+'<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3" fill="'+z.colour+'" class="vm-ov28-glow"/>';
+}
+}
+var threshY=padY+(svgH-2*padY)*(1-(z.threshold-minV)/(maxV-minV));
+var nearBand="";
+if(nearThreshold){
+var bandTop=padY+(svgH-2*padY)*(1-((z.threshold+5)-minV)/(maxV-minV));
+var bandBot=padY+(svgH-2*padY)*(1-((z.threshold-5)-minV)/(maxV-minV));
+nearBand='<rect class="vm-ov28-near-band" x="'+padX+'" y="'+bandTop.toFixed(1)+'" width="'+(svgW-2*padX)+'" height="'+(bandBot-bandTop).toFixed(1)+'"/>';
+}
+html=html+'<div class="vm-ov28-row" data-idx="'+i+'" onclick="window.vmOv28Toggle('+i+')">';
+html=html+'<div class="vm-ov28-label" style="color:'+z.colour+'">'+z.label+"</div>";
+html=html+'<div class="vm-ov28-svg-wrap"><svg viewBox="0 0 '+svgW+" "+svgH+'" preserveAspectRatio="none">';
+html=html+nearBand;
+html=html+'<line class="vm-ov28-threshold" x1="'+padX+'" y1="'+threshY.toFixed(1)+'" x2="'+(svgW-padX)+'" y2="'+threshY.toFixed(1)+'" stroke="rgba(244,244,242,0.15)" stroke-width="1"/>';
+html=html+'<path class="vm-ov28-path" id="vm-ov28-path-'+i+'" d="'+pathD+'" fill="none" stroke="'+z.colour+'" stroke-width="2"/>';
+html=html+glowDots;
+html=html+"</svg></div></div>";
+}
+container.innerHTML=html;
+}
+buildSparklines();
+function animatePaths(){
+var reducedMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+for(var i=0;i<zones.length;i++){
+var path=document.getElementById("vm-ov28-path-"+i);
+if(path){
+if(reducedMotion){path.style.strokeDashoffset="0";}
+else{path.classList.add("drawn");}
+}
+}
+}
+window.vmOv28Toggle=function(idx){
+if(isolatedIdx===idx){isolatedIdx=null;}else{isolatedIdx=idx;}
+var rows=container.querySelectorAll(".vm-ov28-row");
+for(var r=0;r<rows.length;r++){
+if(isolatedIdx===null){rows[r].classList.remove("dimmed");}
+else{
+var ri=parseInt(rows[r].getAttribute("data-idx"),10);
+if(ri===isolatedIdx){rows[r].classList.remove("dimmed");}
+else{rows[r].classList.add("dimmed");}
+}
+}
+};
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animatePaths();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.3});
+obs.observe(document.getElementById("vm-ov28-section"));
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV29: APEX Budget Tier Escalation Ladder
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov29-indicator,.vm-ov29-trail,.vm-ov29-rung-expand{transition:none!important;animation:none!important}
+}
+#vm-ov29-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov29-section *{box-sizing:border-box}
+.vm-ov29-wrap{max-width:500px;margin:0 auto;text-align:center}
+.vm-ov29-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov29-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:28px}
+.vm-ov29-ladder{display:flex;flex-direction:column;gap:0;position:relative;margin-bottom:20px}
+.vm-ov29-rung{padding:18px 20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:6px;cursor:pointer;transition:background .2s ease,border-color .2s ease;position:relative;margin-bottom:2px}
+.vm-ov29-rung:hover{background:rgba(255,255,255,.07)}
+.vm-ov29-rung.active{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.08)}
+.vm-ov29-rung-header{display:flex;justify-content:space-between;align-items:center}
+.vm-ov29-rung-title{font-family:'DM Mono',monospace;font-size:12px;color:#F4F4F2;font-weight:500}
+.vm-ov29-rung-cost{font-family:'DM Mono',monospace;font-size:11px;color:#C9A84C}
+.vm-ov29-rung-expand{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1);font-family:'Outfit',sans-serif;font-size:13px;color:rgba(244,244,242,.6);line-height:1.6}
+.vm-ov29-rung-expand.open{max-height:200px}
+.vm-ov29-badge{font-family:'DM Mono',monospace;font-size:11px;padding:6px 14px;border-radius:4px;background:rgba(201,168,76,.1);color:#C9A84C;border:1px solid rgba(201,168,76,.2);display:none;margin-top:12px}
+.vm-ov29-badge.visible{display:inline-block}
+.vm-ov29-controls{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.vm-ov29-btn{font-family:'DM Mono',monospace;font-size:12px;padding:8px 18px;border-radius:4px;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:#C9A84C;cursor:pointer;transition:background .2s ease}
+.vm-ov29-btn:hover{background:rgba(201,168,76,.18)}
+</style>
+<section id="vm-ov29-section">
+<div class="vm-ov29-wrap">
+<div class="vm-ov29-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov29-heading">APEX Budget Tier Escalation Ladder</h2>
+<div class="vm-ov29-ladder" id="vm-ov29-ladder"></div>
+<div class="vm-ov29-badge" id="vm-ov29-badge">Budget escalated by TerrainSpiral trajectory</div>
+<div class="vm-ov29-controls">
+<button class="vm-ov29-btn" onclick="window.vmOv29Escalate()">TerrainSpiral: Progressively Destabilising</button>
+<button class="vm-ov29-btn" onclick="window.vmOv29Reset()">Reset to Tier 1A</button>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var tiers=[
+{id:"1C",title:"Tier 1C",cost:"GBP 800+",desc:"Comprehensive deep-dive investigations. Full metabolomic panels, advanced hormonal profiling, organic acid testing, comprehensive stool analysis with PCR. Reserved for complex multi-zone burden patterns.",colour:"#7B5EA7"},
+{id:"1B",title:"Tier 1B",cost:"GBP 400 to 800",desc:"Extended investigation suite. Thyroid panels with antibodies, adrenal stress profiles, detailed nutrient panels, inflammatory markers. Guided by FLINT L5 recommendations.",colour:"#1A7A8A"},
+{id:"1A",title:"Tier 1A",cost:"GBP 200 to 400",desc:"Core foundational investigations. Full blood count, metabolic panel, thyroid function, vitamin D, B12, folate, ferritin, CRP. Starting point for all terrain assessments.",colour:"#C9A84C"}
+];
+var currentTier=2;
+var ladder=document.getElementById("vm-ov29-ladder");
+var html="";
+for(var i=0;i<tiers.length;i++){
+html=html+'<div class="vm-ov29-rung'+(i===currentTier?" active":"")+'" id="vm-ov29-rung-'+i+'" data-idx="'+i+'" onclick="window.vmOv29ExpandRung('+i+')" style="border-left:3px solid '+tiers[i].colour+'">';
+html=html+'<div class="vm-ov29-rung-header"><span class="vm-ov29-rung-title">'+tiers[i].title+"</span><span class=\"vm-ov29-rung-cost\">"+tiers[i].cost+"</span></div>";
+html=html+'<div class="vm-ov29-rung-expand" id="vm-ov29-expand-'+i+'"><p style="margin-top:10px">'+tiers[i].desc+"</p></div></div>";
+}
+ladder.innerHTML=html;
+function updateIndicator(){
+for(var i=0;i<tiers.length;i++){
+var r=document.getElementById("vm-ov29-rung-"+i);
+if(i===currentTier){r.classList.add("active");}else{r.classList.remove("active");}
+}
+var badge=document.getElementById("vm-ov29-badge");
+if(currentTier<2){badge.classList.add("visible");}else{badge.classList.remove("visible");}
+}
+window.vmOv29ExpandRung=function(idx){
+for(var i=0;i<tiers.length;i++){
+var exp=document.getElementById("vm-ov29-expand-"+i);
+if(i===idx){
+if(exp.classList.contains("open")){exp.classList.remove("open");}
+else{exp.classList.add("open");}
+}else{exp.classList.remove("open");}
+}
+};
+window.vmOv29Escalate=function(){
+if(currentTier>0){
+currentTier=currentTier-1;
+updateIndicator();
+}
+};
+window.vmOv29Reset=function(){
+currentTier=2;
+updateIndicator();
+for(var i=0;i<tiers.length;i++){
+document.getElementById("vm-ov29-expand-"+i).classList.remove("open");
+}
+};
+updateIndicator();
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV30: Full Ecosystem Animated Flow Diagram
+     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov30-card,.vm-ov30-particle,.vm-ov30-connector{transition:none!important;animation:none!important}
+}
+#vm-ov30-section{background:#0D2B4E;padding:64px 24px;margin:0;border:none}
+#vm-ov30-section *{box-sizing:border-box}
+.vm-ov30-wrap{max-width:700px;margin:0 auto}
+.vm-ov30-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);text-align:center;margin-bottom:6px}
+.vm-ov30-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;text-align:center;margin-bottom:4px}
+.vm-ov30-internal{font-family:'DM Mono',monospace;font-size:10px;color:#E74C3C;text-align:center;margin-bottom:8px;padding:4px 10px;display:inline-block;border:1px solid rgba(231,76,60,.3);border-radius:3px;background:rgba(231,76,60,.06)}
+.vm-ov30-internal-wrap{text-align:center;margin-bottom:20px}
+.vm-ov30-flow{display:flex;flex-direction:column;gap:0;position:relative}
+.vm-ov30-card{padding:16px 20px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:border-color .3s ease,background .3s ease,transform .2s ease;position:relative;overflow:hidden}
+.vm-ov30-card:hover{border-color:rgba(201,168,76,.3);background:rgba(255,255,255,.08);transform:translateY(-1px)}
+.vm-ov30-card.highlighted{border-color:rgba(201,168,76,.5);box-shadow:0 0 16px rgba(201,168,76,.1)}
+.vm-ov30-card-name{font-family:'DM Mono',monospace;font-size:12px;color:#C9A84C;font-weight:500}
+.vm-ov30-card-desc{font-family:'Outfit',sans-serif;font-size:12px;color:rgba(244,244,242,.5);margin-top:4px;line-height:1.5}
+.vm-ov30-card-detail{font-family:'Outfit',sans-serif;font-size:12px;color:rgba(244,244,242,.6);margin-top:8px;line-height:1.6;max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.vm-ov30-card-detail.open{max-height:300px}
+.vm-ov30-connector{height:24px;display:flex;align-items:center;justify-content:center;position:relative}
+.vm-ov30-connector-line{width:2px;height:100%;background:rgba(201,168,76,.15)}
+.vm-ov30-particle{position:absolute;width:8px;height:8px;border-radius:50%;background:#C9A84C;opacity:0;top:0;left:50%;transform:translateX(-50%)}
+@keyframes vm-ov30-flow-down{0%{top:0;opacity:1}100%{top:calc(100% - 8px);opacity:.6}}
+.vm-ov30-vantage-badge{font-family:'DM Mono',monospace;font-size:10px;color:#E74C3C;padding:3px 8px;border:1px solid rgba(231,76,60,.3);border-radius:3px;background:rgba(231,76,60,.06);margin-left:8px}
+</style>
+<section id="vm-ov30-section">
+<div class="vm-ov30-wrap">
+<div class="vm-ov30-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov30-heading">Full Ecosystem Animated Flow Diagram</h2>
+<div class="vm-ov30-internal-wrap"><span class="vm-ov30-internal">INTERNAL ONLY</span></div>
+<div class="vm-ov30-flow" id="vm-ov30-flow"></div>
+</div>
+</section>
+<script>
+(function(){
+var layers=[
+{name:"VOLTERRAIN",desc:"Terrain state engine: comprehensive burden quantification across 7 nodes and 5 zones",detail:"VOLTERRAIN ingests MSQ-71 questionnaire data, ATM assessment data, and MedTerrain clinical history to produce the initial terrain state. This is the foundational data layer from which all downstream intelligence derives. Node scoring uses N6 dampening at 0.7x coefficient."},
+{name:"MES (Metabolic Environment and Substrate)",desc:"Foundational context layer: never scored, never a node",detail:"MES provides the metabolic context within which all nodes operate. It is not a node, not scored, and not part of the zone calculation. It informs clinical interpretation without contributing directly to burden scores."},
+{name:"FLINT L1: Node Intelligence (WHERE?)",desc:"MSQ-71 + ATM + MedTerrain node-level scoring",detail:"L1 answers WHERE the burden sits at node level. Seven nodes scored on 0 to 100 internal scale. N6 dampened at 0.7x. N7 Structural Integrity is Phase 2 placeholder only."},
+{name:"FLINT L2: Zone Intelligence (WHICH?)",desc:"NCZ composite zone scoring with thresholds",detail:"L2 answers WHICH zone carries the highest burden. Five zones computed from node composites. Z5 threshold at 32 (lower than Z1 to Z4 at 40). Floor formula: MAX(dampened) minus 10."},
+{name:"FLINT L3: Cascade Intelligence (HOW?)",desc:"CascadeIQ six-stack directional analysis",detail:"L3 answers HOW burden propagates between zones. Six cascade stacks with velocity ratings. S4 THEORETICAL excluded from DRD trace (D-12). S6 UNIDIRECTIONAL Z1 to Z3 only. TerrainLock detection: Z2 to Z1 to Z5 to Z2 loop."},
+{name:"FLINT L4: Causality Intelligence (WHO?)",desc:"DRD (Highest burden zone) designation",detail:"L4 answers WHO is the highest burden zone. DRD designation identifies the zone driving the terrain pattern. Z2 tiebreaker rule applies. S4 excluded from trace per D-12."},
+{name:"FLINT L5: Examination Intelligence (WHAT?)",desc:"APEX and PRISM investigation planning",detail:"L5 answers WHAT to investigate. APEX budget tiers (GBP 200 to 400, GBP 400 to 800, GBP 800+) guide practitioner investigation selection. PRISM routing supports investigation sequencing."},
+{name:"CLVF (Clinical Logic Verification Framework)",desc:"Cross-layer coherence and validation checks",detail:"CLVF validates that upstream FLINT outputs are internally consistent before they reach the overlay layer. Checks include score plausibility, zone composition correctness, and stack activation coherence."},
+{name:"Overlay: TerrainSpiral, MODES, GRADE, NEXUS",desc:"Four orthogonal clinical overlay dimensions",detail:"TerrainSpiral tracks trajectory (Stabilising, Progressively Destabilising). MODES provides modality classification. GRADE stratifies clinical urgency. NEXUS maps biological state. These are orthogonal dimensions applied atop FLINT outputs."},
+{name:"Synthesis Layer",desc:"Integration of all upstream intelligence into unified terrain portrait",detail:"The Synthesis Layer combines FLINT L1 to L5 outputs with CLVF validation and Overlay context to produce a complete terrain intelligence portrait. Evidence tier floor rule applies: output carries the tier of its lowest-evidence input."},
+{name:"VANTAGE",desc:"Final synthesis output for practitioner review",detail:"VANTAGE is the final output of the ecosystem. It produces Terrain Support Considerations under T-01 restrictions. VANTAGE is NOT a sixth FLINT layer. It is a synthesis product, not a pipeline stage. Practitioner Clinical Decision section remains blank.",vantage:true}
+];
+var container=document.getElementById("vm-ov30-flow");
+var html="";
+for(var i=0;i<layers.length;i++){
+html=html+'<div class="vm-ov30-card" id="vm-ov30-card-'+i+'" data-idx="'+i+'" onclick="window.vmOv30Toggle('+i+')">';
+html=html+'<div class="vm-ov30-card-name">'+layers[i].name;
+if(layers[i].vantage){html=html+'<span class="vm-ov30-vantage-badge">NOT a sixth FLINT layer</span>';}
+html=html+"</div>";
+html=html+'<div class="vm-ov30-card-desc">'+layers[i].desc+"</div>";
+html=html+'<div class="vm-ov30-card-detail" id="vm-ov30-detail-'+i+'">'+layers[i].detail+"</div>";
+html=html+"</div>";
+if(i<layers.length-1){
+html=html+'<div class="vm-ov30-connector" id="vm-ov30-conn-'+i+'">';
+html=html+'<div class="vm-ov30-connector-line"></div>';
+html=html+'<div class="vm-ov30-particle" id="vm-ov30-particle-'+i+'"></div>';
+html=html+"</div>";
+}
+}
+container.innerHTML=html;
+window.vmOv30Toggle=function(idx){
+for(var i=0;i<layers.length;i++){
+var det=document.getElementById("vm-ov30-detail-"+i);
+var card=document.getElementById("vm-ov30-card-"+i);
+if(i===idx){
+if(det.classList.contains("open")){det.classList.remove("open");card.classList.remove("highlighted");}
+else{det.classList.add("open");card.classList.add("highlighted");}
+}else{det.classList.remove("open");card.classList.remove("highlighted");}
+}
+};
+function animateParticles(){
+var reducedMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+if(reducedMotion){
+for(var i=0;i<layers.length;i++){
+var card=document.getElementById("vm-ov30-card-"+i);
+card.style.borderColor="rgba(201,168,76,0.3)";
+}
+return;
+}
+for(var i=0;i<layers.length-1;i++){
+(function(idx){
+setTimeout(function(){
+var p=document.getElementById("vm-ov30-particle-"+idx);
+if(p){
+p.style.opacity="1";
+p.style.animation="vm-ov30-flow-down 200ms ease-out forwards";
+}
+var card=document.getElementById("vm-ov30-card-"+(idx+1));
+if(card){card.style.borderColor="rgba(201,168,76,0.3)";}
+},200*idx);
+})(i);
+}
+var firstCard=document.getElementById("vm-ov30-card-0");
+if(firstCard){firstCard.style.borderColor="rgba(201,168,76,0.3)";}
+}
+var obs=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){animateParticles();obs.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs.observe(document.getElementById("vm-ov30-section"));
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     OV31-OV40: 10 NEW INTERACTIVE ANIMATED FEATURES
+     Prefixes vm-ov31- through vm-ov40-
+     Built 13 May 2026 | ALB v1.5 | D-85 zone colours
+     ══════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════ OV31: Zone Dominance Pie Chart ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov31-segment,.vm-ov31-counter,.vm-ov31-glow{transition:none!important;animation:none!important}
+}
+#vm-ov31-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov31-section *{box-sizing:border-box}
+.vm-ov31-wrap{max-width:700px;margin:0 auto;text-align:center}
+.vm-ov31-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov31-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov31-svg-wrap{position:relative;display:inline-block}
+.vm-ov31-tooltip{position:absolute;background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.65rem;color:#F4F4F2;white-space:nowrap;pointer-events:none;z-index:10;display:none;line-height:1.6;left:50%;top:50%;transform:translate(-50%,-50%)}
+.vm-ov31-centre-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;fill:#F4F4F2;text-anchor:middle;dominant-baseline:central}
+.vm-ov31-centre-num{font-family:'DM Mono',monospace;font-size:1.6rem;fill:#C9A84C;text-anchor:middle;dominant-baseline:central;font-weight:500}

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSQ-71 Terrain Intake | VitalMatrix&#8482;</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D2B4E;--card:#1A2030;--deep:#0C4452;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#2E6DB4;--red:#D63030;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--mutedx:rgba(244,244,242,.35);--border:rgba(255,255,255,.11);--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+body{background:var(--bg);color:var(--white);font-family:var(--fd);font-size:14px;line-height:1.7}
+.w{max-width:960px;margin:0 auto;padding:20px}
+
+/* Header */
+.hdr{text-align:center;padding:32px 0 24px;border-bottom:1px solid rgba(201,168,76,.12)}
+.hdr h1{font-family:var(--fs);font-size:clamp(26px,4vw,40px);font-weight:300;margin-bottom:6px}
+.hdr h1 em{color:var(--gold);font-style:italic}
+.hdr p{font-size:12px;color:var(--muted);max-width:580px;margin:0 auto;line-height:1.7}
+
+/* Tabs */
+.tabs{display:flex;gap:0;margin:20px 0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.tab{flex:1;padding:10px;text-align:center;font-family:var(--fm);font-size:10px;letter-spacing:.08em;cursor:pointer;background:transparent;border:none;color:var(--muted);transition:all .2s}
+.tab.act{background:rgba(201,168,76,.1);color:var(--gold)}
+.tab:hover{color:var(--gold)}
+.layer{display:none}.layer.vis{display:block}
+
+/* Warning */
+.warn{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-left:3px solid var(--gold);padding:10px 14px;border-radius:4px;margin:16px 0;font-family:var(--fm);font-size:9px;color:var(--gold);line-height:1.6}
+
+/* Progress */
+.prog-text{font-family:var(--fm);font-size:9px;color:var(--muted);text-align:right;margin-bottom:3px}
+.prog{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s}
+
+/* Window toggle */
+.win-row{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.win-btn{flex:1;padding:8px;font-family:var(--fm);font-size:9px;letter-spacing:.08em;cursor:pointer;background:transparent;border:none;color:var(--muted);transition:all .2s}
+.win-btn.act{background:rgba(26,122,138,.12);color:var(--teal)}
+
+/* Domains */
+.dom{margin-bottom:12px;border-radius:6px;background:rgba(255,255,255,.02);border:1px solid var(--border);overflow:hidden}
+.dom.has{border-color:rgba(201,168,76,.2)}
+.dom-hd{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04)}
+.dom-ico{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.dom-nm{font-family:var(--fs);font-size:1rem;font-weight:400}
+.dom-nd{font-family:var(--fm);font-size:7px;color:var(--muted);letter-spacing:.06em}
+.dom-sc{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--gold);font-weight:700;min-width:28px;text-align:right}
+.dom-bd{padding:8px 14px;display:none}
+.dom.open .dom-bd{display:block}
+
+/* Items */
+.itm{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.itm:last-child{border-bottom:none}
+.itm-nm{flex:1;font-size:12px;min-width:0}
+.itm-btns{display:flex;gap:2px}
+.sb{width:26px;height:26px;border-radius:3px;border:1px solid rgba(255,255,255,.08);background:transparent;color:var(--mutedx);font-family:var(--fm);font-size:10px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.sb:hover{border-color:var(--teal);color:var(--teal)}
+.sb.sel30{background:rgba(201,168,76,.2);border-color:var(--gold);color:var(--gold)}
+.sb.sel48{background:rgba(26,122,138,.2);border-color:var(--teal);color:var(--teal)}
+
+/* Chronicity */
+.ch{padding:8px 0 0;border-top:1px dashed rgba(201,168,76,.12);margin-top:8px;display:none}
+.ch.vis{display:block}
+.ch-lb{font-family:var(--fm);font-size:7px;letter-spacing:.08em;color:var(--teal);margin-bottom:4px}
+.ch-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.ch-btn{font-family:var(--fm);font-size:8px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.08);background:transparent;color:var(--mutedx);cursor:pointer;transition:all .15s}
+.ch-btn:hover,.ch-btn.sel{background:rgba(26,122,138,.12);border-color:var(--teal);color:var(--teal)}
+
+/* Legend */
+.leg{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.leg span{font-family:var(--fm);font-size:8px;color:var(--muted)}
+
+/* Compute button */
+.cmp-btn{display:block;margin:24px auto;padding:12px 32px;border-radius:6px;border:2px solid var(--gold);background:var(--gold);color:var(--bg);font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:all .2s}
+.cmp-btn:hover{background:#D4B060}
+
+/* Output */
+#out{display:none;margin-top:24px}
+.out-sec{padding:20px;border-radius:8px;background:var(--card);border:1px solid rgba(201,168,76,.1);margin-bottom:16px}
+.out-hd{font-family:var(--fs);font-size:1.2rem;margin-bottom:4px}
+.out-sub{font-family:var(--fm);font-size:8px;color:var(--muted);letter-spacing:.08em;margin-bottom:12px}
+
+/* Node bars */
+.nb{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.nb-id{font-family:var(--fm);font-size:9px;min-width:20px;font-weight:700}
+.nb-track{flex:1;height:6px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden}
+.nb-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.nb-val{font-family:var(--fm);font-size:9px;min-width:24px;text-align:right}
+
+/* Zone cards */
+.zc{padding:10px 14px;border-radius:6px;margin-bottom:6px;border:2px solid;transition:all .4s}
+.zc.active{background:rgba(255,255,255,.04)}
+.zc.borderline{border-style:dashed}
+.zc.inactive{opacity:.35}
+.zc-top{display:flex;justify-content:space-between;align-items:center}
+.zc-badge{font-family:var(--fm);font-size:7px;padding:2px 6px;border-radius:3px;background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+
+/* Cascade rows */
+.cr{display:flex;align-items:center;gap:6px;padding:4px 0;font-size:11px}
+.cr.on{color:var(--gold)}.cr.off{color:rgba(244,244,242,.2)}
+
+/* TIQ ring */
+.tiq-w{text-align:center;margin:16px 0}
+.tiq-w svg{width:120px;height:120px}
+
+/* PCD */
+.pcd{padding:14px;border-radius:6px;border:1px dashed rgba(201,168,76,.15);background:rgba(201,168,76,.03)}
+.pcd-hd{font-family:var(--fm);font-size:8px;color:var(--gold);letter-spacing:.08em;margin-bottom:8px}
+.pcd-line{font-size:11px;color:var(--muted);margin-bottom:3px}
+
+/* Footer */
+.ft{margin-top:24px;padding:20px 0;border-top:1px solid rgba(201,168,76,.06);text-align:center;font-family:var(--fm);font-size:7px;color:rgba(244,244,242,.18);line-height:1.9}
+
+/* Responsive */
+@media(max-width:600px){.itm{flex-direction:column;align-items:flex-start;gap:4px}.itm-btns{align-self:flex-end}}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="hdr">
+    <h1>MSQ-71 <em>Terrain Intake</em></h1>
+    <p>Layer 1: 71-item Medical Symptoms Questionnaire with Gate O1 node weight vectors. Dual-window scoring (30-day + 48-hour). Full FLINT&#8482; pipeline output.</p>
+  </div>
+
+  <div class="warn">FOR PRACTITIONER USE ONLY. Do not enter real patient data into this demonstration tool. All scoring uses illustrative values. VitalMatrix&#8482; does not diagnose, prescribe, or replace clinical judgement.</div>
+
+  <div class="tabs">
+    <button class="tab act" data-layer="l1">LAYER 1: MSQ-71 SYMPTOMS</button>
+    <button class="tab" data-layer="l2" disabled style="opacity:.35">LAYER 2: NSR (42 items)</button>
+    <button class="tab" data-layer="l3" disabled style="opacity:.35">LAYER 3: Dx + Labs + ATM</button>
+  </div>
+
+  <div class="layer vis" id="l1">
+    <div class="win-row">
+      <button class="win-btn act" id="btn-30d">30-DAY WINDOW</button>
+      <button class="win-btn" id="btn-48h">48-HOUR WINDOW</button>
+    </div>
+
+    <div class="leg">
+      <span>0 = Never/rarely</span><span>1 = Occasional, mild</span><span>2 = Occasional, severe</span><span>3 = Frequent, mild</span><span>4 = Frequent, severe</span>
+    </div>
+
+    <div class="prog-text"><span id="ans">0</span>/71 rated</div>
+    <div class="prog"><div class="prog-fill" id="pbar" style="width:0"></div></div>
+
+    <div id="domains"></div>
+
+    <button class="cmp-btn" id="compute">Compute Terrain Assessment</button>
+  </div>
+
+  <div id="out">
+    <div class="out-sec">
+      <div class="out-sub">L1 NODE SCORING ENGINE</div>
+      <div class="out-hd">Node Scores (Internal 0-100)</div>
+      <div id="node-bars"></div>
+    </div>
+    <div class="out-sec">
+      <div class="out-sub">L2 NCZ ZONE ACTIVATION</div>
+      <div class="out-hd">Zone Status</div>
+      <div id="zone-cards"></div>
+    </div>
+    <div class="out-sec">
+      <div class="out-sub">L3 CASCADEIQ DETECTION</div>
+      <div class="out-hd">Active Cascades</div>
+      <div id="cascades"></div>
+      <div id="terrainlock" style="text-align:center;margin-top:10px"></div>
+    </div>
+    <div class="out-sec">
+      <div class="out-sub">L4 DRD DESIGNATION</div>
+      <div class="out-hd">Highest Burden Zone</div>
+      <div id="drd" style="text-align:center"></div>
+    </div>
+    <div class="out-sec">
+      <div class="tiq-w">
+        <div class="out-sub">TERRAIN INTELLIGENCE QUOTIENT</div>
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="8"/>
+          <circle id="tiq-arc" cx="60" cy="60" r="50" fill="none" stroke="#C9A84C" stroke-width="8" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .8s,stroke .4s"/>
+          <text id="tiq-val" x="60" y="56" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="28" font-weight="300" fill="#C9A84C">0</text>
+          <text x="60" y="72" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="rgba(244,244,242,.4)" letter-spacing=".1em">TIQ SCORE</text>
+        </svg>
+        <div id="tiq-band" style="font-family:var(--fm);font-size:10px;margin-top:4px"></div>
+      </div>
+    </div>
+    <div class="out-sec">
+      <div class="out-sub">TRAJECTORY (30-DAY vs 48-HOUR)</div>
+      <div id="trajectory" style="text-align:center;font-family:var(--fm);font-size:11px"></div>
+    </div>
+    <div class="out-sec">
+      <div class="pcd">
+        <div class="pcd-hd">PRACTITIONER CLINICAL DECISION</div>
+        <div class="pcd-line">Clinical interpretation: _______________</div>
+        <div class="pcd-line">Adjusted priorities: _______________</div>
+        <div class="pcd-line">Deferred items: _______________</div>
+        <div class="pcd-line">Follow-up interval: _______________</div>
+        <div class="pcd-line">Additional notes: _______________</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft">
+    VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.<br>
+    MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement.<br>
+    MSQ-71 Layer 1 Production | ALB v1.5 | D-85 | T-01 Active | Gate O1 weight vectors | For practitioner use only. Not a diagnostic tool.
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ══════════════════════════════════════════════════════════════════
+   MSQ-71 ITEMS WITH GATE O1 NODE WEIGHT VECTORS
+   Source: symptom_node_mappings.csv (219 rows, Gate O1, 20 March 2026)
+   71 items extracted (category = "symptom", standard MSQ domains)
+   Weights: [N1, N2, N3, N4, N5, N6, N7]
+   ══════════════════════════════════════════════════════════════════ */
+var DOMAINS = [
+  {id:'head',nm:'Head',ico:'&#129504;',col:'#7B5EA7',items:[
+    {nm:'Headaches',w:[0,0.5,0,0.5,0,1,0]},
+    {nm:'Faintness or dizziness',w:[0,0,0.5,0,1,0.5,0]},
+    {nm:'Insomnia / difficulty sleeping',w:[0,0,0,0,0,1,0]},
+    {nm:'Excessive sleepiness or fatigue',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Unrefreshing sleep',w:[0,0,0.5,0,0,1,0]}
+  ]},
+  {id:'eyes',nm:'Eyes',ico:'&#128065;',col:'#1A7A8A',items:[
+    {nm:'Watery or itchy eyes',w:[0.5,1,0,0,0,0,0]},
+    {nm:'Swollen / reddened eyelids',w:[0,1,0,0.5,0,0,0]},
+    {nm:'Dark circles under eyes',w:[0.5,1,0,0.5,0,0,0]},
+    {nm:'Blurred or tunnel vision',w:[0,0,0,0,1,0.5,0]}
+  ]},
+  {id:'ears',nm:'Ears',ico:'&#128066;',col:'#1A7A8A',items:[
+    {nm:'Itchy ears',w:[0.5,1,0,0,0,0,0]},
+    {nm:'Earaches or ear infections',w:[0,1,0,0,0,0,0]},
+    {nm:'Drainage from ear',w:[0,1,0,0,0,0,0]},
+    {nm:'Ringing in ears or hearing loss',w:[0,0,0,0,1,0.5,0]}
+  ]},
+  {id:'nose',nm:'Nose',ico:'&#128067;',col:'#1A7A8A',items:[
+    {nm:'Stuffy nose',w:[0.5,1,0,0,0,0,0]},
+    {nm:'Sinus problems',w:[0,1,0,0,0,0,0]},
+    {nm:'Hay fever or sneezing attacks',w:[0.5,1,0,0,0,0,0]},
+    {nm:'Excessive mucus formation',w:[1,0.5,0,0,0,0,0]}
+  ]},
+  {id:'mouth',nm:'Mouth / Throat',ico:'&#128068;',col:'#C9A84C',items:[
+    {nm:'Chronic coughing',w:[0,1,0,0,0.5,0,0]},
+    {nm:'Gagging or need to clear throat',w:[1,0.5,0,0,0,0,0]},
+    {nm:'Swollen / discoloured tongue or gums',w:[1,0.5,0,0,0,0,0]},
+    {nm:'Canker sores',w:[1,0,0,1,0,0,0]},
+    {nm:'Sore throat or hoarseness',w:[0,1,0,0,0,0,0]}
+  ]},
+  {id:'skin',nm:'Skin',ico:'&#129306;',col:'#1A7A8A',items:[
+    {nm:'Acne',w:[0.5,0.5,0,1,0,0.5,0]},
+    {nm:'Hives, rashes or dry skin',w:[0.5,1,0,0.5,0,0,0]},
+    {nm:'Hair loss',w:[0,0,0,0,0,1,0.5]},
+    {nm:'Flushing or hot flashes',w:[0,0,0,0,0.5,1,0]},
+    {nm:'Excessive sweating',w:[0,0,0,0.5,0,1,0]}
+  ]},
+  {id:'heart',nm:'Heart',ico:'&#10084;',col:'#7B5EA7',items:[
+    {nm:'Irregular or skipped heartbeat',w:[0,0,0.5,0,1,0.5,0]},
+    {nm:'Rapid or pounding heartbeat',w:[0,0,0,0,1,1,0]},
+    {nm:'Chest pain',w:[0,0,0,0,1,0,0.5]}
+  ]},
+  {id:'lungs',nm:'Lungs',ico:'&#127788;',col:'#7B5EA7',items:[
+    {nm:'Chest congestion',w:[0,1,0,0,0.5,0,0]},
+    {nm:'Asthma or bronchitis',w:[0,1,0,0,0.5,0,0]},
+    {nm:'Shortness of breath',w:[0,0,0.5,0,1,0,0]},
+    {nm:'Difficulty breathing',w:[0,0,0.5,0,1,0,0]}
+  ]},
+  {id:'digest',nm:'Digestive Tract',ico:'&#127860;',col:'#C9A84C',items:[
+    {nm:'Nausea or vomiting',w:[1,0,0,0.5,0,0,0]},
+    {nm:'Diarrhoea',w:[1,0.5,0,0,0,0,0]},
+    {nm:'Constipation',w:[1,0,0,0,0,0.5,0]},
+    {nm:'Bloated feeling',w:[1,0,0,0,0,0,0]},
+    {nm:'Belching or passing gas',w:[1,0,0,0,0,0,0]},
+    {nm:'Heartburn or acid reflux',w:[1,0,0,0,0,0.5,0]},
+    {nm:'Intestinal or stomach pain',w:[1,0.5,0,0,0,0,0]}
+  ]},
+  {id:'joints',nm:'Joints / Muscles',ico:'&#128170;',col:'#5F7C6C',items:[
+    {nm:'Pain or aches in joints',w:[0,0.5,0,0,0,0,1]},
+    {nm:'Arthritis',w:[0,1,0,0,0,0,1]},
+    {nm:'Stiffness or limitation of movement',w:[0,0.5,0,0,0,0,1]},
+    {nm:'Pain or aches in muscles',w:[0,0,0.5,0,0,0,1]},
+    {nm:'Feeling of weakness',w:[0,0,1,0,0,0.5,0.5]}
+  ]},
+  {id:'weight',nm:'Weight',ico:'&#9878;',col:'#C9A84C',items:[
+    {nm:'Binge eating or drinking',w:[0.5,0,0,0,0,1,0]},
+    {nm:'Craving certain foods',w:[0.5,0,0.5,0,0,1,0]},
+    {nm:'Excessive weight',w:[0.5,0,0.5,0,0,1,0]},
+    {nm:'Compulsive eating',w:[0,0,0,0,0,1,0]},
+    {nm:'Water retention',w:[0,0.5,0,1,1,0,0.5]}
+  ]},
+  {id:'energy',nm:'Energy / Activity',ico:'&#9889;',col:'#C9A84C',items:[
+    {nm:'Fatigue or sluggishness',w:[0,0,1,0,0,0.5,0]},
+    {nm:'Apathy or lethargy',w:[0,0,1,0,0,0.5,0]},
+    {nm:'Hyperactivity',w:[0,0,0,0,0,1,0]},
+    {nm:'Restlessness',w:[0,0,0.5,0,0,1,0]}
+  ]},
+  {id:'mind',nm:'Mind',ico:'&#129504;',col:'#C9A84C',items:[
+    {nm:'Poor memory',w:[0.5,0,0.5,0,0,1,0]},
+    {nm:'Confusion or poor comprehension',w:[0.5,0,0.5,0,0,1,0]},
+    {nm:'Poor concentration',w:[0.5,0,0.5,0,0,1,0]},
+    {nm:'Poor physical coordination',w:[0,0,0,0,0.5,1,0]},
+    {nm:'Difficulty making decisions',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Stuttering or stammering',w:[0,0,0,0,0,1,0]},
+    {nm:'Slurred speech',w:[0,0,0,0,0.5,1,0]},
+    {nm:'Learning difficulties',w:[0,0,0,0,0,1,0]}
+  ]},
+  {id:'emotions',nm:'Emotions',ico:'&#128156;',col:'#7B5EA7',items:[
+    {nm:'Mood swings',w:[0,0,0,0,0,1,0]},
+    {nm:'Anxiety, fear or nervousness',w:[0,0,0,0,0,1,0]},
+    {nm:'Anger, irritability or aggressiveness',w:[0,0,0,0.5,0,1,0]},
+    {nm:'Persistent low mood or emotional flatness',w:[0,0,0.5,0,0,1,0]}
+  ]},
+  {id:'other',nm:'Other',ico:'&#128300;',col:'#5F7C6C',items:[
+    {nm:'Frequent illness',w:[0.5,1,0,0,0,0,0]},
+    {nm:'Frequent or urgent urination',w:[0,0,0,0.5,0,1,0]},
+    {nm:'Genital itch or discharge',w:[0.5,1,0,0,0,0,0]}
+  ]}
+];
+
+var ZONES = [
+  {id:'Z1',nm:'Metabolic Energy Axis',nodes:['N3','N6'],th:40,col:'#C9A84C'},
+  {id:'Z2',nm:'Resilience Network',nodes:['N1','N2','N6'],th:40,col:'#1A7A8A'},
+  {id:'Z3',nm:'Cardiovascular-Neural Axis',nodes:['N5','N6'],th:40,col:'#7B5EA7'},
+  {id:'Z4',nm:'Detoxification Trident',nodes:['N2','N4'],th:40,col:'#5F7C6C'},
+  {id:'Z5',nm:'Hormonal Terrain Axis',nodes:['N3','N4','N6'],th:32,col:'#2E6DB4'}
+];
+
+var STACKS = [
+  {id:'S1',from:1,to:0,vel:'MEDIUM',tier:'Mechanism Established, Cascade Emerging'},
+  {id:'S2',from:0,to:4,vel:'FAST',tier:'Established'},
+  {id:'S3',from:3,to:0,vel:'SLOW',tier:'Emerging'},
+  {id:'S4',from:4,to:1,vel:'MEDIUM',tier:'Theoretical',theo:true},
+  {id:'S5',from:1,to:2,vel:'FAST',tier:'Emerging'},
+  {id:'S6',from:0,to:2,vel:'MEDIUM',tier:'Established',uni:true}
+];
+
+var NODES = ['N1','N2','N3','N4','N5','N6','N7'];
+var NODE_NAMES = {N1:'Assimilation',N2:'Defence and Repair',N3:'Energy',N4:'Biotransformation',N5:'Transport',N6:'Communication',N7:'Structural Integrity'};
+var NODE_COLS = {N1:'#C9A84C',N2:'#1A7A8A',N3:'#7B5EA7',N4:'#5F7C6C',N5:'#2E6DB4',N6:'#C9A84C',N7:'#5F7C6C'};
+var N6D = 0.7;
+
+/* ═══ STATE ═══ */
+var win = '30d';
+var scores30 = {};
+var scores48 = {};
+var chronicity = {};
+
+function initState(){
+  DOMAINS.forEach(function(d){
+    scores30[d.id] = d.items.map(function(){return 0;});
+    scores48[d.id] = d.items.map(function(){return 0;});
+    chronicity[d.id] = {dur:null,traj:null};
+  });
+}
+initState();
+
+/* ═══ BUILD FORM ═══ */
+var container = document.getElementById('domains');
+
+function buildForm(){
+  container.innerHTML = '';
+  DOMAINS.forEach(function(d,di){
+    var sc = (win==='30d'?scores30:scores48)[d.id];
+    var total = sc.reduce(function(a,b){return a+b;},0);
+    var hasScore = total > 0;
+
+    var div = document.createElement('div');
+    div.className = 'dom' + (hasScore?' has':'');
+    div.id = 'dom-'+d.id;
+
+    var hdr = '<div class="dom-hd" data-dom="'+d.id+'">';
+    hdr += '<div class="dom-ico" style="background:'+d.col+'22;border:1px solid '+d.col+'44">'+d.ico+'</div>';
+    hdr += '<div><div class="dom-nm">'+d.nm+'</div><div class="dom-nd">'+d.items.length+' items</div></div>';
+    hdr += '<div class="dom-sc">'+(total>0?total:'')+'</div></div>';
+
+    var bd = '<div class="dom-bd">';
+    d.items.forEach(function(itm,ii){
+      bd += '<div class="itm"><div class="itm-nm">'+itm.nm+'</div>';
+      bd += '<div class="itm-btns">';
+      for(var v=0;v<=4;v++){
+        var sel = sc[ii]===v && v>0;
+        var cls = sel ? (win==='30d'?'sel30':'sel48') : '';
+        bd += '<button class="sb '+cls+'" data-d="'+d.id+'" data-i="'+ii+'" data-v="'+v+'">'+v+'</button>';
+      }
+      bd += '</div></div>';
+    });
+
+    // Chronicity (30d only)
+    if(win==='30d' && hasScore){
+      var ch = chronicity[d.id];
+      var durs = ['< 3 months','3-12 months','1-5 years','5-10 years','> 10 years','Lifelong'];
+      var trajs = ['Worsening','Stable','Improving','Fluctuating'];
+      bd += '<div class="ch vis">';
+      bd += '<div class="ch-lb">DURATION</div><div class="ch-row">';
+      durs.forEach(function(dv){bd += '<button class="ch-btn'+(ch.dur===dv?' sel':'')+'" data-d="'+d.id+'" data-f="dur" data-val="'+dv+'">'+dv+'</button>';});
+      bd += '</div><div class="ch-lb">TRAJECTORY</div><div class="ch-row">';
+      trajs.forEach(function(tv){bd += '<button class="ch-btn'+(ch.traj===tv?' sel':'')+'" data-d="'+d.id+'" data-f="traj" data-val="'+tv+'">'+tv+'</button>';});
+      bd += '</div></div>';
+    }
+    bd += '</div>';
+
+    div.innerHTML = hdr + bd;
+    container.appendChild(div);
+  });
+
+  // Bind events
+  container.querySelectorAll('.dom-hd').forEach(function(h){
+    h.addEventListener('click',function(){
+      var domEl = document.getElementById('dom-'+h.getAttribute('data-dom'));
+      domEl.classList.toggle('open');
+    });
+  });
+
+  container.querySelectorAll('.sb').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var did = btn.getAttribute('data-d');
+      var idx = parseInt(btn.getAttribute('data-i'));
+      var val = parseInt(btn.getAttribute('data-v'));
+      (win==='30d'?scores30:scores48)[did][idx] = val;
+      buildForm();
+      updateProgress();
+    });
+  });
+
+  container.querySelectorAll('.ch-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var did = btn.getAttribute('data-d');
+      var field = btn.getAttribute('data-f');
+      var val = btn.getAttribute('data-val');
+      chronicity[did][field] = val;
+      buildForm();
+    });
+  });
+}
+
+function updateProgress(){
+  var answered = 0;
+  DOMAINS.forEach(function(d){
+    scores30[d.id].forEach(function(s){if(s>0)answered++;});
+  });
+  document.getElementById('ans').textContent = answered;
+  document.getElementById('pbar').style.width = (answered/71*100)+'%';
+}
+
+/* Window toggle */
+document.getElementById('btn-30d').addEventListener('click',function(){win='30d';this.classList.add('act');document.getElementById('btn-48h').classList.remove('act');buildForm();});
+document.getElementById('btn-48h').addEventListener('click',function(){win='48h';this.classList.add('act');document.getElementById('btn-30d').classList.remove('act');buildForm();});
+
+/* ═══ FLINT PIPELINE ═══ */
+document.getElementById('compute').addEventListener('click',function(){
+  computePipeline();
+  document.getElementById('out').style.display = 'block';
+  document.getElementById('out').scrollIntoView({behavior:'smooth'});
+});
+
+function computePipeline(){
+  /* L1: Node scoring using Gate O1 weight vectors */
+  var nodeScores = computeNodes(scores30);
+  var nodeScores48 = computeNodes(scores48);
+
+  /* L2: Zone activation */
+  var zoneResults = computeZones(nodeScores);
+
+  /* L3: Cascade detection */
+  var cascadeResults = detectCascades(zoneResults);
+
+  /* L4: DRD designation */
+  var drd = designateDRD(zoneResults, cascadeResults);
+
+  /* TIQ */
+  var tiq = computeTIQ(zoneResults);
+
+  /* Trajectory */
+  var total30 = 0, total48 = 0;
+  DOMAINS.forEach(function(d){
+    scores30[d.id].forEach(function(s){total30+=s;});
+    scores48[d.id].forEach(function(s){total48+=s;});
+  });
+
+  renderOutput(nodeScores, zoneResults, cascadeResults, drd, tiq, total30, total48);
+}
+
+function computeNodes(sc){
+  /* For each item, multiply severity (0-4) by each node weight.
+     Accumulate weighted scores per node. Normalise to 0-100. */
+  var nodeSum = {N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+  var nodeMax = {N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+
+  DOMAINS.forEach(function(d){
+    var s = sc[d.id];
+    d.items.forEach(function(itm,i){
+      var severity = s[i];
+      for(var n=0;n<7;n++){
+        var wt = itm.w[n];
+        if(wt > 0){
+          nodeSum[NODES[n]] += severity * wt;
+          nodeMax[NODES[n]] += 4 * wt; // max possible
+        }
+      }
+    });
+  });
+
+  var result = {};
+  NODES.forEach(function(nid){
+    result[nid] = nodeMax[nid] > 0 ? Math.round((nodeSum[nid] / nodeMax[nid]) * 100) : 0;
+  });
+  return result;
+}
+
+function computeZones(ns){
+  var results = [];
+  ZONES.forEach(function(z){
+    var vals = z.nodes.map(function(nid){
+      return nid === 'N6' ? ns[nid] * N6D : ns[nid];
+    });
+    var avg = vals.reduce(function(a,b){return a+b;},0) / vals.length;
+    var maxDamp = Math.max.apply(null, vals);
+    var floor = maxDamp - 10;
+    var internal = Math.round(Math.max(avg, floor));
+    internal = Math.min(100, Math.max(0, internal));
+    var display = Math.max(0, Math.min(10, Math.round((100 - internal) / 10)));
+    var active = internal >= z.th;
+    var borderline = !active && internal >= (z.th - 5);
+    results.push({id:z.id,nm:z.nm,col:z.col,internal:internal,display:display,active:active,borderline:borderline,th:z.th});
+  });
+  return results;
+}
+
+function detectCascades(zones){
+  var results = [];
+  STACKS.forEach(function(s){
+    var srcA = zones[s.from].active;
+    var tgtA = zones[s.to].active;
+    results.push({id:s.id,from:zones[s.from].id,to:zones[s.to].id,active:srcA&&tgtA,vel:s.vel,tier:s.tier,theo:s.theo||false,uni:s.uni||false});
+  });
+  var s1 = results[0].active;
+  var s2 = results[1].active;
+  var s4 = results[3].active;
+  results.terrainLock = s1 && s2 && s4;
+  return results;
+}
+
+function designateDRD(zones, casc){
+  var activeZ = zones.filter(function(z){return z.active;});
+  if(!activeZ.length) return null;
+  var sorted = activeZ.slice().sort(function(a,b){return b.internal - a.internal;});
+  var top = sorted[0].internal;
+  var tied = sorted.filter(function(z){return Math.abs(z.internal - top) <= 5;});
+  var driver;
+  if(casc.terrainLock){driver = zones.find(function(z){return z.id==='Z2';});}
+  else if(tied.length>1){var z2 = tied.find(function(z){return z.id==='Z2';});driver = z2||tied[0];}
+  else{driver = sorted[0];}
+  var reactors = activeZ.filter(function(z){return z.id !== driver.id;});
+  return {driver:driver, reactors:reactors, reason:casc.terrainLock?'TerrainLock override: Z2 default entry point':tied.length>1?'Z2 tiebreaker applied':'Highest internal score'};
+}
+
+function computeTIQ(zones){
+  var activeZ = zones.filter(function(z){return z.active;});
+  if(!activeZ.length) return 0;
+  return Math.round(activeZ.reduce(function(s,z){return s+z.internal;},0) / activeZ.length);
+}
+
+/* ═══ RENDER OUTPUT ═══ */
+function renderOutput(ns, zones, casc, drd, tiq, t30, t48){
+  // Nodes
+  var nbEl = document.getElementById('node-bars');
+  nbEl.innerHTML = '';
+  NODES.forEach(function(nid){
+    var val = ns[nid];
+    var dampNote = nid==='N6'?' (dampened: '+Math.round(val*N6D)+')':'';
+    nbEl.innerHTML += '<div class="nb"><span class="nb-id" style="color:'+NODE_COLS[nid]+'">'+nid+'</span><div class="nb-track"><div class="nb-fill" style="width:'+val+'%;background:'+NODE_COLS[nid]+'"></div></div><span class="nb-val" style="color:'+NODE_COLS[nid]+'">'+val+dampNote+'</span></div>';
+  });
+
+  // Zones
+  var zcEl = document.getElementById('zone-cards');
+  zcEl.innerHTML = '';
+  zones.forEach(function(z){
+    var cls = z.active?'active':z.borderline?'borderline':'inactive';
+    var isDrd = drd && drd.driver.id === z.id;
+    var status = z.active?'ACTIVE':z.borderline?'BORDERLINE (D-38)':'INACTIVE';
+    zcEl.innerHTML += '<div class="zc '+cls+'" style="border-color:'+z.col+'"><div class="zc-top"><div><span style="font-family:var(--fm);font-size:11px;font-weight:700;color:'+z.col+'">'+z.id+'</span> '+z.nm+(isDrd?' <span class="zc-badge">HIGHEST BURDEN</span>':'')+'</div><div style="text-align:right"><div style="font-family:var(--fs);font-size:1.3rem;color:'+z.col+'">'+z.display+'/10</div><div style="font-family:var(--fm);font-size:7px;color:var(--muted)">'+status+' ('+z.internal+')</div></div></div></div>';
+  });
+
+  // Cascades
+  var cEl = document.getElementById('cascades');
+  cEl.innerHTML = '';
+  casc.forEach(function(c){
+    var cls2 = c.active?'on':'off';
+    var qual = c.theo?' (THEORETICAL, excluded from DRD D-12)':c.uni?' (UNIDIRECTIONAL: '+c.from+' to '+c.to+' only)':'';
+    cEl.innerHTML += '<div class="cr '+cls2+'"><span style="font-family:var(--fm);font-size:10px;font-weight:700;min-width:20px">'+c.id+'</span><span>'+c.from+' &#8594; '+c.to+'</span><span style="font-family:var(--fm);font-size:8px">'+c.vel+'</span><span style="font-family:var(--fm);font-size:8px;color:var(--muted)">'+c.tier+qual+'</span><span style="font-family:var(--fm);font-size:8px">'+(c.active?'&#9679; ACTIVE':'&#9675; Inactive')+'</span></div>';
+  });
+
+  // TerrainLock
+  var tlEl = document.getElementById('terrainlock');
+  if(casc.terrainLock){
+    tlEl.innerHTML = '<span style="color:#FFD700;font-size:13px">&#9888; TERRAINLOCK&#8482; ACTIVE</span><br><span style="color:var(--muted);font-size:9px">Z2 &#8594; Z1 &#8594; Z5 &#8594; Z2. Default entry: Z2 gut restoration.</span>';
+  } else {
+    var missing = [];
+    if(!casc[0].active) missing.push('S1');
+    if(!casc[1].active) missing.push('S2');
+    if(!casc[3].active) missing.push('S4');
+    tlEl.innerHTML = '<span style="color:var(--muted);font-size:10px">TerrainLock&#8482; Inactive'+(missing.length?'. Missing: '+missing.join(', '):'')+'</span>';
+  }
+
+  // DRD
+  var drdEl = document.getElementById('drd');
+  if(drd){
+    drdEl.innerHTML = '<div style="font-family:var(--fs);font-size:1.3rem;color:'+drd.driver.col+'">'+drd.driver.id+': '+drd.driver.nm+'</div><div style="font-family:var(--fm);font-size:9px;color:var(--muted);margin-top:4px">'+drd.reason+' | Internal: '+drd.driver.internal+' | Display: '+drd.driver.display+'/10</div>'+(drd.reactors.length?'<div style="font-family:var(--fm);font-size:9px;color:var(--muted);margin-top:4px">Secondary burden: '+drd.reactors.map(function(r){return r.id;}).join(', ')+'</div>':'');
+  } else {
+    drdEl.innerHTML = '<span style="color:var(--muted);font-size:10px">No active zones. No designation.</span>';
+  }
+
+  // TIQ
+  var circ = 2*Math.PI*50;
+  var pct = Math.min(100,tiq);
+  var off = circ - (pct/100)*circ;
+  var tCol = tiq>60?'#D63030':tiq>35?'#C9A84C':'#4CAF50';
+  document.getElementById('tiq-arc').setAttribute('stroke',tCol);
+  document.getElementById('tiq-arc').setAttribute('stroke-dashoffset',off.toFixed(1));
+  document.getElementById('tiq-val').textContent = tiq;
+  document.getElementById('tiq-val').setAttribute('fill',tCol);
+  document.getElementById('tiq-band').innerHTML = '<span style="color:'+tCol+'">'+(tiq>60?'HIGH BURDEN':tiq>35?'MODERATE':'LOW BURDEN')+'</span>';
+
+  // Trajectory
+  var delta = t48 - t30;
+  var pctCh = t30>0?delta/t30:0;
+  var traj = pctCh>0.1?'Worsening':pctCh<-0.1?'Improving':'Stable';
+  var tCol2 = traj==='Worsening'?'#D63030':traj==='Improving'?'#4CAF50':'var(--muted)';
+  var arr = traj==='Worsening'?'&#8593;':traj==='Improving'?'&#8595;':'&#8594;';
+  document.getElementById('trajectory').innerHTML = '<span style="color:'+tCol2+';font-size:18px">'+arr+'</span> <span style="color:'+tCol2+'">'+traj+'</span><div style="color:var(--muted);font-size:8px;margin-top:4px">30-day: '+t30+' | 48-hour: '+t48+' | Delta: '+(delta>=0?'+':'')+delta+'</div>';
+}
+
+/* Init */
+buildForm();
+updateProgress();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Sample v2 — Silicon Valley Depth | VitalMatrix</title>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:local('Cormorant Garamond'),local('CormorantGaramond')}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:local('Cormorant Garamond Italic'),local('CormorantGaramond-Italic')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300 700;font-display:swap;src:local('Outfit')}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:400 500;font-display:swap;src:local('DM Mono'),local('DMMono')}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vm-fm:'DM Mono',monospace;
+  --vm-fs:'Cormorant Garamond',Georgia,serif;
+  --vm-fd:'Outfit',system-ui,sans-serif;
+  --vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;
+  --vm-sage:#5F7C6C;--vm-white:#F4F4F2;
+}
+html{font-size:16px}
+body{background:#020508;color:var(--vm-white);font-family:var(--vm-fd);margin:0;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ---- SAMPLE LABEL ---- */
+.sample-label{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:rgba(201,168,76,0.12);border-bottom:1px solid rgba(201,168,76,0.25);
+  padding:8px 20px;text-align:center;
+  font-family:var(--vm-fm);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--vm-gold);
+}
+
+/* ════════════════════════════════════════════════════════════
+   HERO
+   ════════════════════════════════════════════════════════════ */
+.hero{
+  background:#020508;
+  min-height:100vh;height:100vh;max-height:1100px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;position:relative;overflow:hidden;
+  padding:120px 72px 80px;
+}
+
+/* BG image */
+.hero-bg{
+  position:absolute;inset:0;
+  background-image:url('hero-bg-v5.webp');
+  background-size:cover;background-position:center;
+  transform:scale(1.04);
+  animation:heroSlowDrift 40s ease-in-out infinite alternate;
+  z-index:0;
+}
+
+/* Overlay */
+.hero-overlay{position:absolute;inset:0;background:rgba(2,5,8,0.55);z-index:1}
+
+/* Vignette */
+.hero-vignette{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 65% 60% at 50% 45%,transparent 0%,rgba(2,5,8,0.65) 100%);
+}
+
+/* Full-hero glass */
+.hero-glass{
+  position:absolute;inset:0;z-index:3;
+  background:rgba(13,43,78,0.12);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  pointer-events:none;
+}
+
+/* ---- AMBIENT GLOW ORBS (zone colours) ---- */
+.hero-orbs{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(80px);opacity:0.18;
+  animation:orbFloat 20s ease-in-out infinite alternate;
+}
+.orb-gold{width:500px;height:500px;background:#C9A84C;top:-10%;left:-5%;animation-delay:0s}
+.orb-teal{width:400px;height:400px;background:#1A7A8A;bottom:-15%;right:-8%;animation-delay:4s}
+.orb-purple{width:350px;height:350px;background:#7B5EA7;top:20%;right:5%;animation-delay:8s;opacity:0.10}
+.orb-sage{width:300px;height:300px;background:#5F7C6C;bottom:10%;left:15%;animation-delay:12s;opacity:0.08}
+@keyframes orbFloat{
+  0%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(30px,-20px) scale(1.05)}
+  66%{transform:translate(-20px,15px) scale(0.95)}
+  100%{transform:translate(10px,-10px) scale(1.02)}
+}
+
+/* ---- 3D PERSPECTIVE GRID (Linear-style) ---- */
+.hero-grid{
+  position:absolute;bottom:0;left:0;right:0;height:55%;z-index:2;
+  pointer-events:none;overflow:hidden;
+  perspective:600px;
+}
+.hero-grid-inner{
+  width:200%;height:100%;
+  margin-left:-50%;
+  transform:rotateX(55deg) translateZ(0);
+  transform-origin:center top;
+  background:
+    repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(201,168,76,0.06) 79px,rgba(201,168,76,0.06) 80px),
+    repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(26,122,138,0.04) 79px,rgba(26,122,138,0.04) 80px);
+  mask-image:linear-gradient(to top,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 70%);
+  -webkit-mask-image:linear-gradient(to top,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 70%);
+  animation:gridScroll 25s linear infinite;
+}
+@keyframes gridScroll{
+  0%{background-position:0 0}
+  100%{background-position:0 80px}
+}
+
+/* ---- FILM GRAIN ---- */
+.hero-grain{
+  position:absolute;inset:0;z-index:6;pointer-events:none;
+  opacity:0.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;
+  background-size:128px 128px;
+}
+
+/* ---- LIGHT RAYS ---- */
+.hero-rays{
+  position:absolute;top:-20%;left:50%;transform:translateX(-50%);
+  width:800px;height:600px;z-index:2;pointer-events:none;
+  background:conic-gradient(
+    from 180deg at 50% 0%,
+    transparent 0deg,
+    rgba(201,168,76,0.03) 15deg,
+    transparent 30deg,
+    rgba(26,122,138,0.02) 60deg,
+    transparent 75deg,
+    rgba(201,168,76,0.02) 120deg,
+    transparent 135deg,
+    rgba(123,94,167,0.015) 165deg,
+    transparent 180deg,
+    rgba(201,168,76,0.03) 210deg,
+    transparent 225deg,
+    rgba(26,122,138,0.02) 270deg,
+    transparent 285deg,
+    rgba(201,168,76,0.02) 330deg,
+    transparent 345deg
+  );
+  opacity:0.7;
+  animation:rayRotate 80s linear infinite;
+}
+@keyframes rayRotate{0%{transform:translateX(-50%) rotate(0deg)}100%{transform:translateX(-50%) rotate(360deg)}}
+
+/* ---- PARTICLES CANVAS ---- */
+#hero-particles{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
+
+/* ---- ZONE ORBITS ---- */
+.hero-zones{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:4}
+.zone-orbit{
+  position:absolute;border-radius:50%;border:1px solid;
+  animation:zonePulse 6s ease-in-out infinite;
+}
+@keyframes zonePulse{0%,100%{transform:scale(1);opacity:0.4}50%{transform:scale(1.18);opacity:0.75}}
+
+/* ---- SVG TERRAIN MESH (animated pentagon) ---- */
+.hero-mesh{
+  position:absolute;z-index:4;pointer-events:none;
+  width:420px;height:420px;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  opacity:0.12;
+  animation:meshRotate 90s linear infinite;
+}
+@keyframes meshRotate{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+.hero-mesh line{stroke-dasharray:4 8;animation:meshDash 3s linear infinite}
+@keyframes meshDash{to{stroke-dashoffset:-12}}
+
+/* ---- MOUSE PARALLAX LAYER ---- */
+.hero-parallax{
+  position:relative;z-index:10;
+  max-width:1000px;
+  margin-top:-40px;
+  will-change:transform;
+  transition:transform 0.15s ease-out;
+}
+
+/* ---- TYPOGRAPHY ---- */
+.hero-eyebrow{
+  font-family:var(--vm-fm);font-size:11px;letter-spacing:0.32em;text-transform:uppercase;
+  color:rgba(201,168,76,0.90);margin-bottom:36px;
+  opacity:0;animation:fadeUp 0.6s ease 0.1s forwards;
+}
+
+.hero h1{
+  font-family:var(--vm-fs);
+  font-size:clamp(52px,10.5vw,120px);
+  font-weight:400;
+  letter-spacing:-0.035em;
+  line-height:0.98;
+  color:var(--vm-white);
+  text-shadow:0 4px 80px rgba(0,0,0,0.70),0 2px 6px rgba(0,0,0,0.50),0 0 120px rgba(13,43,78,0.40);
+  opacity:0;transform:translateY(24px);
+  animation:fadeUp 1.0s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+}
+.hero h1 em{
+  color:var(--vm-gold);font-style:italic;font-weight:400;
+  text-shadow:0 4px 60px rgba(201,168,76,0.30),0 0 100px rgba(201,168,76,0.10),0 2px 6px rgba(0,0,0,0.40);
+}
+
+.hero-divider{
+  width:0;height:2px;margin:44px auto;
+  background:linear-gradient(90deg,transparent,#C9A84C,transparent);
+  box-shadow:0 0 24px rgba(201,168,76,0.40),0 0 60px rgba(201,168,76,0.10);
+  animation:accentSlide 1.4s cubic-bezier(0.16,1,0.3,1) 0.8s forwards;
+}
+
+.hero-sub{
+  font-size:clamp(16px,1.8vw,20px);font-weight:400;
+  color:rgba(244,244,242,0.88);line-height:1.75;
+  max-width:560px;margin:0 auto 20px;
+  text-shadow:0 2px 30px rgba(0,0,0,0.55);
+  opacity:0;transform:translateY(16px);
+  animation:fadeUp 0.8s ease 1.0s forwards;
+}
+
+.hero-vos-box{
+  margin-top:28px;display:flex;justify-content:center;
+  opacity:0;animation:fadeUp 0.6s ease 1.3s forwards;
+}
+.hero-vos-pill{
+  border:1.5px solid rgba(201,168,76,0.55);border-radius:40px;
+  padding:10px 28px;font-family:var(--vm-fm);font-size:0.65rem;
+  letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase;
+  background:rgba(201,168,76,0.08);
+  box-shadow:0 0 24px rgba(201,168,76,0.12),inset 0 0 20px rgba(201,168,76,0.03);
+  text-shadow:0 0 12px rgba(201,168,76,0.25);
+}
+
+.hero-ctas{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:52px;
+  opacity:0;animation:fadeUp 0.6s ease 1.5s forwards;
+}
+.cta-gold{
+  display:inline-block;font-family:var(--vm-fd);font-size:0.88rem;font-weight:600;
+  color:#0D2B4E;background:var(--vm-gold);padding:14px 40px;border-radius:8px;
+  text-decoration:none;letter-spacing:0.02em;
+  box-shadow:0 4px 32px rgba(201,168,76,0.30),0 0 60px rgba(201,168,76,0.08);
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.cta-gold:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(201,168,76,0.40),0 0 80px rgba(201,168,76,0.12)}
+.cta-ghost{
+  display:inline-block;font-family:var(--vm-fd);font-size:0.88rem;font-weight:500;
+  color:rgba(244,244,242,0.80);background:transparent;
+  border:1.5px solid rgba(244,244,242,0.20);padding:13px 40px;border-radius:8px;
+  text-decoration:none;letter-spacing:0.02em;
+  transition:border-color 0.2s,transform 0.15s;
+}
+.cta-ghost:hover{border-color:rgba(244,244,242,0.45);transform:translateY(-2px)}
+
+/* Scroll prompt */
+.scroll-prompt{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:10;text-align:center;
+  opacity:0;animation:fadeUp 0.5s ease 2.0s forwards;
+}
+.scroll-prompt span{font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,244,242,0.20)}
+.scroll-line{width:1px;height:40px;background:rgba(244,244,242,0.08);margin:8px auto 0;position:relative;overflow:hidden}
+.scroll-dot{width:3px;height:3px;border-radius:50%;background:var(--vm-gold);position:absolute;left:-1px;animation:scrollDot 2.5s ease-in-out infinite}
+
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes accentSlide{0%{width:0;opacity:0}100%{width:160px;opacity:1}}
+@keyframes heroSlowDrift{0%{transform:scale(1.04) translate(0,0)}100%{transform:scale(1.07) translate(-10px,-5px)}}
+@keyframes scrollDot{0%{top:-4px;opacity:0}30%{opacity:1}100%{top:40px;opacity:0}}
+
+/* ---- COMPARISON STRIP ---- */
+.compare-strip{background:#0D2B4E;padding:56px 24px;text-align:center;border-top:1px solid rgba(244,244,242,0.06)}
+.compare-strip h2{font-family:var(--vm-fs);font-size:1.4rem;font-weight:400;color:rgba(244,244,242,0.40);margin-bottom:24px}
+.compare-strip h2 span{color:var(--vm-gold)}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:900px;margin:0 auto}
+.compare-card{padding:32px 28px;border-radius:8px}
+.compare-card h3{font-family:var(--vm-fm);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px}
+.compare-card p{font-size:0.82rem;line-height:1.7}
+.compare-before{background:rgba(255,255,255,0.03)}
+.compare-before h3{color:rgba(244,244,242,0.30)}
+.compare-before p{color:rgba(244,244,242,0.35)}
+.compare-after{background:rgba(201,168,76,0.04);border-left:2px solid rgba(201,168,76,0.20)}
+.compare-after h3{color:var(--vm-gold)}
+.compare-after p{color:rgba(244,244,242,0.75)}
+
+.features-list{max-width:680px;margin:32px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;text-align:left}
+.features-list span{font-family:var(--vm-fm);font-size:0.58rem;letter-spacing:0.06em;color:rgba(244,244,242,0.45);padding:4px 0 4px 14px;position:relative}
+.features-list span::before{content:'';position:absolute;left:0;top:10px;width:6px;height:1px;background:var(--vm-gold)}
+
+@media(prefers-reduced-motion:reduce){
+  .orb,.hero-grid-inner,.hero-rays,.hero-mesh,.zone-orbit{animation:none !important}
+  .hero h1,.hero-sub,.hero-eyebrow,.hero-vos-box,.hero-ctas,.scroll-prompt,.hero-divider{opacity:1 !important;transform:none !important;animation:none !important}
+}
+@media(max-width:768px){
+  .hero{padding:80px 20px 60px}
+  .hero-mesh{width:280px;height:280px}
+  .hero-grid{height:40%}
+  .compare-grid{grid-template-columns:1fr}
+  .features-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sample-label">Sample v2 — Silicon Valley depth — does not affect main homepage</div>
+
+<section class="hero">
+  <!-- Layer 1: BG image -->
+  <div class="hero-bg"></div>
+
+  <!-- Layer 2: Dark overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Layer 3: Ambient glow orbs (zone colours) -->
+  <div class="hero-orbs">
+    <div class="orb orb-gold"></div>
+    <div class="orb orb-teal"></div>
+    <div class="orb orb-purple"></div>
+    <div class="orb orb-sage"></div>
+  </div>
+
+  <!-- Layer 4: Light rays -->
+  <div class="hero-rays"></div>
+
+  <!-- Layer 5: Vignette -->
+  <div class="hero-vignette"></div>
+
+  <!-- Layer 6: Full glass -->
+  <div class="hero-glass"></div>
+
+  <!-- Layer 7: 3D perspective grid -->
+  <div class="hero-grid"><div class="hero-grid-inner"></div></div>
+
+  <!-- Layer 8: SVG terrain mesh pentagon -->
+  <svg class="hero-mesh" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Pentagon vertices: Z1(200,40) Z2(352,154) Z3(294,340) Z4(106,340) Z5(48,154) -->
+    <!-- Outer pentagon -->
+    <polygon points="200,40 352,154 294,340 106,340 48,154" stroke="rgba(201,168,76,0.35)" stroke-width="0.8" fill="none"/>
+    <!-- Inner pentagon -->
+    <polygon points="200,120 296,190 260,290 140,290 104,190" stroke="rgba(26,122,138,0.25)" stroke-width="0.5" fill="none"/>
+    <!-- Cascade stack lines S1-S6 -->
+    <line x1="48" y1="154" x2="200" y2="40" stroke="rgba(26,122,138,0.20)" stroke-width="0.6"/><!-- S1: Z2>Z1 -->
+    <line x1="200" y1="40" x2="352" y2="154" stroke="rgba(201,168,76,0.20)" stroke-width="0.6"/><!-- S2: Z1>Z5 approx -->
+    <line x1="106" y1="340" x2="200" y2="40" stroke="rgba(95,124,108,0.18)" stroke-width="0.6"/><!-- S3: Z4>Z1 -->
+    <line x1="352" y1="154" x2="48" y2="154" stroke="rgba(123,94,167,0.12)" stroke-width="0.5" stroke-dasharray="3 6"/><!-- S4: Z5>Z2 theoretical -->
+    <line x1="48" y1="154" x2="294" y2="340" stroke="rgba(26,122,138,0.15)" stroke-width="0.6"/><!-- S5: Z2>Z3 -->
+    <line x1="200" y1="40" x2="294" y2="340" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/><!-- S6: Z1>Z3 -->
+    <!-- Zone nodes -->
+    <circle cx="200" cy="40" r="4" fill="rgba(201,168,76,0.40)"/><!-- Z1 -->
+    <circle cx="48" cy="154" r="4" fill="rgba(26,122,138,0.40)"/><!-- Z2 -->
+    <circle cx="294" cy="340" r="4" fill="rgba(123,94,167,0.35)"/><!-- Z3 -->
+    <circle cx="106" cy="340" r="4" fill="rgba(95,124,108,0.35)"/><!-- Z4 -->
+    <circle cx="352" cy="154" r="4" fill="rgba(212,184,112,0.35)"/><!-- Z5 -->
+    <!-- Pulse rings -->
+    <circle cx="200" cy="40" r="10" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" fill="none"><animate attributeName="r" values="10;18;10" dur="4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0;0.3" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="48" cy="154" r="10" stroke="rgba(26,122,138,0.15)" stroke-width="0.5" fill="none"><animate attributeName="r" values="10;18;10" dur="4s" begin="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0;0.3" dur="4s" begin="1s" repeatCount="indefinite"/></circle>
+  </svg>
+
+  <!-- Layer 9: Particle canvas -->
+  <canvas id="hero-particles" aria-hidden="true"></canvas>
+
+  <!-- Layer 10: Zone orbit rings -->
+  <div class="hero-zones">
+    <div class="zone-orbit" style="left:6%;top:18%;width:110px;height:110px;border-color:rgba(201,168,76,0.10);animation-delay:0s"></div>
+    <div class="zone-orbit" style="left:20%;top:68%;width:75px;height:75px;border-color:rgba(26,122,138,0.10);animation-delay:1.2s"></div>
+    <div class="zone-orbit" style="right:18%;top:12%;width:90px;height:90px;border-color:rgba(123,94,167,0.10);animation-delay:0.6s"></div>
+    <div class="zone-orbit" style="right:6%;top:55%;width:85px;height:85px;border-color:rgba(95,124,108,0.10);animation-delay:1.8s"></div>
+    <div class="zone-orbit" style="left:42%;top:78%;width:65px;height:65px;border-color:rgba(212,184,112,0.08);animation-delay:2.4s"></div>
+  </div>
+
+  <!-- Layer 11: Film grain -->
+  <div class="hero-grain"></div>
+
+  <!-- Content — mouse parallax wrapper -->
+  <div class="hero-parallax" id="hero-parallax">
+    <p class="hero-eyebrow">Clinical Intelligence Platform</p>
+    <h1>
+      Terrain intelligence<br>
+      built from within<br>
+      <em>functional medicine.</em>
+    </h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">VitalMatrix&#8482; is a clinical intelligence platform designed for functional medicine practitioners in UK private practice. One structured patient input. Five terrain-based clinical outputs. Every consultation.</p>
+    <div class="hero-vos-box">
+      <div class="hero-vos-pill">Built on VOS&#8482; &nbsp;|&nbsp; the VitalMatrix Operating System</div>
+    </div>
+    <div class="hero-ctas">
+      <a href="#" class="cta-gold">Book a Clinical Walkthrough</a>
+      <a href="#" class="cta-ghost">See How It Works</a>
+    </div>
+  </div>
+
+  <div class="scroll-prompt">
+    <span>Scroll to explore</span>
+    <div class="scroll-line"><div class="scroll-dot"></div></div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<div class="compare-strip">
+  <h2>What <span>changed</span> in v2</h2>
+  <div class="compare-grid">
+    <div class="compare-card compare-before">
+      <h3>v1 Sample</h3>
+      <p>Full glass layer, particles, zone orbits, fade-up animations, solid white h1, vignette. Good foundation.</p>
+    </div>
+    <div class="compare-card compare-after">
+      <h3>v2 Sample (this page)</h3>
+      <p>All v1 features plus: ambient glow orbs in zone colours, 3D perspective grid, SVG terrain pentagon mesh with cascade lines, mouse-tracking parallax, film grain texture, conic light rays, stronger CTA glow, spring-physics entrance curves.</p>
+    </div>
+  </div>
+  <div class="features-list">
+    <span>Ambient glow orbs (4 zone colours)</span>
+    <span>3D perspective grid (Linear-style)</span>
+    <span>SVG terrain pentagon mesh</span>
+    <span>Cascade stack connection lines</span>
+    <span>Zone pulse node animations</span>
+    <span>Mouse-tracking parallax</span>
+    <span>Film grain texture overlay</span>
+    <span>Conic light rays (slow rotate)</span>
+    <span>Spring-physics entrance curves</span>
+    <span>CTA glow + hover lift</span>
+    <span>prefers-reduced-motion respected</span>
+    <span>All v1 improvements retained</span>
+  </div>
+</div>
+
+<script>
+/* ═══════ PARTICLE CANVAS ═══════ */
+(function(){
+  var c=document.getElementById('hero-particles');
+  if(!c)return;
+  var ctx=c.getContext('2d');
+  var w,h,particles=[];
+  function resize(){w=c.width=c.offsetWidth;h=c.height=c.offsetHeight}
+  resize();
+  window.addEventListener('resize',resize);
+  for(var i=0;i<50;i++){
+    particles.push({
+      x:Math.random()*w,y:Math.random()*h,
+      r:Math.random()*1.8+0.4,
+      dx:(Math.random()-0.5)*0.25,dy:(Math.random()-0.5)*0.25,
+      o:Math.random()*0.25+0.08,
+      gold:Math.random()>0.65
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;
+      if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.gold?'rgba(201,168,76,'+p.o+')':'rgba(244,244,242,'+p.o+')';
+      ctx.fill();
+    }
+    for(var i=0;i<particles.length;i++){
+      for(var j=i+1;j<particles.length;j++){
+        var dx=particles[i].x-particles[j].x;
+        var dy=particles[i].y-particles[j].y;
+        var d=Math.sqrt(dx*dx+dy*dy);
+        if(d<130){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle='rgba(244,244,242,'+(0.035*(1-d/130))+')';
+          ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════ MOUSE PARALLAX ═══════ */
+(function(){
+  var el=document.getElementById('hero-parallax');
+  if(!el||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.querySelector('.hero').addEventListener('mousemove',function(e){
+    var rect=this.getBoundingClientRect();
+    var cx=(e.clientX-rect.left)/rect.width-0.5;
+    var cy=(e.clientY-rect.top)/rect.height-0.5;
+    el.style.transform='translate('+cx*-12+'px,'+cy*-8+'px)';
+  });
+  document.querySelector('.hero').addEventListener('mouseleave',function(){
+    el.style.transform='translate(0,0)';
+  });
+})();
+</script>
+
+</body>
+</html>

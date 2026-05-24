@@ -1,0 +1,76 @@
+<div class="vm-section-collapse" id="collapse-pentagon">
+<section class="vm-reveal vm-depth" aria-label="Interactive zone map" style="background:#071C33; padding:80px 0;">
+  <div class="container" style="text-align:center;">
+    <p class="eyebrow-arch" style="justify-content:center;">Zone Architecture</p>
+    <h2 class="vm-font-sharpen heading-gradient" style="font-size:clamp(24px,3.5vw,40px);">Five convergence zones. <em>Six cascade stacks.</em></h2>
+    <p style="font-size:14px;color:rgba(244,244,242,0.40);max-width:500px;margin:0 auto 40px;line-height:1.7;">Click any zone to explore its composition, activation threshold, and cascade connections.</p>
+    <div id="vm-pentagon-map">
+      <svg id="vm-penta-svg" viewBox="0 0 500 460" fill="none">
+        <!-- Cascade connection lines (hidden until zone active) -->
+        <line class="penta-cascade" id="pc-s1" x1="400" y1="175" x2="250" y2="55" stroke="rgba(26,122,138,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s2" x1="250" y1="55" x2="75" y2="175" stroke="rgba(201,168,76,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s3" x1="125" y1="400" x2="250" y2="55" stroke="rgba(95,124,108,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s4" x1="75" y1="175" x2="400" y2="175" stroke="rgba(123,94,167,0.30)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s5" x1="400" y1="175" x2="375" y2="400" stroke="rgba(26,122,138,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s6" x1="250" y1="55" x2="375" y2="400" stroke="rgba(201,168,76,0.35)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <!-- Pentagon outline -->
+        <polygon points="250,55 400,175 375,400 125,400 100,175" stroke="rgba(244,244,242,0.06)" stroke-width="1" fill="none"/>
+        <!-- Inner pentagon -->
+        <polygon points="250,120 350,195 330,340 170,340 150,195" stroke="rgba(244,244,242,0.03)" stroke-width="1" fill="none"/>
+        <!-- Z1: Metabolic Energy Axis (top) -->
+        <g class="penta-zone" data-zone="Z1" onclick="showPentaZone('Z1')">
+          <circle class="penta-node" cx="250" cy="55" r="28" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.30)" stroke-width="1.5" style="color:#C9A84C"/>
+          <circle cx="250" cy="55" r="6" fill="#C9A84C" opacity="0.7"/>
+          <text class="penta-label" x="250" y="59">Z1</text>
+          <text class="penta-zone-name" x="250" y="18">Metabolic Energy</text>
+        </g>
+        <!-- Z2: Resilience Network (top-right) -->
+        <g class="penta-zone" data-zone="Z2" onclick="showPentaZone('Z2')">
+          <circle class="penta-node" cx="400" cy="175" r="28" fill="rgba(26,122,138,0.08)" stroke="rgba(26,122,138,0.30)" stroke-width="1.5" style="color:#1A7A8A"/>
+          <circle cx="400" cy="175" r="6" fill="#1A7A8A" opacity="0.7"/>
+          <text class="penta-label" x="400" y="179">Z2</text>
+          <text class="penta-zone-name" x="455" y="165">Resilience</text>
+          <text class="penta-zone-name" x="455" y="178">Network</text>
+        </g>
+        <!-- Z3: Cardiovascular-Neural (bottom-right) -->
+        <g class="penta-zone" data-zone="Z3" onclick="showPentaZone('Z3')">
+          <circle class="penta-node" cx="375" cy="400" r="28" fill="rgba(123,94,167,0.08)" stroke="rgba(123,94,167,0.30)" stroke-width="1.5" style="color:#7B5EA7"/>
+          <circle cx="375" cy="400" r="6" fill="#7B5EA7" opacity="0.7"/>
+          <text class="penta-label" x="375" y="404">Z3</text>
+          <text class="penta-zone-name" x="430" y="420">Cardiovascular</text>
+        </g>
+        <!-- Z4: Detoxification Trident (bottom-left) -->
+        <g class="penta-zone" data-zone="Z4" onclick="showPentaZone('Z4')">
+          <circle class="penta-node" cx="125" cy="400" r="28" fill="rgba(95,124,108,0.08)" stroke="rgba(95,124,108,0.30)" stroke-width="1.5" style="color:#5F7C6C"/>
+          <circle cx="125" cy="400" r="6" fill="#5F7C6C" opacity="0.7"/>
+          <text class="penta-label" x="125" y="404">Z4</text>
+          <text class="penta-zone-name" x="65" y="420">Detoxification</text>
+        </g>
+        <!-- Z5: Hormonal Terrain (top-left) -->
+        <g class="penta-zone" data-zone="Z5" onclick="showPentaZone('Z5')">
+          <circle class="penta-node" cx="100" cy="175" r="28" fill="rgba(74,133,201,0.08)" stroke="rgba(74,133,201,0.30)" stroke-width="1.5" style="color:#4A85C9"/>
+          <circle cx="100" cy="175" r="6" fill="#4A85C9" opacity="0.7"/>
+          <text class="penta-label" x="100" y="179">Z5</text>
+          <text class="penta-zone-name" x="42" y="165">Hormonal</text>
+          <text class="penta-zone-name" x="42" y="178">Terrain</text>
+        </g>
+        <!-- Travelling particle around pentagon -->
+        <circle r="3" fill="#C9A84C" opacity="0.4">
+          <animateMotion path="M250,55 L400,175 L375,400 L125,400 L100,175 Z" dur="12s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+      <!-- Detail panel -->
+      <div id="vm-penta-detail">
+        <button class="pd-close" onclick="closePentaDetail()">&times;</button>
+        <div id="vm-penta-detail-content"></div>
+      </div>
+    </div>
+    <p style="font-family:var(--vm-fm);font-size:8px;color:rgba(244,244,242,0.15);margin-top:20px;letter-spacing:0.06em;">Click any zone node to explore. S4 is Theoretical. S6 is UNIDIRECTIONAL (Z1 to Z3 only).</p>
+  </div>
+</section>
+</div>
+<div class="vm-expand-trigger" onclick="toggleCollapse('collapse-pentagon',this)">
+  <span class="vm-expand-label">Explore the five-zone pentagon map</span>
+  <span class="vm-expand-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span>
+</div>
+

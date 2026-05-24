@@ -1,0 +1,164 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   VitalMatrix — Shared Award-Winning Enhancements (Tier 2 Pages)
+   6 universal enhancements for all non-homepage pages
+   Date: 2 May 2026 | W05 Claude Code
+   Linked by: HowItWorks, About, OurApproach, TerrainIntelligence, Pricing,
+              CascadeAtlas, NCZArchitecture, FAQ, Contact, ClinicalEthics,
+              Privacy, CookiePolicy
+   Constraints: No CDN, British English, @font-face local() only
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. SCROLL-VELOCITY-RESPONSIVE TRANSITIONS ─── */
+body.vm-scroll-fast .animate-on-scroll,
+body.vm-scroll-fast .vm-reveal,
+body.vm-scroll-fast [class*="stagger"] {
+  transition-duration: 0.2s !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+body.vm-scroll-slow .animate-on-scroll,
+body.vm-scroll-slow .vm-reveal,
+body.vm-scroll-slow [class*="stagger"] {
+  transition-duration: 1.2s !important;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ─── 2. SMOOTH SCROLL ENGINE ─── */
+/* No CSS needed — handled by JS momentum lerp */
+
+/* ─── 3. SPRING PHYSICS (global override) ─── */
+a, button,
+[class*="card"],
+[class*="btn"],
+[class*="cta"],
+[class*="glass"],
+.vm-nav-cta,
+.vm-nav-links a,
+.vm-infra-card,
+.vm-problem-card,
+.vm-pillar-row,
+.next-steps-card,
+.infrastructure-card,
+.output-card,
+.pp-card,
+.vm-diff-card,
+.vm-faq-item {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* ─── 4. CARD PROXIMITY LIGHT ─── */
+.vm-proximity-grid {
+  position: relative;
+}
+.vm-proximity-light {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  transform: translate(-50%, -50%);
+}
+.vm-proximity-grid:hover .vm-proximity-light {
+  opacity: 1;
+}
+
+/* ─── 5. TERRAIN MESH LIVING BACKGROUND ─── */
+.vm-terrain-bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 550px;
+  height: 550px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+.vm-terrain-bg.visible {
+  opacity: 1;
+}
+.vm-terrain-bg svg {
+  width: 100%;
+  height: 100%;
+  animation: vmTerrainSpin 120s linear infinite;
+}
+@keyframes vmTerrainSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@media (max-width: 768px) {
+  .vm-terrain-bg { width: 280px; height: 280px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-terrain-bg svg { animation: none; }
+}
+
+/* ─── 6. PAGE LOADER ─── */
+/* GOVERNANCE NOTE: The loader is a visual z-index overlay only.
+   All governance content (MHRA, ICO, TM footer, protective headers)
+   exists in the DOM from initial HTML parse. The loader does NOT
+   delay, remove, or conditionally render any DOM content. */
+.vm-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--vm-prussian, #0D2B4E);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.vm-loader.vm-loader-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.vm-loader-logo {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.vm-loader-logo.active {
+  opacity: 1;
+  transform: scale(1);
+}
+.vm-loader-pentagon {
+  width: 100px;
+  height: 100px;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.vm-loader-pentagon.active {
+  opacity: 1;
+}
+.vm-loader-pentagon svg polygon {
+  stroke-dasharray: 480;
+  stroke-dashoffset: 480;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vm-loader-pentagon.draw svg polygon {
+  stroke-dashoffset: 0;
+}
+.vm-loader-line {
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+  margin-top: 16px;
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vm-loader-line.draw {
+  width: 160px;
+}
+body.vm-loading {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-loader { display: none !important; }
+  body.vm-loading { overflow: auto; }
+}

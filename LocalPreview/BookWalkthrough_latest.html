@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Clinical Walkthrough | VitalMatrix</title>
+<link rel="canonical" href="https://vitalmatrix.co.uk/book/">
+<meta property="og:title" content="Book a Clinical Walkthrough | VitalMatrix&#8482;">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vitalmatrix.co.uk/book/">
+<style>
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: local('Cormorant Garamond'), local('CormorantGaramond-Regular');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: local('Cormorant Garamond SemiBold'), local('CormorantGaramond-SemiBold');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: local('Cormorant Garamond Bold'), local('CormorantGaramond-Bold');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: local('Outfit'), local('Outfit-Regular');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: local('Outfit Medium'), local('Outfit-Medium');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: local('Outfit SemiBold'), local('Outfit-SemiBold');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'DM Mono';
+  src: local('DM Mono'), local('DMMono-Regular');
+  font-weight: 400;
+  font-style: normal;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --vm-cream: #FAF8F4;
+  --vm-prussian: #0D2B4E;
+  --vm-charcoal: #1A2030;
+  --vm-deep-teal: #0C4452;
+  --vm-gold: #C9A84C;
+  --vm-teal: #1A7A8A;
+  --vm-teal-light: #2A9BAD;
+  --vm-purple: #7B5EA7;
+  --vm-sage: #5F7C6C;
+  --vm-white: #F4F4F2;
+  --vm-border: #E0DDD6;
+  --vm-text: #1A1A1A;
+  --vm-text-sec: #6A6A6A;
+  --vm-muted: #8BA5B8;
+  --vm-font-heading: 'Cormorant Garamond', Georgia, serif;
+  --vm-font-body: 'Outfit', system-ui, sans-serif;
+  --vm-font-mono: 'DM Mono', monospace;
+}
+
+body {
+  background: var(--vm-charcoal);
+  color: var(--vm-white);
+  font-family: var(--vm-font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAV */
+.vm-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.vm-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.vm-nav-logo img {
+  height: 48px;
+  width: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.vm-nav-logo-text {
+  font-family: var(--vm-font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--vm-white);
+  letter-spacing: 0.02em;
+}
+
+.vm-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.vm-nav-links a {
+  font-family: var(--vm-font-body);
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--vm-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.vm-nav-links a:hover {
+  color: var(--vm-gold);
+}
+
+/* HERO */
+.vm-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+  flex: 1;
+}
+
+.vm-eyebrow {
+  font-family: var(--vm-font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+  margin-bottom: 1.25rem;
+}
+
+.vm-hero h1 {
+  font-family: var(--vm-font-heading);
+  font-size: 3.25rem;
+  font-weight: 700;
+  color: var(--vm-white);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+}
+
+.vm-hero-sub {
+  font-family: var(--vm-font-body);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--vm-muted);
+  margin-bottom: 2.5rem;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+.vm-cta {
+  display: inline-block;
+  background: var(--vm-gold);
+  color: var(--vm-charcoal);
+  font-family: var(--vm-font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.9rem 2.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.vm-cta:hover {
+  background: #d4b563;
+  transform: translateY(-1px);
+}
+
+.vm-cta:active {
+  transform: translateY(0);
+}
+
+/* WHAT TO EXPECT */
+.vm-expect {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+  text-align: center;
+}
+
+.vm-expect h2 {
+  font-family: var(--vm-font-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--vm-white);
+  margin-bottom: 2rem;
+}
+
+.vm-expect-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vm-expect-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 168, 76, 0.12);
+  border-radius: 8px;
+  padding: 1.1rem 1.5rem;
+  text-align: left;
+}
+
+.vm-expect-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vm-expect-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--vm-gold);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vm-expect-text {
+  font-size: 1rem;
+  color: var(--vm-muted);
+  line-height: 1.5;
+}
+
+/* FOOTER */
+.vm-footer {
+  border-top: 1px solid rgba(201, 168, 76, 0.15);
+  padding: 2.5rem 2rem 1.5rem;
+  text-align: center;
+}
+
+.vm-footer-brand {
+  font-family: var(--vm-font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--vm-white);
+  margin-bottom: 0.75rem;
+}
+
+.vm-footer-copy {
+  font-size: 0.8rem;
+  color: var(--vm-text-sec);
+  margin-bottom: 1.25rem;
+}
+
+.vm-footer-tm {
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  color: rgba(139, 165, 184, 0.5);
+  line-height: 1.7;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.vm-footer-reg {
+  font-size: 0.7rem;
+  color: var(--vm-text-sec);
+  margin-top: 1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .vm-nav {
+    padding: 1rem 1.25rem;
+  }
+  .vm-nav-links {
+    gap: 1rem;
+  }
+  .vm-hero {
+    padding: 4rem 1.25rem 3rem;
+  }
+  .vm-hero h1 {
+    font-size: 2.25rem;
+  }
+  .vm-expect {
+    padding: 2rem 1.25rem 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vm-nav-links {
+    display: none;
+  }
+  .vm-hero h1 {
+    font-size: 1.85rem;
+  }
+  .vm-hero-sub {
+    font-size: 1rem;
+  }
+}
+
+/* ── Award-Winning Scroll Animations ── */
+@keyframes vmFadeUp { 0% { opacity:0; transform:translateY(36px); } 100% { opacity:1; transform:translateY(0); } }
+@keyframes vmSlideLeft { 0% { opacity:0; transform:translateX(-50px); } 100% { opacity:1; transform:translateX(0); } }
+@keyframes vmSlideRight { 0% { opacity:0; transform:translateX(50px); } 100% { opacity:1; transform:translateX(0); } }
+@keyframes vmScaleIn { 0% { opacity:0; transform:scale(0.88); } 100% { opacity:1; transform:scale(1); } }
+@keyframes vmGoldPulse { 0%,100% { box-shadow:0 0 0 0 rgba(201,168,76,0.3); } 50% { box-shadow:0 0 20px 6px rgba(201,168,76,0.12); } }
+.vm-reveal { opacity:0; }
+.vm-reveal.revealed { animation: vmFadeUp 0.7s cubic-bezier(0.4,0,0.2,1) forwards; }
+.vm-reveal-d1.revealed { animation-delay:0.12s; }
+.vm-reveal-d2.revealed { animation-delay:0.24s; }
+.vm-reveal-d3.revealed { animation-delay:0.36s; }
+.vm-reveal-d4.revealed { animation-delay:0.48s; }
+.vm-reveal-d5.revealed { animation-delay:0.6s; }
+@media(prefers-reduced-motion:reduce){ .vm-reveal{opacity:1;animation:none!important} }
+
+/* W29 Typographic Rules */
+.vm-rule-dot{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.vm-rule-dot::before{content:'';display:block;width:48px;height:1px;background:linear-gradient(90deg,#C9A84C,rgba(201,168,76,0.25));}
+.vm-rule-dot::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:#C9A84C;opacity:0.7;}
+.vm-rule-drop{width:1px;height:40px;background:linear-gradient(to bottom,#C9A84C,transparent);margin:14px 0;}
+</style>
+<link rel="stylesheet" href="vm-award-tier2.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="vm-nav">
+  <a href="#" class="vm-nav-logo">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" style="display:block;margin:0;padding:0;border:none;line-height:0;" alt="VitalMatrix">
+  </a>
+  <ul class="vm-nav-links">
+    <li><a href="#">Platform</a></li>
+    <li><a href="#">For Practitioners</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="https://calendly.com/vitalmatrix-discovery-call" class="vm-cta" style="padding:0.55rem 1.4rem; font-size:0.875rem;">Book a Call</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="vm-hero">
+  <span class="vm-eyebrow vm-reveal">Discovery Call</span>
+  <div class="vm-rule-dot" style="justify-content:center;margin:12px auto 16px;"></div>
+  <h1 class="vm-reveal vm-reveal-d1">Book a Clinical Walkthrough</h1>
+  <p class="vm-hero-sub vm-reveal vm-reveal-d2">30 minutes. Platform demonstration. Dr Faisal directly.</p>
+  <div class="vm-rule-drop" style="margin:10px auto;"></div>
+  <a href="https://calendly.com/vitalmatrix-discovery-call" class="vm-cta vm-reveal vm-reveal-d3">Book Your Walkthrough</a>
+</section>
+
+<!-- WHAT TO EXPECT -->
+<section class="vm-expect">
+  <h2 class="vm-reveal">What to Expect</h2>
+  <div class="vm-expect-items">
+    <div class="vm-expect-item vm-reveal vm-reveal-d1">
+      <div class="vm-expect-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <span class="vm-expect-text">A live platform demonstration</span>
+    </div>
+    <div class="vm-expect-item vm-reveal vm-reveal-d2">
+      <div class="vm-expect-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <span class="vm-expect-text">Your specific use case discussed</span>
+    </div>
+    <div class="vm-expect-item vm-reveal vm-reveal-d3">
+      <div class="vm-expect-icon">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <span class="vm-expect-text">No sales pressure</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="vm-footer">
+  <div class="vm-footer-brand">VitalMatrix</div>
+  <div class="vm-footer-copy">Clinical intelligence platform. For practitioner use only. Not a diagnostic tool.</div>
+  <div class="vm-footer-governance" style="font-family:'DM Mono',monospace;font-size:0.55rem;color:rgba(244,244,242,0.35);line-height:1.8;margin-bottom:12px;">MHRA approval awaited. VitalMatrix™ provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</div>
+  <div class="vm-footer-tm">VOS™ (VitalMatrix Operating System). VitalMatrix™, NCZ™, DRD™, APEX™, TIQ™, CIB™, CascadeIQ™, FLINT™, CZR™, TRACE™, DeltaScan™, MedTerrain™, TerrainLock™, CascadeAtlas™, PRISM™, KINETICS™, COHERENCE™, ORBIT™, SPHERE™, HERALD™, BEACON™, MAPS™, RECON™, GENOME™, ANCHOR™, AXIS™, INTAKE™, VECTOR™, VERITY™, VANTAGE™, VISTA™, CADENCE™, TerrainSpiral™, MODES™, GRADE™, NEXUS™ and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</div>
+  <div class="vm-footer-reg">VitalMatrix Ltd 2026</div>
+</footer>
+
+<script>
+(function(){
+  var m=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var els=document.querySelectorAll('.vm-reveal');
+  if(m){els.forEach(function(e){e.classList.add('revealed');});return;}
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target);}});
+  },{threshold:0.12,rootMargin:'0px 0px -30px 0px'});
+  els.forEach(function(e){obs.observe(e);});
+})();
+</script>
+<script src="vm-award-tier2.js"></script>
+<script src="vm-silicon-valley.js" defer></script>
+<script src="vm-silicon-valley-v2.js" defer></script>
+<script src="vm-silicon-valley-v3.js" defer></script>
+</body>
+</html>

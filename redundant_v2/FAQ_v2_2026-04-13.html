@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem('vm-analytics-consent','accepted');document.getElementById('vm-consent-banner').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem('vm-analytics-consent','declined');document.getElementById('vm-consent-banner').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ | VitalMatrix Clinical Intelligence Platform</title>
+<meta name="description" content="Twenty questions from functional medicine practitioners exploring VitalMatrix for the first time. Platform, founding programme, pricing, clinical governance, and how to join Phase 1.">
+<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform, FAQ, founding practitioners, FLINT, NCZ, DRD">
+<meta property="og:title" content="FAQ | VitalMatrix&#8482;">
+<meta property="og:description" content="Answers to the most common questions from functional medicine practitioners about VitalMatrix&#8482;. Platform, pricing, governance, getting started.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vitalmatrix.co.uk/faq/">
+<link rel="canonical" href="https://vitalmatrix.co.uk/faq/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is VitalMatrix a diagnostic tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. VitalMatrix generates terrain intelligence working documents for practitioner review. All clinical decisions remain with the registered practitioner. MHRA SaMD classification has not yet commenced."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does VitalMatrix produce from a patient intake?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One patient input generates five clinical outputs: a Terrain Node Score Report, a Phased Intervention Working Document, a Zone Activation Summary, a CascadeIQ Cascade Map, and an APEX Examination Priority List."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the founding programme?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Phase 1 offers ten founding positions for UK functional medicine practitioners across two cohorts: Founding Clinical Fellows (invitation only, no charge) and Founding Practitioners (application-based, five-year price guarantee). See pricing for details."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does VitalMatrix identify the highest burden zone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DRD identifies the zone carrying the highest terrain burden for practitioner review. This is a working hypothesis presented to the practitioner, not a diagnosis or clinical finding."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I join Phase 1?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Book a 30-minute clinical walkthrough with Dr Faisal at vitalmatrix.co.uk/book-a-walkthrough/ or apply directly at vitalmatrix.co.uk/contact/."
+      }
+    }
+  ]
+}
+</script>
+<style>
+/* ---- @font-face: local only, no CDN ---- */
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300;src:local('Cormorant Garamond Light'),local('CormorantGaramond-Light');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400;src:local('Cormorant Garamond Regular'),local('CormorantGaramond-Regular');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400;src:local('Cormorant Garamond Italic'),local('CormorantGaramond-Italic');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;src:local('Cormorant Garamond SemiBold'),local('CormorantGaramond-SemiBold');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300;src:local('Outfit Light'),local('Outfit-Light');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:400;src:local('Outfit Regular'),local('Outfit-Regular');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:500;src:local('Outfit Medium'),local('Outfit-Medium');font-display:swap}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:600;src:local('Outfit SemiBold'),local('Outfit-SemiBold');font-display:swap}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:400;src:local('DM Mono Regular'),local('DMMono-Regular');font-display:swap}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:500;src:local('DM Mono Medium'),local('DMMono-Medium');font-display:swap}
+:root{
+  --vm-prussian:#0D2B4E;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;
+  --vm-prussian-light:#153A62;--vm-navy-d:#071C33;--vm-navy-m:#0F3460;--vm-navy-s:#1A3A5C;
+  --vm-charcoal-deep:#111820;--vm-charcoal-mid:#232B3E;
+  --vm-teal-deepest:#07303D;--vm-teal-mid:#125A6E;--vm-sage-dark:#2D4438;
+  --vm-teal:#1A7A8A;--vm-teal-l:#2A9BAD;
+  --vm-gold:#C9A84C;--vm-gold-d:#A8873A;--vm-gold-l:#E8C96A;--vm-gold-w:#D4B870;
+  --vm-sage:#5F7C6C;--vm-purple:#7B5EA7;
+  --vm-white:#F4F4F2;--vm-text:rgba(244,244,242,0.80);--vm-text-s:rgba(244,244,242,0.55);
+  --vm-text-t:rgba(244,244,242,0.35);--vm-brd-gold:rgba(201,168,76,0.18);
+  --vm-brd-white:rgba(255,255,255,0.06);
+  --vm-fs:'Cormorant Garamond',Georgia,serif;
+  --vm-fd:'Outfit',system-ui,sans-serif;
+  --vm-fm:'DM Mono',monospace;
+  --vm-ease:cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--vm-fd);background:var(--vm-charcoal);color:var(--vm-white);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--vm-fs);font-weight:300;line-height:1.15}
+a{color:inherit;text-decoration:none}
+img{display:block;border:none}
+@keyframes heroFadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* NAV */
+.nav{position:sticky;top:0;height:52px;background:rgba(26,32,48,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--vm-brd-gold);z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.nav-logo{line-height:0;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-family:var(--vm-fd);font-size:0.6rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--vm-text-s);transition:color 0.2s}
+.nav-links a:hover{color:var(--vm-gold)}
+.nav-cta{display:inline-block;background:var(--vm-gold);color:var(--vm-prussian);font-family:var(--vm-fd);font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:8px 20px;border-radius:2px;transition:background 0.2s}
+.nav-cta:hover{background:var(--vm-gold-l)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:20px;height:1.5px;background:var(--vm-text-s);transition:all 0.3s}
+.nav-mobile{display:none;position:fixed;top:52px;left:0;right:0;background:rgba(26,32,48,0.98);backdrop-filter:blur(12px);padding:24px 32px;flex-direction:column;gap:20px;border-bottom:1px solid var(--vm-brd-gold);z-index:199}
+.nav-mobile.open{display:flex}
+.nav-mobile a{font-family:var(--vm-fd);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--vm-text-s)}
+.nav-mobile a:hover{color:var(--vm-gold)}
+
+/* HERO */
+.hero{background:linear-gradient(155deg,var(--vm-charcoal) 0%,#0e1520 100%);padding:72px 24px 64px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:1px;background:var(--vm-gold);opacity:0.15}
+.hero-inner{max-width:680px;margin:0 auto;animation:heroFadeUp 0.7s ease both}
+.eyebrow{font-family:var(--vm-fm);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.22em;color:var(--vm-teal-l);margin-bottom:20px}
+.hero h1{font-family:var(--vm-fs);font-weight:300;font-size:clamp(2.2rem,4vw,3.2rem);color:var(--vm-white);margin-bottom:20px}
+.hero-sub{font-family:var(--vm-fd);font-weight:300;font-size:0.92rem;color:rgba(244,244,242,0.65);max-width:520px;margin:0 auto;line-height:1.75}
+.hero-meta{font-family:var(--vm-fm);font-size:0.58rem;color:var(--vm-text-t);margin-top:14px}
+
+/* FAQ SECTIONS */
+.faq-section{padding:80px 24px}
+.faq-inner{max-width:900px;margin:0 auto}
+.faq-section .eyebrow{margin-bottom:12px}
+.faq-section h2{font-family:var(--vm-fs);font-weight:300;font-size:clamp(1.4rem,2vw,1.8rem);color:var(--vm-white);margin-bottom:32px}
+.faq-item{border-bottom:1px solid var(--vm-brd-white)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:pointer;font-family:var(--vm-fd);font-weight:500;font-size:0.88rem;color:var(--vm-white);user-select:none}
+.faq-chevron{width:16px;height:16px;flex-shrink:0;margin-left:16px;transition:transform 0.3s var(--vm-ease)}
+.faq-chevron svg{width:16px;height:16px;stroke:var(--vm-teal);stroke-width:2;fill:none}
+.faq-item.open .faq-chevron{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.3s ease}
+.faq-item.open .faq-a{max-height:600px}
+.faq-a-inner{padding:0 0 20px 0;font-family:var(--vm-fd);font-weight:300;font-size:0.82rem;color:rgba(244,244,242,0.70);line-height:1.75}
+.faq-item.open .faq-a-inner{border-left:3px solid var(--vm-gold);padding-left:16px}
+
+/* SECTION BACKGROUNDS */
+.bg-charcoal{background:var(--vm-charcoal)}
+.bg-charcoal-mid{background:var(--vm-charcoal-mid)}
+.bg-prussian{background:var(--vm-prussian)}
+.bg-charcoal-deep{background:var(--vm-charcoal-deep)}
+.bg-sage-dark{background:var(--vm-sage-dark)}
+
+/* CTA SECTION */
+.cta-section{background:var(--vm-prussian);padding:80px 24px;text-align:center}
+.cta-section .eyebrow{margin-bottom:12px}
+.cta-section h2{font-family:var(--vm-fs);font-weight:300;font-size:clamp(1.6rem,2.5vw,2.2rem);color:var(--vm-white);margin-bottom:16px}
+.cta-sub{font-family:var(--vm-fd);font-weight:300;font-size:0.88rem;color:rgba(244,244,242,0.65);max-width:520px;margin:0 auto 32px;line-height:1.75}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-gold{display:inline-block;background:var(--vm-gold);color:var(--vm-prussian);font-family:var(--vm-fd);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;padding:16px 38px;border-radius:2px;border:none;cursor:pointer;transition:background 0.2s,transform 0.2s}
+.btn-gold:hover{background:var(--vm-gold-l);transform:translateY(-1px)}
+.btn-outline{display:inline-block;background:transparent;color:var(--vm-teal-l);font-family:var(--vm-fd);font-size:0.62rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:15px 32px;border-radius:2px;border:1px solid rgba(42,155,173,0.7);cursor:pointer;transition:border-color 0.2s,color 0.2s,background 0.2s}
+.btn-outline:hover{border-color:var(--vm-teal);color:var(--vm-white);background:rgba(42,155,173,0.06)}
+.cta-meta{font-family:var(--vm-fm);font-size:0.58rem;color:var(--vm-text-t);margin-top:16px}
+
+/* FOOTER */
+.footer{background:var(--vm-navy-d);border-top:1px solid rgba(255,255,255,0.06);padding:48px 24px 28px}
+.footer-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-bottom:40px}
+.footer-col-title{font-family:var(--vm-fm);font-size:0.58rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--vm-text-t);margin-bottom:14px}
+.footer-col a{display:block;font-family:var(--vm-fd);font-size:0.72rem;color:var(--vm-text-s);padding:4px 0;transition:color 0.2s}
+.footer-col a:hover{color:var(--vm-gold)}
+.footer-governance{font-family:var(--vm-fd);font-size:0.6rem;color:var(--vm-text-t);max-width:820px;margin:0 auto 12px;text-align:center;line-height:1.6}
+.footer-tm{font-family:var(--vm-fd);font-size:0.52rem;color:rgba(244,244,242,0.28);max-width:820px;margin:0 auto;text-align:center;line-height:1.6}
+.footer-copy{font-family:var(--vm-fd);font-size:0.58rem;color:var(--vm-text-t);text-align:center;padding-top:12px;margin-top:12px;border-top:1px solid rgba(255,255,255,0.06)}
+
+@media(max-width:1199px){
+  .faq-section{padding:60px 20px}
+  .cta-section{padding:60px 20px}
+}
+@media(max-width:767px){
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  .faq-section{padding:40px 16px}
+  .cta-section{padding:40px 16px}
+  .hero{padding:56px 16px 48px}
+  .cta-buttons{flex-direction:column;align-items:stretch}
+  .btn-gold,.btn-outline{width:100%;text-align:center}
+  .footer-grid{grid-template-columns:1fr}
+  .footer{padding:40px 16px 24px}
+}
+
+/* ═══ CINEMATIC HERO LAYERS (21 April 2026) ═══ */
+.vm-hero-grade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.05) 35%,rgba(0,0,0,0.0) 50%,rgba(0,0,0,0.15) 75%,rgba(0,0,0,0.6) 100%),linear-gradient(135deg,rgba(13,43,78,0.25) 0%,transparent 50%,rgba(201,168,76,0.04) 100%)}
+.vm-hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 42%,transparent 0%,rgba(0,0,0,0.70) 100%)}
+.vm-hero-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.vm-hero-orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.vm-hero-orb--gold{width:500px;height:500px;background:#C9A84C;opacity:0.18;top:-15%;left:-8%;animation:vmOrbA 20s ease-in-out infinite alternate}
+.vm-hero-orb--teal{width:400px;height:400px;background:#1A7A8A;opacity:0.14;bottom:-18%;right:-10%;animation:vmOrbB 24s ease-in-out infinite alternate}
+.vm-hero-orb--purple{width:300px;height:300px;background:#7B5EA7;opacity:0.10;top:20%;right:0%;animation:vmOrbC 22s ease-in-out infinite alternate}
+@keyframes vmOrbA{0%{transform:translate(0,0)}100%{transform:translate(40px,-30px)}}
+@keyframes vmOrbB{0%{transform:translate(0,0)}100%{transform:translate(-35px,20px)}}
+@keyframes vmOrbC{0%{transform:translate(0,0)}100%{transform:translate(-20px,-18px)}}
+.vm-hero-glass{position:absolute;inset:0;z-index:3;background:rgba(0,3,8,0.06);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);pointer-events:none}
+.vm-hero-grain{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;animation:vmGrain 0.3s steps(4) infinite}
+@keyframes vmGrain{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0,0)}}
+.vm-hero-mesh{position:absolute;z-index:4;pointer-events:none;width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.15;animation:vmMeshR 90s linear infinite}
+@keyframes vmMeshR{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.vm-hero-content{position:relative;z-index:10}
+.vm-hero h1{text-shadow:0 4px 60px rgba(0,0,0,0.70),0 2px 8px rgba(0,0,0,0.45),0 0 120px rgba(13,43,78,0.40)}
+@media(prefers-reduced-motion:reduce){.vm-hero-orb,.vm-hero-grain,.vm-hero-mesh{animation:none!important}}
+@media(max-width:768px){.vm-hero-mesh{width:260px;height:260px}}
+</style>
+<link rel="stylesheet" href="vm-phase1-design.css">
+<link rel="stylesheet" href="vm-font-optimise.css">
+<link rel="stylesheet" href="vm-award-tier2.css">
+<script src="vm-award-tier2.js" defer></script>
+</head>
+<body class="vm-kinetic-grid vm-page-transition">
+
+<!-- NAVIGATION -->
+<nav class="vm-nav-pill">
+  <a href="/" class="vm-nav-logo">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" style="display:block;margin:0;padding:0;border:none;line-height:0;" alt="VitalMatrix">
+  </a>
+  <div class="vm-nav-links">
+    <a href="/platform/">Platform</a>
+    <a href="/our-approach/">Our Approach</a>
+    <a href="/mission/">Mission</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/about/">About</a>
+    <a href="/book-a-walkthrough/" class="vm-cta-glow vm-nav-cta">Book Demo</a>
+  </div>
+  <div class="vm-nav-hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="vm-nav-mobile-overlay">
+  <div class="vm-nav-mobile-close" aria-label="Close menu"></div>
+  <a href="/platform/">Platform</a>
+  <a href="/our-approach/">Our Approach</a>
+  <a href="/mission/">Mission</a>
+  <a href="/pricing/">Pricing</a>
+  <a href="/about/">About</a>
+  <a href="/book-a-walkthrough/" class="vm-cta-glow vm-nav-cta" style="margin-top:24px;text-align:center;">Book Demo</a>
+</div>
+<div class="vm-progress-bar"></div>
+<div class="vm-sticky-label"></div>
+<nav class="vm-sidebar-nav" aria-label="Section navigation">
+  <button class="vm-sidebar-dot active" data-target="[data-category='a']" aria-label="About VitalMatrix"></button>
+  <button class="vm-sidebar-dot" data-target="[data-category='b']" aria-label="The Platform"></button>
+  <button class="vm-sidebar-dot" data-target="[data-category='c']" aria-label="Pricing"></button>
+  <button class="vm-sidebar-dot" data-target="[data-category='d']" aria-label="Governance"></button>
+  <button class="vm-sidebar-dot" data-target="[data-category='e']" aria-label="Getting Started"></button>
+</nav>
+
+<!-- HERO -->
+<section class="vm-texture-gold vm-reveal hero vm-hero-ambient vm-svg-mesh">
+  <!-- Cinematic hero layers -->
+  <div class="vm-hero-grade"></div>
+  <div class="vm-hero-orbs"><div class="vm-hero-orb vm-hero-orb--gold"></div><div class="vm-hero-orb vm-hero-orb--teal"></div><div class="vm-hero-orb vm-hero-orb--purple"></div></div>
+  <div class="vm-hero-vignette"></div>
+  <div class="vm-hero-glass"></div>
+  <svg class="vm-hero-mesh" viewBox="0 0 400 400" fill="none"><polygon points="200,25 365,148 300,350 100,350 35,148" stroke="rgba(201,168,76,0.35)" stroke-width="0.7" fill="none"/><polygon points="200,95 310,182 275,305 125,305 90,182" stroke="rgba(26,122,138,0.22)" stroke-width="0.5" fill="none"/><circle cx="200" cy="25" r="3.5" fill="rgba(201,168,76,0.45)"/><circle cx="35" cy="148" r="3.5" fill="rgba(26,122,138,0.40)"/><circle cx="300" cy="350" r="3.5" fill="rgba(123,94,167,0.35)"/><circle cx="100" cy="350" r="3.5" fill="rgba(95,124,108,0.35)"/><circle cx="365" cy="148" r="3.5" fill="rgba(212,184,112,0.35)"/></svg>
+  <div class="vm-hero-grain"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">FREQUENTLY ASKED QUESTIONS</p>
+    <h1 class="vm-font-sharpen">Everything You Want to Know<br><em style="color:var(--vm-gold);font-style:italic">Before You Apply.</em></h1>
+    <p class="hero-sub">Twenty questions from functional medicine practitioners exploring VitalMatrix&#8482; for the first time. If your question is not here, contact us directly or book a discovery call.</p>
+    <p class="hero-meta">Phase 1 &#183; 10 Founding Practitioners &#183; UK Only &#183; ICO ZC101813</p>
+    <p class="vm-reading-meta">20 questions across 5 categories <span>|</span> 6 min read</p>
+  </div>
+    <div class="vm-scroll-prompt">
+      <span class="vm-scroll-prompt-text">Scroll to explore</span>
+      <div class="vm-scroll-prompt-line">
+        <div class="vm-scroll-prompt-dot"></div>
+      </div>
+    </div>
+</section>
+
+<div class="vm-proof-strip">
+  Phase 1 <span>|</span> 10 Founding Practitioners <span>|</span> UK Only <span>|</span> ICO ZC101813 <span>|</span> MHRA SaMD Classification Has Not Yet Commenced
+</div>
+
+<!-- CATEGORY A: ABOUT VITALMATRIX -->
+<section class="vm-reveal faq-section bg-charcoal vm-depth vm-texture-gold" data-category="a">
+  <div class="faq-inner vm-reveal">
+    <p class="eyebrow">ABOUT VITALMATRIX&#8482;</p>
+    <h2 class="vm-font-sharpen">What Is VitalMatrix&#8482;?</h2>
+
+    <div class="faq-item open">
+      <div class="faq-q">A1. What is VitalMatrix&#8482;?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">VitalMatrix&#8482; is a clinical intelligence platform built for functional medicine practitioners. It processes patient intake data, biomarkers, and medication history to generate structured terrain-based clinical intelligence outputs. The platform maps dysfunction across five NCZ&#8482; convergence zones, identifies the zone carrying the highest terrain burden for practitioner review using DRD&#8482;, and sequences examination priorities through APEX&#8482; (Assessment Priority and Evidence Xray). All outputs are working documents for practitioner review: clinical authority remains with you throughout.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">A2. Who is VitalMatrix&#8482; designed for?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">VitalMatrix&#8482; is designed exclusively for UK-based functional medicine practitioners. Phase 1 is restricted to a founding cohort of ten practitioners with functional medicine training and active UK clinical registration. The platform is not available directly to patients or the public: every output passes through a practitioner review gate before it can influence patient care.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">A3. How is VitalMatrix&#8482; different from general AI tools?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">General-purpose AI tools reset between sessions, apply population reference ranges, and produce outputs that require extensive manual correction before they are clinically usable. VitalMatrix&#8482; uses a purpose-built five-layer architecture (FLINT&#8482; Terrain Intelligence Layers) with functional optimal ranges applied by default, terrain-based output language as the native register, evidence tier labelling on every clinical claim, and a mandatory practitioner review gate on all outputs. The intelligence is in the architecture, not in the prompt.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">A4. Does VitalMatrix&#8482; replace functional medicine training?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">No. VitalMatrix&#8482; is built to amplify functional medicine methodology, not replace it. The platform is Functional Medicine Framework Compatible: it encodes the structured clinical reasoning that experienced practitioners already apply and gives that reasoning a defensible, reproducible documentation infrastructure. Practitioners bring the clinical judgement. VitalMatrix&#8482; provides the terrain intelligence that supports it.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY B: THE PLATFORM -->
+<section class="vm-reveal faq-section bg-charcoal-mid vm-depth vm-texture-teal" data-category="b">
+  <div class="faq-inner vm-reveal">
+    <p class="eyebrow">THE PLATFORM</p>
+    <h2 class="vm-font-sharpen">How Does It Work?</h2>
+
+    <div class="faq-item open">
+      <div class="faq-q">B1. What is the FLINT&#8482; framework?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">FLINT&#8482; Terrain Intelligence Layers is the five-layer clinical architecture that underlies VitalMatrix&#8482;. Layer 1 maps dysfunction across seven biological nodes. Layer 2 identifies which of five NCZ&#8482; convergence zones are active. Layer 3 uses CascadeIQ&#8482; to map how those zones are connected and the direction dysfunction is moving between them. Layer 4 uses DRD&#8482; to identify the zone carrying the highest terrain burden for practitioner review. Layer 5 uses APEX&#8482; (Assessment Priority and Evidence Xray) to sequence examination priorities by causality, not severity.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">B2. What is terrain intelligence?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">Terrain intelligence is the structured mapping of biological dysfunction across interconnected physiological systems, with formal designation of which system is driving the pattern and the velocity at which it is moving. The terrain approach does not categorise patients by type: it maps the specific cascade that is active for this patient, at this point in time, and generates clinical outputs calibrated to that map. (The individual clinical relationships systematised by VitalMatrix&#8482; are drawn from established published science. Evidence tier: Established.)</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">B3. What are the five zones of the NCZ&#8482;?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">The NCZ&#8482; (Node-Cascade Zone) architecture identifies five clinically significant zones where dysfunction across biological nodes converges and amplifies. Zone 1 is the Metabolic Energy Axis. Zone 2 is the Resilience Network. Zone 3 is the Cardiovascular-Neural Axis. Zone 4 is the Detoxification Trident. Zone 5 is the Hormonal Terrain Axis. Each zone carries an activation threshold: Zone 5 uses a lower threshold reflecting hormonal terrain sensitivity. (Evidence tier: Observed in practice: 26-year clinical observation, Dr Faisal.)</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">B4. What is the ORBIT&#8482; workflow?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">ORBIT&#8482; is the clinical workflow architecture of VitalMatrix&#8482;, structuring how patient data moves through the platform from intake to output. ORBIT&#8482; defines the sequence in which terrain assessment, zone scoring, cascade mapping, burden designation, and examination prioritisation occur within a consultation session. Full ORBIT&#8482; workflow detail is available to founding practitioners during the discovery call and onboarding process.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">B5. What are the five clinical outputs?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">VitalMatrix&#8482; generates five structured clinical outputs from a single patient data input: the Consultation Note, the Phased Terrain Support Considerations document, the Patient-Facing Summary, the Functional Lab Interpretation Report, and the Session Governance Record. All five are working documents, reviewed and approved by the practitioner before they influence patient care.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY C: FOUNDING PROGRAMME AND PRICING -->
+<section class="vm-reveal faq-section bg-prussian vm-depth vm-texture-gold" data-category="c">
+  <div class="faq-inner vm-reveal">
+    <p class="eyebrow">FOUNDING PROGRAMME AND PRICING</p>
+    <h2 class="vm-font-sharpen">What Does Phase 1 Involve?</h2>
+
+    <div class="faq-item open">
+      <div class="faq-q">C1. What is the Founding Practitioner Programme?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">The Founding Practitioner Programme is the Phase 1 access structure for VitalMatrix&#8482;. It comprises two cohorts: Cohort A (Founding Clinical Fellows), which is invitation-only with no monthly fee, and Cohort B (Founding Practitioners), which is application-based. See our <a href='/pricing/'>pricing page</a> for current founding rate details. Both cohorts carry a co-development role: founding practitioners provide clinical feedback that directly shapes the platform architecture, scoring logic, and output quality. There are ten slots across both cohorts combined.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">C2. What does Cohort B membership include?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">Cohort B membership gives you full access to all Phase 1 platform capabilities. This includes NCZ&#8482; zone mapping, highest burden zone identification (DRD&#8482;), APEX&#8482; examination prioritisation, CascadeIQ&#8482; cascade architecture, DeltaScan&#8482; follow-up comparison, TIQ&#8482; terrain scoring, TRACE&#8482; timeline analysis, and CZR&#8482; report generation. You also receive a 14-day free trial with opt-out, a 28-day money-back guarantee, and a 5-year price guarantee. See the <a href='/pricing/'>Pricing</a> page for current founding rate details.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">C3. Is there a long-term contract?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">Cohort B membership includes a 5-year price guarantee from your joining date: your rate does not increase during that period regardless of what future pricing becomes for non-founding practitioners. See our <a href='/pricing/'>pricing page</a> for current founding rate details. You are not locked in: the 14-day free trial and 28-day money-back guarantee give you a clear exit window if the platform does not meet your clinical requirements. Full terms are covered during the discovery call.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">C4. What is the pricing after the 5-year guarantee period?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">The pricing structure after the 5-year guarantee period has not been set. VitalMatrix&#8482; is committed to treating founding practitioners fairly: the 5-year guarantee is a binding commitment, and any future pricing changes will be communicated well in advance. What is confirmed is that founding practitioners will never be worse off than practitioners who join after Phase 1.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY D: CLINICAL GOVERNANCE -->
+<section class="vm-reveal faq-section bg-charcoal-deep vm-depth vm-texture-teal" data-category="d">
+  <div class="faq-inner vm-reveal">
+    <p class="eyebrow">CLINICAL GOVERNANCE</p>
+    <h2 class="vm-font-sharpen">How Is the Platform Governed?</h2>
+
+    <div class="faq-item open">
+      <div class="faq-q">D1. What is VitalMatrix&#8482;'s regulatory status?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; generates terrain intelligence working documents for practitioner review and does not diagnose, prescribe, or replace clinical judgement. All outputs carry a practitioner review gate and are framed as terrain support considerations, not clinical protocols. ICO registration is confirmed: ZC101813.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">D2. Does VitalMatrix&#8482; provide a clinical assessment?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">No. VitalMatrix&#8482; does not generate, imply, or approximate a clinical assessment at any point. The platform maps terrain burden across convergence zones and designates the highest burden zone to support practitioner decision-making. Every output is explicitly framed as a terrain support consideration for practitioner review. The practitioner applies independent clinical judgement to every output before it reaches a patient: VitalMatrix&#8482; never overrides that authority.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">D3. How is patient data handled?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">VitalMatrix&#8482; is registered with the ICO (ZC101813). Patient data is processed in compliance with UK GDPR and the Data Protection Act 2018. All patient references within the platform use pseudonymised identifiers: no directly identifying information appears in generated outputs. Practitioners are responsible for obtaining appropriate consent for AI-assisted clinical documentation, and the platform flags this requirement within the workflow.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">D4. Can outputs be placed directly in a patient record?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">VitalMatrix&#8482; outputs are working documents designed to support practitioner clinical records, not to replace practitioner-authored documentation. The practitioner reviews, approves, and takes clinical responsibility for any output before it enters the patient record. The Session Governance Record maintains an audit trail of the terrain map, zone status, DRD&#8482; burden designation reasoning, and practitioner review timestamps, supporting defensible record-keeping. Consult your medical defence organisation regarding the use of AI-assisted documentation in specific clinical record contexts.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY E: GETTING STARTED -->
+<section class="vm-reveal faq-section bg-sage-dark vm-depth vm-texture-gold" data-category="e">
+  <div class="faq-inner vm-reveal">
+    <p class="eyebrow">GETTING STARTED</p>
+    <h2 class="vm-font-sharpen">How Do I Join Phase 1?</h2>
+
+    <div class="faq-item open">
+      <div class="faq-q">E1. How do I apply for Cohort B?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">Apply via the discovery call booking page at vitalmatrix.co.uk/book-a-walkthrough/. The discovery call is a 30-minute walkthrough of all Phase 1 capabilities applied to a complex patient case: no obligation to proceed. If the platform meets your clinical requirements, an application and confidentiality framework follows. There are ten founding slots across both cohorts, and all ten are currently available.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">E2. What happens at the discovery call?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">The discovery call is a peer-to-peer clinical walkthrough, not a sales presentation. You will see all Phase 1 capabilities running on a complex patient case: zone mapping, cascade architecture, burden designation, examination prioritisation, and output generation. You will have time to ask clinical questions, stress-test the logic, and determine whether the platform adds value to your existing practice infrastructure. The call runs to 30 minutes and carries no obligation.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">E3. Is Phase 1 restricted to UK practitioners?<span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+      <div class="faq-a"><div class="faq-a-inner">Yes. Phase 1 is limited to UK-based functional medicine practitioners. The regulatory framework (GMC, MHRA, ICO) is UK-specific, and the founding cohort structure is designed to operate within that framework. International expansion is planned for later phases: practitioners outside the UK are welcome to register interest for future cohort notifications.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="vm-texture-teal vm-reveal cta-section vm-depth">
+  <p class="eyebrow">STILL HAVE QUESTIONS?</p>
+  <h2 class="vm-font-sharpen">Talk to Dr Faisal Directly</h2>
+  <p class="cta-sub">Every practitioner enquiry during Phase 1 is answered personally. No sales team. No automation. No obligation.</p>
+  <div class="cta-buttons vm-reveal">
+    <a href="/book-a-walkthrough/" class="btn-gold vm-cta-glow">Book a Clinical Walkthrough</a>
+    <a href="/contact/" class="btn-outline">Get in Touch</a>
+  </div>
+  <p style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:16px;">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+  <p class="cta-meta">30 minutes &#183; No obligation &#183; Platform demonstration included</p>
+</section>
+
+<div class="vm-floating-cta">
+  <a href="/book-a-walkthrough/" class="vm-cta-glow vm-floating-cta-btn">Book a Walkthrough</a>
+  <div class="vm-floating-cta-close"><svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="vm-footer-landmark footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <p class="footer-col-title">Platform</p>
+      <a href="/how-it-works/">How It Works</a>
+      <a href="/ncz-architecture/">NCZ&#8482; Architecture</a>
+      <a href="/cascadeatlas/">CascadeAtlas&#8482;</a>
+      <a href="/terrain-intelligence/">Terrain Intelligence</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Programme</p>
+      <a href="/founding-practitioners/">Founding Practitioners</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/book-a-walkthrough/">Book a Walkthrough</a>
+      <a href="/our-approach/">Our Approach</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Company</p>
+      <a href="/about/">About</a>
+      <a href="/mission/">Mission</a>
+      <a href="/clinical-ethics/">Clinical Ethics</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+    </div>
+  </div>
+  <p class="footer-governance">MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p style="font-family:'DM Mono',monospace;font-size:0.55rem;color:rgba(244,244,242,0.35);text-align:center;margin:0 auto 12px;">For practitioner use only. Not a diagnostic tool.</p>
+  <p class="footer-tm">VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p class="footer-copy">&#169; 2026 VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+</footer>
+
+<script>
+(function(){
+  // Accordion toggle
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    q.addEventListener('click', function(){
+      var section = item.closest('.faq-section');
+      var category = section.getAttribute('data-category');
+      // Close others in same category
+      var siblings = section.querySelectorAll('.faq-item');
+      siblings.forEach(function(sib){
+        if(sib !== item && sib.classList.contains('open')){
+          sib.classList.remove('open');
+        }
+      });
+      item.classList.toggle('open');
+    });
+  });
+})();
+</script>
+<script src="vm-phase1-design.js"></script>
+<script src="vm-scroll-choreography.js"></script>
+<script src="vm-svg-illustrations.js"></script>
+<script src="vm-premium-polish.js"></script>
+</body>
+</html>

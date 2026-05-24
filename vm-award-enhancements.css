@@ -1,0 +1,435 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   VitalMatrix S9 Homepage — Award-Winning Enhancements (Beyond SV)
+   15 features: Awwwards / FWA / CSS Design Awards tier
+   Date: 2 May 2026 | W05 Claude Code
+   Constraints: No CDN, no localStorage, British English, @font-face local() only
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── ENHANCEMENT 1: Scroll-Velocity-Responsive Transitions ─── */
+/* Sections respond to scroll speed: fast = snap, slow = cinematic */
+.vm-reveal {
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+body.vm-scroll-fast .vm-reveal {
+  transition-duration: 0.25s !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+body.vm-scroll-slow .vm-reveal {
+  transition-duration: 1.2s !important;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ─── ENHANCEMENT 2: Scroll-Pinned Narrative Sections ─── */
+.vm-pin-wrap {
+  position: relative;
+  height: 300vh;
+}
+.vm-pin-content {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.vm-pin-frame {
+  width: 100%;
+  max-width: 1180px;
+  padding: 0 48px;
+  position: relative;
+}
+.vm-pin-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.vm-pin-step.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── ENHANCEMENT 3: Cursor Identity System ─── */
+.vm-cursor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201,168,76,0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.3s ease,
+              background 0.3s ease,
+              opacity 0.3s ease;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+}
+.vm-cursor.vm-cursor-hover {
+  width: 48px;
+  height: 48px;
+  border-color: rgba(201,168,76,0.3);
+  background: rgba(201,168,76,0.06);
+}
+.vm-cursor.vm-cursor-text {
+  width: 3px;
+  height: 24px;
+  border-radius: 2px;
+  border-color: transparent;
+  background: rgba(201,168,76,0.5);
+}
+.vm-cursor.vm-cursor-hidden {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+@media (hover: none), (max-width: 768px) {
+  .vm-cursor { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-cursor { display: none !important; }
+}
+
+/* ─── ENHANCEMENT 4: Smooth Scroll Engine (Lenis-style) ─── */
+html.vm-smooth-scroll {
+  scroll-behavior: auto !important;
+}
+html.vm-smooth-scroll body {
+  overflow: hidden;
+}
+.vm-scroll-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  will-change: transform;
+}
+
+/* ─── ENHANCEMENT 5: Scroll-Driven FLINT Pipeline Animation ─── */
+.vm-flint-pipeline {
+  position: relative;
+  height: 400px;
+  max-width: 720px;
+  margin: 48px auto 0;
+}
+.vm-flint-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.vm-flint-layer.vm-flint-drawn {
+  opacity: 1;
+  transform: translateX(0);
+}
+.vm-flint-layer-l1 { top: 0; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.20); }
+.vm-flint-layer-l2 { top: 80px; background: rgba(26,122,138,0.08); border: 1px solid rgba(26,122,138,0.20); }
+.vm-flint-layer-l3 { top: 160px; background: rgba(123,94,167,0.08); border: 1px solid rgba(123,94,167,0.20); }
+.vm-flint-layer-l4 { top: 240px; background: rgba(95,124,108,0.08); border: 1px solid rgba(95,124,108,0.20); }
+.vm-flint-layer-l5 { top: 320px; background: rgba(212,184,112,0.08); border: 1px solid rgba(212,184,112,0.20); }
+.vm-flint-connector {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, rgba(201,168,76,0.4), rgba(26,122,138,0.4), rgba(123,94,167,0.3));
+  transition: height 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(-50%);
+}
+.vm-flint-connector.vm-flint-connected {
+  height: 100%;
+}
+.vm-flint-label {
+  font-family: var(--vm-fm);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+.vm-flint-desc {
+  font-family: var(--vm-fd);
+  font-size: 13px;
+  color: rgba(244,244,242,0.50);
+  margin-left: 16px;
+}
+
+/* ─── ENHANCEMENT 6: Terrain Mesh as Living Background ─── */
+.vm-terrain-bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+.vm-terrain-bg.visible {
+  opacity: 1;
+}
+.vm-terrain-bg svg {
+  width: 100%;
+  height: 100%;
+  animation: vmTerrainRotate 120s linear infinite;
+}
+@keyframes vmTerrainRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-terrain-bg svg { animation: none; }
+}
+@media (max-width: 768px) {
+  .vm-terrain-bg { width: 300px; height: 300px; }
+}
+
+/* ─── ENHANCEMENT 7: Zone Colour Bleed on Section Transitions ─── */
+.vm-zone-bleed {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.vm-zone-bleed.active {
+  opacity: 1;
+}
+.vm-zone-bleed-z1 { background: radial-gradient(ellipse at 0% 50%, rgba(201,168,76,0.06) 0%, transparent 50%); }
+.vm-zone-bleed-z2 { background: radial-gradient(ellipse at 100% 50%, rgba(26,122,138,0.06) 0%, transparent 50%); }
+.vm-zone-bleed-z3 { background: radial-gradient(ellipse at 100% 100%, rgba(123,94,167,0.06) 0%, transparent 50%); }
+.vm-zone-bleed-z4 { background: radial-gradient(ellipse at 0% 100%, rgba(95,124,108,0.06) 0%, transparent 50%); }
+.vm-zone-bleed-z5 { background: radial-gradient(ellipse at 50% 0%, rgba(212,184,112,0.06) 0%, transparent 50%); }
+
+/* ─── ENHANCEMENT 8: Typography Weight Animation on Scroll Entry ─── */
+.vm-weight-reveal {
+  font-weight: 100 !important;
+  transition: font-weight 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.4;
+}
+.vm-weight-reveal.vm-weight-crystallised {
+  font-weight: 300 !important;
+  opacity: 1;
+}
+
+/* ─── ENHANCEMENT 9: Card Proximity Light ─── */
+.vm-proximity-grid {
+  position: relative;
+}
+.vm-proximity-light {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  transform: translate(-50%, -50%);
+}
+.vm-proximity-grid:hover .vm-proximity-light {
+  opacity: 1;
+}
+
+/* ─── ENHANCEMENT 10: Ripple-on-Click for CTAs ─── */
+.vm-ripple-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.vm-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.25);
+  transform: scale(0);
+  animation: vmRippleExpand 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: none;
+}
+@keyframes vmRippleExpand {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+/* ─── ENHANCEMENT 11: Spring Physics on Micro-interactions ─── */
+.vm-spring {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.vm-cta-glow,
+.btn-s,
+.vm-nav-cta,
+.next-steps-card,
+.infrastructure-card,
+.output-card,
+.vm-glass,
+.pp-card,
+.vm-diff-card {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── ENHANCEMENT 12: Magnetic Nav Items ─── */
+.vm-nav-links a,
+.vm-nav-cta {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              color 0.2s ease;
+}
+
+/* ─── ENHANCEMENT 13: Page Loader with Architectural Reveal ─── */
+.vm-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #0D2B4E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.vm-loader.vm-loader-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.vm-loader-logo {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.vm-loader-logo.vm-loader-logo-in {
+  opacity: 1;
+  transform: scale(1);
+}
+.vm-loader-pentagon {
+  width: 120px;
+  height: 120px;
+  margin-top: 24px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.vm-loader-pentagon.vm-loader-pentagon-in {
+  opacity: 1;
+}
+.vm-loader-pentagon svg polygon {
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vm-loader-pentagon.vm-loader-pentagon-draw svg polygon {
+  stroke-dashoffset: 0;
+}
+.vm-loader-line {
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+  margin-top: 20px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vm-loader-line.vm-loader-line-draw {
+  width: 200px;
+}
+.vm-loader-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  margin-top: 16px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.vm-loader-text.vm-loader-text-in {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-loader { display: none !important; }
+}
+
+/* ─── ENHANCEMENT 14: Skeleton Shimmer on Below-Fold Content ─── */
+.vm-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+}
+.vm-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201,168,76,0.04) 40%,
+    rgba(201,168,76,0.08) 50%,
+    rgba(201,168,76,0.04) 60%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: vmShimmer 1.8s ease infinite;
+}
+.vm-skeleton.vm-skeleton-loaded::after {
+  display: none;
+}
+@keyframes vmShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-skeleton::after { animation: none; display: none; }
+}
+
+/* ─── ENHANCEMENT 15: View Transitions API ─── */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root) {
+  animation: vmViewOut 0.3s ease forwards;
+}
+::view-transition-new(root) {
+  animation: vmViewIn 0.3s ease forwards;
+}
+@keyframes vmViewOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.98); }
+}
+@keyframes vmViewIn {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ─── GLOBAL OVERRIDE: Upgrade all easing to spring physics ─── */
+.vm-glass,
+.infrastructure-card,
+.next-steps-card,
+.output-card,
+.pp-card,
+.vm-diff-card,
+.vm-cta-glow,
+.btn-s {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* Prevent layout shift during loader */
+body.vm-loading {
+  overflow: hidden;
+}

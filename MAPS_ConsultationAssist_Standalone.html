@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAPS&#8482; Consultation Assist | VitalMatrix&#8482;</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D2B4E;--card:#1A2030;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#2E6DB4;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--border:rgba(255,255,255,.11);--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+body{background:var(--bg);color:var(--white);font-family:var(--fd);font-size:14px;line-height:1.7}
+.w{max-width:960px;margin:0 auto;padding:20px}
+.hdr{text-align:center;padding:32px 0 24px;border-bottom:1px solid rgba(201,168,76,.12)}
+.hdr h1{font-family:var(--fs);font-size:clamp(26px,4vw,40px);font-weight:300;margin-bottom:6px}
+.hdr h1 em{color:var(--gold);font-style:italic}
+.hdr p{font-size:12px;color:var(--muted);max-width:600px;margin:0 auto}
+.warn{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);padding:10px 14px;border-radius:4px;margin:16px 0;font-family:var(--fm);font-size:9px;color:var(--gold);line-height:1.6}
+.boundary{background:rgba(123,94,167,.06);border:1px solid rgba(123,94,167,.2);border-radius:6px;padding:12px 16px;margin:16px 0;font-family:var(--fm);font-size:9px;color:var(--purple);line-height:1.7}
+
+/* Stage indicators */
+.stages{display:flex;gap:0;margin:20px 0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.stage{flex:1;padding:10px 8px;text-align:center;font-family:var(--fm);font-size:8px;letter-spacing:.06em;border-right:1px solid var(--border);transition:all .3s;cursor:default}
+.stage:last-child{border-right:none}
+.stage.active{background:rgba(201,168,76,.1);color:var(--gold)}
+.stage.done{background:rgba(26,122,138,.08);color:var(--teal)}
+.stage-label{font-size:7px;color:var(--muted);margin-top:2px}
+
+/* Rings */
+.ring{margin:12px 0;border-radius:8px;border:1px solid var(--border);overflow:hidden;transition:border-color .2s}
+.ring.filled{border-color:rgba(201,168,76,.2)}
+.ring.confirmed{border-color:rgba(26,122,138,.3)}
+.ring-hd{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;transition:background .2s}
+.ring-hd:hover{background:rgba(255,255,255,.02)}
+.ring-num{font-family:var(--fm);font-size:10px;font-weight:700;width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.ring.confirmed .ring-num{border-color:var(--teal);color:var(--teal);background:rgba(26,122,138,.1)}
+.ring-title{font-size:13px;font-weight:500;flex:1}
+.ring-status{font-family:var(--fm);font-size:8px;color:var(--muted)}
+.ring.confirmed .ring-status{color:var(--teal)}
+.ring-bd{display:none;padding:14px;border-top:1px solid var(--border)}
+.ring.open .ring-bd{display:block}
+.ring-label{font-family:var(--fm);font-size:8px;letter-spacing:.08em;color:var(--teal);margin-bottom:6px}
+.ring-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);font-family:var(--fd);font-size:12px;padding:8px 12px;border-radius:4px;resize:vertical;min-height:60px}
+.ring-input:focus{border-color:var(--teal);outline:none}
+.ring-input::placeholder{color:rgba(244,244,242,.2)}
+.confirm-btn{margin-top:8px;font-family:var(--fm);font-size:9px;padding:6px 16px;border-radius:4px;border:1px solid var(--teal);background:transparent;color:var(--teal);cursor:pointer;transition:all .2s}
+.confirm-btn:hover{background:rgba(26,122,138,.1)}
+.confirm-btn.confirmed{background:rgba(26,122,138,.12);border-color:var(--teal);color:var(--teal)}
+
+/* D-18 boundary line */
+.d18-line{margin:24px 0;padding:16px;border-radius:6px;border:2px solid var(--purple);background:rgba(123,94,167,.05);text-align:center}
+.d18-line-hd{font-family:var(--fm);font-size:9px;letter-spacing:.12em;color:var(--purple);margin-bottom:6px}
+.d18-line-txt{font-size:12px;color:var(--white)}
+
+/* Output */
+.out{display:none;margin-top:20px;padding:20px;border-radius:8px;background:var(--card);border:1px solid rgba(201,168,76,.1)}
+.out-hd{font-family:var(--fs);font-size:1.3rem;margin-bottom:4px}
+.out-sub{font-family:var(--fm);font-size:8px;color:var(--muted);letter-spacing:.08em;margin-bottom:16px}
+.out-field{margin-bottom:10px;padding:10px 12px;border-radius:4px;background:rgba(255,255,255,.03);border-left:3px solid var(--teal)}
+.out-field-hd{font-family:var(--fm);font-size:9px;color:var(--teal);margin-bottom:4px}
+.out-field-val{font-size:12px;color:var(--white)}
+.out-terrain{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+.out-metric{padding:10px;border-radius:6px;border:1px solid}
+.out-metric-hd{font-family:var(--fm);font-size:8px;letter-spacing:.06em;margin-bottom:2px}
+.out-metric-val{font-family:var(--fs);font-size:1.1rem;font-weight:400}
+
+.submit-btn{display:block;margin:20px auto;padding:12px 32px;border-radius:6px;border:none;background:var(--gold);color:var(--bg);font-family:var(--fm);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.submit-btn:hover{background:#D4B060}
+.submit-btn:disabled{opacity:.3;cursor:not-allowed}
+
+.ft{margin-top:24px;padding:16px 0;border-top:1px solid rgba(201,168,76,.06);text-align:center;font-family:var(--fm);font-size:7px;color:rgba(244,244,242,.18);line-height:1.9}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="hdr">
+    <h1>MAPS&#8482; <em>Consultation Assist</em></h1>
+    <p>Matrix Assisted Practitioner Synthesis. Documentation assistance that structures unstructured consultation content into the VitalMatrix&#8482; matrix form. D-17 locked scope. D-18 Option A: form-filling assistance only.</p>
+  </div>
+
+  <div class="warn">MAPS&#8482; is a documentation assistance feature ONLY. It does not generate clinical conclusions, replace clinical judgement, or produce clinical decision support output. D-17 locked scope. W8 gate: external use blocked until W8 written clearance.</div>
+
+  <div class="boundary">
+    <strong>D-18 Pipeline Boundary:</strong> MAPS&#8482; populates the intake form. The practitioner confirms each field. Confirmed data feeds the FLINT&#8482; pipeline. MAPS&#8482; and the FLINT&#8482; pipeline NEVER exchange data directly. The practitioner is always the data bridge.
+  </div>
+
+  <!-- D-19 Stage Indicators -->
+  <div class="stages">
+    <div class="stage active" id="stage-a"><div>STAGE A</div><div class="stage-label">Safety Gates</div></div>
+    <div class="stage" id="stage-b"><div>STAGE B</div><div class="stage-label">Patient Context</div></div>
+    <div class="stage" id="stage-c"><div>STAGE C</div><div class="stage-label">Node Extraction</div></div>
+    <div class="stage" id="stage-d"><div>STAGE D</div><div class="stage-label">Post-Analysis</div></div>
+  </div>
+
+  <!-- 10 Consultation Rings -->
+  <div id="rings"></div>
+
+  <!-- D-18 Boundary -->
+  <div class="d18-line">
+    <div class="d18-line-hd">D-18 PIPELINE BOUNDARY</div>
+    <div class="d18-line-txt">Everything above this line is MAPS&#8482; documentation. Everything below requires practitioner confirmation before entering the FLINT&#8482; pipeline. No direct exchange.</div>
+  </div>
+
+  <button class="submit-btn" id="maps-submit" disabled>Generate MAPS&#8482; Synthesis Output</button>
+
+  <div class="out" id="maps-out">
+    <div class="out-sub">MAPS&#8482; SYNTHESIS OUTPUT</div>
+    <div class="out-hd">Terrain Support Considerations</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:12px;padding:8px;border-radius:4px;background:rgba(201,168,76,.05)">
+      Based on the terrain assessment, the following support considerations are noted for your review. (W5-2 fixed opening line.)
+    </div>
+    <div id="maps-fields"></div>
+
+    <div class="out-terrain" id="maps-terrain"></div>
+
+    <div style="margin-top:16px;padding:14px;border-radius:6px;border:1px dashed rgba(201,168,76,.15);background:rgba(201,168,76,.03)">
+      <div style="font-family:var(--fm);font-size:8px;color:var(--gold);letter-spacing:.08em;margin-bottom:8px">PRACTITIONER CLINICAL DECISION (W5-4 permanent: never pre-populated)</div>
+      <div style="font-size:11px;color:var(--muted)">
+        <div style="margin-bottom:3px">Clinical interpretation: _______________</div>
+        <div style="margin-bottom:3px">Adjusted priorities: _______________</div>
+        <div style="margin-bottom:3px">Deferred items: _______________</div>
+        <div style="margin-bottom:3px">Follow-up interval: _______________</div>
+        <div>Additional notes: _______________</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft">
+    MAPS&#8482; Consultation Assist | D-17 locked scope | D-18 Option A | D-19 Four-stage execution | D-20 Five-tier conflict resolution<br>
+    VitalMatrix&#8482; | ALB v1.5 | D-85 | T-01 Active | W8 gate: external use blocked<br>
+    For practitioner use only. Not a diagnostic tool.
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var RINGS = [
+  {num:1,title:'Presenting Concern',label:'Primary terrain complaint',placeholder:'What brought the patient in? Main symptoms, duration, impact on daily life.',stage:'B'},
+  {num:2,title:'Symptom Pattern',label:'Burden timeline (TRACE input)',placeholder:'Sequence of symptom onset. Which came first? What followed? How have symptoms evolved over time?',stage:'B'},
+  {num:3,title:'Dietary Context',label:'Nutritional terrain factors',placeholder:'Dietary patterns, restrictions, meal timing, food intolerances, hydration.',stage:'C'},
+  {num:4,title:'Sleep Architecture',label:'Autonomic terrain signal',placeholder:'Sleep quality, duration, onset latency, waking patterns, sleep environment.',stage:'C'},
+  {num:5,title:'Stress and Resilience',label:'Z2 context',placeholder:'Occupational stress, relationship stress, financial stress, recovery capacity, coping mechanisms.',stage:'C'},
+  {num:6,title:'Movement and Physical',label:'N3 and N5 context',placeholder:'Exercise type, frequency, capacity changes, physical limitations, sedentary time.',stage:'C'},
+  {num:7,title:'Environmental Exposure',label:'N4 terrain context',placeholder:'Home environment, workplace exposures, chemical/mould/toxin history, air quality, water source.',stage:'C'},
+  {num:8,title:'Medication Context',label:'MedTerrain mapping',placeholder:'Current medications, supplements, OTC. Duration of each. Previous medications tried and stopped.',stage:'C'},
+  {num:9,title:'Constitutional Foundation',label:'Family and developmental history',placeholder:'Family medical history (first-degree). Birth history. Childhood illnesses. Developmental milestones.',stage:'C'},
+  {num:10,title:'Practitioner Synthesis',label:'MAPS synthesis note',placeholder:'Your clinical impression based on the consultation. Which nodes appear most burdened? Which cascades are plausible? Initial terrain hypothesis.',stage:'D'}
+];
+
+var ringData = RINGS.map(function(){return{value:'',confirmed:false};});
+
+var container = document.getElementById('rings');
+
+function renderRings(){
+  container.innerHTML = '';
+  var confirmedCount = ringData.filter(function(r){return r.confirmed;}).length;
+
+  // Update stages
+  var stages = {A:confirmedCount>=0,B:confirmedCount>=1,C:confirmedCount>=3,D:confirmedCount>=9};
+  ['a','b','c','d'].forEach(function(s){
+    var el = document.getElementById('stage-'+s);
+    var key = s.toUpperCase();
+    el.className = 'stage' + (stages[key] && confirmedCount < 10 ? ' active' : '') + (confirmedCount >= 10 && key==='D' ? ' done' : confirmedCount >= (key==='A'?0:key==='B'?2:key==='C'?9:10) ? ' done' : '');
+  });
+
+  // Enable submit if all confirmed
+  document.getElementById('maps-submit').disabled = confirmedCount < 10;
+
+  RINGS.forEach(function(ring, i){
+    var data = ringData[i];
+    var div = document.createElement('div');
+    var cls = 'ring' + (data.value?' filled':'') + (data.confirmed?' confirmed':'');
+    div.className = cls;
+    div.id = 'ring-' + i;
+
+    var html = '<div class="ring-hd" data-ring="'+i+'">';
+    html += '<div class="ring-num">' + ring.num + '</div>';
+    html += '<div class="ring-title">' + ring.title + '</div>';
+    html += '<div class="ring-status">' + (data.confirmed ? 'CONFIRMED' : data.value ? 'Draft' : 'Empty') + '</div>';
+    html += '</div>';
+    html += '<div class="ring-bd">';
+    html += '<div class="ring-label">' + ring.label + ' | Stage ' + ring.stage + '</div>';
+    html += '<textarea class="ring-input" placeholder="' + ring.placeholder + '" data-ring="' + i + '">' + (data.value || '') + '</textarea>';
+    html += '<button class="confirm-btn' + (data.confirmed?' confirmed':'') + '" data-ring="' + i + '">' + (data.confirmed ? 'Confirmed (click to edit)' : 'Confirm Field') + '</button>';
+    html += '</div>';
+
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+
+  // Bind events
+  container.querySelectorAll('.ring-hd').forEach(function(hd){
+    hd.addEventListener('click', function(){
+      var idx = parseInt(hd.getAttribute('data-ring'));
+      var el = document.getElementById('ring-'+idx);
+      el.classList.toggle('open');
+    });
+  });
+
+  container.querySelectorAll('.ring-input').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var idx = parseInt(inp.getAttribute('data-ring'));
+      ringData[idx].value = inp.value;
+      ringData[idx].confirmed = false;
+      renderRings();
+    });
+  });
+
+  container.querySelectorAll('.confirm-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var idx = parseInt(btn.getAttribute('data-ring'));
+      ringData[idx].confirmed = !ringData[idx].confirmed;
+      renderRings();
+    });
+  });
+}
+
+// Submit
+document.getElementById('maps-submit').addEventListener('click', function(){
+  var fieldsEl = document.getElementById('maps-fields');
+  var html = '';
+  RINGS.forEach(function(ring, i){
+    if(!ringData[i].value) return;
+    html += '<div class="out-field"><div class="out-field-hd">Ring ' + ring.num + ': ' + ring.title + '</div><div class="out-field-val">' + ringData[i].value + '</div></div>';
+  });
+  fieldsEl.innerHTML = html;
+
+  // Terrain metrics (static demo based on Stephen Clarke)
+  var terrainEl = document.getElementById('maps-terrain');
+  terrainEl.innerHTML =
+    '<div class="out-metric" style="border-color:rgba(26,122,138,.3)"><div class="out-metric-hd" style="color:var(--teal)">TIQ SCORE</div><div class="out-metric-val" style="color:var(--teal)">4.1 / 10</div></div>' +
+    '<div class="out-metric" style="border-color:rgba(201,168,76,.3)"><div class="out-metric-hd" style="color:var(--gold)">HIGHEST BURDEN ZONE</div><div class="out-metric-val" style="color:var(--gold)">Z2 Resilience Network</div></div>' +
+    '<div class="out-metric" style="border-color:rgba(123,94,167,.3)"><div class="out-metric-hd" style="color:var(--purple)">ANCHOR CONFIDENCE</div><div class="out-metric-val" style="color:var(--purple)">Moderate (68%)</div></div>' +
+    '<div class="out-metric" style="border-color:rgba(201,168,76,.3)"><div class="out-metric-hd" style="color:var(--gold)">TERRAINLOCK</div><div class="out-metric-val" style="color:var(--gold)">FLAGGED: S1 + S2 active</div></div>';
+
+  document.getElementById('maps-out').style.display = 'block';
+  document.getElementById('maps-out').scrollIntoView({behavior:'smooth'});
+});
+
+renderRings();
+
+})();
+</script>
+</body>
+</html>

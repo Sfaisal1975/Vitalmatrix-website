@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRACE™ Living Architecture — 30 Temporal Intelligence Features | VitalMatrix</title>
+<meta name="description" content="TRACE™: Thirty temporal intelligence features powering the VitalMatrix clinical intelligence platform. From cascade archaeology to terrain phase classification.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   CSS CUSTOM PROPERTIES
+   ========================================================= */
+:root {
+  --vm-prussian: #0D2B4E;
+  --vm-charcoal: #1A2030;
+  --vm-teal-deep: #0C4452;
+  --vm-footer: #071C33;
+  --vm-gold: #C9A84C;
+  --vm-teal: #1A7A8A;
+  --vm-purple: #7B5EA7;
+  --vm-sage: #5F7C6C;
+  --vm-steel: #2E6DB4;
+  --vm-white: #FFFFFF;
+  --vm-white-60: rgba(255,255,255,0.60);
+  --vm-white-40: rgba(255,255,255,0.40);
+  --vm-white-20: rgba(255,255,255,0.20);
+  --vm-white-11: rgba(255,255,255,0.11);
+  --vm-white-06: rgba(255,255,255,0.06);
+  --vm-white-03: rgba(255,255,255,0.03);
+  --vm-font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --vm-font-body: 'Outfit', system-ui, -apple-system, sans-serif;
+  --vm-font-mono: 'DM Mono', 'Courier New', monospace;
+  --vm-radius: 12px;
+  --vm-radius-sm: 8px;
+  --vm-radius-pill: 999px;
+  --vm-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --vm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --vm-transition: 0.35s var(--vm-ease);
+}
+
+/* =========================================================
+   RESET + BASE
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background-color: var(--vm-prussian);
+  color: var(--vm-white);
+  font-family: var(--vm-font-body);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .vm-reveal { opacity: 1 !important; transform: none !important; }
+  #trace-particle-canvas { display: none; }
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+h1, h2, h3, h4 { font-family: var(--vm-font-heading); font-weight: 600; line-height: 1.2; }
+
+.vm-eyebrow {
+  font-family: var(--vm-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+}
+
+.vm-mono {
+  font-family: var(--vm-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+#trace-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  background: rgba(7, 28, 51, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--vm-white-11);
+  height: 72px;
+  display: flex;
+  align-items: center;
+}
+
+.trace-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.trace-nav-logo img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.trace-nav-logo-fallback {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.trace-nav-logo-mark {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--vm-teal) 0%, var(--vm-steel) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--vm-font-heading);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--vm-white);
+  flex-shrink: 0;
+}
+
+.trace-nav-wordmark {
+  font-family: var(--vm-font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--vm-white);
+  letter-spacing: 0.02em;
+}
+
+.trace-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.trace-nav-links a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--vm-white-60);
+  transition: color var(--vm-transition);
+}
+
+.trace-nav-links a:hover { color: var(--vm-white); }
+
+.trace-nav-cta {
+  background: linear-gradient(135deg, var(--vm-teal) 0%, var(--vm-steel) 100%);
+  color: var(--vm-white);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--vm-radius-pill);
+  transition: opacity var(--vm-transition), transform 0.25s var(--vm-spring);
+  flex-shrink: 0;
+}
+
+.trace-nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+/* =========================================================
+   HERO
+   ========================================================= */
+#trace-hero {
+  background-color: var(--vm-teal-deep);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-top: 72px;
+}
+
+#trace-particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.trace-hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 6rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  max-width: 860px;
+}
+
+.trace-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: var(--vm-radius-pill);
+  padding: 0.45rem 1.1rem;
+}
+
+.trace-hero-eyebrow-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--vm-gold);
+  animation: trace-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes trace-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.trace-hero-h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--vm-white);
+  max-width: 780px;
+}
+
+.trace-hero-h1 em {
+  font-style: italic;
+  color: var(--vm-gold);
+}
+
+.trace-hero-sub {
+  font-size: 1.125rem;
+  color: var(--vm-white-60);
+  max-width: 620px;
+  line-height: 1.7;
+}
+
+.trace-hero-cta {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--vm-gold);
+  color: var(--vm-prussian);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  padding: 0.85rem 2rem;
+  border-radius: var(--vm-radius-pill);
+  transition: transform 0.3s var(--vm-spring), box-shadow var(--vm-transition);
+  box-shadow: 0 4px 24px rgba(201, 168, 76, 0.25);
+}
+
+.trace-hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(201, 168, 76, 0.4);
+}
+
+.trace-hero-cta-arrow {
+  font-size: 1.1rem;
+  transition: transform 0.25s var(--vm-spring);
+}
+
+.trace-hero-cta:hover .trace-hero-cta-arrow { transform: translateY(3px); }
+
+.trace-hero-metrics {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vm-white-11);
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.trace-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.trace-metric-val {
+  font-family: var(--vm-font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--vm-gold);
+  line-height: 1;
+}
+
+.trace-metric-label {
+  font-family: var(--vm-font-mono);
+  font-size: 0.7rem;
+  color: var(--vm-white-40);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* =========================================================
+   MAIN CONTENT AREA
+   ========================================================= */
+#trace-content {
+  background-color: var(--vm-prussian);
+  padding-bottom: 6rem;
+}
+
+.trace-section-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* =========================================================
+   FILTER BAR
+   ========================================================= */
+#trace-filter-section {
+  background: var(--vm-charcoal);
+  padding: 2.5rem 0 0;
+  border-bottom: 1px solid var(--vm-white-11);
+  position: sticky;
+  top: 72px;
+  z-index: 800;
+}
+
+.trace-filter-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.trace-stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.trace-stats-item {
+  font-family: var(--vm-font-mono);
+  font-size: 0.78rem;
+  color: var(--vm-gold);
+  letter-spacing: 0.08em;
+}
+
+.trace-stats-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--vm-white-20);
+}
+
+.trace-filter-pills {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-bottom: 1.25rem;
+}
+
+.trace-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--vm-radius-pill);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.25s var(--vm-ease);
+  color: var(--vm-white-60);
+  background: var(--vm-white-06);
+  border-color: var(--vm-white-11);
+}
+
+.trace-pill:hover { color: var(--vm-white); background: var(--vm-white-11); }
+
+.trace-pill.is-active {
+  color: var(--vm-white);
+  background: var(--vm-white-11);
+}
+
+.trace-pill[data-tier="all"].is-active {
+  background: rgba(201,168,76,0.15);
+  border-color: rgba(201,168,76,0.4);
+  color: var(--vm-gold);
+}
+
+.trace-pill[data-tier="1"].is-active { background: rgba(26,122,138,0.2); border-color: rgba(26,122,138,0.5); color: #1A7A8A; }
+.trace-pill[data-tier="2"].is-active { background: rgba(201,168,76,0.2); border-color: rgba(201,168,76,0.5); color: #C9A84C; }
+.trace-pill[data-tier="3"].is-active { background: rgba(123,94,167,0.2); border-color: rgba(123,94,167,0.5); color: #7B5EA7; }
+.trace-pill[data-tier="4"].is-active { background: rgba(95,124,108,0.2); border-color: rgba(95,124,108,0.5); color: #5F7C6C; }
+.trace-pill[data-tier="5"].is-active { background: rgba(46,109,180,0.2); border-color: rgba(46,109,180,0.5); color: #2E6DB4; }
+
+.trace-pill-count {
+  font-family: var(--vm-font-mono);
+  font-size: 0.68rem;
+  background: var(--vm-white-11);
+  border-radius: 99px;
+  padding: 0.1rem 0.5rem;
+  min-width: 22px;
+  text-align: center;
+}
+
+/* =========================================================
+   FEATURE GRID
+   ========================================================= */
+#trace-grid-section {
+  padding-top: 3.5rem;
+}
+
+.trace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* =========================================================
+   FEATURE CARD
+   ========================================================= */
+.trace-card {
+  background: var(--vm-white-06);
+  border: 1px solid var(--vm-white-11);
+  border-radius: var(--vm-radius);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.35s var(--vm-spring), box-shadow 0.35s var(--vm-ease), opacity 0.3s var(--vm-ease), border-color 0.3s var(--vm-ease);
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+
+.trace-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.trace-card:hover {
+  transform: translateY(-3px);
+}
+
+.trace-card.is-dimmed {
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Tier-specific hover glows */
+.trace-card[data-tier="1"]:hover { box-shadow: 0 8px 32px rgba(26,122,138,0.25); border-color: rgba(26,122,138,0.35); }
+.trace-card[data-tier="2"]:hover { box-shadow: 0 8px 32px rgba(201,168,76,0.25); border-color: rgba(201,168,76,0.35); }
+.trace-card[data-tier="3"]:hover { box-shadow: 0 8px 32px rgba(123,94,167,0.25); border-color: rgba(123,94,167,0.35); }
+.trace-card[data-tier="4"]:hover { box-shadow: 0 8px 32px rgba(95,124,108,0.25); border-color: rgba(95,124,108,0.35); }
+.trace-card[data-tier="5"]:hover { box-shadow: 0 8px 32px rgba(46,109,180,0.25); border-color: rgba(46,109,180,0.35); }
+
+/* vm-reveal animation */
+.vm-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s var(--vm-ease), transform 0.55s var(--vm-ease);
+}
+
+.vm-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card header */
+.trace-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.trace-card-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.trace-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--vm-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.7rem;
+  border-radius: var(--vm-radius-pill);
+  border: 1px solid transparent;
+  width: fit-content;
+}
+
+.trace-badge-tier { font-weight: 500; }
+.trace-badge[data-tier="1"] { background: rgba(26,122,138,0.15); border-color: rgba(26,122,138,0.4); color: #5EC4D3; }
+.trace-badge[data-tier="2"] { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.4); color: #D9B85C; }
+.trace-badge[data-tier="3"] { background: rgba(123,94,167,0.15); border-color: rgba(123,94,167,0.4); color: #A989D8; }
+.trace-badge[data-tier="4"] { background: rgba(95,124,108,0.15); border-color: rgba(95,124,108,0.4); color: #8DB89D; }
+.trace-badge[data-tier="5"] { background: rgba(46,109,180,0.15); border-color: rgba(46,109,180,0.4); color: #6B9FD8; }
+
+.trace-badge-num {
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  color: var(--vm-white-40);
+  background: var(--vm-white-06);
+  border: 1px solid var(--vm-white-11);
+  border-radius: var(--vm-radius-pill);
+  padding: 0.25rem 0.65rem;
+  letter-spacing: 0.1em;
+  width: fit-content;
+}
+
+.trace-card-expand-btn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--vm-white-06);
+  border: 1px solid var(--vm-white-11);
+  color: var(--vm-white-60);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all 0.25s var(--vm-spring);
+  margin-top: 0.15rem;
+  line-height: 1;
+}
+
+.trace-card-expand-btn:hover {
+  background: var(--vm-white-11);
+  color: var(--vm-white);
+  transform: scale(1.1);
+}
+
+.trace-card.is-expanded .trace-card-expand-btn {
+  background: rgba(201,168,76,0.15);
+  border-color: rgba(201,168,76,0.4);
+  color: var(--vm-gold);
+  transform: rotate(45deg);
+}
+
+/* Card body */
+.trace-card-title {
+  font-family: var(--vm-font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--vm-white);
+  line-height: 1.25;
+}
+
+.trace-card-desc {
+  font-size: 0.875rem;
+  color: var(--vm-white-60);
+  line-height: 1.65;
+}
+
+/* Expand panel */
+.trace-expand-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s var(--vm-ease);
+}
+
+.trace-card.is-expanded .trace-expand-panel {
+  max-height: 600px;
+}
+
+.trace-expand-inner {
+  border-top: 1px solid var(--vm-white-11);
+  padding-top: 1.25rem;
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.trace-detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.trace-detail-label {
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+}
+
+.trace-detail-val {
+  font-size: 0.8125rem;
+  color: var(--vm-white-60);
+  line-height: 1.6;
+}
+
+.trace-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.trace-detail-tag {
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--vm-radius-pill);
+  background: var(--vm-white-06);
+  border: 1px solid var(--vm-white-11);
+  color: var(--vm-white-40);
+}
+
+.trace-d80-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--vm-radius-pill);
+  background: rgba(123,94,167,0.15);
+  border: 1px solid rgba(123,94,167,0.35);
+  color: #A989D8;
+  width: fit-content;
+}
+
+.trace-d80-flag::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #7B5EA7;
+  display: inline-block;
+}
+
+.trace-t01-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--vm-radius-pill);
+  background: rgba(26,122,138,0.15);
+  border: 1px solid rgba(26,122,138,0.35);
+  color: #5EC4D3;
+  width: fit-content;
+}
+
+.trace-evidence-pill {
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--vm-radius-pill);
+  width: fit-content;
+}
+
+.trace-evidence-L1 { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35); color: #D9B85C; }
+.trace-evidence-L2 { background: rgba(26,122,138,0.15); border: 1px solid rgba(26,122,138,0.35); color: #5EC4D3; }
+.trace-evidence-L3 { background: rgba(95,124,108,0.15); border: 1px solid rgba(95,124,108,0.35); color: #8DB89D; }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+#trace-footer {
+  background: var(--vm-footer);
+  border-top: 1px solid var(--vm-white-11);
+  padding: 4rem 2rem 3rem;
+}
+
+.trace-footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.trace-footer-top {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.trace-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.trace-footer-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.trace-footer-logo-mark {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--vm-teal) 0%, var(--vm-steel) 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--vm-font-heading);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--vm-white);
+}
+
+.trace-footer-wordmark {
+  font-family: var(--vm-font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--vm-white);
+}
+
+.trace-footer-tagline {
+  font-size: 0.8125rem;
+  color: var(--vm-white-40);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.trace-footer-mnemonics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trace-mnemonic-label {
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  color: var(--vm-gold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.trace-mnemonic-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.trace-mnemonic-item {
+  font-family: var(--vm-font-mono);
+  font-size: 0.65rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--vm-radius-pill);
+  background: var(--vm-white-03);
+  border: 1px solid var(--vm-white-11);
+  color: var(--vm-white-40);
+  white-space: nowrap;
+}
+
+.trace-mnemonic-item strong {
+  color: var(--vm-white-60);
+  font-weight: 500;
+}
+
+.trace-footer-divider {
+  height: 1px;
+  background: var(--vm-white-11);
+}
+
+.trace-footer-governance {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.trace-gov-line {
+  font-family: var(--vm-font-mono);
+  font-size: 0.68rem;
+  color: var(--vm-white-40);
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+}
+
+.trace-gov-line a {
+  color: var(--vm-gold);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--vm-transition);
+}
+
+.trace-gov-line a:hover { border-bottom-color: var(--vm-gold); }
+
+.trace-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vm-white-11);
+}
+
+.trace-footer-legal {
+  font-size: 0.75rem;
+  color: var(--vm-white-40);
+  line-height: 1.5;
+}
+
+.trace-footer-ico {
+  font-family: var(--vm-font-mono);
+  font-size: 0.68rem;
+  color: var(--vm-white-40);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+  .trace-nav-links { display: none; }
+  .trace-footer-top { grid-template-columns: 1fr; }
+  .trace-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .trace-hero-inner { padding: 4rem 1.5rem 3rem; }
+  .trace-hero-metrics { gap: 1.5rem; }
+  .trace-filter-inner { padding: 0 1.5rem; }
+  .trace-section-inner { padding: 0 1.5rem; }
+  #trace-footer { padding: 3rem 1.5rem 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     NAV
+     ========================================================= -->
+<nav id="trace-nav" role="navigation" aria-label="Primary navigation">
+  <div class="trace-nav-inner">
+    <a href="/" class="trace-nav-logo-fallback" aria-label="VitalMatrix home">
+      <div class="trace-nav-logo-mark">VM</div>
+      <span class="trace-nav-wordmark">VitalMatrix</span>
+    </a>
+    <ul class="trace-nav-links" role="list">
+      <li><a href="#">Platform</a></li>
+      <li><a href="#">TRACE&#8482;</a></li>
+      <li><a href="#">Evidence</a></li>
+      <li><a href="#">Practitioners</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="trace-nav-cta" role="button">Book Demo</a>
+  </div>
+</nav>
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+<section id="trace-hero" aria-label="TRACE Living Architecture hero">
+  <canvas id="trace-particle-canvas" aria-hidden="true"></canvas>
+  <div class="trace-hero-inner">
+    <div class="trace-hero-eyebrow">
+      <div class="trace-hero-eyebrow-dot" aria-hidden="true"></div>
+      <span class="vm-eyebrow">TRACE&#8482; Living Architecture</span>
+    </div>
+    <h1 class="trace-hero-h1">
+      <em>Thirty</em> temporal intelligence features.
+      One patient timeline.
+    </h1>
+    <p class="trace-hero-sub">
+      From cascade archaeology to terrain phase classification. Every feature operates on the patient's longitudinal terrain data across sessions, delivering clinical intelligence that deepens with each encounter.
+    </p>
+    <a href="#trace-filter-section" class="trace-hero-cta" role="button" aria-label="Scroll to feature grid">
+      Explore the Features
+      <span class="trace-hero-cta-arrow" aria-hidden="true">&#8595;</span>
+    </a>
+    <div class="trace-hero-metrics" role="region" aria-label="Platform statistics">
+      <div class="trace-metric">
+        <span class="trace-metric-val">30</span>
+        <span class="trace-metric-label">Features</span>
+      </div>
+      <div class="trace-metric">
+        <span class="trace-metric-val">5</span>
+        <span class="trace-metric-label">Tiers</span>
+      </div>
+      <div class="trace-metric">
+        <span class="trace-metric-val">1</span>
+        <span class="trace-metric-label">Timeline</span>
+      </div>
+      <div class="trace-metric">
+        <span class="trace-metric-val">T-01</span>
+        <span class="trace-metric-label">Compliant</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FILTER BAR
+     ========================================================= -->
+<div id="trace-filter-section" role="region" aria-label="Feature filter">
+  <div class="trace-filter-inner">
+    <div class="trace-stats-bar" role="status" aria-live="polite">
+      <span class="trace-stats-item">30 features</span>
+      <div class="trace-stats-divider" aria-hidden="true"></div>
+      <span class="trace-stats-item">5 tiers</span>
+      <div class="trace-stats-divider" aria-hidden="true"></div>
+      <span class="trace-stats-item">1 timeline</span>
+      <div class="trace-stats-divider" aria-hidden="true"></div>
+      <span class="trace-stats-item">MHRA-governed</span>
+    </div>
+    <div class="trace-filter-pills" id="trace-filter-pills" role="group" aria-label="Filter by tier">
+      <button class="trace-pill is-active" data-tier="all" aria-pressed="true">
+        All Features <span class="trace-pill-count">30</span>
+      </button>
+      <button class="trace-pill" data-tier="1" aria-pressed="false">
+        <span>Core Timeline</span> <span class="trace-pill-count">4</span>
+      </button>
+      <button class="trace-pill" data-tier="2" aria-pressed="false">
+        <span>Clinical Narratives</span> <span class="trace-pill-count">3</span>
+      </button>
+      <button class="trace-pill" data-tier="3" aria-pressed="false">
+        <span>Predictive Intelligence</span> <span class="trace-pill-count">8</span>
+      </button>
+      <button class="trace-pill" data-tier="4" aria-pressed="false">
+        <span>Advanced Analytics</span> <span class="trace-pill-count">5</span>
+      </button>
+      <button class="trace-pill" data-tier="5" aria-pressed="false">
+        <span>Terrain Physics</span> <span class="trace-pill-count">10</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     FEATURE GRID
+     ========================================================= -->
+<section id="trace-grid-section" aria-label="Feature cards">
+  <div class="trace-section-inner">
+    <div class="trace-grid" id="trace-feature-grid" role="list">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer id="trace-footer" role="contentinfo">
+  <div class="trace-footer-inner">
+    <div class="trace-footer-top">
+      <div class="trace-footer-brand">
+        <div class="trace-footer-logo-wrap">
+          <div class="trace-footer-logo-mark">VM</div>
+          <span class="trace-footer-wordmark">VitalMatrix</span>
+        </div>
+        <p class="trace-footer-tagline">
+          Clinical intelligence built on longitudinal terrain data. Designed for precision practitioners.
+        </p>
+      </div>
+      <div class="trace-footer-mnemonics">
+        <p class="trace-mnemonic-label">TRACE&#8482; 31-Mnemonic Framework + VOS&#8482; Expansion</p>
+        <div class="trace-mnemonic-grid" id="trace-mnemonic-grid" role="list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <div class="trace-footer-divider" aria-hidden="true"></div>
+
+    <div class="trace-footer-governance" role="region" aria-label="Regulatory governance">
+      <p class="trace-gov-line">
+        <strong>MHRA Governance:</strong> VitalMatrix operates under the UK Medical Devices Regulations 2002 (as amended). TRACE&#8482; outputs are decision-support tools and do not constitute a medical diagnosis. All feature outputs are subject to qualified practitioner review.
+      </p>
+      <p class="trace-gov-line">
+        <strong>Data Protection:</strong> ICO Registration <strong>ZC101813</strong>. All patient data processed under UK GDPR Article 9 with explicit consent and legitimate clinical purpose. No data is shared with third parties without explicit consent.
+      </p>
+      <p class="trace-gov-line">
+        <strong>T-01 Compliance:</strong> All 30 features adhere to the TRACE&#8482; T-01 Temporal Integrity Protocol, ensuring cascade calculations are bounded by verified session timestamps and peer-reviewed terrain-scoring methodologies.
+      </p>
+    </div>
+
+    <div class="trace-footer-bottom">
+      <p class="trace-footer-legal">
+        For practitioner use only. Not a diagnostic tool. VitalMatrix Ltd 2026.
+        VitalMatrix Ltd, Company No. 17046123, registered in England and Wales.
+      </p>
+      <span class="trace-footer-ico">ICO ZC101813</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   FEATURE DATA — 30 FEATURES
+   ========================================================= */
+var FEATURE_DATA = [
+  /* TIER 1 — Core Timeline (#1A7A8A) */
+  {
+    num: "F-T02", tier: 1, tierName: "Core Timeline",
+    name: "Cascade Archaeology",
+    desc: "Excavates the patient's historical terrain layers to reconstruct the origin sequence of active cascades. Identifies the chronological root event within multi-session data and maps its propagation trajectory. Essential for distinguishing primary cascade drivers from secondary amplification effects.",
+    rationale: "Clinical management of chronic terrain dysregulation requires understanding whether a current cascade is a primary phenomenon or an echo of a historical event. Archaeology reduces misattribution of symptoms to proximal rather than root causes.",
+    inputs: ["Session timestamps", "Zone burden scores (sessions 1-N)", "Cascade event log", "Intervention records"],
+    evidence: "L1",
+    t01: "Cascade origin bounded by earliest verified session timestamp. Root event confidence interval displayed.",
+    d80: true, d80note: "Predictive root-cause confidence score; D-80 flag active where historical data spans fewer than 8 sessions."
+  },
+  {
+    num: "F-T03", tier: 1, tierName: "Core Timeline",
+    name: "Divergence Radar",
+    desc: "Monitors real-time deviation between the patient's observed terrain trajectory and their personalised expected trajectory model. Flags statistically significant divergences across all five zones for immediate practitioner review. Colour-coded severity rings indicate urgency of clinical attention.",
+    rationale: "Early detection of trajectory divergence enables proactive intervention before a terrain state deteriorates into a clinically complex cascade. The radar model adapts to each patient's unique baseline, avoiding population-norm bias.",
+    inputs: ["Expected trajectory model", "Current session zone scores", "Historical mean and variance per zone", "Intervention history"],
+    evidence: "L2",
+    t01: "Divergence thresholds are recalibrated at each session. T-01 compliance requires minimum 3 prior sessions before radar activation.",
+    d80: false
+  },
+  {
+    num: "F-T04", tier: 1, tierName: "Core Timeline",
+    name: "Intervention Impact Overlay",
+    desc: "Superimposes the quantified terrain effect of each recorded intervention onto the patient's longitudinal timeline. Allows practitioners to isolate the specific burden-reduction or burden-amplification attributable to individual treatment decisions. Supports evidence-based protocol refinement at the individual patient level.",
+    rationale: "Without attribution of outcome to specific interventions, clinical learning is impaired. This overlay creates a closed feedback loop between treatment decision and terrain response, accelerating protocol optimisation.",
+    inputs: ["Intervention type, date, dosage", "Pre- and post-intervention zone scores", "Cascade state at time of intervention", "Practitioner notes"],
+    evidence: "L1",
+    t01: "Intervention timestamps cross-validated against session records. Minimum 48-hour post-intervention observation window required for impact calculation.",
+    d80: false
+  },
+  {
+    num: "F-T05", tier: 1, tierName: "Core Timeline",
+    name: "Temporal Cascade Pressure Map",
+    desc: "Visualises accumulated cascade pressure across the patient's full timeline as a heat-map of temporal intensity. Identifies periods of peak systemic burden and correlates pressure spikes with life events or intervention changes. Provides a macro-level view of the patient's burden journey.",
+    rationale: "Practitioners need a single-glance longitudinal view to contextualise current clinical presentation within the full burden history. Pressure mapping reveals cyclical patterns invisible in session-by-session review.",
+    inputs: ["All historical zone scores", "Cascade magnitude log", "Intervention dates", "External event annotations"],
+    evidence: "L2",
+    t01: "Pressure values normalised against patient's personal maximum burden score, not population norms. T-01 temporal integrity enforced.",
+    d80: false
+  },
+  /* TIER 2 — Clinical Narratives (#C9A84C) */
+  {
+    num: "F-T06", tier: 2, tierName: "Clinical Narratives",
+    name: "Zone Lifecycle Narrative",
+    desc: "Generates a clinician-readable narrative summary of each zone's lifecycle across the patient's full treatment history. Describes transitions between dormant, active, dominant, and resolving states in plain clinical language. Reduces cognitive load by converting raw temporal data into interpretable case history.",
+    rationale: "Quantitative terrain data must be translatable into clinical language for multidisciplinary team communication, referral letters, and patient-facing summaries. The narrative engine bridges data science and clinical documentation.",
+    inputs: ["Zone state classification per session", "Transition event log", "Zone burden percentiles", "Cascade linkage data"],
+    evidence: "L2",
+    t01: "Narrative generation gated to verified session data only. Draft narratives flagged if source data confidence is below 85%.",
+    d80: false
+  },
+  {
+    num: "F-T07", tier: 2, tierName: "Clinical Narratives",
+    name: "Cascade Velocity Drift Monitor",
+    desc: "Tracks the rate of change in cascade propagation velocity over consecutive sessions to detect acceleration or deceleration trends. Alerts practitioners when cascade velocity exceeds safe clinical thresholds. Drift analysis distinguishes transient velocity spikes from sustained directional change.",
+    rationale: "A cascade accelerating in velocity signals escalating systemic instability requiring urgent protocol adjustment. Deceleration following intervention confirms therapeutic efficacy. Velocity drift monitoring enables dynamic, evidence-responsive clinical management.",
+    inputs: ["Cascade propagation rate per session", "Zone-to-zone transmission coefficients", "Intervention timestamps", "Baseline velocity reference"],
+    evidence: "L2",
+    t01: "Velocity calculations require minimum 4 consecutive sessions. T-01 compliance mandates session-gap normalisation for irregular attendance.",
+    d80: true, d80note: "D-80 flag: velocity trajectory projection to session +3 is a predictive output subject to D-80 uncertainty disclosure."
+  },
+  {
+    num: "F-T08", tier: 2, tierName: "Clinical Narratives",
+    name: "Terrain Snapshot Comparison Theatre",
+    desc: "Presents a side-by-side visual comparison of terrain states at any two user-selected sessions across the patient timeline. Highlights delta values for each zone and annotates significant state changes between snapshots. Supports clinical case review, audit, and patient progress communication.",
+    rationale: "Point-in-time comparison enables practitioners to demonstrate measurable terrain improvement or deterioration to patients, commissioners, and audit bodies. The theatre format makes complex longitudinal data immediately comprehensible.",
+    inputs: ["Zone burden scores for selected sessions", "Cascade state at each snapshot date", "Intervention log between snapshots", "Annotation data"],
+    evidence: "L3",
+    t01: "Comparison available for any two sessions where T-01 compliant data exists. Incomplete sessions excluded from comparison pool.",
+    d80: false
+  },
+  /* TIER 3 — Predictive Intelligence (#7B5EA7) */
+  {
+    num: "F-T09", tier: 3, tierName: "Predictive Intelligence",
+    name: "Predictive Inflection Detection",
+    desc: "Applies longitudinal terrain modelling to identify the projected point at which a patient's burden trajectory is likely to inflect, either improving or deteriorating. Generates an inflection window estimate with confidence bounds. Enables proactive scheduling of review sessions at clinically optimal intervals.",
+    rationale: "Reactive clinical management waits for deterioration to manifest. Predictive inflection detection shifts the paradigm to anticipatory care, reducing avoidable burden escalation and improving patient outcomes through timely intervention.",
+    inputs: ["All historical zone burden scores", "Intervention response rates", "Cascade velocity data", "Patient-specific terrain variability index"],
+    evidence: "L2",
+    t01: "Predictions bounded by T-01 temporal integrity. Confidence bounds widen beyond 3 sessions. Patient-specific model; not population-derived.",
+    d80: true, d80note: "D-80 flag active. Inflection point is a probabilistic forecast. Practitioners must review D-80 uncertainty disclosure before acting on output."
+  },
+  {
+    num: "F-T10", tier: 3, tierName: "Predictive Intelligence",
+    name: "Session Density Audit",
+    desc: "Evaluates whether the patient's session frequency has been sufficient to generate statistically reliable terrain intelligence across each feature. Flags features where low session density reduces output confidence below acceptable clinical thresholds. Recommends minimum session frequency for optimal TRACE accuracy.",
+    rationale: "All TRACE outputs are contingent on sufficient longitudinal data. The audit protects against over-reliance on features with insufficient data, maintaining clinical safety standards and supporting T-01 integrity.",
+    inputs: ["Session date log", "Feature-specific minimum data requirements", "Current confidence scores per feature", "Attendance pattern"],
+    evidence: "L3",
+    t01: "Audit output is a mandatory T-01 compliance component. Features below density threshold display reduced-confidence warning.",
+    d80: false
+  },
+  {
+    num: "F-T15", tier: 3, tierName: "Predictive Intelligence",
+    name: "Terrain Weather System",
+    desc: "Translates the patient's current terrain state into an intuitive weather metaphor for patient-facing communications and practitioner briefings. Maps burden severity and cascade activity to weather conditions ranging from clear through to storm-force. Updates at each session with trend direction indicated.",
+    rationale: "Clinical data literacy varies widely among patients. The weather metaphor provides an accessible, non-stigmatising framework for communicating terrain complexity. It also supports consistent language across multidisciplinary teams.",
+    inputs: ["Aggregate burden score", "Cascade count and severity", "Zone dominance pattern", "Trend direction from last session"],
+    evidence: "L3",
+    t01: "Weather classification grounded in T-01 verified session data. Metaphor mapping table versioned and audit-trailed.",
+    d80: false
+  },
+  {
+    num: "F-T17", tier: 3, tierName: "Predictive Intelligence",
+    name: "Cascade Fatigue Index",
+    desc: "Quantifies the cumulative energetic cost to the patient's system from sustained cascade activity, expressed as a Fatigue Index score per session. Tracks index trajectory to identify approaching fatigue thresholds that may compromise recovery capacity. Distinguishes acute-episode fatigue from chronic cumulative depletion.",
+    rationale: "Prolonged cascade activity depletes systemic resilience, reducing the patient's responsiveness to intervention over time. The Fatigue Index provides an objective measure to guide decisions about treatment intensity, pacing, and recovery protocols.",
+    inputs: ["Cascade duration per zone per session", "Cascade magnitude scores", "Recovery interval data", "Intervention response rate trend"],
+    evidence: "L2",
+    t01: "Fatigue Index calculation bounded to sessions with complete cascade magnitude data. Partial-session data excluded.",
+    d80: true, d80note: "D-80 flag: projected fatigue threshold crossing date is a predictive output."
+  },
+  {
+    num: "F-T18", tier: 3, tierName: "Predictive Intelligence",
+    name: "Terrain Memory Decay",
+    desc: "Models the rate at which therapeutic terrain gains degrade in the absence of reinforcing interventions. Calculates a personalised decay curve for each patient based on historical regression patterns post-intervention. Identifies optimal reinvestment windows before decay erodes clinical progress.",
+    rationale: "Therapeutic gains are not permanent without reinforcement. Memory Decay modelling enables practitioners to schedule maintenance interventions at the point of maximum clinical efficiency, preventing costly regression and reducing overall treatment burden.",
+    inputs: ["Post-intervention zone score trajectories", "Intervention-to-regression interval history", "Session gap data", "Zone-specific decay rates"],
+    evidence: "L2",
+    t01: "Decay model personalised per patient. Minimum 5 post-intervention observation points required for T-01 compliant decay curve.",
+    d80: true, d80note: "D-80 flag: decay curve projection beyond observed data window is a predictive output."
+  },
+  {
+    num: "F-T19", tier: 3, tierName: "Predictive Intelligence",
+    name: "Cross-Patient Archetype Matching",
+    desc: "Identifies anonymised patients within the VitalMatrix platform whose terrain trajectory closely matches the current patient's profile at equivalent treatment stages. Surfaces aggregated outcome data from matched archetypes to inform prognosis and protocol selection. Matching uses a proprietary multi-dimensional terrain similarity algorithm.",
+    rationale: "Individual patient data is enriched when contextualised within outcomes from clinically similar cases. Archetype matching provides evidence-informed expectation-setting for practitioners and patients without compromising individual data privacy.",
+    inputs: ["Current patient terrain profile", "Anonymised archetype library", "Treatment stage index", "Zone burden pattern vectors"],
+    evidence: "L2",
+    t01: "All archetype data de-identified and aggregated. Individual records never surfaced. Matching algorithm versioned for audit.",
+    d80: true, d80note: "D-80 flag: archetype-derived outcome projections are probabilistic and must not be presented as individual prognoses."
+  },
+  {
+    num: "F-T20", tier: 3, tierName: "Predictive Intelligence",
+    name: "Intervention Sequence Optimiser",
+    desc: "Analyses the patient's historical intervention response data to recommend the optimal sequence and timing of next therapeutic steps. Considers cascade state, zone dominance, fatigue index, and decay curve when generating sequence recommendations. Outputs a ranked list of candidate intervention sequences with predicted terrain impact scores.",
+    rationale: "Intervention sequencing significantly affects clinical outcomes in complex terrain cases. The optimiser operationalises the full depth of TRACE intelligence into actionable clinical guidance, reducing trial-and-error and accelerating therapeutic progress.",
+    inputs: ["Intervention history and response data", "Current cascade state", "Fatigue Index score", "Decay curve position", "Zone burden scores"],
+    evidence: "L1",
+    t01: "Recommendations clearly labelled as decision-support only. T-01 requires practitioner sign-off before any sequence is actioned.",
+    d80: true, d80note: "D-80 flag: predicted terrain impact scores are probabilistic outputs. Uncertainty bands displayed on all recommendations."
+  },
+  /* TIER 4 — Advanced Analytics (#5F7C6C) */
+  {
+    num: "F-T11", tier: 4, tierName: "Advanced Analytics",
+    name: "Burden Tectonic Plates",
+    desc: "Visualises the patient's five zones as interacting geological plates whose relative pressures and friction boundaries drive cascade events. Plate boundary stress is calculated from inter-zone burden differentials over time. Tectonic visualisation makes zone interaction dynamics intuitive for clinical and patient communication.",
+    rationale: "Zone interactions are the primary mechanism of cascade propagation. The tectonic plate metaphor makes complex differential burden analysis accessible without sacrificing analytical rigour, supporting both clinical reasoning and patient education.",
+    inputs: ["Per-zone burden scores per session", "Inter-zone transmission coefficients", "Cascade event log", "Zone boundary stress calculations"],
+    evidence: "L2",
+    t01: "Plate stress values derived from T-01 verified session data only. Boundary stress thresholds calibrated to clinical significance levels.",
+    d80: false
+  },
+  {
+    num: "F-T12", tier: 4, tierName: "Advanced Analytics",
+    name: "Cascade Echo Detector",
+    desc: "Identifies cascade events that are re-activations or echoes of previously resolved cascades, distinguishing them from novel primary cascades. Echo detection reduces misdiagnosis of relapse as new presentation and informs targeted reactivation management protocols. Provides echo amplitude and temporal distance from original event.",
+    rationale: "Clinically, the distinction between new cascade and echo relapse fundamentally changes the management approach. Echo detection enables targeted therapy directed at residual cascade pathways rather than generic broad-spectrum treatment.",
+    inputs: ["Historical cascade signatures", "Current cascade pattern", "Time-since-resolution data", "Zone involvement map"],
+    evidence: "L2",
+    t01: "Echo classification requires source cascade to have T-01 verified resolution status. Ambiguous cases flagged for practitioner review.",
+    d80: false
+  },
+  {
+    num: "F-T13", tier: 4, tierName: "Advanced Analytics",
+    name: "Zone Dominance Seasons",
+    desc: "Tracks seasonal and cyclical patterns in zone dominance across the patient's full treatment history to identify temporally recurring burden concentrations. Maps dominance seasons to calendar periods, life stages, or treatment phases. Enables anticipatory management of predictable seasonal burden patterns.",
+    rationale: "Many patients exhibit cyclical burden patterns linked to seasonal, hormonal, or lifestyle rhythms. Identifying these seasons enables practitioners to proactively adjust protocols in advance of expected dominance peaks, reducing reactive crisis management.",
+    inputs: ["Zone dominance scores per session", "Session dates", "Calendar annotations", "External event log"],
+    evidence: "L3",
+    t01: "Seasonality analysis requires minimum 12 months of session data for T-01 compliant pattern extraction. Shorter histories presented as provisional.",
+    d80: true, d80note: "D-80 flag: seasonal forecast for upcoming period is a predictive output based on historical pattern."
+  },
+  {
+    num: "F-T14", tier: 4, tierName: "Advanced Analytics",
+    name: "Threshold Crossing Event Log",
+    desc: "Maintains a chronological log of every instance where a zone burden score, cascade magnitude, or aggregate terrain index has crossed a clinically significant threshold. Each event is timestamped, annotated with the prevailing clinical context, and linked to the subsequent intervention response. Provides a complete audit trail of critical terrain events.",
+    rationale: "Threshold crossings represent the most clinically significant moments in a patient's terrain history. Systematic logging enables retrospective analysis, supports clinical audit, and provides evidence for treatment protocol justification.",
+    inputs: ["All zone burden scores per session", "Defined clinical threshold table", "Cascade magnitude log", "Intervention records"],
+    evidence: "L1",
+    t01: "Event log is an immutable T-01 compliance record. Threshold definitions are versioned. Changes to thresholds do not retroactively alter logged events.",
+    d80: false
+  },
+  {
+    num: "F-T16", tier: 4, tierName: "Advanced Analytics",
+    name: "Node Contribution Waterfall",
+    desc: "Decomposes the total aggregate burden score into its constituent zone and node contributions, displayed as a waterfall chart for each session. Shows the additive and subtractive contribution of each clinical node to the overall terrain burden. Enables practitioners to identify which specific nodes are driving or dampening total burden.",
+    rationale: "Aggregate scores mask the distinct contributions of individual zones and nodes. Waterfall decomposition restores granularity, enabling targeted therapeutic attention to the highest-contribution burden drivers rather than broad systemic intervention.",
+    inputs: ["Node-level burden scores per session", "Zone aggregation weights", "Cascade contribution coefficients", "Intervention impact by node"],
+    evidence: "L2",
+    t01: "Node weights are patient-specific and versioned. T-01 compliance requires disclosure of weighting methodology to practitioners.",
+    d80: false
+  },
+  /* TIER 5 — Terrain Physics (#2E6DB4) */
+  {
+    num: "F-T21", tier: 5, tierName: "Terrain Physics",
+    name: "Terrain Entropy Index",
+    desc: "Measures the degree of disorder and unpredictability in the patient's terrain state across sessions, expressed as an Entropy Index. High entropy indicates an unstable, complex terrain requiring intensive monitoring. Entropy trend analysis reveals whether the patient's system is moving towards or away from ordered recovery.",
+    rationale: "Entropy is a fundamental measure of system complexity. In terrain medicine, high entropy correlates with poor therapeutic predictability and increased cascade risk. The index provides a single clinically actionable measure of overall system stability.",
+    inputs: ["Zone score variability per session", "Cascade frequency and type diversity", "Intervention response variability", "Cross-zone correlation coefficients"],
+    evidence: "L2",
+    t01: "Entropy calculation uses Shannon information entropy adapted for terrain scoring. Formula versioned and peer-reviewed. T-01 compliant.",
+    d80: true, d80note: "D-80 flag: entropy trajectory projection to session +2 is a predictive output."
+  },
+  {
+    num: "F-T22", tier: 5, tierName: "Terrain Physics",
+    name: "Cascade Momentum Vectors",
+    desc: "Represents each active cascade as a momentum vector with direction, magnitude, and decay rate attributes. Vector fields are overlaid on the terrain map to show how cascades are propagating, dissipating, or converging across zones. Momentum analysis informs decisions about which cascades require active intervention versus monitored natural resolution.",
+    rationale: "Not all cascades require active intervention; some resolve spontaneously while others accelerate without treatment. Momentum vector analysis provides the physical-model rationale for selective intervention, reducing over-treatment.",
+    inputs: ["Cascade propagation data per session", "Zone transmission rates", "Cascade magnitude and direction", "Historical momentum decay rates"],
+    evidence: "L2",
+    t01: "Vector calculations bounded to T-01 verified cascade events. Magnitude scaled to patient's personal burden reference range.",
+    d80: false
+  },
+  {
+    num: "F-T23", tier: 5, tierName: "Terrain Physics",
+    name: "Zone Correlation Matrix",
+    desc: "Computes and displays a dynamic correlation matrix showing the statistical relationship between zone burden scores across the patient's full session history. Identifies which zones move in synchrony or opposition, revealing systemic coupling patterns specific to the individual patient. Matrix updates at each session.",
+    rationale: "Zone coupling patterns determine how a burden in one zone propagates to others. Patient-specific correlation matrices enable targeted therapeutic disruption of high-coupling pathways, preventing cascade amplification.",
+    inputs: ["Historical zone burden scores per session", "Session count (minimum 6 for reliable matrix)", "Cascade co-occurrence data", "Intervention co-intervention records"],
+    evidence: "L2",
+    t01: "Matrix requires minimum 6 sessions for T-01 compliant correlation values. Pearson coefficients displayed with 95% confidence intervals.",
+    d80: false
+  },
+  {
+    num: "F-T24", tier: 5, tierName: "Terrain Physics",
+    name: "Burden Redistribution Flow",
+    desc: "Models the dynamic redistribution of terrain burden between zones following an intervention, tracking how burden released from one zone is absorbed or amplified across the terrain system. Flow diagrams show the directional movement of burden units across zone boundaries session by session. Identifies zones acting as burden sinks or amplifiers.",
+    rationale: "Interventions that reduce burden in one zone can inadvertently increase burden in adjacent zones through redistribution effects. Flow modelling prevents unintended cascade creation from therapeutically incomplete burden management.",
+    inputs: ["Pre- and post-intervention zone scores", "Inter-zone transfer coefficients", "Intervention type and target zone", "Cascade state during redistribution"],
+    evidence: "L2",
+    t01: "Flow calculations based on T-01 verified pre/post session pairs. Minimum 48-hour redistribution observation window enforced.",
+    d80: false
+  },
+  {
+    num: "F-T25", tier: 5, tierName: "Terrain Physics",
+    name: "Terrain Phase State Classifier",
+    desc: "Classifies the patient's overall terrain into one of four phase states: Dormant, Active, Transitional, or Critical, based on a multi-parameter terrain physics model. Phase state determines the clinical management protocol tier applicable to the patient at each session. Transition between states is logged as a significant clinical event.",
+    rationale: "A universal phase classification system enables consistent clinical decision-making rules across practitioners and care settings. Phase state acts as the primary triage indicator for TRACE-guided clinical management protocols.",
+    inputs: ["Aggregate burden score", "Cascade count and velocity", "Entropy Index", "Momentum vector magnitudes", "Fatigue Index"],
+    evidence: "L1",
+    t01: "Phase state definition table versioned and locked to T-01 specification. Classifier algorithm subject to annual clinical review.",
+    d80: false
+  },
+  {
+    num: "F-T26", tier: 5, tierName: "Terrain Physics",
+    name: "Circadian Burden Mapping",
+    desc: "Analyses practitioner-reported or patient-logged diurnal symptom patterns to identify circadian burden rhythms within the patient's terrain. Maps burden intensity to time-of-day patterns across sessions to reveal circadian phase preferences of active cascades. Informs optimal intervention timing for chronobiologically sensitive treatments.",
+    rationale: "Cascade activity exhibits circadian periodicity in many patients. Aligning intervention timing with the patient's specific circadian burden map maximises therapeutic window and reduces treatment resistance from temporally misaligned interventions.",
+    inputs: ["Symptom timing logs (patient-reported)", "Session time metadata", "Zone scores correlated with time of day", "Chronotype questionnaire data"],
+    evidence: "L3",
+    t01: "Circadian analysis provisional without minimum 4 weeks of patient-reported timing data. T-01 provisional flag applied.",
+    d80: true, d80note: "D-80 flag: optimal intervention timing recommendation is a predictive output based on circadian pattern modelling."
+  },
+  {
+    num: "F-T27", tier: 5, tierName: "Terrain Physics",
+    name: "Cascade Chain Depth Analyser",
+    desc: "Determines the depth of cascade chains by counting the number of sequential zone-to-zone propagation steps in each active cascade event. Deeper chains indicate more complex systemic involvement and longer resolution timelines. Chain depth is tracked longitudinally to monitor therapeutic impact on cascade complexity.",
+    rationale: "Cascade chain depth is a proxy for systemic entanglement. Shallow chains resolve rapidly; deep chains require sustained multi-zone intervention. Depth tracking allows practitioners to objectively measure whether therapy is simplifying or further entangling the patient's cascade architecture.",
+    inputs: ["Zone-to-zone propagation sequence per cascade event", "Cascade initiation zone", "Propagation timestamps per step", "Intervention insertion points"],
+    evidence: "L2",
+    t01: "Chain depth calculation requires complete propagation sequence log. Incomplete chains flagged as partial depth estimates in T-01 record.",
+    d80: false
+  },
+  {
+    num: "F-T28", tier: 5, tierName: "Terrain Physics",
+    name: "Intervention Response Fingerprint",
+    desc: "Generates a unique multi-dimensional fingerprint of the patient's response profile to each intervention type, based on longitudinal response pattern analysis. Fingerprints are compared across intervention types to identify the patient's optimal therapeutic modalities and response predictors. Updated dynamically as new intervention response data accrues.",
+    rationale: "Each patient exhibits a unique response fingerprint. Matching intervention type to individual fingerprint dramatically improves therapeutic efficiency, reducing the empirical trial-and-error period common in complex terrain cases.",
+    inputs: ["Intervention type and parameters per session", "Zone score response vectors post-intervention", "Response latency data", "Cascade resolution rates by intervention type"],
+    evidence: "L2",
+    t01: "Fingerprint generation requires minimum 3 exposure events per intervention type. T-01 provisional flag where fewer exposures exist.",
+    d80: true, d80note: "D-80 flag: fingerprint-derived response predictions for untested interventions are extrapolated and carry elevated uncertainty."
+  },
+  {
+    num: "F-T29", tier: 5, tierName: "Terrain Physics",
+    name: "Terrain Stability Half-Life",
+    desc: "Calculates the estimated half-life of the patient's current terrain stability state, expressing how long the present terrain configuration is likely to persist without intervention. Half-life shortens as entropy, cascade pressure, and fatigue index increase. Provides a quantitative urgency indicator for clinical prioritisation.",
+    rationale: "Clinical urgency is often assessed subjectively. A quantitative stability half-life metric provides an objective, comparable urgency indicator that supports resource allocation and session scheduling decisions across complex caseloads.",
+    inputs: ["Current terrain phase state", "Entropy Index", "Cascade momentum magnitudes", "Fatigue Index", "Historical stability duration data"],
+    evidence: "L2",
+    t01: "Half-life calculation model personalised to patient. Population-level decay constants used only where individual history is insufficient, with provisional flag.",
+    d80: true, d80note: "D-80 flag: half-life estimate is a predictive output. Confidence interval and data-sufficiency flag displayed alongside estimate."
+  },
+  {
+    num: "F-T30", tier: 5, tierName: "Terrain Physics",
+    name: "Temporal Blind Spot Detector",
+    desc: "Identifies gaps in the patient's session history where insufficient data exists to generate reliable terrain intelligence, flagging these as clinical blind spots. Analyses whether blind spots coincide with known clinical events or life transitions that may have altered the terrain trajectory. Recommends targeted retrospective data collection where clinically material.",
+    rationale: "Longitudinal analysis is only as strong as its data completeness. Blind spot detection prevents false clinical confidence arising from undetected data gaps, maintaining the integrity of all TRACE outputs and supporting T-01 compliance auditing.",
+    inputs: ["Session date log", "Expected session frequency", "Feature-specific data requirements", "Clinical event annotations"],
+    evidence: "L1",
+    t01: "Blind spot log is a mandatory T-01 audit component. All features cross-reference blind spot data before outputting. Blind-spot-affected outputs carry mandatory advisory.",
+    d80: false
+  }
+];
+
+/* =========================================================
+   MNEMONIC DATA (31 mnemonics + VOS expansion)
+   ========================================================= */
+var MNEMONICS = [
+  {abbr:"TRACE", full:"Temporal Reconstruction and Cascade Evaluation"},
+  {abbr:"VOS", full:"Validated Outcome Scoring"},
+  {abbr:"T-01", full:"Temporal Integrity Protocol"},
+  {abbr:"D-80", full:"Decision-80 Uncertainty Disclosure"},
+  {abbr:"Z1", full:"Zone 1 — Metabolic Terrain"},
+  {abbr:"Z2", full:"Zone 2 — Inflammatory Terrain"},
+  {abbr:"Z3", full:"Zone 3 — Neurological Terrain"},
+  {abbr:"Z4", full:"Zone 4 — Structural Terrain"},
+  {abbr:"Z5", full:"Zone 5 — Regulatory Terrain"},
+  {abbr:"CAS", full:"Cascade Archaeology System"},
+  {abbr:"DIR", full:"Divergence Index Rating"},
+  {abbr:"IIO", full:"Intervention Impact Overlay"},
+  {abbr:"TCP", full:"Temporal Cascade Pressure"},
+  {abbr:"ZLN", full:"Zone Lifecycle Narrative"},
+  {abbr:"CVD", full:"Cascade Velocity Drift"},
+  {abbr:"TSC", full:"Terrain Snapshot Comparison"},
+  {abbr:"PID", full:"Predictive Inflection Detection"},
+  {abbr:"SDA", full:"Session Density Audit"},
+  {abbr:"TWS", full:"Terrain Weather System"},
+  {abbr:"CFI", full:"Cascade Fatigue Index"},
+  {abbr:"TMD", full:"Terrain Memory Decay"},
+  {abbr:"CPM", full:"Cross-Patient Archetype Matching"},
+  {abbr:"ISO", full:"Intervention Sequence Optimiser"},
+  {abbr:"BTP", full:"Burden Tectonic Plates"},
+  {abbr:"CED", full:"Cascade Echo Detector"},
+  {abbr:"ZDS", full:"Zone Dominance Seasons"},
+  {abbr:"TCE", full:"Threshold Crossing Event Log"},
+  {abbr:"NCW", full:"Node Contribution Waterfall"},
+  {abbr:"TEI", full:"Terrain Entropy Index"},
+  {abbr:"CMV", full:"Cascade Momentum Vectors"},
+  {abbr:"ZCM", full:"Zone Correlation Matrix"}
+];
+
+/* =========================================================
+   TIER CONFIG
+   ========================================================= */
+var TIER_NAMES = {
+  1: "Core Timeline",
+  2: "Clinical Narratives",
+  3: "Predictive Intelligence",
+  4: "Advanced Analytics",
+  5: "Terrain Physics"
+};
+
+var TIER_COLOURS = {
+  1: "#1A7A8A",
+  2: "#C9A84C",
+  3: "#7B5EA7",
+  4: "#5F7C6C",
+  5: "#2E6DB4"
+};
+
+var EVIDENCE_LABELS = {
+  L1: "Level 1 — Systematic Review",
+  L2: "Level 2 — Cohort Evidence",
+  L3: "Level 3 — Expert Consensus"
+};
+
+/* =========================================================
+   BUILD MNEMONIC GRID
+   ========================================================= */
+function buildMnemonics() {
+  var grid = document.getElementById("trace-mnemonic-grid");
+  if (!grid) { return; }
+  var html = "";
+  for (var i = 0; i < MNEMONICS.length; i++) {
+    var m = MNEMONICS[i];
+    html = html + '<div class="trace-mnemonic-item" role="listitem" title="' + m.full + '"><strong>' + m.abbr + '</strong></div>';
+  }
+  grid.innerHTML = html;
+}
+
+/* =========================================================
+   BUILD FEATURE CARDS
+   ========================================================= */
+function buildCards() {
+  var grid = document.getElementById("trace-feature-grid");
+  if (!grid) { return; }
+  var html = "";
+
+  for (var i = 0; i < FEATURE_DATA.length; i++) {
+    var f = FEATURE_DATA[i];
+    var delay = (i % 3) * 80;
+
+    var inputsHtml = "";
+    for (var j = 0; j < f.inputs.length; j++) {
+      inputsHtml = inputsHtml + '<span class="trace-detail-tag">' + f.inputs[j] + '</span>';
+    }
+
+    var d80Html = "";
+    if (f.d80) {
+      d80Html = '<div class="trace-detail-row"><span class="trace-d80-flag">D-80 Predictive Output &mdash; ' + f.d80note + '</span></div>';
+    }
+
+    var evidenceClass = "trace-evidence-" + f.evidence;
+    var evidenceLabel = EVIDENCE_LABELS[f.evidence] ? EVIDENCE_LABELS[f.evidence] : f.evidence;
+
+    html = html +
+      '<article class="trace-card vm-reveal" data-tier="' + f.tier + '" role="listitem" style="transition-delay:' + delay + 'ms">' +
+        '<div class="trace-card-header">' +
+          '<div class="trace-card-badges">' +
+            '<span class="trace-badge trace-badge-tier" data-tier="' + f.tier + '">Tier ' + f.tier + ' &mdash; ' + f.tierName + '</span>' +
+            '<span class="trace-badge-num">' + f.num + '</span>' +
+          '</div>' +
+          '<button class="trace-card-expand-btn" aria-expanded="false" aria-label="Expand ' + f.name + ' detail panel">+</button>' +
+        '</div>' +
+        '<h3 class="trace-card-title">' + f.name + '</h3>' +
+        '<p class="trace-card-desc">' + f.desc + '</p>' +
+        '<div class="trace-expand-panel" aria-hidden="true">' +
+          '<div class="trace-expand-inner">' +
+            '<div class="trace-detail-row">' +
+              '<span class="trace-detail-label">Clinical Rationale</span>' +
+              '<span class="trace-detail-val">' + f.rationale + '</span>' +
+            '</div>' +
+            '<div class="trace-detail-row">' +
+              '<span class="trace-detail-label">Data Inputs Required</span>' +
+              '<div class="trace-detail-tags">' + inputsHtml + '</div>' +
+            '</div>' +
+            '<div class="trace-detail-row">' +
+              '<span class="trace-detail-label">Evidence Tier</span>' +
+              '<span class="trace-evidence-pill ' + evidenceClass + '">' + evidenceLabel + '</span>' +
+            '</div>' +
+            '<div class="trace-detail-row">' +
+              '<span class="trace-detail-label">T-01 Compliance Note</span>' +
+              '<span class="trace-detail-val">' + f.t01 + '</span>' +
+              '<span class="trace-t01-flag" style="margin-top:0.4rem">T-01 Compliant</span>' +
+            '</div>' +
+            d80Html +
+          '</div>' +
+        '</div>' +
+      '</article>';
+  }
+
+  grid.innerHTML = html;
+}
+
+/* =========================================================
+   EXPAND / COLLAPSE CARDS
+   ========================================================= */
+function initExpandButtons() {
+  var grid = document.getElementById("trace-feature-grid");
+  if (!grid) { return; }
+
+  grid.addEventListener("click", function(e) {
+    var btn = e.target.closest(".trace-card-expand-btn");
+    if (!btn) { return; }
+    var card = btn.closest(".trace-card");
+    if (!card) { return; }
+    var panel = card.querySelector(".trace-expand-panel");
+    var isExpanded = card.classList.contains("is-expanded");
+
+    if (isExpanded) {
+      card.classList.remove("is-expanded");
+      btn.setAttribute("aria-expanded", "false");
+      if (panel) { panel.setAttribute("aria-hidden", "true"); }
+    } else {
+      card.classList.add("is-expanded");
+      btn.setAttribute("aria-expanded", "true");
+      if (panel) { panel.setAttribute("aria-hidden", "false"); }
+    }
+  });
+}
+
+/* =========================================================
+   FILTER PILLS
+   ========================================================= */
+function initFilter() {
+  var pillContainer = document.getElementById("trace-filter-pills");
+  if (!pillContainer) { return; }
+
+  pillContainer.addEventListener("click", function(e) {
+    var pill = e.target.closest(".trace-pill");
+    if (!pill) { return; }
+
+    var tier = pill.getAttribute("data-tier");
+
+    var pills = pillContainer.querySelectorAll(".trace-pill");
+    for (var i = 0; i < pills.length; i++) {
+      pills[i].classList.remove("is-active");
+      pills[i].setAttribute("aria-pressed", "false");
+    }
+    pill.classList.add("is-active");
+    pill.setAttribute("aria-pressed", "true");
+
+    var cards = document.querySelectorAll(".trace-card");
+    for (var j = 0; j < cards.length; j++) {
+      var card = cards[j];
+      var cardTier = card.getAttribute("data-tier");
+
+      if (tier === "all" || cardTier === tier) {
+        card.classList.remove("is-dimmed");
+      } else {
+        card.classList.add("is-dimmed");
+      }
+    }
+  });
+}
+
+/* =========================================================
+   SCROLL REVEAL (IntersectionObserver)
+   ========================================================= */
+function initScrollReveal() {
+  var elements = document.querySelectorAll(".vm-reveal");
+  if (!elements.length) { return; }
+
+  if (!("IntersectionObserver" in window)) {
+    for (var k = 0; k < elements.length; k++) {
+      elements[k].classList.add("is-visible");
+    }
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    for (var m = 0; m < entries.length; m++) {
+      var entry = entries[m];
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    }
+  }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+
+  for (var n = 0; n < elements.length; n++) {
+    observer.observe(elements[n]);
+  }
+}
+
+/* =========================================================
+   PARTICLE CANVAS
+   ========================================================= */
+function initParticles() {
+  var canvas = document.getElementById("trace-particle-canvas");
+  if (!canvas) { return; }
+
+  var ctx = canvas.getContext("2d");
+  var particles = [];
+  var animId;
+  var W, H;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function makeParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.6 + 0.4,
+      vx: (Math.random() - 0.5) * 0.28,
+      vy: (Math.random() - 0.5) * 0.18,
+      alpha: Math.random() * 0.4 + 0.08,
+      hue: Math.random() > 0.6 ? 201 : (Math.random() > 0.5 ? 196 : 210)
+    };
+  }
+
+  function initPool() {
+    particles = [];
+    var count = Math.min(Math.floor((W * H) / 8000), 90);
+    for (var i = 0; i < count; i++) {
+      particles.push(makeParticle());
+    }
+  }
+
+  function drawConnections() {
+    for (var a = 0; a < particles.length; a++) {
+      for (var b = a + 1; b < particles.length; b++) {
+        var dx = particles[a].x - particles[b].x;
+        var dy = particles[a].y - particles[b].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.strokeStyle = "rgba(26,122,138," + (0.08 * (1 - dist / 120)) + ")";
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[a].x, particles[a].y);
+          ctx.lineTo(particles[b].x, particles[b].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+
+    drawConnections();
+
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < -10) { p.x = W + 10; }
+      if (p.x > W + 10) { p.x = -10; }
+      if (p.y < -10) { p.y = H + 10; }
+      if (p.y > H + 10) { p.y = -10; }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = "hsla(" + p.hue + ",60%,65%," + p.alpha + ")";
+      ctx.fill();
+    }
+
+    animId = requestAnimationFrame(tick);
+  }
+
+  var resizeTimer;
+  window.addEventListener("resize", function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      resize();
+      initPool();
+    }, 200);
+  });
+
+  resize();
+  initPool();
+  tick();
+}
+
+/* =========================================================
+   SMOOTH SCROLL FOR HERO CTA
+   ========================================================= */
+function initSmoothScroll() {
+  var cta = document.querySelector(".trace-hero-cta");
+  if (!cta) { return; }
+  cta.addEventListener("click", function(e) {
+    e.preventDefault();
+    var target = document.getElementById("trace-filter-section");
+    if (target) {
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 0;
+      window.scrollTo({ top: top, behavior: "smooth" });
+    }
+  });
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", function() {
+  buildMnemonics();
+  buildCards();
+  initExpandButtons();
+  initFilter();
+  initScrollReveal();
+  initSmoothScroll();
+
+  var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!prefersReduced) {
+    initParticles();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'accepted\');document.getElementById(\'vm-consent-banner\').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'declined\');document.getElementById(\'vm-consent-banner\').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | VitalMatrix Clinical Intelligence Platform</title>
+<meta name="description" content="Contact VitalMatrix. Book a 30-minute clinical walkthrough with Dr Shahzad Faisal, MBBS, FAAMFM. Platform demonstration using your case profile. UK functional medicine practitioners only.">
+<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform, contact, book demo, discovery call, Harley Street, UK functional medicine">
+<meta property="og:title" content="Contact | VitalMatrix Clinical Intelligence Platform">
+<meta property="og:description" content="Contact VitalMatrix. Book a 30-minute clinical walkthrough with Dr Shahzad Faisal, MBBS, FAAMFM. Platform demonstration using your case profile. UK functional medicine practitioners only.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://vitalmatrix.co.uk/contact/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact VitalMatrix",
+  "email": "hello@vitalmatrix.co.uk",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "London",
+    "streetAddress": "Harley Street"
+  }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vm-prussian:#0D2B4E;
+  --vm-charcoal:#1A2030;
+  --vm-deep-teal:#0C4452;
+  --vm-charcoal-deep:#111820;
+  --vm-charcoal-mid:#232B3E;
+  --vm-prussian-light:#153A62;
+  --vm-navy-d:#071C33;
+  --vm-navy-m:#0F3460;
+  --vm-teal-deepest:#07303D;
+  --vm-teal-mid:#125A6E;
+  --vm-sage-deep:#3D5245;
+  --vm-teal:#1A7A8A;
+  --vm-teal-l:#2A9BAD;
+  --vm-gold:#C9A84C;
+  --vm-gold-w:#D4B870;
+  --vm-sage:#5F7C6C;
+  --vm-purple:#7B5EA7;
+  --vm-white:#F4F4F2;
+  --vm-text:rgba(244,244,242,0.80);
+  --vm-text-s:rgba(244,244,242,0.55);
+  --vm-text-t:rgba(244,244,242,0.35);
+  --vm-brd-gold:rgba(201,168,76,0.18);
+  --vm-brd-white:rgba(255,255,255,0.06);
+  --vm-fs:'Cormorant Garamond',Georgia,serif;
+  --vm-fd:'Outfit',system-ui,sans-serif;
+  --vm-fm:'DM Mono',monospace;
+  --vm-ease:cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--vm-fd);
+  background:var(--vm-charcoal);
+  color:var(--vm-text);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---- NAV ---- */
+.vm-nav{
+  position:sticky;top:0;z-index:1000;
+  height:52px;
+  background:rgba(26,32,48,0.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--vm-brd-gold);
+}
+.vm-nav-inner{
+  max-width:1200px;margin:0 auto;
+  height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+}
+.vm-nav-logo{display:flex;align-items:center;text-decoration:none}
+.vm-nav-links{display:flex;align-items:center;gap:2px}
+.vm-nav-links a{
+  font-family:var(--vm-fd);
+  font-size:0.6rem;font-weight:500;
+  color:var(--vm-text-s);
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:4px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  transition:color 0.2s var(--vm-ease),background 0.2s var(--vm-ease);
+}
+.vm-nav-links a:hover{color:var(--vm-gold);background:rgba(201,168,76,0.06)}
+.vm-nav-cta{
+  font-family:var(--vm-fd);
+  font-size:0.6rem;font-weight:700;
+  color:var(--vm-prussian);
+  background:var(--vm-gold);
+  padding:8px 18px;
+  border-radius:4px;
+  text-decoration:none;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  transition:background 0.2s var(--vm-ease),transform 0.15s var(--vm-ease);
+}
+.vm-nav-cta:hover{background:var(--vm-gold-w);transform:translateY(-1px)}
+.vm-hamburger{
+  display:none;
+  background:none;border:none;cursor:pointer;
+  width:28px;height:20px;
+  position:relative;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.vm-hamburger span{
+  display:block;width:100%;height:2px;
+  background:var(--vm-gold);
+  border-radius:1px;
+  transition:transform 0.3s var(--vm-ease),opacity 0.2s;
+}
+
+/* ---- HERO (Section 01) ---- */
+
+  background:var(--vm-charcoal);
+  padding:80px 24px 72px;
+  position:relative;
+  overflow:hidden;
+}
+.vm-hero-inner{max-width:1120px;margin:0 auto}
+.vm-hero-eyebrow{
+  font-family:var(--vm-fm);
+  font-size:0.62rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--vm-teal-l);
+  margin-bottom:24px;
+  text-align:center;
+  opacity:0;animation:heroFadeUp 0.8s var(--vm-ease) 0.12s forwards;
+}
+.vm-hero h1{
+  font-family:var(--vm-fs);
+  font-size:clamp(2.4rem,5vw,4rem);
+  font-weight:400;
+  color:var(--vm-white);
+  line-height:1.15;
+  margin-bottom:24px;
+  text-align:center;
+  opacity:0;animation:heroFadeUp 0.8s var(--vm-ease) 0.24s forwards;
+}
+.vm-hero-sub{
+  font-family:var(--vm-fd);
+  font-weight:400;
+  font-size:1rem;
+  color:var(--vm-text);
+  max-width:560px;
+  margin:0 auto 48px;
+  line-height:1.78;
+  text-align:center;
+  opacity:0;animation:heroFadeUp 0.8s var(--vm-ease) 0.36s forwards;
+}
+@keyframes heroFadeUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .vm-hero-eyebrow,.vm-hero h1,.vm-hero-sub{
+    animation:none;opacity:1;
+  }
+}
+
+/* ---- CONTACT CARDS ---- */
+.vm-cards-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-bottom:32px;
+}
+.vm-card{
+  background:rgba(15,52,96,0.5);
+  border-radius:4px;
+  padding:36px 28px;
+}
+.vm-card--gold{border-top:2px solid var(--vm-gold)}
+.vm-card--teal{border-top:2px solid var(--vm-teal)}
+.vm-card-num{
+  width:32px;height:32px;
+  border-radius:50%;
+  border:1px solid rgba(201,168,76,0.30);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--vm-fm);
+  font-size:0.58rem;
+  color:var(--vm-gold);
+  margin-bottom:18px;
+  letter-spacing:0.04em;
+}
+.vm-card--teal .vm-card-num{
+  border-color:rgba(26,122,138,0.40);
+  color:var(--vm-teal-l);
+}
+.vm-card-title{
+  font-family:var(--vm-fs);
+  font-size:1.2rem;
+  font-weight:400;
+  color:var(--vm-white);
+  margin-bottom:14px;
+  line-height:1.3;
+}
+.vm-card-body{
+  font-family:var(--vm-fd);
+  font-weight:400;
+  font-size:0.82rem;
+  color:var(--vm-text);
+  line-height:1.75;
+  margin-bottom:20px;
+}
+.vm-card-note{
+  font-family:var(--vm-fm);
+  font-size:0.6rem;
+  color:var(--vm-text-t);
+  line-height:1.7;
+  margin-bottom:16px;
+  letter-spacing:0.02em;
+}
+.vm-card-link{
+  font-family:var(--vm-fm);
+  font-size:0.6rem;
+  color:var(--vm-gold);
+  text-decoration:none;
+  letter-spacing:0.06em;
+  transition:text-decoration 0.2s;
+}
+.vm-card-link:hover{text-decoration:underline}
+.vm-hero-ico{
+  font-family:var(--vm-fm);
+  font-size:0.58rem;
+  color:var(--vm-text-t);
+  letter-spacing:0.06em;
+  text-align:center;
+}
+
+/* ---- FORM (Section 02) ---- */
+.vm-form-section{
+  background:var(--vm-charcoal);
+  padding:80px 24px;
+}
+.vm-form-inner{max-width:680px;margin:0 auto}
+.vm-form-eyebrow{
+  font-family:var(--vm-fm);
+  font-size:0.62rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--vm-teal-l);
+  margin-bottom:12px;
+}
+.vm-form-inner h2{
+  font-family:var(--vm-fs);
+  font-size:clamp(1.6rem,2.5vw,2.2rem);
+  font-weight:400;
+  color:var(--vm-white);
+  margin-bottom:16px;
+  line-height:1.3;
+}
+.vm-form-intro{
+  font-family:var(--vm-fd);
+  font-weight:400;
+  font-size:0.88rem;
+  color:var(--vm-text);
+  line-height:1.78;
+  margin-bottom:40px;
+}
+.vm-field{margin-bottom:24px}
+.vm-label{
+  display:block;
+  font-family:var(--vm-fm);
+  font-size:0.6rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--vm-teal-l);
+  margin-bottom:8px;
+}
+.vm-input,.vm-textarea{
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:4px;
+  padding:12px 16px;
+  color:var(--vm-white);
+  font-family:var(--vm-fd);
+  font-size:0.88rem;
+  font-weight:400;
+  transition:border-color 0.2s var(--vm-ease);
+  outline:none;
+}
+.vm-input:focus,.vm-textarea:focus{
+  border-color:var(--vm-gold);
+}
+.vm-input::placeholder,.vm-textarea::placeholder{
+  color:var(--vm-text-t);
+}
+.vm-textarea{resize:vertical;min-height:120px}
+.vm-submit{
+  width:100%;
+  font-family:var(--vm-fd);
+  font-size:0.7rem;font-weight:700;
+  color:var(--vm-prussian);
+  background:var(--vm-gold);
+  padding:14px 28px;
+  border:none;
+  border-radius:4px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background 0.2s var(--vm-ease),transform 0.15s var(--vm-ease);
+}
+.vm-submit:hover{background:var(--vm-gold-w);transform:translateY(-2px)}
+.vm-privacy-note{
+  font-family:var(--vm-fd);
+  font-weight:400;
+  font-size:0.72rem;
+  color:var(--vm-text-s);
+  line-height:1.7;
+  margin-top:20px;
+}
+.vm-privacy-note a{color:var(--vm-gold);text-decoration:none}
+.vm-privacy-note a:hover{text-decoration:underline}
+
+/* ---- QUICK ANSWERS (Section 03) ---- */
+.vm-faq-short{
+  background:#FBF6E9;
+  padding:80px 24px;
+}
+.vm-faq-short-inner{max-width:760px;margin:0 auto}
+.vm-faq-short-eyebrow{
+  font-family:var(--vm-fm);
+  font-size:0.62rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--vm-teal);
+  margin-bottom:12px;
+}
+.vm-faq-short-inner h2{
+  font-family:var(--vm-fs);
+  font-size:clamp(1.6rem,2.5vw,2.2rem);
+  font-weight:400;
+  color:#1A1A1A;
+  margin-bottom:36px;
+  line-height:1.3;
+}
+.vm-faq-link-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 24px;
+  margin-bottom:8px;
+  background:#FFFFFF;
+  border-radius:6px;
+  text-decoration:none;
+  transition:background 0.2s var(--vm-ease),box-shadow 0.2s var(--vm-ease);
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+}
+.vm-faq-link-row:hover{background:#FEFEFE;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.vm-faq-link-text{
+  font-family:var(--vm-fd);
+  font-weight:400;
+  font-size:0.88rem;
+  color:#1A1A1A;
+  line-height:1.5;
+}
+.vm-faq-link-arrow{
+  font-family:var(--vm-fm);
+  font-size:0.8rem;
+  color:var(--vm-teal);
+  flex-shrink:0;
+  margin-left:16px;
+}
+
+/* ---- FASTEST ROUTE CTA (Section 04) ---- */
+.vm-end-cta{
+  background:var(--vm-prussian);
+  padding:80px 24px;
+  text-align:center;
+}
+.vm-end-cta-inner{max-width:600px;margin:0 auto}
+.vm-end-cta-eyebrow{
+  font-family:var(--vm-fm);
+  font-size:0.62rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--vm-teal-l);
+  margin-bottom:20px;
+}
+.vm-end-cta h2{
+  font-family:var(--vm-fs);
+  font-size:clamp(1.6rem,2.5vw,2.2rem);
+  font-weight:400;
+  color:var(--vm-white);
+  margin-bottom:16px;
+  line-height:1.3;
+}
+.vm-end-cta-body{
+  font-family:var(--vm-fd);
+  font-weight:400;
+  font-size:0.88rem;
+  color:var(--vm-text);
+  line-height:1.78;
+  max-width:480px;
+  margin:0 auto 32px;
+}
+.vm-btn-primary{
+  display:inline-block;
+  font-family:var(--vm-fd);
+  font-size:0.7rem;font-weight:700;
+  color:var(--vm-prussian);
+  background:var(--vm-gold);
+  padding:14px 28px;
+  border-radius:4px;
+  text-decoration:none;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  transition:background 0.2s var(--vm-ease),transform 0.15s var(--vm-ease);
+  margin-bottom:20px;
+}
+.vm-btn-primary:hover{background:var(--vm-gold-w);transform:translateY(-2px)}
+
+/* ---- FOOTER ---- */
+.vm-footer{
+  background:var(--vm-navy-d);
+  padding:56px 24px 36px;
+}
+.vm-footer-inner{max-width:1080px;margin:0 auto}
+.vm-footer-cols{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:32px;
+  margin-bottom:40px;
+}
+.vm-footer-col-title{
+  font-family:var(--vm-fm);
+  font-size:0.58rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--vm-gold);
+  margin-bottom:14px;
+}
+.vm-footer-col a{
+  display:block;
+  font-family:var(--vm-fd);
+  font-size:0.78rem;
+  font-weight:400;
+  color:var(--vm-text-s);
+  text-decoration:none;
+  padding:4px 0;
+  transition:color 0.2s;
+}
+.vm-footer-col a:hover{color:var(--vm-white)}
+.vm-footer-governance{
+  font-family:var(--vm-fd);
+  font-size:0.6rem;
+  font-weight:400;
+  color:var(--vm-text-t);
+  line-height:1.8;
+  max-width:720px;
+  margin:0 auto 20px;
+  text-align:center;
+  border-top:1px solid var(--vm-brd-white);
+  padding-top:24px;
+}
+.vm-footer-tm{
+  font-family:var(--vm-fm);
+  font-size:0.55rem;
+  color:var(--vm-text-t);
+  line-height:1.9;
+  max-width:720px;
+  margin:0 auto 16px;
+  text-align:center;
+  letter-spacing:0.02em;
+}
+.vm-footer-copy{
+  font-family:var(--vm-fm);
+  font-size:0.52rem;
+  color:var(--vm-text-t);
+  text-align:center;
+  letter-spacing:0.08em;
+}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:1024px){
+  .vm-cards-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .vm-nav-links{
+    display:none;
+    position:absolute;top:52px;left:0;right:0;
+    background:rgba(26,32,48,0.98);
+    flex-direction:column;
+    padding:16px 24px;
+    border-bottom:1px solid var(--vm-brd-gold);
+  }
+  .vm-nav-links.open{display:flex}
+  .vm-nav-links a{padding:10px 0;font-size:0.7rem}
+  .vm-nav-cta{margin-top:8px;text-align:center;display:block}
+  .vm-hamburger{display:flex}
+  .vm-hero{padding:64px 20px 56px}
+  .vm-footer-cols{grid-template-columns:1fr;gap:24px}
+}
+@media(max-width:640px){
+  .vm-cards-grid{grid-template-columns:1fr}
+  .vm-btn-primary{
+    display:block;width:100%;text-align:center;
+    padding:16px 24px;
+  }
+}
+
+/* ═══ CINEMATIC HERO LAYERS (21 April 2026) ═══ */
+.vm-hero-grade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.05) 35%,rgba(0,0,0,0.0) 50%,rgba(0,0,0,0.15) 75%,rgba(0,0,0,0.6) 100%),linear-gradient(135deg,rgba(13,43,78,0.25) 0%,transparent 50%,rgba(201,168,76,0.04) 100%)}
+.vm-hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 42%,transparent 0%,rgba(0,0,0,0.70) 100%)}
+.vm-hero-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.vm-hero-orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.vm-hero-orb--gold{width:500px;height:500px;background:#C9A84C;opacity:0.18;top:-15%;left:-8%;animation:vmOrbA 20s ease-in-out infinite alternate}
+.vm-hero-orb--teal{width:400px;height:400px;background:#1A7A8A;opacity:0.14;bottom:-18%;right:-10%;animation:vmOrbB 24s ease-in-out infinite alternate}
+.vm-hero-orb--purple{width:300px;height:300px;background:#7B5EA7;opacity:0.10;top:20%;right:0%;animation:vmOrbC 22s ease-in-out infinite alternate}
+@keyframes vmOrbA{0%{transform:translate(0,0)}100%{transform:translate(40px,-30px)}}
+@keyframes vmOrbB{0%{transform:translate(0,0)}100%{transform:translate(-35px,20px)}}
+@keyframes vmOrbC{0%{transform:translate(0,0)}100%{transform:translate(-20px,-18px)}}
+.vm-hero-glass{position:absolute;inset:0;z-index:3;background:rgba(0,3,8,0.06);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);pointer-events:none}
+.vm-hero-grain{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;animation:vmGrain 0.3s steps(4) infinite}
+@keyframes vmGrain{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0,0)}}
+.vm-hero-mesh{position:absolute;z-index:4;pointer-events:none;width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.15;animation:vmMeshR 90s linear infinite}
+@keyframes vmMeshR{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.vm-hero-content{position:relative;z-index:10}
+.vm-hero h1{text-shadow:0 4px 60px rgba(0,0,0,0.70),0 2px 8px rgba(0,0,0,0.45),0 0 120px rgba(13,43,78,0.40)}
+@media(prefers-reduced-motion:reduce){.vm-hero-orb,.vm-hero-grain,.vm-hero-mesh{animation:none!important}}
+@media(max-width:768px){.vm-hero-mesh{width:260px;height:260px}}
+</style>
+<link rel="stylesheet" href="vm-phase1-design.css">
+<link rel="stylesheet" href="vm-font-optimise.css">
+<link rel="stylesheet" href="vm-award-tier2.css">
+<script src="vm-award-tier2.js" defer></script>
+</head>
+<body class="vm-kinetic-grid vm-page-transition">
+
+<!-- ======== NAV ======== -->
+<nav class="vm-nav">
+  <div class="vm-nav-inner">
+    <a href="/" class="vm-nav-logo" style="line-height:0;font-size:0;">
+      <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" style="display:block;margin:0;padding:0;border:none;" alt="VitalMatrix">
+    </a>
+    <button class="vm-hamburger" onclick="document.querySelector('.vm-nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="vm-nav-links">
+      <a href="/platform/">Platform</a>
+      <a href="/our-approach/">Our Approach</a>
+      <a href="/mission/">Mission</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/about/">About</a>
+      <a href="/book/" class="vm-cta-glow vm-nav-cta">Book Demo</a>
+    </div>
+  </div>
+</nav>
+<div class="vm-progress-bar"></div>
+
+<!-- ======== SECTION 01: HERO + CONTACT CARDS ======== -->
+<section class="vm-texture-gold vm-reveal vm-hero vm-hero-ambient">
+  <!-- Cinematic hero layers -->
+  <div class="vm-hero-grade"></div>
+  <div class="vm-hero-orbs"><div class="vm-hero-orb vm-hero-orb--gold"></div><div class="vm-hero-orb vm-hero-orb--teal"></div><div class="vm-hero-orb vm-hero-orb--purple"></div></div>
+  <div class="vm-hero-vignette"></div>
+  <div class="vm-hero-glass"></div>
+  <svg class="vm-hero-mesh" viewBox="0 0 400 400" fill="none"><polygon points="200,25 365,148 300,350 100,350 35,148" stroke="rgba(201,168,76,0.35)" stroke-width="0.7" fill="none"/><polygon points="200,95 310,182 275,305 125,305 90,182" stroke="rgba(26,122,138,0.22)" stroke-width="0.5" fill="none"/><circle cx="200" cy="25" r="3.5" fill="rgba(201,168,76,0.45)"/><circle cx="35" cy="148" r="3.5" fill="rgba(26,122,138,0.40)"/><circle cx="300" cy="350" r="3.5" fill="rgba(123,94,167,0.35)"/><circle cx="100" cy="350" r="3.5" fill="rgba(95,124,108,0.35)"/><circle cx="365" cy="148" r="3.5" fill="rgba(212,184,112,0.35)"/></svg>
+  <div class="vm-hero-grain"></div>
+  <div class="vm-hero-inner">
+    <p class="vm-hero-eyebrow">Get in Touch</p>
+    <h1 class="vm-font-sharpen">Talk to us <em style="color:#C9A84C;font-style:italic;">directly.</em></h1>
+    <p class="vm-hero-sub">Questions about the platform, the founding programme, or whether VitalMatrix&#8482; is the right fit for your practice. Dr Faisal takes every initial conversation personally.</p>
+
+    <div class="vm-cards-grid vm-stagger-grid">
+
+      <div class="vm-card-glow vm-card vm-card--gold">
+        <div class="vm-card-num">01</div>
+        <h3 class="vm-card-title">Discovery Call</h3>
+        <p class="vm-card-body">Book a 30-minute clinical walkthrough with Dr Faisal. Live platform demonstration using your own case profile.</p>
+        <a href="/book-a-walkthrough/" class="vm-card-link">Book via Calendly &#8594;</a>
+      </div>
+
+      <div class="vm-card-glow vm-card vm-card--teal">
+        <div class="vm-card-num">02</div>
+        <h3 class="vm-card-title">Email</h3>
+        <p class="vm-card-body">For general enquiries about VitalMatrix or the founding programme.</p>
+        <a href="mailto:hello@vitalmatrix.co.uk" class="vm-card-link">hello@vitalmatrix.co.uk</a>
+      </div>
+
+      <div class="vm-card-glow vm-card vm-card--gold">
+        <div class="vm-card-num">03</div>
+        <h3 class="vm-card-title">Location</h3>
+        <p class="vm-card-body">Dr Faisal consults from Harley Street, London.</p>
+        <p class="vm-card-note">VitalMatrix Ltd is not a clinical practice. The Harley Street address reflects Dr Faisal's consulting base. No clinical appointments are conducted through VitalMatrix.</p>
+      </div>
+
+    </div>
+
+    <p class="vm-hero-ico">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+  </div>
+</section>
+
+<!-- ======== SECTION 02: CONTACT FORM ======== -->
+<section class="vm-depth vm-texture-gold vm-reveal vm-form-section">
+  <div class="vm-form-inner">
+    <p class="vm-form-eyebrow">Send a Message</p>
+    <h2 class="vm-font-sharpen">Not ready to book? <em style="color:#C9A84C;font-style:italic;">Send a message.</em></h2>
+    <p class="vm-form-intro">Use this form for general enquiries. For the fastest response on platform questions, book a discovery call.</p>
+
+    <form action="mailto:hello@vitalmatrix.co.uk" method="POST" enctype="text/plain">
+
+      <div class="vm-field">
+        <label class="vm-label" for="vm-name">Name</label>
+        <input class="vm-input" type="text" id="vm-name" name="name" required autocomplete="name">
+      </div>
+
+      <div class="vm-field">
+        <label class="vm-label" for="vm-practice">Practice Name</label>
+        <input class="vm-input" type="text" id="vm-practice" name="practice" required autocomplete="organization">
+      </div>
+
+      <div class="vm-field">
+        <label class="vm-label" for="vm-email">Email</label>
+        <input class="vm-input" type="email" id="vm-email" name="email" required autocomplete="email">
+      </div>
+
+      <div class="vm-field">
+        <label class="vm-label" for="vm-message">Message</label>
+        <textarea class="vm-textarea" id="vm-message" name="message" rows="5" required placeholder="What would you like to know about VitalMatrix?"></textarea>
+      </div>
+
+      <div style="margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;">
+        <input type="checkbox" id="vm-consent" name="consent" required style="margin-top:3px;accent-color:#1A7A8A;">
+        <label for="vm-consent" style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(244,244,242,0.55);line-height:1.6;">I confirm I am a registered healthcare practitioner and I consent to VitalMatrix Ltd contacting me in response to this enquiry.</label>
+      </div>
+
+      <button type="submit" class="vm-submit">Send Message</button>
+
+      <p class="vm-privacy-note">Registered with the ICO (ZC101813). Data governance documentation in progress. <a href="/privacy-policy/">View our Privacy Policy</a> for full details.</p>
+
+    </form>
+  </div>
+</section>
+
+<!-- ======== SECTION 03: QUICK ANSWERS ======== -->
+<section class="vm-depth vm-reveal vm-faq-short">
+  <div class="vm-faq-short-inner">
+    <p class="vm-faq-short-eyebrow">Quick Answers</p>
+    <h2 class="vm-font-sharpen">Common questions <em style="color:#1A7A8A;font-style:italic;">answered here.</em></h2>
+
+    <a href="/faq/#what-vitalmatrix-produces" class="vm-faq-link-row">
+      <span class="vm-faq-link-text">What does VitalMatrix produce?</span>
+      <span class="vm-faq-link-arrow">&#8594;</span>
+    </a>
+    <a href="/faq/#diagnostic" class="vm-faq-link-row">
+      <span class="vm-faq-link-text">Is VitalMatrix a diagnostic tool?</span>
+      <span class="vm-faq-link-arrow">&#8594;</span>
+    </a>
+    <a href="/faq/#join-phase-1" class="vm-faq-link-row">
+      <span class="vm-faq-link-text">How do I join Phase 1?</span>
+      <span class="vm-faq-link-arrow">&#8594;</span>
+    </a>
+    <a href="/faq/#founding-programme" class="vm-faq-link-row">
+      <span class="vm-faq-link-text">What is the founding programme?</span>
+      <span class="vm-faq-link-arrow">&#8594;</span>
+    </a>
+  </div>
+</section>
+
+<!-- ======== SECTION 04: FASTEST ROUTE CTA ======== -->
+<section class="vm-texture-gold vm-reveal vm-end-cta">
+  <div class="vm-end-cta-inner">
+    <p class="vm-end-cta-eyebrow">Fastest Route</p>
+    <h2 class="vm-font-sharpen">Book a <em style="color:#C9A84C;font-style:italic;">Walkthrough.</em></h2>
+    <p class="vm-end-cta-body">30 minutes with Dr Faisal. Live platform demonstration. No sales script.</p>
+    <a href="/book-a-walkthrough/" class="vm-cta-glow vm-btn-primary">Book a Walkthrough</a>
+    <p style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:16px;">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+    <p style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:8px;">Harley Street is Dr Faisal's consulting base. No clinical appointments are conducted through VitalMatrix.</p>
+  </div>
+</section>
+
+<div class="vm-floating-cta">
+  <a href="/book-a-walkthrough/" class="vm-cta-glow vm-floating-cta-btn">Book a Walkthrough</a>
+  <div class="vm-floating-cta-close"><svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></div>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<footer class="vm-footer-landmark vm-footer">
+  <div class="vm-footer-inner">
+    <div class="vm-footer-cols">
+      <div class="vm-footer-col">
+        <p class="vm-footer-col-title">Platform</p>
+        <a href="/how-it-works/">How It Works</a>
+        <a href="/ncz-architecture/">NCZ&#8482; Architecture</a>
+        <a href="/cascadeatlas/">CascadeAtlas&#8482;</a>
+        <a href="/terrain-intelligence/">Terrain Intelligence</a>
+      </div>
+      <div class="vm-footer-col">
+        <p class="vm-footer-col-title">Programme</p>
+        <a href="/founding-practitioners/">Founding Practitioners</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/book/">Book a Walkthrough</a>
+        <a href="/our-approach/">Our Approach</a>
+      </div>
+      <div class="vm-footer-col">
+        <p class="vm-footer-col-title">Company</p>
+        <a href="/about/">About</a>
+        <a href="/mission/">Mission</a>
+        <a href="/clinical-ethics/">Clinical Ethics</a>
+        <a href="/privacy/">Privacy Policy</a>
+      </div>
+    </div>
+    <p class="vm-footer-governance">MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+    <p style="font-family:'DM Mono',monospace;font-size:0.55rem;color:rgba(244,244,242,0.35);text-align:center;margin:0 auto 12px;">For practitioner use only. Not a diagnostic tool.</p>
+    <p class="vm-footer-tm">VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+    <p class="vm-footer-copy">&copy; 2026 VitalMatrix Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="vm-phase1-design.js"></script>
+<script src="vm-scroll-choreography.js"></script>
+<script src="vm-svg-illustrations.js"></script>
+<script src="vm-premium-polish.js"></script>
+</body>
+</html>

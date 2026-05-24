@@ -1,0 +1,1540 @@
+.vm-ov41-detail.vm-ov41-show{display:block}
+.vm-ov41-badge{display:inline-block;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.6rem;color:#C9A84C;margin-top:16px}
+.vm-ov41-insight{display:inline-block;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:.6rem;color:#C9A84C;margin-top:16px}
+</style>
+<section id="vm-ov41-section">
+<div class="vm-ov41-wrap">
+<div class="vm-ov41-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov41-heading">Zone Cross-Talk Network Visualiser</h2>
+<div class="vm-ov41-canvas-wrap">
+<canvas id="vm-ov41-canvas" width="600" height="600"></canvas>
+<div class="vm-ov41-detail" id="vm-ov41-detail"></div>
+</div>
+<div class="vm-ov41-insight" id="vm-ov41-insight">N6 feeds 4 of 5 zones (dampened at 0.7x)</div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var canvas=document.getElementById('vm-ov41-canvas');
+var ctx=canvas.getContext('2d');
+var detail=document.getElementById('vm-ov41-detail');
+var W=600,H=600,cx=300,cy=300;
+var zones=[
+{id:'Z1',name:'Metabolic Energy Axis',color:'#C9A84C',score:55,th:40},
+{id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:48,th:40},
+{id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40},
+{id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:35,th:40},
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:42,th:32}
+];
+var nodes=[
+{id:'N1',name:'Assimilation',score:60,zones:['Z2'],color:'#1A7A8A'},
+{id:'N2',name:'Defence and Repair',score:55,zones:['Z2','Z4'],color:'#1A7A8A'},
+{id:'N3',name:'Energy',score:50,zones:['Z1','Z5'],color:'#C9A84C'},
+{id:'N4',name:'Biotransformation and Elimination',score:45,zones:['Z4','Z5'],color:'#5F7C6C'},
+{id:'N5',name:'Transport',score:35,zones:['Z3'],color:'#7B5EA7'},
+{id:'N6',name:'Endocrine Signalling',score:65,zones:['Z1','Z2','Z3','Z5'],color:'#C9A84C',dampening:0.7},
+{id:'N7',name:'Structural Integrity',score:20,zones:[],color:'#7B5EA7',phase2:true}
+];
+var outerR=220,innerR=120;
+for(var i=0;i<zones.length;i++){
+var a=-Math.PI/2+(2*Math.PI*i/5);
+zones[i].x=cx+outerR*Math.cos(a);
+zones[i].y=cy+outerR*Math.sin(a);
+zones[i].r=22;
+}
+for(var i=0;i<nodes.length;i++){
+var a=-Math.PI/2+(2*Math.PI*i/7);
+nodes[i].x=cx+innerR*Math.cos(a);
+nodes[i].y=cy+innerR*Math.sin(a);
+nodes[i].r=16;
+}
+var connections=[];
+for(var n=0;n<nodes.length;n++){
+for(var z=0;z<nodes[n].zones.length;z++){
+for(var zi=0;zi<zones.length;zi++){
+if(zones[zi].id===nodes[n].zones[z]){
+connections.push({node:n,zone:zi,dampened:nodes[n].dampening?true:false});
+}
+}
+}
+}
+var hoveredNode=-1,hoveredZone=-1,frozen=false;
+var particles=[];
+var entered=false;
+var animFrame=null;
+function initParticles(){
+particles=[];
+for(var c=0;c<connections.length;c++){
+var cn=connections[c];
+var nd=nodes[cn.node],zn=zones[cn.zone];
+for(var p=0;p<3;p++){
+particles.push({conn:c,t:Math.random(),speed:0.003+Math.random()*0.004,sx:nd.x,sy:nd.y,ex:zn.x,ey:zn.y});
+}
+}
+}
+function draw(){
+ctx.clearRect(0,0,W,H);
+ctx.fillStyle='#0A0F14';
+ctx.fillRect(0,0,W,H);
+for(var c=0;c<connections.length;c++){
+var cn=connections[c];
+var nd=nodes[cn.node],zn=zones[cn.zone];
+var highlight=(hoveredNode===cn.node||hoveredZone===cn.zone);
+ctx.beginPath();
+ctx.moveTo(nd.x,nd.y);
+ctx.lineTo(zn.x,zn.y);
+ctx.strokeStyle=highlight?'rgba(201,168,76,0.7)':'rgba(244,244,242,0.1)';
+ctx.lineWidth=highlight?2.5:1;
+if(cn.dampened){ctx.setLineDash([4,4]);}else{ctx.setLineDash([]);}
+ctx.stroke();
+ctx.setLineDash([]);
+if(highlight&&cn.dampened){
+var mx=(nd.x+zn.x)/2,my=(nd.y+zn.y)/2;
+ctx.fillStyle='#C9A84C';
+ctx.font='9px "DM Mono",monospace';
+ctx.textAlign='center';
+ctx.fillText('0.7x',mx,my-6);
+}
+}
+if(entered&&!reducedMotion){
+for(var p=0;p<particles.length;p++){
+var pr=particles[p];
+var cn=connections[pr.conn];
+var highlight=(hoveredNode===cn.node||hoveredZone===cn.zone);
+if(!highlight&&(hoveredNode>=0||hoveredZone>=0))continue;
+pr.t+=pr.speed;
+if(pr.t>1)pr.t-=1;
+var px=pr.sx+(pr.ex-pr.sx)*pr.t;
+var py=pr.sy+(pr.ey-pr.sy)*pr.t;
+ctx.beginPath();
+ctx.arc(px,py,2,0,Math.PI*2);
+ctx.fillStyle=highlight?'rgba(201,168,76,0.9)':'rgba(244,244,242,0.3)';
+ctx.fill();
+}
+}
+for(var i=0;i<zones.length;i++){
+var z=zones[i];
+var active=z.score>=z.th;
+var highlight=(hoveredZone===i);
+ctx.beginPath();
+ctx.arc(z.x,z.y,z.r+(highlight?4:0),0,Math.PI*2);
+ctx.fillStyle=active?z.color:'rgba(244,244,242,0.1)';
+ctx.fill();
+if(highlight||active){
+ctx.strokeStyle=z.color;
+ctx.lineWidth=2;
+ctx.stroke();
+}
+ctx.fillStyle='#F4F4F2';
+ctx.font='bold 11px "DM Mono",monospace';
+ctx.textAlign='center';
+ctx.textBaseline='middle';
+ctx.fillText(z.id,z.x,z.y);
+}
+for(var i=0;i<nodes.length;i++){
+var n=nodes[i];
+var highlight=(hoveredNode===i);
+ctx.beginPath();
+ctx.arc(n.x,n.y,n.r+(highlight?3:0),0,Math.PI*2);
+ctx.fillStyle=highlight?'rgba(244,244,242,0.2)':'rgba(244,244,242,0.08)';
+ctx.fill();
+ctx.strokeStyle=n.color;
+ctx.lineWidth=highlight?2:1;
+ctx.stroke();
+ctx.fillStyle='#F4F4F2';
+ctx.font='9px "DM Mono",monospace';
+ctx.textAlign='center';
+ctx.textBaseline='middle';
+ctx.fillText(n.id,n.x,n.y);
+}
+if(!reducedMotion)animFrame=requestAnimationFrame(draw);
+}
+function hitTest(mx,my){
+for(var i=0;i<zones.length;i++){
+var dx=mx-zones[i].x,dy=my-zones[i].y;
+if(Math.sqrt(dx*dx+dy*dy)<zones[i].r+4)return{type:'zone',idx:i};
+}
+for(var i=0;i<nodes.length;i++){
+var dx=mx-nodes[i].x,dy=my-nodes[i].y;
+if(Math.sqrt(dx*dx+dy*dy)<nodes[i].r+4)return{type:'node',idx:i};
+}
+return null;
+}
+canvas.addEventListener('mousemove',function(e){
+if(frozen)return;
+var rect=canvas.getBoundingClientRect();
+var mx=(e.clientX-rect.left)*(W/rect.width);
+var my=(e.clientY-rect.top)*(H/rect.height);
+var hit=hitTest(mx,my);
+hoveredNode=-1;hoveredZone=-1;
+if(hit){
+if(hit.type==='node')hoveredNode=hit.idx;
+else hoveredZone=hit.idx;
+}
+if(!reducedMotion)return;
+draw();
+});
+canvas.addEventListener('click',function(e){
+var rect=canvas.getBoundingClientRect();
+var mx=(e.clientX-rect.left)*(W/rect.width);
+var my=(e.clientY-rect.top)*(H/rect.height);
+var hit=hitTest(mx,my);
+if(hit){
+frozen=!frozen;
+if(hit.type==='zone'){
+var z=zones[hit.idx];
+var feeders=[];
+for(var c=0;c<connections.length;c++){if(connections[c].zone===hit.idx)feeders.push(nodes[connections[c].node].id);}
+detail.innerHTML='<strong style="color:'+z.color+'">'+z.id+': '+z.name+'</strong><br>Score: '+z.score+'/100'+(z.score>=z.th?' (ACTIVE)':' (Inactive)')+'<br>Fed by: '+feeders.join(', ');
+}else{
+var n=nodes[hit.idx];
+var feeds=[];
+for(var c=0;c<connections.length;c++){if(connections[c].node===hit.idx)feeds.push(zones[connections[c].zone].id);}
+detail.innerHTML='<strong style="color:'+n.color+'">'+n.id+': '+n.name+'</strong><br>Score: '+n.score+(n.dampening?' (dampened 0.7x)':'')+'<br>Feeds: '+(feeds.length?feeds.join(', '):'Phase 2');
+}
+detail.className='vm-ov41-detail vm-ov41-show';
+}else{
+frozen=false;
+detail.className='vm-ov41-detail';
+}
+});
+canvas.addEventListener('mouseleave',function(){
+if(!frozen){hoveredNode=-1;hoveredZone=-1;detail.className='vm-ov41-detail';}
+if(reducedMotion)draw();
+});
+initParticles();
+var obs41=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){
+entered=true;
+if(reducedMotion){draw();}else{draw();}
+obs41.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs41.observe(document.getElementById('vm-ov41-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV42: Cascade Chain Length Calculator ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov42-step,.vm-ov42-badge,.vm-ov42-pulse{transition:none!important;animation:none!important}
+}
+#vm-ov42-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov42-section *{box-sizing:border-box}
+.vm-ov42-wrap{max-width:740px;margin:0 auto}
+.vm-ov42-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px;text-align:center}
+.vm-ov42-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px;text-align:center}
+.vm-ov42-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.vm-ov42-btn{padding:10px 20px;border:1px solid rgba(244,244,242,.15);border-radius:6px;background:rgba(255,255,255,.06);color:#F4F4F2;font-family:'DM Mono',monospace;font-size:.75rem;cursor:pointer;transition:all .3s}
+.vm-ov42-btn:hover,.vm-ov42-btn.vm-ov42-active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,.1)}
+.vm-ov42-chain{display:flex;gap:0;flex-wrap:wrap;align-items:center;min-height:80px;padding:16px 0}
+.vm-ov42-step{opacity:0;transform:translateX(-30px);transition:opacity .2s,transform .2s;display:flex;align-items:center;gap:0}
+.vm-ov42-step.vm-ov42-visible{opacity:1;transform:translateX(0)}
+.vm-ov42-zone-card{padding:10px 14px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.7rem;color:#F4F4F2;border:1px solid rgba(244,244,242,.15);background:rgba(255,255,255,.06)}
+.vm-ov42-arrow{color:rgba(244,244,242,.3);font-family:'DM Mono',monospace;font-size:.8rem;padding:0 6px}
+.vm-ov42-loop{display:inline-block;background:rgba(201,168,76,.15);border:1px solid #C9A84C;border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.65rem;color:#C9A84C;animation:vm-ov42-pulse 1.5s infinite}
+@keyframes vm-ov42-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.vm-ov42-counter{font-family:'DM Mono',monospace;font-size:.7rem;color:rgba(244,244,242,.6);text-align:center;margin-top:12px}
+.vm-ov42-warning{font-family:'DM Mono',monospace;font-size:.65rem;color:#C9A84C;text-align:center;margin-top:8px;padding:8px 16px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:6px;display:none}
+.vm-ov42-replay{padding:8px 16px;border:1px solid rgba(244,244,242,.15);border-radius:6px;background:transparent;color:#F4F4F2;font-family:'DM Mono',monospace;font-size:.65rem;cursor:pointer;margin-top:12px;display:none}
+.vm-ov42-replay:hover{border-color:#C9A84C;color:#C9A84C}
+</style>
+<section id="vm-ov42-section">
+<div class="vm-ov42-wrap">
+<div class="vm-ov42-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov42-heading">Cascade Chain Length Calculator</h2>
+<div class="vm-ov42-btns" id="vm-ov42-btns"></div>
+<div class="vm-ov42-chain" id="vm-ov42-chain"></div>
+<div class="vm-ov42-counter" id="vm-ov42-counter"></div>
+<div class="vm-ov42-warning" id="vm-ov42-warning"></div>
+<div style="text-align:center"><button class="vm-ov42-replay" id="vm-ov42-replay">Replay</button></div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var zoneIds=['Z1','Z2','Z3','Z4','Z5'];
+var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#2E6DB4'};
+var zoneNames={'Z1':'Metabolic Energy','Z2':'Resilience Network','Z3':'Cardiovascular-Neural','Z4':'Detoxification Trident','Z5':'Hormonal Terrain'};
+var stacks=[
+{from:'Z2',to:'Z1',label:'S1',velocity:'MEDIUM'},
+{from:'Z1',to:'Z5',label:'S2',velocity:'FAST'},
+{from:'Z4',to:'Z1',label:'S3',velocity:'SLOW'},
+{from:'Z5',to:'Z2',label:'S4',velocity:'THEORETICAL',theoretical:true},
+{from:'Z2',to:'Z3',label:'S5',velocity:'FAST'},
+{from:'Z1',to:'Z3',label:'S6',velocity:'MEDIUM',unidirectional:true}
+];
+var btnsEl=document.getElementById('vm-ov42-btns');
+var chainEl=document.getElementById('vm-ov42-chain');
+var counterEl=document.getElementById('vm-ov42-counter');
+var warningEl=document.getElementById('vm-ov42-warning');
+var replayEl=document.getElementById('vm-ov42-replay');
+var currentStart=null;
+for(var i=0;i<zoneIds.length;i++){
+var b=document.createElement('button');
+b.className='vm-ov42-btn';
+b.textContent=zoneIds[i];
+b.setAttribute('data-zone',zoneIds[i]);
+b.style.borderColor=zoneColors[zoneIds[i]];
+b.addEventListener('click',function(){
+var z=this.getAttribute('data-zone');
+var allBtns=btnsEl.querySelectorAll('.vm-ov42-btn');
+for(var j=0;j<allBtns.length;j++)allBtns[j].classList.remove('vm-ov42-active');
+this.classList.add('vm-ov42-active');
+currentStart=z;
+runChain(z);
+});
+btnsEl.appendChild(b);
+}
+function findLongestChain(start){
+var chain=[{zone:start,stack:null}];
+var visited={};
+visited[start]=true;
+var current=start;
+var maxIter=20;
+while(maxIter-->0){
+var bestNext=null;var bestStack=null;var bestLen=0;
+for(var s=0;s<stacks.length;s++){
+if(stacks[s].from===current){
+var target=stacks[s].to;
+if(visited[target]&&target===start){
+chain.push({zone:target,stack:stacks[s],loop:true});
+return chain;
+}
+if(!visited[target]){
+var subLen=countDepth(target,visited);
+if(subLen>=bestLen){bestLen=subLen;bestNext=target;bestStack=stacks[s];}
+}
+}
+}
+if(!bestNext)break;
+visited[bestNext]=true;
+chain.push({zone:bestNext,stack:bestStack});
+current=bestNext;
+}
+return chain;
+}
+function countDepth(zone,visited){
+var depth=1;var v={};for(var k in visited)v[k]=visited[k];v[zone]=true;
+var cur=zone;var iter=10;
+while(iter-->0){
+var found=false;
+for(var s=0;s<stacks.length;s++){
+if(stacks[s].from===cur&&!v[stacks[s].to]){v[stacks[s].to]=true;cur=stacks[s].to;depth++;found=true;break;}
+}
+if(!found)break;
+}
+return depth;
+}
+function runChain(startZone){
+chainEl.innerHTML='';
+counterEl.textContent='';
+warningEl.style.display='none';
+replayEl.style.display='none';
+var chain=findLongestChain(startZone);
+var hasLoop=chain.length>0&&chain[chain.length-1].loop;
+var stepCount=chain.length-1;
+for(var i=0;i<chain.length;i++){
+(function(idx){
+var step=document.createElement('div');
+step.className='vm-ov42-step';
+var html='';
+if(idx>0){
+var stk=chain[idx].stack;
+html+='<span class="vm-ov42-arrow">' + stk.label + (stk.theoretical?' (THEORETICAL)':'') + ' &rarr; </span>';
+}
+if(chain[idx].loop){
+html+='<span class="vm-ov42-loop">LOOP DETECTED: back to '+chain[idx].zone+'</span>';
+}else{
+html+='<span class="vm-ov42-zone-card" style="border-color:'+zoneColors[chain[idx].zone]+'">'+chain[idx].zone+'<br><span style="font-size:.55rem;opacity:.6">'+zoneNames[chain[idx].zone]+'</span></span>';
+}
+step.innerHTML=html;
+chainEl.appendChild(step);
+var delay=reducedMotion?0:(idx*200);
+setTimeout(function(){step.classList.add('vm-ov42-visible');},delay);
+})(i);
+}
+var totalDelay=reducedMotion?0:(chain.length*200+100);
+setTimeout(function(){
+counterEl.textContent='Maximum chain length: '+stepCount+' step'+(stepCount!==1?'s':'');
+if(hasLoop){
+warningEl.style.display='block';
+warningEl.textContent='TerrainLock: loop is self-perpetuating (Z2 \u2192 Z1 \u2192 Z5 \u2192 Z2)';
+}
+replayEl.style.display='inline-block';
+},totalDelay);
+}
+replayEl.addEventListener('click',function(){
+if(currentStart)runChain(currentStart);
+});
+var obs42=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){obs42.unobserve(entries[e].target);}
+}
+},{threshold:0.15});
+obs42.observe(document.getElementById('vm-ov42-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV43: Burden Distribution Histogram ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov43-ball,.vm-ov43-drop{transition:none!important;animation:none!important}
+}
+#vm-ov43-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov43-section *{box-sizing:border-box}
+.vm-ov43-wrap{max-width:740px;margin:0 auto;text-align:center}
+.vm-ov43-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov43-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov43-histogram{display:flex;gap:4px;justify-content:center;align-items:flex-end;height:240px;padding-bottom:30px;position:relative}
+.vm-ov43-bin{display:flex;flex-direction:column-reverse;align-items:center;width:56px;position:relative;height:100%}
+.vm-ov43-bin-label{font-family:'DM Mono',monospace;font-size:.5rem;color:rgba(244,244,242,.4);position:absolute;bottom:-22px;white-space:nowrap}
+.vm-ov43-ball{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.55rem;color:#F4F4F2;font-weight:600;opacity:0;transform:translateY(-200px);cursor:pointer;position:relative}
+.vm-ov43-ball.vm-ov43-dropped{opacity:1;transform:translateY(0);transition:transform .4s cubic-bezier(.22,.68,.36,1.2),opacity .2s}
+.vm-ov43-threshold{position:absolute;left:0;right:0;border-top:2px dashed rgba(201,168,76,.5);z-index:5;pointer-events:none}
+.vm-ov43-threshold-label{font-family:'DM Mono',monospace;font-size:.5rem;color:#C9A84C;position:absolute;right:4px;top:-14px}
+.vm-ov43-tooltip{position:absolute;background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:.6rem;color:#F4F4F2;white-space:nowrap;pointer-events:none;z-index:10;display:none;bottom:50px;left:50%;transform:translateX(-50%)}
+.vm-ov43-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:.6rem;color:#C9A84C;margin-top:16px}
+.vm-ov43-replay-btn{padding:8px 16px;border:1px solid rgba(244,244,242,.15);border-radius:6px;background:transparent;color:#F4F4F2;font-family:'DM Mono',monospace;font-size:.65rem;cursor:pointer;margin-top:12px}
+.vm-ov43-replay-btn:hover{border-color:#C9A84C;color:#C9A84C}
+</style>
+<section id="vm-ov43-section">
+<div class="vm-ov43-wrap">
+<div class="vm-ov43-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov43-heading">Burden Distribution Histogram</h2>
+<div class="vm-ov43-histogram" id="vm-ov43-histogram"></div>
+<div id="vm-ov43-insight"></div>
+<div style="text-align:center"><button class="vm-ov43-replay-btn" id="vm-ov43-replay">Replay drop animation</button></div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var zones=[
+{id:'Z1',name:'Metabolic Energy Axis',color:'#C9A84C',score:55,th:40},
+{id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:48,th:40},
+{id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40},
+{id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:35,th:40},
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:42,th:32}
+];
+var bins=[];
+for(var b=0;b<10;b++){bins.push({min:b*10,max:(b+1)*10,zones:[]});}
+for(var z=0;z<zones.length;z++){
+var binIdx=Math.min(Math.floor(zones[z].score/10),9);
+bins[binIdx].zones.push(zones[z]);
+}
+var histEl=document.getElementById('vm-ov43-histogram');
+var insightEl=document.getElementById('vm-ov43-insight');
+function buildHistogram(){
+histEl.innerHTML='';
+var allBalls=[];
+for(var b=0;b<bins.length;b++){
+var binDiv=document.createElement('div');
+binDiv.className='vm-ov43-bin';
+var label=document.createElement('div');
+label.className='vm-ov43-bin-label';
+label.textContent=bins[b].min+'-'+bins[b].max;
+binDiv.appendChild(label);
+for(var z=0;z<bins[b].zones.length;z++){
+var ball=document.createElement('div');
+ball.className='vm-ov43-ball';
+ball.style.background=bins[b].zones[z].color;
+ball.textContent=bins[b].zones[z].id;
+ball.setAttribute('data-zone',bins[b].zones[z].id);
+ball.setAttribute('data-score',String(bins[b].zones[z].score));
+ball.setAttribute('data-name',bins[b].zones[z].name);
+ball.setAttribute('data-th',String(bins[b].zones[z].th));
+var tip=document.createElement('div');
+tip.className='vm-ov43-tooltip';
+tip.textContent=bins[b].zones[z].id+': '+bins[b].zones[z].name+' (Score: '+bins[b].zones[z].score+', Threshold: '+bins[b].zones[z].th+')';
+ball.appendChild(tip);
+ball.addEventListener('mouseenter',function(){this.querySelector('.vm-ov43-tooltip').style.display='block';});
+ball.addEventListener('mouseleave',function(){this.querySelector('.vm-ov43-tooltip').style.display='none';});
+binDiv.appendChild(ball);
+allBalls.push({el:ball,binIdx:b,zoneIdx:z});
+}
+histEl.appendChild(binDiv);
+}
+return allBalls;
+}
+function dropBalls(allBalls){
+for(var i=0;i<allBalls.length;i++){
+allBalls[i].el.classList.remove('vm-ov43-dropped');
+}
+for(var i=0;i<allBalls.length;i++){
+(function(idx){
+var delay=reducedMotion?0:(idx*400);
+setTimeout(function(){allBalls[idx].el.classList.add('vm-ov43-dropped');},delay);
+})(i);
+}
+var clustered=false;
+for(var b=0;b<bins.length;b++){
+if(bins[b].zones.length>=3){clustered=true;break;}
+}
+insightEl.innerHTML='';
+var badge=document.createElement('div');
+badge.className='vm-ov43-badge';
+badge.textContent=clustered?'Clustered burden pattern: 3+ zones in same range':'Burden spread across multiple ranges';
+insightEl.appendChild(badge);
+}
+var allBalls=buildHistogram();
+document.getElementById('vm-ov43-replay').addEventListener('click',function(){
+allBalls=buildHistogram();
+dropBalls(allBalls);
+});
+var obs43=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){
+dropBalls(allBalls);
+obs43.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs43.observe(document.getElementById('vm-ov43-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV44: FLINT Output Comparison Cards ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov44-card,.vm-ov44-slide{transition:none!important;animation:none!important}
+}
+#vm-ov44-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov44-section *{box-sizing:border-box}
+.vm-ov44-wrap{max-width:860px;margin:0 auto}
+.vm-ov44-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px;text-align:center}
+.vm-ov44-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px;text-align:center}
+.vm-ov44-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:640px){.vm-ov44-grid{grid-template-columns:1fr}}
+.vm-ov44-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:24px;opacity:0;cursor:pointer;transition:opacity .4s,transform .4s}
+.vm-ov44-card.vm-ov44-left{transform:translateX(-40px)}
+.vm-ov44-card.vm-ov44-right{transform:translateX(40px)}
+.vm-ov44-card.vm-ov44-visible{opacity:1;transform:translateX(0)}
+.vm-ov44-card:hover{border-color:rgba(201,168,76,.4)}
+.vm-ov44-card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:#C9A84C;margin-bottom:16px}
+.vm-ov44-row{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.7);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);line-height:1.5}
+.vm-ov44-row strong{color:#F4F4F2}
+.vm-ov44-highlight{text-decoration:underline;text-decoration-color:#C9A84C;text-underline-offset:3px}
+.vm-ov44-detail{max-height:0;overflow:hidden;transition:max-height .4s;font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(244,244,242,.5);line-height:1.6;padding-top:0}
+.vm-ov44-card.vm-ov44-expanded .vm-ov44-detail{max-height:600px;padding-top:12px}
+.vm-ov44-badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.vm-ov44-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:.6rem;color:#C9A84C}
+.vm-ov44-badge-prominent{display:inline-block;background:rgba(201,168,76,.2);border:2px solid #C9A84C;border-radius:20px;padding:8px 18px;font-family:'DM Mono',monospace;font-size:.7rem;color:#C9A84C;font-weight:600}
+</style>
+<section id="vm-ov44-section">
+<div class="vm-ov44-wrap">
+<div class="vm-ov44-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov44-heading">FLINT Output Comparison Cards</h2>
+<div class="vm-ov44-grid">
+<div class="vm-ov44-card vm-ov44-left" id="vm-ov44-flint">
+<div class="vm-ov44-card-title">FLINT Output (Raw)</div>
+<div class="vm-ov44-row"><strong>L1 Node Intelligence:</strong> N1=60, N2=55, N3=50, N4=45, N5=35, N6=65 (dampened 0.7x), N7=20 (Phase 2)</div>
+<div class="vm-ov44-row"><strong>L2 Zone Intelligence:</strong> Z1=55, Z2=48, Z3=30, Z4=35, Z5=42</div>
+<div class="vm-ov44-row"><strong>L3 Cascade Intelligence:</strong> S1 Active (MEDIUM), S2 Active (FAST), S3 Inactive, S4 <span class="vm-ov44-highlight">THEORETICAL</span>, S5 Active (FAST), S6 Active (MEDIUM, UNIDIRECTIONAL)</div>
+<div class="vm-ov44-row"><strong>L4 Causality Intelligence:</strong> Highest burden zone: Z1. DRD excluded: S4 (D-12).</div>
+<div class="vm-ov44-row"><strong>L5 Examination Intelligence:</strong> APEX Tier 2 (GBP 400 to 800). Z1-priority investigations.</div>
+<div class="vm-ov44-detail" id="vm-ov44-flint-detail">
+FLINT processes five layers sequentially: nodes scored at L1, zones computed at L2 with N6 dampening, cascades evaluated at L3 including TerrainLock detection, DRD designated at L4 with Z2 tiebreaker, and APEX investigation plan generated at L5.<br><br>
+Raw output: deterministic, reproducible, auditable. Every number traces to a D-series decision.
+</div>
+</div>
+<div class="vm-ov44-card vm-ov44-right" id="vm-ov44-vantage">
+<div class="vm-ov44-card-title">VANTAGE Synthesis</div>
+<div class="vm-ov44-row"><strong>Dimension 1: Severity.</strong> <span class="vm-ov44-highlight">3 of 5 zones above activation threshold.</span> Moderate terrain burden.</div>
+<div class="vm-ov44-row"><strong>Dimension 2: Trajectory.</strong> <span class="vm-ov44-highlight">TerrainSpiral: progressively destabilising.</span> Multi-zone convergence emerging.</div>
+<div class="vm-ov44-row"><strong>Dimension 3: Complexity.</strong> <span class="vm-ov44-highlight">4 of 6 stacks active.</span> TerrainLock loop detected (Z2, Z1, Z5). High cascade density.</div>
+<div class="vm-ov44-row"><strong>Dimension 4: Confidence.</strong> Floor tier constraint active. Synthesis confidence: <span class="vm-ov44-highlight">Emerging.</span></div>
+<div class="vm-ov44-row"><strong>Dimension 5: Priority.</strong> GRADE: Moderate. Z1 intervention first, Z5 secondary, Z2 supporting.</div>
+<div class="vm-ov44-detail" id="vm-ov44-vantage-detail">
+VANTAGE synthesises across all five FLINT layers simultaneously. It adds contextual intelligence: trajectory analysis (TerrainSpiral), complexity assessment (cascade density), confidence estimation (floor tier constraint), and priority sequencing (GRADE classification).<br><br>
+VANTAGE adds context. It never replaces FLINT. Every VANTAGE dimension traces back to one or more FLINT layers.
+</div>
+</div>
+</div>
+<div class="vm-ov44-badges">
+<div class="vm-ov44-badge">VANTAGE adds context, never replaces FLINT</div>
+<div class="vm-ov44-badge-prominent">Not a sixth layer</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var flint=document.getElementById('vm-ov44-flint');
+var vantage=document.getElementById('vm-ov44-vantage');
+flint.addEventListener('click',function(){flint.classList.toggle('vm-ov44-expanded');});
+vantage.addEventListener('click',function(){vantage.classList.toggle('vm-ov44-expanded');});
+var obs44=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){
+setTimeout(function(){flint.classList.add('vm-ov44-visible');},0);
+setTimeout(function(){vantage.classList.add('vm-ov44-visible');},200);
+obs44.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs44.observe(document.getElementById('vm-ov44-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV45: Zone Threshold Proximity Bars ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov45-fill,.vm-ov45-pulse{transition:none!important;animation:none!important}
+}
+#vm-ov45-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov45-section *{box-sizing:border-box}
+.vm-ov45-wrap{max-width:700px;margin:0 auto}
+.vm-ov45-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px;text-align:center}
+.vm-ov45-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px;text-align:center}
+.vm-ov45-bars{display:flex;flex-direction:column;gap:20px}
+.vm-ov45-bar-row{display:flex;align-items:center;gap:12px}
+.vm-ov45-label{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.7);width:40px;flex-shrink:0;text-align:right}
+.vm-ov45-track{flex:1;height:28px;background:rgba(255,255,255,.06);border-radius:6px;position:relative;overflow:hidden;cursor:pointer}
+.vm-ov45-fill{height:100%;border-radius:6px;width:0;transition:width .5s cubic-bezier(.4,0,.2,1);position:relative}
+.vm-ov45-threshold-mark{position:absolute;top:0;bottom:0;width:2px;background:rgba(244,244,242,.4);z-index:3}
+.vm-ov45-threshold-text{position:absolute;top:-16px;font-family:'DM Mono',monospace;font-size:.45rem;color:rgba(244,244,242,.4);transform:translateX(-50%);white-space:nowrap}
+.vm-ov45-status{font-family:'DM Mono',monospace;font-size:.55rem;width:90px;flex-shrink:0;text-align:left}
+.vm-ov45-active{color:#C9A84C;animation:vm-ov45-pulse 1.5s infinite}
+@keyframes vm-ov45-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.vm-ov45-borderline{color:#D4A017}
+.vm-ov45-inactive{color:rgba(244,244,242,.4)}
+.vm-ov45-z5-note{font-family:'DM Mono',monospace;font-size:.55rem;color:#2E6DB4;text-align:center;margin-top:12px}
+.vm-ov45-tooltip{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:4px 8px;font-family:'DM Mono',monospace;font-size:.55rem;color:#F4F4F2;white-space:nowrap;display:none;z-index:10;pointer-events:none}
+.vm-ov45-hatch{position:absolute;top:0;bottom:0;right:0;opacity:.4;background:repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(212,160,23,.3) 3px,rgba(212,160,23,.3) 6px)}
+</style>
+<section id="vm-ov45-section">
+<div class="vm-ov45-wrap">
+<div class="vm-ov45-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov45-heading">Zone Threshold Proximity Bars</h2>
+<div class="vm-ov45-bars" id="vm-ov45-bars"></div>
+<div class="vm-ov45-z5-note">Z5 has a lower activation threshold (32 vs 40): hormonal sensitivity</div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var zones=[
+{id:'Z1',color:'#C9A84C',score:55,th:40},
+{id:'Z2',color:'#1A7A8A',score:48,th:40},
+{id:'Z3',color:'#7B5EA7',score:30,th:40},
+{id:'Z4',color:'#5F7C6C',score:35,th:40},
+{id:'Z5',color:'#2E6DB4',score:42,th:32}
+];
+var container=document.getElementById('vm-ov45-bars');
+var fills=[];
+for(var i=0;i<zones.length;i++){
+var z=zones[i];
+var row=document.createElement('div');
+row.className='vm-ov45-bar-row';
+var label=document.createElement('div');
+label.className='vm-ov45-label';
+label.textContent=z.id;
+label.style.color=z.color;
+var track=document.createElement('div');
+track.className='vm-ov45-track';
+var thMark=document.createElement('div');
+thMark.className='vm-ov45-threshold-mark';
+thMark.style.left=(z.th)+'%';
+var thText=document.createElement('div');
+thText.className='vm-ov45-threshold-text';
+thText.style.left=(z.th)+'%';
+thText.textContent='Th:'+z.th;
+track.appendChild(thMark);
+track.appendChild(thText);
+var fill=document.createElement('div');
+fill.className='vm-ov45-fill';
+fill.style.background=z.color;
+fill.setAttribute('data-width',String(z.score));
+var isActive=z.score>=z.th;
+var isBorderline=(!isActive&&z.score>=(z.th-5));
+if(isBorderline){
+var hatch=document.createElement('div');
+hatch.className='vm-ov45-hatch';
+hatch.style.width='5%';
+fill.appendChild(hatch);
+}
+var tip=document.createElement('div');
+tip.className='vm-ov45-tooltip';
+var distance=z.score-z.th;
+tip.textContent=z.id+': '+(distance>=0?'+':'')+distance+' points '+(distance>=0?'above':'below')+' threshold';
+track.appendChild(tip);
+track.addEventListener('mouseenter',(function(t){return function(){t.style.display='block';};})(tip));
+track.addEventListener('mouseleave',(function(t){return function(){t.style.display='none';};})(tip));
+track.appendChild(fill);
+var status=document.createElement('div');
+status.className='vm-ov45-status';
+if(isActive){
+status.className+=' vm-ov45-active';
+status.textContent='ACTIVE';
+}else if(isBorderline){
+status.className+=' vm-ov45-borderline';
+status.textContent='BORDERLINE';
+}else{
+status.className+=' vm-ov45-inactive';
+status.textContent='Inactive';
+}
+row.appendChild(label);
+row.appendChild(track);
+row.appendChild(status);
+container.appendChild(row);
+fills.push({el:fill,width:z.score,idx:i});
+}
+var obs45=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){
+for(var f=0;f<fills.length;f++){
+(function(idx){
+var delay=reducedMotion?0:(idx*500);
+setTimeout(function(){fills[idx].el.style.width=fills[idx].width+'%';},delay);
+})(f);
+}
+obs45.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs45.observe(document.getElementById('vm-ov45-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV46: Cascade Velocity Waveform ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov46-wave{animation:none!important}
+}
+#vm-ov46-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov46-section *{box-sizing:border-box}
+.vm-ov46-wrap{max-width:800px;margin:0 auto;text-align:center}
+.vm-ov46-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov46-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov46-svg-wrap{position:relative;display:inline-block;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:8px}
+.vm-ov46-legend{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.vm-ov46-legend-item{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(244,244,242,.6);display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 8px;border-radius:4px;border:1px solid transparent;transition:border-color .3s}
+.vm-ov46-legend-item:hover,.vm-ov46-legend-item.vm-ov46-selected{border-color:rgba(244,244,242,.3)}
+.vm-ov46-legend-dot{width:10px;height:3px;border-radius:2px;flex-shrink:0}
+.vm-ov46-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:.6rem;color:#C9A84C;margin-top:16px}
+.vm-ov46-wave{animation:vm-ov46-flow 3s linear infinite}
+@keyframes vm-ov46-flow{from{stroke-dashoffset:0}to{stroke-dashoffset:-60}}
+</style>
+<section id="vm-ov46-section">
+<div class="vm-ov46-wrap">
+<div class="vm-ov46-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov46-heading">Cascade Velocity Waveform</h2>
+<div class="vm-ov46-svg-wrap">
+<svg id="vm-ov46-svg" width="720" height="260" viewBox="0 0 720 260"></svg>
+</div>
+<div class="vm-ov46-legend" id="vm-ov46-legend"></div>
+<div class="vm-ov46-badge">Velocity spectrum: 3 active velocity classes across 4 stacks</div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var svg=document.getElementById('vm-ov46-svg');
+var legendEl=document.getElementById('vm-ov46-legend');
+var stacks=[
+{id:'S1',label:'S1: Z2\u2192Z1',velocity:'MEDIUM',active:true,color:'#1A7A8A',srcScore:48,tgtScore:55,theoretical:false},
+{id:'S2',label:'S2: Z1\u2192Z5',velocity:'FAST',active:true,color:'#C9A84C',srcScore:55,tgtScore:42,theoretical:false},
+{id:'S3',label:'S3: Z4\u2192Z1',velocity:'SLOW',active:false,color:'#5F7C6C',srcScore:35,tgtScore:55,theoretical:false},
+{id:'S4',label:'S4: Z5\u2192Z2 (THEORETICAL)',velocity:'THEORETICAL',active:false,color:'#2E6DB4',srcScore:42,tgtScore:48,theoretical:true},
+{id:'S5',label:'S5: Z2\u2192Z3',velocity:'FAST',active:true,color:'#7B5EA7',srcScore:48,tgtScore:30,theoretical:false},
+{id:'S6',label:'S6: Z1\u2192Z3 (UNIDIRECTIONAL)',velocity:'MEDIUM',active:true,color:'#C9A84C',srcScore:55,tgtScore:30,theoretical:false}
+];
+var velMap={'FAST':8,'MEDIUM':16,'SLOW':30,'THEORETICAL':20};
+var W=720,H=260,pad=40,waveH=H-pad*2;
+var selectedStack=-1;
+function buildWaves(){
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var bg=document.createElementNS('http://www.w3.org/2000/svg','rect');
+bg.setAttribute('width',String(W));bg.setAttribute('height',String(H));bg.setAttribute('fill','transparent');
+svg.appendChild(bg);
+var midY=H/2;
+for(var s=0;s<stacks.length;s++){
+var st=stacks[s];
+var wavelength=velMap[st.velocity]||16;
+var amplitude=st.active?((st.srcScore+st.tgtScore)/200)*waveH*0.35:0;
+var d='M '+pad+' '+midY;
+for(var x=pad;x<=W-pad;x+=2){
+var y=midY+amplitude*Math.sin((x-pad)*Math.PI*2/wavelength/4);
+d+=' L '+x+' '+Math.round(y*10)/10;
+}
+var path=document.createElementNS('http://www.w3.org/2000/svg','path');
+path.setAttribute('d',d);
+path.setAttribute('fill','none');
+path.setAttribute('stroke',st.color);
+var isIsolated=(selectedStack>=0&&selectedStack!==s);
+path.setAttribute('stroke-opacity',isIsolated?'0.1':(st.active?'0.8':'0.3'));
+path.setAttribute('stroke-width',st.active?'2':'1');
+if(st.theoretical||!st.active){
+path.setAttribute('stroke-dasharray','6 4');
+}else{
+path.setAttribute('stroke-dasharray','30 30');
+if(!reducedMotion)path.setAttribute('class','vm-ov46-wave');
+}
+path.setAttribute('data-stack',String(s));
+svg.appendChild(path);
+if(st.theoretical){
+var txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+txt.setAttribute('x',String(W-pad-60));
+txt.setAttribute('y',String(midY-8));
+txt.setAttribute('fill',st.color);
+txt.setAttribute('font-size','9');
+txt.setAttribute('font-family','"DM Mono",monospace');
+txt.setAttribute('opacity',isIsolated?'0.1':'0.6');
+txt.textContent='THEORETICAL';
+svg.appendChild(txt);
+}
+}
+}
+function buildLegend(){
+legendEl.innerHTML='';
+for(var s=0;s<stacks.length;s++){
+(function(idx){
+var item=document.createElement('div');
+item.className='vm-ov46-legend-item'+(selectedStack===idx?' vm-ov46-selected':'');
+var dot=document.createElement('div');
+dot.className='vm-ov46-legend-dot';
+dot.style.background=stacks[idx].color;
+if(!stacks[idx].active)dot.style.opacity='0.4';
+item.appendChild(dot);
+var txt=document.createTextNode(stacks[idx].label+' ('+stacks[idx].velocity+')');
+item.appendChild(txt);
+item.addEventListener('click',function(){
+if(selectedStack===idx){selectedStack=-1;}else{selectedStack=idx;}
+buildWaves();buildLegend();
+});
+legendEl.appendChild(item);
+})(s);
+}
+}
+buildWaves();
+buildLegend();
+})();
+</script>
+
+
+<!-- ═══════ OV47: DRD Designation History Heatmap ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov47-cell{transition:none!important;animation:none!important}
+}
+#vm-ov47-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov47-section *{box-sizing:border-box}
+.vm-ov47-wrap{max-width:700px;margin:0 auto;text-align:center}
+.vm-ov47-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov47-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov47-grid{display:grid;grid-template-columns:60px repeat(5,1fr);gap:3px;max-width:500px;margin:0 auto}
+.vm-ov47-header{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(244,244,242,.6);padding:6px 4px;text-align:center;transition:text-shadow .3s}
+.vm-ov47-header-glow{text-shadow:0 0 8px currentColor}
+.vm-ov47-row-label{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(244,244,242,.4);display:flex;align-items:center;justify-content:flex-end;padding-right:8px}
+.vm-ov47-cell{border-radius:4px;height:32px;transition:opacity .3s,background .3s;opacity:0;cursor:pointer;position:relative}
+.vm-ov47-cell.vm-ov47-filled{opacity:1}
+.vm-ov47-cell-tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:4px 8px;font-family:'DM Mono',monospace;font-size:.5rem;color:#F4F4F2;white-space:nowrap;display:none;z-index:10;pointer-events:none}
+.vm-ov47-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:.6rem;color:#C9A84C;margin-top:20px}
+</style>
+<section id="vm-ov47-section">
+<div class="vm-ov47-wrap">
+<div class="vm-ov47-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov47-heading">DRD Designation History Heatmap</h2>
+<div class="vm-ov47-grid" id="vm-ov47-grid"></div>
+<div class="vm-ov47-badge">Designation shift: Z1 dominant early, Z5 emerging later</div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var zones=['Z1','Z2','Z3','Z4','Z5'];
+var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#2E6DB4'};
+var sessions=[
+{Z1:58,Z2:42,Z3:25,Z4:30,Z5:35,drd:'Z1'},
+{Z1:56,Z2:44,Z3:28,Z4:32,Z5:36,drd:'Z1'},
+{Z1:55,Z2:46,Z3:27,Z4:33,Z5:38,drd:'Z1'},
+{Z1:54,Z2:48,Z3:29,Z4:34,Z5:40,drd:'Z1'},
+{Z1:53,Z2:47,Z3:30,Z4:35,Z5:42,drd:'Z1'},
+{Z1:52,Z2:48,Z3:30,Z4:35,Z5:44,drd:'Z1'},
+{Z1:50,Z2:47,Z3:31,Z4:34,Z5:48,drd:'Z1'},
+{Z1:48,Z2:46,Z3:30,Z4:35,Z5:52,drd:'Z5'},
+{Z1:46,Z2:45,Z3:29,Z4:34,Z5:55,drd:'Z5'},
+{Z1:44,Z2:44,Z3:28,Z4:33,Z5:58,drd:'Z5'}
+];
+var drdCount={};
+for(var s=0;s<sessions.length;s++){
+var d=sessions[s].drd;
+drdCount[d]=(drdCount[d]||0)+1;
+}
+var maxDrd='Z1';var maxDrdC=0;
+for(var k in drdCount){if(drdCount[k]>maxDrdC){maxDrdC=drdCount[k];maxDrd=k;}}
+var grid=document.getElementById('vm-ov47-grid');
+var corner=document.createElement('div');
+corner.style.cssText='font-family:"DM Mono",monospace;font-size:.5rem;color:rgba(244,244,242,.3);display:flex;align-items:flex-end;justify-content:flex-end;padding:0 4px 4px 0';
+corner.textContent='Session';
+grid.appendChild(corner);
+for(var z=0;z<zones.length;z++){
+var h=document.createElement('div');
+h.className='vm-ov47-header';
+h.style.color=zoneColors[zones[z]];
+h.textContent=zones[z];
+if(zones[z]===maxDrd)h.classList.add('vm-ov47-header-glow');
+grid.appendChild(h);
+}
+var cellEls=[];
+for(var s=0;s<sessions.length;s++){
+var rowLabel=document.createElement('div');
+rowLabel.className='vm-ov47-row-label';
+rowLabel.textContent='T'+(s+1);
+grid.appendChild(rowLabel);
+for(var z=0;z<zones.length;z++){
+var cell=document.createElement('div');
+cell.className='vm-ov47-cell';
+var score=sessions[s][zones[z]];
+var maxScore=80;
+var intensity=Math.min(score/maxScore,1);
+var isDrd=(sessions[s].drd===zones[z]);
+cell.style.background=zoneColors[zones[z]];
+cell.style.opacity='0';
+cell.setAttribute('data-intensity',String(intensity));
+cell.setAttribute('data-session',String(s+1));
+cell.setAttribute('data-zone',zones[z]);
+cell.setAttribute('data-score',String(score));
+cell.setAttribute('data-drd',isDrd?'yes':'no');
+var tip=document.createElement('div');
+tip.className='vm-ov47-cell-tip';
+tip.textContent='Session T'+(s+1)+' | '+zones[z]+': '+score+'/100'+(isDrd?' | HIGHEST BURDEN':'');
+cell.appendChild(tip);
+cell.addEventListener('mouseenter',function(){this.querySelector('.vm-ov47-cell-tip').style.display='block';});
+cell.addEventListener('mouseleave',function(){this.querySelector('.vm-ov47-cell-tip').style.display='none';});
+grid.appendChild(cell);
+cellEls.push({el:cell,row:s,col:z,intensity:intensity});
+}
+}
+var obs47=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){
+for(var c=0;c<cellEls.length;c++){
+(function(idx){
+var delay=reducedMotion?0:(cellEls[idx].row*30);
+setTimeout(function(){
+cellEls[idx].el.style.opacity=String(Math.max(cellEls[idx].intensity,0.15));
+cellEls[idx].el.classList.add('vm-ov47-filled');
+},delay);
+})(c);
+}
+obs47.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs47.observe(document.getElementById('vm-ov47-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV48: Terrain Support Direction Indicator ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov48-needle,.vm-ov48-ring{transition:none!important;animation:none!important}
+}
+#vm-ov48-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov48-section *{box-sizing:border-box}
+.vm-ov48-wrap{max-width:600px;margin:0 auto;text-align:center}
+.vm-ov48-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov48-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:8px}
+.vm-ov48-t01-long{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(244,244,242,.4);margin-bottom:24px;line-height:1.5;max-width:480px;margin-left:auto;margin-right:auto}
+.vm-ov48-compass{display:inline-block;position:relative}
+.vm-ov48-needle{transition:transform .8s cubic-bezier(.25,.1,.25,1.4);transform-origin:center center}
+.vm-ov48-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.vm-ov48-ctrl-btn{padding:8px 14px;border:1px solid rgba(244,244,242,.15);border-radius:6px;background:rgba(255,255,255,.06);color:#F4F4F2;font-family:'DM Mono',monospace;font-size:.6rem;cursor:pointer;transition:all .3s}
+.vm-ov48-ctrl-btn:hover,.vm-ov48-ctrl-btn.vm-ov48-active{border-color:#C9A84C;color:#C9A84C}
+.vm-ov48-banner{background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);border-radius:6px;padding:8px 16px;font-family:'DM Mono',monospace;font-size:.65rem;color:#C0392B;margin-top:16px;display:none}
+.vm-ov48-info{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(244,244,242,.5);margin-top:12px;min-height:1.2em}
+</style>
+<section id="vm-ov48-section">
+<div class="vm-ov48-wrap">
+<div class="vm-ov48-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov48-heading">Terrain Support Direction Indicator</h2>
+<div class="vm-ov48-t01-long">Terrain support considerations only. All decisions remain with the practitioner. For practitioner use only. Not a diagnostic tool.</div>
+<div class="vm-ov48-compass">
+<svg id="vm-ov48-svg" width="340" height="340" viewBox="0 0 340 340"></svg>
+</div>
+<div class="vm-ov48-controls" id="vm-ov48-controls"></div>
+<div class="vm-ov48-banner" id="vm-ov48-banner">RESTORATIVE ONLY (Grade C)</div>
+<div class="vm-ov48-info" id="vm-ov48-info"></div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var svg=document.getElementById('vm-ov48-svg');
+var controlsEl=document.getElementById('vm-ov48-controls');
+var bannerEl=document.getElementById('vm-ov48-banner');
+var infoEl=document.getElementById('vm-ov48-info');
+var cx=170,cy=170;
+var zones=['Z1','Z2','Z3','Z4','Z5'];
+var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#2E6DB4'};
+var zoneAngles={'Z1':-90,'Z2':-18,'Z3':54,'Z4':126,'Z5':198};
+var ringR=[40,80,120];
+var ringLabels=['Primary','Secondary','Monitor'];
+var states=[
+{name:'DRD: Z1',primary:'Z1',secondary:['Z5','Z2'],monitor:['Z3','Z4'],grade:'B',terrainLock:false},
+{name:'DRD: Z5',primary:'Z5',secondary:['Z1','Z2'],monitor:['Z3','Z4'],grade:'B',terrainLock:false},
+{name:'TerrainLock Active',primary:'Z2',secondary:['Z1','Z5'],monitor:['Z3','Z4'],grade:'B',terrainLock:true},
+{name:'Grade C',primary:'Z1',secondary:['Z2'],monitor:['Z3','Z4','Z5'],grade:'C',terrainLock:false}
+];
+var currentState=0;
+function drawCompass(stateIdx){
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var st=states[stateIdx];
+for(var r=2;r>=0;r--){
+var circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+circle.setAttribute('cx',String(cx));circle.setAttribute('cy',String(cy));
+circle.setAttribute('r',String(ringR[r]+30));
+circle.setAttribute('fill','none');
+circle.setAttribute('stroke','rgba(244,244,242,0.08)');
+circle.setAttribute('stroke-width','1');
+svg.appendChild(circle);
+var labelEl=document.createElementNS('http://www.w3.org/2000/svg','text');
+labelEl.setAttribute('x',String(cx));
+labelEl.setAttribute('y',String(cy-ringR[r]-30+12));
+labelEl.setAttribute('fill','rgba(244,244,242,0.25)');
+labelEl.setAttribute('font-size','8');
+labelEl.setAttribute('font-family','"DM Mono",monospace');
+labelEl.setAttribute('text-anchor','middle');
+labelEl.textContent=ringLabels[r];
+svg.appendChild(labelEl);
+}
+for(var z=0;z<zones.length;z++){
+var angle=zoneAngles[zones[z]]*Math.PI/180;
+var ring=2;
+if(zones[z]===st.primary)ring=0;
+else{
+for(var s=0;s<st.secondary.length;s++){if(st.secondary[s]===zones[z])ring=1;}
+}
+var dist=ringR[ring]+30;
+var zx=cx+dist*Math.cos(angle);
+var zy=cy+dist*Math.sin(angle);
+var zCircle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+zCircle.setAttribute('cx',String(Math.round(zx)));
+zCircle.setAttribute('cy',String(Math.round(zy)));
+zCircle.setAttribute('r','16');
+zCircle.setAttribute('fill',ring===0?zoneColors[zones[z]]:(ring===1?zoneColors[zones[z]]:'rgba(244,244,242,0.08)'));
+zCircle.setAttribute('fill-opacity',ring===0?'1':(ring===1?'0.5':'0.2'));
+zCircle.setAttribute('stroke',zoneColors[zones[z]]);
+zCircle.setAttribute('stroke-width',ring===0?'2':'1');
+svg.appendChild(zCircle);
+var zLabel=document.createElementNS('http://www.w3.org/2000/svg','text');
+zLabel.setAttribute('x',String(Math.round(zx)));
+zLabel.setAttribute('y',String(Math.round(zy+4)));
+zLabel.setAttribute('fill','#F4F4F2');
+zLabel.setAttribute('font-size','10');
+zLabel.setAttribute('font-family','"DM Mono",monospace');
+zLabel.setAttribute('text-anchor','middle');
+zLabel.textContent=zones[z];
+svg.appendChild(zLabel);
+}
+var needleAngle=zoneAngles[st.primary]*Math.PI/180;
+var nx=cx+50*Math.cos(needleAngle);
+var ny=cy+50*Math.sin(needleAngle);
+var needle=document.createElementNS('http://www.w3.org/2000/svg','line');
+needle.setAttribute('x1',String(cx));needle.setAttribute('y1',String(cy));
+needle.setAttribute('x2',String(Math.round(nx)));needle.setAttribute('y2',String(Math.round(ny)));
+needle.setAttribute('stroke','#C9A84C');needle.setAttribute('stroke-width','3');
+needle.setAttribute('stroke-linecap','round');
+if(!reducedMotion)needle.setAttribute('class','vm-ov48-needle');
+svg.appendChild(needle);
+var tip=document.createElementNS('http://www.w3.org/2000/svg','circle');
+tip.setAttribute('cx',String(Math.round(nx)));tip.setAttribute('cy',String(Math.round(ny)));
+tip.setAttribute('r','5');tip.setAttribute('fill','#C9A84C');
+svg.appendChild(tip);
+var ctr=document.createElementNS('http://www.w3.org/2000/svg','circle');
+ctr.setAttribute('cx',String(cx));ctr.setAttribute('cy',String(cy));
+ctr.setAttribute('r','6');ctr.setAttribute('fill','#1A2030');ctr.setAttribute('stroke','#C9A84C');ctr.setAttribute('stroke-width','2');
+svg.appendChild(ctr);
+if(st.terrainLock){
+var tri=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+tri.setAttribute('points',(cx-8)+','+(cy+20)+' '+(cx+8)+','+(cy+20)+' '+cx+','+(cy+8));
+tri.setAttribute('fill','#C9A84C');tri.setAttribute('fill-opacity','0.6');
+svg.appendChild(tri);
+}
+bannerEl.style.display=(st.grade==='C')?'block':'none';
+var info=st.name;
+if(st.terrainLock)info+='. Default tiebreaker: gut restoration (Z2).';
+if(st.grade==='C')info+='. Restorative interventions only.';
+infoEl.textContent=info;
+}
+for(var s=0;s<states.length;s++){
+(function(idx){
+var btn=document.createElement('button');
+btn.className='vm-ov48-ctrl-btn'+(idx===0?' vm-ov48-active':'');
+btn.textContent=states[idx].name;
+btn.addEventListener('click',function(){
+var allBtns=controlsEl.querySelectorAll('.vm-ov48-ctrl-btn');
+for(var b=0;b<allBtns.length;b++)allBtns[b].classList.remove('vm-ov48-active');
+this.classList.add('vm-ov48-active');
+currentState=idx;
+drawCompass(idx);
+});
+controlsEl.appendChild(btn);
+})(s);
+}
+drawCompass(0);
+})();
+</script>
+
+
+<!-- ═══════ OV49: Architecture Completeness Meter ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov49-pulse,.vm-ov49-burst{transition:none!important;animation:none!important}
+}
+#vm-ov49-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov49-section *{box-sizing:border-box}
+.vm-ov49-wrap{max-width:500px;margin:0 auto;text-align:center}
+.vm-ov49-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov49-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:24px}
+.vm-ov49-meter{display:flex;flex-direction:column;gap:0;position:relative;padding:0 20px}
+.vm-ov49-checkpoint{display:flex;align-items:center;gap:14px;padding:10px 0;position:relative;opacity:0;transform:translateX(-10px);transition:opacity .3s,transform .3s}
+.vm-ov49-checkpoint.vm-ov49-visible{opacity:1;transform:translateX(0)}
+.vm-ov49-dot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(244,244,242,.15);background:rgba(255,255,255,.04);flex-shrink:0;transition:all .4s;display:flex;align-items:center;justify-content:center}
+.vm-ov49-dot.vm-ov49-lit{border-color:#C9A84C;background:rgba(201,168,76,.2);animation:vm-ov49-pulse .8s 1}
+@keyframes vm-ov49-pulse{0%{box-shadow:0 0 0 0 rgba(201,168,76,.5)}100%{box-shadow:0 0 0 12px rgba(201,168,76,0)}}
+.vm-ov49-dot-inner{width:8px;height:8px;border-radius:50%;background:transparent;transition:background .3s}
+.vm-ov49-dot.vm-ov49-lit .vm-ov49-dot-inner{background:#C9A84C}
+.vm-ov49-dot.vm-ov49-pending{border-color:rgba(244,244,242,.25);border-style:dashed}
+.vm-ov49-label{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.5);text-align:left;flex:1}
+.vm-ov49-label.vm-ov49-active-label{color:#F4F4F2}
+.vm-ov49-line{position:absolute;left:29px;top:30px;bottom:30px;width:2px;background:rgba(255,255,255,.06)}
+.vm-ov49-badge{display:inline-block;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);border-radius:20px;padding:8px 18px;font-family:'DM Mono',monospace;font-size:.7rem;color:#C9A84C;margin-top:20px;font-weight:600}
+.vm-ov49-status-tag{font-family:'DM Mono',monospace;font-size:.5rem;padding:2px 6px;border-radius:3px;margin-left:8px}
+.vm-ov49-status-active{background:rgba(201,168,76,.15);color:#C9A84C}
+.vm-ov49-status-pending{background:rgba(244,244,242,.08);color:rgba(244,244,242,.4)}
+</style>
+<section id="vm-ov49-section">
+<div class="vm-ov49-wrap">
+<div class="vm-ov49-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov49-heading">Architecture Completeness Meter</h2>
+<div class="vm-ov49-meter" id="vm-ov49-meter">
+<div class="vm-ov49-line"></div>
+</div>
+<div class="vm-ov49-badge" id="vm-ov49-badge">Architecture utilisation: 80%</div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var checkpoints=[
+{label:'L1 Nodes scored (MSQ-71 + ATM + MedTerrain)',active:true},
+{label:'L2 Zones calculated (NCZ composite, N6 dampened 0.7x)',active:true},
+{label:'L3 Cascades detected (CascadeIQ, 6 stacks evaluated)',active:true},
+{label:'L4 DRD designated (highest burden zone, Z2 tiebreaker)',active:true},
+{label:'L5 APEX generated (investigation plan, 3 budget tiers)',active:true},
+{label:'TerrainLock evaluated (Z2 \u2192 Z1 \u2192 Z5 \u2192 Z2 loop)',active:true},
+{label:'TerrainSpiral assessed (trajectory classification)',active:false,pending:'Practitioner-assisted pending'},
+{label:'GRADE classified (severity and intervention scope)',active:true},
+{label:'NEXUS classified (multi-zone convergence)',active:false,pending:'Pending input'},
+{label:'VANTAGE synthesised (five-dimension contextual intelligence)',active:true}
+];
+var activeCount=0;
+for(var c=0;c<checkpoints.length;c++){if(checkpoints[c].active)activeCount++;}
+var pct=Math.round((activeCount/checkpoints.length)*100);
+var meter=document.getElementById('vm-ov49-meter');
+var badge=document.getElementById('vm-ov49-badge');
+badge.textContent='Architecture utilisation: '+pct+'%';
+var els=[];
+for(var i=0;i<checkpoints.length;i++){
+var cp=checkpoints[i];
+var row=document.createElement('div');
+row.className='vm-ov49-checkpoint';
+var dot=document.createElement('div');
+dot.className='vm-ov49-dot';
+if(!cp.active)dot.classList.add('vm-ov49-pending');
+var inner=document.createElement('div');
+inner.className='vm-ov49-dot-inner';
+dot.appendChild(inner);
+var label=document.createElement('div');
+label.className='vm-ov49-label'+(cp.active?' vm-ov49-active-label':'');
+var text=cp.label;
+if(cp.pending){
+text+='<span class="vm-ov49-status-tag vm-ov49-status-pending">'+cp.pending+'</span>';
+}else if(cp.active){
+text+='<span class="vm-ov49-status-tag vm-ov49-status-active">Active</span>';
+}
+label.innerHTML=text;
+row.appendChild(dot);
+row.appendChild(label);
+meter.appendChild(row);
+els.push({row:row,dot:dot,active:cp.active});
+}
+var obs49=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting){
+for(var i=0;i<els.length;i++){
+(function(idx){
+var delay=reducedMotion?0:(idx*150);
+setTimeout(function(){
+els[idx].row.classList.add('vm-ov49-visible');
+if(els[idx].active){
+setTimeout(function(){els[idx].dot.classList.add('vm-ov49-lit');},reducedMotion?0:100);
+}
+},delay);
+})(i);
+}
+obs49.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs49.observe(document.getElementById('vm-ov49-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV50: Master Pentagon Summary ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov50-animate,.vm-ov50-pulse,.vm-ov50-arrow-flow{transition:none!important;animation:none!important}
+}
+#vm-ov50-section{background:#0A0F14;padding:64px 24px;margin:0;border:none}
+#vm-ov50-section *{box-sizing:border-box}
+.vm-ov50-wrap{max-width:860px;margin:0 auto;text-align:center}
+.vm-ov50-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px}
+.vm-ov50-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:8px}
+.vm-ov50-internal{display:inline-block;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.55rem;color:#C0392B;margin-bottom:20px;text-transform:uppercase;letter-spacing:1px}
+.vm-ov50-svg-wrap{position:relative;display:inline-block}
+.vm-ov50-tooltip{position:absolute;background:rgba(26,32,48,.95);border:1px solid rgba(201,168,76,.4);border-radius:6px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:.6rem;color:#F4F4F2;white-space:pre-line;pointer-events:none;z-index:10;display:none;max-width:280px;text-align:left;line-height:1.6}
+.vm-ov50-vantage-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.vm-ov50-vbtn{padding:6px 12px;border:1px solid rgba(244,244,242,.15);border-radius:4px;background:transparent;color:rgba(244,244,242,.6);font-family:'DM Mono',monospace;font-size:.55rem;cursor:pointer;transition:all .3s}
+.vm-ov50-vbtn:hover,.vm-ov50-vbtn.vm-ov50-vactive{border-color:#C9A84C;color:#C9A84C}
+.vm-ov50-vantage-info{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(244,244,242,.5);margin-top:12px;min-height:2em;line-height:1.6}
+.vm-ov50-badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.vm-ov50-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:.6rem;color:#C9A84C}
+</style>
+<section id="vm-ov50-section">
+<div class="vm-ov50-wrap">
+<div class="vm-ov50-t01">Terrain Support Considerations</div>
+<h2 class="vm-ov50-heading">Complete Terrain Picture</h2>
+<div class="vm-ov50-internal">Internal use only</div>
+<div class="vm-ov50-svg-wrap">
+<svg id="vm-ov50-svg" width="560" height="540" viewBox="0 0 560 540"></svg>
+<div class="vm-ov50-tooltip" id="vm-ov50-tooltip"></div>
+</div>
+<div class="vm-ov50-vantage-btns" id="vm-ov50-vbtns"></div>
+<div class="vm-ov50-vantage-info" id="vm-ov50-vinfo"></div>
+<div class="vm-ov50-badges">
+<div class="vm-ov50-badge">Master Pentagon Summary: all overlay intelligence unified</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var svg=document.getElementById('vm-ov50-svg');
+var tooltipEl=document.getElementById('vm-ov50-tooltip');
+var vbtnsEl=document.getElementById('vm-ov50-vbtns');
+var vinfoEl=document.getElementById('vm-ov50-vinfo');
+var W=560,H=540,cx=280,cy=260;
+var zones=[
+{id:'Z1',name:'Metabolic Energy Axis',color:'#C9A84C',score:55,th:40,grade:'Moderate'},
+{id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:48,th:40,grade:'Moderate'},
+{id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40,grade:'Low'},
+{id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:35,th:40,grade:'Low'},
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:42,th:32,grade:'Moderate'}
+];
+var cascades=[
+{id:'S1',from:1,to:0,velocity:'MEDIUM',active:true,width:2,theoretical:false},
+{id:'S2',from:0,to:4,velocity:'FAST',active:true,width:3,theoretical:false},
+{id:'S3',from:3,to:0,velocity:'SLOW',active:false,width:1,theoretical:false},
+{id:'S4',from:4,to:1,velocity:'THEORETICAL',active:false,width:1,theoretical:true},
+{id:'S5',from:1,to:2,velocity:'FAST',active:true,width:3,theoretical:false},
+{id:'S6',from:0,to:2,velocity:'MEDIUM',active:true,width:2,theoretical:false}
+];
+var drdIdx=0;
+var terrainLockActive=true;
+var pentR=160;
+var angles=[];
+for(var i=0;i<5;i++){angles.push(-Math.PI/2+(2*Math.PI*i/5));}
+var zonePos=[];
+for(var i=0;i<5;i++){
+zonePos.push({x:cx+pentR*Math.cos(angles[i]),y:cy+pentR*Math.sin(angles[i])});
+}
+var vantage=[
+{label:'Severity',text:'3 of 5 zones above activation threshold. Z1 highest at 55/100. Moderate terrain burden overall.'},
+{label:'Trajectory',text:'TerrainSpiral: progressively destabilising. Z5 emerging as secondary concern. Multi-zone convergence detected.'},
+{label:'Complexity',text:'4 of 6 stacks active. TerrainLock loop detected (Z2\u2192Z1\u2192Z5\u2192Z2). High cascade density with FAST propagation on S2 and S5.'},
+{label:'Confidence',text:'Floor tier constraint active. Synthesis confidence: Emerging. N6 dampening (0.7x) applied across 4 zones.'},
+{label:'Priority',text:'GRADE: Moderate. Z1 intervention first (highest burden zone). Z5 secondary. Z2 supporting. Restorative focus recommended.'}
+];
+var activeVantage=-1;
+function drawPentagon(){
+while(svg.firstChild)svg.removeChild(svg.firstChild);
+var pentPath='M';
+for(var i=0;i<5;i++){
+pentPath+=(i>0?' L ':'')+Math.round(zonePos[i].x)+' '+Math.round(zonePos[i].y);
+}
+pentPath+=' Z';
+var pent=document.createElementNS('http://www.w3.org/2000/svg','path');
+pent.setAttribute('d',pentPath);
+pent.setAttribute('fill','rgba(255,255,255,0.02)');
+pent.setAttribute('stroke','rgba(244,244,242,0.1)');
+pent.setAttribute('stroke-width','1');
+svg.appendChild(pent);
+for(var c=0;c<cascades.length;c++){
+var cas=cascades[c];
+var fx=zonePos[cas.from].x,fy=zonePos[cas.from].y;
+var tx=zonePos[cas.to].x,ty=zonePos[cas.to].y;
+var dx=tx-fx,dy=ty-fy;
+var len=Math.sqrt(dx*dx+dy*dy);
+var ux=dx/len,uy=dy/len;
+var sx=fx+ux*30,sy=fy+uy*30;
+var ex=tx-ux*30,ey=ty-uy*30;
+var line=document.createElementNS('http://www.w3.org/2000/svg','line');
+line.setAttribute('x1',String(Math.round(sx)));line.setAttribute('y1',String(Math.round(sy)));
+line.setAttribute('x2',String(Math.round(ex)));line.setAttribute('y2',String(Math.round(ey)));
+line.setAttribute('stroke',cas.active?zones[cas.from].color:'rgba(244,244,242,0.1)');
+line.setAttribute('stroke-width',String(cas.active?cas.width:1));
+if(cas.theoretical){line.setAttribute('stroke-dasharray','6 4');}
+line.setAttribute('stroke-opacity',cas.active?'0.6':'0.2');
+svg.appendChild(line);
+var arrowX=ex-ux*8+uy*5,arrowY=ey-uy*8-ux*5;
+var arrowX2=ex-ux*8-uy*5,arrowY2=ey-uy*8+ux*5;
+if(cas.active){
+var arrow=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+arrow.setAttribute('points',Math.round(ex)+','+Math.round(ey)+' '+Math.round(arrowX)+','+Math.round(arrowY)+' '+Math.round(arrowX2)+','+Math.round(arrowY2));
+arrow.setAttribute('fill',zones[cas.from].color);
+arrow.setAttribute('fill-opacity','0.6');
+svg.appendChild(arrow);
+}
+var mx=(sx+ex)/2,my=(sy+ey)/2;
+var sLabel=document.createElementNS('http://www.w3.org/2000/svg','text');
+sLabel.setAttribute('x',String(Math.round(mx)));
+sLabel.setAttribute('y',String(Math.round(my-6)));
+sLabel.setAttribute('fill',cas.active?'rgba(244,244,242,0.5)':'rgba(244,244,242,0.2)');
+sLabel.setAttribute('font-size','8');
+sLabel.setAttribute('font-family','"DM Mono",monospace');
+sLabel.setAttribute('text-anchor','middle');
+sLabel.textContent=cas.id+(cas.theoretical?' (THEORETICAL)':'')+(cas.id==='S6'?' (UNIDIRECTIONAL)':'');
+svg.appendChild(sLabel);
+}
+if(terrainLockActive){
+var triPts=[];
+var tlZones=[1,0,4];
+for(var t=0;t<tlZones.length;t++){
+triPts.push(Math.round(zonePos[tlZones[t]].x)+','+Math.round(zonePos[tlZones[t]].y));
+}
+var tri=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+tri.setAttribute('points',triPts.join(' '));
+tri.setAttribute('fill','rgba(201,168,76,0.06)');
+tri.setAttribute('stroke','#C9A84C');
+tri.setAttribute('stroke-width','1.5');
+tri.setAttribute('stroke-dasharray','8 4');
+svg.appendChild(tri);
+var tlLabel=document.createElementNS('http://www.w3.org/2000/svg','text');
+tlLabel.setAttribute('x',String(cx));
+tlLabel.setAttribute('y',String(cy+pentR*0.3));
+tlLabel.setAttribute('fill','#C9A84C');
+tlLabel.setAttribute('font-size','9');
+tlLabel.setAttribute('font-family','"DM Mono",monospace');
+tlLabel.setAttribute('text-anchor','middle');
+tlLabel.textContent='TerrainLock Active';
+svg.appendChild(tlLabel);
+}
+for(var i=0;i<5;i++){
+var z=zones[i];
+var active=z.score>=z.th;
+var radius=14+(z.score/100)*16;
+var g=document.createElementNS('http://www.w3.org/2000/svg','g');
+g.setAttribute('data-zone',String(i));
+g.style.cursor='pointer';
+var zCircle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+zCircle.setAttribute('cx',String(Math.round(zonePos[i].x)));
+zCircle.setAttribute('cy',String(Math.round(zonePos[i].y)));
+zCircle.setAttribute('r',String(Math.round(radius)));
+zCircle.setAttribute('fill',active?z.color:'rgba(244,244,242,0.06)');
+zCircle.setAttribute('fill-opacity',active?'0.8':'0.3');
+zCircle.setAttribute('stroke',z.color);
+zCircle.setAttribute('stroke-width',active?'2':'1');
+g.appendChild(zCircle);
+if(i===drdIdx){
+var crownY=zonePos[i].y-radius-10;
+var crown=document.createElementNS('http://www.w3.org/2000/svg','text');
+crown.setAttribute('x',String(Math.round(zonePos[i].x)));
+crown.setAttribute('y',String(Math.round(crownY)));
+crown.setAttribute('fill','#C9A84C');
+crown.setAttribute('font-size','14');
+crown.setAttribute('text-anchor','middle');
+crown.textContent='\u2655';
+g.appendChild(crown);
+var drdLabel=document.createElementNS('http://www.w3.org/2000/svg','text');
+drdLabel.setAttribute('x',String(Math.round(zonePos[i].x)));
+drdLabel.setAttribute('y',String(Math.round(crownY-10)));
+drdLabel.setAttribute('fill','#C9A84C');
+drdLabel.setAttribute('font-size','7');
+drdLabel.setAttribute('font-family','"DM Mono",monospace');
+drdLabel.setAttribute('text-anchor','middle');
+drdLabel.textContent='Highest burden';
+g.appendChild(drdLabel);
+}
+var zText=document.createElementNS('http://www.w3.org/2000/svg','text');
+zText.setAttribute('x',String(Math.round(zonePos[i].x)));
+zText.setAttribute('y',String(Math.round(zonePos[i].y-2)));
+zText.setAttribute('fill','#F4F4F2');
+zText.setAttribute('font-size','11');
+zText.setAttribute('font-family','"DM Mono",monospace');
+zText.setAttribute('text-anchor','middle');
+zText.setAttribute('font-weight','600');
+zText.textContent=z.id;
+g.appendChild(zText);
+var scoreText=document.createElementNS('http://www.w3.org/2000/svg','text');
+scoreText.setAttribute('x',String(Math.round(zonePos[i].x)));
+scoreText.setAttribute('y',String(Math.round(zonePos[i].y+10)));
+scoreText.setAttribute('fill','rgba(244,244,242,0.6)');
+scoreText.setAttribute('font-size','8');
+scoreText.setAttribute('font-family','"DM Mono",monospace');
+scoreText.setAttribute('text-anchor','middle');
+scoreText.textContent=z.score+'/100';
+g.appendChild(scoreText);
+var gradeText=document.createElementNS('http://www.w3.org/2000/svg','text');
+gradeText.setAttribute('x',String(Math.round(zonePos[i].x)));
+gradeText.setAttribute('y',String(Math.round(zonePos[i].y+radius+14)));
+gradeText.setAttribute('fill',z.color);
+gradeText.setAttribute('font-size','7');
+gradeText.setAttribute('font-family','"DM Mono",monospace');
+gradeText.setAttribute('text-anchor','middle');
+gradeText.textContent=z.grade;
+g.appendChild(gradeText);
+svg.appendChild(g);
+}
+var n6Angle=-Math.PI/2+(2*Math.PI*2.5/5);
+var n6x=cx+(pentR*0.45)*Math.cos(n6Angle);
+var n6y=cy+(pentR*0.45)*Math.sin(n6Angle);
+var n6g=document.createElementNS('http://www.w3.org/2000/svg','g');
+n6g.style.cursor='pointer';
+n6g.setAttribute('data-n6','true');
+var n6Circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+n6Circle.setAttribute('cx',String(Math.round(n6x)));
+n6Circle.setAttribute('cy',String(Math.round(n6y)));
+n6Circle.setAttribute('r','12');
+n6Circle.setAttribute('fill','rgba(201,168,76,0.15)');
+n6Circle.setAttribute('stroke','#C9A84C');
+n6Circle.setAttribute('stroke-width','1');
+n6Circle.setAttribute('stroke-dasharray','4 2');
+n6g.appendChild(n6Circle);
+var n6Text=document.createElementNS('http://www.w3.org/2000/svg','text');
+n6Text.setAttribute('x',String(Math.round(n6x)));
+n6Text.setAttribute('y',String(Math.round(n6y+3)));
+n6Text.setAttribute('fill','#C9A84C');
+n6Text.setAttribute('font-size','8');
+n6Text.setAttribute('font-family','"DM Mono",monospace');
+n6Text.setAttribute('text-anchor','middle');
+n6Text.textContent='N6';
+n6g.appendChild(n6Text);
+var nexLabel=document.createElementNS('http://www.w3.org/2000/svg','text');
+nexLabel.setAttribute('x',String(Math.round(n6x)));
+nexLabel.setAttribute('y',String(Math.round(n6y+18)));
+nexLabel.setAttribute('fill','rgba(244,244,242,0.4)');
+nexLabel.setAttribute('font-size','6');
+nexLabel.setAttribute('font-family','"DM Mono",monospace');
+nexLabel.setAttribute('text-anchor','middle');
+nexLabel.textContent='NEXUS: pending';
+n6g.appendChild(nexLabel);
+svg.appendChild(n6g);
+var spiralX=cx,spiralY=cy+pentR+50;
+var spiralArrow=document.createElementNS('http://www.w3.org/2000/svg','text');
+spiralArrow.setAttribute('x',String(spiralX));
+spiralArrow.setAttribute('y',String(spiralY));
+spiralArrow.setAttribute('fill','#C0392B');
+spiralArrow.setAttribute('font-size','16');
+spiralArrow.setAttribute('text-anchor','middle');
+spiralArrow.textContent='\u2193';
+svg.appendChild(spiralArrow);
+var spiralLabel=document.createElementNS('http://www.w3.org/2000/svg','text');
+spiralLabel.setAttribute('x',String(spiralX));
+spiralLabel.setAttribute('y',String(spiralY+14));
+spiralLabel.setAttribute('fill','rgba(244,244,242,0.5)');
+spiralLabel.setAttribute('font-size','8');
+spiralLabel.setAttribute('font-family','"DM Mono",monospace');
+spiralLabel.setAttribute('text-anchor','middle');
+spiralLabel.textContent='TerrainSpiral: Destabilising';
+svg.appendChild(spiralLabel);
+}
+function showTooltip(text,x,y){
+tooltipEl.textContent=text;
+tooltipEl.style.display='block';
+tooltipEl.style.left=x+'px';
+tooltipEl.style.top=y+'px';
+}
+function hideTooltip(){tooltipEl.style.display='none';}
+svg.addEventListener('mousemove',function(e){
+var rect=svg.getBoundingClientRect();
+var mx=(e.clientX-rect.left)*(W/rect.width);
+var my=(e.clientY-rect.top)*(H/rect.height);
+var found=false;
+for(var i=0;i<5;i++){
+var dx=mx-zonePos[i].x,dy=my-zonePos[i].y;
+if(Math.sqrt(dx*dx+dy*dy)<30){
+var z=zones[i];
+var active=z.score>=z.th;
+var txt=z.id+': '+z.name+'\nScore: '+z.score+'/100 '+(active?'(ACTIVE)':'(Inactive)')+'\nThreshold: '+z.th+'\nGRADE: '+z.grade;
+if(i===drdIdx)txt+='\nDesignation: Highest burden zone';
+showTooltip(txt,e.clientX-rect.left+10,e.clientY-rect.top-60);
+found=true;break;
+}
+}
+if(!found)hideTooltip();
+});
+svg.addEventListener('mouseleave',hideTooltip);
+for(var v=0;v<vantage.length;v++){
+(function(idx){
+var btn=document.createElement('button');
+btn.className='vm-ov50-vbtn';
+btn.textContent=vantage[idx].label;
+btn.addEventListener('click',function(){
+var allBtns=vbtnsEl.querySelectorAll('.vm-ov50-vbtn');
+for(var b=0;b<allBtns.length;b++)allBtns[b].classList.remove('vm-ov50-vactive');
+if(activeVantage===idx){activeVantage=-1;vinfoEl.textContent='';}
+else{activeVantage=idx;this.classList.add('vm-ov50-vactive');vinfoEl.textContent=vantage[idx].text;}
+});
+vbtnsEl.appendChild(btn);
+})(v);
+}
+var entered50=false;
+var obs50=new IntersectionObserver(function(entries){
+for(var e=0;e<entries.length;e++){
+if(entries[e].isIntersecting&&!entered50){
+entered50=true;
+drawPentagon();
+obs50.unobserve(entries[e].target);
+}
+}
+},{threshold:0.15});
+obs50.observe(document.getElementById('vm-ov50-section'));
+})();
+</script>
+
+
+<!-- ═══════ OV51: Zone Burden Equaliser Bars ═══════ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-ov51-bar-fill,.vm-ov51-badge,.vm-ov51-glow{transition:none!important;animation:none!important}
+}
+#vm-ov51-section{background:#1A2030;padding:64px 24px;margin:0;border:none}
+#vm-ov51-section *{box-sizing:border-box}
+.vm-ov51-wrap{max-width:860px;margin:0 auto}
+.vm-ov51-t01{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,242,.4);margin-bottom:6px;text-align:center}
+.vm-ov51-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A84C;margin-bottom:8px;text-align:center}
+.vm-ov51-total{font-family:'DM Mono',monospace;font-size:.75rem;color:#C9A84C;text-align:center;margin-bottom:28px}
+.vm-ov51-eq{display:flex;justify-content:center;gap:32px;align-items:flex-end;height:280px;margin-bottom:20px}
+.vm-ov51-col{display:flex;flex-direction:column;align-items:center;width:60px}
+.vm-ov51-bar-outer{width:40px;height:220px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:6px;position:relative;overflow:hidden}
+.vm-ov51-bar-fill{position:absolute;bottom:0;left:0;width:100%;border-radius:0 0 6px 6px;transition:height .5s cubic-bezier(.34,1.56,.64,1)}
+.vm-ov51-bar-fill.vm-ov51-glow{box-shadow:0 0 12px currentColor}
+@keyframes vm-ov51-breathe{0%,100%{opacity:.7}50%{opacity:1}}
+.vm-ov51-bar-fill.vm-ov51-glow{animation:vm-ov51-breathe 2s ease-in-out infinite}
+.vm-ov51-badge{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:.5rem;color:#C9A84C;background:rgba(201,168,76,.2);border:1px solid #C9A84C;border-radius:3px;padding:1px 5px;opacity:0;transition:opacity .3s}
+.vm-ov51-badge.vm-ov51-active-badge{opacity:1}
+@keyframes vm-ov51-flash{0%{box-shadow:0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 0 20px rgba(201,168,76,.8)}100%{box-shadow:0 0 0 rgba(201,168,76,0)}}
+.vm-ov51-bar-fill.vm-ov51-flashing{animation:vm-ov51-flash .6s ease-out}

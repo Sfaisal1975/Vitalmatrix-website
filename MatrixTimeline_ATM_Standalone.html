@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Timeline (ATM) | VitalMatrix&#8482;</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D2B4E;--card:#1A2030;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#2E6DB4;--red:#D63030;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--border:rgba(255,255,255,.11);--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+body{background:var(--bg);color:var(--white);font-family:var(--fd);font-size:14px;line-height:1.7}
+.w{max-width:960px;margin:0 auto;padding:20px}
+.hdr{text-align:center;padding:32px 0 24px;border-bottom:1px solid rgba(201,168,76,.12)}
+.hdr h1{font-family:var(--fs);font-size:clamp(26px,4vw,40px);font-weight:300;margin-bottom:6px}
+.hdr h1 em{color:var(--gold);font-style:italic}
+.hdr p{font-size:12px;color:var(--muted);max-width:600px;margin:0 auto}
+.warn{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);padding:10px 14px;border-radius:4px;margin:16px 0;font-family:var(--fm);font-size:9px;color:var(--gold);line-height:1.6}
+
+/* Timeline visual */
+.tl-wrap{position:relative;padding-left:40px;margin:24px 0}
+.tl-line{position:absolute;left:18px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--teal),var(--gold),var(--purple));border-radius:1px}
+
+/* Bands */
+.band{margin-bottom:32px}
+.band-hd{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.band-dot{width:12px;height:12px;border-radius:50%;position:relative;left:-31px;z-index:2;flex-shrink:0}
+.band-nm{font-family:var(--fm);font-size:11px;letter-spacing:.12em;font-weight:700}
+.band-desc{font-size:11px;color:var(--muted);margin-left:-31px;margin-bottom:12px;padding-left:31px}
+
+/* Entries */
+.entry{position:relative;margin-bottom:8px;padding:12px 14px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid var(--border);transition:border-color .2s}
+.entry:hover{border-color:rgba(201,168,76,.2)}
+.entry-dot{position:absolute;left:-29px;top:16px;width:8px;height:8px;border-radius:50%;border:2px solid;background:var(--bg);z-index:2}
+.entry-row{display:flex;gap:8px;align-items:flex-start}
+.entry-age{font-family:var(--fm);font-size:10px;min-width:50px;padding-top:2px}
+.entry-fields{flex:1;display:flex;flex-direction:column;gap:4px}
+.entry-input{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);font-family:var(--fd);font-size:12px;padding:6px 10px;border-radius:4px;width:100%;resize:none}
+.entry-input:focus{border-color:var(--teal);outline:none}
+.entry-input::placeholder{color:rgba(244,244,242,.25)}
+.entry-meta{display:flex;gap:6px;flex-wrap:wrap}
+.meta-sel{background:var(--card);border:1px solid var(--border);color:var(--white);font-family:var(--fm);font-size:9px;padding:3px 6px;border-radius:3px}
+.meta-sel option{background:var(--card)}
+
+/* Controls */
+.add-btn{font-family:var(--fm);font-size:9px;padding:5px 14px;border-radius:4px;border:1px solid rgba(201,168,76,.2);background:transparent;color:var(--gold);cursor:pointer;transition:all .2s;margin-top:4px}
+.add-btn:hover{background:rgba(201,168,76,.08)}
+.remove-btn{font-family:var(--fm);font-size:8px;padding:2px 6px;border-radius:3px;border:1px solid rgba(214,48,48,.2);background:transparent;color:var(--red);cursor:pointer;opacity:.5;transition:all .2s}
+.remove-btn:hover{opacity:1}
+
+/* Baseline */
+.baseline{margin:24px 0;padding:16px;border-radius:8px;border:2px dashed rgba(201,168,76,.15);background:rgba(201,168,76,.03)}
+.baseline-hd{font-family:var(--fm);font-size:9px;letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.baseline-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.baseline-label{font-size:12px;min-width:160px}
+.baseline-check{display:flex;gap:4px}
+.bl-btn{font-family:var(--fm);font-size:9px;padding:4px 10px;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.bl-btn.sel{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.1)}
+
+/* Export */
+.export-wrap{text-align:center;margin:24px 0}
+.export-btn{padding:10px 28px;border-radius:6px;border:2px solid var(--gold);background:var(--gold);color:var(--bg);font-family:var(--fm);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s}
+.export-btn:hover{background:#D4B060}
+
+/* Output */
+.out{display:none;margin-top:20px;padding:16px;border-radius:8px;background:var(--card);border:1px solid rgba(201,168,76,.1)}
+.out-hd{font-family:var(--fs);font-size:1.2rem;margin-bottom:4px}
+.out-sub{font-family:var(--fm);font-size:8px;color:var(--muted);letter-spacing:.08em;margin-bottom:12px}
+.out-band{margin-bottom:12px}
+.out-band-hd{font-family:var(--fm);font-size:9px;letter-spacing:.1em;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.out-entry{font-size:11px;color:var(--muted);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.out-node{font-family:var(--fm);font-size:8px;padding:1px 5px;border-radius:2px;background:rgba(201,168,76,.1);color:var(--gold);margin-left:6px}
+.node-summary{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.ns-chip{font-family:var(--fm);font-size:9px;padding:4px 10px;border-radius:4px;border:1px solid}
+
+.ft{margin-top:24px;padding:16px 0;border-top:1px solid rgba(201,168,76,.06);text-align:center;font-family:var(--fm);font-size:7px;color:rgba(244,244,242,.18);line-height:1.9}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="hdr">
+    <h1>Matrix <em>Timeline</em></h1>
+    <p>Antecedents, Triggers, and Mediators (ATM). Four bands capturing the patient's clinical history structured for the VitalMatrix&#8482; terrain architecture. Each entry maps to a node for L1 scoring input.</p>
+  </div>
+  <div class="warn">Structured fields feed the FLINT&#8482; pipeline via L4 DRD. Free text fills description only. For practitioner use only. Not a diagnostic tool.</div>
+
+  <!-- Lifetime Baseline -->
+  <div class="baseline">
+    <div class="baseline-hd">LIFETIME BASELINE</div>
+    <div class="baseline-row">
+      <div class="baseline-label">Clear before-state recalled?</div>
+      <div class="baseline-check">
+        <button class="bl-btn" data-bl="yes">Yes</button>
+        <button class="bl-btn" data-bl="no">No clear before-state</button>
+      </div>
+    </div>
+    <div class="baseline-row">
+      <div class="baseline-label">Approximate age of first symptoms</div>
+      <input class="entry-input" id="bl-age" style="width:80px" placeholder="Age">
+    </div>
+    <div class="baseline-row">
+      <div class="baseline-label">Baseline description</div>
+      <input class="entry-input" id="bl-desc" placeholder="Brief description of pre-symptom state">
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="tl-wrap">
+    <div class="tl-line"></div>
+
+    <!-- ANTECEDENTS -->
+    <div class="band" id="band-ante">
+      <div class="band-hd"><div class="band-dot" style="background:var(--teal);border-color:var(--teal)"></div><span class="band-nm" style="color:var(--teal)">ANTECEDENTS</span></div>
+      <div class="band-desc">Predisposing factors from birth to symptom onset. Genetics, early life events, developmental exposures, family medical history.</div>
+      <div id="entries-ante"></div>
+      <button class="add-btn" data-band="ante">+ Add Antecedent</button>
+    </div>
+
+    <!-- TRIGGERS -->
+    <div class="band" id="band-trig">
+      <div class="band-hd"><div class="band-dot" style="background:var(--gold);border-color:var(--gold)"></div><span class="band-nm" style="color:var(--gold)">TRIGGERS</span></div>
+      <div class="band-desc">Discrete events that initiated or significantly worsened the terrain burden. Infections, trauma, life events, environmental exposures.</div>
+      <div id="entries-trig"></div>
+      <button class="add-btn" data-band="trig">+ Add Trigger</button>
+    </div>
+
+    <!-- MEDIATORS -->
+    <div class="band" id="band-medi">
+      <div class="band-hd"><div class="band-dot" style="background:var(--purple);border-color:var(--purple)"></div><span class="band-nm" style="color:var(--purple)">MEDIATORS</span></div>
+      <div class="band-desc">Ongoing perpetuating factors maintaining the terrain burden now. Medications, lifestyle, ongoing exposures, unresolved stressors.</div>
+      <div id="entries-medi"></div>
+      <button class="add-btn" data-band="medi">+ Add Mediator</button>
+    </div>
+
+    <!-- SIGNS / SYMPTOMS / DIAGNOSES (contextual, not scored here) -->
+    <div class="band" id="band-ssd">
+      <div class="band-hd"><div class="band-dot" style="background:var(--sage);border-color:var(--sage)"></div><span class="band-nm" style="color:var(--sage)">SIGNS / SYMPTOMS / DIAGNOSES</span></div>
+      <div class="band-desc">Current clinical picture. Cross-references MSQ-71 Layer 1 and Layer 3 Diagnoses. Entered here for timeline context only.</div>
+      <div id="entries-ssd"></div>
+      <button class="add-btn" data-band="ssd">+ Add Sign / Symptom / Diagnosis</button>
+    </div>
+  </div>
+
+  <div class="export-wrap">
+    <button class="export-btn" id="atm-export">Generate Timeline Summary</button>
+  </div>
+
+  <div class="out" id="atm-out">
+    <div class="out-sub">ATM MATRIX TIMELINE SUMMARY</div>
+    <div class="out-hd">Patient Terrain History</div>
+    <div id="atm-summary"></div>
+    <div class="node-summary" id="atm-nodes"></div>
+    <div style="margin-top:16px;padding:10px;border-radius:4px;border:1px dashed rgba(201,168,76,.12);font-size:10px;color:var(--muted)">
+      ATM entries feed L4 DRD&#8482; via structured node assignment. This timeline does not generate clinical conclusions. Practitioner interprets the pattern. D-19: Stage C (Node and timeline extraction).
+    </div>
+  </div>
+
+  <div class="ft">
+    Matrix Timeline (ATM) | VitalMatrix&#8482; | ALB v1.5 | D-85 | T-01 Active<br>
+    D-19: Four-stage tool execution. D-20: Five-tier conflict resolution.<br>
+    For practitioner use only. Not a diagnostic tool.
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var NODES=['N1','N2','N3','N4','N5','N6','N7'];
+var NN={N1:'Assimilation',N2:'Defence and Repair',N3:'Energy',N4:'Biotransformation',N5:'Transport',N6:'Communication',N7:'Structural Integrity'};
+var NC={N1:'#C9A84C',N2:'#1A7A8A',N3:'#7B5EA7',N4:'#5F7C6C',N5:'#2E6DB4',N6:'#C9A84C',N7:'#5F7C6C'};
+var BAND_COLS={ante:'#1A7A8A',trig:'#C9A84C',medi:'#7B5EA7',ssd:'#5F7C6C'};
+var BAND_NAMES={ante:'Antecedents',trig:'Triggers',medi:'Mediators',ssd:'Signs / Symptoms / Diagnoses'};
+var TYPES=['Genetic','Environmental','Infection','Trauma','Medication','Dietary','Psychosocial','Occupational','Other'];
+
+var entries={ante:[],trig:[],medi:[],ssd:[]};
+
+// Seed 3 empty per band
+['ante','trig','medi','ssd'].forEach(function(b){
+  for(var i=0;i<3;i++) entries[b].push({age:'',desc:'',node:'',type:''});
+});
+
+function renderBand(band){
+  var cont=document.getElementById('entries-'+band);
+  cont.innerHTML='';
+  var col=BAND_COLS[band];
+  entries[band].forEach(function(e,i){
+    var div=document.createElement('div');div.className='entry';
+    div.innerHTML='<div class="entry-dot" style="border-color:'+col+'"></div>'+
+      '<div class="entry-row">'+
+      '<input class="entry-input" style="width:60px;flex-shrink:0" placeholder="Age" value="'+(e.age||'')+'" data-b="'+band+'" data-i="'+i+'" data-f="age">'+
+      '<div class="entry-fields">'+
+      '<textarea class="entry-input" rows="2" placeholder="Describe the event, exposure, or factor..." data-b="'+band+'" data-i="'+i+'" data-f="desc">'+(e.desc||'')+'</textarea>'+
+      '<div class="entry-meta">'+
+      '<select class="meta-sel" data-b="'+band+'" data-i="'+i+'" data-f="node"><option value="">Node</option>'+
+      NODES.map(function(n){return '<option value="'+n+'"'+(e.node===n?' selected':'')+'>'+n+' '+NN[n]+'</option>';}).join('')+'</select>'+
+      '<select class="meta-sel" data-b="'+band+'" data-i="'+i+'" data-f="type"><option value="">Type</option>'+
+      TYPES.map(function(t){return '<option value="'+t+'"'+(e.type===t?' selected':'')+'>'+t+'</option>';}).join('')+'</select>'+
+      '<button class="remove-btn" data-b="'+band+'" data-i="'+i+'">Remove</button>'+
+      '</div></div></div>';
+    cont.appendChild(div);
+  });
+
+  cont.querySelectorAll('.entry-input,.meta-sel').forEach(function(el){
+    el.addEventListener('change',function(){
+      var b=el.getAttribute('data-b');var idx=parseInt(el.getAttribute('data-i'));var f=el.getAttribute('data-f');
+      entries[b][idx][f]=el.value;
+    });
+    el.addEventListener('input',function(){
+      var b=el.getAttribute('data-b');var idx=parseInt(el.getAttribute('data-i'));var f=el.getAttribute('data-f');
+      entries[b][idx][f]=el.value;
+    });
+  });
+
+  cont.querySelectorAll('.remove-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var b=btn.getAttribute('data-b');var idx=parseInt(btn.getAttribute('data-i'));
+      entries[b].splice(idx,1);
+      renderBand(b);
+    });
+  });
+}
+
+document.querySelectorAll('.add-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var band=btn.getAttribute('data-band');
+    entries[band].push({age:'',desc:'',node:'',type:''});
+    renderBand(band);
+  });
+});
+
+// Baseline buttons
+document.querySelectorAll('.bl-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.bl-btn').forEach(function(b){b.classList.remove('sel');});
+    btn.classList.add('sel');
+  });
+});
+
+// Export
+document.getElementById('atm-export').addEventListener('click',function(){
+  var summary=document.getElementById('atm-summary');
+  var nodesEl=document.getElementById('atm-nodes');
+  var nodeCounts={N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+  var totalEntries=0;
+  var html='';
+
+  ['ante','trig','medi','ssd'].forEach(function(band){
+    var filled=entries[band].filter(function(e){return e.desc;});
+    if(!filled.length) return;
+    html+='<div class="out-band"><div class="out-band-hd" style="color:'+BAND_COLS[band]+'"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+BAND_COLS[band]+'"></span>'+BAND_NAMES[band]+' ('+filled.length+')</div>';
+    filled.forEach(function(e){
+      totalEntries++;
+      html+='<div class="out-entry">';
+      if(e.age) html+='<strong>Age '+e.age+':</strong> ';
+      html+=e.desc;
+      if(e.node){html+='<span class="out-node" style="background:'+NC[e.node]+'15;color:'+NC[e.node]+'">'+e.node+'</span>';nodeCounts[e.node]++;}
+      if(e.type) html+=' <span style="font-family:var(--fm);font-size:8px;color:var(--muted)">['+e.type+']</span>';
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+
+  if(!totalEntries) html='<div style="color:var(--muted);font-size:11px">No timeline entries recorded.</div>';
+  summary.innerHTML=html;
+
+  // Node frequency chips
+  var nodeHtml='';
+  NODES.forEach(function(nid){
+    if(nodeCounts[nid]>0){
+      nodeHtml+='<span class="ns-chip" style="border-color:'+NC[nid]+';color:'+NC[nid]+'">'+nid+': '+nodeCounts[nid]+' entries</span>';
+    }
+  });
+  nodesEl.innerHTML=nodeHtml||'<span style="font-size:10px;color:var(--muted)">No nodes assigned to entries.</span>';
+
+  document.getElementById('atm-out').style.display='block';
+  document.getElementById('atm-out').scrollIntoView({behavior:'smooth'});
+});
+
+// Init
+['ante','trig','medi','ssd'].forEach(renderBand);
+
+})();
+</script>
+</body>
+</html>

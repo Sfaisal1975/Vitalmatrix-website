@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'accepted\');document.getElementById(\'vm-consent-banner\').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'declined\');document.getElementById(\'vm-consent-banner\').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform Demo | VitalMatrix&#8482; - Clinical Intelligence Platform</title>
+<meta name="description" content="Try the VitalMatrix terrain intelligence platform. Interactive demo: paste your consultation notes and see five structured clinical outputs.">
+<meta name="author" content="Dr Shahzad Faisal, MBBS, FAAMFM">
+<meta name="theme-color" content="#0D2B4E">
+<link rel="icon" type="image/png" href="VM_Logo_1000_x_1000_px_png_New_Transparent.png">
+<link rel="canonical" href="https://vitalmatrix.co.uk/platform-demo/">
+<!-- Fonts loaded via local @font-face in vm-award-tier2.css -->
+<style>
+:root {
+  --vm-prussian:#0D2B4E; --vm-gold:#C9A84C; --vm-teal:#1A7A8A;
+  --vm-white:#F4F4F2; --vm-fm:'DM Mono',monospace; --vm-fs:'Cormorant Garamond',Georgia,serif;
+  --vm-fd:'Outfit',system-ui,sans-serif;
+}
+body { background:#0D2B4E; color:rgba(244,244,242,0.80); font-family:var(--vm-fd); margin:0; padding:0; }
+a { color:inherit; text-decoration:none; }
+.container { max-width:1180px; margin:0 auto; padding:0 48px; }
+@keyframes vmFadeUp{0%{opacity:0;transform:translateY(36px)}100%{opacity:1;transform:translateY(0)}}
+.vm-reveal{opacity:0}
+.vm-reveal.revealed{animation:vmFadeUp 0.7s cubic-bezier(0.4,0,0.2,1) forwards}
+@media(prefers-reduced-motion:reduce){.vm-reveal{opacity:1;animation:none!important}}
+/* W29 Typographic Rules */
+.vm-rule-dot{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.vm-rule-dot::before{content:'';display:block;width:48px;height:1px;background:linear-gradient(90deg,#C9A84C,rgba(201,168,76,0.25));}
+.vm-rule-dot::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:#C9A84C;opacity:0.7;}
+</style>
+<link rel="stylesheet" href="vm-award-tier2.css">
+</head>
+<body>
+
+<!-- Navigation placeholder -->
+<nav style="background:rgba(7,28,51,0.90);padding:16px 48px;display:flex;align-items:center;justify-content:space-between;">
+  <a href="/" style="display:flex;align-items:center;gap:10px;">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" alt="VitalMatrix">
+    <span style="font-family:var(--vm-fm);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--vm-gold);">VitalMatrix</span>
+  </a>
+  <a href="/" style="font-family:var(--vm-fm);font-size:10px;color:rgba(244,244,242,0.50);letter-spacing:0.08em;">&#8592; Back to Home</a>
+</nav>
+
+<!-- GMC protective header - required before any clinical demo -->
+<div style="background:#071C33;padding:12px 48px;text-align:center;border-bottom:1px solid rgba(201,168,76,0.08);">
+  <p style="font-family:var(--vm-fm);font-size:0.65rem;color:rgba(244,244,242,0.30);letter-spacing:0.06em;line-height:1.6;margin:0;">
+    VitalMatrix&#8482; generates working documents for practitioner review. All clinical decisions remain with the registered practitioner. This page contains demonstration simulations only. Not a diagnostic tool.
+  </p>
+</div>
+
+<!-- Content placeholder -->
+<section class="vm-reveal" style="min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 48px;">
+  <div>
+    <p style="font-family:var(--vm-fm);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(201,168,76,0.55);margin-bottom:20px;">Platform Demo</p>
+    <div class="vm-rule-dot" style="justify-content:center;margin:12px auto 16px;"></div>
+    <h1 class="vm-reveal" style="font-family:var(--vm-fs);font-size:clamp(32px,5vw,56px);font-weight:300;color:var(--vm-white);margin-bottom:18px;">See VitalMatrix&#8482; <em style="color:var(--vm-gold);font-style:italic;">in Action</em></h1>
+    <p style="font-size:16px;color:rgba(244,244,242,0.50);max-width:560px;margin:0 auto 40px;line-height:1.7;">Interactive demonstrations of the terrain intelligence pipeline. Content from the homepage interactive sections will be placed here. W08 clearance required before deployment.</p>
+    <a href="/" style="font-family:var(--vm-fm);font-size:11px;letter-spacing:0.10em;text-transform:uppercase;color:var(--vm-gold);border:1px solid rgba(201,168,76,0.30);border-radius:4px;padding:12px 28px;">Return to Homepage</a>
+  </div>
+</section>
+
+<!-- Compliance footer -->
+<footer style="background:#071C33;padding:40px 48px;text-align:center;">
+  <p style="font-family:var(--vm-fm);font-size:0.65rem;color:rgba(244,244,242,0.25);line-height:1.8;max-width:800px;margin:0 auto;">
+    MHRA Compliant SaMD. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.
+  </p>
+  <p style="font-family:var(--vm-fm);font-size:0.68rem;color:rgba(244,244,242,0.35);margin-top:12px;">For practitioner use only. Not a diagnostic tool.</p>
+  <p style="font-family:var(--vm-fm);font-size:0.65rem;color:rgba(244,244,242,0.18);margin-top:16px;line-height:1.8;max-width:900px;margin-left:auto;margin-right:auto;">
+    VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.
+  </p>
+  <p style="font-family:var(--vm-fm);font-size:0.65rem;color:rgba(244,244,242,0.15);margin-top:12px;">&#169; VitalMatrix Ltd 2026. All rights reserved.</p>
+  <p style="font-family:var(--vm-fm);font-size:0.65rem;color:rgba(244,244,242,0.12);margin-top:8px;">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+</footer>
+
+<script>
+(function(){var m=window.matchMedia('(prefers-reduced-motion:reduce)').matches;var els=document.querySelectorAll('.vm-reveal');if(m){els.forEach(function(e){e.classList.add('revealed');});return;}var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target);}});},{threshold:0.12});els.forEach(function(e){obs.observe(e);});})();
+</script>
+<script src="vm-award-tier2.js"></script>
+<script src="vm-phase1-design.js"></script>
+</body>
+</html>

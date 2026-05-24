@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSQ-71 Layer 2: Node-Specific Review | VitalMatrix&#8482;</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D2B4E;--card:#1A2030;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#2E6DB4;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--mutedx:rgba(244,244,242,.35);--border:rgba(255,255,255,.11);--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+body{background:var(--bg);color:var(--white);font-family:var(--fd);font-size:14px;line-height:1.7}
+.w{max-width:960px;margin:0 auto;padding:20px}
+.hdr{text-align:center;padding:32px 0 24px;border-bottom:1px solid rgba(201,168,76,.12)}
+.hdr h1{font-family:var(--fs);font-size:clamp(24px,3.5vw,36px);font-weight:300;margin-bottom:6px}
+.hdr h1 em{color:var(--teal);font-style:italic}
+.hdr p{font-size:12px;color:var(--muted);max-width:580px;margin:0 auto}
+.warn{background:rgba(26,122,138,.06);border:1px solid rgba(26,122,138,.15);border-left:3px solid var(--teal);padding:10px 14px;border-radius:4px;margin:16px 0;font-family:var(--fm);font-size:9px;color:var(--teal);line-height:1.6}
+.cat{margin:24px 0}
+.cat-hd{font-family:var(--fm);font-size:10px;letter-spacing:.12em;color:var(--gold);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.1)}
+.cat-desc{font-size:11px;color:var(--muted);margin-bottom:12px}
+.itm{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:4px;margin-bottom:4px;background:rgba(255,255,255,.02);border:1px solid var(--border);transition:all .2s}
+.itm:hover{background:rgba(255,255,255,.04)}
+.itm-nm{flex:1;font-size:12px;min-width:0}
+.itm-node{font-family:var(--fm);font-size:8px;color:var(--muted);min-width:24px}
+.itm-btns{display:flex;gap:2px}
+.sb{width:26px;height:26px;border-radius:3px;border:1px solid rgba(255,255,255,.08);background:transparent;color:var(--mutedx);font-family:var(--fm);font-size:10px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.sb:hover{border-color:var(--teal);color:var(--teal)}
+.sb.sel{background:rgba(26,122,138,.2);border-color:var(--teal);color:var(--teal)}
+.prog-text{font-family:var(--fm);font-size:9px;color:var(--muted);text-align:right;margin-bottom:3px}
+.prog{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.prog-fill{height:100%;background:var(--teal);border-radius:2px;transition:width .4s}
+.out{margin-top:24px;padding:16px;border-radius:8px;background:var(--card);border:1px solid rgba(26,122,138,.1)}
+.out-hd{font-family:var(--fs);font-size:1.1rem;margin-bottom:8px}
+.nb{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.nb-id{font-family:var(--fm);font-size:9px;min-width:20px;font-weight:700}
+.nb-track{flex:1;height:5px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden}
+.nb-fill{height:100%;border-radius:3px;transition:width .6s}
+.nb-val{font-family:var(--fm);font-size:9px;min-width:24px;text-align:right}
+.export-btn{display:block;margin:16px auto;padding:10px 24px;border-radius:6px;border:2px solid var(--teal);background:transparent;color:var(--teal);font-family:var(--fm);font-size:11px;cursor:pointer;transition:all .2s}
+.export-btn:hover{background:rgba(26,122,138,.1)}
+.ft{margin-top:24px;padding:16px 0;border-top:1px solid rgba(201,168,76,.06);text-align:center;font-family:var(--fm);font-size:7px;color:rgba(244,244,242,.18);line-height:1.9}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="hdr">
+    <h1>Layer 2: <em>Node-Specific Review</em></h1>
+    <p>79 supplementary items: 42 clinical history items (NSR) + 37 expanded symptom items. These refine the node scores from Layer 1. Rate each item 0-4.</p>
+  </div>
+  <div class="warn">LAYER 2 supplements Layer 1 (MSQ-71). Run Layer 1 first. These items add clinical depth to node scoring. They do not replace the MSQ-71.</div>
+  <div class="prog-text"><span id="l2-ans">0</span>/79 rated</div>
+  <div class="prog"><div class="prog-fill" id="l2-pbar" style="width:0"></div></div>
+  <div id="l2-items"></div>
+  <button class="export-btn" id="l2-compute">Compute Layer 2 Node Adjustments</button>
+  <div class="out" id="l2-out" style="display:none">
+    <div class="out-hd">Layer 2 Node Score Adjustments</div>
+    <div id="l2-bars"></div>
+  </div>
+  <div class="ft">MSQ-71 Layer 2 NSR | VitalMatrix&#8482; | ALB v1.5 | D-85 | T-01 Active | Gate O1 weight vectors<br>For practitioner use only. Not a diagnostic tool.</div>
+</div>
+<script>
+(function(){
+'use strict';
+var NODES=['N1','N2','N3','N4','N5','N6','N7'];
+var NC={N1:'#C9A84C',N2:'#1A7A8A',N3:'#7B5EA7',N4:'#5F7C6C',N5:'#2E6DB4',N6:'#C9A84C',N7:'#5F7C6C'};
+
+var CATS=[
+  {id:'nsr',nm:'NODE-SPECIFIC REVIEW (42 items)',desc:'Clinical history, lifestyle patterns, and functional indicators. From Gate O1 CSV (category: nsr).',items:[
+    {nm:'Bloating after meals',w:[1,0,0,0,0,0,0]},
+    {nm:'Food sensitivities (multiple)',w:[1,1,0,0,0,0,0]},
+    {nm:'Irregular bowel habit',w:[1,0,0,0,0,0,0]},
+    {nm:'Abdominal discomfort',w:[1,0,0,0,0,0,0]},
+    {nm:'History of recurrent antibiotic use',w:[1,0.5,0,0,0,0,0]},
+    {nm:'History of PPI use',w:[1,0,0,0,0,0,0]},
+    {nm:'Recurrent infections',w:[0,1,0,0,0,0,0]},
+    {nm:'Slow wound healing',w:[0,1,0,0,0,0,0.5]},
+    {nm:'Chronic inflammatory markers (CRP, ESR)',w:[0,1,0,0,0.5,0,0]},
+    {nm:'Autoimmune history',w:[0.5,1,0,0,0,0.5,0]},
+    {nm:'Environmental allergies',w:[0,1,0,0.5,0,0,0]},
+    {nm:'Frequent colds or flu',w:[0,1,0,0,0,0,0]},
+    {nm:'Morning fatigue despite adequate sleep',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Wired but tired feeling',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Reliance on caffeine',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Difficulty recovering from exercise',w:[0,0,1,0,0,0,0.5]},
+    {nm:'Cold hands and feet',w:[0,0,0.5,0,1,0.5,0]},
+    {nm:'Temperature dysregulation',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Chemical sensitivity',w:[0,0.5,0,1,0,0,0]},
+    {nm:'Intolerance to alcohol',w:[0,0,0,1,0,0,0]},
+    {nm:'Strong body odour or bad breath',w:[0.5,0,0,1,0,0,0]},
+    {nm:'Sensitivity to perfumes or chemicals',w:[0,0.5,0,1,0,0,0]},
+    {nm:'History of heavy metal exposure',w:[0,0,0,1,0,0.5,0]},
+    {nm:'History of mould exposure',w:[0,1,0,1,0,0,0]},
+    {nm:'Elevated liver enzymes',w:[0,0,0,1,0,0,0]},
+    {nm:'Elevated resting blood pressure',w:[0,0,0,0,1,0.5,0]},
+    {nm:'Elevated cholesterol or triglycerides',w:[0,0,0.5,0.5,1,0,0]},
+    {nm:'Reduced HRV',w:[0,0,0,0,1,0.5,0]},
+    {nm:'Peripheral oedema',w:[0,0,0,0.5,1,0,0]},
+    {nm:'Easy bruising',w:[0,0,0,0,1,0,0.5]},
+    {nm:'Reduced libido',w:[0,0,0,0,0,1,0]},
+    {nm:'Erectile dysfunction',w:[0,0,0,0,1,0.5,0]},
+    {nm:'Menstrual irregularity',w:[0,0,0,0.5,0,1,0]},
+    {nm:'Hot flashes or night sweats',w:[0,0,0,0,0,1,0]},
+    {nm:'Thinning hair or eyebrows',w:[0,0,0,0,0,1,0.5]},
+    {nm:'Muscle wasting',w:[0,0,0.5,0,0,0.5,1]},
+    {nm:'Joint hypermobility',w:[0,0,0,0,0,0,1]},
+    {nm:'Recurrent soft tissue injuries',w:[0,0.5,0,0,0,0,1]},
+    {nm:'Osteopenia or osteoporosis',w:[0.5,0,0,0,0,0.5,1]},
+    {nm:'Poor posture or spinal issues',w:[0,0,0,0,0,0,1]},
+    {nm:'Premature ejaculation',w:[0,0,0,0,0,1,0]},
+    {nm:'Gynecomastia',w:[0,0,0,0.5,0,1,0]}
+  ]},
+  {id:'extra',nm:'EXPANDED SYMPTOM ITEMS (37 items)',desc:'Additional symptoms beyond standard MSQ-71. From Gate O1 CSV (category: symptom, rows 5-72 extras + 199-220).',items:[
+    {nm:'Difficulty falling asleep',w:[0,0,0,0,0,1,0]},
+    {nm:'Waking during the night',w:[0,0,0,0,0,1,0]},
+    {nm:'Sneezing attacks',w:[0,1,0,0,0,0,0]},
+    {nm:'Dry skin',w:[0,0,0.5,0,0,1,0.5]},
+    {nm:'Eczema',w:[0.5,1,0,0.5,0,0,0]},
+    {nm:'Psoriasis',w:[0.5,1,0,0,0,0,0]},
+    {nm:'Elevated resting heart rate',w:[0,0,0,0,1,0.5,0]},
+    {nm:'Irritable bowel pattern',w:[1,0.5,0,0,0,0.5,0]},
+    {nm:'Food intolerances',w:[1,1,0,0,0,0,0]},
+    {nm:'Excessive hunger',w:[0.5,0,0.5,0,0,1,0]},
+    {nm:'Loss of appetite',w:[1,0,0.5,0,0,0.5,0]},
+    {nm:'Back pain',w:[0,0,0,0,0,0,1]},
+    {nm:'Muscle cramps',w:[0.5,0,0.5,0,0,0,1]},
+    {nm:'Underweight',w:[1,0,0.5,0,0,0.5,0]},
+    {nm:'Inability to lose weight',w:[0.5,0,0.5,0.5,0,1,0]},
+    {nm:'Afternoon energy crash',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Exercise intolerance',w:[0,0,1,0,0.5,0,0.5]},
+    {nm:'Post-exertional malaise',w:[0,0.5,1,0,0,0,0]},
+    {nm:'Brain fog',w:[0.5,0.5,0.5,0.5,0,1,0]},
+    {nm:'Reduced morning erections',w:[0,0,0,0,1,1,0]},
+    {nm:'Decreased muscle mass',w:[0,0,0.5,0,0,0.5,1]},
+    {nm:'Increased truncal body fat',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Decreased motivation or drive',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Decreased work performance',w:[0,0,1,0,0,0.5,0]},
+    {nm:'Increased recovery time after illness',w:[0,1,0.5,0,0,0,0]},
+    {nm:'Frequent sighing or yawning',w:[0,0,0.5,0,0.5,0.5,0]},
+    {nm:'Sensitivity to cold',w:[0,0,0.5,0,0.5,1,0]},
+    {nm:'Feeling overwhelmed by small tasks',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Salt or sugar cravings',w:[0,0,0.5,0,0,1,0]},
+    {nm:'Delayed wound healing',w:[0,1,0,0,0.5,0,0.5]},
+    {nm:'Numbness or tingling in extremities',w:[0,0,0,0,1,0.5,0.5]},
+    {nm:'Varicose veins',w:[0,0,0,0,1,0,0.5]},
+    {nm:'Swollen lymph nodes',w:[0,1,0,0.5,0,0,0]},
+    {nm:'Chronic nasal congestion',w:[0.5,1,0,0,0,0,0]},
+    {nm:'Teeth grinding (bruxism)',w:[0,0,0,0,0,1,0.5]},
+    {nm:'Night sweats',w:[0,0.5,0,0,0,1,0]},
+    {nm:'Thinning skin or brittle nails',w:[0.5,0,0,0,0,0.5,1]}
+  ]}
+];
+
+var l2Scores = {};
+var totalItems = 0;
+CATS.forEach(function(c){l2Scores[c.id]=c.items.map(function(){return 0;});totalItems+=c.items.length;});
+
+var container = document.getElementById('l2-items');
+CATS.forEach(function(c){
+  var sec = document.createElement('div');sec.className='cat';
+  var html = '<div class="cat-hd">'+c.nm+'</div><div class="cat-desc">'+c.desc+'</div>';
+  c.items.forEach(function(itm,i){
+    var pn = 'N?';
+    var maxW = 0;
+    itm.w.forEach(function(wt,ni){if(wt>maxW){maxW=wt;pn=NODES[ni];}});
+    html += '<div class="itm"><span class="itm-node" style="color:'+NC[pn]+'">'+pn+'</span><div class="itm-nm">'+itm.nm+'</div><div class="itm-btns">';
+    for(var v=0;v<=4;v++){html += '<button class="sb" data-cat="'+c.id+'" data-i="'+i+'" data-v="'+v+'">'+v+'</button>';}
+    html += '</div></div>';
+  });
+  sec.innerHTML = html;
+  container.appendChild(sec);
+});
+
+container.querySelectorAll('.sb').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var cat=btn.getAttribute('data-cat');
+    var idx=parseInt(btn.getAttribute('data-i'));
+    var val=parseInt(btn.getAttribute('data-v'));
+    l2Scores[cat][idx]=val;
+    btn.parentNode.querySelectorAll('.sb').forEach(function(b){b.classList.remove('sel');});
+    if(val>0)btn.classList.add('sel');
+    updateL2Progress();
+  });
+});
+
+function updateL2Progress(){
+  var ans=0;
+  CATS.forEach(function(c){l2Scores[c.id].forEach(function(s){if(s>0)ans++;});});
+  document.getElementById('l2-ans').textContent=ans;
+  document.getElementById('l2-pbar').style.width=(ans/totalItems*100)+'%';
+}
+
+document.getElementById('l2-compute').addEventListener('click',function(){
+  var nodeAdj={N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+  var nodeMax={N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+  CATS.forEach(function(c){
+    c.items.forEach(function(itm,i){
+      var sev=l2Scores[c.id][i];
+      for(var n=0;n<7;n++){
+        if(itm.w[n]>0){nodeAdj[NODES[n]]+=sev*itm.w[n];nodeMax[NODES[n]]+=4*itm.w[n];}
+      }
+    });
+  });
+  var bars=document.getElementById('l2-bars');bars.innerHTML='';
+  NODES.forEach(function(nid){
+    var val=nodeMax[nid]>0?Math.round((nodeAdj[nid]/nodeMax[nid])*100):0;
+    bars.innerHTML+='<div class="nb"><span class="nb-id" style="color:'+NC[nid]+'">'+nid+'</span><div class="nb-track"><div class="nb-fill" style="width:'+val+'%;background:'+NC[nid]+'"></div></div><span class="nb-val" style="color:'+NC[nid]+'">'+val+'</span></div>';
+  });
+  document.getElementById('l2-out').style.display='block';
+});
+})();
+</script>
+</body>
+</html>

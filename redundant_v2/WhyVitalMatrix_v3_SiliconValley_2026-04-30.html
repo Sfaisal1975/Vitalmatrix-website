@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<!-- GA4 consent-gated -->
+<script>
+(function(){
+  var c=localStorage.getItem('vm-analytics-consent');
+  if(c==='accepted'){loadGA()}
+  else if(c!=='declined'){showBanner()}
+  function loadGA(){
+    var s=document.createElement('script');s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-TRM1JTE0PB';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function g(){dataLayer.push(arguments)}
+    g('js',new Date());g('config','G-TRM1JTE0PB',{send_page_view:true});
+    window.gtag=g;
+  }
+  function showBanner(){
+    document.addEventListener('DOMContentLoaded',function(){
+      var d=document.createElement('div');d.id='vm-consent-banner';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(7,28,51,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,0.10);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap';
+      d.innerHTML='<p style="font-family:Outfit,sans-serif;font-size:13px;color:rgba(244,244,242,0.60);margin:0;max-width:500px;line-height:1.5">We use analytics to understand how practitioners use this site. No patient data is collected.</p><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'accepted\');document.getElementById(\'vm-consent-banner\').remove();location.reload()" style="font-family:monospace;font-size:10px;color:#0D2B4E;background:#C9A84C;border:none;border-radius:4px;padding:8px 18px;cursor:pointer">Accept analytics</button><button onclick="localStorage.setItem(\'vm-analytics-consent\',\'declined\');document.getElementById(\'vm-consent-banner\').remove()" style="font-family:monospace;font-size:10px;color:rgba(244,244,242,0.40);background:transparent;border:1px solid rgba(255,255,255,0.10);border-radius:4px;padding:8px 18px;cursor:pointer">Decline</button>';
+      document.body.appendChild(d);
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why VitalMatrix | The Case for Clinical Intelligence Infrastructure</title>
+<meta name="description" content="The infrastructure gap in functional medicine practice. Why general-purpose AI fails clinical depth. Why VitalMatrix was built as infrastructure, not a tool.">
+<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform, FLINT, cascade mapping, velocity intelligence">
+<meta property="og:title" content="Why VitalMatrix | The Case for Clinical Intelligence Infrastructure">
+<meta property="og:description" content="The infrastructure gap in functional medicine practice. Why general-purpose AI fails clinical depth. Why VitalMatrix was built as infrastructure, not a tool.">
+<meta property="og:type" content="website">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Dr Shahzad Faisal, MBBS, FAAMFM">
+<meta name="theme-color" content="#0D2B4E">
+<link rel="icon" type="image/png" href="VM_Logo_1000_x_1000_px_png_New_Transparent.png">
+<link rel="canonical" href="https://vitalmatrix.co.uk/why-vitalmatrix/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"></noscript>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --vm-prussian:#0D2B4E; --vm-charcoal:#1A2030; --vm-deep-teal:#0C4452;
+  --vm-navy:#071C33; --vm-gold:#C9A84C; --vm-gold-l:#E8C96A;
+  --vm-teal:#1A7A8A; --vm-teal-l:#2A9BAD; --vm-white:#F4F4F2;
+  --vm-purple:#7B5EA7; --vm-sage:#5F7C6C; --vm-red:#D63030;
+  --vm-z1:#C9A84C; --vm-z2:#1A7A8A; --vm-z3:#7B5EA7; --vm-z4:#5F7C6C; --vm-z5:#4A90C4;
+  --vm-fs:'Cormorant Garamond',Georgia,serif;
+  --vm-fd:'Outfit',system-ui,sans-serif;
+  --vm-fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--vm-fd);
+  background:var(--vm-prussian);
+  color:rgba(244,244,242,0.80);
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+a{color:inherit;text-decoration:none}
+section{position:relative;overflow:hidden;margin:0;padding:80px 0}
+h1,h2,h3,h4{font-family:var(--vm-fs);font-weight:300;line-height:1.15;margin:0}
+h1{font-size:clamp(42px,7vw,80px);color:var(--vm-white);letter-spacing:-0.02em}
+h1 em{color:var(--vm-gold);font-style:italic}
+h2{font-size:clamp(28px,4vw,52px);color:var(--vm-white);margin-bottom:18px}
+h2 em{color:var(--vm-gold);font-style:italic}
+h3{font-size:clamp(18px,2.2vw,26px);color:var(--vm-white);margin-bottom:12px}
+.container{max-width:1180px;margin:0 auto;padding:0 48px}
+.container-sm{max-width:880px;margin:0 auto;padding:0 48px}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 1: Film grain overlay
+   ═══════════════════════════════════════════════════════════ */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:0.025;mix-blend-mode:overlay;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 2: Cursor glow (Stripe-style)
+   ═══════════════════════════════════════════════════════════ */
+#cursor-glow{
+  position:fixed;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);
+  pointer-events:none;z-index:1;transform:translate(-50%,-50%);
+  opacity:0;transition:opacity 0.3s ease;mix-blend-mode:screen;
+}
+#cursor-glow.active{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 3: Scroll progress bar (Linear-style)
+   ═══════════════════════════════════════════════════════════ */
+#vm-scroll-progress{
+  position:fixed;top:0;left:0;height:2px;z-index:99999;
+  background:linear-gradient(90deg,var(--vm-gold),var(--vm-teal),var(--vm-gold));
+  width:0;will-change:width;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 4: Reading progress percentage
+   ═══════════════════════════════════════════════════════════ */
+#reading-pct{
+  position:fixed;top:6px;right:16px;z-index:210;
+  font-family:var(--vm-fm);font-size:8px;letter-spacing:0.06em;
+  color:rgba(201,168,76,0.65);pointer-events:none;
+  opacity:0;transition:opacity 0.3s ease;
+}
+#reading-pct.visible{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 5: Glassmorphism floating pill nav (Apple-style)
+   ═══════════════════════════════════════════════════════════ */
+.vm-nav-pill{
+  position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:9000;
+  background:rgba(7,28,51,0.75);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border:1px solid rgba(255,255,255,0.08);border-radius:999px;
+  padding:0 28px;height:52px;display:flex;align-items:center;gap:24px;
+  max-width:900px;width:90%;justify-content:space-between;
+  transition:border-color 0.6s ease,background 0.4s ease;
+}
+.vm-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;line-height:0;font-size:0;flex-shrink:0}
+.vm-nav-logo img{height:48px;width:auto;display:block;margin:0;padding:0;border:none}
+.vm-nav-links{display:flex;align-items:center;gap:4px}
+.vm-nav-links a{
+  font-family:var(--vm-fm);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;
+  color:rgba(244,244,242,0.50);text-decoration:none;padding:8px 14px;border-radius:6px;
+  transition:color 0.2s,background 0.2s;position:relative;
+}
+.vm-nav-links a:hover{color:var(--vm-white);background:rgba(244,244,242,0.06)}
+.vm-nav-links a::after{
+  content:'';position:absolute;bottom:2px;left:14px;width:calc(100% - 28px);height:1.5px;
+  background:var(--vm-gold);transform:scaleX(0);transform-origin:left;
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.vm-nav-links a:hover::after{transform:scaleX(1)}
+
+/* Feature 6: CTA with shimmer + rotating gradient border */
+@property --vm-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes svBorderSpin{to{--vm-angle:360deg}}
+@keyframes ctaShimmer{0%{left:-100%}100%{left:100%}}
+.vm-cta-glow{
+  position:relative;overflow:hidden;
+  background:#E8C96A;color:#071C33;
+  font-family:var(--vm-fd);font-size:0.65rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.12em;
+  padding:17px 40px;border-radius:4px;border:none;
+  display:inline-block;text-decoration:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(201,168,76,0.25);
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease,background 0.2s ease;
+}
+.vm-cta-glow::before{
+  content:'';position:absolute;inset:-2px;border-radius:inherit;z-index:-1;
+  background:conic-gradient(from var(--vm-angle),#C9A84C,#1A7A8A,#7B5EA7,#5F7C6C,#C9A84C);
+  animation:svBorderSpin 4s linear infinite;opacity:0;transition:opacity 0.4s ease;
+}
+.vm-cta-glow:hover::before{opacity:1}
+.vm-cta-glow::after{
+  content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,0.25) 50%,transparent 70%);
+  animation:ctaShimmer 6s ease-in-out infinite;pointer-events:none;
+}
+.vm-cta-glow:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 32px rgba(201,168,76,0.40);background:#F0D87A}
+
+/* Feature 7: Ghost button */
+.btn-s{
+  display:inline-block;background:transparent;color:var(--vm-gold);
+  font-family:var(--vm-fd);font-size:11px;font-weight:600;
+  letter-spacing:0.10em;text-transform:uppercase;
+  padding:15px 32px;border-radius:4px;
+  border:1px solid rgba(201,168,76,0.35);cursor:pointer;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);text-decoration:none;
+}
+.btn-s:hover{border-color:var(--vm-gold);color:var(--vm-white);background:rgba(201,168,76,0.06);transform:translateY(-1px);box-shadow:0 4px 20px rgba(201,168,76,0.15)}
+
+/* Feature 8: Nav hamburger mobile */
+.vm-nav-hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:8px}
+.vm-nav-hamburger span{width:18px;height:1.5px;background:rgba(244,244,242,0.60);border-radius:1px;transition:all 0.3s ease}
+.vm-nav-mobile-overlay{
+  position:fixed;inset:0;z-index:9500;background:rgba(7,28,51,0.97);backdrop-filter:blur(24px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  opacity:0;pointer-events:none;transition:opacity 0.4s ease;
+}
+.vm-nav-mobile-overlay.open{opacity:1;pointer-events:auto}
+.vm-nav-mobile-overlay a{font-family:var(--vm-fs);font-size:28px;color:var(--vm-white);font-weight:300}
+.vm-nav-mobile-close{position:absolute;top:20px;right:20px;width:40px;height:40px;cursor:pointer}
+.vm-nav-mobile-close::before,.vm-nav-mobile-close::after{content:'';position:absolute;top:50%;left:50%;width:20px;height:1.5px;background:rgba(244,244,242,0.60)}
+.vm-nav-mobile-close::before{transform:translate(-50%,-50%) rotate(45deg)}
+.vm-nav-mobile-close::after{transform:translate(-50%,-50%) rotate(-45deg)}
+@media(max-width:768px){
+  .vm-nav-links{display:none}
+  .vm-nav-hamburger{display:flex}
+  .vm-nav-pill{padding:0 16px}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 9-16: Cinematic section reveal system
+   ═══════════════════════════════════════════════════════════ */
+@keyframes sectionSlideUp{
+  from{opacity:0;transform:translateY(50px) scale(0.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.sv-reveal{opacity:0;transform:translateY(40px) scale(0.98);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.sv-reveal.visible{opacity:1;transform:translateY(0) scale(1)}
+.sv-reveal[data-delay="1"]{transition-delay:0.1s}
+.sv-reveal[data-delay="2"]{transition-delay:0.2s}
+.sv-reveal[data-delay="3"]{transition-delay:0.3s}
+.sv-reveal[data-delay="4"]{transition-delay:0.4s}
+.sv-reveal[data-delay="5"]{transition-delay:0.5s}
+
+/* Feature 10: Heading gradient reveal */
+.heading-gradient{
+  background:linear-gradient(135deg,rgba(244,244,242,0.35),rgba(244,244,242,0.35));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  transition:background 0.8s ease;
+}
+.heading-gradient.revealed{
+  background:linear-gradient(135deg,#F4F4F2 0%,#F4F4F2 70%,#C9A84C 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.heading-gradient em{-webkit-text-fill-color:#C9A84C}
+
+/* Feature 11: Text shimmer on headings (Apple keynote-style) */
+@keyframes svShimmer{
+  0%{background-position:-200% center}
+  100%{background-position:200% center}
+}
+.sv-shimmer{
+  background:linear-gradient(90deg,var(--vm-white) 0%,var(--vm-white) 35%,var(--vm-gold) 50%,var(--vm-white) 65%,var(--vm-white) 100%);
+  background-size:200% auto;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;animation:svShimmer 6s ease-in-out infinite;
+}
+
+/* Feature 12: Glitch text on eyebrow */
+@keyframes svGlitch{
+  0%,92%,100%{opacity:1;transform:none;clip-path:none}
+  93%{opacity:0.8;transform:translateX(-2px);clip-path:inset(20% 0 40% 0)}
+  95%{opacity:0.9;transform:translateX(2px);clip-path:inset(60% 0 10% 0)}
+  97%{opacity:0.8;transform:translateX(-1px);clip-path:inset(10% 0 70% 0)}
+}
+.sv-glitch{animation:svGlitch 8s ease infinite}
+
+/* Feature 13: Typewriter cursor */
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+.vos-cursor{display:inline-block;width:1px;height:12px;background:rgba(201,168,76,0.55);margin-left:6px;vertical-align:middle;animation:cursorBlink 1s step-end infinite}
+
+/* Feature 14: Card hover border glow */
+.vm-card-glow{transition:border-color 0.3s ease,box-shadow 0.3s ease,transform 0.3s ease}
+.vm-card-glow:hover{border-color:rgba(201,168,76,0.30);box-shadow:0 0 20px rgba(201,168,76,0.08)}
+
+/* Feature 15: Card light reflection sweep */
+.vm-light-reflect{
+  position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.03) 45%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.03) 55%,transparent 60%);
+  pointer-events:none;z-index:5;transition:left 0.5s ease;
+}
+.vm-glass:hover .vm-light-reflect{left:140%}
+
+/* Feature 16: 3D tilt on hover */
+.vm-tilt{transition:transform 0.3s ease}
+.vm-tilt:hover{transform:perspective(600px) rotateX(2deg) rotateY(-2deg) translateY(-4px)}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 17: Spotlight card hover (Notion/Linear-style)
+   ═══════════════════════════════════════════════════════════ */
+.vm-spotlight-card{position:relative;overflow:hidden}
+.vm-spotlight-card::before{
+  content:'';position:absolute;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);
+  pointer-events:none;opacity:0;transition:opacity 0.3s ease;
+  transform:translate(-50%,-50%);z-index:0;
+}
+.vm-spotlight-card:hover::before{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 18-20: Eyebrow + section typography
+   ═══════════════════════════════════════════════════════════ */
+.eyebrow{
+  font-family:var(--vm-fm);font-size:10px;letter-spacing:0.22em;
+  text-transform:uppercase;display:flex;align-items:center;margin-bottom:20px;
+}
+.eyebrow::before{content:'';width:40px;height:1px;margin-right:10px}
+.eyebrow-gold{color:rgba(201,168,76,0.65)}
+.eyebrow-gold::before{background:rgba(201,168,76,0.35)}
+.eyebrow-teal{color:var(--vm-teal)}
+.eyebrow-teal::before{background:rgba(26,122,138,0.50)}
+.eyebrow-red{color:rgba(214,48,48,0.70)}
+.eyebrow-red::before{background:rgba(214,48,48,0.40)}
+.eyebrow-white{color:rgba(244,244,242,0.45)}
+.eyebrow-white::before{background:rgba(244,244,242,0.20)}
+.sec-sub{font-size:16px;color:rgba(244,244,242,0.58);max-width:640px;line-height:1.8;margin-bottom:56px}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 21: Decorative large numerals
+   ═══════════════════════════════════════════════════════════ */
+.card-num{
+  font-family:var(--vm-fs);font-size:clamp(36px,5vw,56px);font-weight:300;
+  color:rgba(201,168,76,0.15);line-height:1;margin-bottom:14px;pointer-events:none;user-select:none;
+}
+@keyframes numGlow{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 20px rgba(201,168,76,0.25)}}
+.card-num-glow{animation:numGlow 3s ease-in-out infinite}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 22: Zone pip row (hero)
+   ═══════════════════════════════════════════════════════════ */
+@keyframes zonePulse{
+  0%,100%{opacity:0.5;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.08)}
+}
+.vm-zone-pip{display:flex;flex-direction:column;align-items:center;gap:6px}
+.vm-zone-pip-dot{border-radius:50%;display:flex;align-items:center;justify-content:center}
+.vm-zone-pip-label{font-family:var(--vm-fm);font-size:7px;letter-spacing:0.10em;text-transform:uppercase}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 23-30: Zone orbit circles in hero (from homepage)
+   ═══════════════════════════════════════════════════════════ */
+.vm-hero-zones{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0}
+@keyframes vmZonePulse{
+  0%,100%{opacity:0.3;transform:translateY(-50%) scale(1)}
+  50%{opacity:0.55;transform:translateY(-50%) scale(1.04)}
+}
+.vm-zone-orbit{
+  position:absolute;top:50%;transform:translateY(-50%);border-radius:50%;
+  border:1px solid rgba(201,168,76,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.vm-zone-orbit .zone-label{font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase}
+.vm-zone-orbit .zone-sub{font-family:var(--vm-fm);font-size:0.4rem;letter-spacing:0.06em;margin-top:2px}
+.vm-zone-orbit[data-zone="z1"]{left:3%;width:110px;height:110px;border-color:rgba(201,168,76,0.12);animation:vmZonePulse 6s ease-in-out infinite 0s}
+.vm-zone-orbit[data-zone="z1"] .zone-label{color:rgba(201,168,76,0.55)}
+.vm-zone-orbit[data-zone="z1"] .zone-sub{color:rgba(201,168,76,0.35)}
+.vm-zone-orbit[data-zone="z2"]{left:18%;width:90px;height:90px;border-color:rgba(26,122,138,0.12);animation:vmZonePulse 6s ease-in-out infinite 1.2s}
+.vm-zone-orbit[data-zone="z2"] .zone-label{color:rgba(26,122,138,0.55)}
+.vm-zone-orbit[data-zone="z2"] .zone-sub{color:rgba(26,122,138,0.35)}
+.vm-zone-orbit[data-zone="z3"]{left:50%;transform:translate(-50%,-50%);width:130px;height:130px;border-color:rgba(123,94,167,0.12);animation:vmZonePulse 8s ease-in-out infinite 0.6s;transform-origin:center center}
+.vm-zone-orbit[data-zone="z3"] .zone-label{color:rgba(123,94,167,0.55)}
+.vm-zone-orbit[data-zone="z3"] .zone-sub{color:rgba(123,94,167,0.35)}
+.vm-zone-orbit[data-zone="z4"]{right:18%;width:90px;height:90px;border-color:rgba(95,124,108,0.12);animation:vmZonePulse 6s ease-in-out infinite 1.8s}
+.vm-zone-orbit[data-zone="z4"] .zone-label{color:rgba(95,124,108,0.55)}
+.vm-zone-orbit[data-zone="z4"] .zone-sub{color:rgba(95,124,108,0.35)}
+.vm-zone-orbit[data-zone="z5"]{right:3%;width:100px;height:100px;border-color:rgba(212,184,112,0.12);animation:vmZonePulse 7s ease-in-out infinite 2.4s}
+.vm-zone-orbit[data-zone="z5"] .zone-label{color:rgba(212,184,112,0.55)}
+.vm-zone-orbit[data-zone="z5"] .zone-sub{color:rgba(212,184,112,0.35)}
+@media(max-width:768px){
+  .vm-zone-orbit[data-zone="z1"]{width:60px;height:60px}
+  .vm-zone-orbit[data-zone="z2"]{width:50px;height:50px;left:10%}
+  .vm-zone-orbit[data-zone="z3"]{width:70px;height:70px}
+  .vm-zone-orbit[data-zone="z4"]{width:50px;height:50px;right:10%}
+  .vm-zone-orbit[data-zone="z5"]{width:55px;height:55px}
+  .vm-zone-orbit .zone-label{font-size:0.4rem}
+  .vm-zone-orbit .zone-sub{display:none}
+}
+@media(max-width:480px){
+  .vm-zone-orbit[data-zone="z2"],.vm-zone-orbit[data-zone="z4"]{display:none}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 31: Hero particle canvas
+   ═══════════════════════════════════════════════════════════ */
+#hero-particles{position:absolute;inset:0;z-index:1;pointer-events:none}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 32-38: Problem cards (dark theme)
+   ═══════════════════════════════════════════════════════════ */
+.problem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:960px;margin:0 auto}
+.problem-card{
+  background:#152D4A;border:1px solid rgba(201,168,76,0.08);border-radius:12px;
+  overflow:hidden;position:relative;
+  transition:border-color 0.3s ease,box-shadow 0.3s ease,transform 0.3s ease;
+}
+.problem-card:hover{border-color:rgba(255,255,255,0.14);box-shadow:0 8px 32px rgba(0,0,0,0.2);transform:translateY(-3px)}
+.card-accent-bar{height:2px;width:100%;margin-bottom:0}
+.problem-card-body{padding:24px 28px}
+.problem-icon{
+  width:44px;height:44px;min-width:44px;min-height:44px;max-width:44px;max-height:44px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;flex-shrink:0;
+}
+.problem-icon svg{width:20px;height:20px;flex-shrink:0}
+.problem-icon-gold{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2)}
+.problem-icon-teal{background:rgba(26,122,138,0.06);border:1px solid rgba(26,122,138,0.2)}
+.problem-icon-purple{background:rgba(123,94,167,0.06);border:1px solid rgba(123,94,167,0.2)}
+.problem-icon-sage{background:rgba(95,124,108,0.06);border:1px solid rgba(95,124,108,0.2)}
+.problem-card h3{font-family:var(--vm-fs);font-size:1.25rem;font-weight:400;color:#F4F4F2;margin-bottom:10px;line-height:1.25}
+.problem-card p{font-family:var(--vm-fd);font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.7}
+@media(max-width:768px){.problem-grid{grid-template-columns:1fr}}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 39-50: Comparison table (animated + highlighted)
+   ═══════════════════════════════════════════════════════════ */
+.compare-table{width:100%;border-collapse:collapse}
+.compare-table th{
+  font-family:var(--vm-fm);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(244,244,242,0.40);padding:14px 18px;text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.12);
+}
+.compare-table th.vm-col{color:var(--vm-gold);border-left:2px solid var(--vm-gold)}
+.compare-table td{
+  font-size:0.83rem;color:rgba(244,244,242,0.55);padding:16px 18px;line-height:1.6;
+  background:rgba(255,255,255,0.02);border-bottom:1px solid rgba(255,255,255,0.05);
+  vertical-align:top;transition:background 0.3s ease;
+}
+.compare-table tr:hover td{background:rgba(255,255,255,0.04)}
+.compare-table td.vm-col-feature{
+  font-family:var(--vm-fm);font-size:0.7rem;letter-spacing:0.06em;
+  color:rgba(244,244,242,0.35);white-space:nowrap;
+}
+.compare-table td.vm-col{color:rgba(244,244,242,0.85);border-left:2px solid var(--vm-gold);background:rgba(201,168,76,0.02)}
+.compare-table tr:hover td.vm-col{background:rgba(201,168,76,0.06)}
+.compare-note{font-family:var(--vm-fm);font-size:0.5rem;letter-spacing:0.06em;color:rgba(244,244,242,0.20);margin-top:18px;line-height:1.8}
+/* Feature 42: Animated check/cross icons in table */
+.vm-check{color:var(--vm-gold);font-size:14px;margin-right:6px;display:inline-block}
+.vm-cross{color:rgba(244,244,242,0.20);font-size:14px;margin-right:6px;display:inline-block}
+.vm-dash{color:rgba(244,244,242,0.15);margin-right:6px;display:inline-block}
+/* Feature 43: Row stagger entry */
+.compare-row{opacity:0;transform:translateX(-12px);transition:opacity 0.5s ease,transform 0.5s ease}
+.compare-row.visible{opacity:1;transform:translateX(0)}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 51-60: Infrastructure argument cards
+   ═══════════════════════════════════════════════════════════ */
+.infra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.infra-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:32px 28px;position:relative;overflow:hidden;
+  transition:border-color 0.3s ease,box-shadow 0.3s ease,transform 0.3s ease;
+}
+.infra-card:hover{border-color:rgba(201,168,76,0.20);box-shadow:0 12px 40px rgba(0,0,0,0.25);transform:translateY(-4px)}
+.infra-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0}
+.infra-card-gold::before{background:linear-gradient(90deg,var(--vm-gold),transparent 70%)}
+.infra-card-teal::before{background:linear-gradient(90deg,var(--vm-teal),transparent 70%)}
+.infra-card-purple::before{background:linear-gradient(90deg,var(--vm-purple),transparent 70%)}
+.infra-num{
+  width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--vm-fm);font-size:0.7rem;font-weight:500;margin-bottom:18px;
+}
+.infra-card-gold .infra-num{background:rgba(201,168,76,0.10);color:var(--vm-gold);border:1px solid rgba(201,168,76,0.25)}
+.infra-card-teal .infra-num{background:rgba(26,122,138,0.10);color:var(--vm-teal-l);border:1px solid rgba(26,122,138,0.25)}
+.infra-card-purple .infra-num{background:rgba(123,94,167,0.10);color:var(--vm-purple);border:1px solid rgba(123,94,167,0.25)}
+.infra-card h3{font-family:var(--vm-fs);font-size:1.25rem;font-weight:400;color:var(--vm-white);margin-bottom:14px;line-height:1.3}
+.infra-card p{font-size:0.86rem;color:rgba(244,244,242,0.55);line-height:1.7}
+@media(max-width:900px){.infra-grid{grid-template-columns:1fr}}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 61-68: Stat strip (animated counters)
+   ═══════════════════════════════════════════════════════════ */
+.stat-strip{border-top:1px solid rgba(201,168,76,0.10);border-bottom:1px solid rgba(201,168,76,0.10);padding:0;margin:0}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-cell{padding:36px 24px;text-align:center;border-right:1px solid rgba(244,244,242,0.06)}
+.stat-cell:last-child{border-right:none}
+.stat-n{font-family:var(--vm-fs);font-size:48px;font-weight:300;color:var(--vm-gold);line-height:1;margin-bottom:8px;font-variant-numeric:tabular-nums}
+@keyframes statPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.stat-n.pop{animation:statPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards}
+.stat-l{font-family:var(--vm-fm);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,244,242,0.38);line-height:1.65}
+@media(max-width:768px){
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-cell{border-bottom:1px solid rgba(244,244,242,0.06)}
+}
+@media(max-width:480px){.stat-grid{grid-template-columns:1fr}}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 69-78: Pillar rows (dark theme)
+   ═══════════════════════════════════════════════════════════ */
+.pillar-row{
+  display:grid;grid-template-columns:80px 1fr;gap:0;
+  border-left:3px solid var(--vm-teal);padding:28px 0 28px 28px;margin-bottom:24px;
+  transition:border-color 0.3s ease,background 0.3s ease;border-radius:0 8px 8px 0;
+}
+.pillar-row:hover{background:rgba(26,122,138,0.04);border-color:var(--vm-teal-l)}
+.pillar-numeral{font-family:var(--vm-fs);font-size:1.6rem;font-weight:300;color:var(--vm-teal);line-height:1;padding-top:2px}
+.pillar-eyebrow{font-family:var(--vm-fm);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--vm-teal);margin-bottom:8px}
+.pillar-title{font-family:var(--vm-fs);font-size:1.25rem;font-weight:400;color:var(--vm-white);line-height:1.3;margin-bottom:12px}
+.pillar-body{font-size:0.88rem;color:rgba(244,244,242,0.58);line-height:1.75;max-width:640px}
+@media(max-width:768px){.pillar-row{grid-template-columns:48px 1fr;padding-left:16px}}
+
+/* Feature 73: Pull quote */
+.pullquote{position:relative;border-left:3px solid var(--vm-gold);padding:28px 0 28px 32px;margin:48px 0;max-width:720px}
+.pullquote p{font-family:var(--vm-fs);font-size:clamp(20px,2.5vw,28px);font-style:italic;font-weight:300;color:var(--vm-white);line-height:1.5}
+.pullquote-attr{font-family:var(--vm-fm);font-size:9px;letter-spacing:0.15em;color:rgba(201,168,76,0.55);margin-top:16px;text-transform:uppercase}
+/* Feature 74: Animated quote mark */
+@keyframes quoteGrow{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:0.08}}
+.quote-mark-anim{
+  font-family:var(--vm-fs);font-size:120px;font-weight:300;color:var(--vm-gold);
+  line-height:1;position:absolute;top:-20px;left:-10px;opacity:0;
+}
+.quote-mark-anim.visible{animation:quoteGrow 0.8s ease forwards}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 79-88: NCZ Pentagon SVG (interactive)
+   ═══════════════════════════════════════════════════════════ */
+.ncz-pentagon-wrap{display:flex;justify-content:center;margin:48px auto 32px;position:relative}
+.ncz-pentagon-wrap svg{max-width:320px;width:100%}
+.ncz-zone-node{cursor:pointer;transition:opacity 0.3s ease}
+.ncz-zone-node:hover{opacity:1 !important}
+.ncz-tooltip{
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  font-family:var(--vm-fm);font-size:10px;letter-spacing:0.04em;
+  color:var(--vm-white);background:rgba(7,28,51,0.95);backdrop-filter:blur(12px);
+  border:1px solid rgba(201,168,76,0.15);border-radius:8px;
+  padding:8px 14px;white-space:nowrap;z-index:50;
+  opacity:0;pointer-events:none;transition:opacity 0.2s ease;
+}
+.ncz-zone-node:hover .ncz-tooltip{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 89-100: Horizontal scroll showcase (Vercel-style)
+   ═══════════════════════════════════════════════════════════ */
+.sv-hscroll-wrap{overflow:hidden;position:relative;padding:20px 0}
+.sv-hscroll-track{display:flex;gap:20px;padding:0 48px;animation:svHscroll 30s linear infinite}
+.sv-hscroll-track:hover{animation-play-state:paused}
+@keyframes svHscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.sv-hscroll-card{
+  flex-shrink:0;width:260px;padding:28px 24px;border-radius:12px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  transition:border-color 0.3s ease,transform 0.3s ease,box-shadow 0.3s ease;
+}
+.sv-hscroll-card:hover{border-color:rgba(201,168,76,0.20);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.25)}
+.sv-hscroll-num{font-family:var(--vm-fs);font-size:32px;font-weight:200;color:rgba(201,168,76,0.18);line-height:1;margin-bottom:10px}
+.sv-hscroll-title{font-family:var(--vm-fs);font-size:17px;color:var(--vm-white);margin-bottom:8px}
+.sv-hscroll-desc{font-family:var(--vm-fd);font-size:13px;color:rgba(244,244,242,0.40);line-height:1.65}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 101-110: Next steps CTA cards
+   ═══════════════════════════════════════════════════════════ */
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.next-card{
+  background:#071C33;border:1px solid rgba(201,168,76,0.15);border-radius:16px;
+  padding:36px 28px;overflow:hidden;position:relative;
+  transition:transform 0.3s ease,border-color 0.3s ease,box-shadow 0.3s ease;
+}
+.next-card:hover{transform:translateY(-6px);border-color:rgba(201,168,76,0.30);box-shadow:0 12px 36px rgba(0,0,0,0.20)}
+.next-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.next-card-01::before{background:linear-gradient(90deg,#C9A84C 0%,transparent 70%)}
+.next-card-02::before{background:linear-gradient(90deg,#1A7A8A 0%,transparent 70%)}
+.next-card-03::before{background:linear-gradient(90deg,#5F7C6C 0%,transparent 70%)}
+.next-icon{
+  width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;transition:background 0.3s ease,border-color 0.3s ease;
+}
+.next-icon svg{width:22px;height:22px}
+.next-icon-01{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25)}
+.next-icon-02{background:rgba(26,122,138,0.08);border:1px solid rgba(26,122,138,0.25)}
+.next-icon-03{background:rgba(95,124,108,0.08);border:1px solid rgba(95,124,108,0.25)}
+.next-card:hover .next-icon-01{background:rgba(201,168,76,0.15);border-color:rgba(201,168,76,0.5)}
+.next-card:hover .next-icon-02{background:rgba(26,122,138,0.15);border-color:rgba(26,122,138,0.5)}
+.next-card:hover .next-icon-03{background:rgba(95,124,108,0.15);border-color:rgba(95,124,108,0.5)}
+.next-card h3{font-family:var(--vm-fs);font-size:22px;color:var(--vm-white);margin-bottom:12px;line-height:1.3}
+.next-card p{font-size:14px;color:rgba(244,244,242,0.48);line-height:1.68;margin-bottom:24px}
+@media(max-width:768px){.next-grid{grid-template-columns:1fr}}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 111-120: Floating UI elements
+   ═══════════════════════════════════════════════════════════ */
+/* Feature 111: Back to top */
+.vm-back-top{
+  position:fixed;bottom:120px;left:28px;z-index:9997;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  opacity:0;pointer-events:none;transition:opacity 0.3s ease,background 0.2s ease,transform 0.2s ease;
+}
+.vm-back-top.visible{opacity:1;pointer-events:auto}
+.vm-back-top:hover{background:rgba(201,168,76,0.22);transform:translateY(-2px)}
+.vm-back-top svg{width:14px;height:14px;stroke:var(--vm-gold);stroke-width:2;fill:none}
+
+/* Feature 112: Floating CTA */
+.vm-floating-cta{
+  position:fixed;bottom:28px;right:28px;z-index:9998;
+  opacity:0;pointer-events:none;transition:opacity 0.4s ease,transform 0.3s ease;
+}
+.vm-floating-cta.visible{opacity:1;pointer-events:auto}
+.vm-floating-cta-btn{
+  background:var(--vm-gold);color:var(--vm-prussian);
+  font-family:var(--vm-fm);font-size:9px;letter-spacing:0.10em;text-transform:uppercase;
+  padding:14px 24px;border-radius:999px;text-decoration:none;font-weight:500;
+  box-shadow:0 6px 24px rgba(0,0,0,0.30);display:inline-block;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease,background 0.2s ease;
+}
+.vm-floating-cta-btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 8px 32px rgba(201,168,76,0.30);background:var(--vm-gold-l)}
+
+/* Feature 113: Scroll narrative */
+#scroll-narrative{
+  position:fixed;top:68px;left:50%;transform:translateX(-50%);z-index:197;
+  font-family:var(--vm-fm);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(201,168,76,0.50);background:rgba(13,43,78,0.85);backdrop-filter:blur(12px);
+  padding:6px 20px;border-radius:999px;border:1px solid rgba(201,168,76,0.10);
+  opacity:0;transition:opacity 0.3s ease;pointer-events:none;white-space:nowrap;
+}
+#scroll-narrative.visible{opacity:1}
+@media(max-width:768px){#scroll-narrative{display:none}}
+
+/* Feature 114: Milestone toast */
+#vm-milestone-toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);z-index:250;
+  font-family:var(--vm-fm);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(201,168,76,0.70);background:rgba(13,43,78,0.92);backdrop-filter:blur(12px);
+  padding:8px 24px;border-radius:999px;border:1px solid rgba(201,168,76,0.15);
+  opacity:0;transition:opacity 0.4s ease,transform 0.4s ease;pointer-events:none;
+}
+#vm-milestone-toast.visible{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Feature 115: Section indicator dots */
+#vm-section-indicator{
+  position:fixed;right:28px;top:50%;transform:translateY(-50%);z-index:200;
+  display:flex;flex-direction:column;gap:12px;align-items:center;
+  opacity:0;transition:opacity 0.3s ease;
+}
+#vm-section-indicator.visible{opacity:1}
+.vm-si-dot{
+  width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);
+  background:transparent;transition:all 0.3s ease;cursor:pointer;position:relative;
+}
+.vm-si-dot.active{background:var(--vm-gold);border-color:var(--vm-gold);box-shadow:0 0 8px rgba(201,168,76,0.3)}
+.vm-si-dot:hover{border-color:rgba(201,168,76,0.5)}
+.vm-si-tooltip{
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-family:var(--vm-fm);font-size:8px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--vm-gold);background:rgba(7,28,51,0.90);backdrop-filter:blur(8px);
+  padding:4px 10px;border-radius:4px;border:1px solid rgba(201,168,76,0.15);
+  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s ease;
+}
+.vm-si-dot:hover .vm-si-tooltip{opacity:1}
+@media(max-width:1024px){#vm-section-indicator{display:none}}
+
+/* Feature 116: Engagement CTA pulse */
+@keyframes ctaAttention{
+  0%,100%{box-shadow:0 6px 24px rgba(0,0,0,0.25)}
+  50%{box-shadow:0 6px 24px rgba(0,0,0,0.25),0 0 0 4px rgba(201,168,76,0.12),0 0 0 8px rgba(201,168,76,0.06)}
+}
+.vm-cta-engaged{animation:ctaAttention 2s ease infinite}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 121-130: Governance strip
+   ═══════════════════════════════════════════════════════════ */
+.protect-text{font-family:var(--vm-fm);font-size:10px;letter-spacing:0.08em;color:rgba(244,244,242,0.40);text-align:center;line-height:1.85}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 131-145: Footer
+   ═══════════════════════════════════════════════════════════ */
+.vm-footer{background:#071C33;padding:64px 0 36px}
+.footer-brand{text-align:center;margin-bottom:32px}
+.footer-brand img{height:64px;width:auto;display:inline-block;transition:filter 0.3s ease}
+@keyframes footLogoGlow{0%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 12px rgba(201,168,76,0.35))}100%{filter:drop-shadow(0 0 0 transparent)}}
+.footer-brand img:hover{animation:footLogoGlow 0.8s ease forwards}
+.footer-tagline{font-family:var(--vm-fm);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(201,168,76,0.55);text-align:center;margin-bottom:36px}
+.footer-links{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:900px;margin:0 auto 48px;padding:0 48px}
+.foot-nav-t{font-family:var(--vm-fm);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--vm-gold);margin-bottom:14px}
+.foot-nav{list-style:none;display:flex;flex-direction:column;gap:10px;padding:0;margin:0}
+.foot-nav a,.foot-nav li{color:rgba(244,244,242,0.42);font-size:13px;transition:color 0.22s ease}
+.foot-nav a:hover{color:var(--vm-white)}
+.foot-comply{font-size:11.5px;color:rgba(244,244,242,0.28);line-height:1.9;margin-bottom:22px;text-align:center;max-width:820px;margin-left:auto;margin-right:auto;padding:0 48px}
+.foot-practitioner{font-family:var(--vm-fm);font-size:0.55rem;color:rgba(244,244,242,0.30);letter-spacing:0.08em;margin-bottom:12px;text-align:center}
+.foot-tm{font-size:9.5px;color:rgba(244,244,242,0.28);line-height:2;margin-bottom:22px;text-align:center;max-width:820px;margin-left:auto;margin-right:auto;padding:0 48px}
+.foot-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;max-width:900px;margin:0 auto;padding:0 48px}
+.foot-copy{font-family:var(--vm-fm);font-size:9px;color:rgba(244,244,242,0.20);letter-spacing:0.06em}
+.foot-ico{font-family:var(--vm-fm);font-size:9px;color:rgba(201,168,76,0.42);letter-spacing:0.08em}
+.footer-divider{border:none;border-top:1px solid rgba(255,255,255,0.06);margin:0 48px 32px}
+@media(max-width:768px){
+  .footer-links{grid-template-columns:1fr;padding:0 24px}
+  .foot-comply,.foot-tm{padding:0 24px}
+  .foot-bot{padding:0 24px;flex-direction:column;text-align:center}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 146-155: Section gradient bridges + radial depth
+   ═══════════════════════════════════════════════════════════ */
+section + section{border-top:1px solid transparent;border-image:linear-gradient(90deg,transparent,rgba(201,168,76,0.08),transparent) 1}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 156-165: Reduced motion + focus + print
+   ═══════════════════════════════════════════════════════════ */
+:focus-visible{outline:2px solid var(--vm-gold);outline-offset:4px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important}
+  .sv-reveal{opacity:1 !important;transform:none !important}
+  body::after,#hero-particles,#cursor-glow,.vm-zone-orbit{display:none !important}
+}
+@media(forced-colors:active){
+  .vm-cta-glow,.btn-s{border:2px solid ButtonText}
+  h1,h2,h3{color:CanvasText !important;-webkit-text-fill-color:CanvasText !important;background:none !important}
+}
+@media print{
+  body{background:#fff !important;color:#1A2030 !important}
+  body::after,.vm-nav-pill,.vm-floating-cta,.vm-back-top,#scroll-narrative,#vm-scroll-progress,#reading-pct,#vm-milestone-toast,#vm-section-indicator,#cursor-glow,#hero-particles,.vm-zone-orbit{display:none !important}
+  section{background:#fff !important;padding:32px 0 !important;break-inside:avoid}
+  h1,h2,h3{color:#0D2B4E !important;-webkit-text-fill-color:#0D2B4E !important;background:none !important}
+  *{animation:none !important;transition:none !important}
+}
+
+/* Performance */
+section:not(#hero){content-visibility:auto;contain-intrinsic-size:auto 600px}
+.vm-nav-pill,.vm-floating-cta,.vm-back-top,#vm-scroll-progress{will-change:transform;contain:layout style}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 166: Curtain reveal on load (Vercel-style)
+   ═══════════════════════════════════════════════════════════ */
+#vm-curtain{
+  position:fixed;inset:0;z-index:99999;background:#020508;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),visibility 0.8s;
+}
+#vm-curtain.done{opacity:0;visibility:hidden;pointer-events:none}
+#vm-curtain-logo{width:64px;height:64px;opacity:0;transform:scale(0.8);animation:svCurtainIn 0.6s ease 0.2s forwards}
+#vm-curtain-bar{width:120px;height:2px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:24px;overflow:hidden}
+#vm-curtain-fill{width:0;height:100%;background:var(--vm-gold);border-radius:2px;animation:svCurtainFill 0.5s ease 0.1s forwards}
+@keyframes svCurtainIn{to{opacity:1;transform:scale(1)}}
+@keyframes svCurtainFill{to{width:100%}}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURE 167-175: Smart tooltips on architecture terms
+   ═══════════════════════════════════════════════════════════ */
+[data-tip]{position:relative;cursor:help;border-bottom:1px dotted rgba(201,168,76,0.25)}
+[data-tip]:hover::after{
+  content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-family:var(--vm-fm);font-size:8px;letter-spacing:0.06em;
+  color:var(--vm-white);background:rgba(13,43,78,0.92);
+  border:1px solid rgba(201,168,76,0.18);border-radius:4px;padding:4px 10px;
+  pointer-events:none;z-index:50;
+}
+
+/* Feature 170: Ask button */
+.vm-ask-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--vm-fm);font-size:8px;letter-spacing:0.08em;text-transform:uppercase;
+  color:rgba(201,168,76,0.40);background:rgba(201,168,76,0.04);
+  border:1px solid rgba(201,168,76,0.12);border-radius:999px;padding:4px 12px;
+  cursor:pointer;transition:all 0.2s;margin-top:16px;
+}
+.vm-ask-btn:hover{color:var(--vm-gold);border-color:rgba(201,168,76,0.30);background:rgba(201,168,76,0.08)}
+.vm-ask-btn svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* Feature 175: Reading time */
+.vm-reading-meta{font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,244,242,0.28);margin-top:16px}
+</style>
+<link rel="stylesheet" href="vm-phase1-design.css">
+</head>
+<body>
+
+<!-- Feature 166: Load curtain -->
+<div id="vm-curtain">
+  <img id="vm-curtain-logo" src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" alt="VitalMatrix" width="64" height="64">
+  <div id="vm-curtain-bar"><div id="vm-curtain-fill"></div></div>
+</div>
+
+<!-- Feature 2: Cursor glow -->
+<div id="cursor-glow"></div>
+
+<!-- Feature 3: Scroll progress -->
+<div id="vm-scroll-progress"></div>
+<div id="reading-pct">0%</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     NAVIGATION: Floating Pill
+     ════════════════════════════════════════════════════════════════ -->
+<nav class="vm-nav-pill" aria-label="Main navigation">
+  <a href="/" class="vm-nav-logo" aria-label="VitalMatrix home">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="48" style="display:block;margin:0;padding:0;border:none;line-height:0;" alt="VitalMatrix">
+  </a>
+  <div class="vm-nav-links">
+    <a href="/how-it-works/">How It Works</a>
+    <a href="/the-case-for-infrastructure/">Why VitalMatrix</a>
+    <a href="/founding-practitioners/">Founding Practitioners</a>
+    <a href="/about/">About</a>
+    <a href="/book-walkthrough/" class="vm-cta-glow" style="padding:10px 22px;font-size:9px">Book a Walkthrough</a>
+  </div>
+  <div class="vm-nav-hamburger" aria-label="Open menu" onclick="document.querySelector('.vm-nav-mobile-overlay').classList.add('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="vm-nav-mobile-overlay">
+  <div class="vm-nav-mobile-close" onclick="this.parentElement.classList.remove('open')" aria-label="Close menu"></div>
+  <a href="/how-it-works/">How It Works</a>
+  <a href="/the-case-for-infrastructure/">Why VitalMatrix</a>
+  <a href="/founding-practitioners/">Founding Practitioners</a>
+  <a href="/about/">About</a>
+  <a href="/book-walkthrough/">Book a Walkthrough</a>
+</div>
+
+<!-- Feature 113: Scroll narrative -->
+<div id="scroll-narrative"></div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 01: HERO — Prussian Blue #0D2B4E
+     ════════════════════════════════════════════════════════════════ -->
+<section id="hero" style="background:var(--vm-prussian);padding:160px 0 120px;text-align:center;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative">
+  <!-- Feature 31: Particle canvas -->
+  <canvas id="hero-particles"></canvas>
+
+  <!-- Feature 23-30: Zone orbit circles -->
+  <div class="vm-hero-zones">
+    <div class="vm-zone-orbit" data-zone="z1"><span class="zone-label">Z1</span><span class="zone-sub">Energy</span></div>
+    <div class="vm-zone-orbit" data-zone="z2"><span class="zone-label">Z2</span><span class="zone-sub">Resilience</span></div>
+    <div class="vm-zone-orbit" data-zone="z3"><span class="zone-label">Z3</span><span class="zone-sub">Cardio</span></div>
+    <div class="vm-zone-orbit" data-zone="z4"><span class="zone-label">Z4</span><span class="zone-sub">Detox</span></div>
+    <div class="vm-zone-orbit" data-zone="z5"><span class="zone-label">Z5</span><span class="zone-sub">Hormonal</span></div>
+  </div>
+
+  <div style="position:relative;z-index:10;max-width:900px;padding:0 24px">
+    <p class="eyebrow eyebrow-gold sv-glitch sv-reveal" style="justify-content:center">The Case for Infrastructure<span class="vos-cursor"></span></p>
+    <h1 class="sv-shimmer sv-reveal" data-delay="1" style="margin-bottom:24px">Functional medicine has the map. <em>VitalMatrix builds the engine.</em></h1>
+    <p class="sv-reveal" data-delay="2" style="font-size:16px;color:rgba(244,244,242,0.52);max-width:580px;margin:0 auto 16px;line-height:1.78">The infrastructure gap in functional medicine practice. Why general-purpose AI fails clinical depth. Why VitalMatrix&#8482; was built as infrastructure, not a tool.</p>
+    <p class="vm-reading-meta sv-reveal" data-delay="2">6 min read</p>
+
+    <!-- Feature 22: Zone pip row -->
+    <div class="sv-reveal" data-delay="3" style="display:flex;align-items:center;justify-content:center;gap:28px;margin:36px 0 40px;flex-wrap:wrap">
+      <div class="vm-zone-pip"><div class="vm-zone-pip-dot" style="width:10px;height:10px;background:var(--vm-z1);animation:zonePulse 3s ease-in-out infinite"></div><span class="vm-zone-pip-label" style="color:var(--vm-z1)">Z1</span></div>
+      <div style="width:24px;height:1px;background:rgba(244,244,242,0.10)"></div>
+      <div class="vm-zone-pip"><div class="vm-zone-pip-dot" style="width:10px;height:10px;background:var(--vm-z2);animation:zonePulse 3s ease-in-out infinite 0.6s"></div><span class="vm-zone-pip-label" style="color:var(--vm-z2)">Z2</span></div>
+      <div style="width:24px;height:1px;background:rgba(244,244,242,0.10)"></div>
+      <div class="vm-zone-pip"><div class="vm-zone-pip-dot" style="width:12px;height:12px;background:var(--vm-z3);animation:zonePulse 3s ease-in-out infinite 1.2s"></div><span class="vm-zone-pip-label" style="color:var(--vm-z3)">Z3</span></div>
+      <div style="width:24px;height:1px;background:rgba(244,244,242,0.10)"></div>
+      <div class="vm-zone-pip"><div class="vm-zone-pip-dot" style="width:10px;height:10px;background:var(--vm-z4);animation:zonePulse 3s ease-in-out infinite 1.8s"></div><span class="vm-zone-pip-label" style="color:var(--vm-z4)">Z4</span></div>
+      <div style="width:24px;height:1px;background:rgba(244,244,242,0.10)"></div>
+      <div class="vm-zone-pip"><div class="vm-zone-pip-dot" style="width:10px;height:10px;background:var(--vm-z5);animation:zonePulse 3s ease-in-out infinite 2.4s"></div><span class="vm-zone-pip-label" style="color:var(--vm-z5)">Z5</span></div>
+    </div>
+
+    <div class="sv-reveal" data-delay="4" style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+      <a href="/book-a-walkthrough/" class="vm-cta-glow">Book a Walkthrough</a>
+      <a href="/how-it-works/" class="btn-s">See How It Works</a>
+    </div>
+    <p class="sv-reveal" data-delay="5" style="font-family:var(--vm-fm);font-size:0.6rem;color:rgba(244,244,242,0.30);letter-spacing:0.04em;line-height:1.6;max-width:420px;margin:0 auto">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     STAT STRIP: Architecture at a Glance
+     ════════════════════════════════════════════════════════════════ -->
+<div class="stat-strip" style="background:var(--vm-charcoal);margin:0">
+  <div class="stat-grid">
+    <div class="stat-cell sv-reveal"><div class="stat-n sv-count-up" data-target="7">0</div><div class="stat-l">Nodes</div></div>
+    <div class="stat-cell sv-reveal" data-delay="1"><div class="stat-n sv-count-up" data-target="5">0</div><div class="stat-l">Zones</div></div>
+    <div class="stat-cell sv-reveal" data-delay="2"><div class="stat-n sv-count-up" data-target="6">0</div><div class="stat-l">Cascade Stacks</div></div>
+    <div class="stat-cell sv-reveal" data-delay="3"><div class="stat-n sv-count-up" data-target="121">0</div><div class="stat-l">Tests Passed</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 02: THE INFRASTRUCTURE GAP — Prussian Blue #0D2B4E
+     ════════════════════════════════════════════════════════════════ -->
+<section id="section-gap" data-narrative="The Infrastructure Gap" style="background:var(--vm-prussian);padding:100px 0" aria-label="The infrastructure gap">
+  <div class="container">
+    <p class="eyebrow eyebrow-red sv-reveal">The Infrastructure Gap</p>
+    <h2 class="heading-gradient sv-reveal" data-delay="1">The tools practitioners have <em>do not match</em> the complexity of what they do.</h2>
+    <p class="sec-sub sv-reveal" data-delay="2">Functional medicine reasoning requires infrastructure that general-purpose tools were never designed to carry.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card vm-card-glow vm-glass vm-spotlight-card vm-tilt sv-reveal" data-delay="1">
+        <div class="vm-light-reflect"></div>
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--vm-gold),transparent 70%)"></div>
+        <div class="problem-card-body">
+          <div class="problem-icon problem-icon-gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg>
+          </div>
+          <p style="font-family:var(--vm-fm);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(201,168,76,0.50);margin-bottom:12px">Documentation Gap</p>
+          <h3>Clinical depth gets lost in generic notes.</h3>
+          <p>Functional medicine consultations generate complex terrain data. Generic documentation tools were not built to capture it, organise it, or make it actionable across sessions.</p>
+        </div>
+      </div>
+
+      <div class="problem-card vm-card-glow vm-glass vm-spotlight-card vm-tilt sv-reveal" data-delay="2">
+        <div class="vm-light-reflect"></div>
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--vm-teal),transparent 70%)"></div>
+        <div class="problem-card-body">
+          <div class="problem-icon problem-icon-teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1A7A8A" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="11" r="7"/><path d="M9 8c1-1.5 3-2 4-2"/><line x1="6" y1="20" x2="18" y2="4"/></svg>
+          </div>
+          <p style="font-family:var(--vm-fm);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(26,122,138,0.60);margin-bottom:12px">AI Limitation</p>
+          <h3>General-purpose AI cannot hold terrain logic.</h3>
+          <p>Large language models generate plausible-sounding output. They do not carry the directional architecture, zone activation thresholds, or cascade logic that functional medicine reasoning requires.</p>
+        </div>
+      </div>
+
+      <div class="problem-card vm-card-glow vm-glass vm-spotlight-card vm-tilt sv-reveal" data-delay="3">
+        <div class="vm-light-reflect"></div>
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--vm-purple),transparent 70%)"></div>
+        <div class="problem-card-body">
+          <div class="problem-icon problem-icon-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#7B5EA7" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="6" width="8" height="14" rx="2"/><rect x="13" y="9" width="8" height="11" rx="2"/><line x1="6" y1="11" x2="8" y2="11"/><line x1="6" y1="15" x2="8" y2="15"/></svg>
+          </div>
+          <p style="font-family:var(--vm-fm);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(123,94,167,0.60);margin-bottom:12px">Consistency</p>
+          <h3>Quality varies with cognitive load.</h3>
+          <p>Without structured infrastructure, clinical output quality depends on how tired the practitioner is, how many patients they saw that morning, and whether they remembered to check every node. That is not a sustainable model.</p>
+        </div>
+      </div>
+
+      <div class="problem-card vm-card-glow vm-glass vm-spotlight-card vm-tilt sv-reveal" data-delay="4">
+        <div class="vm-light-reflect"></div>
+        <div class="card-accent-bar" style="background:linear-gradient(90deg,var(--vm-sage),transparent 70%)"></div>
+        <div class="problem-card-body">
+          <div class="problem-icon problem-icon-sage">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5F7C6C" stroke-width="1.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><line x1="12" y1="5" x2="12" y2="19"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+          </div>
+          <p style="font-family:var(--vm-fm);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(95,124,108,0.60);margin-bottom:12px">Scalability</p>
+          <h3>The workaround breaks at volume.</h3>
+          <p>The workaround works when you have two patients per week. It breaks when you have ten. Infrastructure is what makes practice scalable without sacrificing clinical depth.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 03: COMPARISON TABLE — Charcoal #1A2030
+     ════════════════════════════════════════════════════════════════ -->
+<section id="section-compare" data-narrative="Infrastructure vs Improvisation" style="background:var(--vm-charcoal);padding:100px 0" aria-label="Comparison table">
+  <div class="container">
+    <p class="eyebrow eyebrow-gold sv-reveal">The Difference</p>
+    <h2 class="heading-gradient sv-reveal" data-delay="1">Infrastructure versus <em>improvisation.</em></h2>
+
+    <div class="sv-reveal" data-delay="2" style="overflow-x:auto;margin-top:48px">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="width:22%">Feature</th>
+            <th class="vm-col" style="width:30%">VitalMatrix&#8482;</th>
+            <th style="width:26%">General-purpose AI</th>
+            <th style="width:22%">Manual workflow</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="compare-row"><td class="vm-col-feature">Terrain architecture</td><td class="vm-col"><span class="vm-check">&#10003;</span> Seven-node, five-zone <span data-tip="Functional Layered Intelligence for Node-based Terrain">FLINT&#8482;</span> framework</td><td><span class="vm-cross">&#10007;</span> None</td><td><span class="vm-dash">&mdash;</span> Practitioner-dependent</td></tr>
+          <tr class="compare-row"><td class="vm-col-feature">Directional cascade logic</td><td class="vm-col"><span class="vm-check">&#10003;</span> Six directional stacks, velocity-classified</td><td><span class="vm-cross">&#10007;</span> Not available</td><td><span class="vm-dash">&mdash;</span> Ad hoc</td></tr>
+          <tr class="compare-row"><td class="vm-col-feature">Highest burden zone identification</td><td class="vm-col"><span class="vm-check">&#10003;</span> <span data-tip="Designation of highest burden zone">DRD&#8482;</span>: systematic, structured</td><td><span class="vm-dash">&mdash;</span> Approximated from prompt</td><td><span class="vm-dash">&mdash;</span> Intuition-based</td></tr>
+          <tr class="compare-row"><td class="vm-col-feature">Evidence tier labelling</td><td class="vm-col"><span class="vm-check">&#10003;</span> Mandatory on every clinical claim</td><td><span class="vm-cross">&#10007;</span> Absent</td><td><span class="vm-dash">&mdash;</span> Inconsistent</td></tr>
+          <tr class="compare-row"><td class="vm-col-feature">Longitudinal tracking</td><td class="vm-col"><span class="vm-check">&#10003;</span> <span data-tip="Follow-up terrain comparison across sessions">DeltaScan&#8482;</span> across sessions</td><td><span class="vm-cross">&#10007;</span> Not available</td><td><span class="vm-dash">&mdash;</span> Manual notes</td></tr>
+          <tr class="compare-row"><td class="vm-col-feature">Practitioner authority</td><td class="vm-col"><span class="vm-check">&#10003;</span> Mandatory review gate on every output</td><td><span class="vm-cross">&#10007;</span> None</td><td><span class="vm-check">&#10003;</span> Inherent</td></tr>
+          <tr class="compare-row"><td class="vm-col-feature">Regulatory positioning</td><td class="vm-col"><span class="vm-check">&#10003;</span> MHRA SaMD classification not yet commenced: protective language active</td><td><span class="vm-cross">&#10007;</span> No clinical governance</td><td><span class="vm-dash">&mdash;</span> No applicable framework</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="compare-note">Text values only. No pass/fail implied. Comparison reflects platform architecture as designed. For practitioner use only.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 04: WHAT INFRASTRUCTURE MEANS — Deep Teal #0C4452
+     ════════════════════════════════════════════════════════════════ -->
+<section id="section-infra" data-narrative="What Infrastructure Means" style="background:var(--vm-deep-teal);padding:100px 0" aria-label="What infrastructure means">
+  <div class="container">
+    <p class="eyebrow eyebrow-teal sv-reveal">What Infrastructure Means</p>
+    <h2 class="heading-gradient sv-reveal" data-delay="1">A tool helps you do a task. <em>Infrastructure changes what is possible.</em></h2>
+
+    <div class="infra-grid" style="margin-top:56px">
+      <div class="infra-card infra-card-gold vm-card-glow vm-glass vm-spotlight-card vm-tilt sv-reveal" data-delay="1">
+        <div class="vm-light-reflect"></div>
+        <div class="infra-num">01</div>
+        <h3>Consistent clinical depth across every patient.</h3>
+        <p>VitalMatrix&#8482; runs the same seven-node scoring, five-zone convergence, and cascade mapping logic on every intake. Not because the practitioner remembered to check every node. Because the architecture does not allow anything to be skipped.</p>
+        <button class="vm-ask-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Ask about this</button>
+      </div>
+
+      <div class="infra-card infra-card-teal vm-card-glow vm-glass vm-spotlight-card vm-tilt sv-reveal" data-delay="2">
+        <div class="vm-light-reflect"></div>
+        <div class="infra-num">02</div>
+        <h3>Directionality, not description.</h3>
+        <p>Most clinical tools describe what is present. VitalMatrix&#8482; maps which direction the terrain is moving, which zone is carrying the highest burden, and which cascade stacks are active. Direction informs sequencing. Description does not.</p>
+        <button class="vm-ask-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Ask about this</button>
+      </div>
+
+      <div class="infra-card infra-card-purple vm-card-glow vm-glass vm-spotlight-card vm-tilt sv-reveal" data-delay="3">
+        <div class="vm-light-reflect"></div>
+        <div class="infra-num">03</div>
+        <h3>Practitioner authority preserved by design.</h3>
+        <p>Every output VitalMatrix&#8482; generates is a working document for practitioner review. The mandatory review gate is not a disclaimer added for legal reasons. It is an architectural principle. The practitioner decides. The platform informs.</p>
+        <button class="vm-ask-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Ask about this</button>
+      </div>
+    </div>
+
+    <!-- Feature 79-88: NCZ Pentagon SVG -->
+    <div class="ncz-pentagon-wrap sv-reveal" data-delay="2" style="margin-top:64px">
+      <svg viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Pentagon frame -->
+        <polygon points="150,20 280,100 240,250 60,250 20,100" fill="none" stroke="rgba(244,244,242,0.08)" stroke-width="1"/>
+        <!-- Connection lines (cascade stacks) -->
+        <line x1="150" y1="20" x2="280" y2="100" stroke="rgba(201,168,76,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="280" y1="100" x2="240" y2="250" stroke="rgba(26,122,138,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="240" y1="250" x2="60" y2="250" stroke="rgba(123,94,167,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="60" y1="250" x2="20" y2="100" stroke="rgba(95,124,108,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="20" y1="100" x2="150" y2="20" stroke="rgba(212,184,112,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
+        <!-- Z1: Top -->
+        <circle cx="150" cy="20" r="18" fill="rgba(201,168,76,0.10)" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+        <text x="150" y="24" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#C9A84C" letter-spacing="0.08em">Z1</text>
+        <!-- Z2: Top-right -->
+        <circle cx="280" cy="100" r="18" fill="rgba(26,122,138,0.10)" stroke="rgba(26,122,138,0.35)" stroke-width="1.5"/>
+        <text x="280" y="104" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#1A7A8A" letter-spacing="0.08em">Z2</text>
+        <!-- Z3: Bottom-right -->
+        <circle cx="240" cy="250" r="18" fill="rgba(123,94,167,0.10)" stroke="rgba(123,94,167,0.35)" stroke-width="1.5"/>
+        <text x="240" y="254" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#7B5EA7" letter-spacing="0.08em">Z3</text>
+        <!-- Z4: Bottom-left -->
+        <circle cx="60" cy="250" r="18" fill="rgba(95,124,108,0.10)" stroke="rgba(95,124,108,0.35)" stroke-width="1.5"/>
+        <text x="60" y="254" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#5F7C6C" letter-spacing="0.08em">Z4</text>
+        <!-- Z5: Top-left -->
+        <circle cx="20" cy="100" r="18" fill="rgba(212,184,112,0.10)" stroke="rgba(212,184,112,0.35)" stroke-width="1.5"/>
+        <text x="20" y="104" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#4A90C4" letter-spacing="0.08em">Z5</text>
+        <!-- Centre label -->
+        <text x="150" y="145" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(244,244,242,0.25)" letter-spacing="0.12em">NCZ&#8482; ARCHITECTURE</text>
+      </svg>
+    </div>
+    <p style="text-align:center;font-family:var(--vm-fm);font-size:0.6rem;letter-spacing:0.10em;text-transform:uppercase;color:rgba(244,244,242,0.25)">Five zones. Six directional cascade stacks. One terrain picture.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 05: WHERE VITALMATRIX FITS — Charcoal #1A2030
+     ════════════════════════════════════════════════════════════════ -->
+<section id="section-pillars" data-narrative="Where VitalMatrix Fits" style="background:var(--vm-charcoal);padding:100px 0" aria-label="Where VitalMatrix fits">
+  <div class="container">
+    <p class="eyebrow eyebrow-teal sv-reveal">Where VitalMatrix Fits</p>
+    <h2 class="heading-gradient sv-reveal" data-delay="1">The training gives you the map. <em>VitalMatrix gives you the engine to act on it.</em></h2>
+    <p class="sec-sub sv-reveal" data-delay="2">Functional medicine training teaches practitioners to see the nodes. The architecture of terrain dysfunction. That knowledge is foundational. VitalMatrix&#8482; does not add to the curriculum. It builds the operational layer that the curriculum does not cover.</p>
+
+    <div class="pillar-row sv-reveal" data-delay="1">
+      <div class="pillar-numeral">I</div>
+      <div>
+        <p class="pillar-eyebrow">What Training Provides</p>
+        <h3 class="pillar-title">The map of the terrain.</h3>
+        <p class="pillar-body">Practitioners leave training knowing which nodes exist, what they represent, and how dysfunction within them manifests clinically. That is the foundation. Everything VitalMatrix&#8482; does is built on top of it.</p>
+      </div>
+    </div>
+
+    <div class="pillar-row sv-reveal" data-delay="2">
+      <div class="pillar-numeral">II</div>
+      <div>
+        <p class="pillar-eyebrow">What the Gap Looks Like in Practice</p>
+        <h3 class="pillar-title">Knowing the nodes and acting on them efficiently are two different skills.</h3>
+        <p class="pillar-body">As a practitioner's patient list grows, so does the distance between clinical insight and documented output. The process can become the constraint before the capacity does.</p>
+      </div>
+    </div>
+
+    <div class="pillar-row sv-reveal" data-delay="3">
+      <div class="pillar-numeral">III</div>
+      <div>
+        <p class="pillar-eyebrow">What VitalMatrix Adds</p>
+        <h3 class="pillar-title">The operational layer between knowing and doing.</h3>
+        <p class="pillar-body">VitalMatrix&#8482; runs the node scoring, zone convergence, cascade mapping, highest burden zone identification, and terrain picture assembly in the background before the clinical conversation begins. The practitioner arrives at the consultation with the terrain picture already assembled. The clinical thinking happens in the room, not the hour before it.</p>
+      </div>
+    </div>
+
+    <div class="pullquote sv-reveal">
+      <span class="quote-mark-anim">&ldquo;</span>
+      <p>The training is the foundation. VitalMatrix&#8482; is the infrastructure built on top of it.</p>
+      <p class="pullquote-attr">Dr Shahzad Faisal, MBBS, FAAMFM</p>
+    </div>
+
+    <p class="sv-reveal" style="font-size:0.95rem;color:rgba(244,244,242,0.55);line-height:1.75;max-width:700px">Practitioners who have spent years developing clinical depth in functional medicine do not need a different system. They need the infrastructure that makes what they already know faster to apply, more consistent across patients, and fully documented at the point of care.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     UNDER THE HOOD: Horizontal Scroll Showcase (Vercel-style)
+     ════════════════════════════════════════════════════════════════ -->
+<section style="background:var(--vm-navy);padding:80px 0 60px;overflow:hidden" aria-label="Platform capabilities">
+  <div class="container" style="margin-bottom:32px">
+    <p class="eyebrow eyebrow-gold sv-reveal" style="font-size:10px">Under the Hood</p>
+    <h2 class="heading-gradient sv-reveal" data-delay="1" style="font-size:clamp(24px,3vw,36px)">Built with <em>precision engineering.</em></h2>
+  </div>
+  <div class="sv-hscroll-wrap">
+    <div class="sv-hscroll-track">
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">01</div><div class="sv-hscroll-title">FLINT&#8482; Engine</div><div class="sv-hscroll-desc">Five-layer terrain intelligence. Intake to governance in one pipeline pass.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">02</div><div class="sv-hscroll-title">NCZ&#8482; Scoring</div><div class="sv-hscroll-desc">Composite node-cascade zone scoring with N6 dampening at 0.7x.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">03</div><div class="sv-hscroll-title">DRD&#8482; Designation</div><div class="sv-hscroll-desc">Highest burden zone identification with directional cascade tracing.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">04</div><div class="sv-hscroll-title">CascadeIQ&#8482;</div><div class="sv-hscroll-desc">Six directional stacks. Evidence-tiered. Theoretical pathways flagged.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">05</div><div class="sv-hscroll-title">RECON&#8482;</div><div class="sv-hscroll-desc">Lab investigation intelligence. Functional and conventional ranges side by side.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">06</div><div class="sv-hscroll-title">COMPASS&#8482;</div><div class="sv-hscroll-desc">Cascade-oriented protocol assembly. Sequenced by burden zone position.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">07</div><div class="sv-hscroll-title">ANCHOR&#8482;</div><div class="sv-hscroll-desc">Adaptive confidence layer. Audit trail with evidence tier labels.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">08</div><div class="sv-hscroll-title">MedTerrain&#8482;</div><div class="sv-hscroll-desc">Medication terrain impact analysis. Mechanistically justified mappings.</div></div>
+      <!-- Duplicate set for seamless loop -->
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">01</div><div class="sv-hscroll-title">FLINT&#8482; Engine</div><div class="sv-hscroll-desc">Five-layer terrain intelligence. Intake to governance in one pipeline pass.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">02</div><div class="sv-hscroll-title">NCZ&#8482; Scoring</div><div class="sv-hscroll-desc">Composite node-cascade zone scoring with N6 dampening at 0.7x.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">03</div><div class="sv-hscroll-title">DRD&#8482; Designation</div><div class="sv-hscroll-desc">Highest burden zone identification with directional cascade tracing.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">04</div><div class="sv-hscroll-title">CascadeIQ&#8482;</div><div class="sv-hscroll-desc">Six directional stacks. Evidence-tiered. Theoretical pathways flagged.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">05</div><div class="sv-hscroll-title">RECON&#8482;</div><div class="sv-hscroll-desc">Lab investigation intelligence. Functional and conventional ranges side by side.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">06</div><div class="sv-hscroll-title">COMPASS&#8482;</div><div class="sv-hscroll-desc">Cascade-oriented protocol assembly. Sequenced by burden zone position.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">07</div><div class="sv-hscroll-title">ANCHOR&#8482;</div><div class="sv-hscroll-desc">Adaptive confidence layer. Audit trail with evidence tier labels.</div></div>
+      <div class="sv-hscroll-card"><div class="sv-hscroll-num">08</div><div class="sv-hscroll-title">MedTerrain&#8482;</div><div class="sv-hscroll-desc">Medication terrain impact analysis. Mechanistically justified mappings.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 06: NEXT STEPS CTA — Prussian Blue #0D2B4E
+     ════════════════════════════════════════════════════════════════ -->
+<section id="section-cta" data-narrative="Next Steps" style="background:var(--vm-prussian);padding:100px 0" aria-label="Next steps">
+  <div class="container">
+    <p class="eyebrow eyebrow-gold sv-reveal" style="justify-content:center;text-align:center">Next Steps</p>
+    <h2 class="heading-gradient sv-reveal" data-delay="1" style="text-align:center">See the infrastructure <em>working.</em></h2>
+    <p class="sec-sub sv-reveal" data-delay="2" style="text-align:center;margin-left:auto;margin-right:auto">Choose the route that matches where you are right now.</p>
+
+    <div class="next-grid">
+      <div class="next-card next-card-01 vm-card-glow vm-tilt sv-reveal" data-delay="1">
+        <div class="next-icon next-icon-01">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="14" height="10" rx="2"/><polyline points="16,10 22,7 22,17 16,14"/><circle cx="9" cy="12" r="2" fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="1"/></svg>
+        </div>
+        <h3>Book a Clinical Walkthrough</h3>
+        <p>A structured conversation with Dr Faisal. See how the platform handles a real case type from your practice. No obligation. No sales presentation.</p>
+        <a href="/book-a-walkthrough/" class="vm-cta-glow" style="margin-top:4px">Book Now</a>
+      </div>
+
+      <div class="next-card next-card-02 vm-card-glow vm-tilt sv-reveal" data-delay="2">
+        <div class="next-icon next-icon-02">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A7A8A" stroke-width="1.5" stroke-linecap="round"><polygon points="4,8 2,12 4,16 8,16 10,12 8,8"/><polygon points="10,8 8,12 10,16 14,16 16,12 14,8"/><polygon points="16,8 14,12 16,16 20,16 22,12 20,8"/></svg>
+        </div>
+        <h3>See How It Works</h3>
+        <p>The full FLINT&#8482; five-layer architecture. How one patient intake becomes five clinical outputs. The clinical intelligence model explained.</p>
+        <a href="/how-it-works/" class="btn-s" style="margin-top:4px">Explore the Architecture</a>
+      </div>
+
+      <div class="next-card next-card-03 vm-card-glow vm-tilt sv-reveal" data-delay="3">
+        <div class="next-icon next-icon-03">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5F7C6C" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><line x1="12" y1="18" x2="12" y2="11"/><polyline points="9,14 12,11 15,14"/></svg>
+        </div>
+        <h3>Apply for Founding Access</h3>
+        <p>Ten places. Five-year rate lock. Direct input on development. Applications reviewed personally. UK functional medicine practitioners only.</p>
+        <a href="/founding-practitioners/" class="btn-s" style="margin-top:4px">Apply Now</a>
+      </div>
+    </div>
+
+    <p style="text-align:center;margin-top:32px;font-family:var(--vm-fm);font-size:0.6rem;color:rgba(244,244,242,0.30);letter-spacing:0.04em;line-height:1.6;max-width:420px;margin-left:auto;margin-right:auto">Registered with the ICO (ZC101813). Data governance documentation in progress.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     GOVERNANCE STRIP
+     ════════════════════════════════════════════════════════════════ -->
+<div role="complementary" aria-label="Clinical governance statement" style="background:rgba(26,122,138,0.08);border-top:1px solid rgba(26,122,138,0.18);border-bottom:1px solid rgba(26,122,138,0.18);padding:22px 0">
+  <div class="container">
+    <p class="protect-text">VitalMatrix&#8482; generates working documents for practitioner review. All clinical decisions remain with the registered practitioner. For practitioner use only. Not a diagnostic tool.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════ -->
+<footer class="vm-footer" role="contentinfo">
+  <div class="footer-brand">
+    <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="64" alt="VitalMatrix" loading="lazy">
+  </div>
+  <p class="footer-tagline">Clinical Intelligence Platform</p>
+  <div class="footer-links">
+    <div>
+      <p class="foot-nav-t">Platform</p>
+      <ul class="foot-nav">
+        <li><a href="/how-it-works/">How It Works</a></li>
+        <li><a href="/the-case-for-infrastructure/">Why VitalMatrix</a></li>
+        <li><a href="/founding-practitioners/">Founding Practitioners</a></li>
+        <li><a href="/clinical-ethics/">Clinical Ethics</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-nav-t">Company</p>
+      <ul class="foot-nav">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/mission/">Mission</a></li>
+        <li><a href="/book-walkthrough/">Book a Walkthrough</a></li>
+        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-nav-t">Contact</p>
+      <ul class="foot-nav">
+        <li>Harley Street, London</li>
+        <li>For Functional Medicine</li>
+        <li>Practitioners in UK Private Practice</li>
+      </ul>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <p class="foot-comply">Dr Shahzad Faisal, MBBS, FAAMFM | Founder and CEO, VitalMatrix Ltd | ICO Registration: ZC101813<br>VitalMatrix&#8482; outputs are terrain intelligence working documents for practitioner review. Not a regulated medical device.<br>MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement.<br>Phase 1 practitioner use only. All clinical decisions remain with the registered practitioner.</p>
+  <p class="foot-practitioner">For practitioner use only. Not a diagnostic tool.</p>
+  <p class="foot-tm">VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <div class="foot-bot">
+    <p class="foot-copy">&#169; VitalMatrix Ltd 2026. All rights reserved.</p>
+    <p class="foot-ico">ICO ZC101813 | For practitioner use only</p>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════════
+     FLOATING UI ELEMENTS
+     ════════════════════════════════════════════════════════════════ -->
+<!-- Feature 111: Back to top -->
+<div class="vm-back-top" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg viewBox="0 0 14 14"><polyline points="2,9 7,4 12,9"/></svg>
+</div>
+
+<!-- Feature 112: Floating CTA -->
+<div class="vm-floating-cta" id="floating-cta">
+  <a href="/book-a-walkthrough/" class="vm-floating-cta-btn">Book a Walkthrough</a>
+</div>
+
+<!-- Feature 114: Milestone toast -->
+<div id="vm-milestone-toast"></div>
+
+<!-- Feature 115: Section indicator dots -->
+<div id="vm-section-indicator">
+  <div class="vm-si-dot" data-section="hero" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})"><span class="vm-si-tooltip">Hero</span></div>
+  <div class="vm-si-dot" data-section="section-gap" onclick="document.getElementById('section-gap').scrollIntoView({behavior:'smooth'})"><span class="vm-si-tooltip">The Gap</span></div>
+  <div class="vm-si-dot" data-section="section-compare" onclick="document.getElementById('section-compare').scrollIntoView({behavior:'smooth'})"><span class="vm-si-tooltip">Comparison</span></div>
+  <div class="vm-si-dot" data-section="section-infra" onclick="document.getElementById('section-infra').scrollIntoView({behavior:'smooth'})"><span class="vm-si-tooltip">Infrastructure</span></div>
+  <div class="vm-si-dot" data-section="section-pillars" onclick="document.getElementById('section-pillars').scrollIntoView({behavior:'smooth'})"><span class="vm-si-tooltip">Where It Fits</span></div>
+  <div class="vm-si-dot" data-section="section-cta" onclick="document.getElementById('section-cta').scrollIntoView({behavior:'smooth'})"><span class="vm-si-tooltip">Next Steps</span></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     JAVASCRIPT: ALL FEATURES
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  /* ═══ Performance: Consolidated scroll handler ═══ */
+  var vmScroll=(function(){
+    var cbs=[];var ticking=false;var sy=0;var dh=0;var wh=0;
+    function update(){
+      sy=window.pageYOffset||document.documentElement.scrollTop;
+      dh=document.documentElement.scrollHeight;
+      wh=window.innerHeight;
+      for(var i=0;i<cbs.length;i++){cbs[i](sy,dh,wh)}
+      ticking=false;
+    }
+    window.addEventListener('scroll',function(){
+      if(!ticking){requestAnimationFrame(update);ticking=true}
+    },{passive:true});
+    return{on:function(fn){cbs.push(fn)},get y(){return sy},get h(){return dh},get w(){return wh}};
+  })();
+
+  /* ═══ Feature 166: Curtain reveal ═══ */
+  setTimeout(function(){
+    var c=document.getElementById('vm-curtain');
+    if(c)c.classList.add('done');
+  },900);
+
+  /* ═══ Feature 2: Cursor glow ═══ */
+  var glow=document.getElementById('cursor-glow');
+  if(glow&&window.innerWidth>768){
+    document.addEventListener('mousemove',function(e){
+      glow.style.left=e.clientX+'px';
+      glow.style.top=e.clientY+'px';
+      if(!glow.classList.contains('active'))glow.classList.add('active');
+    });
+    document.addEventListener('mouseleave',function(){glow.classList.remove('active')});
+  }
+
+  /* ═══ Feature 3+4: Scroll progress bar + reading % ═══ */
+  var progressBar=document.getElementById('vm-scroll-progress');
+  var readingPct=document.getElementById('reading-pct');
+  vmScroll.on(function(sy,dh,wh){
+    var pct=Math.min(100,Math.round(sy/(dh-wh)*100));
+    if(progressBar)progressBar.style.width=pct+'%';
+    if(readingPct){
+      readingPct.textContent=pct+'%';
+      if(pct>5)readingPct.classList.add('visible');
+      else readingPct.classList.remove('visible');
+    }
+  });
+
+  /* ═══ Feature 9: Section reveal (IntersectionObserver) ═══ */
+  var reveals=document.querySelectorAll('.sv-reveal');
+  if('IntersectionObserver' in window){
+    var revealObs=new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){
+          entries[i].target.classList.add('visible');
+          revealObs.unobserve(entries[i].target);
+        }
+      }
+    },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+    for(var i=0;i<reveals.length;i++){revealObs.observe(reveals[i])}
+  }else{
+    for(var i=0;i<reveals.length;i++){reveals[i].classList.add('visible')}
+  }
+
+  /* ═══ Feature 10: Heading gradient reveal ═══ */
+  var headings=document.querySelectorAll('.heading-gradient');
+  if('IntersectionObserver' in window){
+    var hObs=new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){entries[i].target.classList.add('revealed');hObs.unobserve(entries[i].target)}
+      }
+    },{threshold:0.3});
+    for(var i=0;i<headings.length;i++){hObs.observe(headings[i])}
+  }
+
+  /* ═══ Feature 43: Comparison row stagger ═══ */
+  var rows=document.querySelectorAll('.compare-row');
+  if('IntersectionObserver' in window&&rows.length){
+    var rObs=new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){
+          var idx=Array.prototype.indexOf.call(rows,entries[i].target);
+          setTimeout(function(el){el.classList.add('visible')},idx*100,entries[i].target);
+          rObs.unobserve(entries[i].target);
+        }
+      }
+    },{threshold:0.1});
+    for(var i=0;i<rows.length;i++){rObs.observe(rows[i])}
+  }
+
+  /* ═══ Feature 61-68: Stat counter animation ═══ */
+  var counters=document.querySelectorAll('.sv-count-up');
+  if('IntersectionObserver' in window&&counters.length){
+    var cObs=new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){
+          animateCount(entries[i].target);
+          cObs.unobserve(entries[i].target);
+        }
+      }
+    },{threshold:0.5});
+    for(var i=0;i<counters.length;i++){cObs.observe(counters[i])}
+  }
+  function animateCount(el){
+    var target=parseInt(el.getAttribute('data-target'),10);
+    var current=0;var step=Math.max(1,Math.ceil(target/30));
+    var interval=setInterval(function(){
+      current+=step;
+      if(current>=target){current=target;clearInterval(interval);el.classList.add('pop')}
+      el.textContent=current;
+    },40);
+  }
+
+  /* ═══ Feature 74: Quote mark animation ═══ */
+  var qmarks=document.querySelectorAll('.quote-mark-anim');
+  if('IntersectionObserver' in window&&qmarks.length){
+    var qObs=new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){entries[i].target.classList.add('visible');qObs.unobserve(entries[i].target)}
+      }
+    },{threshold:0.5});
+    for(var i=0;i<qmarks.length;i++){qObs.observe(qmarks[i])}
+  }
+
+  /* ═══ Feature 111: Back to top visibility ═══ */
+  var backTop=document.getElementById('back-top');
+  vmScroll.on(function(sy){
+    if(backTop){
+      if(sy>800)backTop.classList.add('visible');
+      else backTop.classList.remove('visible');
+    }
+  });
+
+  /* ═══ Feature 112: Floating CTA visibility ═══ */
+  var floatingCta=document.getElementById('floating-cta');
+  vmScroll.on(function(sy,dh,wh){
+    if(floatingCta){
+      if(sy>wh&&sy<dh-wh*2)floatingCta.classList.add('visible');
+      else floatingCta.classList.remove('visible');
+    }
+  });
+
+  /* ═══ Feature 113: Scroll narrative ═══ */
+  var narrative=document.getElementById('scroll-narrative');
+  var sections=document.querySelectorAll('section[data-narrative]');
+  vmScroll.on(function(sy,dh,wh){
+    if(!narrative||!sections.length)return;
+    var current='';
+    for(var i=0;i<sections.length;i++){
+      var rect=sections[i].getBoundingClientRect();
+      if(rect.top<wh*0.5&&rect.bottom>wh*0.3){
+        current=sections[i].getAttribute('data-narrative');
+      }
+    }
+    if(current&&sy>400){
+      narrative.textContent=current;
+      narrative.classList.add('visible');
+    }else{
+      narrative.classList.remove('visible');
+    }
+  });
+
+  /* ═══ Feature 114: Milestone toasts ═══ */
+  var toast=document.getElementById('vm-milestone-toast');
+  var milestones={25:'25% explored',50:'Halfway through',75:'Almost there',100:'You read it all'};
+  var shown={};
+  vmScroll.on(function(sy,dh,wh){
+    if(!toast)return;
+    var pct=Math.round(sy/(dh-wh)*100);
+    for(var m in milestones){
+      if(pct>=parseInt(m)&&!shown[m]){
+        shown[m]=true;
+        toast.textContent=milestones[m];
+        toast.classList.add('visible');
+        setTimeout(function(){toast.classList.remove('visible')},2500);
+      }
+    }
+  });
+
+  /* ═══ Feature 115: Section indicator dots ═══ */
+  var indicator=document.getElementById('vm-section-indicator');
+  var dots=indicator?indicator.querySelectorAll('.vm-si-dot'):[];
+  vmScroll.on(function(sy,dh,wh){
+    if(!indicator)return;
+    if(sy>300)indicator.classList.add('visible');
+    else indicator.classList.remove('visible');
+    for(var i=0;i<dots.length;i++){
+      var sectionId=dots[i].getAttribute('data-section');
+      var sec=document.getElementById(sectionId);
+      if(sec){
+        var rect=sec.getBoundingClientRect();
+        if(rect.top<wh*0.5&&rect.bottom>wh*0.3){
+          dots[i].classList.add('active');
+        }else{
+          dots[i].classList.remove('active');
+        }
+      }
+    }
+  });
+
+  /* ═══ Feature 116: Engagement CTA pulse after 30s ═══ */
+  setTimeout(function(){
+    var ctaButtons=document.querySelectorAll('.vm-cta-glow');
+    for(var i=0;i<ctaButtons.length;i++){
+      ctaButtons[i].classList.add('vm-cta-engaged');
+    }
+    setTimeout(function(){
+      for(var i=0;i<ctaButtons.length;i++){ctaButtons[i].classList.remove('vm-cta-engaged')}
+    },6000);
+  },30000);
+
+  /* ═══ Feature 17: Spotlight card hover tracking ═══ */
+  var spotlightCards=document.querySelectorAll('.vm-spotlight-card');
+  for(var i=0;i<spotlightCards.length;i++){
+    spotlightCards[i].addEventListener('mousemove',function(e){
+      var rect=this.getBoundingClientRect();
+      var x=e.clientX-rect.left;
+      var y=e.clientY-rect.top;
+      this.style.setProperty('--spotlight-x',x+'px');
+      this.style.setProperty('--spotlight-y',y+'px');
+      var before=this.querySelector('::before');
+      if(this.style){
+        this.style.cssText+='--spotlight-x:'+x+'px;--spotlight-y:'+y+'px;';
+      }
+    });
+  }
+
+  /* ═══ Feature 31: Hero particle canvas ═══ */
+  var canvas=document.getElementById('hero-particles');
+  if(canvas&&window.innerWidth>768){
+    var ctx=canvas.getContext('2d');
+    var particles=[];
+    var colours=['rgba(201,168,76,0.20)','rgba(26,122,138,0.18)','rgba(123,94,167,0.15)','rgba(95,124,108,0.15)'];
+    function resizeCanvas(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight}
+    resizeCanvas();window.addEventListener('resize',resizeCanvas);
+    for(var j=0;j<35;j++){
+      particles.push({
+        x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+        r:Math.random()*1.5+0.5,dx:(Math.random()-0.5)*0.25,dy:(Math.random()-0.5)*0.25,
+        c:colours[Math.floor(Math.random()*colours.length)]
+      });
+    }
+    function drawParticles(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(var k=0;k<particles.length;k++){
+        var p=particles[k];
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();
+        p.x+=p.dx;p.y+=p.dy;
+        if(p.x<0||p.x>canvas.width)p.dx*=-1;
+        if(p.y<0||p.y>canvas.height)p.dy*=-1;
+        for(var l=k+1;l<particles.length;l++){
+          var q=particles[l];
+          var dx=p.x-q.x;var dy=p.y-q.y;
+          var dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<130){
+            ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+            ctx.strokeStyle='rgba(201,168,76,'+(0.05*(1-dist/130))+')';ctx.lineWidth=0.5;ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+  }
+
+  /* ═══ Mark body as loaded ═══ */
+  document.body.classList.add('loaded');
+})();
+</script>
+<script src="vm-phase1-design.js" defer></script>
+</body>
+</html>

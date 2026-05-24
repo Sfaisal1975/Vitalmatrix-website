@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="audience-tier" content="practitioner">
+<title>LA-10: TIQ&#8482; Composite Score | VitalMatrix&#8482;</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C4452;--card:rgba(7,28,51,.90);--card2:rgba(13,43,78,.55);
+  --z1:#C9A84C;--z1r:201,168,76;--z1l:#D4B86A;
+  --z2:#1A7A8A;--z2r:26,122,138;--z2l:#2A9BAD;
+  --z3:#7B5EA7;--z3r:123,94,167;--z3l:#9B7EC8;
+  --z4:#5F7C6C;--z4r:95,124,108;--z4l:#7A9485;
+  --z5:#2E6DB4;--z5r:46,109,180;--z5l:#4A8AD0;
+  --gold:#C9A84C;--gold-l:#D4B86A;--teal:#1A7A8A;--teal-l:#2A9BAD;
+  --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
+  --t35:rgba(244,244,242,.55);--t12:rgba(244,244,242,.12);--t06:rgba(244,244,242,.06);
+  --fs:'Cormorant Garamond',Georgia,serif;--fd:'Outfit',system-ui,sans-serif;--fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+*:focus-visible{outline:2px solid #C9A84C;outline-offset:2px;}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+.comp-header{background:rgba(7,28,51,.92);border-bottom:1px solid rgba(201,168,76,.20);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+.comp-id{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+.comp-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);}
+
+.comp-body{max-width:1100px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:1fr 360px;gap:20px;}
+@media(max-width:860px){.comp-body{grid-template-columns:1fr;}}
+
+/* SCORE DISPLAY */
+.score-area{display:flex;flex-direction:column;gap:14px;}
+.tiq-score-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;text-align:center;position:relative;overflow:hidden;}
+.tiq-score-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);}
+.tiq-eyebrow{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;}
+.tiq-number{font-family:var(--fs);font-size:5rem;font-weight:600;line-height:1;color:var(--white);transition:color .4s;}
+.tiq-denom{font-family:var(--fm);font-size:14px;color:var(--t35);margin-left:4px;}
+.tiq-label{font-family:var(--fm);font-size:8px;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;}
+.tiq-bar{width:200px;height:8px;background:rgba(255,255,255,.07);border-radius:4px;margin:12px auto 0;overflow:hidden;}
+.tiq-bar-fill{height:100%;border-radius:4px;transition:width .6s ease,background .4s;}
+.tiq-descriptor{font-family:var(--fd);font-size:13px;font-weight:300;color:var(--t55);margin-top:8px;}
+
+/* COMPONENT INPUTS */
+.components-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:18px;}
+.card-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+
+.comp-input-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.ci-label{font-family:var(--fm);font-size:9px;color:var(--t55);flex:1;line-height:1.35;}
+.ci-val{font-family:var(--fm);font-size:9px;font-weight:500;min-width:28px;text-align:right;}
+.ci-weight{font-family:var(--fm);font-size:8px;color:var(--t35);}
+input[type=range]{width:100%;height:4px;border-radius:2px;outline:none;cursor:pointer;background:rgba(255,255,255,.10);-webkit-appearance:none;appearance:none;margin-top:4px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;border:2px solid var(--bg);cursor:pointer;background:var(--gold);}
+
+/* FAILURE MODES */
+.failure-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;overflow:hidden;}
+.fm-item{border-bottom:1px solid var(--t06);cursor:pointer;transition:background .15s;}
+.fm-item:last-child{border-bottom:none;}
+.fm-item:hover{background:rgba(255,255,255,.02);}
+.fm-head{display:flex;align-items:center;gap:10px;padding:12px 16px;}
+.fm-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.fm-title{font-family:var(--fm);font-size:9px;font-weight:500;color:var(--t80);flex:1;}
+.fm-status{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:100px;}
+.fm-status.risk{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.28);color:var(--gold);}
+.fm-status.clear{background:rgba(42,155,173,.08);border:1px solid rgba(42,155,173,.20);color:var(--teal-l);}
+.fm-body{padding:0 16px 12px;font-family:var(--fd);font-size:12.5px;font-weight:300;color:var(--t35);line-height:1.7;display:none;}
+.fm-body.open{display:block;}
+
+/* EXPLAINER */
+.explainer-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:16px;}
+.explainer-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--t06);font-family:var(--fm);font-size:8.5px;}
+.explainer-row:last-child{border-bottom:none;}
+.er-label{color:var(--t55);}
+.er-contrib{font-weight:500;}
+.er-bar-wrap{width:80px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-left:8px;}
+.er-bar-fill{height:100%;border-radius:2px;background:var(--gold);transition:width .4s;}
+
+.page-footer{background:#1A2030;border-top:1px solid rgba(201,168,76,.3);padding:16px 24px;border-radius:6px;font-family:var(--fm);font-size:8px;color:rgba(244,244,242,.65);line-height:1.9;}
+.page-footer strong{color:#C9A84C;}
+
+@media print {
+  body { background: #fff !important; color: #1A1A1A !important; }
+  .comp-header { position: static !important; background: #fff !important; }
+  canvas { display: none !important; }
+  input[type=range] { display: none !important; }
+  [class*="-sv-"],[class*="-walk-"],[class*="-preset-"],[class*="-cont-"] { display: none !important; }
+  * { box-shadow: none !important; backdrop-filter: none !important; }
+}
+</style>
+<link rel="stylesheet" href="vm-la-crosscut.css">
+<link rel="stylesheet" href="vm-la-crosscut-2.css">
+<script src="vm-la-crosscut.js" defer></script>
+<script src="vm-la-crosscut-2.js" defer></script>
+</head>
+<body>
+
+<header class="comp-header">
+  <div>
+    <div class="comp-id">LA-10 | GENOME&#8482; Handbook V7 | D-53 | ALB v1.6 (D-62)</div>
+    <div class="comp-title">TIQ&#8482; Composite Score: Terrain Intelligence Quotient</div>
+  </div>
+  <div style="font-family:var(--fm);font-size:8px;color:var(--t35);">Display: 0-10 inverted | lower display = higher burden</div>
+</header>
+
+<div class="comp-body">
+
+<!-- SCORE DISPLAY AREA -->
+<div class="score-area">
+
+  <!-- TIQ SCORE -->
+  <div class="tiq-score-card">
+    <div class="tiq-eyebrow">TIQ&#8482; Terrain Intelligence Quotient</div>
+    <div>
+      <span class="tiq-number" id="tiq-display">3.2</span>
+      <span class="tiq-denom">/ 10</span>
+    </div>
+    <div class="tiq-bar"><div class="tiq-bar-fill" id="tiq-bar" style="width:68%;background:#C9A84C;"></div></div>
+    <div class="tiq-label" id="tiq-label" style="color:#C9A84C;">Moderate Burden</div>
+    <div class="tiq-descriptor" id="tiq-desc">Multiple zones active. Cascade patterns established. Sustained protocol required.</div>
+    <div style="margin-top:12px;font-family:var(--fm);font-size:8px;color:var(--t35);">Internal composite: <span id="internal-display">68</span> / 100 (high = greater burden) &nbsp;|&nbsp; Inverted for display: <span id="inverted-display">3.2</span></div>
+    <div style="margin-top:6px;font-family:var(--fm);font-size:7.5px;color:var(--t35);font-style:italic;">TIQ&#8482; is a theoretical framework for practitioner orientation. It is not a validated clinical instrument.</div>
+  </div>
+
+  <!-- COMPONENT INPUTS -->
+  <div class="components-card">
+    <div class="card-label">Four Input Components</div>
+
+    <div class="comp-input-row">
+      <div class="ci-label">Zone Composite Score<br><span style="color:var(--t35);font-size:8px;">Average of all five zone internal scores</span></div>
+      <div class="ci-val" id="v-zone">68</div>
+      <div class="ci-weight">x0.45</div>
+    </div>
+    <input type="range" id="sl-zone" min="0" max="100" value="68" oninput="update()">
+
+    <div style="margin-top:12px;">
+    <div class="comp-input-row">
+      <div class="ci-label">Cascade Complexity<br><span style="color:var(--t35);font-size:8px;">Number of active stacks (0-6 stacks, scaled 0-100). KINETICS&#8482; velocities: S1 MEDIUM, S2 FAST, S3 SLOW, S4 THEORETICAL MEDIUM, S5 FAST, S6 MEDIUM UNIDIRECTIONAL.</span></div>
+      <div class="ci-val" id="v-cascade">67</div>
+      <div class="ci-weight">x0.25</div>
+    </div>
+    <input type="range" id="sl-cascade" min="0" max="100" value="67" oninput="update()">
+    </div>
+
+    <div style="margin-top:12px;">
+    <div class="comp-input-row">
+      <div class="ci-label">Data Coverage<br><span style="color:var(--t35);font-size:8px;">Percentage of expected node inputs received. ANCHOR&#8482; minimum: 60% data coverage required for DRD&#8482; confidence designation.</span></div>
+      <div class="ci-val" id="v-data">80</div>
+      <div class="ci-weight">x0.15</div>
+    </div>
+    <input type="range" id="sl-data" min="0" max="100" value="80" oninput="update()">
+    </div>
+
+    <div style="margin-top:12px;">
+    <div class="comp-input-row">
+      <div class="ci-label">Confidence Weighting (ANCHOR&#8482;)<br><span style="color:var(--t35);font-size:8px;">Data coverage and consistency quality</span></div>
+      <div class="ci-val" id="v-conf">75</div>
+      <div class="ci-weight">x0.15</div>
+    </div>
+    <input type="range" id="sl-conf" min="0" max="100" value="75" oninput="update()">
+    </div>
+
+    <div style="margin-top:14px;padding:10px;background:rgba(255,255,255,.03);border-radius:6px;">
+      <div class="card-label" style="margin-bottom:8px;">Component Contributions</div>
+      <div id="explainer-rows"></div>
+    </div>
+  </div>
+
+  <!-- FAILURE MODES -->
+  <div class="failure-card">
+    <div class="card-label" style="padding:12px 16px 8px;border-bottom:1px solid var(--t06);margin-bottom:0;">Three Known Failure Modes</div>
+
+    <div class="fm-item" onclick="toggleFM('fm1')">
+      <div class="fm-head">
+        <div class="fm-icon" style="background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);">N6</div>
+        <div class="fm-title">Zone Masking via N6 Dominance</div>
+        <span class="fm-status" id="fm1-status">Checking...</span>
+      </div>
+      <div class="fm-body" id="fm1-body">
+        When N6 (endocrine signalling) burden is very high, it dominates the composite score across all four zones it participates in (Z1, Z2, Z3, Z5). This can mask lower burden in the remaining nodes and inflate the apparent zone composite. N6 dampening at 0.7x mitigates this, but does not eliminate it. Flag: if N6 raw score exceeds 80 and zone composite is above 70, review individual node scores before accepting TIQ at face value.
+      </div>
+    </div>
+
+    <div class="fm-item" onclick="toggleFM('fm2')">
+      <div class="fm-head">
+        <div class="fm-icon" style="background:rgba(123,94,167,.12);border:1px solid rgba(123,94,167,.2);">TH</div>
+        <div class="fm-title">Threshold Artefact</div>
+        <span class="fm-status" id="fm2-status">Checking...</span>
+      </div>
+      <div class="fm-body" id="fm2-body">
+        A zone scoring at 41 (just above the 40-point Z1-Z4 threshold) contributes as an active zone to TIQ. A zone scoring at 39 (just below) does not. A 2-point difference in input produces a discrete jump in TIQ output. This is not a bug: it reflects the clinical reality of threshold activation. Practitioners should treat near-threshold zones (35-39 for Z1-Z4, 27-31 for Z5) as monitoring zones and not assume they are definitively inactive.
+      </div>
+    </div>
+
+    <div class="fm-item" onclick="toggleFM('fm3')">
+      <div class="fm-head">
+        <div class="fm-icon" style="background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.2);">N6</div>
+        <div class="fm-title">N6 Cascade Across All Zones</div>
+        <span class="fm-status" id="fm3-status">Checking...</span>
+      </div>
+      <div class="fm-body" id="fm3-body">
+        N6 (endocrine signalling) participates in Z1, Z2, Z3, and Z5. If N6 burden is extreme (internal score above 85), TIQ will show very high composite burden even when individual system burdens are moderate. This is architecturally correct: N6 dysregulation does genuinely affect four zones simultaneously. However, it means TIQ composite can reach high values from a single node failure rather than a true multi-zone clinical picture. DRD&#8482; designation should be reviewed carefully in N6-dominant cases.
+      </div>
+    </div>
+  </div>
+
+</div><!-- end score-area -->
+
+<!-- RIGHT PANEL: EXPLAINER + DISPLAY RULES -->
+<div style="display:flex;flex-direction:column;gap:14px;">
+
+  <div class="explainer-card">
+    <div class="card-label">Display Formula</div>
+    <div style="font-family:var(--fm);font-size:9px;color:var(--t55);line-height:1.8;padding:8px;background:rgba(255,255,255,.03);border-radius:6px;">
+      Internal composite = (Zone x 0.45) + (Cascade x 0.25) + (Data x 0.15) + (Confidence x 0.15)<br><br>
+      Display (0-10) = ROUND((100 - internal) / 10, 0)<br><br>
+      <strong style="color:var(--white);">High internal = high burden = low display score.</strong><br>
+      A TIQ of 2 indicates higher burden than a TIQ of 7.
+    </div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="card-label">TIQ Scale Reference</div>
+    <div id="scale-rows"></div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="card-label">TIQ&#8482; Architecture Notes</div>
+    <div style="font-family:var(--fd);font-size:12.5px;font-weight:300;color:var(--t55);line-height:1.8;">
+      TIQ is a composite index: it summarises terrain complexity in a single number for practitioner orientation and patient communication. It is not a primary clinical decision input. DRD&#8482; designation and individual zone scores govern protocol design. TIQ governs the pace and intensity of the approach. A TIQ of 2-3 warrants a slower, deeper protocol horizon than a TIQ of 7-8.
+    </div>
+  </div>
+
+</div><!-- end right panel -->
+</div>
+
+<footer class="page-footer">
+  <p><strong>Trademarks:</strong> VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p style="margin-top:6px;">MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p style="margin-top:6px;">GENOME&#8482; Handbook V7 | LA-10 TIQ&#8482; Composite Score | ALB v1.6 (D-62) (D-46) | D-53 | For practitioner use only. Not a diagnostic tool. VitalMatrix&#8482; is a clinical intelligence platform. | Dr Shahzad Faisal, MBBS, FAAMFM | &copy; 2026 VitalMatrix Ltd | ICO ZC101813</p>
+</footer>
+
+<script>
+'use strict';
+
+var SCALE = [
+  {range:'9-10',label:'Low Burden',desc:'Minimal zone activation. Maintenance and prevention focus.',col:'#2D9C6A'},
+  {range:'7-8',label:'Mild Burden',desc:'One or two zones active. Early intervention opportunity.',col:'#2A9BAD'},
+  {range:'5-6',label:'Moderate',desc:'Multiple zones engaged. Protocol required.',col:'#C9A84C'},
+  {range:'3-4',label:'High Burden',desc:'Multi-zone activation with cascades. Sustained protocol.',col:'#C9A84C'},
+  {range:'1-2',label:'Critical Burden',desc:'All zones active. TerrainLock possible. Extended horizon.',col:'#C0392B'},
+];
+
+function renderScale(currentTiq){
+  var html='';
+  SCALE.forEach(function(s){
+    var lo=parseInt(s.range.split('-')[0]);
+    var hi=parseInt(s.range.split('-')[1]);
+    var isCurrent=currentTiq>=lo&&currentTiq<=hi;
+    html+='<div class="explainer-row" style="background:'+(isCurrent?'rgba(201,168,76,.05)':'')+'">'+
+      '<div class="er-label">'+s.range+' &nbsp;<span style="color:'+s.col+'">'+s.label+'</span></div>'+
+      '<div style="font-family:var(--fm);font-size:8px;color:var(--t35);flex:1;padding:0 8px;">'+s.desc+'</div>'+
+      (isCurrent?'<span style="font-family:var(--fm);font-size:7.5px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:1px 7px;border-radius:100px;">Current</span>':'')+'</div>';
+  });
+  document.getElementById('scale-rows').innerHTML=html;
+}
+
+function renderExplainer(zone,cascade,data,conf){
+  var weights=[{label:'Zone Composite',val:zone,w:0.45},{label:'Cascade Complexity',val:cascade,w:0.25},{label:'Data Coverage',val:data,w:0.15},{label:'ANCHOR Confidence',val:conf,w:0.15}];
+  var html='';
+  weights.forEach(function(c){
+    var contrib=(c.val*c.w).toFixed(1);
+    var pct=Math.round(c.val*c.w);
+    html+='<div class="explainer-row">'+
+      '<div class="er-label">'+c.label+'</div>'+
+      '<div class="er-contrib" style="color:var(--t80);">'+contrib+'</div>'+
+      '<div class="er-bar-wrap"><div class="er-bar-fill" style="width:'+pct+'%;"></div></div>'+
+    '</div>';
+  });
+  document.getElementById('explainer-rows').innerHTML=html;
+}
+
+function toggleFM(id){
+  var body=document.getElementById(id+'-body');
+  body.classList.toggle('open');
+}
+
+function update(){
+  var zone=parseInt(document.getElementById('sl-zone').value);
+  var cascade=parseInt(document.getElementById('sl-cascade').value);
+  var data=parseInt(document.getElementById('sl-data').value);
+  var conf=parseInt(document.getElementById('sl-conf').value);
+
+  document.getElementById('v-zone').textContent=zone;
+  document.getElementById('v-cascade').textContent=cascade;
+  document.getElementById('v-data').textContent=data;
+  document.getElementById('v-conf').textContent=conf;
+
+  var internal=Math.round(zone*0.45+cascade*0.25+data*0.15+conf*0.15);
+  var display=Math.round((100-internal)/10*10)/10;
+  display=Math.max(0,Math.min(10,display));
+
+  document.getElementById('internal-display').textContent=internal;
+  document.getElementById('inverted-display').textContent=display.toFixed(1);
+  document.getElementById('tiq-display').textContent=display.toFixed(1);
+
+  var col,label,desc;
+  if(display>=9){col='#2D9C6A';label='Low Burden';desc='Minimal zone activation. Maintenance focus.';}
+  else if(display>=7){col='#2A9BAD';label='Mild Burden';desc='Early intervention. One or two zones active.';}
+  else if(display>=5){col='#C9A84C';label='Moderate Burden';desc='Multiple zones engaged. Protocol required.';}
+  else if(display>=3){col='#C9A84C';label='High Burden';desc='Multi-zone activation. Sustained protocol horizon required.';}
+  else{col='#C0392B';label='Critical Burden';desc='All zones active. TerrainLock possible. Extended protocol.';}
+
+  document.getElementById('tiq-display').style.color=col;
+  document.getElementById('tiq-bar').style.width=((100-internal))+'%';
+  document.getElementById('tiq-bar').style.background=col;
+  document.getElementById('tiq-label').style.color=col;
+  document.getElementById('tiq-label').textContent=label;
+  document.getElementById('tiq-desc').textContent=desc;
+
+  // Failure mode checks
+  var fm1Risk=zone>70&&cascade>60;
+  var fm2Risk=zone>=38&&zone<=44||data<65;
+  var fm3Risk=conf<60&&zone>75;
+  setFMStatus('fm1',fm1Risk);
+  setFMStatus('fm2',fm2Risk);
+  setFMStatus('fm3',fm3Risk);
+
+  renderExplainer(zone,cascade,data,conf);
+  renderScale(Math.round(display));
+}
+
+function setFMStatus(id,isRisk){
+  var el=document.getElementById(id+'-status');
+  if(el){el.textContent=isRisk?'Possible risk':'Clear';el.className='fm-status '+(isRisk?'risk':'clear');}
+}
+
+update();
+</script>
+<!-- ================================================================ -->
+<!-- LA10F1: Four-Component Weight Donut                               -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f1-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:16px auto;max-width:1100px;}
+.vm-la10f1-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f1-content{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.vm-la10f1-svg{width:200px;height:200px;}
+.vm-la10f1-legend{display:flex;flex-direction:column;gap:6px;}
+.vm-la10f1-leg-row{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la10f1-leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f1-wrap">
+  <div class="vm-la10f1-label">LA10F1: Four-Component Weight Donut</div>
+  <div class="vm-la10f1-content">
+    <svg class="vm-la10f1-svg" viewBox="0 0 200 200" id="vm-la10f1-svg"></svg>
+    <div class="vm-la10f1-legend" id="vm-la10f1-legend"></div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var COMPONENTS=[
+    {name:'Zone Composite',pct:45,col:'#C9A84C'},
+    {name:'Cascade Complexity',pct:25,col:'#1A7A8A'},
+    {name:'Data Coverage',pct:15,col:'#7B5EA7'},
+    {name:'ANCHOR Confidence',pct:15,col:'#5F7C6C'}
+  ];
+  var cx=100,cy=100,r=70,strokeW=20;
+  var circumference=2*Math.PI*r;
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var svg=document.getElementById('vm-la10f1-svg');
+
+  // Background circle
+  var bgCircle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  bgCircle.setAttribute('cx',cx);bgCircle.setAttribute('cy',cy);bgCircle.setAttribute('r',r);
+  bgCircle.setAttribute('fill','none');bgCircle.setAttribute('stroke','rgba(244,244,242,.05)');
+  bgCircle.setAttribute('stroke-width',strokeW);
+  svg.appendChild(bgCircle);
+
+  // Centre text
+  var centreText=document.createElementNS('http://www.w3.org/2000/svg','text');
+  centreText.setAttribute('x',cx);centreText.setAttribute('y',cy-4);
+  centreText.setAttribute('text-anchor','middle');centreText.setAttribute('fill','rgba(244,244,242,.5)');
+  centreText.setAttribute('font-family','DM Mono,monospace');centreText.setAttribute('font-size','9');
+  centreText.textContent='TIQ Weights';
+  svg.appendChild(centreText);
+  var centreText2=document.createElementNS('http://www.w3.org/2000/svg','text');
+  centreText2.setAttribute('x',cx);centreText2.setAttribute('y',cy+10);
+  centreText2.setAttribute('text-anchor','middle');centreText2.setAttribute('fill','rgba(244,244,242,.3)');
+  centreText2.setAttribute('font-family','DM Mono,monospace');centreText2.setAttribute('font-size','7');
+  centreText2.textContent='4 components';
+  svg.appendChild(centreText2);
+
+  var offset=0;
+  for(var i=0;i<COMPONENTS.length;i++){
+    var c=COMPONENTS[i];
+    var segLen=circumference*c.pct/100;
+    var gap=2;
+    var circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',cx);circle.setAttribute('cy',cy);circle.setAttribute('r',r);
+    circle.setAttribute('fill','none');circle.setAttribute('stroke',c.col);
+    circle.setAttribute('stroke-width',strokeW);
+    circle.setAttribute('stroke-dasharray',(segLen-gap)+' '+(circumference-segLen+gap));
+    circle.setAttribute('stroke-dashoffset',String(-offset));
+    circle.setAttribute('transform','rotate(-90 '+cx+' '+cy+')');
+    circle.style.opacity=reducedMotion?'1':'0';
+    if(!reducedMotion){
+      circle.style.transition='opacity .5s ease '+(i*0.2)+'s';
+    }
+    circle.setAttribute('data-seg',String(i));
+    svg.appendChild(circle);
+    offset+=segLen;
+  }
+
+  // Legend
+  var legend=document.getElementById('vm-la10f1-legend');
+  for(var i=0;i<COMPONENTS.length;i++){
+    var row=document.createElement('div');
+    row.className='vm-la10f1-leg-row';
+    var dot=document.createElement('div');
+    dot.className='vm-la10f1-leg-dot';
+    dot.style.background=COMPONENTS[i].col;
+    var txt=document.createElement('span');
+    txt.textContent=COMPONENTS[i].name+' ('+COMPONENTS[i].pct+'%)';
+    row.appendChild(dot);
+    row.appendChild(txt);
+    legend.appendChild(row);
+  }
+
+  // Animate on load
+  setTimeout(function(){
+    var segs=svg.querySelectorAll('circle[data-seg]');
+    for(var i=0;i<segs.length;i++){segs[i].style.opacity='1';}
+  },100);
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F2: Composite Score Breakdown Bars                            -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f2-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f2-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f2-bars{display:flex;flex-direction:column;gap:10px;}
+.vm-la10f2-row{display:flex;align-items:center;gap:10px;}
+.vm-la10f2-name{font-family:var(--fm);font-size:9px;color:var(--t55);width:110px;flex-shrink:0;}
+.vm-la10f2-bar-bg{flex:1;height:18px;background:rgba(244,244,242,.04);border-radius:4px;overflow:hidden;position:relative;}
+.vm-la10f2-bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+.vm-la10f2-val{font-family:var(--fm);font-size:9px;min-width:30px;text-align:right;}
+.vm-la10f2-weakest{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:100px;background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:#E07070;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la10f2-bar-fill{transition:none !important;}
+}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f2-wrap">
+  <div class="vm-la10f2-label">LA10F2: Composite Score Breakdown Bars</div>
+  <div class="vm-la10f2-bars" id="vm-la10f2-bars"></div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var COMPS=[
+    {id:'sl-zone',name:'Zone Composite',col:'#C9A84C',weight:0.45},
+    {id:'sl-cascade',name:'Cascade Complexity',col:'#1A7A8A',weight:0.25},
+    {id:'sl-data',name:'Data Coverage',col:'#7B5EA7',weight:0.15},
+    {id:'sl-conf',name:'ANCHOR Confidence',col:'#5F7C6C',weight:0.15}
+  ];
+
+  function renderBars(){
+    var container=document.getElementById('vm-la10f2-bars');
+    container.innerHTML='';
+    var vals=[];
+    for(var i=0;i<COMPS.length;i++){
+      vals.push(parseInt(document.getElementById(COMPS[i].id).value)||0);
+    }
+    // Find weakest (highest value = most burden = weakest)
+    var weakestIdx=0;
+    for(var i=1;i<vals.length;i++){if(vals[i]*COMPS[i].weight>vals[weakestIdx]*COMPS[weakestIdx].weight)weakestIdx=i;}
+
+    for(var i=0;i<COMPS.length;i++){
+      var row=document.createElement('div');
+      row.className='vm-la10f2-row';
+
+      var name=document.createElement('div');
+      name.className='vm-la10f2-name';
+      name.textContent=COMPS[i].name;
+
+      var barBg=document.createElement('div');
+      barBg.className='vm-la10f2-bar-bg';
+
+      var fill=document.createElement('div');
+      fill.className='vm-la10f2-bar-fill';
+      fill.style.background=i===weakestIdx?'#C0392B':COMPS[i].col;
+      fill.style.width='0%';
+
+      barBg.appendChild(fill);
+
+      var val=document.createElement('div');
+      val.className='vm-la10f2-val';
+      val.style.color=COMPS[i].col;
+      val.textContent=vals[i];
+
+      row.appendChild(name);
+      row.appendChild(barBg);
+      row.appendChild(val);
+
+      if(i===weakestIdx){
+        var badge=document.createElement('div');
+        badge.className='vm-la10f2-weakest';
+        badge.textContent='Weakest';
+        row.appendChild(badge);
+      }
+
+      container.appendChild(row);
+
+      (function(f,v){
+        setTimeout(function(){f.style.width=v+'%';},50+i*100);
+      })(fill,vals[i]);
+    }
+  }
+
+  renderBars();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',renderBars);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F3: TIQ vs Zone Radar Comparison                              -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f3-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f3-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f3-content{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;}
+.vm-la10f3-svg{width:240px;height:240px;}
+.vm-la10f3-controls{display:flex;flex-direction:column;gap:6px;}
+.vm-la10f3-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:4px;cursor:pointer;border:1px solid var(--t12);background:transparent;color:var(--t55);transition:all .2s;}
+.vm-la10f3-btn:hover{border-color:rgba(201,168,76,.3);color:var(--gold);}
+.vm-la10f3-btn.vm-la10f3-active{background:rgba(201,168,76,.1);border-color:var(--gold);color:var(--gold);}
+.vm-la10f3-legend-row{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:8px;color:var(--t55);margin-top:8px;}
+.vm-la10f3-leg-swatch{width:20px;height:3px;border-radius:2px;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f3-wrap">
+  <div class="vm-la10f3-label">LA10F3: TIQ vs Zone Radar Comparison</div>
+  <div class="vm-la10f3-content">
+    <svg class="vm-la10f3-svg" viewBox="0 0 240 240" id="vm-la10f3-svg">
+      <polygon id="vm-la10f3-grid" fill="none" stroke="rgba(244,244,242,.06)" stroke-width="1"/>
+      <polygon id="vm-la10f3-composite" fill="rgba(201,168,76,.12)" stroke="#C9A84C" stroke-width="1.5" style="transition:all .5s ease;"/>
+      <polygon id="vm-la10f3-individual" fill="rgba(26,122,138,.12)" stroke="#1A7A8A" stroke-width="1.5" style="transition:all .5s ease;"/>
+      <g id="vm-la10f3-labels"></g>
+    </svg>
+    <div class="vm-la10f3-controls">
+      <button class="vm-la10f3-btn vm-la10f3-active" id="vm-la10f3-btn-both">Both</button>
+      <button class="vm-la10f3-btn" id="vm-la10f3-btn-composite">Composite Only</button>
+      <button class="vm-la10f3-btn" id="vm-la10f3-btn-individual">Individual Only</button>
+      <div class="vm-la10f3-legend-row"><div class="vm-la10f3-leg-swatch" style="background:#C9A84C;"></div>TIQ Composite</div>
+      <div class="vm-la10f3-legend-row"><div class="vm-la10f3-leg-swatch" style="background:#1A7A8A;"></div>Individual Zones</div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var cx=120,cy=120,maxR=90;
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneLabels=['Z1','Z2','Z3','Z4','Z5'];
+  var ZONE_SCORES=[72,78,35,48,65]; // default from Mark
+  var mode='both'; // 'both','composite','individual'
+
+  function angleFor(i){return -Math.PI/2+i*(2*Math.PI/5);}
+  function polyPoints(scores){
+    var pts=[];
+    for(var i=0;i<5;i++){
+      var r=scores[i]/100*maxR;
+      var a=angleFor(i);
+      pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1));
+    }
+    return pts.join(' ');
+  }
+
+  // Grid
+  var gridPts=[];
+  for(var i=0;i<5;i++){var a=angleFor(i);gridPts.push((cx+maxR*Math.cos(a)).toFixed(1)+','+(cy+maxR*Math.sin(a)).toFixed(1));}
+  document.getElementById('vm-la10f3-grid').setAttribute('points',gridPts.join(' '));
+
+  // Labels
+  var labelsG=document.getElementById('vm-la10f3-labels');
+  for(var i=0;i<5;i++){
+    var a=angleFor(i);
+    var lx=cx+(maxR+12)*Math.cos(a);
+    var ly=cy+(maxR+12)*Math.sin(a);
+    var txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',lx.toFixed(1));txt.setAttribute('y',ly.toFixed(1));
+    txt.setAttribute('text-anchor','middle');txt.setAttribute('dominant-baseline','central');
+    txt.setAttribute('fill',zoneColours[i]);
+    txt.setAttribute('font-family','DM Mono,monospace');txt.setAttribute('font-size','9');
+    txt.textContent=zoneLabels[i];
+    labelsG.appendChild(txt);
+  }
+
+  function render(){
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var internal=Math.round(zone*0.45+cascade*0.25+data*0.15+conf*0.15);
+
+    // Composite: uniform polygon at internal level
+    var compositeScores=[internal,internal,internal,internal,internal];
+    document.getElementById('vm-la10f3-composite').setAttribute('points',polyPoints(compositeScores));
+    document.getElementById('vm-la10f3-individual').setAttribute('points',polyPoints(ZONE_SCORES));
+
+    var compEl=document.getElementById('vm-la10f3-composite');
+    var indEl=document.getElementById('vm-la10f3-individual');
+    if(mode==='composite'){compEl.style.opacity='1';indEl.style.opacity='0';}
+    else if(mode==='individual'){compEl.style.opacity='0';indEl.style.opacity='1';}
+    else{compEl.style.opacity='1';indEl.style.opacity='1';}
+  }
+
+  function setMode(m){
+    mode=m;
+    var btns=document.querySelectorAll('.vm-la10f3-btn');
+    for(var i=0;i<btns.length;i++){btns[i].classList.remove('vm-la10f3-active');}
+    document.getElementById('vm-la10f3-btn-'+m).classList.add('vm-la10f3-active');
+    render();
+  }
+
+  document.getElementById('vm-la10f3-btn-both').addEventListener('click',function(){setMode('both');});
+  document.getElementById('vm-la10f3-btn-composite').addEventListener('click',function(){setMode('composite');});
+  document.getElementById('vm-la10f3-btn-individual').addEventListener('click',function(){setMode('individual');});
+
+  render();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',render);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F4: Confidence Sensitivity Slider                             -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f4-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f4-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f4-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.vm-la10f4-slider-col{flex:1;min-width:200px;}
+.vm-la10f4-slider-label{font-family:var(--fm);font-size:9px;color:var(--t55);margin-bottom:4px;}
+.vm-la10f4-result{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 20px;background:rgba(244,244,242,.03);border-radius:8px;border:1px solid var(--t06);min-width:140px;}
+.vm-la10f4-result-score{font-family:var(--fs);font-size:2rem;font-weight:600;line-height:1;}
+.vm-la10f4-result-label{font-family:var(--fm);font-size:8px;color:var(--t35);}
+.vm-la10f4-delta{font-family:var(--fm);font-size:9px;padding:2px 8px;border-radius:100px;}
+.vm-la10f4-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:8px;line-height:1.5;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f4-wrap">
+  <div class="vm-la10f4-label">LA10F4: Confidence Sensitivity Slider (ANCHOR Weight)</div>
+  <div class="vm-la10f4-row">
+    <div class="vm-la10f4-slider-col">
+      <div class="vm-la10f4-slider-label">ANCHOR weight: <span id="vm-la10f4-wt">15</span>%</div>
+      <input type="range" id="vm-la10f4-slider" min="5" max="40" value="15" style="width:100%;">
+    </div>
+    <div class="vm-la10f4-result">
+      <div class="vm-la10f4-result-label">Baseline TIQ</div>
+      <div class="vm-la10f4-result-score" id="vm-la10f4-base" style="color:var(--gold);">--</div>
+    </div>
+    <div class="vm-la10f4-result">
+      <div class="vm-la10f4-result-label">Adjusted TIQ</div>
+      <div class="vm-la10f4-result-score" id="vm-la10f4-adj" style="color:var(--teal-l);">--</div>
+    </div>
+    <div id="vm-la10f4-delta-wrap"></div>
+  </div>
+  <div class="vm-la10f4-note">Adjusting ANCHOR confidence weight redistributes the remaining weight proportionally across Zone, Cascade, and Data components. This demonstrates TIQ sensitivity to confidence weighting.</div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  function computeTIQ(zone,cascade,data,conf,anchorWeight){
+    var remaining=100-anchorWeight;
+    var zW=remaining*45/85;
+    var cW=remaining*25/85;
+    var dW=remaining*15/85;
+    var internal=Math.round(zone*(zW/100)+cascade*(cW/100)+data*(dW/100)+conf*(anchorWeight/100));
+    var display=Math.max(0,Math.min(10,Math.round((100-internal)/10*10)/10));
+    return display;
+  }
+
+  function render(){
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var anchorWt=parseInt(document.getElementById('vm-la10f4-slider').value)||15;
+
+    document.getElementById('vm-la10f4-wt').textContent=anchorWt;
+
+    var baseTIQ=computeTIQ(zone,cascade,data,conf,15);
+    var adjTIQ=computeTIQ(zone,cascade,data,conf,anchorWt);
+
+    document.getElementById('vm-la10f4-base').textContent=baseTIQ.toFixed(1);
+    document.getElementById('vm-la10f4-adj').textContent=adjTIQ.toFixed(1);
+
+    var delta=adjTIQ-baseTIQ;
+    var deltaWrap=document.getElementById('vm-la10f4-delta-wrap');
+    deltaWrap.innerHTML='';
+    if(Math.abs(delta)>=0.1){
+      var badge=document.createElement('div');
+      badge.className='vm-la10f4-delta';
+      if(delta>0){
+        badge.style.background='rgba(45,156,106,.12)';
+        badge.style.border='1px solid rgba(45,156,106,.25)';
+        badge.style.color='#5DD88F';
+        badge.textContent='+'+delta.toFixed(1)+' improvement';
+      }else{
+        badge.style.background='rgba(192,57,43,.10)';
+        badge.style.border='1px solid rgba(192,57,43,.25)';
+        badge.style.color='#E07070';
+        badge.textContent=delta.toFixed(1)+' worsened';
+      }
+      deltaWrap.appendChild(badge);
+    }
+  }
+
+  document.getElementById('vm-la10f4-slider').addEventListener('input',render);
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',render);}
+  render();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA10F5: Score Trajectory Sparkline                                -->
+<!-- ================================================================ -->
+<style>
+.vm-la10f5-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1100px;}
+.vm-la10f5-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la10f5-content{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.vm-la10f5-svg{width:300px;height:80px;flex-shrink:0;}
+.vm-la10f5-info{display:flex;flex-direction:column;gap:6px;}
+.vm-la10f5-scores{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la10f5-badge{font-family:var(--fm);font-size:8px;padding:3px 10px;border-radius:100px;display:inline-block;}
+.vm-la10f5-improving{background:rgba(45,156,106,.12);border:1px solid rgba(45,156,106,.25);color:#5DD88F;}
+.vm-la10f5-degrading{background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:#E07070;}
+.vm-la10f5-stable{background:rgba(244,244,242,.04);border:1px solid var(--t06);color:var(--t35);}
+.vm-la10f5-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:8px;line-height:1.5;}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la10f5-wrap">
+  <div class="vm-la10f5-label">LA10F5: Score Trajectory Sparkline (T1 vs T2)</div>
+  <div class="vm-la10f5-content">
+    <svg class="vm-la10f5-svg" viewBox="0 0 300 80" id="vm-la10f5-svg"></svg>
+    <div class="vm-la10f5-info" id="vm-la10f5-info"></div>
+  </div>
+  <div class="vm-la10f5-note">T1 uses default values (Zone 68, Cascade 67, Data 80, ANCHOR 75). T2 uses current slider values. Threshold markers at TIQ 3 (High) and TIQ 7 (Mild).</div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var T1_INTERNAL=Math.round(68*0.45+67*0.25+80*0.15+75*0.15);
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function tiqFromInternal(internal){
+    return Math.max(0,Math.min(10,Math.round((100-internal)/10*10)/10));
+  }
+
+  function render(){
+    var zone=parseInt(document.getElementById('sl-zone').value)||0;
+    var cascade=parseInt(document.getElementById('sl-cascade').value)||0;
+    var data=parseInt(document.getElementById('sl-data').value)||0;
+    var conf=parseInt(document.getElementById('sl-conf').value)||0;
+    var t2Internal=Math.round(zone*0.45+cascade*0.25+data*0.15+conf*0.15);
+
+    var t1TIQ=tiqFromInternal(T1_INTERNAL);
+    var t2TIQ=tiqFromInternal(t2Internal);
+
+    var svg=document.getElementById('vm-la10f5-svg');
+    svg.innerHTML='';
+
+    var padL=30,padR=20,padT=10,padB=15;
+    var w=300-padL-padR,h=80-padT-padB;
+
+    // Threshold lines
+    var thresholds=[{val:3,label:'High',col:'#C0392B'},{val:7,label:'Mild',col:'#2A9BAD'}];
+    for(var t=0;t<thresholds.length;t++){
+      var y=padT+h-(thresholds[t].val/10*h);
+      var line=document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1',padL);line.setAttribute('x2',300-padR);
+      line.setAttribute('y1',y.toFixed(1));line.setAttribute('y2',y.toFixed(1));
+      line.setAttribute('stroke',thresholds[t].col);line.setAttribute('stroke-width','1');
+      line.setAttribute('stroke-dasharray','4 3');line.setAttribute('opacity','.4');
+      svg.appendChild(line);
+
+      var label=document.createElementNS('http://www.w3.org/2000/svg','text');
+      label.setAttribute('x',padL-4);label.setAttribute('y',(y+3).toFixed(1));
+      label.setAttribute('text-anchor','end');label.setAttribute('fill',thresholds[t].col);
+      label.setAttribute('font-family','DM Mono,monospace');label.setAttribute('font-size','7');
+      label.setAttribute('opacity','.5');label.textContent=thresholds[t].val;
+      svg.appendChild(label);
+    }
+
+    // Sparkline: T1 to T2
+    var x1=padL+20,x2=300-padR-20;
+    var y1=padT+h-(t1TIQ/10*h);
+    var y2=padT+h-(t2TIQ/10*h);
+
+    var sparkLine=document.createElementNS('http://www.w3.org/2000/svg','line');
+    sparkLine.setAttribute('x1',x1);sparkLine.setAttribute('y1',y1.toFixed(1));
+    sparkLine.setAttribute('x2',x2);sparkLine.setAttribute('y2',y2.toFixed(1));
+    sparkLine.setAttribute('stroke','#C9A84C');sparkLine.setAttribute('stroke-width','2');
+    if(!reducedMotion){
+      sparkLine.setAttribute('stroke-dasharray','250');
+      sparkLine.setAttribute('stroke-dashoffset','250');
+      sparkLine.style.transition='stroke-dashoffset .8s ease';
+    }
+    svg.appendChild(sparkLine);
+
+    // Dots
+    var dot1=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot1.setAttribute('cx',x1);dot1.setAttribute('cy',y1.toFixed(1));dot1.setAttribute('r','4');
+    dot1.setAttribute('fill','#1A7A8A');dot1.setAttribute('stroke','var(--bg)');dot1.setAttribute('stroke-width','2');
+    svg.appendChild(dot1);
+
+    var dot2=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot2.setAttribute('cx',x2);dot2.setAttribute('cy',y2.toFixed(1));dot2.setAttribute('r','4');
+    dot2.setAttribute('fill','#C9A84C');dot2.setAttribute('stroke','var(--bg)');dot2.setAttribute('stroke-width','2');
+    svg.appendChild(dot2);
+
+    // Labels on dots
+    var lbl1=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl1.setAttribute('x',x1);lbl1.setAttribute('y',(y1-8).toFixed(1));
+    lbl1.setAttribute('text-anchor','middle');lbl1.setAttribute('fill','#1A7A8A');
+    lbl1.setAttribute('font-family','DM Mono,monospace');lbl1.setAttribute('font-size','8');
+    lbl1.textContent='T1: '+t1TIQ.toFixed(1);
+    svg.appendChild(lbl1);
+
+    var lbl2=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl2.setAttribute('x',x2);lbl2.setAttribute('y',(y2-8).toFixed(1));
+    lbl2.setAttribute('text-anchor','middle');lbl2.setAttribute('fill','#C9A84C');
+    lbl2.setAttribute('font-family','DM Mono,monospace');lbl2.setAttribute('font-size','8');
+    lbl2.textContent='T2: '+t2TIQ.toFixed(1);
+    svg.appendChild(lbl2);
+
+    // Animate sparkline
+    if(!reducedMotion){
+      setTimeout(function(){sparkLine.style.strokeDashoffset='0';},100);
+    }
+
+    // Info panel
+    var info=document.getElementById('vm-la10f5-info');
+    info.innerHTML='';
+
+    var scores=document.createElement('div');
+    scores.className='vm-la10f5-scores';
+    scores.textContent='T1: '+t1TIQ.toFixed(1)+' / 10  |  T2: '+t2TIQ.toFixed(1)+' / 10';
+    info.appendChild(scores);
+
+    var delta=t2TIQ-t1TIQ;
+    var badge=document.createElement('div');
+    if(delta>0.5){
+      badge.className='vm-la10f5-badge vm-la10f5-improving';
+      badge.textContent='Improving (+'+delta.toFixed(1)+')';
+    }else if(delta<-0.5){
+      badge.className='vm-la10f5-badge vm-la10f5-degrading';
+      badge.textContent='Degrading ('+delta.toFixed(1)+')';
+    }else{
+      badge.className='vm-la10f5-badge vm-la10f5-stable';
+      badge.textContent='Stable';
+    }
+    info.appendChild(badge);
+  }
+
+  render();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',render);}
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LA10 INTERACTIVE FEATURES + SV INTEGRATIONS
+     Added: 14 May 2026 | ALB v1.6 (D-62) | D-185
+═══════════════════════════════════════════════════════════════ -->
+
+<!-- FEATURE 1: TIQ Calculator -->
+<section id="la10-feat-calc" style="max-width:1100px;margin:0 auto;padding:32px 20px;">
+<style>
+.la10-fc-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:16px;}
+.la10-fc-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;}
+.la10-fc-grid{display:grid;grid-template-columns:1fr 260px;gap:20px;}
+@media(max-width:700px){.la10-fc-grid{grid-template-columns:1fr;}}
+.la10-fc-zone{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.la10-fc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.la10-fc-zname{font-family:var(--fm);font-size:9px;color:var(--t55);width:100px;}
+.la10-fc-slider{flex:1;height:4px;border-radius:2px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.1);cursor:pointer;}
+.la10-fc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--bg);cursor:pointer;}
+.la10-fc-val{font-family:var(--fm);font-size:10px;font-weight:500;min-width:24px;text-align:right;}
+.la10-fc-result{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.la10-fc-score{font-family:var(--fs);font-size:4rem;font-weight:600;color:var(--white);line-height:1;}
+.la10-fc-denom{font-family:var(--fm);font-size:12px;color:var(--t35);}
+.la10-fc-desc{font-family:var(--fm);font-size:9px;color:var(--t55);margin-top:8px;}
+.la10-fc-bar{width:160px;height:6px;background:rgba(255,255,255,.07);border-radius:3px;margin-top:8px;overflow:hidden;}
+.la10-fc-bar-fill{height:100%;border-radius:3px;transition:width .4s,background .4s;}
+.la10-fc-formula{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:16px;padding-top:12px;border-top:1px solid var(--t06);}
+</style>
+<div class="la10-fc-label">LA10-FEAT-01 : TIQ Composite Calculator</div>
+<div class="la10-fc-card">
+<div class="la10-fc-grid">
+<div>
+<div class="la10-fc-zone">
+<div class="la10-fc-dot" style="background:#C9A84C;"></div>
+<span class="la10-fc-zname">Z1 Metabolic</span>
+<input type="range" class="la10-fc-slider" id="la10c-z1" min="0" max="100" value="45" style="accent-color:#C9A84C;">
+<span class="la10-fc-val" id="la10c-z1v">45</span>
+</div>
+<div class="la10-fc-zone">
+<div class="la10-fc-dot" style="background:#1A7A8A;"></div>
+<span class="la10-fc-zname">Z2 Resilience</span>
+<input type="range" class="la10-fc-slider" id="la10c-z2" min="0" max="100" value="52" style="accent-color:#1A7A8A;">
+<span class="la10-fc-val" id="la10c-z2v">52</span>
+</div>
+<div class="la10-fc-zone">
+<div class="la10-fc-dot" style="background:#7B5EA7;"></div>
+<span class="la10-fc-zname">Z3 Cardiovascular</span>
+<input type="range" class="la10-fc-slider" id="la10c-z3" min="0" max="100" value="38" style="accent-color:#7B5EA7;">
+<span class="la10-fc-val" id="la10c-z3v">38</span>
+</div>
+<div class="la10-fc-zone">
+<div class="la10-fc-dot" style="background:#5F7C6C;"></div>
+<span class="la10-fc-zname">Z4 Detox</span>
+<input type="range" class="la10-fc-slider" id="la10c-z4" min="0" max="100" value="30" style="accent-color:#5F7C6C;">
+<span class="la10-fc-val" id="la10c-z4v">30</span>
+</div>
+<div class="la10-fc-zone">
+<div class="la10-fc-dot" style="background:#2E6DB4;"></div>
+<span class="la10-fc-zname">Z5 Hormonal</span>
+<input type="range" class="la10-fc-slider" id="la10c-z5" min="0" max="100" value="48" style="accent-color:#2E6DB4;">
+<span class="la10-fc-val" id="la10c-z5v">48</span>
+</div>
+<div class="la10-fc-formula">
+N6 (endocrine signalling) dampening: 0.7x | Floor: MAX(dampened) minus 10 | Display: ROUND((100 minus internal) / 10, 0)
+</div>
+</div>
+<div class="la10-fc-result">
+<div class="la10-fc-score" id="la10c-score">5.7</div>
+<div class="la10-fc-denom">/ 10</div>
+<div class="la10-fc-desc" id="la10c-desc">Moderate terrain burden</div>
+<div class="la10-fc-bar"><div class="la10-fc-bar-fill" id="la10c-bar" style="width:57%;background:#C9A84C;"></div></div>
+</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var ids=['z1','z2','z3','z4','z5'];
+  var thresholds=[40,40,40,40,32];
+  var scoreEl=document.getElementById('la10c-score');
+  var descEl=document.getElementById('la10c-desc');
+  var barEl=document.getElementById('la10c-bar');
+
+  function compute(){
+    var vals=[];
+    for(var i=0;i<ids.length;i++){
+      var sl=document.getElementById('la10c-'+ids[i]);
+      var vl=document.getElementById('la10c-'+ids[i]+'v');
+      vals.push(parseInt(sl.value,10));
+      vl.textContent=sl.value;
+    }
+    // N6 dampening 0.7x applied to zone averages
+    var dampened=[];
+    for(var j=0;j<vals.length;j++){
+      dampened.push(Math.round(vals[j]*0.7));
+    }
+    var maxD=Math.max.apply(null,dampened);
+    var floor=Math.max(0,maxD-10);
+    var avg=0;
+    for(var k=0;k<dampened.length;k++){
+      avg+=Math.max(dampened[k],floor);
+    }
+    avg=avg/dampened.length;
+    var display=Math.round((100-avg)/10);
+    display=Math.max(0,Math.min(10,display));
+
+    scoreEl.textContent=display.toFixed(1);
+    barEl.style.width=(display*10)+'%';
+
+    if(display>=8){descEl.textContent='Low terrain burden';barEl.style.background='#1A7A8A';}
+    else if(display>=5){descEl.textContent='Moderate terrain burden';barEl.style.background='#C9A84C';}
+    else if(display>=3){descEl.textContent='Elevated terrain burden';barEl.style.background='#7B5EA7';}
+    else{descEl.textContent='High terrain burden';barEl.style.background='#C0392B';}
+  }
+
+  var sliders=document.querySelectorAll('.la10-fc-slider');
+  for(var s=0;s<sliders.length;s++){sliders[s].addEventListener('input',compute);}
+  compute();
+})();
+</script>
+
+<!-- FEATURE 2: Score Decomposition -->
+<section id="la10-feat-decompose" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-sd-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:16px;}
+.la10-sd-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;}
+.la10-sd-bars{display:flex;flex-direction:column;gap:10px;}
+.la10-sd-row{display:flex;align-items:center;gap:12px;}
+.la10-sd-zname{font-family:var(--fm);font-size:9px;color:var(--t55);width:90px;}
+.la10-sd-track{flex:1;height:24px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;position:relative;cursor:pointer;}
+.la10-sd-fill{height:100%;border-radius:6px;transition:width .6s ease;display:flex;align-items:center;padding:0 8px;}
+.la10-sd-pct{font-family:var(--fm);font-size:8px;color:rgba(255,255,255,.9);}
+.la10-sd-detail{font-family:var(--fm);font-size:8px;color:var(--t55);margin-top:4px;display:none;padding:8px 12px;background:rgba(255,255,255,.02);border-radius:6px;margin-left:102px;}
+.la10-sd-detail.open{display:block;}
+</style>
+<div class="la10-sd-label">LA10-FEAT-02 : Score Decomposition</div>
+<div class="la10-sd-card">
+<div class="la10-sd-bars" id="la10-sd-bars">
+<div>
+<div class="la10-sd-row" data-zone="0">
+<span class="la10-sd-zname">Z1 Metabolic</span>
+<div class="la10-sd-track"><div class="la10-sd-fill" style="width:45%;background:rgba(201,168,76,.6);"><span class="la10-sd-pct">45%</span></div></div>
+</div>
+<div class="la10-sd-detail">Nodes: N3 (Energy) + N6 (endocrine signalling, dampened 0.7x). Threshold: 40 internal. Contributing cascades: S2 (from Z1), S3 (to Z1), S6 (from Z1).</div>
+</div>
+<div>
+<div class="la10-sd-row" data-zone="1">
+<span class="la10-sd-zname">Z2 Resilience</span>
+<div class="la10-sd-track"><div class="la10-sd-fill" style="width:52%;background:rgba(26,122,138,.6);"><span class="la10-sd-pct">52%</span></div></div>
+</div>
+<div class="la10-sd-detail">Nodes: N1 (Assimilation) + N2 (Defence and Repair) + N6 (endocrine signalling, dampened 0.7x). Threshold: 40 internal. Default DRD tiebreaker entry point.</div>
+</div>
+<div>
+<div class="la10-sd-row" data-zone="2">
+<span class="la10-sd-zname">Z3 Cardiovascular</span>
+<div class="la10-sd-track"><div class="la10-sd-fill" style="width:38%;background:rgba(123,94,167,.6);"><span class="la10-sd-pct">38%</span></div></div>
+</div>
+<div class="la10-sd-detail">Nodes: N5 (Transport) + N6 (endocrine signalling, dampened 0.7x). Threshold: 40 internal. Receiving zone for S5 and S6 (UNIDIRECTIONAL Z1 to Z3).</div>
+</div>
+<div>
+<div class="la10-sd-row" data-zone="3">
+<span class="la10-sd-zname">Z4 Detoxification</span>
+<div class="la10-sd-track"><div class="la10-sd-fill" style="width:30%;background:rgba(95,124,108,.6);"><span class="la10-sd-pct">30%</span></div></div>
+</div>
+<div class="la10-sd-detail">Nodes: N2 (Defence and Repair) + N4 (Biotransformation and Elimination). Threshold: 40 internal. Source zone for S3 (Z4 to Z1, SLOW).</div>
+</div>
+<div>
+<div class="la10-sd-row" data-zone="4">
+<span class="la10-sd-zname">Z5 Hormonal</span>
+<div class="la10-sd-track"><div class="la10-sd-fill" style="width:48%;background:rgba(46,109,180,.6);"><span class="la10-sd-pct">48%</span></div></div>
+</div>
+<div class="la10-sd-detail">Nodes: N3 (Energy) + N4 (Biotransformation and Elimination) + N6 (endocrine signalling, dampened 0.7x). Threshold: 32 internal (lower: hormonal sensitivity). S4 to Z2 is THEORETICAL.</div>
+</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var rows=document.querySelectorAll('.la10-sd-row');
+  for(var i=0;i<rows.length;i++){
+    rows[i].addEventListener('click',function(){
+      var detail=this.parentElement.querySelector('.la10-sd-detail');
+      if(detail){detail.classList.toggle('open');}
+    });
+  }
+})();
+</script>
+
+<!-- FEATURE 3: Benchmark Comparator -->
+<section id="la10-feat-benchmark" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-bm-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:16px;}
+.la10-bm-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;text-align:center;}
+.la10-bm-gauge{position:relative;width:200px;height:120px;margin:0 auto 16px;}
+.la10-bm-gauge svg{width:200px;height:120px;}
+.la10-bm-val{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-family:var(--fs);font-size:2rem;font-weight:600;color:var(--white);}
+.la10-bm-ranges{display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap;}
+.la10-bm-range{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:8px;color:var(--t55);}
+.la10-bm-range-dot{width:8px;height:8px;border-radius:50%;}
+.la10-bm-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:12px;}
+</style>
+<div class="la10-bm-label">LA10-FEAT-03 : Benchmark Comparator</div>
+<div class="la10-bm-card">
+<div class="la10-bm-gauge" id="la10-bm-gauge">
+<svg viewBox="0 0 200 120">
+<path d="M20,110 A80,80 0 0,1 180,110" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="12" stroke-linecap="round"/>
+<path d="M20,110 A80,80 0 0,1 60,38" fill="none" stroke="#C0392B" stroke-width="12" stroke-linecap="round" opacity=".5"/>
+<path d="M60,38 A80,80 0 0,1 100,30" fill="none" stroke="#7B5EA7" stroke-width="12" stroke-linecap="round" opacity=".5"/>
+<path d="M100,30 A80,80 0 0,1 140,38" fill="none" stroke="#C9A84C" stroke-width="12" stroke-linecap="round" opacity=".5"/>
+<path d="M140,38 A80,80 0 0,1 180,110" fill="none" stroke="#1A7A8A" stroke-width="12" stroke-linecap="round" opacity=".5"/>
+<circle id="la10-bm-needle" cx="120" cy="50" r="5" fill="#C9A84C"/>
+</svg>
+<div class="la10-bm-val" id="la10-bm-val">5.7</div>
+</div>
+<div class="la10-bm-ranges">
+<div class="la10-bm-range"><div class="la10-bm-range-dot" style="background:#C0392B;"></div>High burden (0-3)</div>
+<div class="la10-bm-range"><div class="la10-bm-range-dot" style="background:#7B5EA7;"></div>Elevated (3-5)</div>
+<div class="la10-bm-range"><div class="la10-bm-range-dot" style="background:#C9A84C;"></div>Moderate (5-7)</div>
+<div class="la10-bm-range"><div class="la10-bm-range-dot" style="background:#1A7A8A;"></div>Low burden (7-10)</div>
+</div>
+<div class="la10-bm-note">Terrain Intelligence Quotient: composite of all five zone scores with N6 dampening. For practitioner use only. Not a diagnostic tool.</div>
+</div>
+</section>
+
+<!-- SV INTEGRATION 1: State Bridge -->
+<section id="la10-sv-bridge" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-svb-card{background:rgba(7,28,51,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:24px;}
+.la10-svb-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:16px;}
+.la10-svb-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.la10-svb-input{font-family:var(--fm);font-size:9px;background:rgba(255,255,255,.04);border:1px solid var(--t12);border-radius:8px;color:var(--white);padding:8px 12px;flex:1;min-width:200px;}
+.la10-svb-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;}
+.la10-svb-btn-share{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.la10-svb-btn-share:hover{background:rgba(201,168,76,.2);}
+.la10-svb-btn-load{background:rgba(26,122,138,.12);border:1px solid rgba(26,122,138,.25);color:var(--teal-l);}
+.la10-svb-btn-load:hover{background:rgba(26,122,138,.2);}
+.la10-svb-status{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:8px;}
+</style>
+<div class="la10-svb-label">SV-01 : Cross-Page State Bridge</div>
+<div class="la10-svb-card">
+<div class="la10-svb-row">
+<button class="la10-svb-btn la10-svb-btn-share" id="la10-svb-share">Share State</button>
+<input class="la10-svb-input" id="la10-svb-input" placeholder="Paste state URL to load...">
+<button class="la10-svb-btn la10-svb-btn-load" id="la10-svb-load">Load State</button>
+</div>
+<div class="la10-svb-status" id="la10-svb-status">Ready</div>
+</div>
+</section>
+<script>
+(function(){
+  var shareBtn=document.getElementById('la10-svb-share');
+  var loadBtn=document.getElementById('la10-svb-load');
+  var input=document.getElementById('la10-svb-input');
+  var status=document.getElementById('la10-svb-status');
+
+  shareBtn.addEventListener('click',function(){
+    var sliders=document.querySelectorAll('.la10-fc-slider');
+    var vals=[];for(var i=0;i<sliders.length;i++)vals.push(sliders[i].value);
+    var state={page:'LA10-TIQ',zones:vals,timestamp:Date.now()};
+    var url=window.location.href.split('?')[0]+'?bridge='+btoa(JSON.stringify(state));
+    input.value=url;
+    if(navigator.clipboard){navigator.clipboard.writeText(url);}
+    status.textContent='State encoded and copied. Share this URL.';
+  });
+
+  loadBtn.addEventListener('click',function(){
+    var val=input.value.trim();
+    var match=val.match(/[?&]bridge=([A-Za-z0-9+/=]+)/);
+    if(match){
+      try{var d=JSON.parse(atob(match[1]));
+        status.textContent='Loaded state from '+d.page+' ('+new Date(d.timestamp).toLocaleString()+')';
+      }catch(e){status.textContent='Invalid state data';}
+    }else{status.textContent='No valid state parameter found';}
+  });
+
+  var params=new URLSearchParams(window.location.search);
+  var inc=params.get('bridge');
+  if(inc){try{var d=JSON.parse(atob(inc));status.textContent='Auto-loaded from '+d.page;}catch(e){}}
+})();
+</script>
+
+<!-- SV INTEGRATION 2: Pipeline Trace -->
+<section id="la10-sv-trace" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-svt-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;}
+.la10-svt-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:16px;}
+.la10-svt-pipeline{display:flex;flex-direction:column;gap:0;align-items:center;}
+.la10-svt-step{display:flex;align-items:center;gap:12px;padding:12px 20px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--t06);width:100%;max-width:500px;transition:border-color .4s,box-shadow .4s;}
+.la10-svt-step.active{border-color:rgba(201,168,76,.3);box-shadow:0 0 20px rgba(201,168,76,.08);}
+.la10-svt-step-num{font-family:var(--fm);font-size:8px;color:var(--gold);width:20px;}
+.la10-svt-step-name{font-family:var(--fm);font-size:9px;color:var(--white);flex:1;}
+.la10-svt-step-val{font-family:var(--fm);font-size:9px;color:var(--teal-l);}
+.la10-svt-arrow{width:2px;height:20px;background:rgba(255,255,255,.07);margin:0 auto;}
+.la10-svt-run{font-family:var(--fm);font-size:9px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:8px 20px;border-radius:6px;cursor:pointer;margin-top:16px;transition:background .2s;}
+.la10-svt-run:hover{background:rgba(201,168,76,.2);}
+</style>
+<div class="la10-svt-label">SV-02 : TIQ Pipeline Trace</div>
+<div class="la10-svt-card">
+<div class="la10-svt-pipeline" id="la10-svt-pipeline">
+<div class="la10-svt-step" data-idx="0"><span class="la10-svt-step-num">01</span><span class="la10-svt-step-name">Zone Scores Input</span><span class="la10-svt-step-val">5 zones</span></div>
+<div class="la10-svt-arrow"></div>
+<div class="la10-svt-step" data-idx="1"><span class="la10-svt-step-num">02</span><span class="la10-svt-step-name">N6 Dampening (0.7x)</span><span class="la10-svt-step-val">Applied</span></div>
+<div class="la10-svt-arrow"></div>
+<div class="la10-svt-step" data-idx="2"><span class="la10-svt-step-num">03</span><span class="la10-svt-step-name">Floor Check: MAX(dampened) minus 10</span><span class="la10-svt-step-val">Computed</span></div>
+<div class="la10-svt-arrow"></div>
+<div class="la10-svt-step" data-idx="3"><span class="la10-svt-step-num">04</span><span class="la10-svt-step-name">Zone Weighting and Aggregation</span><span class="la10-svt-step-val">Weighted</span></div>
+<div class="la10-svt-arrow"></div>
+<div class="la10-svt-step" data-idx="4"><span class="la10-svt-step-num">05</span><span class="la10-svt-step-name">Display Inversion: ROUND((100 minus avg) / 10)</span><span class="la10-svt-step-val">Inverted</span></div>
+<div class="la10-svt-arrow"></div>
+<div class="la10-svt-step" data-idx="5"><span class="la10-svt-step-num">06</span><span class="la10-svt-step-name">TIQ Composite Score</span><span class="la10-svt-step-val">Output</span></div>
+</div>
+<div style="text-align:center;">
+<button class="la10-svt-run" id="la10-svt-run">Run Pipeline</button>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var btn=document.getElementById('la10-svt-run');
+  var steps=document.querySelectorAll('#la10-svt-pipeline .la10-svt-step');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  btn.addEventListener('click',function(){
+    btn.style.pointerEvents='none';
+    for(var i=0;i<steps.length;i++)steps[i].classList.remove('active');
+    var delay=reducedMotion?0:350;
+    for(var j=0;j<steps.length;j++){
+      (function(idx){
+        setTimeout(function(){
+          steps[idx].classList.add('active');
+          if(idx===steps.length-1){setTimeout(function(){btn.style.pointerEvents='auto';},delay);}
+        },delay*(idx+1));
+      })(j);
+    }
+  });
+})();
+</script>
+
+<!-- SV INTEGRATION 3: Architecture Navigator -->
+<section id="la10-sv-nav" style="max-width:1100px;margin:0 auto;padding:0 20px 40px;">
+<style>
+.la10-svn-card{background:rgba(7,28,51,.85);backdrop-filter:blur(12px);border:1px solid var(--t12);border-radius:12px;padding:20px;}
+.la10-svn-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;}
+.la10-svn-map{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.la10-svn-dot{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--t06);cursor:pointer;transition:all .3s;text-decoration:none;min-width:80px;}
+.la10-svn-dot:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.06);transform:translateY(-2px);}
+.la10-svn-dot.current{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.08);}
+.la10-svn-dot.current .la10-svn-circle{background:var(--gold);box-shadow:0 0 12px rgba(201,168,76,.4);}
+.la10-svn-circle{width:10px;height:10px;border-radius:50%;background:var(--t35);transition:all .3s;}
+.la10-svn-name{font-family:var(--fm);font-size:7px;letter-spacing:.08em;text-transform:uppercase;color:var(--t55);}
+</style>
+<div class="la10-svn-label">SV-03 : Architecture Navigator</div>
+<div class="la10-svn-card">
+<div class="la10-svn-map">
+<a class="la10-svn-dot" href="LA4_DRD_Visualiser_D53_2026-04-11_v2.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">LA4 DRD</span></a>
+<a class="la10-svn-dot" href="LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">LA5 Kinetics</span></a>
+<a class="la10-svn-dot" href="LA6_APEX_InvestigationPlanner_D53_2026-04-11_v2.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">LA6 APEX</span></a>
+<a class="la10-svn-dot" href="LA7_TerrainLock_LoopVisualiser_D53_2026-04-11_v2.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">LA7 Lock</span></a>
+<a class="la10-svn-dot" href="LA8_DeltaScan_ComparisonView_D53_2026-04-11_v2.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">LA8 Delta</span></a>
+<a class="la10-svn-dot" href="LA9_TRACE_Timeline_D53_2026-04-11_v2.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">LA9 TRACE</span></a>
+<a class="la10-svn-dot current" href="#"><div class="la10-svn-circle"></div><span class="la10-svn-name">LA10 TIQ</span></a>
+<a class="la10-svn-dot" href="../CascadeAtlas_latest.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">Atlas</span></a>
+<a class="la10-svn-dot" href="../NCZArchitecture_latest.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">NCZ</span></a>
+<a class="la10-svn-dot" href="../TerrainIntelligence_latest.html"><div class="la10-svn-circle"></div><span class="la10-svn-name">Terrain</span></a>
+</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SV-04  Terrain Particle Network — LA10
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la10-sv4-section" style="padding:48px 24px;">
+<div style="max-width:680px;margin:0 auto;">
+<p class="comp-id" style="margin-bottom:6px;">SV-04 &middot; TERRAIN PARTICLE NETWORK</p>
+<div style="background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;position:relative;overflow:hidden;">
+<canvas id="la10-sv4-canvas" width="600" height="400" style="display:block;width:100%;height:auto;border-radius:8px;"></canvas>
+<div id="la10-sv4-legend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;justify-content:center;"></div>
+<p style="font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-top:8px;">CLICK ZONE NODES TO HIGHLIGHT CONNECTIONS</p>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('la10-sv4-canvas');
+  if(!canvas||!canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var W = 600, H = 400;
+  var zones = [
+    {id:'Z1',label:'Z1 Digestive',color:'#C9A84C',x:300,y:55},
+    {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',x:530,y:185},
+    {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',x:445,y:365},
+    {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',x:155,y:365},
+    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',x:70,y:185}
+  ];
+  var cascades = [
+    {name:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:'S1: Z2\u2192Z1'},
+    {name:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:'S2: Z1\u2192Z5'},
+    {name:'S3',from:3,to:0,color:'#5F7C6C',speed:1,dash:false,label:'S3: Z4\u2192Z1'},
+    {name:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'S4: Z5\u2192Z2 (theoretical)'},
+    {name:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:'S5: Z2\u2192Z3'},
+    {name:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'S6: Z1\u2192Z3 (unidirectional)'}
+  ];
+  var particles = [];
+  var selectedZone = -1;
+  var PARTICLE_MAX = 90;
+  var nodeRadius = 22;
+
+  function spawnParticle(ci){
+    var c = cascades[ci];
+    var f = zones[c.from]; var t = zones[c.to];
+    particles.push({cx:ci,x:f.x,y:f.y,tx:t.x,ty:t.y,progress:0,speed:c.speed,alpha:1,color:c.color});
+  }
+  function initLegend(){
+    var el = document.getElementById('la10-sv4-legend');
+    for(var i=0;i<cascades.length;i++){
+      var s = document.createElement('span');
+      s.style.cssText = 'font-family:var(--fm);font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:'+cascades[i].color+';padding:2px 6px;border:1px solid '+cascades[i].color+'33;border-radius:4px;';
+      s.textContent = cascades[i].label;
+      el.appendChild(s);
+    }
+  }
+  function handleClick(e){
+    var rect = canvas.getBoundingClientRect();
+    var scaleX = W / rect.width;
+    var scaleY = H / rect.height;
+    var mx = (e.clientX - rect.left) * scaleX;
+    var my = (e.clientY - rect.top) * scaleY;
+    selectedZone = -1;
+    for(var i=0;i<zones.length;i++){
+      var dx = mx - zones[i].x; var dy = my - zones[i].y;
+      if(Math.sqrt(dx*dx+dy*dy) < nodeRadius+8){ selectedZone = i; break; }
+    }
+  }
+  canvas.addEventListener('click', handleClick);
+
+  function isConnected(zi, ci){
+    return cascades[ci].from === zi || cascades[ci].to === zi;
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<cascades.length;i++){
+      var c = cascades[i];
+      var f = zones[c.from]; var t = zones[c.to];
+      var dimmed = selectedZone >= 0 && !isConnected(selectedZone, i);
+      ctx.save();
+      ctx.strokeStyle = c.color;
+      ctx.globalAlpha = dimmed ? 0.1 : 0.35;
+      ctx.lineWidth = 1.5;
+      if(c.dash) ctx.setLineDash([6,4]); else ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(f.x,f.y); ctx.lineTo(t.x,t.y); ctx.stroke();
+      ctx.restore();
+    }
+    for(var p=0;p<particles.length;p++){
+      var pt = particles[p];
+      var dimmed = selectedZone >= 0 && !isConnected(selectedZone, pt.cx);
+      ctx.save();
+      ctx.globalAlpha = pt.alpha * (dimmed ? 0.08 : 1);
+      ctx.fillStyle = pt.color;
+      ctx.shadowColor = pt.color;
+      ctx.shadowBlur = 8;
+      ctx.beginPath(); ctx.arc(pt.x, pt.y, 3, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+    for(var i=0;i<zones.length;i++){
+      var z = zones[i];
+      var active = selectedZone === i;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(z.x, z.y, nodeRadius, 0, Math.PI*2);
+      ctx.fillStyle = active ? z.color : z.color + '33';
+      ctx.fill();
+      ctx.strokeStyle = z.color;
+      ctx.lineWidth = active ? 3 : 1.5;
+      ctx.stroke();
+      ctx.restore();
+      ctx.save();
+      ctx.fillStyle = active ? '#000' : z.color;
+      ctx.font = '600 11px sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(z.id, z.x, z.y);
+      ctx.restore();
+    }
+  }
+  function update(){
+    if(particles.length < PARTICLE_MAX){
+      var ci = Math.floor(Math.random() * cascades.length);
+      spawnParticle(ci);
+    }
+    for(var p=particles.length-1;p>=0;p--){
+      var pt = particles[p];
+      var spd = prefersReduced ? 0 : (0.003 * pt.speed);
+      pt.progress += spd;
+      if(pt.progress >= 1){ pt.alpha -= 0.05; }
+      var f = zones[cascades[pt.cx].from]; var t = zones[cascades[pt.cx].to];
+      pt.x = f.x + (t.x - f.x) * Math.min(pt.progress, 1);
+      pt.y = f.y + (t.y - f.y) * Math.min(pt.progress, 1);
+      if(pt.alpha <= 0) particles.splice(p,1);
+    }
+  }
+  function loop(){
+    update(); draw();
+    requestAnimationFrame(loop);
+  }
+  initLegend();
+  if(!prefersReduced) loop(); else { draw(); }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SV-05  Terrain Pulse Monitor — LA10
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la10-sv5-section" style="padding:48px 24px;">
+<div style="max-width:680px;margin:0 auto;">
+<p class="comp-id" style="margin-bottom:6px;">SV-05 &middot; TERRAIN PULSE MONITOR</p>
+<div style="background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;">
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:center;">
+<svg id="la10-sv5-svg" viewBox="0 0 400 400" style="width:320px;height:320px;flex-shrink:0;"></svg>
+<div id="la10-sv5-controls" style="display:flex;flex-direction:column;gap:10px;min-width:160px;"></div>
+</div>
+<p style="font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-top:12px;">ZONE SLIDERS CONTROL INTERNAL BURDEN &middot; N6 DAMPENING 0.7x</p>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('la10-sv5-svg');
+  if(!svg) return;
+  var cx = 200, cy = 200, maxR = 160, armCount = 5;
+  var zoneData = [
+    {id:'Z1',label:'Z1 Digestive',color:'#C9A84C',threshold:40,value:50},
+    {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',threshold:40,value:50},
+    {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',threshold:40,value:50},
+    {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',threshold:40,value:50},
+    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',threshold:32,value:50}
+  ];
+  var sweepAngle = 0;
+  var dotEls = []; var glowEls = []; var amberEls = []; var scoreEls = [];
+
+  function angleFor(i){ return (Math.PI * 2 * i / armCount) - Math.PI / 2; }
+  function posOnArm(i, frac){ var a=angleFor(i); return {x:cx+Math.cos(a)*maxR*frac, y:cy+Math.sin(a)*maxR*frac}; }
+
+  function build(){
+    for(var r=1;r<=4;r++){
+      var circle = document.createElementNS(svgNS,'circle');
+      circle.setAttribute('cx',cx); circle.setAttribute('cy',cy);
+      circle.setAttribute('r', maxR*r/4);
+      circle.setAttribute('fill','none'); circle.setAttribute('stroke','rgba(255,255,255,0.06)');
+      circle.setAttribute('stroke-width','1');
+      svg.appendChild(circle);
+    }
+    for(var i=0;i<armCount;i++){
+      var p = posOnArm(i,1);
+      var arm = document.createElementNS(svgNS,'line');
+      arm.setAttribute('x1',cx); arm.setAttribute('y1',cy);
+      arm.setAttribute('x2',p.x); arm.setAttribute('y2',p.y);
+      arm.setAttribute('stroke', zoneData[i].color+'44');
+      arm.setAttribute('stroke-width','1.5');
+      svg.appendChild(arm);
+      var amber = document.createElementNS(svgNS,'circle');
+      amber.setAttribute('cx',p.x); amber.setAttribute('cy',p.y);
+      amber.setAttribute('r','0'); amber.setAttribute('fill','none');
+      amber.setAttribute('stroke','#D4A017'); amber.setAttribute('stroke-width','1.5');
+      amber.setAttribute('opacity','0');
+      svg.appendChild(amber);
+      amberEls.push(amber);
+      var glow = document.createElementNS(svgNS,'circle');
+      glow.setAttribute('cx',cx); glow.setAttribute('cy',cy);
+      glow.setAttribute('r','6');
+      glow.setAttribute('fill',zoneData[i].color); glow.setAttribute('opacity','0');
+      svg.appendChild(glow);
+      glowEls.push(glow);
+      var dot = document.createElementNS(svgNS,'circle');
+      dot.setAttribute('cx',cx); dot.setAttribute('cy',cy);
+      dot.setAttribute('r','5');
+      dot.setAttribute('fill',zoneData[i].color);
+      svg.appendChild(dot);
+      dotEls.push(dot);
+      var txt = document.createElementNS(svgNS,'text');
+      var lp = posOnArm(i, 1.12);
+      txt.setAttribute('x',lp.x); txt.setAttribute('y',lp.y);
+      txt.setAttribute('text-anchor','middle'); txt.setAttribute('dominant-baseline','middle');
+      txt.setAttribute('fill',zoneData[i].color);
+      txt.setAttribute('font-size','11'); txt.setAttribute('font-weight','600');
+      txt.setAttribute('font-family','sans-serif');
+      svg.appendChild(txt);
+      scoreEls.push(txt);
+    }
+    var sweep = document.createElementNS(svgNS,'line');
+    sweep.setAttribute('id','la10-sv5-sweep');
+    sweep.setAttribute('x1',cx); sweep.setAttribute('y1',cy);
+    sweep.setAttribute('x2',cx); sweep.setAttribute('y2',cy-maxR);
+    sweep.setAttribute('stroke','rgba(255,255,255,0.15)');
+    sweep.setAttribute('stroke-width','1.5');
+    svg.appendChild(sweep);
+  }
+  function buildControls(){
+    var wrap = document.getElementById('la10-sv5-controls');
+    for(var i=0;i<armCount;i++){
+      var d = document.createElement('div');
+      var lbl = document.createElement('label');
+      lbl.style.cssText = 'font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:'+zoneData[i].color+';display:block;margin-bottom:2px;';
+      lbl.textContent = zoneData[i].label + (i===4 ? ' (N6: endocrine signalling)' : '');
+      var inp = document.createElement('input');
+      inp.type = 'range'; inp.min = '0'; inp.max = '100'; inp.value = String(zoneData[i].value);
+      inp.style.cssText = 'width:100%;accent-color:'+zoneData[i].color+';';
+      inp.setAttribute('data-zi', String(i));
+      inp.addEventListener('input', function(){ var zi=parseInt(this.getAttribute('data-zi')); zoneData[zi].value=parseInt(this.value); });
+      d.appendChild(lbl); d.appendChild(inp);
+      wrap.appendChild(d);
+    }
+  }
+  function updateVis(){
+    for(var i=0;i<armCount;i++){
+      var raw = zoneData[i].value;
+      var dampened = i === 4 ? raw * 0.7 : raw;
+      var reach = dampened / 100;
+      var p = posOnArm(i, reach);
+      dotEls[i].setAttribute('cx', p.x); dotEls[i].setAttribute('cy', p.y);
+      var aboveThresh = dampened >= zoneData[i].threshold;
+      var nearThresh = !aboveThresh && dampened >= (zoneData[i].threshold - 5);
+      glowEls[i].setAttribute('cx', p.x); glowEls[i].setAttribute('cy', p.y);
+      glowEls[i].setAttribute('opacity', aboveThresh ? '0.35' : '0');
+      glowEls[i].setAttribute('r', aboveThresh ? '12' : '6');
+      var ep = posOnArm(i, 1);
+      amberEls[i].setAttribute('cx', ep.x); amberEls[i].setAttribute('cy', ep.y);
+      amberEls[i].setAttribute('r', nearThresh ? '10' : '0');
+      amberEls[i].setAttribute('opacity', nearThresh ? '0.7' : '0');
+      var score = Math.round((100 - dampened) / 10);
+      scoreEls[i].textContent = score;
+    }
+    if(!prefersReduced){
+      sweepAngle += 0.012;
+      var sx = cx + Math.cos(sweepAngle - Math.PI/2) * maxR;
+      var sy = cy + Math.sin(sweepAngle - Math.PI/2) * maxR;
+      var sweep = document.getElementById('la10-sv5-sweep');
+      if(sweep){ sweep.setAttribute('x2', sx); sweep.setAttribute('y2', sy); }
+    }
+  }
+  function loop(){ updateVis(); requestAnimationFrame(loop); }
+  build(); buildControls();
+  if(!prefersReduced) loop(); else updateVis();
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     UPGRADE 1: Patient Case Presets — LA10
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la10-preset-section" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-preset-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:16px;}
+.la10-preset-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;}
+.la10-preset-row{display:flex;gap:10px;flex-wrap:wrap;}
+.la10-preset-btn{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;padding:10px 18px;border-radius:8px;cursor:pointer;background:rgba(255,255,255,.03);border:2px solid var(--t12);color:var(--t55);transition:border-color .3s,color .3s,background .3s;}
+.la10-preset-btn:hover{background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.3);}
+.la10-preset-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+.la10-preset-desc{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:12px;}
+@media(prefers-reduced-motion:reduce){.la10-preset-btn{transition:none;}}
+</style>
+<div class="la10-preset-label">UPGRADE-01 : Patient Case Presets</div>
+<div class="la10-preset-card">
+<div class="la10-preset-row">
+<button class="la10-preset-btn" id="la10-preset-mark" data-z1="65" data-z2="72" data-z3="35" data-z4="28" data-z5="68">Mark</button>
+<button class="la10-preset-btn" id="la10-preset-sarah" data-z1="55" data-z2="30" data-z3="25" data-z4="20" data-z5="22">Sarah</button>
+<button class="la10-preset-btn" id="la10-preset-james" data-z1="38" data-z2="42" data-z3="30" data-z4="35" data-z5="30">James</button>
+<button class="la10-preset-btn" id="la10-preset-priya" data-z1="48" data-z2="52" data-z3="45" data-z4="50" data-z5="40">Priya</button>
+</div>
+<div class="la10-preset-desc" id="la10-preset-desc">Select a case to auto-populate all zone sliders.</div>
+</div>
+</section>
+<script>
+(function(){
+  var presets = {
+    mark:  {z1:65,z2:72,z3:35,z4:28,z5:68, desc:'TerrainLock: Z1=65, Z2=72, Z3=35, Z4=28, Z5=68'},
+    sarah: {z1:55,z2:30,z3:25,z4:20,z5:22, desc:'Z1 dominant: Z1=55, Z2=30, Z3=25, Z4=20, Z5=22'},
+    james: {z1:38,z2:42,z3:30,z4:35,z5:30, desc:'Z5 near-threshold: Z1=38, Z2=42, Z3=30, Z4=35, Z5=30'},
+    priya: {z1:48,z2:52,z3:45,z4:50,z5:40, desc:'Multi-zone: Z1=48, Z2=52, Z3=45, Z4=50, Z5=40'}
+  };
+  var btns = document.querySelectorAll('.la10-preset-btn');
+  var descEl = document.getElementById('la10-preset-desc');
+  function setSlider(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.value = val;
+    var ev;
+    try { ev = new Event('input', {bubbles:true}); } catch(e) { ev = document.createEvent('Event'); ev.initEvent('input', true, true); }
+    el.dispatchEvent(ev);
+  }
+  function applyPreset(name) {
+    var p = presets[name];
+    if (!p) return;
+    setSlider('la10c-z1', p.z1);
+    setSlider('la10c-z2', p.z2);
+    setSlider('la10c-z3', p.z3);
+    setSlider('la10c-z4', p.z4);
+    setSlider('la10c-z5', p.z5);
+    if (descEl) descEl.textContent = p.desc;
+    for (var i = 0; i < btns.length; i++) { btns[i].className = btns[i].className.replace(' active', ''); }
+    var active = document.getElementById('la10-preset-' + name);
+    if (active) active.className += ' active';
+  }
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function() {
+      var name = this.id.replace('la10-preset-', '');
+      applyPreset(name);
+    });
+  }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     UPGRADE 2: Clinical Walkthrough Mode — LA10
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la10-walk-section" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-walk-trigger{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.25);color:var(--gold);transition:background .2s;}
+.la10-walk-trigger:hover{background:rgba(201,168,76,.18);}
+.la10-walk-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,.55);pointer-events:auto;}
+.la10-walk-overlay.active{display:block;}
+.la10-walk-ring{position:absolute;border:3px solid var(--gold);border-radius:16px;box-shadow:0 0 0 4000px rgba(0,0,0,.5);pointer-events:none;transition:top .4s,left .4s,width .4s,height .4s;}
+.la10-walk-tip{position:absolute;background:var(--card);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:16px 20px;max-width:300px;z-index:10000;pointer-events:auto;}
+.la10-walk-step{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.la10-walk-title{font-family:var(--fd);font-size:14px;font-weight:500;color:var(--white);margin-bottom:6px;}
+.la10-walk-desc{font-family:var(--fd);font-size:12px;font-weight:300;color:var(--t55);line-height:1.6;margin-bottom:12px;}
+.la10-walk-nav{display:flex;gap:8px;align-items:center;}
+.la10-walk-next{font-family:var(--fm);font-size:8px;letter-spacing:.08em;padding:6px 14px;border-radius:6px;cursor:pointer;background:var(--gold);border:none;color:#071C33;font-weight:500;}
+.la10-walk-skip{font-family:var(--fm);font-size:8px;letter-spacing:.08em;padding:6px 14px;border-radius:6px;cursor:pointer;background:none;border:1px solid var(--t12);color:var(--t55);}
+.la10-walk-counter{font-family:var(--fm);font-size:8px;color:var(--t35);margin-left:auto;}
+@media(prefers-reduced-motion:reduce){.la10-walk-ring{transition:none;}}
+</style>
+<button class="la10-walk-trigger" id="la10-walk-start">Start Clinical Walkthrough</button>
+</section>
+<div class="la10-walk-overlay" id="la10-walk-overlay">
+<div class="la10-walk-ring" id="la10-walk-ring"></div>
+<div class="la10-walk-tip" id="la10-walk-tip">
+<div class="la10-walk-step" id="la10-walk-stepnum"></div>
+<div class="la10-walk-title" id="la10-walk-title"></div>
+<div class="la10-walk-desc" id="la10-walk-desctext"></div>
+<div class="la10-walk-nav">
+<button class="la10-walk-next" id="la10-walk-next">Next</button>
+<button class="la10-walk-skip" id="la10-walk-skipbtn">Skip</button>
+<span class="la10-walk-counter" id="la10-walk-counter"></span>
+</div>
+</div>
+</div>
+<script>
+(function(){
+  var steps = [
+    {target:'la10-feat-calc', title:'Zone Score Inputs', desc:'Adjust the five zone sliders to set internal burden values. N6 (endocrine signalling) dampening applies 0.7x to all zones.'},
+    {target:'tiq-display', title:'TIQ Score Display', desc:'The composite TIQ score appears here, calculated from weighted zone inputs with N6 dampening and floor logic.'},
+    {target:'la10-feat-decompose', title:'Score Decomposition', desc:'Click any zone bar to reveal contributing nodes, cascades, and threshold details for that zone.'},
+    {target:'la10-feat-benchmark', title:'Benchmark Gauge', desc:'The semicircular gauge shows where the current TIQ score falls relative to practitioner burden bands.'}
+  ];
+  var current = 0;
+  var overlay = document.getElementById('la10-walk-overlay');
+  var ring = document.getElementById('la10-walk-ring');
+  var tip = document.getElementById('la10-walk-tip');
+  var stepEl = document.getElementById('la10-walk-stepnum');
+  var titleEl = document.getElementById('la10-walk-title');
+  var descEl = document.getElementById('la10-walk-desctext');
+  var counterEl = document.getElementById('la10-walk-counter');
+
+  function showStep(idx) {
+    if (idx >= steps.length) { close(); return; }
+    current = idx;
+    var s = steps[idx];
+    var el = document.getElementById(s.target);
+    if (!el) { close(); return; }
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    var rect = el.getBoundingClientRect();
+    var pad = 12;
+    ring.style.top = (rect.top - pad + window.pageYOffset) + 'px';
+    ring.style.left = (rect.left - pad) + 'px';
+    ring.style.width = (rect.width + pad * 2) + 'px';
+    ring.style.height = (rect.height + pad * 2) + 'px';
+    stepEl.textContent = 'Step ' + (idx + 1) + ' of ' + steps.length;
+    titleEl.textContent = s.title;
+    descEl.textContent = s.desc;
+    counterEl.textContent = (idx + 1) + '/' + steps.length;
+    var tipTop = rect.bottom + window.pageYOffset + 16;
+    var tipLeft = Math.max(16, rect.left);
+    tip.style.top = tipTop + 'px';
+    tip.style.left = tipLeft + 'px';
+  }
+  function close() {
+    overlay.className = overlay.className.replace(' active', '');
+    current = 0;
+  }
+  var startBtn = document.getElementById('la10-walk-start');
+  if (startBtn) startBtn.addEventListener('click', function() {
+    overlay.className += ' active';
+    showStep(0);
+  });
+  var nextBtn = document.getElementById('la10-walk-next');
+  if (nextBtn) nextBtn.addEventListener('click', function() { showStep(current + 1); });
+  var skipBtn = document.getElementById('la10-walk-skipbtn');
+  if (skipBtn) skipBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     UPGRADE 3: Practitioner Export Report — LA10
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la10-report-section" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-report-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:16px;}
+.la10-report-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;}
+.la10-report-output{font-family:var(--fm);font-size:9px;color:var(--t55);background:rgba(0,0,0,.25);border:1px solid var(--t06);border-radius:8px;padding:16px;white-space:pre-wrap;line-height:1.8;max-height:400px;overflow-y:auto;}
+.la10-report-actions{display:flex;gap:10px;margin-top:14px;align-items:center;}
+.la10-report-btn{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;padding:10px 18px;border-radius:8px;cursor:pointer;transition:background .2s;}
+.la10-report-generate{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.la10-report-generate:hover{background:rgba(201,168,76,.2);}
+.la10-report-copy{background:rgba(26,122,138,.12);border:1px solid rgba(26,122,138,.25);color:var(--teal-l);}
+.la10-report-copy:hover{background:rgba(26,122,138,.2);}
+.la10-report-print{background:rgba(123,94,167,.12);border:1px solid rgba(123,94,167,.25);color:#9B7EC8;}
+.la10-report-print:hover{background:rgba(123,94,167,.2);}
+.la10-report-flash{font-family:var(--fm);font-size:8px;color:var(--gold);opacity:0;transition:opacity .3s;}
+.la10-report-flash.show{opacity:1;}
+@media(prefers-reduced-motion:reduce){.la10-report-flash{transition:none;}}
+</style>
+<div class="la10-report-label">UPGRADE-03 : Practitioner Export Report</div>
+<div class="la10-report-card">
+<div class="la10-report-output" id="la10-report-output">Click "Generate Report" to create a T-01 compliant summary.</div>
+<div class="la10-report-actions">
+<button class="la10-report-btn la10-report-generate" id="la10-report-gen">Generate Report</button>
+<button class="la10-report-btn la10-report-copy" id="la10-report-copy">Copy to Clipboard</button>
+<button class="la10-report-btn la10-report-print" id="la10-report-printbtn">Print</button>
+<span class="la10-report-flash" id="la10-report-flash">Copied</span>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var outputEl = document.getElementById('la10-report-output');
+  var flashEl = document.getElementById('la10-report-flash');
+
+  function getZoneVal(id) {
+    var el = document.getElementById(id);
+    return el ? parseInt(el.value, 10) : 0;
+  }
+  function invertScore(raw) {
+    var dampened = Math.round(raw * 0.7);
+    return Math.round((100 - dampened) / 10);
+  }
+  function generateReport() {
+    var z1 = getZoneVal('la10c-z1');
+    var z2 = getZoneVal('la10c-z2');
+    var z3 = getZoneVal('la10c-z3');
+    var z4 = getZoneVal('la10c-z4');
+    var z5 = getZoneVal('la10c-z5');
+    var vals = [z1, z2, z3, z4, z5];
+    var names = ['Z1 Metabolic', 'Z2 Resilience', 'Z3 Cardiovascular', 'Z4 Detox', 'Z5 Hormonal'];
+    var thresholds = [40, 40, 40, 40, 32];
+    var dampened = [];
+    for (var i = 0; i < vals.length; i++) { dampened.push(Math.round(vals[i] * 0.7)); }
+    var maxD = Math.max.apply(null, dampened);
+    var floor = Math.max(0, maxD - 10);
+    var avg = 0;
+    for (var k = 0; k < dampened.length; k++) { avg += Math.max(dampened[k], floor); }
+    avg = avg / dampened.length;
+    var tiq = Math.round((100 - avg) / 10);
+    tiq = Math.max(0, Math.min(10, tiq));
+
+    var activeCascades = [];
+    for (var j = 0; j < vals.length; j++) {
+      if (dampened[j] >= thresholds[j]) activeCascades.push(names[j]);
+    }
+
+    var highestIdx = 0;
+    var highestVal = dampened[0];
+    for (var h = 1; h < dampened.length; h++) {
+      if (dampened[h] > highestVal) { highestVal = dampened[h]; highestIdx = h; }
+    }
+
+    var terrainLock = (dampened[0] >= thresholds[0]) && (dampened[1] >= thresholds[1]) && (dampened[3] >= thresholds[3]);
+
+    var ts = new Date();
+    var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+    var timestamp = ts.getFullYear() + '-' + pad(ts.getMonth() + 1) + '-' + pad(ts.getDate()) + ' ' + pad(ts.getHours()) + ':' + pad(ts.getMinutes());
+
+    var lines = [];
+    lines.push('==================================================');
+    lines.push('  Terrain Support Considerations');
+    lines.push('  For practitioner use only. Not a diagnostic tool.');
+    lines.push('==================================================');
+    lines.push('');
+    lines.push('TIQ Composite Score:  ' + tiq + ' / 10');
+    lines.push('');
+    lines.push('Zone Scores (0-10 inverted, lower = higher burden):');
+    for (var z = 0; z < vals.length; z++) {
+      lines.push('  ' + names[z] + ':  ' + invertScore(vals[z]) + ' / 10  (internal: ' + vals[z] + ')');
+    }
+    lines.push('');
+    lines.push('Active Cascades:      ' + (activeCascades.length > 0 ? activeCascades.join(', ') : 'None'));
+    lines.push('Highest Burden Zone:  ' + names[highestIdx] + ' (DRD entry point)');
+    lines.push('N6 Dampening:         0.7x (endocrine signalling)');
+    lines.push('TerrainLock:          ' + (terrainLock ? 'ACTIVE (Z1 + Z2 + Z4 above threshold)' : 'Inactive'));
+    lines.push('');
+    lines.push('Timestamp:            ' + timestamp);
+    lines.push('Source:               LA-10 TIQ Composite Score | VitalMatrix');
+    lines.push('==================================================');
+
+    outputEl.textContent = lines.join('\n');
+  }
+
+  var genBtn = document.getElementById('la10-report-gen');
+  if (genBtn) genBtn.addEventListener('click', generateReport);
+
+  var copyBtn = document.getElementById('la10-report-copy');
+  if (copyBtn) copyBtn.addEventListener('click', function() {
+    var text = outputEl.textContent;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        flashEl.className += ' show';
+        setTimeout(function() { flashEl.className = flashEl.className.replace(' show', ''); }, 1500);
+      });
+    }
+  });
+
+  var printBtn = document.getElementById('la10-report-printbtn');
+  if (printBtn) printBtn.addEventListener('click', function() { window.print(); });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     UPGRADE 4: Cross-Page State Continuity — LA10
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la10-cont-section" style="max-width:1100px;margin:0 auto;padding:0 20px 32px;">
+<style>
+.la10-cont-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:16px;}
+.la10-cont-card{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:24px;}
+.la10-cont-row{display:flex;gap:10px;flex-wrap:wrap;}
+.la10-cont-btn{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;padding:10px 18px;border-radius:8px;cursor:pointer;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);color:var(--gold);transition:background .2s,border-color .2s;}
+.la10-cont-btn:hover{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.35);}
+.la10-cont-desc{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:12px;}
+@media(prefers-reduced-motion:reduce){.la10-cont-btn{transition:none;}}
+</style>
+<div class="la10-cont-label">UPGRADE-04 : Cross-Page State Continuity</div>
+<div class="la10-cont-card">
+<div class="la10-cont-row">
+<button class="la10-cont-btn" id="la10-cont-ti">Open in Terrain Intelligence</button>
+<button class="la10-cont-btn" id="la10-cont-la09">Open in LA-09</button>
+<button class="la10-cont-btn" id="la10-cont-la11">Open in LA-11</button>
+</div>
+<div class="la10-cont-desc">Encodes current slider values and opens the target page with state pre-loaded.</div>
+</div>
+</section>
+<script>
+(function(){
+  function getSliderState() {
+    var ids = ['la10c-z1','la10c-z2','la10c-z3','la10c-z4','la10c-z5'];
+    var vals = [];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      vals.push(el ? el.value : '50');
+    }
+    return vals.join(',');
+  }
+  function encodeState() {
+    var raw = getSliderState();
+    try { return btoa(raw); } catch(e) { return ''; }
+  }
+  function openWith(url) {
+    var encoded = encodeState();
+    if (!encoded) return;
+    window.open(url + '?state=' + encoded, '_blank');
+  }
+
+  var tiBtn = document.getElementById('la10-cont-ti');
+  if (tiBtn) tiBtn.addEventListener('click', function() { openWith('../TerrainIntelligence_latest.html'); });
+  var la09Btn = document.getElementById('la10-cont-la09');
+  if (la09Btn) la09Btn.addEventListener('click', function() { openWith('LA09_CascadeVelocity_D53_2026-04-11_v2.html'); });
+  var la11Btn = document.getElementById('la10-cont-la11');
+  if (la11Btn) la11Btn.addEventListener('click', function() { openWith('LA11_DeltaScan_D53_2026-04-11_v2.html'); });
+})();
+</script>
+
+<!-- ===== CROSS-CUTTING FEATURES (F1-F5) ===== -->
+<style>
+/* F1: Glossary */
+#la10-gloss-btn{position:fixed;bottom:20px;left:20px;width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);background:var(--card);color:var(--gold);font-family:var(--fs);font-size:1.1rem;font-weight:600;cursor:pointer;z-index:9000;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+#la10-gloss-btn:hover{background:rgba(201,168,76,.15);}
+#la10-gloss-panel{position:fixed;bottom:70px;left:20px;width:340px;max-height:420px;background:var(--card);border:1px solid rgba(201,168,76,.25);border-radius:10px;z-index:9001;display:none;flex-direction:column;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+#la10-gloss-panel.open{display:flex;}
+#la10-gloss-search{background:rgba(255,255,255,.06);border:none;border-bottom:1px solid rgba(201,168,76,.15);color:var(--white);font-family:var(--fm);font-size:9px;letter-spacing:.06em;padding:10px 14px;outline:none;}
+#la10-gloss-list{overflow-y:auto;padding:8px;flex:1;}
+.la10-gloss-item{padding:8px 10px;border-radius:6px;cursor:pointer;border-bottom:1px solid rgba(244,244,242,.04);transition:background .15s;}
+.la10-gloss-item:hover{background:rgba(201,168,76,.08);}
+.la10-gloss-term{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.la10-gloss-def{font-family:var(--fd);font-size:.72rem;color:var(--t55);display:none;margin-top:4px;line-height:1.5;}
+.la10-gloss-item.expanded .la10-gloss-def{display:block;}
+#la10-gloss-close{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--t35);font-size:1rem;cursor:pointer;}
+/* F2: Annotation */
+.la10-note-sticky{position:absolute;width:180px;min-height:80px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:6px 8px 22px;z-index:8000;cursor:move;resize:none;}
+.la10-note-sticky textarea{width:100%;min-height:50px;background:transparent;border:none;color:var(--white);font-family:var(--fm);font-size:9px;line-height:1.5;resize:vertical;outline:none;}
+.la10-note-del{position:absolute;bottom:4px;right:6px;background:none;border:none;color:var(--t35);font-size:9px;cursor:pointer;font-family:var(--fm);}
+#la10-note-add{position:fixed;bottom:20px;left:70px;height:32px;padding:0 14px;border:1px solid rgba(201,168,76,.25);border-radius:6px;background:var(--card);color:var(--gold);font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;z-index:9000;transition:background .2s;}
+#la10-note-add:hover{background:rgba(201,168,76,.12);}
+#la10-note-clearall{position:fixed;bottom:20px;left:190px;height:32px;padding:0 12px;border:1px solid rgba(192,57,43,.25);border-radius:6px;background:var(--card);color:#C0392B;font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;z-index:9000;display:none;}
+/* F3: Dependency Graph */
+#la10-dep-panel{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:18px;margin:0 auto;max-width:1000px;}
+.la10-dep-title{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.la10-dep-grid{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.la10-dep-card{background:rgba(255,255,255,.04);border:1px solid var(--t12);border-radius:8px;padding:12px 16px;min-width:140px;flex:1;cursor:pointer;transition:border-color .2s,transform .2s;}
+.la10-dep-card:hover{border-color:rgba(201,168,76,.35);transform:translateY(-2px);}
+.la10-dep-card-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.la10-dep-card-desc{font-family:var(--fd);font-size:.72rem;color:var(--t55);line-height:1.4;}
+.la10-dep-line{height:2px;background:linear-gradient(90deg,rgba(201,168,76,.5),rgba(26,122,138,.5));border-radius:1px;margin:6px 0;animation:la10DepPulse 2s ease-in-out infinite;}
+@keyframes la10DepPulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+/* F4: Confidence */
+#la10-conf-badge{position:fixed;top:70px;right:20px;padding:6px 14px;border-radius:20px;font-family:var(--fm);font-size:8px;letter-spacing:.18em;text-transform:uppercase;z-index:9000;cursor:default;border:1px solid var(--t12);background:var(--card);transition:background .3s;}
+#la10-conf-badge .la10-conf-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+#la10-conf-tooltip{display:none;position:fixed;top:96px;right:20px;background:var(--card);border:1px solid var(--t12);border-radius:6px;padding:8px 12px;font-family:var(--fm);font-size:9px;color:var(--t55);z-index:9001;white-space:nowrap;}
+/* F5: Compare */
+#la10-compare-btn{position:fixed;top:70px;right:180px;height:32px;padding:0 16px;border:1px solid rgba(201,168,76,.25);border-radius:6px;background:var(--card);color:var(--gold);font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;z-index:9000;transition:background .2s;}
+#la10-compare-btn:hover{background:rgba(201,168,76,.12);}
+#la10-compare-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,28,51,.96);z-index:9500;overflow-y:auto;padding:20px;}
+#la10-compare-overlay.open{display:block;}
+.la10-compare-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.la10-compare-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);}
+#la10-compare-exit{background:none;border:1px solid rgba(192,57,43,.3);color:#C0392B;font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:6px;cursor:pointer;}
+.la10-compare-panels{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;max-width:1000px;margin:0 auto;}
+.la10-compare-side{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:16px;}
+.la10-compare-side-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;text-align:center;}
+.la10-compare-zone-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.la10-compare-zone-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.la10-compare-zone-name{font-family:var(--fm);font-size:9px;flex:1;color:var(--t55);}
+.la10-compare-zone-val{font-family:var(--fm);font-size:9px;font-weight:500;min-width:30px;text-align:right;color:var(--white);}
+.la10-compare-zone-slider{width:100%;height:4px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.10);border-radius:2px;outline:none;cursor:pointer;}
+.la10-compare-diverge{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px 0;}
+.la10-compare-div-bar{width:4px;border-radius:2px;transition:height .3s,background .3s;}
+.la10-compare-highlight{border-color:rgba(192,57,43,.5) !important;box-shadow:0 0 8px rgba(192,57,43,.2);}
+@media(prefers-reduced-motion:reduce){
+  @keyframes la10DepPulse{0%,100%{opacity:.7;}50%{opacity:.7;}}
+  .la10-dep-card:hover{transform:none;}
+}
+</style>
+
+<!-- F1: Glossary HTML -->
+<button id="la10-gloss-btn" aria-label="Open glossary">?</button>
+<div id="la10-gloss-panel" role="dialog" aria-label="Architecture Glossary">
+  <button id="la10-gloss-close" aria-label="Close glossary">&times;</button>
+  <input id="la10-gloss-search" type="text" placeholder="Search terms..." aria-label="Search glossary">
+  <div id="la10-gloss-list"></div>
+</div>
+
+<!-- F2: Annotation HTML -->
+<button id="la10-note-add" aria-label="Add annotation note">+ Add Note</button>
+<button id="la10-note-clearall" aria-label="Clear all notes">Clear All</button>
+
+<!-- F3: Dependency Graph HTML -->
+<div id="la10-dep-panel" style="margin-top:16px;">
+  <div class="la10-dep-title">Feature Dependency Graph</div>
+  <div class="la10-dep-grid">
+    <div class="la10-dep-card" id="la10-dep-la4" tabindex="0">
+      <div class="la10-dep-card-label">LA-4 DRD</div>
+      <div class="la10-dep-line"></div>
+      <div class="la10-dep-card-desc">Zone scores - Highest burden zone designation</div>
+    </div>
+    <div class="la10-dep-card" id="la10-dep-la8" tabindex="0">
+      <div class="la10-dep-card-label">LA-8 DeltaScan</div>
+      <div class="la10-dep-line"></div>
+      <div class="la10-dep-card-desc">Delta values for composite comparison</div>
+    </div>
+  </div>
+</div>
+
+<!-- F4: Confidence Badge HTML -->
+<div id="la10-conf-badge"><span class="la10-conf-dot"></span><span id="la10-conf-level">LOW</span></div>
+<div id="la10-conf-tooltip"></div>
+
+<!-- F5: Compare HTML -->
+<button id="la10-compare-btn">Compare</button>
+<div id="la10-compare-overlay">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="la10-compare-header">
+      <span class="la10-compare-title">Multi-Patient Compare View</span>
+      <button id="la10-compare-exit">Exit Compare</button>
+    </div>
+    <div class="la10-compare-panels">
+      <div class="la10-compare-side" id="la10-compare-panelA">
+        <div class="la10-compare-side-label">Patient A</div>
+      </div>
+      <div class="la10-compare-diverge" id="la10-compare-divCol"></div>
+      <div class="la10-compare-side" id="la10-compare-panelB">
+        <div class="la10-compare-side-label">Patient B</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===== F1: GLOSSARY ===== */
+  var glossTerms = [
+    {term:'NCZ',def:'No-Compromise Zone. Areas of critical clinical priority that cannot be overridden.'},
+    {term:'DRD',def:'Highest burden zone. The dominant risk domain driving clinical priority.'},
+    {term:'APEX',def:'Assessment Priority and Evidence Xray. Prioritisation framework for clinical evidence.'},
+    {term:'FLINT',def:'Functional Layers of Intelligence in Nested Terrain. Levels L1 through L5.'},
+    {term:'TerrainLock',def:'Condition requiring s1Active AND s2Active AND s4Active before terrain analysis proceeds.'},
+    {term:'CascadeIQ',def:'Cascade Intelligence Quotient. Stages S1 through S6 measuring systemic interaction depth.'},
+    {term:'N6',def:'Endocrine signalling pathway. Weighted at 0.7x in composite calculations.'},
+    {term:'Display Scale',def:'Inverted 0-10 scale used for practitioner-facing outputs. Lower values indicate higher burden.'},
+    {term:'TIQ',def:'Terrain Intelligence Quotient. Composite score aggregating multi-layer terrain data.'},
+    {term:'DeltaScan',def:'Longitudinal comparison tool measuring change between two assessment sessions.'},
+    {term:'TRACE',def:'Temporal Risk and Change Evaluation. Timeline view of terrain shifts.'},
+    {term:'KINETICS',def:'Velocity classification system measuring speed and direction of terrain change.'}
+  ];
+  var glossPanel = document.getElementById('la10-gloss-panel');
+  var glossBtn = document.getElementById('la10-gloss-btn');
+  var glossClose = document.getElementById('la10-gloss-close');
+  var glossSearch = document.getElementById('la10-gloss-search');
+  var glossList = document.getElementById('la10-gloss-list');
+
+  function renderGloss(filter) {
+    var html = '';
+    var f = (filter || '').toLowerCase();
+    for (var i = 0; i < glossTerms.length; i++) {
+      var t = glossTerms[i];
+      if (f && t.term.toLowerCase().indexOf(f) === -1 && t.def.toLowerCase().indexOf(f) === -1) continue;
+      html = html + '<div class="la10-gloss-item" data-idx="' + i + '"><div class="la10-gloss-term">' + t.term + '</div><div class="la10-gloss-def">' + t.def + '</div></div>';
+    }
+    glossList.innerHTML = html;
+    var items = glossList.querySelectorAll('.la10-gloss-item');
+    for (var j = 0; j < items.length; j++) {
+      items[j].addEventListener('click', function() {
+        this.classList.toggle('expanded');
+      });
+    }
+  }
+  glossBtn.addEventListener('click', function() { glossPanel.classList.toggle('open'); renderGloss(''); glossSearch.value = ''; });
+  glossClose.addEventListener('click', function() { glossPanel.classList.remove('open'); });
+  glossSearch.addEventListener('input', function() { renderGloss(this.value); });
+
+  /* ===== F2: ANNOTATIONS ===== */
+  var noteCount = 0;
+  var noteMax = 10;
+  var noteAddBtn = document.getElementById('la10-note-add');
+  var noteClearBtn = document.getElementById('la10-note-clearall');
+  var noteKey = 'la10-notes-session';
+
+  function saveNotes() {
+    var notes = document.querySelectorAll('.la10-note-sticky');
+    var data = [];
+    for (var i = 0; i < notes.length; i++) {
+      var n = notes[i];
+      data.push({x: n.style.left, y: n.style.top, text: n.querySelector('textarea').value});
+    }
+    try { sessionStorage.setItem(noteKey, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function createNote(x, y, text) {
+    if (noteCount >= noteMax) return;
+    noteCount++;
+    var el = document.createElement('div');
+    el.className = 'la10-note-sticky';
+    el.style.left = x || '100px';
+    el.style.top = y || '200px';
+    el.innerHTML = '<textarea placeholder="Add note...">' + (text || '') + '</textarea><button class="la10-note-del">delete</button>';
+    document.body.appendChild(el);
+    noteClearBtn.style.display = 'block';
+
+    el.querySelector('textarea').addEventListener('input', saveNotes);
+    el.querySelector('.la10-note-del').addEventListener('click', function() {
+      el.parentNode.removeChild(el);
+      noteCount--;
+      saveNotes();
+      if (noteCount === 0) noteClearBtn.style.display = 'none';
+    });
+
+    var dragging = false, offsetX = 0, offsetY = 0;
+    el.addEventListener('mousedown', function(e) {
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
+      dragging = true;
+      offsetX = e.clientX - el.getBoundingClientRect().left;
+      offsetY = e.clientY - el.getBoundingClientRect().top;
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+      el.style.left = (e.clientX - offsetX) + 'px';
+      el.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      if (dragging) { dragging = false; saveNotes(); }
+    });
+    saveNotes();
+  }
+
+  noteAddBtn.addEventListener('click', function() { createNote(null, null, ''); });
+  noteClearBtn.addEventListener('click', function() {
+    var notes = document.querySelectorAll('.la10-note-sticky');
+    for (var i = 0; i < notes.length; i++) notes[i].parentNode.removeChild(notes[i]);
+    noteCount = 0;
+    noteClearBtn.style.display = 'none';
+    try { sessionStorage.removeItem(noteKey); } catch(e) {}
+  });
+
+  try {
+    var saved = sessionStorage.getItem(noteKey);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      for (var s = 0; s < arr.length; s++) createNote(arr[s].x, arr[s].y, arr[s].text);
+    }
+  } catch(e) {}
+
+  /* ===== F3: DEPENDENCY GRAPH ===== */
+  var depLA4 = document.getElementById('la10-dep-la4');
+  var depLA8 = document.getElementById('la10-dep-la8');
+  if (depLA4) depLA4.addEventListener('click', function() { window.open('LA4_DRD_ZoneScoring_D53_2026-04-11_v2.html','_blank'); });
+  if (depLA8) depLA8.addEventListener('click', function() { window.open('LA8_DeltaScan_ComparisonView_D53_2026-04-11_v2.html','_blank'); });
+
+  /* ===== F4: CONFIDENCE BADGE ===== */
+  var confBadge = document.getElementById('la10-conf-badge');
+  var confLevel = document.getElementById('la10-conf-level');
+  var confDot = confBadge.querySelector('.la10-conf-dot');
+  var confTooltip = document.getElementById('la10-conf-tooltip');
+
+  function updateConfidence() {
+    var sliders = document.querySelectorAll('input[type="range"]');
+    var total = sliders.length;
+    if (total === 0) return;
+    var adjusted = 0;
+    for (var i = 0; i < sliders.length; i++) {
+      var val = parseInt(sliders[i].value, 10);
+      var defVal = parseInt(sliders[i].getAttribute('data-default') || sliders[i].defaultValue || '50', 10);
+      if (val !== defVal) adjusted++;
+    }
+    var pct = (adjusted / total) * 100;
+    var label, color;
+    if (pct > 80) { label = 'HIGH'; color = '#2D9C6A'; }
+    else if (pct >= 40) { label = 'MEDIUM'; color = '#C9A84C'; }
+    else { label = 'LOW'; color = '#C0392B'; }
+    confLevel.textContent = label;
+    confDot.style.background = color;
+    confTooltip.textContent = adjusted + ' of ' + total + ' inputs configured';
+  }
+
+  document.addEventListener('input', function(e) {
+    if (e.target && e.target.type === 'range') updateConfidence();
+  });
+  confBadge.addEventListener('mouseenter', function() { confTooltip.style.display = 'block'; });
+  confBadge.addEventListener('mouseleave', function() { confTooltip.style.display = 'none'; });
+  updateConfidence();
+
+  /* ===== F5: MULTI-PATIENT COMPARE ===== */
+  var compareBtn = document.getElementById('la10-compare-btn');
+  var compareOverlay = document.getElementById('la10-compare-overlay');
+  var compareExit = document.getElementById('la10-compare-exit');
+  var panelA = document.getElementById('la10-compare-panelA');
+  var panelB = document.getElementById('la10-compare-panelB');
+  var divCol = document.getElementById('la10-compare-divCol');
+  var zoneNames = ['Z1 Metabolic','Z2 Immune','Z3 Neuro','Z4 Gut','Z5 Cardiac'];
+  var zoneColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var valsA = [50,50,50,50,50];
+  var valsB = [50,50,50,50,50];
+
+  function buildComparePanel(panel, prefix, vals) {
+    var html = '';
+    for (var i = 0; i < 5; i++) {
+      var ds = (vals[i] / 10).toFixed(1);
+      html = html + '<div class="la10-compare-zone-row"><span class="la10-compare-zone-dot" style="background:' + zoneColors[i] + '"></span><span class="la10-compare-zone-name">' + zoneNames[i] + '</span><span class="la10-compare-zone-val" id="la10-compare-' + prefix + '-v' + i + '">' + ds + '</span></div><input type="range" class="la10-compare-zone-slider" min="0" max="100" value="' + vals[i] + '" data-side="' + prefix + '" data-zi="' + i + '">';
+    }
+    var label = panel.querySelector('.la10-compare-side-label');
+    var labelHTML = label ? label.outerHTML : '';
+    panel.innerHTML = labelHTML + html;
+  }
+
+  function updateDivergence() {
+    var html = '';
+    var maxDiff = 0, maxIdx = -1;
+    for (var i = 0; i < 5; i++) {
+      var diff = Math.abs(valsA[i] - valsB[i]);
+      if (diff > maxDiff) { maxDiff = diff; maxIdx = i; }
+      var h = Math.max(4, diff * 0.6);
+      html = html + '<div class="la10-compare-div-bar" style="height:' + h + 'px;width:4px;background:' + zoneColors[i] + ';border-radius:2px;"></div>';
+    }
+    divCol.innerHTML = html;
+    var rows = document.querySelectorAll('.la10-compare-zone-row');
+    for (var j = 0; j < rows.length; j++) rows[j].classList.remove('la10-compare-highlight');
+    if (maxIdx > -1) {
+      var rowsA = panelA.querySelectorAll('.la10-compare-zone-row');
+      var rowsB = panelB.querySelectorAll('.la10-compare-zone-row');
+      if (rowsA[maxIdx]) rowsA[maxIdx].classList.add('la10-compare-highlight');
+      if (rowsB[maxIdx]) rowsB[maxIdx].classList.add('la10-compare-highlight');
+    }
+  }
+
+  compareBtn.addEventListener('click', function() {
+    buildComparePanel(panelA, 'a', valsA);
+    buildComparePanel(panelB, 'b', valsB);
+    updateDivergence();
+    compareOverlay.classList.add('open');
+  });
+
+  compareExit.addEventListener('click', function() { compareOverlay.classList.remove('open'); });
+
+  compareOverlay.addEventListener('input', function(e) {
+    if (e.target && e.target.type === 'range' && e.target.getAttribute('data-side')) {
+      var side = e.target.getAttribute('data-side');
+      var zi = parseInt(e.target.getAttribute('data-zi'), 10);
+      var raw = parseInt(e.target.value, 10);
+      var display = (raw / 10).toFixed(1);
+      if (side === 'a') valsA[zi] = raw;
+      else valsB[zi] = raw;
+      var valEl = document.getElementById('la10-compare-' + side + '-v' + zi);
+      if (valEl) valEl.textContent = display;
+      updateDivergence();
+    }
+  });
+})();
+</script>
+<!-- ===== END CROSS-CUTTING FEATURES ===== -->
+
+</body>
+</html>

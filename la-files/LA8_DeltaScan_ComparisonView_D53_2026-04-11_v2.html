@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="audience-tier" content="practitioner">
+<title>LA-8: DeltaScan&#8482; Comparison View | VitalMatrix&#8482;</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C4452;--card:rgba(7,28,51,.90);--card2:rgba(13,43,78,.55);
+  --z1:#C9A84C;--z1r:201,168,76;--z1l:#D4B86A;
+  --z2:#1A7A8A;--z2r:26,122,138;--z2l:#2A9BAD;
+  --z3:#7B5EA7;--z3r:123,94,167;--z3l:#9B7EC8;
+  --z4:#5F7C6C;--z4r:95,124,108;--z4l:#7A9485;
+  --z5:#2E6DB4;--z5r:46,109,180;--z5l:#4A8AD0;
+  --gold:#C9A84C;--teal:#1A7A8A;--teal-l:#2A9BAD;
+  --improve:#2D9C6A;--worsen:#C0392B;--neutral:rgba(244,244,242,.35);
+  --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
+  --t35:rgba(244,244,242,.55);--t12:rgba(244,244,242,.12);--t06:rgba(244,244,242,.06);
+  --fs:'Cormorant Garamond',Georgia,serif;--fd:'Outfit',system-ui,sans-serif;--fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+*:focus-visible{outline:2px solid #C9A84C;outline-offset:2px;}
+body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+.comp-header{background:rgba(7,28,51,.92);border-bottom:1px solid rgba(201,168,76,.20);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+.comp-id{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+.comp-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);}
+.threshold-note{font-family:var(--fm);font-size:8px;color:var(--t35);letter-spacing:.06em;}
+
+.comp-body{max-width:1000px;margin:0 auto;padding:24px 20px 60px;display:flex;flex-direction:column;gap:16px;}
+
+/* SESSION INPUTS */
+.sessions-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:700px){.sessions-row{grid-template-columns:1fr;}}
+.session-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:18px;}
+.session-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.session-label.s1{color:rgba(26,122,138,.7);}
+.session-label.s3{color:rgba(201,168,76,.7);}
+.zone-input-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.zi-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.zi-name{font-family:var(--fm);font-size:9px;flex:1;}
+.zi-val{font-family:var(--fm);font-size:9px;font-weight:500;min-width:24px;text-align:right;}
+input[type=range]{width:100%;height:4px;border-radius:2px;outline:none;cursor:pointer;background:rgba(255,255,255,.10);-webkit-appearance:none;appearance:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;border:2px solid var(--bg);cursor:pointer;}
+input[type=range].z1::-webkit-slider-thumb{background:var(--z1);}
+input[type=range].z2::-webkit-slider-thumb{background:var(--z2);}
+input[type=range].z3::-webkit-slider-thumb{background:var(--z3);}
+input[type=range].z4::-webkit-slider-thumb{background:var(--z4);}
+input[type=range].z5::-webkit-slider-thumb{background:var(--z5);}
+
+.session-label-text{font-family:var(--fm);font-size:8px;color:var(--t35);}
+.session-date-input{background:var(--card2);border:1px solid var(--t12);border-radius:4px;color:var(--t55);font-family:var(--fm);font-size:9px;padding:4px 8px;width:100%;margin-top:6px;}
+
+/* PRESET ROW */
+.preset-row{display:flex;gap:6px;flex-wrap:wrap;}
+.preset-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:4px;cursor:pointer;border:1px solid var(--t12);background:transparent;color:var(--t55);transition:all .2s;}
+.preset-btn:hover{border-color:rgba(201,168,76,.3);color:var(--gold);}
+.preset-btn.active{background:rgba(201,168,76,.1);border-color:var(--gold);color:var(--gold);}
+
+/* COMPARISON TABLE */
+.comparison-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;overflow:hidden;}
+.comp-table-head{display:grid;grid-template-columns:1fr 90px 90px 80px 120px;padding:10px 18px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--t06);align-items:center;}
+.cth{font-family:var(--fm);font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--t35);}
+.comp-zone-row{display:grid;grid-template-columns:1fr 90px 90px 80px 120px;padding:14px 18px;border-bottom:1px solid var(--t06);align-items:center;transition:background .15s;}
+.comp-zone-row:last-child{border-bottom:none;}
+.comp-zone-row:hover{background:rgba(255,255,255,.02);}
+
+.zone-id-cell{display:flex;align-items:center;gap:10px;}
+.cz-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.cz-name{font-family:var(--fd);font-size:13px;color:var(--t80);}
+.score-cell{font-family:var(--fm);font-size:12px;font-weight:500;text-align:center;}
+.delta-cell{text-align:center;}
+.delta-val{font-family:var(--fm);font-size:11px;font-weight:500;padding:2px 8px;border-radius:100px;display:inline-block;}
+.delta-pos{background:rgba(45,156,106,.12);border:1px solid rgba(45,156,106,.25);color:#5DD88F;}
+.delta-neg{background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:#E07070;}
+.delta-neu{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);color:var(--t35);}
+
+.change-cell{padding:0 4px;}
+.change-bar-wrap{display:flex;align-items:center;gap:6px;}
+.bar-bg{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;position:relative;}
+.bar-before{position:absolute;height:100%;border-radius:3px;opacity:.45;top:0;left:0;}
+.bar-after{position:absolute;height:100%;border-radius:3px;top:0;left:0;transition:width .5s ease;}
+.meaningful-tag{font-family:var(--fm);font-size:7.5px;padding:1.5px 6px;border-radius:100px;}
+.meaningful-yes{background:rgba(45,156,106,.12);border:1px solid rgba(45,156,106,.25);color:#5DD88F;}
+.meaningful-no{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);color:var(--t35);}
+.meaningful-flag{background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:#E07070;}
+
+/* SUMMARY BAR */
+.summary-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:16px 18px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:600px){.summary-card{grid-template-columns:1fr 1fr;}}
+.sum-stat{text-align:center;}
+.sum-n{font-family:var(--fs);font-size:1.6rem;font-weight:600;line-height:1;}
+.sum-l{font-family:var(--fm);font-size:7.5px;letter-spacing:.10em;text-transform:uppercase;color:var(--t35);margin-top:4px;}
+
+.threshold-info{background:rgba(255,255,255,.03);border:1px solid var(--t06);border-radius:8px;padding:12px 16px;font-family:var(--fm);font-size:8.5px;color:var(--t35);line-height:1.75;}
+
+.page-footer{background:#1A2030;border-top:1px solid rgba(201,168,76,.3);padding:16px 24px;border-radius:6px;font-family:var(--fm);font-size:8px;color:rgba(244,244,242,.65);line-height:1.9;}
+.page-footer strong{color:#C9A84C;}
+</style>
+<link rel="stylesheet" href="vm-la-crosscut.css">
+<link rel="stylesheet" href="vm-la-crosscut-2.css">
+<script src="vm-la-crosscut.js" defer></script>
+<script src="vm-la-crosscut-2.js" defer></script>
+</head>
+<body>
+
+<header class="comp-header">
+  <div>
+    <div class="comp-id">LA-8 | GENOME&#8482; Handbook V7 | D-53 | ALB v1.6 (D-62)</div>
+    <div class="comp-title">DeltaScan&#8482; Comparison View</div>
+  </div>
+  <div class="threshold-note">Meaningful change threshold: 8 internal points</div>
+</header>
+
+<div class="comp-body">
+
+<!-- PRESET ROW -->
+<div class="preset-row">
+  <button class="preset-btn active" onclick="loadPreset('typical')">Typical Response</button>
+  <button class="preset-btn" onclick="loadPreset('strong')">Strong Improvement</button>
+  <button class="preset-btn" onclick="loadPreset('plateau')">Plateau Pattern</button>
+  <button class="preset-btn" onclick="loadPreset('worsen')">Worsening</button>
+  <button class="preset-btn" onclick="loadPreset('mixed')">Mixed Response</button>
+</div>
+
+<!-- SESSION INPUTS -->
+<div class="sessions-row">
+  <div class="session-card">
+    <div class="session-label s1">Session 1: Baseline</div>
+    <div class="zone-input-row"><div class="zi-dot" style="background:var(--z1)"></div><div class="zi-name" style="color:var(--z1l)">Z1 Metabolic</div><div class="zi-val" style="color:var(--z1)" id="v1-z1">72</div></div>
+    <input type="range" class="z1" id="s1-z1" min="0" max="100" value="72" oninput="update()">
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z2)"></div><div class="zi-name" style="color:var(--z2l)">Z2 Resilience</div><div class="zi-val" style="color:var(--z2)" id="v1-z2">78</div></div>
+    <input type="range" class="z2" id="s1-z2" min="0" max="100" value="78" oninput="update()"></div>
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z3)"></div><div class="zi-name" style="color:var(--z3l)">Z3 Cardiovascular</div><div class="zi-val" style="color:var(--z3)" id="v1-z3">35</div></div>
+    <input type="range" class="z3" id="s1-z3" min="0" max="100" value="35" oninput="update()"></div>
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z4)"></div><div class="zi-name" style="color:var(--z4l)">Z4 Detoxification</div><div class="zi-val" style="color:var(--z4)" id="v1-z4">48</div></div>
+    <input type="range" class="z4" id="s1-z4" min="0" max="100" value="48" oninput="update()"></div>
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z5)"></div><div class="zi-name" style="color:var(--z5l)">Z5 Hormonal</div><div class="zi-val" style="color:var(--z5)" id="v1-z5">65</div></div>
+    <input type="range" class="z5" id="s1-z5" min="0" max="100" value="65" oninput="update()"></div>
+    <input type="text" class="session-date-input" id="s1-date" value="3 January 2026" placeholder="Session date">
+  </div>
+
+  <div class="session-card">
+    <div class="session-label s3">Session 3: 12-Week Follow-up</div>
+    <div class="zone-input-row"><div class="zi-dot" style="background:var(--z1)"></div><div class="zi-name" style="color:var(--z1l)">Z1 Metabolic</div><div class="zi-val" style="color:var(--z1)" id="v3-z1">55</div></div>
+    <input type="range" class="z1" id="s3-z1" min="0" max="100" value="55" oninput="update()">
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z2)"></div><div class="zi-name" style="color:var(--z2l)">Z2 Resilience</div><div class="zi-val" style="color:var(--z2)" id="v3-z2">60</div></div>
+    <input type="range" class="z2" id="s3-z2" min="0" max="100" value="60" oninput="update()"></div>
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z3)"></div><div class="zi-name" style="color:var(--z3l)">Z3 Cardiovascular</div><div class="zi-val" style="color:var(--z3)" id="v3-z3">30</div></div>
+    <input type="range" class="z3" id="s3-z3" min="0" max="100" value="30" oninput="update()"></div>
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z4)"></div><div class="zi-name" style="color:var(--z4l)">Z4 Detoxification</div><div class="zi-val" style="color:var(--z4)" id="v3-z4">38</div></div>
+    <input type="range" class="z4" id="s3-z4" min="0" max="100" value="38" oninput="update()"></div>
+    <div style="margin-top:8px;"><div class="zone-input-row"><div class="zi-dot" style="background:var(--z5)"></div><div class="zi-name" style="color:var(--z5l)">Z5 Hormonal</div><div class="zi-val" style="color:var(--z5)" id="v3-z5">52</div></div>
+    <input type="range" class="z5" id="s3-z5" min="0" max="100" value="52" oninput="update()"></div>
+    <input type="text" class="session-date-input" id="s3-date" value="27 March 2026" placeholder="Session date">
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary-card" id="summary-card">
+  <div class="sum-stat"><div class="sum-n" id="sum-improved" style="color:#5DD88F">0</div><div class="sum-l">Zones Improved</div></div>
+  <div class="sum-stat"><div class="sum-n" id="sum-meaningful" style="color:var(--gold)">0</div><div class="sum-l">Meaningful Change</div></div>
+  <div class="sum-stat"><div class="sum-n" id="sum-plateau" style="color:var(--t35)">0</div><div class="sum-l">No Change</div></div>
+  <div class="sum-stat"><div class="sum-n" id="sum-worse" style="color:#E07070">0</div><div class="sum-l">Zones Worsened</div></div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="comparison-card">
+  <div class="comp-table-head">
+    <div class="cth">Zone</div>
+    <div class="cth" style="text-align:center;">Session 1</div>
+    <div class="cth" style="text-align:center;">Session 3</div>
+    <div class="cth" style="text-align:center;">Delta</div>
+    <div class="cth">Change</div>
+  </div>
+  <div id="comp-rows"></div>
+</div>
+
+<!-- THRESHOLD INFO -->
+<div class="threshold-info">
+  <strong style="color:var(--t55);display:block;margin-bottom:4px;font-size:8px;letter-spacing:.14em;text-transform:uppercase;">DeltaScan&#8482; Methodology</strong>
+  Meaningful change threshold: <strong style="color:var(--white)">8 internal points</strong> on the 0-100 internal scale. Changes below this threshold are within measurement variability and should not be reported as terrain shift. DeltaScan&#8482; compares two complete FLINT&#8482; pipeline runs: it is a before-and-after panel comparison, not an imaging tool. Paired sessions can be any two sessions in the patient record. Typical comparison interval: 8 to 12 weeks.
+  <br><br><strong style="color:var(--t55);">Scale note:</strong> Sliders use the internal 0-100 scale where higher values = higher burden. On the practitioner-facing display scale (0-10 inverted), a higher display score = lower burden = terrain improvement.
+</div>
+
+</div>
+
+<footer class="page-footer">
+  <p><strong>Trademarks:</strong> VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p style="margin-top:6px;">GENOME&#8482; Handbook V7 | LA-8 DeltaScan&#8482; Comparison View | ALB v1.6 (D-62) | D-53 | For practitioner use only. Not a diagnostic tool. VitalMatrix&#8482; is a clinical intelligence platform. | Dr Shahzad Faisal, MBBS, FAAMFM | &copy; 2026 VitalMatrix Ltd | ICO ZC101813</p>
+  <p style="margin-top:6px;">MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+</footer>
+
+<script>
+'use strict';
+var ZONES = [
+  {id:'z1',name:'Z1 Metabolic Energy Axis',short:'Z1',col:'#C9A84C',colr:'201,168,76'},
+  {id:'z2',name:'Z2 Resilience Network',short:'Z2',col:'#1A7A8A',colr:'26,122,138'},
+  {id:'z3',name:'Z3 Cardiovascular-Neural',short:'Z3',col:'#7B5EA7',colr:'123,94,167'},
+  {id:'z4',name:'Z4 Detoxification Trident',short:'Z4',col:'#5F7C6C',colr:'95,124,108'},
+  {id:'z5',name:'Z5 Hormonal Terrain Axis',short:'Z5',col:'#2E6DB4',colr:'46,109,180'}
+];
+var PRESETS = {
+  typical:{s1:{z1:72,z2:78,z3:35,z4:48,z5:65},s3:{z1:55,z2:60,z3:30,z4:38,z5:52}},
+  strong:{s1:{z1:80,z2:82,z3:40,z4:55,z5:70},s3:{z1:45,z2:50,z3:25,z4:30,z5:42}},
+  plateau:{s1:{z1:70,z2:75,z3:38,z4:50,z5:60},s3:{z1:66,z2:72,z3:36,z4:48,z5:58}},
+  worsen:{s1:{z1:55,z2:60,z3:28,z4:40,z5:50},s3:{z1:65,z2:72,z3:38,z4:55,z5:62}},
+  mixed:{s1:{z1:75,z2:70,z3:45,z4:60,z5:55},s3:{z1:55,z2:65,z3:52,z4:40,z5:50}}
+};
+var THRESHOLD = 8;
+
+function loadPreset(name){
+  var p=PRESETS[name];if(!p)return;
+  ZONES.forEach(function(z){
+    document.getElementById('s1-'+z.id).value=p.s1[z.id];
+    document.getElementById('s3-'+z.id).value=p.s3[z.id];
+  });
+  document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('onclick').includes(name));});
+  update();
+}
+
+function update(){
+  var improved=0,meaningful=0,plateau=0,worse=0;
+  var html='';
+
+  ZONES.forEach(function(z){
+    var s1=parseInt(document.getElementById('s1-'+z.id).value);
+    var s3=parseInt(document.getElementById('s3-'+z.id).value);
+    document.getElementById('v1-'+z.id).textContent=s1;
+    document.getElementById('v3-'+z.id).textContent=s3;
+    document.getElementById('v1-'+z.id).style.color=z.col;
+    document.getElementById('v3-'+z.id).style.color=z.col;
+
+    var delta=s1-s3; // positive = improvement (burden reduced)
+    var absDelta=Math.abs(delta);
+    var isImproved=delta>0;
+    var isWorsened=delta<0;
+    var isMeaningful=absDelta>=THRESHOLD;
+
+    if(isImproved){improved++; if(isMeaningful)meaningful++;}
+    else if(isWorsened){worse++;}
+    else{plateau++;}
+
+    var deltaSign=delta>0?'-':delta<0?'+':'';
+    var deltaClass=delta>0?'delta-pos':delta<0?'delta-neg':'delta-neu';
+    var deltaText=(delta>0?'-':delta<0?'+':'')+absDelta;
+
+    var tagClass=!isMeaningful?'meaningful-no':(isImproved?'meaningful-yes':'meaningful-flag');
+    var tagText=!isMeaningful?'No change':(isImproved?'Significant':'Worsened');
+
+    // Bar: before=s1/100, after=s3/100
+    var barBefore=(s1/100*100).toFixed(0)+'%';
+    var barAfter=(s3/100*100).toFixed(0)+'%';
+    var barCol=z.col;
+
+    html+='<div class="comp-zone-row">'+
+      '<div class="zone-id-cell">'+
+        '<div class="cz-dot" style="background:'+z.col+'"></div>'+
+        '<div class="cz-name" style="color:'+(delta>0?z.col:delta<0?'#E07070':'var(--t80)')+'">'+z.name+'</div>'+
+      '</div>'+
+      '<div class="score-cell" style="color:var(--t55)">'+s1+'</div>'+
+      '<div class="score-cell" style="color:'+(isImproved?'#5DD88F':isWorsened?'#E07070':'var(--t55)')+'">'+s3+'</div>'+
+      '<div class="delta-cell"><span class="delta-val '+deltaClass+'">'+(delta===0?'0':deltaText)+'</span></div>'+
+      '<div class="change-cell">'+
+        '<div class="change-bar-wrap">'+
+          '<div class="bar-bg">'+
+            '<div class="bar-before" style="width:'+barBefore+';background:'+barCol+'"></div>'+
+            '<div class="bar-after" style="width:'+barAfter+';background:'+(isImproved?'#2D9C6A':isWorsened?'#C0392B':barCol)+'""></div>'+
+          '</div>'+
+          '<span class="meaningful-tag '+tagClass+'">'+tagText+'</span>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  });
+
+  document.getElementById('comp-rows').innerHTML=html;
+  document.getElementById('sum-improved').textContent=improved;
+  document.getElementById('sum-meaningful').textContent=meaningful;
+  document.getElementById('sum-plateau').textContent=ZONES.length-improved-worse;
+  document.getElementById('sum-worse').textContent=worse;
+}
+
+update();
+</script>
+<!-- ================================================================ -->
+<!-- LA8F1: T1 vs T2 Pentagon Morph                                   -->
+<!-- ================================================================ -->
+<style>
+.vm-la8f1-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1000px;}
+.vm-la8f1-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la8f1-canvas-wrap{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.vm-la8f1-svg{width:260px;height:260px;}
+.vm-la8f1-legend{display:flex;flex-direction:column;gap:6px;}
+.vm-la8f1-leg-row{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la8f1-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.vm-la8f1-status{font-family:var(--fm);font-size:8px;color:var(--t35);text-align:center;margin-top:10px;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la8f1-poly{transition:none !important;}
+}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la8f1-wrap" id="vm-la8f1-wrap">
+  <div class="vm-la8f1-label">LA8F1: T1 vs T2 Pentagon Morph</div>
+  <div class="vm-la8f1-canvas-wrap">
+    <svg class="vm-la8f1-svg" viewBox="0 0 260 260" id="vm-la8f1-svg">
+      <polygon id="vm-la8f1-grid" fill="none" stroke="rgba(244,244,242,.06)" stroke-width="1"/>
+      <polygon id="vm-la8f1-t1" fill="rgba(26,122,138,.15)" stroke="#1A7A8A" stroke-width="1.5" style="transition:all .6s ease;"/>
+      <polygon id="vm-la8f1-t2" fill="rgba(201,168,76,.15)" stroke="#C9A84C" stroke-width="1.5" style="transition:all .6s ease;"/>
+      <g id="vm-la8f1-labels"></g>
+    </svg>
+    <div class="vm-la8f1-legend">
+      <div class="vm-la8f1-leg-row"><div class="vm-la8f1-leg-dot" style="background:#1A7A8A"></div>T1 (Session 1)</div>
+      <div class="vm-la8f1-leg-row"><div class="vm-la8f1-leg-dot" style="background:#C9A84C"></div>T2 (Session 3)</div>
+      <div class="vm-la8f1-leg-row" style="margin-top:6px;color:var(--t35);font-size:8px;">Hover to freeze morph</div>
+    </div>
+  </div>
+  <div class="vm-la8f1-status" id="vm-la8f1-status">Morphing between T1 and T2</div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var cx=130,cy=130,maxR=100;
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneLabels=['Z1','Z2','Z3','Z4','Z5'];
+  var frozen=false;
+  var morphPhase=0;
+  var morphDir=1;
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function angleFor(i){return -Math.PI/2+i*(2*Math.PI/5);}
+  function polyPoints(scores){
+    var pts=[];
+    for(var i=0;i<5;i++){
+      var r=scores[i]/100*maxR;
+      var a=angleFor(i);
+      pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1));
+    }
+    return pts.join(' ');
+  }
+
+  // grid
+  var gridPts=[];
+  for(var i=0;i<5;i++){var a=angleFor(i);gridPts.push((cx+maxR*Math.cos(a)).toFixed(1)+','+(cy+maxR*Math.sin(a)).toFixed(1));}
+  document.getElementById('vm-la8f1-grid').setAttribute('points',gridPts.join(' '));
+
+  // labels
+  var labelsG=document.getElementById('vm-la8f1-labels');
+  for(var i=0;i<5;i++){
+    var a=angleFor(i);
+    var lx=cx+(maxR+14)*Math.cos(a);
+    var ly=cy+(maxR+14)*Math.sin(a);
+    var txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',lx.toFixed(1));
+    txt.setAttribute('y',ly.toFixed(1));
+    txt.setAttribute('text-anchor','middle');
+    txt.setAttribute('dominant-baseline','central');
+    txt.setAttribute('fill',zoneColours[i]);
+    txt.setAttribute('font-family','DM Mono,monospace');
+    txt.setAttribute('font-size','9');
+    txt.textContent=zoneLabels[i];
+    labelsG.appendChild(txt);
+  }
+
+  var wrap=document.getElementById('vm-la8f1-wrap');
+  wrap.addEventListener('mouseenter',function(){frozen=true;document.getElementById('vm-la8f1-status').textContent='Frozen (hover)';});
+  wrap.addEventListener('mouseleave',function(){frozen=false;document.getElementById('vm-la8f1-status').textContent='Morphing between T1 and T2';});
+
+  function getScores(){
+    var t1=[],t2=[];
+    var ids=['z1','z2','z3','z4','z5'];
+    for(var i=0;i<5;i++){
+      t1.push(parseInt(document.getElementById('s1-'+ids[i]).value)||0);
+      t2.push(parseInt(document.getElementById('s3-'+ids[i]).value)||0);
+    }
+    return {t1:t1,t2:t2};
+  }
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function render(){
+    var data=getScores();
+    var mixed=[];
+    for(var i=0;i<5;i++){mixed.push(lerp(data.t1[i],data.t2[i],morphPhase));}
+    document.getElementById('vm-la8f1-t1').setAttribute('points',polyPoints(data.t1));
+    document.getElementById('vm-la8f1-t2').setAttribute('points',polyPoints(mixed));
+  }
+
+  function tick(){
+    if(!frozen&&!reducedMotion){
+      morphPhase+=0.008*morphDir;
+      if(morphPhase>=1){morphPhase=1;morphDir=-1;}
+      if(morphPhase<=0){morphPhase=0;morphDir=1;}
+    }
+    render();
+    requestAnimationFrame(tick);
+  }
+  if(reducedMotion){morphPhase=0.5;render();}else{tick();}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8F2: Zone Delta Waterfall                                       -->
+<!-- ================================================================ -->
+<style>
+.vm-la8f2-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1000px;}
+.vm-la8f2-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la8f2-chart{display:flex;align-items:flex-end;justify-content:center;gap:16px;height:200px;padding:10px 0;}
+.vm-la8f2-col{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;}
+.vm-la8f2-bar{width:40px;border-radius:4px 4px 0 0;transition:height .8s ease;position:relative;}
+.vm-la8f2-val{font-family:var(--fm);font-size:10px;font-weight:500;}
+.vm-la8f2-zname{font-family:var(--fm);font-size:8px;color:var(--t35);}
+.vm-la8f2-connector{position:absolute;width:2px;background:rgba(244,244,242,.08);}
+@media (prefers-reduced-motion:reduce){
+  .vm-la8f2-bar{transition:none !important;}
+}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la8f2-wrap">
+  <div class="vm-la8f2-label">LA8F2: Zone Delta Waterfall Chart</div>
+  <div class="vm-la8f2-chart" id="vm-la8f2-chart"></div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneNames=['Z1','Z2','Z3','Z4','Z5'];
+  var ids=['z1','z2','z3','z4','z5'];
+  var positiveCol='#C0392B';
+  var negativeCol='#5F7C6C';
+
+  function renderWaterfall(){
+    var container=document.getElementById('vm-la8f2-chart');
+    container.innerHTML='';
+    for(var i=0;i<5;i++){
+      var s1=parseInt(document.getElementById('s1-'+ids[i]).value)||0;
+      var s3=parseInt(document.getElementById('s3-'+ids[i]).value)||0;
+      var delta=s1-s3;
+      var absDelta=Math.abs(delta);
+      var barH=Math.max(absDelta*1.8,4);
+      var isPositive=delta>0;
+      var col=isPositive?negativeCol:positiveCol;
+      if(delta===0)col='rgba(244,244,242,.15)';
+
+      var colDiv=document.createElement('div');
+      colDiv.className='vm-la8f2-col';
+
+      var valDiv=document.createElement('div');
+      valDiv.className='vm-la8f2-val';
+      valDiv.style.color=isPositive?'#5DD88F':delta<0?'#E07070':'var(--t35)';
+      valDiv.textContent=(delta>0?'-':delta<0?'+':'')+absDelta;
+
+      var barDiv=document.createElement('div');
+      barDiv.className='vm-la8f2-bar';
+      barDiv.style.height='0px';
+      barDiv.style.background=col;
+
+      var nameDiv=document.createElement('div');
+      nameDiv.className='vm-la8f2-zname';
+      nameDiv.style.color=zoneColours[i];
+      nameDiv.textContent=zoneNames[i];
+
+      colDiv.appendChild(valDiv);
+      colDiv.appendChild(barDiv);
+      colDiv.appendChild(nameDiv);
+      container.appendChild(colDiv);
+
+      (function(bar,h){
+        setTimeout(function(){bar.style.height=h+'px';},50+i*120);
+      })(barDiv,barH);
+    }
+  }
+
+  renderWaterfall();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){
+    sliders[j].addEventListener('input',renderWaterfall);
+  }
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8F3: Cascade Activation Diff                                    -->
+<!-- ================================================================ -->
+<style>
+.vm-la8f3-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1000px;}
+.vm-la8f3-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la8f3-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:600px){.vm-la8f3-grid{grid-template-columns:1fr;}}
+.vm-la8f3-col-label{font-family:var(--fm);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--t35);margin-bottom:8px;text-align:center;}
+.vm-la8f3-stack{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;margin-bottom:4px;font-family:var(--fm);font-size:9px;transition:background .4s,border-color .4s;}
+.vm-la8f3-stack-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:background .4s;}
+.vm-la8f3-stack-name{flex:1;color:var(--t55);}
+.vm-la8f3-stack-status{font-size:8px;padding:1px 6px;border-radius:100px;}
+.vm-la8f3-active{background:rgba(45,156,106,.08);border:1px solid rgba(45,156,106,.2);}
+.vm-la8f3-inactive{background:rgba(244,244,242,.03);border:1px solid var(--t06);}
+.vm-la8f3-status-on{background:rgba(45,156,106,.12);color:#5DD88F;border:1px solid rgba(45,156,106,.25);}
+.vm-la8f3-status-off{background:rgba(244,244,242,.04);color:var(--t35);border:1px solid var(--t06);}
+.vm-la8f3-status-theoretical{border-style:dashed !important;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la8f3-stack,.vm-la8f3-stack-dot{transition:none !important;}
+}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la8f3-wrap">
+  <div class="vm-la8f3-label">LA8F3: Cascade Activation Diff (T1 vs T2)</div>
+  <div class="vm-la8f3-grid">
+    <div>
+      <div class="vm-la8f3-col-label">T1 (Session 1)</div>
+      <div id="vm-la8f3-t1"></div>
+    </div>
+    <div>
+      <div class="vm-la8f3-col-label">T2 (Session 3)</div>
+      <div id="vm-la8f3-t2"></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var STACKS=[
+    {id:'s1',name:'S1: Z2 to Z1',src:'z2',tgt:'z1',vel:'MEDIUM',theoretical:false},
+    {id:'s2',name:'S2: Z1 to Z5',src:'z1',tgt:'z5',vel:'FAST',theoretical:false},
+    {id:'s3',name:'S3: Z4 to Z1',src:'z4',tgt:'z1',vel:'SLOW',theoretical:false},
+    {id:'s4',name:'S4: Z5 to Z2 (THEORETICAL)',src:'z5',tgt:'z2',vel:'MEDIUM',theoretical:true},
+    {id:'s5',name:'S5: Z2 to Z3',src:'z2',tgt:'z3',vel:'FAST',theoretical:false},
+    {id:'s6',name:'S6: Z1 to Z3 (UNIDIRECTIONAL)',src:'z1',tgt:'z3',vel:'MEDIUM',theoretical:false}
+  ];
+  var thresholds={z1:40,z2:40,z3:40,z4:40,z5:32};
+  var ids=['z1','z2','z3','z4','z5'];
+
+  function isActive(prefix,stack){
+    var srcVal=parseInt(document.getElementById(prefix+stack.src).value)||0;
+    var tgtVal=parseInt(document.getElementById(prefix+stack.tgt).value)||0;
+    return srcVal>=thresholds[stack.src]&&tgtVal>=thresholds[stack.tgt];
+  }
+
+  function renderCol(containerId,prefix){
+    var container=document.getElementById(containerId);
+    container.innerHTML='';
+    for(var i=0;i<STACKS.length;i++){
+      var s=STACKS[i];
+      var active=isActive(prefix,s);
+      var div=document.createElement('div');
+      div.className='vm-la8f3-stack '+(active?'vm-la8f3-active':'vm-la8f3-inactive');
+      if(s.theoretical)div.classList.add('vm-la8f3-status-theoretical');
+
+      var dot=document.createElement('div');
+      dot.className='vm-la8f3-stack-dot';
+      dot.style.background=active?'#5DD88F':'rgba(244,244,242,.15)';
+
+      var name=document.createElement('div');
+      name.className='vm-la8f3-stack-name';
+      name.textContent=s.name;
+
+      var status=document.createElement('div');
+      status.className='vm-la8f3-stack-status '+(active?'vm-la8f3-status-on':'vm-la8f3-status-off');
+      if(s.theoretical)status.classList.add('vm-la8f3-status-theoretical');
+      status.textContent=active?'Active':'Inactive';
+
+      div.appendChild(dot);
+      div.appendChild(name);
+      div.appendChild(status);
+      container.appendChild(div);
+    }
+  }
+
+  function renderBoth(){
+    renderCol('vm-la8f3-t1','s1-');
+    renderCol('vm-la8f3-t2','s3-');
+  }
+
+  renderBoth();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',renderBoth);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8F4: DRD Designation Shift Tracker                              -->
+<!-- ================================================================ -->
+<style>
+.vm-la8f4-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1000px;}
+.vm-la8f4-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la8f4-track{position:relative;display:flex;align-items:center;justify-content:space-around;padding:20px 10px 10px;min-height:80px;}
+.vm-la8f4-zone{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;z-index:2;}
+.vm-la8f4-zone-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:10px;font-weight:500;transition:transform .4s ease,box-shadow .4s ease;border:2px solid transparent;}
+.vm-la8f4-zone-score{font-family:var(--fm);font-size:8px;color:var(--t35);}
+.vm-la8f4-crown{position:absolute;top:-18px;font-size:14px;transition:opacity .4s ease,transform .4s ease;}
+.vm-la8f4-note{font-family:var(--fm);font-size:8px;color:var(--t35);text-align:center;margin-top:10px;}
+.vm-la8f4-drd-label{font-family:var(--fm);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la8f4-zone-dot,.vm-la8f4-crown{transition:none !important;}
+}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la8f4-wrap">
+  <div class="vm-la8f4-label">LA8F4: DRD Designation Shift Tracker</div>
+  <div class="vm-la8f4-track" id="vm-la8f4-track"></div>
+  <div class="vm-la8f4-note" id="vm-la8f4-note">Highest burden zone: crown indicates DRD designation</div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneNames=['Z1','Z2','Z3','Z4','Z5'];
+  var ids=['z1','z2','z3','z4','z5'];
+
+  function renderDRD(){
+    var track=document.getElementById('vm-la8f4-track');
+    track.innerHTML='';
+    var t1Scores=[],t2Scores=[];
+    for(var i=0;i<5;i++){
+      t1Scores.push(parseInt(document.getElementById('s1-'+ids[i]).value)||0);
+      t2Scores.push(parseInt(document.getElementById('s3-'+ids[i]).value)||0);
+    }
+
+    var t1Max=0,t1Drd=0,t2Max=0,t2Drd=0;
+    for(var i=0;i<5;i++){
+      if(t1Scores[i]>t1Max){t1Max=t1Scores[i];t1Drd=i;}
+      if(t2Scores[i]>t2Max){t2Max=t2Scores[i];t2Drd=i;}
+    }
+
+    for(var i=0;i<5;i++){
+      var zone=document.createElement('div');
+      zone.className='vm-la8f4-zone';
+
+      var dot=document.createElement('div');
+      dot.className='vm-la8f4-zone-dot';
+      dot.style.background='rgba('+hexToRgb(zoneColours[i])+',.2)';
+      dot.style.color=zoneColours[i];
+      dot.textContent=zoneNames[i];
+
+      if(i===t2Drd){
+        dot.style.transform='scale(1.2)';
+        dot.style.borderColor=zoneColours[i];
+        dot.style.boxShadow='0 0 12px rgba('+hexToRgb(zoneColours[i])+',.4)';
+      }
+
+      var crown=document.createElement('div');
+      crown.className='vm-la8f4-crown';
+      if(i===t2Drd){
+        crown.textContent='\u265B';
+        crown.style.opacity='1';
+        crown.style.color=zoneColours[i];
+      }else if(i===t1Drd&&t1Drd!==t2Drd){
+        crown.textContent='\u265B';
+        crown.style.opacity='.25';
+        crown.style.color=zoneColours[i];
+      }else{
+        crown.style.opacity='0';
+      }
+
+      var score=document.createElement('div');
+      score.className='vm-la8f4-zone-score';
+      score.textContent=t1Scores[i]+' \u2192 '+t2Scores[i];
+
+      var drdLabel=document.createElement('div');
+      drdLabel.className='vm-la8f4-drd-label';
+      if(i===t2Drd){
+        drdLabel.textContent='Highest burden zone';
+        drdLabel.style.color=zoneColours[i];
+      }
+
+      zone.appendChild(crown);
+      zone.appendChild(dot);
+      zone.appendChild(score);
+      zone.appendChild(drdLabel);
+      track.appendChild(zone);
+    }
+
+    var note=document.getElementById('vm-la8f4-note');
+    if(t1Drd!==t2Drd){
+      note.textContent='DRD shift: '+zoneNames[t1Drd]+' (T1) \u2192 '+zoneNames[t2Drd]+' (T2)';
+    }else{
+      note.textContent='DRD unchanged: '+zoneNames[t2Drd]+' remains highest burden zone';
+    }
+  }
+
+  function hexToRgb(hex){
+    var r=parseInt(hex.slice(1,3),16);
+    var g=parseInt(hex.slice(3,5),16);
+    var b=parseInt(hex.slice(5,7),16);
+    return r+','+g+','+b;
+  }
+
+  renderDRD();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',renderDRD);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8F5: Meaningful Change Threshold Bars                           -->
+<!-- ================================================================ -->
+<style>
+.vm-la8f5-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto;max-width:1000px;}
+.vm-la8f5-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la8f5-bars{display:flex;flex-direction:column;gap:10px;}
+.vm-la8f5-row{display:flex;align-items:center;gap:10px;}
+.vm-la8f5-zname{font-family:var(--fm);font-size:9px;width:28px;flex-shrink:0;}
+.vm-la8f5-bar-bg{flex:1;height:16px;background:rgba(244,244,242,.04);border-radius:4px;position:relative;overflow:hidden;}
+.vm-la8f5-bar-fill{height:100%;border-radius:4px;transition:width .5s ease;}
+.vm-la8f5-threshold-line{position:absolute;top:0;bottom:0;width:1px;background:var(--gold);opacity:.5;z-index:2;}
+.vm-la8f5-delta-label{font-family:var(--fm);font-size:9px;min-width:36px;text-align:right;}
+.vm-la8f5-badge{font-family:var(--fm);font-size:7.5px;padding:1px 6px;border-radius:100px;min-width:50px;text-align:center;}
+.vm-la8f5-exceeded{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:#C9A84C;}
+.vm-la8f5-below{background:rgba(244,244,242,.04);border:1px solid var(--t06);color:var(--t35);}
+@keyframes vm-la8f5-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0);}
+  50%{box-shadow:0 0 8px 2px rgba(201,168,76,.35);}
+}
+.vm-la8f5-pulsing{animation:vm-la8f5-pulse 1.5s ease infinite;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la8f5-pulsing{animation:none !important;}
+  .vm-la8f5-bar-fill{transition:none !important;}
+}
+</style>
+<div class="comp-body" style="padding-top:0;">
+<div class="vm-la8f5-wrap">
+  <div class="vm-la8f5-label">LA8F5: Meaningful Change Threshold Bars (8-point threshold)</div>
+  <div class="vm-la8f5-bars" id="vm-la8f5-bars"></div>
+</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneNames=['Z1','Z2','Z3','Z4','Z5'];
+  var ids=['z1','z2','z3','z4','z5'];
+  var THRESHOLD=8;
+
+  function renderBars(){
+    var container=document.getElementById('vm-la8f5-bars');
+    container.innerHTML='';
+    for(var i=0;i<5;i++){
+      var s1=parseInt(document.getElementById('s1-'+ids[i]).value)||0;
+      var s3=parseInt(document.getElementById('s3-'+ids[i]).value)||0;
+      var absDelta=Math.abs(s1-s3);
+      var exceeded=absDelta>=THRESHOLD;
+      var pct=Math.min(absDelta/30*100,100);
+
+      var row=document.createElement('div');
+      row.className='vm-la8f5-row';
+
+      var zname=document.createElement('div');
+      zname.className='vm-la8f5-zname';
+      zname.style.color=zoneColours[i];
+      zname.textContent=zoneNames[i];
+
+      var barBg=document.createElement('div');
+      barBg.className='vm-la8f5-bar-bg';
+
+      var fill=document.createElement('div');
+      fill.className='vm-la8f5-bar-fill';
+      fill.style.width='0%';
+      fill.style.background=exceeded?zoneColours[i]:'rgba(244,244,242,.12)';
+
+      var thLine=document.createElement('div');
+      thLine.className='vm-la8f5-threshold-line';
+      thLine.style.left=(THRESHOLD/30*100).toFixed(1)+'%';
+
+      barBg.appendChild(fill);
+      barBg.appendChild(thLine);
+
+      var deltaLabel=document.createElement('div');
+      deltaLabel.className='vm-la8f5-delta-label';
+      deltaLabel.style.color=exceeded?zoneColours[i]:'var(--t35)';
+      deltaLabel.textContent=absDelta+' pts';
+
+      var badge=document.createElement('div');
+      badge.className='vm-la8f5-badge '+(exceeded?'vm-la8f5-exceeded':'vm-la8f5-below');
+      if(exceeded){badge.classList.add('vm-la8f5-pulsing');}
+      badge.textContent=exceeded?'Meaningful':'Below';
+
+      row.appendChild(zname);
+      row.appendChild(barBg);
+      row.appendChild(deltaLabel);
+      row.appendChild(badge);
+      container.appendChild(row);
+
+      (function(f,p){
+        setTimeout(function(){f.style.width=p+'%';},50+i*80);
+      })(fill,pct);
+    }
+  }
+
+  renderBars();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',renderBars);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8 FEAT: Longitudinal Tracker (la8-feat-tracker)                 -->
+<!-- ================================================================ -->
+<style>
+.la8-feat-tracker{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin:16px auto;max-width:1000px;}
+.la8-feat-tracker .feat-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la8-tracker-tp{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.la8-tracker-tp-card{background:rgba(244,244,242,.03);border:1px solid var(--t06);border-radius:8px;padding:10px;flex:1;min-width:180px;}
+.la8-tracker-tp-title{font-family:var(--fm);font-size:8px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+.la8-tracker-input-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.la8-tracker-input-row label{font-family:var(--fm);font-size:8px;width:20px;flex-shrink:0;}
+.la8-tracker-input-row input[type=number]{width:50px;background:var(--card2);border:1px solid var(--t12);border-radius:4px;color:var(--white);font-family:var(--fm);font-size:9px;padding:3px 6px;text-align:center;}
+.la8-tracker-canvas-wrap{position:relative;width:100%;height:260px;margin-top:10px;}
+.la8-tracker-canvas-wrap canvas{width:100%;height:100%;border-radius:6px;background:rgba(0,0,0,.15);}
+.la8-tracker-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:6px;text-align:center;}
+@media(prefers-reduced-motion:reduce){.la8-tracker-canvas-wrap canvas{transition:none !important;}}
+</style>
+<div class="la8-feat-tracker" id="la8-feat-tracker">
+  <div class="feat-label">Longitudinal Tracker</div>
+  <div class="la8-tracker-tp" id="la8-tracker-tp"></div>
+  <div style="text-align:center;margin-bottom:8px;">
+    <button class="preset-btn" id="la8-tracker-add" style="font-size:8px;">+ Add Timepoint</button>
+  </div>
+  <div class="la8-tracker-canvas-wrap"><canvas id="la8-tracker-canvas" width="960" height="260"></canvas></div>
+  <div class="la8-tracker-note">Display scale 0-10 (inverted). N6 dampening 0.7x applied to Z5. Line chart shows zone score progression across timepoints.</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_NAMES=['Z1','Z2','Z3','Z4','Z5'];
+  var N6_DAMP=0.7;
+  var timepoints=[
+    {label:'T1',scores:[72,78,35,48,65]},
+    {label:'T2',scores:[60,65,32,42,58]},
+    {label:'T3',scores:[48,52,28,35,50]}
+  ];
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function buildUI(){
+    var container=document.getElementById('la8-tracker-tp');
+    container.innerHTML='';
+    for(var t=0;t<timepoints.length;t++){
+      var card=document.createElement('div');
+      card.className='la8-tracker-tp-card';
+      var title=document.createElement('div');
+      title.className='la8-tracker-tp-title';
+      title.textContent=timepoints[t].label;
+      card.appendChild(title);
+      for(var z=0;z<5;z++){
+        var row=document.createElement('div');
+        row.className='la8-tracker-input-row';
+        var lbl=document.createElement('label');
+        lbl.style.color=ZONE_COLS[z];
+        lbl.textContent=ZONE_NAMES[z];
+        var inp=document.createElement('input');
+        inp.type='number';inp.min='0';inp.max='100';
+        inp.value=timepoints[t].scores[z];
+        inp.setAttribute('data-tp',String(t));
+        inp.setAttribute('data-zone',String(z));
+        inp.addEventListener('input',function(){
+          var ti=parseInt(this.getAttribute('data-tp'));
+          var zi=parseInt(this.getAttribute('data-zone'));
+          timepoints[ti].scores[zi]=Math.max(0,Math.min(100,parseInt(this.value)||0));
+          drawChart();
+        });
+        row.appendChild(lbl);
+        row.appendChild(inp);
+        card.appendChild(row);
+      }
+      container.appendChild(card);
+    }
+  }
+
+  function drawChart(){
+    var canvas=document.getElementById('la8-tracker-canvas');
+    var ctx=canvas.getContext('2d');
+    var W=canvas.width,H=canvas.height;
+    var padL=40,padR=20,padT=20,padB=30;
+    var cW=W-padL-padR,cH=H-padT-padB;
+    ctx.clearRect(0,0,W,H);
+
+    // Grid lines
+    ctx.strokeStyle='rgba(244,244,242,.06)';ctx.lineWidth=1;
+    for(var v=0;v<=10;v+=2){
+      var y=padT+cH-(v/10*cH);
+      ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();
+      ctx.fillStyle='rgba(244,244,242,.3)';ctx.font='9px DM Mono,monospace';ctx.textAlign='right';
+      ctx.fillText(v,padL-6,y+3);
+    }
+
+    // X labels
+    ctx.textAlign='center';
+    for(var t=0;t<timepoints.length;t++){
+      var x=padL+(t/(Math.max(timepoints.length-1,1)))*cW;
+      ctx.fillStyle='rgba(244,244,242,.4)';ctx.font='9px DM Mono,monospace';
+      ctx.fillText(timepoints[t].label,x,H-8);
+    }
+
+    // Lines per zone
+    for(var z=0;z<5;z++){
+      ctx.strokeStyle=ZONE_COLS[z];ctx.lineWidth=2;ctx.beginPath();
+      for(var t=0;t<timepoints.length;t++){
+        var raw=timepoints[t].scores[z];
+        if(z===4) raw=raw*N6_DAMP; // N6 dampening for Z5
+        var display=(100-raw)/10;
+        display=Math.max(0,Math.min(10,display));
+        var x=padL+(t/(Math.max(timepoints.length-1,1)))*cW;
+        var y=padT+cH-(display/10*cH);
+        if(t===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+
+      // Dots
+      for(var t=0;t<timepoints.length;t++){
+        var raw=timepoints[t].scores[z];
+        if(z===4) raw=raw*N6_DAMP;
+        var display=(100-raw)/10;
+        display=Math.max(0,Math.min(10,display));
+        var x=padL+(t/(Math.max(timepoints.length-1,1)))*cW;
+        var y=padT+cH-(display/10*cH);
+        ctx.fillStyle=ZONE_COLS[z];ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+      }
+    }
+  }
+
+  document.getElementById('la8-tracker-add').addEventListener('click',function(){
+    if(timepoints.length>=6) return;
+    var last=timepoints[timepoints.length-1].scores.slice();
+    timepoints.push({label:'T'+(timepoints.length+1),scores:last});
+    buildUI();drawChart();
+  });
+
+  buildUI();drawChart();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8 FEAT: Delta Heatmap (la8-feat-heatmap)                        -->
+<!-- ================================================================ -->
+<style>
+.la8-feat-heatmap{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin:16px auto;max-width:1000px;}
+.la8-feat-heatmap .feat-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la8-heatmap-canvas-wrap{position:relative;width:100%;height:200px;}
+.la8-heatmap-canvas-wrap canvas{width:100%;height:100%;border-radius:6px;}
+.la8-heatmap-tooltip{position:absolute;display:none;background:rgba(7,28,51,.95);border:1px solid var(--gold);border-radius:6px;padding:6px 10px;font-family:var(--fm);font-size:8px;color:var(--white);pointer-events:none;z-index:10;}
+.la8-heatmap-legend{display:flex;justify-content:center;gap:16px;margin-top:8px;font-family:var(--fm);font-size:8px;color:var(--t35);}
+.la8-heatmap-legend span{display:inline-flex;align-items:center;gap:4px;}
+.la8-heatmap-legend .swatch{width:12px;height:12px;border-radius:2px;}
+</style>
+<div class="la8-feat-heatmap" id="la8-feat-heatmap">
+  <div class="feat-label">Delta Heatmap: Change Magnitude per Zone</div>
+  <div class="la8-heatmap-canvas-wrap">
+    <canvas id="la8-heatmap-canvas" width="960" height="200"></canvas>
+    <div class="la8-heatmap-tooltip" id="la8-heatmap-tooltip"></div>
+  </div>
+  <div class="la8-heatmap-legend">
+    <span><div class="swatch" style="background:#2D9C6A;"></div> Improved (burden down)</span>
+    <span><div class="swatch" style="background:#C0392B;"></div> Worsened (burden up)</span>
+    <span><div class="swatch" style="background:rgba(244,244,242,.1);"></div> No change</span>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_NAMES=['Z1','Z2','Z3','Z4','Z5'];
+  var ids=['z1','z2','z3','z4','z5'];
+
+  function drawHeatmap(){
+    var canvas=document.getElementById('la8-heatmap-canvas');
+    var ctx=canvas.getContext('2d');
+    var W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    var padL=60,padT=20,cellW=(W-padL-20)/1,cellH=(H-padT-30)/5;
+
+    // Header
+    ctx.fillStyle='rgba(244,244,242,.4)';ctx.font='10px DM Mono,monospace';ctx.textAlign='center';
+    ctx.fillText('T1 \u2192 T2 Delta',padL+cellW/2,14);
+
+    for(var z=0;z<5;z++){
+      var s1=parseInt(document.getElementById('s1-'+ids[z]).value)||0;
+      var s3=parseInt(document.getElementById('s3-'+ids[z]).value)||0;
+      var delta=s1-s3; // positive = improved on 0-10 display
+      var absDelta=Math.abs(delta);
+      var intensity=Math.min(absDelta/30,1);
+
+      var x=padL;
+      var y=padT+z*cellH;
+
+      // Zone label
+      ctx.fillStyle=ZONE_COLS[z];ctx.font='10px DM Mono,monospace';ctx.textAlign='right';
+      ctx.fillText(ZONE_NAMES[z],padL-8,y+cellH/2+4);
+
+      // Cell
+      if(delta>0){
+        ctx.fillStyle='rgba(45,156,106,'+(.15+intensity*.6)+')';
+      }else if(delta<0){
+        ctx.fillStyle='rgba(192,57,43,'+(.15+intensity*.6)+')';
+      }else{
+        ctx.fillStyle='rgba(244,244,242,.06)';
+      }
+      ctx.beginPath();ctx.roundRect(x,y+2,cellW,cellH-4,4);ctx.fill();
+
+      // Value text
+      ctx.fillStyle='rgba(244,244,242,.8)';ctx.font='12px DM Mono,monospace';ctx.textAlign='center';
+      var sign=delta>0?'-':delta<0?'+':'';
+      ctx.fillText(sign+absDelta+' pts',x+cellW/2,y+cellH/2+4);
+    }
+
+    // Store cell rects for hover
+    canvas._cells=[];
+    for(var z=0;z<5;z++){
+      var s1=parseInt(document.getElementById('s1-'+ids[z]).value)||0;
+      var s3=parseInt(document.getElementById('s3-'+ids[z]).value)||0;
+      canvas._cells.push({x:padL,y:padT+z*cellH+2,w:cellW,h:cellH-4,zone:ZONE_NAMES[z],s1:s1,s3:s3,delta:s1-s3});
+    }
+  }
+
+  var canvas=document.getElementById('la8-heatmap-canvas');
+  var tooltip=document.getElementById('la8-heatmap-tooltip');
+  canvas.addEventListener('mousemove',function(e){
+    if(!canvas._cells)return;
+    var rect=canvas.getBoundingClientRect();
+    var scaleX=canvas.width/rect.width,scaleY=canvas.height/rect.height;
+    var mx=(e.clientX-rect.left)*scaleX,my=(e.clientY-rect.top)*scaleY;
+    var found=false;
+    for(var i=0;i<canvas._cells.length;i++){
+      var c=canvas._cells[i];
+      if(mx>=c.x&&mx<=c.x+c.w&&my>=c.y&&my<=c.y+c.h){
+        tooltip.style.display='block';
+        tooltip.style.left=(e.clientX-rect.left+12)+'px';
+        tooltip.style.top=(e.clientY-rect.top-10)+'px';
+        var dir=c.delta>0?'Improved':c.delta<0?'Worsened':'Unchanged';
+        tooltip.innerHTML=c.zone+': S1='+c.s1+' S3='+c.s3+'<br>Delta: '+(c.delta>0?'-':c.delta<0?'+':'')+Math.abs(c.delta)+' ('+dir+')';
+        found=true;break;
+      }
+    }
+    if(!found) tooltip.style.display='none';
+  });
+  canvas.addEventListener('mouseleave',function(){tooltip.style.display='none';});
+
+  drawHeatmap();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',drawHeatmap);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8 FEAT: Intervention Impact Viewer (la8-feat-impact)            -->
+<!-- ================================================================ -->
+<style>
+.la8-feat-impact{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin:16px auto;max-width:1000px;}
+.la8-feat-impact .feat-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la8-impact-t01{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);border-radius:6px;padding:8px 12px;font-family:var(--fm);font-size:8px;color:#E07070;margin-bottom:12px;}
+.la8-impact-grid{display:flex;flex-direction:column;gap:8px;}
+.la8-impact-row{display:flex;align-items:center;gap:12px;padding:10px;background:rgba(244,244,242,.03);border:1px solid var(--t06);border-radius:8px;}
+.la8-impact-zone-dots{display:flex;gap:3px;}
+.la8-impact-zone-dot{width:8px;height:8px;border-radius:50%;}
+.la8-impact-name{font-family:var(--fm);font-size:9px;color:var(--t80);flex:1;}
+.la8-impact-effect{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:100px;}
+.la8-impact-positive{background:rgba(45,156,106,.12);border:1px solid rgba(45,156,106,.25);color:#5DD88F;}
+.la8-impact-neutral{background:rgba(244,244,242,.04);border:1px solid var(--t06);color:var(--t35);}
+.la8-impact-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:10px;font-style:italic;}
+</style>
+<div class="la8-feat-impact" id="la8-feat-impact">
+  <div class="feat-label">Terrain Support Considerations</div>
+  <div class="la8-impact-t01">For practitioner use only. Not a diagnostic tool.</div>
+  <div class="la8-impact-grid" id="la8-impact-grid"></div>
+  <div class="la8-impact-note">Support considerations are illustrative. Actual protocol design requires practitioner clinical judgement and full patient context.</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ids=['z1','z2','z3','z4','z5'];
+  var INTERVENTIONS=[
+    {name:'Metabolic support protocol',zones:[0],desc:'Targets Z1 burden reduction via energy axis support.'},
+    {name:'Gut resilience programme',zones:[1],desc:'Microbiome and barrier integrity focus for Z2.'},
+    {name:'Cardiovascular-neural support',zones:[2],desc:'Endothelial and neural pathway support for Z3.'},
+    {name:'Detoxification trident protocol',zones:[3],desc:'Phase I/II liver support plus drainage for Z4.'},
+    {name:'Hormonal terrain balancing',zones:[4],desc:'Endocrine axis rebalancing for Z5 burden.'},
+    {name:'Cascade disruption strategy',zones:[0,1,4],desc:'Multi-zone approach targeting S1+S2 cascade chain.'}
+  ];
+
+  function render(){
+    var grid=document.getElementById('la8-impact-grid');
+    grid.innerHTML='';
+    for(var i=0;i<INTERVENTIONS.length;i++){
+      var iv=INTERVENTIONS[i];
+      var row=document.createElement('div');
+      row.className='la8-impact-row';
+
+      var dots=document.createElement('div');
+      dots.className='la8-impact-zone-dots';
+      for(var z=0;z<iv.zones.length;z++){
+        var dot=document.createElement('div');
+        dot.className='la8-impact-zone-dot';
+        dot.style.background=ZONE_COLS[iv.zones[z]];
+        dots.appendChild(dot);
+      }
+
+      var name=document.createElement('div');
+      name.className='la8-impact-name';
+      name.innerHTML='<strong>'+iv.name+'</strong><br><span style="color:var(--t35);font-size:8px;">'+iv.desc+'</span>';
+
+      // Calculate effect from slider deltas
+      var totalEffect=0;
+      for(var z=0;z<iv.zones.length;z++){
+        var zi=iv.zones[z];
+        var s1=parseInt(document.getElementById('s1-'+ids[zi]).value)||0;
+        var s3=parseInt(document.getElementById('s3-'+ids[zi]).value)||0;
+        totalEffect+=(s1-s3);
+      }
+      var avgEffect=totalEffect/iv.zones.length;
+
+      var effect=document.createElement('div');
+      effect.className='la8-impact-effect '+(avgEffect>3?'la8-impact-positive':'la8-impact-neutral');
+      effect.textContent=avgEffect>3?'Effective ('+avgEffect.toFixed(0)+' pts)':'Minimal ('+avgEffect.toFixed(0)+' pts)';
+
+      row.appendChild(dots);
+      row.appendChild(name);
+      row.appendChild(effect);
+      grid.appendChild(row);
+    }
+  }
+
+  render();
+  var sliders=document.querySelectorAll('input[type=range]');
+  for(var j=0;j<sliders.length;j++){sliders[j].addEventListener('input',render);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8 SV: State Bridge (la8-sv-bridge)                              -->
+<!-- ================================================================ -->
+<style>
+.la8-sv-bridge{background:rgba(7,28,51,0.70);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin:16px auto;max-width:1000px;}
+.la8-sv-bridge .sv-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.la8-sv-bridge .sv-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.la8-sv-bridge .sv-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:4px;cursor:pointer;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:var(--gold);transition:all .2s;}
+.la8-sv-bridge .sv-btn:hover{background:rgba(201,168,76,.15);}
+.la8-sv-bridge .sv-url{font-family:var(--fm);font-size:8px;color:var(--t35);word-break:break-all;max-width:600px;overflow:hidden;text-overflow:ellipsis;margin-top:6px;}
+</style>
+<div class="la8-sv-bridge" id="la8-sv-bridge">
+  <div class="sv-label">State Bridge: Cross-Page State Transfer</div>
+  <div class="sv-row">
+    <button class="sv-btn" id="la8-sv-bridge-share">Share State</button>
+    <button class="sv-btn" id="la8-sv-bridge-load">Load State</button>
+  </div>
+  <div class="sv-url" id="la8-sv-bridge-url"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ids=['z1','z2','z3','z4','z5'];
+  document.getElementById('la8-sv-bridge-share').addEventListener('click',function(){
+    var state={};
+    for(var i=0;i<ids.length;i++){
+      state['s1_'+ids[i]]=document.getElementById('s1-'+ids[i]).value;
+      state['s3_'+ids[i]]=document.getElementById('s3-'+ids[i]).value;
+    }
+    var encoded=btoa(JSON.stringify(state));
+    var url=location.href.split('?')[0]+'?state='+encoded;
+    document.getElementById('la8-sv-bridge-url').textContent=url;
+    if(navigator.clipboard){navigator.clipboard.writeText(url);}
+  });
+  document.getElementById('la8-sv-bridge-load').addEventListener('click',function(){
+    var params=new URLSearchParams(location.search);
+    var stateStr=params.get('state');
+    if(!stateStr){document.getElementById('la8-sv-bridge-url').textContent='No state parameter found in URL.';return;}
+    try{
+      var state=JSON.parse(atob(stateStr));
+      for(var i=0;i<ids.length;i++){
+        if(state['s1_'+ids[i]])document.getElementById('s1-'+ids[i]).value=state['s1_'+ids[i]];
+        if(state['s3_'+ids[i]])document.getElementById('s3-'+ids[i]).value=state['s3_'+ids[i]];
+      }
+      if(typeof update==='function')update();
+      document.getElementById('la8-sv-bridge-url').textContent='State loaded successfully.';
+    }catch(e){document.getElementById('la8-sv-bridge-url').textContent='Invalid state data.';}
+  });
+  // Auto-load on page open
+  var params=new URLSearchParams(location.search);
+  if(params.get('state')){
+    try{
+      var state=JSON.parse(atob(params.get('state')));
+      for(var i=0;i<ids.length;i++){
+        if(state['s1_'+ids[i]])document.getElementById('s1-'+ids[i]).value=state['s1_'+ids[i]];
+        if(state['s3_'+ids[i]])document.getElementById('s3-'+ids[i]).value=state['s3_'+ids[i]];
+      }
+      if(typeof update==='function')setTimeout(update,100);
+    }catch(e){}
+  }
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8 SV: Pipeline Trace (la8-sv-trace)                             -->
+<!-- ================================================================ -->
+<style>
+.la8-sv-trace{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin:16px auto;max-width:1000px;}
+.la8-sv-trace .sv-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la8-pipeline-flow{display:flex;align-items:center;gap:0;justify-content:center;flex-wrap:wrap;padding:10px 0;}
+.la8-pipeline-node{padding:8px 14px;border-radius:6px;font-family:var(--fm);font-size:9px;color:var(--t80);background:rgba(244,244,242,.04);border:1px solid var(--t12);position:relative;transition:background .4s,border-color .4s;}
+.la8-pipeline-node.la8-pipe-active{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.3);color:var(--gold);}
+.la8-pipeline-arrow{font-family:var(--fm);font-size:14px;color:var(--t35);padding:0 4px;transition:color .4s;}
+.la8-pipeline-arrow.la8-pipe-active{color:var(--gold);}
+@keyframes la8-pipe-pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+.la8-pipe-animating{animation:la8-pipe-pulse .8s ease infinite;}
+@media(prefers-reduced-motion:reduce){.la8-pipe-animating{animation:none !important;}.la8-pipeline-node,.la8-pipeline-arrow{transition:none !important;}}
+</style>
+<div class="la8-sv-trace" id="la8-sv-trace">
+  <div class="sv-label">Pipeline Trace: DeltaScan Computation Flow</div>
+  <div class="la8-pipeline-flow" id="la8-pipeline-flow"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var STAGES=['Input','T1 Scores','T2 Scores','Delta Calc','Display'];
+  var container=document.getElementById('la8-pipeline-flow');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  for(var i=0;i<STAGES.length;i++){
+    if(i>0){
+      var arrow=document.createElement('span');
+      arrow.className='la8-pipeline-arrow';
+      arrow.textContent='\u2192';
+      arrow.setAttribute('data-idx',String(i));
+      container.appendChild(arrow);
+    }
+    var node=document.createElement('div');
+    node.className='la8-pipeline-node';
+    node.textContent=STAGES[i];
+    node.setAttribute('data-idx',String(i));
+    container.appendChild(node);
+  }
+
+  var currentStep=0;
+  function animate(){
+    var nodes=container.querySelectorAll('.la8-pipeline-node');
+    var arrows=container.querySelectorAll('.la8-pipeline-arrow');
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].classList.toggle('la8-pipe-active',i<=currentStep);
+      nodes[i].classList.toggle('la8-pipe-animating',i===currentStep);
+    }
+    for(var i=0;i<arrows.length;i++){
+      arrows[i].classList.toggle('la8-pipe-active',i<currentStep);
+      arrows[i].classList.toggle('la8-pipe-animating',i===currentStep-1&&i>=0);
+    }
+    currentStep++;
+    if(currentStep>STAGES.length){currentStep=0;}
+  }
+
+  if(reducedMotion){
+    var nodes=container.querySelectorAll('.la8-pipeline-node');
+    for(var i=0;i<nodes.length;i++){nodes[i].classList.add('la8-pipe-active');}
+    var arrows=container.querySelectorAll('.la8-pipeline-arrow');
+    for(var i=0;i<arrows.length;i++){arrows[i].classList.add('la8-pipe-active');}
+  }else{
+    setInterval(animate,1200);
+  }
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA8 SV: Architecture Navigator (la8-sv-nav)                       -->
+<!-- ================================================================ -->
+<style>
+.la8-sv-nav{position:fixed;bottom:16px;right:16px;background:rgba(7,28,51,0.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;z-index:200;min-width:140px;}
+.la8-sv-nav .nav-label{font-family:var(--fm);font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--t35);margin-bottom:8px;text-align:center;}
+.la8-sv-nav-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.la8-sv-nav-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:6px;color:var(--t55);border:1px solid var(--t12);cursor:pointer;transition:all .2s;text-decoration:none;}
+.la8-sv-nav-dot:hover{border-color:rgba(201,168,76,.4);color:var(--gold);}
+.la8-sv-nav-dot.nav-current{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold);}
+@media(prefers-reduced-motion:reduce){.la8-sv-nav-dot{transition:none !important;}}
+</style>
+<div class="la8-sv-nav" id="la8-sv-nav">
+  <div class="nav-label">Architecture</div>
+  <div class="la8-sv-nav-grid" id="la8-sv-nav-grid"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var PAGES=[
+    {id:'LA4',file:'LA4_DRD_Visualiser_D53_2026-04-11_v2.html'},
+    {id:'LA5',file:'LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html'},
+    {id:'LA6',file:'LA6_ZoneProfile_DeepDive_D53_2026-04-11_v2.html'},
+    {id:'LA7',file:'LA7_CIB_ConfidenceDashboard_D53_2026-04-11_v2.html'},
+    {id:'LA8',file:'LA8_DeltaScan_ComparisonView_D53_2026-04-11_v2.html'},
+    {id:'LA9',file:'LA9_TRACE_Timeline_D53_2026-04-11_v2.html'},
+    {id:'LA10',file:'LA10_TIQ_CompositeScore_D53_2026-04-11_v2.html'},
+    {id:'Atlas',file:'CascadeAtlas_Enhanced_V1_D53_2026-04-11_v5.html'},
+    {id:'NCZ',file:'NCZ_InteractiveNodeMap_D53_2026-04-11_v2.html'}
+  ];
+  var grid=document.getElementById('la8-sv-nav-grid');
+  for(var i=0;i<PAGES.length;i++){
+    var dot=document.createElement('a');
+    dot.className='la8-sv-nav-dot'+(PAGES[i].id==='LA8'?' nav-current':'');
+    dot.textContent=PAGES[i].id;
+    dot.href=PAGES[i].file;
+    dot.title=PAGES[i].id;
+    grid.appendChild(dot);
+  }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SV-04  Terrain Particle Network — LA8
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la8-sv4-section" style="padding:48px 24px;">
+<div style="max-width:680px;margin:0 auto;">
+<p class="comp-id" style="margin-bottom:6px;">SV-04 &middot; TERRAIN PARTICLE NETWORK</p>
+<div style="background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;position:relative;overflow:hidden;">
+<canvas id="la8-sv4-canvas" width="600" height="400" style="display:block;width:100%;height:auto;border-radius:8px;"></canvas>
+<div id="la8-sv4-legend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;justify-content:center;"></div>
+<p style="font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-top:8px;">CLICK ZONE NODES TO HIGHLIGHT CONNECTIONS</p>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('la8-sv4-canvas');
+  if(!canvas||!canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var W = 600, H = 400;
+  var zones = [
+    {id:'Z1',label:'Z1 Digestive',color:'#C9A84C',x:300,y:55},
+    {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',x:530,y:185},
+    {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',x:445,y:365},
+    {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',x:155,y:365},
+    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',x:70,y:185}
+  ];
+  var cascades = [
+    {name:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:'S1: Z2\u2192Z1'},
+    {name:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:'S2: Z1\u2192Z5'},
+    {name:'S3',from:3,to:0,color:'#5F7C6C',speed:1,dash:false,label:'S3: Z4\u2192Z1'},
+    {name:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'S4: Z5\u2192Z2 (theoretical)'},
+    {name:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:'S5: Z2\u2192Z3'},
+    {name:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'S6: Z1\u2192Z3 (unidirectional)'}
+  ];
+  var particles = [];
+  var selectedZone = -1;
+  var PARTICLE_MAX = 90;
+  var nodeRadius = 22;
+
+  function spawnParticle(ci){
+    var c = cascades[ci];
+    var f = zones[c.from]; var t = zones[c.to];
+    particles.push({cx:ci,x:f.x,y:f.y,tx:t.x,ty:t.y,progress:0,speed:c.speed,alpha:1,color:c.color});
+  }
+  function initLegend(){
+    var el = document.getElementById('la8-sv4-legend');
+    for(var i=0;i<cascades.length;i++){
+      var s = document.createElement('span');
+      s.style.cssText = 'font-family:var(--fm);font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:'+cascades[i].color+';padding:2px 6px;border:1px solid '+cascades[i].color+'33;border-radius:4px;';
+      s.textContent = cascades[i].label;
+      el.appendChild(s);
+    }
+  }
+  function handleClick(e){
+    var rect = canvas.getBoundingClientRect();
+    var scaleX = W / rect.width;
+    var scaleY = H / rect.height;
+    var mx = (e.clientX - rect.left) * scaleX;
+    var my = (e.clientY - rect.top) * scaleY;
+    selectedZone = -1;
+    for(var i=0;i<zones.length;i++){
+      var dx = mx - zones[i].x; var dy = my - zones[i].y;
+      if(Math.sqrt(dx*dx+dy*dy) < nodeRadius+8){ selectedZone = i; break; }
+    }
+  }
+  canvas.addEventListener('click', handleClick);
+
+  function isConnected(zi, ci){
+    return cascades[ci].from === zi || cascades[ci].to === zi;
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Draw cascade paths
+    for(var i=0;i<cascades.length;i++){
+      var c = cascades[i];
+      var f = zones[c.from]; var t = zones[c.to];
+      var dimmed = selectedZone >= 0 && !isConnected(selectedZone, i);
+      ctx.save();
+      ctx.strokeStyle = c.color;
+      ctx.globalAlpha = dimmed ? 0.1 : 0.35;
+      ctx.lineWidth = 1.5;
+      if(c.dash) ctx.setLineDash([6,4]); else ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(f.x,f.y); ctx.lineTo(t.x,t.y); ctx.stroke();
+      ctx.restore();
+    }
+    // Draw particles
+    for(var p=0;p<particles.length;p++){
+      var pt = particles[p];
+      var dimmed = selectedZone >= 0 && !isConnected(selectedZone, pt.cx);
+      ctx.save();
+      ctx.globalAlpha = pt.alpha * (dimmed ? 0.08 : 1);
+      ctx.fillStyle = pt.color;
+      ctx.shadowColor = pt.color;
+      ctx.shadowBlur = 8;
+      ctx.beginPath(); ctx.arc(pt.x, pt.y, 3, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+    // Draw zone nodes
+    for(var i=0;i<zones.length;i++){
+      var z = zones[i];
+      var active = selectedZone === i;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(z.x, z.y, nodeRadius, 0, Math.PI*2);
+      ctx.fillStyle = active ? z.color : z.color + '33';
+      ctx.fill();
+      ctx.strokeStyle = z.color;
+      ctx.lineWidth = active ? 3 : 1.5;
+      ctx.stroke();
+      ctx.restore();
+      ctx.save();
+      ctx.fillStyle = active ? '#000' : z.color;
+      ctx.font = '600 11px sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(z.id, z.x, z.y);
+      ctx.restore();
+    }
+  }
+  function update(){
+    // Spawn
+    if(particles.length < PARTICLE_MAX){
+      var ci = Math.floor(Math.random() * cascades.length);
+      spawnParticle(ci);
+    }
+    // Move
+    for(var p=particles.length-1;p>=0;p--){
+      var pt = particles[p];
+      var spd = prefersReduced ? 0 : (0.003 * pt.speed);
+      pt.progress += spd;
+      if(pt.progress >= 1){ pt.alpha -= 0.05; }
+      var f = zones[cascades[pt.cx].from]; var t = zones[cascades[pt.cx].to];
+      pt.x = f.x + (t.x - f.x) * Math.min(pt.progress, 1);
+      pt.y = f.y + (t.y - f.y) * Math.min(pt.progress, 1);
+      if(pt.alpha <= 0) particles.splice(p,1);
+    }
+  }
+  function loop(){
+    update(); draw();
+    requestAnimationFrame(loop);
+  }
+  initLegend();
+  if(!prefersReduced) loop(); else { draw(); }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SV-05  Terrain Pulse Monitor — LA8
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="la8-sv5-section" style="padding:48px 24px;">
+<div style="max-width:680px;margin:0 auto;">
+<p class="comp-id" style="margin-bottom:6px;">SV-05 &middot; TERRAIN PULSE MONITOR</p>
+<div style="background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;">
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:center;">
+<svg id="la8-sv5-svg" viewBox="0 0 400 400" style="width:320px;height:320px;flex-shrink:0;"></svg>
+<div id="la8-sv5-controls" style="display:flex;flex-direction:column;gap:10px;min-width:160px;"></div>
+</div>
+<p style="font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-top:12px;">ZONE SLIDERS CONTROL INTERNAL BURDEN &middot; N6 DAMPENING 0.7x</p>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('la8-sv5-svg');
+  if(!svg) return;
+  var cx = 200, cy = 200, maxR = 160, armCount = 5;
+  var zoneData = [
+    {id:'Z1',label:'Z1 Digestive',color:'#C9A84C',threshold:40,value:50},
+    {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',threshold:40,value:50},
+    {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',threshold:40,value:50},
+    {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',threshold:40,value:50},
+    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',threshold:32,value:50}
+  ];
+  var sweepAngle = 0;
+  var dotEls = []; var glowEls = []; var amberEls = []; var scoreEls = [];
+
+  function angleFor(i){ return (Math.PI * 2 * i / armCount) - Math.PI / 2; }
+  function posOnArm(i, frac){ var a=angleFor(i); return {x:cx+Math.cos(a)*maxR*frac, y:cy+Math.sin(a)*maxR*frac}; }
+
+  // Build SVG
+  function build(){
+    // Central rings
+    for(var r=1;r<=4;r++){
+      var circle = document.createElementNS(svgNS,'circle');
+      circle.setAttribute('cx',cx); circle.setAttribute('cy',cy);
+      circle.setAttribute('r', maxR*r/4);
+      circle.setAttribute('fill','none'); circle.setAttribute('stroke','rgba(255,255,255,0.06)');
+      circle.setAttribute('stroke-width','1');
+      svg.appendChild(circle);
+    }
+    // Arms + dots + labels
+    for(var i=0;i<armCount;i++){
+      var p = posOnArm(i,1);
+      var arm = document.createElementNS(svgNS,'line');
+      arm.setAttribute('x1',cx); arm.setAttribute('y1',cy);
+      arm.setAttribute('x2',p.x); arm.setAttribute('y2',p.y);
+      arm.setAttribute('stroke', zoneData[i].color+'44');
+      arm.setAttribute('stroke-width','1.5');
+      svg.appendChild(arm);
+      // Amber ring
+      var amber = document.createElementNS(svgNS,'circle');
+      amber.setAttribute('cx',p.x); amber.setAttribute('cy',p.y);
+      amber.setAttribute('r','0'); amber.setAttribute('fill','none');
+      amber.setAttribute('stroke','#D4A017'); amber.setAttribute('stroke-width','1.5');
+      amber.setAttribute('opacity','0');
+      svg.appendChild(amber);
+      amberEls.push(amber);
+      // Glow circle
+      var glow = document.createElementNS(svgNS,'circle');
+      glow.setAttribute('cx',cx); glow.setAttribute('cy',cy);
+      glow.setAttribute('r','6');
+      glow.setAttribute('fill',zoneData[i].color); glow.setAttribute('opacity','0');
+      svg.appendChild(glow);
+      glowEls.push(glow);
+      // Dot
+      var dot = document.createElementNS(svgNS,'circle');
+      dot.setAttribute('cx',cx); dot.setAttribute('cy',cy);
+      dot.setAttribute('r','5');
+      dot.setAttribute('fill',zoneData[i].color);
+      svg.appendChild(dot);
+      dotEls.push(dot);
+      // Score text
+      var txt = document.createElementNS(svgNS,'text');
+      var lp = posOnArm(i, 1.12);
+      txt.setAttribute('x',lp.x); txt.setAttribute('y',lp.y);
+      txt.setAttribute('text-anchor','middle'); txt.setAttribute('dominant-baseline','middle');
+      txt.setAttribute('fill',zoneData[i].color);
+      txt.setAttribute('font-size','11'); txt.setAttribute('font-weight','600');
+      txt.setAttribute('font-family','sans-serif');
+      svg.appendChild(txt);
+      scoreEls.push(txt);
+    }
+    // Sweep line
+    var sweep = document.createElementNS(svgNS,'line');
+    sweep.setAttribute('id','la8-sv5-sweep');
+    sweep.setAttribute('x1',cx); sweep.setAttribute('y1',cy);
+    sweep.setAttribute('x2',cx); sweep.setAttribute('y2',cy-maxR);
+    sweep.setAttribute('stroke','rgba(255,255,255,0.15)');
+    sweep.setAttribute('stroke-width','1.5');
+    svg.appendChild(sweep);
+  }
+  // Controls
+  function buildControls(){
+    var wrap = document.getElementById('la8-sv5-controls');
+    for(var i=0;i<armCount;i++){
+      var d = document.createElement('div');
+      var lbl = document.createElement('label');
+      lbl.style.cssText = 'font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:'+zoneData[i].color+';display:block;margin-bottom:2px;';
+      lbl.textContent = zoneData[i].label + (i===4 ? ' (N6: endocrine signalling)' : '');
+      var inp = document.createElement('input');
+      inp.type = 'range'; inp.min = '0'; inp.max = '100'; inp.value = String(zoneData[i].value);
+      inp.style.cssText = 'width:100%;accent-color:'+zoneData[i].color+';';
+      inp.setAttribute('data-zi', String(i));
+      inp.addEventListener('input', function(){ var zi=parseInt(this.getAttribute('data-zi')); zoneData[zi].value=parseInt(this.value); });
+      d.appendChild(lbl); d.appendChild(inp);
+      wrap.appendChild(d);
+    }
+  }
+  function updateVis(){
+    for(var i=0;i<armCount;i++){
+      var raw = zoneData[i].value;
+      var dampened = i === 4 ? raw * 0.7 : raw;
+      var reach = dampened / 100;
+      var p = posOnArm(i, reach);
+      dotEls[i].setAttribute('cx', p.x); dotEls[i].setAttribute('cy', p.y);
+      var aboveThresh = dampened >= zoneData[i].threshold;
+      var nearThresh = !aboveThresh && dampened >= (zoneData[i].threshold - 5);
+      glowEls[i].setAttribute('cx', p.x); glowEls[i].setAttribute('cy', p.y);
+      glowEls[i].setAttribute('opacity', aboveThresh ? '0.35' : '0');
+      glowEls[i].setAttribute('r', aboveThresh ? '12' : '6');
+      var ep = posOnArm(i, 1);
+      amberEls[i].setAttribute('cx', ep.x); amberEls[i].setAttribute('cy', ep.y);
+      amberEls[i].setAttribute('r', nearThresh ? '10' : '0');
+      amberEls[i].setAttribute('opacity', nearThresh ? '0.7' : '0');
+      var score = Math.round((100 - dampened) / 10);
+      scoreEls[i].textContent = score;
+    }
+    // Sweep
+    if(!prefersReduced){
+      sweepAngle += 0.012;
+      var sx = cx + Math.cos(sweepAngle - Math.PI/2) * maxR;
+      var sy = cy + Math.sin(sweepAngle - Math.PI/2) * maxR;
+      var sweep = document.getElementById('la8-sv5-sweep');
+      if(sweep){ sweep.setAttribute('x2', sx); sweep.setAttribute('y2', sy); }
+    }
+  }
+  function loop(){ updateVis(); requestAnimationFrame(loop); }
+  build(); buildControls();
+  if(!prefersReduced) loop(); else updateVis();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- PRACTITIONER EXPERIENCE UPGRADES (5 of 5)                    -->
+<!-- ============================================================ -->
+
+<!-- UPGRADE 5: Print Stylesheet -->
+<style>
+@media print {
+  body { background: #fff !important; color: #1A1A1A !important; }
+  .comp-header { position: static !important; background: #fff !important; border-bottom: 2px solid #1A1A1A !important; }
+  canvas { display: none !important; }
+  input[type=range] { display: none !important; }
+  [class*="-sv-"] { display: none !important; }
+  [class*="-walk-"] { display: none !important; }
+  [class*="-preset-"] { display: none !important; }
+  [class*="-cont-"] { display: none !important; }
+  .comp-id, .card-label, .panel-label { color: #1A1A1A !important; }
+  * { box-shadow: none !important; backdrop-filter: none !important; }
+}
+
+/* UPGRADE 1: Patient Case Presets */
+.la8-preset-bar{background:var(--card);border:1px solid var(--t06);border-radius:12px;padding:20px;margin:20px auto;max-width:1000px;}
+.la8-preset-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.la8-preset-row{display:flex;gap:8px;flex-wrap:wrap;}
+.la8-preset-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;border:1px solid var(--t12);background:transparent;color:var(--t55);transition:all .2s;}
+.la8-preset-btn:hover{border-color:rgba(201,168,76,0.3);color:var(--gold);}
+.la8-preset-btn.la8-preset-active{background:rgba(201,168,76,0.10);border:2px solid var(--gold);color:var(--gold);}
+@media(prefers-reduced-motion:reduce){.la8-preset-btn{transition:none;}}
+
+/* UPGRADE 2: Clinical Walkthrough */
+.la8-walk-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9998;background:rgba(0,0,0,0.55);pointer-events:auto;}
+.la8-walk-ring{position:absolute;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 4000px rgba(0,0,0,0.55);z-index:9999;pointer-events:none;}
+.la8-walk-tooltip{position:fixed;z-index:10000;background:rgba(7,28,51,0.95);border:1px solid rgba(201,168,76,0.30);border-radius:12px;padding:16px 20px;max-width:320px;pointer-events:auto;}
+.la8-walk-step{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.la8-walk-title{font-family:var(--fs);font-size:1.05rem;color:var(--white);margin-bottom:6px;}
+.la8-walk-desc{font-family:var(--fd);font-size:0.78rem;color:var(--t80);line-height:1.6;margin-bottom:12px;}
+.la8-walk-btns{display:flex;gap:8px;align-items:center;}
+.la8-walk-next,.la8-walk-skip{font-family:var(--fm);font-size:8px;letter-spacing:.08em;padding:6px 14px;border-radius:6px;cursor:pointer;}
+.la8-walk-next{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.35);color:var(--gold);}
+.la8-walk-skip{background:transparent;border:1px solid var(--t12);color:var(--t55);}
+.la8-walk-counter{font-family:var(--fm);font-size:8px;color:var(--t35);margin-left:auto;}
+.la8-walk-bar{background:var(--card);border:1px solid var(--t06);border-radius:12px;padding:20px;margin:20px auto;max-width:1000px;}
+.la8-walk-start{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);color:var(--gold);transition:all .2s;}
+.la8-walk-start:hover{background:rgba(201,168,76,0.2);}
+@media(prefers-reduced-motion:reduce){.la8-walk-start{transition:none;}}
+
+/* UPGRADE 3: Practitioner Export Report */
+.la8-report-bar{background:var(--card);border:1px solid var(--t06);border-radius:12px;padding:20px;margin:20px auto;max-width:1000px;}
+.la8-report-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.la8-report-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);color:var(--gold);margin-right:8px;}
+.la8-report-print{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;background:rgba(26,122,138,0.12);border:1px solid rgba(26,122,138,0.25);color:var(--teal-l);}
+.la8-report-card{display:none;background:#0D2B4E;border:1px solid rgba(201,168,76,0.20);border-radius:10px;padding:16px;margin-top:14px;font-family:var(--fm);font-size:10px;color:var(--t80);white-space:pre-wrap;line-height:1.8;}
+.la8-report-copy{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:6px;cursor:pointer;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);color:var(--gold);margin-top:10px;}
+.la8-report-confirm{font-family:var(--fm);font-size:8px;color:#2D9C6A;margin-left:10px;opacity:0;transition:opacity .3s;}
+
+/* UPGRADE 4: Cross-Page State Continuity */
+.la8-cont-bar{background:var(--card);border:1px solid var(--t06);border-radius:12px;padding:20px;margin:20px auto;max-width:1000px;}
+.la8-cont-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.la8-cont-row{display:flex;gap:8px;flex-wrap:wrap;}
+.la8-cont-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;background:rgba(26,122,138,0.12);border:1px solid rgba(26,122,138,0.25);color:var(--teal-l);transition:all .2s;}
+.la8-cont-btn:hover{background:rgba(26,122,138,0.2);}
+@media(prefers-reduced-motion:reduce){.la8-cont-btn{transition:none;}}
+</style>
+
+<!-- UPGRADE 1 HTML: Patient Case Presets -->
+<div class="la8-preset-bar" id="la8-preset-bar">
+  <div class="la8-preset-label">Patient Case Presets</div>
+  <div class="la8-preset-row">
+    <button class="la8-preset-btn" id="la8-preset-mark">Mark</button>
+    <button class="la8-preset-btn" id="la8-preset-sarah">Sarah</button>
+    <button class="la8-preset-btn" id="la8-preset-james">James</button>
+    <button class="la8-preset-btn" id="la8-preset-priya">Priya</button>
+  </div>
+</div>
+
+<!-- UPGRADE 2 HTML: Clinical Walkthrough -->
+<div class="la8-walk-bar" id="la8-walk-bar">
+  <button class="la8-walk-start" id="la8-walk-start">Start Walkthrough</button>
+</div>
+<div class="la8-walk-overlay" id="la8-walk-overlay"></div>
+<div class="la8-walk-tooltip" id="la8-walk-tooltip" style="display:none;">
+  <div class="la8-walk-step" id="la8-walk-step-label"></div>
+  <div class="la8-walk-title" id="la8-walk-title"></div>
+  <div class="la8-walk-desc" id="la8-walk-desc"></div>
+  <div class="la8-walk-btns">
+    <button class="la8-walk-next" id="la8-walk-next">Next</button>
+    <button class="la8-walk-skip" id="la8-walk-skip">Skip</button>
+    <span class="la8-walk-counter" id="la8-walk-counter"></span>
+  </div>
+</div>
+
+<!-- UPGRADE 3 HTML: Practitioner Export Report -->
+<div class="la8-report-bar" id="la8-report-bar">
+  <div class="la8-report-label">Practitioner Export</div>
+  <button class="la8-report-btn" id="la8-report-gen">Generate Report</button>
+  <button class="la8-report-print" id="la8-report-print">Print</button>
+  <div class="la8-report-card" id="la8-report-card"></div>
+  <div style="display:flex;align-items:center;margin-top:8px;">
+    <button class="la8-report-copy" id="la8-report-copy" style="display:none;">Copy to Clipboard</button>
+    <span class="la8-report-confirm" id="la8-report-confirm">Copied</span>
+  </div>
+</div>
+
+<!-- UPGRADE 4 HTML: Cross-Page State Continuity -->
+<div class="la8-cont-bar" id="la8-cont-bar">
+  <div class="la8-cont-label">Open Current State In...</div>
+  <div class="la8-cont-row">
+    <button class="la8-cont-btn" id="la8-cont-la4">Open in LA-4 DRD</button>
+    <button class="la8-cont-btn" id="la8-cont-la5">Open in LA-5 KINETICS</button>
+    <button class="la8-cont-btn" id="la8-cont-la6">Open in LA-6 APEX</button>
+    <button class="la8-cont-btn" id="la8-cont-la7">Open in LA-7 TerrainLock</button>
+    <button class="la8-cont-btn" id="la8-cont-la10">Open in LA-10 TIQ</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================ */
+/* UPGRADE 1: Patient Case Presets                               */
+/* ============================================================ */
+(function(){
+  var presets={
+    mark:{z1:65,z2:72,z3:35,z4:28,z5:68},
+    sarah:{z1:55,z2:30,z3:25,z4:20,z5:22},
+    james:{z1:38,z2:42,z3:30,z4:35,z5:30},
+    priya:{z1:48,z2:52,z3:45,z4:50,z5:40}
+  };
+  var btns=document.querySelectorAll('.la8-preset-btn');
+  function clearActive(){for(var i=0;i<btns.length;i++){btns[i].classList.remove('la8-preset-active');}}
+  function setSlider(id,val){
+    var el=document.getElementById(id);
+    if(el){el.value=val;el.dispatchEvent(new Event('input'));}
+  }
+  function applyPreset(name){
+    var p=presets[name];if(!p)return;
+    /* S1 (baseline) sliders */
+    setSlider('s1-z1',p.z1);setSlider('s1-z2',p.z2);setSlider('s1-z3',p.z3);setSlider('s1-z4',p.z4);setSlider('s1-z5',p.z5);
+    /* S3 (follow-up) sliders: shift down by 10-15 to simulate improvement */
+    setSlider('s3-z1',Math.max(0,p.z1-12));setSlider('s3-z2',Math.max(0,p.z2-10));
+    setSlider('s3-z3',Math.max(0,p.z3-8));setSlider('s3-z4',Math.max(0,p.z4-10));setSlider('s3-z5',Math.max(0,p.z5-14));
+    if(typeof update==='function')update();
+    /* SV5 radar sliders */
+    var sv5=document.getElementById('la8-sv5-controls');
+    if(sv5){
+      var inps=sv5.querySelectorAll('input[type=range]');
+      var order=[p.z1,p.z2,p.z3,p.z4,p.z5];
+      for(var i=0;i<inps.length&&i<5;i++){inps[i].value=order[i];inps[i].dispatchEvent(new Event('input'));}
+    }
+  }
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(){
+      clearActive();this.classList.add('la8-preset-active');
+      applyPreset(this.id.replace('la8-preset-',''));
+    });
+  }
+})();
+
+/* ============================================================ */
+/* UPGRADE 2: Clinical Walkthrough Mode                          */
+/* ============================================================ */
+(function(){
+  var steps=[
+    {title:'T1 Baseline',desc:'Session 1 captures the initial terrain profile. All five zone burden scores are recorded as the starting reference point for comparison.',target:'s1-z1'},
+    {title:'T2 Follow-up',desc:'Session 3 captures the follow-up profile after a typical 8-12 week intervention period. Zone changes emerge here.',target:'s3-z1'},
+    {title:'Delta Comparison',desc:'The comparison table shows the internal-point delta for each zone, highlighting meaningful changes above the 8-point threshold.',target:'summary-card'},
+    {title:'Impact Viewer',desc:'The cascade network and radar monitor visualise how zone shifts propagate through the cascade architecture and alter overall terrain burden.',target:'la8-sv5-svg'}
+  ];
+  var current=-1;
+  var overlay=document.getElementById('la8-walk-overlay');
+  var tooltip=document.getElementById('la8-walk-tooltip');
+  var stepLabel=document.getElementById('la8-walk-step-label');
+  var titleEl=document.getElementById('la8-walk-title');
+  var descEl=document.getElementById('la8-walk-desc');
+  var counter=document.getElementById('la8-walk-counter');
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function show(idx){
+    current=idx;
+    if(idx>=steps.length){hide();return;}
+    var s=steps[idx];
+    var el=document.getElementById(s.target);
+    if(el){el.scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'});}
+    overlay.style.display='block';
+    tooltip.style.display='block';
+    stepLabel.textContent='STEP '+(idx+1);
+    titleEl.textContent=s.title;
+    descEl.textContent=s.desc;
+    counter.textContent=(idx+1)+' of '+steps.length;
+    if(el){
+      var r=el.getBoundingClientRect();
+      tooltip.style.top=Math.min(r.bottom+12,window.innerHeight-180)+'px';
+      tooltip.style.left=Math.max(20,r.left)+'px';
+    }else{
+      tooltip.style.top='50%';tooltip.style.left='50%';
+    }
+  }
+  function hide(){
+    current=-1;overlay.style.display='none';tooltip.style.display='none';
+  }
+  document.getElementById('la8-walk-start').addEventListener('click',function(){show(0);});
+  document.getElementById('la8-walk-next').addEventListener('click',function(){show(current+1);});
+  document.getElementById('la8-walk-skip').addEventListener('click',function(){hide();});
+  overlay.addEventListener('click',function(){hide();});
+})();
+
+/* ============================================================ */
+/* UPGRADE 3: Practitioner Export Report                         */
+/* ============================================================ */
+(function(){
+  document.getElementById('la8-report-gen').addEventListener('click',function(){
+    var ids=['z1','z2','z3','z4','z5'];
+    var labels=['Z1','Z2','Z3','Z4','Z5'];
+    var s1Scores=[];var s3Scores=[];
+    for(var i=0;i<ids.length;i++){
+      var v1=document.getElementById('s1-'+ids[i]);
+      var v3=document.getElementById('s3-'+ids[i]);
+      s1Scores.push(v1?parseInt(v1.value,10):50);
+      s3Scores.push(v3?parseInt(v3.value,10):50);
+    }
+    var maxBurden=0;var maxIdx=0;
+    var lines=[];
+    lines.push('=========================================');
+    lines.push('Terrain Support Considerations');
+    lines.push('For practitioner use only. Not a diagnostic tool.');
+    lines.push('=========================================');
+    lines.push('');
+    lines.push('Session 1 (Baseline) Zone Scores (0-10 inverted):');
+    for(var i=0;i<5;i++){
+      var raw=s1Scores[i];
+      var dampened=i===4?Math.round(raw*0.7):raw;
+      var inv=Math.round((100-dampened)/10);
+      var n6=i===4?' (N6: endocrine signalling)':'';
+      lines.push('  '+labels[i]+n6+': '+inv+'/10');
+      if(dampened>maxBurden){maxBurden=dampened;maxIdx=i;}
+    }
+    lines.push('');
+    lines.push('Session 3 (Follow-up) Zone Scores (0-10 inverted):');
+    for(var i=0;i<5;i++){
+      var raw=s3Scores[i];
+      var dampened=i===4?Math.round(raw*0.7):raw;
+      var inv=Math.round((100-dampened)/10);
+      var n6=i===4?' (N6: endocrine signalling)':'';
+      lines.push('  '+labels[i]+n6+': '+inv+'/10');
+    }
+    lines.push('');
+    lines.push('Delta Analysis:');
+    var cascadesArr=[];
+    for(var i=0;i<5;i++){
+      var delta=s3Scores[i]-s1Scores[i];
+      var meaningful=Math.abs(delta)>=8;
+      var dir=delta<0?'improved':delta>0?'worsened':'unchanged';
+      lines.push('  '+labels[i]+': '+(delta>0?'+':'')+delta+' ('+(meaningful?'meaningful '+dir:'within variability')+')');
+    }
+    var s1Active=s1Scores[1]>=40&&s1Scores[0]>=40;
+    var s2Active=s1Scores[0]>=40&&s1Scores[4]>=32;
+    var s4Active=s1Scores[4]>=32&&s1Scores[1]>=40;
+    var locked=s1Active&&s2Active&&s4Active;
+    if(s1Active)cascadesArr.push('S1 (Z2>Z1)');
+    if(s2Active)cascadesArr.push('S2 (Z1>Z5)');
+    if(s4Active)cascadesArr.push('S4 (Z5>Z2, theoretical)');
+    lines.push('');
+    lines.push('Active Cascades (Baseline): '+(cascadesArr.length>0?cascadesArr.join(', '):'None'));
+    lines.push('Highest burden zone (DRD): '+labels[maxIdx]);
+    lines.push('N6 Dampening: Applied to Z5 (endocrine signalling) at 0.7x');
+    lines.push('TerrainLock Status: '+(locked?'ACTIVE (S1+S2+S4)':'INACTIVE'));
+    lines.push('');
+    var ts=new Date();
+    lines.push('Generated: '+ts.toISOString());
+    lines.push('Source: LA-8 DeltaScan Comparison View');
+    lines.push('=========================================');
+    var card=document.getElementById('la8-report-card');
+    card.textContent=lines.join('\n');
+    card.style.display='block';
+    document.getElementById('la8-report-copy').style.display='inline-block';
+  });
+  document.getElementById('la8-report-copy').addEventListener('click',function(){
+    var text=document.getElementById('la8-report-card').textContent;
+    if(navigator.clipboard){navigator.clipboard.writeText(text);}
+    var c=document.getElementById('la8-report-confirm');
+    c.style.opacity='1';
+    setTimeout(function(){c.style.opacity='0';},2000);
+  });
+  document.getElementById('la8-report-print').addEventListener('click',function(){window.print();});
+})();
+
+/* ============================================================ */
+/* UPGRADE 4: Cross-Page State Continuity                        */
+/* ============================================================ */
+(function(){
+  var fileMap={
+    la4:'LA4_DRD_Visualiser_D53_2026-04-11_v2.html',
+    la5:'LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html',
+    la6:'LA6_APEX_InvestigationPlanner_D53_2026-04-11_v2.html',
+    la7:'LA7_TerrainLock_LoopVisualiser_D53_2026-04-11_v2.html',
+    la10:'LA10_TIQ_CompositeScore_D53_2026-04-11_v2.html'
+  };
+  function gatherState(){
+    var ids=['z1','z2','z3','z4','z5'];
+    var state={page:'LA8',ts:Date.now()};
+    for(var i=0;i<ids.length;i++){
+      var v1=document.getElementById('s1-'+ids[i]);
+      var v3=document.getElementById('s3-'+ids[i]);
+      state['s1_'+ids[i]]=v1?v1.value:'50';
+      state['s3_'+ids[i]]=v3?v3.value:'50';
+    }
+    return state;
+  }
+  function openIn(target){
+    var state=gatherState();
+    var encoded=btoa(JSON.stringify(state));
+    var base=window.location.href.split('/');base.pop();
+    var url=base.join('/')+'/'+fileMap[target]+'?state='+encoded;
+    window.open(url,'_blank');
+  }
+  document.getElementById('la8-cont-la4').addEventListener('click',function(){openIn('la4');});
+  document.getElementById('la8-cont-la5').addEventListener('click',function(){openIn('la5');});
+  document.getElementById('la8-cont-la6').addEventListener('click',function(){openIn('la6');});
+  document.getElementById('la8-cont-la7').addEventListener('click',function(){openIn('la7');});
+  document.getElementById('la8-cont-la10').addEventListener('click',function(){openIn('la10');});
+})();
+</script>
+
+<!-- ===== CROSS-CUTTING FEATURES (F1-F5) ===== -->
+<style>
+/* F1: Glossary */
+#la8-gloss-btn{position:fixed;bottom:20px;left:20px;width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);background:var(--card);color:var(--gold);font-family:var(--fs);font-size:1.1rem;font-weight:600;cursor:pointer;z-index:9000;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+#la8-gloss-btn:hover{background:rgba(201,168,76,.15);}
+#la8-gloss-panel{position:fixed;bottom:70px;left:20px;width:340px;max-height:420px;background:var(--card);border:1px solid rgba(201,168,76,.25);border-radius:10px;z-index:9001;display:none;flex-direction:column;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+#la8-gloss-panel.open{display:flex;}
+#la8-gloss-search{background:rgba(255,255,255,.06);border:none;border-bottom:1px solid rgba(201,168,76,.15);color:var(--white);font-family:var(--fm);font-size:9px;letter-spacing:.06em;padding:10px 14px;outline:none;}
+#la8-gloss-list{overflow-y:auto;padding:8px;flex:1;}
+.la8-gloss-item{padding:8px 10px;border-radius:6px;cursor:pointer;border-bottom:1px solid rgba(244,244,242,.04);transition:background .15s;}
+.la8-gloss-item:hover{background:rgba(201,168,76,.08);}
+.la8-gloss-term{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.la8-gloss-def{font-family:var(--fd);font-size:.72rem;color:var(--t55);display:none;margin-top:4px;line-height:1.5;}
+.la8-gloss-item.expanded .la8-gloss-def{display:block;}
+#la8-gloss-close{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--t35);font-size:1rem;cursor:pointer;}
+/* F2: Annotation */
+.la8-note-sticky{position:absolute;width:180px;min-height:80px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:6px 8px 22px;z-index:8000;cursor:move;resize:none;}
+.la8-note-sticky textarea{width:100%;min-height:50px;background:transparent;border:none;color:var(--white);font-family:var(--fm);font-size:9px;line-height:1.5;resize:vertical;outline:none;}
+.la8-note-del{position:absolute;bottom:4px;right:6px;background:none;border:none;color:var(--t35);font-size:9px;cursor:pointer;font-family:var(--fm);}
+#la8-note-add{position:fixed;bottom:20px;left:70px;height:32px;padding:0 14px;border:1px solid rgba(201,168,76,.25);border-radius:6px;background:var(--card);color:var(--gold);font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;z-index:9000;transition:background .2s;}
+#la8-note-add:hover{background:rgba(201,168,76,.12);}
+#la8-note-clearall{position:fixed;bottom:20px;left:190px;height:32px;padding:0 12px;border:1px solid rgba(192,57,43,.25);border-radius:6px;background:var(--card);color:#C0392B;font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;z-index:9000;display:none;}
+/* F3: Dependency Graph */
+#la8-dep-panel{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:18px;margin:0 auto;max-width:1000px;}
+.la8-dep-title{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.la8-dep-grid{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.la8-dep-card{background:rgba(255,255,255,.04);border:1px solid var(--t12);border-radius:8px;padding:12px 16px;min-width:140px;flex:1;cursor:pointer;transition:border-color .2s,transform .2s;}
+.la8-dep-card:hover{border-color:rgba(201,168,76,.35);transform:translateY(-2px);}
+.la8-dep-card-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.la8-dep-card-desc{font-family:var(--fd);font-size:.72rem;color:var(--t55);line-height:1.4;}
+.la8-dep-line{height:2px;background:linear-gradient(90deg,rgba(201,168,76,.5),rgba(26,122,138,.5));border-radius:1px;margin:6px 0;animation:la8DepPulse 2s ease-in-out infinite;}
+@keyframes la8DepPulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+/* F4: Confidence */
+#la8-conf-badge{position:fixed;top:70px;right:20px;padding:6px 14px;border-radius:20px;font-family:var(--fm);font-size:8px;letter-spacing:.18em;text-transform:uppercase;z-index:9000;cursor:default;border:1px solid var(--t12);background:var(--card);transition:background .3s;}
+#la8-conf-badge .la8-conf-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+#la8-conf-tooltip{display:none;position:fixed;top:96px;right:20px;background:var(--card);border:1px solid var(--t12);border-radius:6px;padding:8px 12px;font-family:var(--fm);font-size:9px;color:var(--t55);z-index:9001;white-space:nowrap;}
+/* F5: Compare */
+#la8-compare-btn{position:fixed;top:70px;right:180px;height:32px;padding:0 16px;border:1px solid rgba(201,168,76,.25);border-radius:6px;background:var(--card);color:var(--gold);font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;z-index:9000;transition:background .2s;}
+#la8-compare-btn:hover{background:rgba(201,168,76,.12);}
+#la8-compare-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,28,51,.96);z-index:9500;overflow-y:auto;padding:20px;}
+#la8-compare-overlay.open{display:block;}
+.la8-compare-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.la8-compare-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);}
+#la8-compare-exit{background:none;border:1px solid rgba(192,57,43,.3);color:#C0392B;font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:6px;cursor:pointer;}
+.la8-compare-panels{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;max-width:1000px;margin:0 auto;}
+.la8-compare-side{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:16px;}
+.la8-compare-side-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;text-align:center;}
+.la8-compare-zone-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.la8-compare-zone-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.la8-compare-zone-name{font-family:var(--fm);font-size:9px;flex:1;color:var(--t55);}
+.la8-compare-zone-val{font-family:var(--fm);font-size:9px;font-weight:500;min-width:30px;text-align:right;color:var(--white);}
+.la8-compare-zone-slider{width:100%;height:4px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.10);border-radius:2px;outline:none;cursor:pointer;}
+.la8-compare-diverge{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px 0;}
+.la8-compare-div-bar{width:4px;border-radius:2px;transition:height .3s,background .3s;}
+.la8-compare-highlight{border-color:rgba(192,57,43,.5) !important;box-shadow:0 0 8px rgba(192,57,43,.2);}
+@media(prefers-reduced-motion:reduce){
+  @keyframes la8DepPulse{0%,100%{opacity:.7;}50%{opacity:.7;}}
+  .la8-dep-card:hover{transform:none;}
+}
+</style>
+
+<!-- F1: Glossary HTML -->
+<button id="la8-gloss-btn" aria-label="Open glossary">?</button>
+<div id="la8-gloss-panel" role="dialog" aria-label="Architecture Glossary">
+  <button id="la8-gloss-close" aria-label="Close glossary">&times;</button>
+  <input id="la8-gloss-search" type="text" placeholder="Search terms..." aria-label="Search glossary">
+  <div id="la8-gloss-list"></div>
+</div>
+
+<!-- F2: Annotation HTML -->
+<button id="la8-note-add" aria-label="Add annotation note">+ Add Note</button>
+<button id="la8-note-clearall" aria-label="Clear all notes">Clear All</button>
+
+<!-- F3: Dependency Graph HTML -->
+<div id="la8-dep-panel" style="margin-top:16px;">
+  <div class="la8-dep-title">Feature Dependency Graph</div>
+  <div class="la8-dep-grid">
+    <div class="la8-dep-card" id="la8-dep-la4" tabindex="0">
+      <div class="la8-dep-card-label">LA-4 DRD</div>
+      <div class="la8-dep-line"></div>
+      <div class="la8-dep-card-desc">Zone scores T1/T2 - Highest burden zone designation</div>
+    </div>
+    <div class="la8-dep-card" id="la8-dep-la10" tabindex="0">
+      <div class="la8-dep-card-label">LA-10 TIQ</div>
+      <div class="la8-dep-line"></div>
+      <div class="la8-dep-card-desc">Composite comparison scoring across terrain</div>
+    </div>
+  </div>
+</div>
+
+<!-- F4: Confidence Badge HTML -->
+<div id="la8-conf-badge"><span class="la8-conf-dot"></span><span id="la8-conf-level">LOW</span></div>
+<div id="la8-conf-tooltip"></div>
+
+<!-- F5: Compare HTML -->
+<button id="la8-compare-btn">Compare</button>
+<div id="la8-compare-overlay">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="la8-compare-header">
+      <span class="la8-compare-title">Multi-Patient Compare View</span>
+      <button id="la8-compare-exit">Exit Compare</button>
+    </div>
+    <div class="la8-compare-panels">
+      <div class="la8-compare-side" id="la8-compare-panelA">
+        <div class="la8-compare-side-label">Patient A</div>
+      </div>
+      <div class="la8-compare-diverge" id="la8-compare-divCol"></div>
+      <div class="la8-compare-side" id="la8-compare-panelB">
+        <div class="la8-compare-side-label">Patient B</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===== F1: GLOSSARY ===== */
+  var glossTerms = [
+    {term:'NCZ',def:'No-Compromise Zone. Areas of critical clinical priority that cannot be overridden.'},
+    {term:'DRD',def:'Highest burden zone. The dominant risk domain driving clinical priority.'},
+    {term:'APEX',def:'Assessment Priority and Evidence Xray. Prioritisation framework for clinical evidence.'},
+    {term:'FLINT',def:'Functional Layers of Intelligence in Nested Terrain. Levels L1 through L5.'},
+    {term:'TerrainLock',def:'Condition requiring s1Active AND s2Active AND s4Active before terrain analysis proceeds.'},
+    {term:'CascadeIQ',def:'Cascade Intelligence Quotient. Stages S1 through S6 measuring systemic interaction depth.'},
+    {term:'N6',def:'Endocrine signalling pathway. Weighted at 0.7x in composite calculations.'},
+    {term:'Display Scale',def:'Inverted 0-10 scale used for practitioner-facing outputs. Lower values indicate higher burden.'},
+    {term:'TIQ',def:'Terrain Intelligence Quotient. Composite score aggregating multi-layer terrain data.'},
+    {term:'DeltaScan',def:'Longitudinal comparison tool measuring change between two assessment sessions.'},
+    {term:'TRACE',def:'Temporal Risk and Change Evaluation. Timeline view of terrain shifts.'},
+    {term:'KINETICS',def:'Velocity classification system measuring speed and direction of terrain change.'}
+  ];
+  var glossPanel = document.getElementById('la8-gloss-panel');
+  var glossBtn = document.getElementById('la8-gloss-btn');
+  var glossClose = document.getElementById('la8-gloss-close');
+  var glossSearch = document.getElementById('la8-gloss-search');
+  var glossList = document.getElementById('la8-gloss-list');
+
+  function renderGloss(filter) {
+    var html = '';
+    var f = (filter || '').toLowerCase();
+    for (var i = 0; i < glossTerms.length; i++) {
+      var t = glossTerms[i];
+      if (f && t.term.toLowerCase().indexOf(f) === -1 && t.def.toLowerCase().indexOf(f) === -1) continue;
+      html = html + '<div class="la8-gloss-item" data-idx="' + i + '"><div class="la8-gloss-term">' + t.term + '</div><div class="la8-gloss-def">' + t.def + '</div></div>';
+    }
+    glossList.innerHTML = html;
+    var items = glossList.querySelectorAll('.la8-gloss-item');
+    for (var j = 0; j < items.length; j++) {
+      items[j].addEventListener('click', function() {
+        this.classList.toggle('expanded');
+      });
+    }
+  }
+  glossBtn.addEventListener('click', function() { glossPanel.classList.toggle('open'); renderGloss(''); glossSearch.value = ''; });
+  glossClose.addEventListener('click', function() { glossPanel.classList.remove('open'); });
+  glossSearch.addEventListener('input', function() { renderGloss(this.value); });
+
+  /* ===== F2: ANNOTATIONS ===== */
+  var noteCount = 0;
+  var noteMax = 10;
+  var noteAddBtn = document.getElementById('la8-note-add');
+  var noteClearBtn = document.getElementById('la8-note-clearall');
+  var noteKey = 'la8-notes-session';
+
+  function saveNotes() {
+    var notes = document.querySelectorAll('.la8-note-sticky');
+    var data = [];
+    for (var i = 0; i < notes.length; i++) {
+      var n = notes[i];
+      data.push({x: n.style.left, y: n.style.top, text: n.querySelector('textarea').value});
+    }
+    try { sessionStorage.setItem(noteKey, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function createNote(x, y, text) {
+    if (noteCount >= noteMax) return;
+    noteCount++;
+    var el = document.createElement('div');
+    el.className = 'la8-note-sticky';
+    el.style.left = x || '100px';
+    el.style.top = y || '200px';
+    el.innerHTML = '<textarea placeholder="Add note...">' + (text || '') + '</textarea><button class="la8-note-del">delete</button>';
+    document.body.appendChild(el);
+    noteClearBtn.style.display = 'block';
+
+    el.querySelector('textarea').addEventListener('input', saveNotes);
+    el.querySelector('.la8-note-del').addEventListener('click', function() {
+      el.parentNode.removeChild(el);
+      noteCount--;
+      saveNotes();
+      if (noteCount === 0) noteClearBtn.style.display = 'none';
+    });
+
+    var dragging = false, offsetX = 0, offsetY = 0;
+    el.addEventListener('mousedown', function(e) {
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
+      dragging = true;
+      offsetX = e.clientX - el.getBoundingClientRect().left;
+      offsetY = e.clientY - el.getBoundingClientRect().top;
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+      el.style.left = (e.clientX - offsetX) + 'px';
+      el.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      if (dragging) { dragging = false; saveNotes(); }
+    });
+    saveNotes();
+  }
+
+  noteAddBtn.addEventListener('click', function() { createNote(null, null, ''); });
+  noteClearBtn.addEventListener('click', function() {
+    var notes = document.querySelectorAll('.la8-note-sticky');
+    for (var i = 0; i < notes.length; i++) notes[i].parentNode.removeChild(notes[i]);
+    noteCount = 0;
+    noteClearBtn.style.display = 'none';
+    try { sessionStorage.removeItem(noteKey); } catch(e) {}
+  });
+
+  /* Restore notes from sessionStorage */
+  try {
+    var saved = sessionStorage.getItem(noteKey);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      for (var s = 0; s < arr.length; s++) createNote(arr[s].x, arr[s].y, arr[s].text);
+    }
+  } catch(e) {}
+
+  /* ===== F3: DEPENDENCY GRAPH ===== */
+  var depLA4 = document.getElementById('la8-dep-la4');
+  var depLA10 = document.getElementById('la8-dep-la10');
+  if (depLA4) depLA4.addEventListener('click', function() { window.open('LA4_DRD_ZoneScoring_D53_2026-04-11_v2.html','_blank'); });
+  if (depLA10) depLA10.addEventListener('click', function() { window.open('LA10_TIQ_CompositeScore_D53_2026-04-11_v2.html','_blank'); });
+
+  /* ===== F4: CONFIDENCE BADGE ===== */
+  var confBadge = document.getElementById('la8-conf-badge');
+  var confLevel = document.getElementById('la8-conf-level');
+  var confDot = confBadge.querySelector('.la8-conf-dot');
+  var confTooltip = document.getElementById('la8-conf-tooltip');
+
+  function updateConfidence() {
+    var sliders = document.querySelectorAll('input[type="range"]');
+    var total = sliders.length;
+    if (total === 0) return;
+    var adjusted = 0;
+    for (var i = 0; i < sliders.length; i++) {
+      var val = parseInt(sliders[i].value, 10);
+      var defVal = parseInt(sliders[i].getAttribute('data-default') || sliders[i].defaultValue || '50', 10);
+      if (val !== defVal) adjusted++;
+    }
+    var pct = (adjusted / total) * 100;
+    var label, color;
+    if (pct > 80) { label = 'HIGH'; color = '#2D9C6A'; }
+    else if (pct >= 40) { label = 'MEDIUM'; color = '#C9A84C'; }
+    else { label = 'LOW'; color = '#C0392B'; }
+    confLevel.textContent = label;
+    confDot.style.background = color;
+    confTooltip.textContent = adjusted + ' of ' + total + ' inputs configured';
+  }
+
+  document.addEventListener('input', function(e) {
+    if (e.target && e.target.type === 'range') updateConfidence();
+  });
+  confBadge.addEventListener('mouseenter', function() { confTooltip.style.display = 'block'; });
+  confBadge.addEventListener('mouseleave', function() { confTooltip.style.display = 'none'; });
+  updateConfidence();
+
+  /* ===== F5: MULTI-PATIENT COMPARE ===== */
+  var compareBtn = document.getElementById('la8-compare-btn');
+  var compareOverlay = document.getElementById('la8-compare-overlay');
+  var compareExit = document.getElementById('la8-compare-exit');
+  var panelA = document.getElementById('la8-compare-panelA');
+  var panelB = document.getElementById('la8-compare-panelB');
+  var divCol = document.getElementById('la8-compare-divCol');
+  var zoneNames = ['Z1 Metabolic','Z2 Immune','Z3 Neuro','Z4 Gut','Z5 Cardiac'];
+  var zoneColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var valsA = [50,50,50,50,50];
+  var valsB = [50,50,50,50,50];
+
+  function buildComparePanel(panel, prefix, vals) {
+    var html = '';
+    for (var i = 0; i < 5; i++) {
+      var ds = (vals[i] / 10).toFixed(1);
+      html = html + '<div class="la8-compare-zone-row"><span class="la8-compare-zone-dot" style="background:' + zoneColors[i] + '"></span><span class="la8-compare-zone-name">' + zoneNames[i] + '</span><span class="la8-compare-zone-val" id="la8-compare-' + prefix + '-v' + i + '">' + ds + '</span></div><input type="range" class="la8-compare-zone-slider" min="0" max="100" value="' + vals[i] + '" data-side="' + prefix + '" data-zi="' + i + '">';
+    }
+    /* Keep the label */
+    var label = panel.querySelector('.la8-compare-side-label');
+    var labelHTML = label ? label.outerHTML : '';
+    panel.innerHTML = labelHTML + html;
+  }
+
+  function updateDivergence() {
+    var html = '';
+    var maxDiff = 0, maxIdx = -1;
+    for (var i = 0; i < 5; i++) {
+      var diff = Math.abs(valsA[i] - valsB[i]);
+      if (diff > maxDiff) { maxDiff = diff; maxIdx = i; }
+      var h = Math.max(4, diff * 0.6);
+      html = html + '<div class="la8-compare-div-bar" style="height:' + h + 'px;width:4px;background:' + zoneColors[i] + ';border-radius:2px;"></div>';
+    }
+    divCol.innerHTML = html;
+    /* Highlight biggest difference */
+    var rows = document.querySelectorAll('.la8-compare-zone-row');
+    for (var j = 0; j < rows.length; j++) rows[j].classList.remove('la8-compare-highlight');
+    if (maxIdx > -1) {
+      var rowsA = panelA.querySelectorAll('.la8-compare-zone-row');
+      var rowsB = panelB.querySelectorAll('.la8-compare-zone-row');
+      if (rowsA[maxIdx]) rowsA[maxIdx].classList.add('la8-compare-highlight');
+      if (rowsB[maxIdx]) rowsB[maxIdx].classList.add('la8-compare-highlight');
+    }
+  }
+
+  compareBtn.addEventListener('click', function() {
+    buildComparePanel(panelA, 'a', valsA);
+    buildComparePanel(panelB, 'b', valsB);
+    updateDivergence();
+    compareOverlay.classList.add('open');
+  });
+
+  compareExit.addEventListener('click', function() { compareOverlay.classList.remove('open'); });
+
+  compareOverlay.addEventListener('input', function(e) {
+    if (e.target && e.target.type === 'range' && e.target.getAttribute('data-side')) {
+      var side = e.target.getAttribute('data-side');
+      var zi = parseInt(e.target.getAttribute('data-zi'), 10);
+      var raw = parseInt(e.target.value, 10);
+      var display = (raw / 10).toFixed(1);
+      if (side === 'a') valsA[zi] = raw;
+      else valsB[zi] = raw;
+      var valEl = document.getElementById('la8-compare-' + side + '-v' + zi);
+      if (valEl) valEl.textContent = display;
+      updateDivergence();
+    }
+  });
+})();
+</script>
+<!-- ===== END CROSS-CUTTING FEATURES ===== -->
+
+</body>
+</html>

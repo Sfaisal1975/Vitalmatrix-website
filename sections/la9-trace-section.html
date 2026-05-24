@@ -1,0 +1,112 @@
+<!-- LA-9 TRACE Timeline Section | VitalMatrix Ltd | D-53 colours | ALB v1.5 -->
+<section id="vm-la9-root" class="vm-reveal" style="background:#0C4452;padding:80px 24px;margin:0;border:none;">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap');
+  #vm-la9-root{font-family:'Outfit',sans-serif;color:#F4F4F2;box-sizing:border-box;}
+  #vm-la9-root *{box-sizing:border-box;}
+  #vm-la9-root .vm-la9-eyebrow{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;}
+  #vm-la9-root .vm-la9-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:#F4F4F2;margin:0 0 12px;}
+  #vm-la9-root .vm-la9-subtitle{font-family:'Outfit',sans-serif;font-size:15px;color:rgba(255,255,255,0.6);max-width:640px;line-height:1.6;margin-bottom:32px;}
+  #vm-la9-root .vm-la9-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:36px;}
+  #vm-la9-root .vm-la9-leg-item{display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.55);}
+  #vm-la9-root .vm-la9-leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+  #vm-la9-root .vm-la9-timeline{position:relative;padding-left:48px;max-width:720px;}
+  #vm-la9-root .vm-la9-line{position:absolute;left:22px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#C9A84C 0%,rgba(201,168,76,0.2) 100%);}
+  #vm-la9-root .vm-la9-event{position:relative;margin-bottom:24px;cursor:pointer;}
+  #vm-la9-root .vm-la9-dot{position:absolute;left:-34px;top:6px;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);transition:box-shadow 0.3s;}
+  #vm-la9-root .vm-la9-event:hover .vm-la9-dot{box-shadow:0 0 12px rgba(201,168,76,0.5);}
+  #vm-la9-root .vm-la9-card{padding:16px 20px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);transition:background 0.25s,border-color 0.25s;}
+  #vm-la9-root .vm-la9-card:hover{background:rgba(255,255,255,0.09);}
+  #vm-la9-root .vm-la9-card.expanded{background:rgba(255,255,255,0.1);border-color:rgba(201,168,76,0.35);}
+  #vm-la9-root .vm-la9-year{font-family:'DM Mono',monospace;font-size:15px;font-weight:700;margin-right:10px;}
+  #vm-la9-root .vm-la9-type-badge{font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:4px;font-weight:500;}
+  #vm-la9-root .vm-la9-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#F4F4F2;margin:6px 0 4px;}
+  #vm-la9-root .vm-la9-desc{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.55;}
+  #vm-la9-root .vm-la9-zones{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;overflow:hidden;max-height:0;transition:max-height 0.35s ease,opacity 0.3s;opacity:0;}
+  #vm-la9-root .vm-la9-card.expanded .vm-la9-zones{max-height:120px;opacity:1;}
+  #vm-la9-root .vm-la9-zone-tag{font-family:'DM Mono',monospace;font-size:9px;padding:3px 7px;border-radius:4px;border-width:1px;border-style:solid;}
+  #vm-la9-root .vm-la9-cascades{display:flex;flex-direction:column;gap:3px;margin-top:8px;overflow:hidden;max-height:0;transition:max-height 0.35s ease,opacity 0.3s;opacity:0;}
+  #vm-la9-root .vm-la9-card.expanded .vm-la9-cascades{max-height:200px;opacity:1;}
+  #vm-la9-root .vm-la9-cascade{font-family:'DM Mono',monospace;font-size:10px;color:#1A7A8A;}
+  #vm-la9-root .vm-la9-footer-note{font-size:11px;color:rgba(255,255,255,0.45);font-style:italic;text-align:center;margin-top:32px;}
+</style>
+
+<div style="max-width:800px;margin:0 auto;">
+  <div class="vm-la9-eyebrow">Terrain History</div>
+  <h2 class="vm-la9-heading">Trace the Patient Journey Over Time</h2>
+  <p class="vm-la9-subtitle">Temporal Reconstruction and Cascade Evaluation. Reconstructs when each zone began showing burden. Example case: Mark, 49 (fictional composite). Evidence tier: Emerging.</p>
+
+  <div id="vm-la9-legend" class="vm-la9-legend"></div>
+  <div class="vm-la9-timeline">
+    <div class="vm-la9-line"></div>
+    <div id="vm-la9-events"></div>
+  </div>
+  <p class="vm-la9-footer-note">LA-9 TRACE Timeline | ALB v1.5 | Fictional composite case | Educational demonstration only</p>
+</div>
+
+<script>
+(function(){
+  var ZC = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+  var ET = {Diet:{colour:'#1A7A8A',label:'Diet'},Environmental:{colour:'#7B5EA7',label:'Environmental'},Stress:{colour:'#C9A84C',label:'Stress'},Infectious:{colour:'#C0392B',label:'Infectious'},Lifestyle:{colour:'#5F7C6C',label:'Lifestyle'}};
+  var EVENTS = [
+    {year:2014,type:'Diet',title:'Dietary shift',desc:'Began convenience-based diet. Reduced vegetable intake, increased ultra-processed food frequency. Early Z2 burden indicators developing.',zones:{Z1:20,Z2:25,Z3:15,Z4:18,Z5:22},cascades:[]},
+    {year:2017,type:'Stress',title:'Occupational stress escalation',desc:'Senior role with sustained high demand. Sleep architecture disrupted. Cortisol pattern shifting. S1 cascade begins (Z2 to Z1).',zones:{Z1:35,Z2:42,Z3:22,Z4:25,Z5:30},cascades:['S1 begins (Z2 to Z1, MEDIUM)']},
+    {year:2019,type:'Infectious',title:'Recurrent infections',desc:'Two significant respiratory infections within 12 months. Gut permeability markers elevated. Z2 burden established above threshold.',zones:{Z1:42,Z2:55,Z3:28,Z4:32,Z5:38},cascades:['S1 active (Z2 to Z1)','S2 begins (Z1 to Z5, FAST)']},
+    {year:2022,type:'Lifestyle',title:'Exercise capacity decline',desc:'Reduced exercise tolerance. Central weight gain. Brain fog episodes. S2 fully established: metabolic burden now loading hormonal terrain.',zones:{Z1:58,Z2:62,Z3:35,Z4:40,Z5:52},cascades:['S1 active','S2 established (Z1 to Z5)','S5 active (Z2 to Z3)']},
+    {year:2024,type:'Environmental',title:'Environmental exposure confirmed',desc:'Urban air quality assessment. Occupational chemical exposure identified. Z4 burden increasing. S3 cascade emerging (Z4 to Z1, SLOW).',zones:{Z1:62,Z2:65,Z3:40,Z4:50,Z5:58},cascades:['S1 active','S2 active','S3 emerging (Z4 to Z1, SLOW)','S5 active','TerrainLock criteria approaching']},
+    {year:2026,type:'Stress',title:'Presentation to VitalMatrix practitioner',desc:'Full terrain assessment completed. TerrainLock confirmed. Highest burden zone designation: Z2 Resilience Network. TIQ: 3.1/10.',zones:{Z1:65,Z2:68,Z3:42,Z4:52,Z5:60},cascades:['S1 active','S2 active','S4 active (THEORETICAL)','S5 active','TerrainLock CONFIRMED']}
+  ];
+
+  /* Legend */
+  var leg = document.getElementById('vm-la9-legend');
+  Object.keys(ET).forEach(function(k){
+    var s = document.createElement('span'); s.className = 'vm-la9-leg-item';
+    s.innerHTML = '<span class="vm-la9-leg-dot" style="background:' + ET[k].colour + '"></span>' + ET[k].label;
+    leg.appendChild(s);
+  });
+
+  /* Events */
+  var container = document.getElementById('vm-la9-events');
+  EVENTS.forEach(function(ev, idx){
+    var ti = ET[ev.type];
+    var wrap = document.createElement('div'); wrap.className = 'vm-la9-event';
+    var dot = document.createElement('div'); dot.className = 'vm-la9-dot'; dot.style.background = ti.colour; wrap.appendChild(dot);
+    var card = document.createElement('div'); card.className = 'vm-la9-card'; card.id = 'vm-la9-card-' + idx;
+
+    /* Header row */
+    var hdr = document.createElement('div'); hdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;';
+    var yr = document.createElement('span'); yr.className = 'vm-la9-year'; yr.style.color = ti.colour; yr.textContent = ev.year;
+    var badge = document.createElement('span'); badge.className = 'vm-la9-type-badge'; badge.style.cssText = 'background:' + ti.colour + '22;color:' + ti.colour + ';'; badge.textContent = ev.type;
+    hdr.appendChild(yr); hdr.appendChild(badge); card.appendChild(hdr);
+
+    var ttl = document.createElement('div'); ttl.className = 'vm-la9-title'; ttl.textContent = ev.title; card.appendChild(ttl);
+    var desc = document.createElement('div'); desc.className = 'vm-la9-desc'; desc.textContent = ev.desc; card.appendChild(desc);
+
+    /* Zone tags */
+    var zDiv = document.createElement('div'); zDiv.className = 'vm-la9-zones';
+    ['Z1','Z2','Z3','Z4','Z5'].forEach(function(zk){
+      var thresh = zk === 'Z5' ? 32 : 40;
+      var active = ev.zones[zk] >= thresh;
+      var tag = document.createElement('span'); tag.className = 'vm-la9-zone-tag';
+      tag.style.borderColor = ZC[zk]; tag.style.color = ZC[zk];
+      tag.style.background = active ? ZC[zk] + '22' : 'transparent';
+      tag.textContent = zk + ': ' + ev.zones[zk] + (active ? ' ACTIVE' : '');
+      zDiv.appendChild(tag);
+    });
+    card.appendChild(zDiv);
+
+    /* Cascades */
+    if(ev.cascades.length){
+      var cDiv = document.createElement('div'); cDiv.className = 'vm-la9-cascades';
+      ev.cascades.forEach(function(c){
+        var cl = document.createElement('div'); cl.className = 'vm-la9-cascade'; cl.textContent = '\u26A1 ' + c; cDiv.appendChild(cl);
+      });
+      card.appendChild(cDiv);
+    }
+
+    card.addEventListener('click', function(){ card.classList.toggle('expanded'); });
+    wrap.appendChild(card); container.appendChild(wrap);
+  });
+})();
+</script>
+</section>

@@ -1,0 +1,375 @@
+})();
+</script>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     MN11-MN20 MNEMONIC DEEP-DIVES + JOY01-JOY10 PRACTITIONER HAPPINESS
+     Prefixes: vm-mn11- to vm-mn20-, vm-joy01- to vm-joy10-
+     Built 13 May 2026 | T-01 compliant | D-85 zone colours
+     Z1 #C9A84C | Z2 #1A7A8A | Z3 #7B5EA7 | Z4 #5F7C6C | Z5 #2E6DB4
+     S4 THEORETICAL | S6 UNIDIRECTIONAL | DRD = Highest burden zone
+     ══════════════════════════════════════════════════════════════ -->
+
+<style>
+/* ── MN11: VOLTERRAIN Driver Command Centre ── */
+.vm-mn11-section{background:#0C4452;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn11-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn11-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px;letter-spacing:.04em}
+.vm-mn11-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;max-width:1200px;margin:0 auto 24px}
+.vm-mn11-col{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:16px;transition:transform .3s var(--vm-ease),box-shadow .3s var(--vm-ease)}
+.vm-mn11-col:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.vm-mn11-col-hdr{font-family:var(--vm-fs);font-size:1rem;font-weight:600;margin-bottom:6px}
+.vm-mn11-status{display:inline-block;padding:2px 10px;border-radius:20px;font-family:var(--vm-fm);font-size:.6rem;letter-spacing:.05em;margin-bottom:8px}
+.vm-mn11-status-active{background:rgba(201,168,76,.18);color:#C9A84C;border:1px solid rgba(201,168,76,.3)}
+.vm-mn11-status-inactive{background:rgba(255,255,255,.06);color:var(--vm-txts);border:1px solid rgba(255,255,255,.08)}
+.vm-mn11-slider{width:100%;height:6px;border-radius:3px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.12);outline:none;margin:8px 0}
+.vm-mn11-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;cursor:pointer}
+.vm-mn11-nodes{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);line-height:1.6;margin-top:6px}
+.vm-mn11-evidence{font-family:var(--vm-fm);font-size:.55rem;padding:3px 8px;border-radius:4px;background:rgba(201,168,76,.1);color:#C9A84C;display:inline-block;margin-top:6px}
+.vm-mn11-alert{max-width:1200px;margin:0 auto 20px;padding:14px 20px;background:rgba(208,50,50,.1);border:1px solid rgba(208,50,50,.25);border-radius:8px;font-family:var(--vm-fm);font-size:.7rem;color:#E06060;display:none;text-align:center;transition:opacity .4s var(--vm-ease)}
+.vm-mn11-alert.vm-mn11-show{display:block}
+.vm-mn11-gauge{max-width:400px;margin:0 auto;text-align:center}
+.vm-mn11-gauge svg{width:100%;max-width:320px}
+.vm-mn11-gauge-label{font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);margin-top:6px}
+.vm-mn11-spra{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-gold);text-align:center;margin-top:16px;letter-spacing:.05em}
+/* ── MN12: TerrainSpiral Phase Transition Demo ── */
+.vm-mn12-section{background:#1A2030;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn12-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn12-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn12-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto}
+.vm-mn12-panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:20px}
+.vm-mn12-panel-title{font-family:var(--vm-fs);font-size:1.2rem;font-weight:600;color:var(--vm-white);margin-bottom:12px}
+.vm-mn12-phase-label{font-family:var(--vm-fm);font-size:.65rem;padding:3px 10px;border-radius:14px;display:inline-block;margin-bottom:12px}
+.vm-mn12-p1{background:rgba(26,122,138,.15);color:#1A7A8A;border:1px solid rgba(26,122,138,.3)}
+.vm-mn12-p15{background:rgba(201,168,76,.15);color:#C9A84C;border:1px solid rgba(201,168,76,.3)}
+.vm-mn12-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.vm-mn12-btn{padding:6px 14px;border:1px solid rgba(255,255,255,.15);border-radius:6px;background:rgba(255,255,255,.04);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.65rem;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-mn12-btn:hover,.vm-mn12-btn.vm-mn12-active{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.4);color:#C9A84C}
+.vm-mn12-output{min-height:80px;padding:12px;background:rgba(0,0,0,.2);border-radius:8px;font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txt);line-height:1.8}
+.vm-mn12-apex{margin-top:12px;padding:8px 14px;border-radius:6px;background:rgba(123,94,167,.12);border:1px solid rgba(123,94,167,.25);font-family:var(--vm-fm);font-size:.6rem;color:#7B5EA7}
+.vm-mn12-badge{display:inline-block;padding:2px 10px;border-radius:12px;font-family:var(--vm-fm);font-size:.55rem;background:rgba(95,124,108,.15);color:#5F7C6C;border:1px solid rgba(95,124,108,.3);margin-top:8px}
+/* ── MN13: MODES Three-Channel Analyser ── */
+.vm-mn13-section{background:#0D2B4E;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn13-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn13-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn13-scope{max-width:800px;margin:0 auto 20px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;position:relative;overflow:hidden}
+.vm-mn13-canvas{width:100%;height:220px;display:block;border-radius:8px}
+.vm-mn13-toggles{display:flex;gap:10px;justify-content:center;margin-bottom:16px;max-width:800px;margin-left:auto;margin-right:auto}
+.vm-mn13-tog{padding:6px 16px;border:1px solid rgba(255,255,255,.15);border-radius:6px;background:rgba(255,255,255,.04);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.65rem;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-mn13-tog.vm-mn13-on{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.12);color:#C9A84C}
+.vm-mn13-interference{max-width:800px;margin:12px auto 0;padding:10px 16px;border-radius:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);text-align:center}
+.vm-mn13-wall{max-width:800px;margin:12px auto 0;padding:10px 16px;border-radius:8px;background:rgba(208,50,50,.08);border:1px solid rgba(208,50,50,.2);font-family:var(--vm-fm);font-size:.65rem;color:#E06060;text-align:center}
+/* ── MN14: GRADE Absorption Stress Test ── */
+.vm-mn14-section{background:#0C4452;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn14-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn14-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn14-vessel{max-width:500px;margin:0 auto 20px;background:rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:24px;text-align:center;min-height:200px;transition:border-color .4s var(--vm-ease)}
+.vm-mn14-vessel-label{font-family:var(--vm-fs);font-size:1.3rem;font-weight:300;margin-bottom:6px}
+.vm-mn14-grade{font-family:var(--vm-fm);font-size:2.5rem;font-weight:700;transition:color .4s var(--vm-ease)}
+.vm-mn14-grade-desc{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts);margin-bottom:16px}
+.vm-mn14-fill{width:100%;height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;margin-bottom:4px}
+.vm-mn14-fill-bar{height:100%;border-radius:6px;transition:width .5s var(--vm-ease),background .5s var(--vm-ease)}
+.vm-mn14-stressors{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px auto;max-width:500px}
+.vm-mn14-stressor-btn{padding:6px 14px;border:1px solid rgba(255,255,255,.15);border-radius:6px;background:rgba(255,255,255,.04);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.65rem;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-mn14-stressor-btn:hover{background:rgba(208,50,50,.12);border-color:rgba(208,50,50,.3);color:#E06060}
+.vm-mn14-stressor-btn.vm-mn14-added{background:rgba(208,50,50,.18);border-color:rgba(208,50,50,.4);color:#E06060}
+.vm-mn14-flint{display:flex;gap:6px;justify-content:center;margin:16px auto;max-width:500px}
+.vm-mn14-flint-bar{flex:1;height:8px;border-radius:4px;transition:opacity .4s var(--vm-ease)}
+.vm-mn14-w08{max-width:500px;margin:12px auto 0;padding:10px 16px;border-radius:8px;background:rgba(208,50,50,.1);border:1px solid rgba(208,50,50,.25);font-family:var(--vm-fm);font-size:.65rem;color:#E06060;text-align:center;display:none}
+/* ── MN15: NEXUS Coupling Visualiser ── */
+.vm-mn15-section{background:#1A2030;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn15-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn15-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn15-waves{max-width:800px;margin:0 auto 20px;position:relative}
+.vm-mn15-canvas{width:100%;height:200px;display:block;border-radius:10px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08)}
+.vm-mn15-states{display:flex;gap:10px;justify-content:center;margin-bottom:16px;max-width:800px;margin-left:auto;margin-right:auto}
+.vm-mn15-state-btn{padding:8px 18px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:rgba(255,255,255,.04);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.65rem;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-mn15-state-btn.vm-mn15-active{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.12);color:#C9A84C}
+.vm-mn15-flags{display:flex;gap:12px;justify-content:center;max-width:800px;margin:12px auto}
+.vm-mn15-flag{padding:6px 14px;border-radius:6px;font-family:var(--vm-fm);font-size:.6rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--vm-txts)}
+.vm-mn15-checker{max-width:800px;margin:12px auto 0;padding:10px 16px;border-radius:8px;background:rgba(46,109,180,.08);border:1px solid rgba(46,109,180,.2);font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);text-align:center}
+/* ── MN16: VANTAGE Assembly Line ── */
+.vm-mn16-section{background:#0D2B4E;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn16-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn16-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn16-conveyor{max-width:1100px;margin:0 auto;overflow-x:auto;padding-bottom:16px}
+.vm-mn16-belt{display:flex;align-items:center;gap:0;min-width:900px}
+.vm-mn16-block{width:80px;height:80px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);flex-shrink:0;transition:all .4s var(--vm-ease)}
+.vm-mn16-gate{width:100px;padding:10px 8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:8px;text-align:center;font-family:var(--vm-fm);font-size:.55rem;color:#C9A84C;flex-shrink:0;transition:all .3s var(--vm-ease);cursor:pointer}
+.vm-mn16-gate:hover{background:rgba(201,168,76,.15);transform:scale(1.05)}
+.vm-mn16-gate-num{font-size:.8rem;font-weight:700;margin-bottom:2px}
+.vm-mn16-arrow{width:30px;text-align:center;color:rgba(201,168,76,.4);font-size:1.2rem;flex-shrink:0}
+.vm-mn16-card{width:120px;padding:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:10px;text-align:center;font-family:var(--vm-fm);font-size:.6rem;color:#C9A84C;flex-shrink:0;opacity:0;transition:opacity .5s var(--vm-ease)}
+.vm-mn16-card.vm-mn16-visible{opacity:1}
+.vm-mn16-stamp{margin-top:12px;max-width:1100px;margin-left:auto;margin-right:auto;padding:10px 16px;border-radius:8px;background:rgba(95,124,108,.08);border:1px solid rgba(95,124,108,.2);font-family:var(--vm-fm);font-size:.6rem;color:#5F7C6C;text-align:center}
+/* ── MN17: VERITY Architecture Inspector ── */
+.vm-mn17-section{background:#0C4452;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn17-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn17-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn17-viewport{max-width:800px;margin:0 auto 20px;padding:24px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);border-radius:12px;position:relative;transition:all .5s var(--vm-ease)}
+.vm-mn17-viewport.vm-mn17-xray{background:rgba(0,0,0,.6);border-color:rgba(201,168,76,.3)}
+.vm-mn17-xray-btn{display:block;margin:0 auto 20px;padding:10px 24px;border:1px solid rgba(201,168,76,.3);border-radius:8px;background:rgba(201,168,76,.08);color:#C9A84C;font-family:var(--vm-fm);font-size:.7rem;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-mn17-xray-btn:hover{background:rgba(201,168,76,.18)}
+.vm-mn17-points{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.vm-mn17-point{padding:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;cursor:pointer;transition:all .35s var(--vm-ease)}
+.vm-mn17-point.vm-mn17-glow{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3);box-shadow:0 0 12px rgba(201,168,76,.15)}
+.vm-mn17-point-name{font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txt);margin-bottom:4px}
+.vm-mn17-point-detail{font-family:var(--vm-fm);font-size:.58rem;color:var(--vm-txts);display:none;margin-top:6px;line-height:1.6}
+.vm-mn17-point.vm-mn17-open .vm-mn17-point-detail{display:block}
+.vm-mn17-pf{display:inline-block;padding:2px 8px;border-radius:10px;font-family:var(--vm-fm);font-size:.5rem;margin-top:4px}
+.vm-mn17-pass{background:rgba(80,180,80,.15);color:#60C060;border:1px solid rgba(80,180,80,.3)}
+.vm-mn17-fail{background:rgba(208,50,50,.15);color:#E06060;border:1px solid rgba(208,50,50,.3)}
+.vm-mn17-seal{text-align:center;margin-top:20px;max-width:800px;margin-left:auto;margin-right:auto;padding:16px;border-radius:10px;background:rgba(201,168,76,.1);border:2px solid rgba(201,168,76,.4);font-family:var(--vm-fs);font-size:1.2rem;color:#C9A84C;display:none;transition:opacity .5s var(--vm-ease)}
+/* ── MN18: CADENCE Risk Firewall ── */
+.vm-mn18-section{background:#1A2030;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn18-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn18-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn18-wall{max-width:900px;margin:0 auto 20px;display:grid;grid-template-columns:1fr 60px 1fr;gap:0;min-height:300px}
+.vm-mn18-side{padding:20px;border-radius:12px;cursor:pointer;transition:all .35s var(--vm-ease)}
+.vm-mn18-safe{background:rgba(80,180,80,.06);border:1px solid rgba(80,180,80,.15)}
+.vm-mn18-safe:hover{background:rgba(80,180,80,.12)}
+.vm-mn18-locked{background:rgba(208,50,50,.06);border:1px solid rgba(208,50,50,.15)}
+.vm-mn18-locked:hover{background:rgba(208,50,50,.12)}
+.vm-mn18-side-title{font-family:var(--vm-fs);font-size:1.1rem;font-weight:600;margin-bottom:8px}
+.vm-mn18-side-detail{font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);line-height:1.7;display:none}
+.vm-mn18-side.vm-mn18-expanded .vm-mn18-side-detail{display:block}
+.vm-mn18-divider{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.vm-mn18-brick{width:40px;height:16px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.3);border-radius:3px;opacity:0;transition:opacity .3s var(--vm-ease)}
+.vm-mn18-brick.vm-mn18-laid{opacity:1}
+.vm-mn18-mhra{text-align:center;max-width:900px;margin:12px auto 0;padding:10px 16px;border-radius:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);font-family:var(--vm-fm);font-size:.65rem;color:#C9A84C}
+.vm-mn18-countdown{text-align:center;max-width:900px;margin:8px auto 0;font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts)}
+/* ── MN19: VISTA Predictive Telescope ── */
+.vm-mn19-section{background:#0D2B4E;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn19-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn19-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn19-telescope{max-width:700px;margin:0 auto 20px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;overflow:hidden;position:relative}
+.vm-mn19-viewport-inner{min-height:180px;background:rgba(0,0,0,.2);border-radius:10px;padding:20px;transition:all .5s var(--vm-ease);text-align:center}
+.vm-mn19-phase-name{font-family:var(--vm-fs);font-size:1.4rem;font-weight:300;margin-bottom:8px;transition:opacity .4s var(--vm-ease)}
+.vm-mn19-phase-desc{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts);line-height:1.7;transition:filter .4s var(--vm-ease)}
+.vm-mn19-zoom{display:flex;gap:10px;justify-content:center;margin-bottom:16px;max-width:700px;margin-left:auto;margin-right:auto}
+.vm-mn19-zoom-btn{padding:8px 20px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:rgba(255,255,255,.04);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.65rem;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-mn19-zoom-btn.vm-mn19-active{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.12);color:#C9A84C}
+.vm-mn19-gate-door{max-width:700px;margin:12px auto 0;padding:10px 16px;border-radius:8px;font-family:var(--vm-fm);font-size:.65rem;text-align:center;transition:all .4s var(--vm-ease)}
+.vm-mn19-accuracy{max-width:700px;margin:8px auto 0;text-align:center}
+.vm-mn19-accuracy-bar{width:200px;height:8px;background:rgba(255,255,255,.08);border-radius:4px;display:inline-block;overflow:hidden;vertical-align:middle;margin-right:8px}
+.vm-mn19-accuracy-fill{height:100%;border-radius:4px;transition:width .5s var(--vm-ease),background .5s var(--vm-ease)}
+.vm-mn19-accuracy-val{font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);vertical-align:middle}
+/* ── MN20: VAULT Knowledge Library ── */
+.vm-mn20-section{background:#0C4452;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-mn20-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-mn20-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-mn20-search{display:block;max-width:400px;margin:0 auto 20px;padding:10px 16px;border:1px solid rgba(201,168,76,.25);border-radius:8px;background:rgba(0,0,0,.2);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.7rem;width:100%;outline:none}
+.vm-mn20-search:focus{border-color:rgba(201,168,76,.5)}
+.vm-mn20-shelves{max-width:1000px;margin:0 auto}
+.vm-mn20-tier{margin-bottom:20px}
+.vm-mn20-tier-label{font-family:var(--vm-fs);font-size:1.1rem;font-weight:600;margin-bottom:10px;padding-left:8px}
+.vm-mn20-books{display:flex;flex-wrap:wrap;gap:6px}
+.vm-mn20-book{width:36px;height:110px;border-radius:3px;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;font-family:var(--vm-fm);font-size:.4rem;color:rgba(255,255,255,.7);writing-mode:vertical-rl;text-orientation:mixed;padding-bottom:6px;transition:transform .3s var(--vm-ease),box-shadow .3s var(--vm-ease);border:1px solid rgba(255,255,255,.08)}
+.vm-mn20-book:hover{transform:translateY(-10px) rotate(-3deg);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.vm-mn20-book.vm-mn20-open{transform:translateY(-16px) rotate(-5deg) scale(1.1);box-shadow:0 12px 30px rgba(201,168,76,.2)}
+.vm-mn20-book-detail{margin-top:12px;padding:14px;background:rgba(0,0,0,.25);border:1px solid rgba(201,168,76,.2);border-radius:8px;font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);line-height:1.7;display:none;max-width:1000px;margin-left:auto;margin-right:auto}
+.vm-mn20-book-detail.vm-mn20-showing{display:block}
+.vm-mn20-locked-cabinet{max-width:1000px;margin:16px auto 0;padding:16px;background:rgba(208,50,50,.06);border:2px dashed rgba(208,50,50,.2);border-radius:10px;text-align:center;font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts)}
+.vm-mn20-vault-hl{color:#C9A84C;font-weight:700}
+.vm-mn20-motto{text-align:center;margin-top:16px;font-family:var(--vm-fs);font-size:1rem;font-weight:300;color:var(--vm-gold);max-width:1000px;margin-left:auto;margin-right:auto}
+/* ── JOY01-JOY10 styles ── */
+.vm-joy01-section{background:#1A2030;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy01-title,.vm-joy02-title,.vm-joy03-title,.vm-joy04-title,.vm-joy05-title,.vm-joy06-title,.vm-joy07-title,.vm-joy08-title,.vm-joy09-title,.vm-joy10-title{font-family:var(--vm-fs);font-size:2rem;font-weight:300;color:var(--vm-gold);text-align:center;margin-bottom:8px}
+.vm-joy01-sub,.vm-joy02-sub,.vm-joy03-sub,.vm-joy04-sub,.vm-joy05-sub,.vm-joy06-sub,.vm-joy07-sub,.vm-joy08-sub,.vm-joy09-sub,.vm-joy10-sub{font-family:var(--vm-fm);font-size:.72rem;color:var(--vm-txts);text-align:center;margin-bottom:32px}
+.vm-joy01-select{display:block;max-width:400px;margin:0 auto 16px;padding:10px 16px;border:1px solid rgba(201,168,76,.25);border-radius:8px;background:rgba(0,0,0,.2);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.7rem;width:100%;outline:none;-webkit-appearance:none;appearance:none}
+.vm-joy01-output{max-width:600px;margin:0 auto 16px;min-height:100px;padding:20px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-family:var(--vm-fd);font-size:.85rem;color:var(--vm-txt);line-height:1.8}
+.vm-joy01-cursor{display:inline-block;width:2px;height:1em;background:#C9A84C;vertical-align:text-bottom}
+.vm-joy01-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.vm-joy01-copy-btn,.vm-joy03-copy,.vm-joy04-print,.vm-joy06-ctrl-btn{padding:8px 20px;border:1px solid rgba(201,168,76,.3);border-radius:8px;background:rgba(201,168,76,.08);color:#C9A84C;font-family:var(--vm-fm);font-size:.65rem;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-joy01-copy-btn:hover,.vm-joy03-copy:hover,.vm-joy04-print:hover,.vm-joy06-ctrl-btn:hover{background:rgba(201,168,76,.18)}
+.vm-joy01-levels{display:flex;gap:8px;justify-content:center;margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto}
+.vm-joy01-level{padding:4px 12px;border-radius:14px;font-family:var(--vm-fm);font-size:.55rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--vm-txts);cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-joy01-level.vm-joy01-level-active{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.12);color:#C9A84C}
+.vm-joy02-section{background:#0D2B4E;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy02-spotlight{max-width:500px;margin:0 auto;padding:32px;background:rgba(201,168,76,.06);border:2px solid rgba(201,168,76,.25);border-radius:16px;text-align:center;box-shadow:0 0 40px rgba(201,168,76,.08)}
+.vm-joy02-zone{font-family:var(--vm-fs);font-size:1.8rem;font-weight:600;margin-bottom:8px}
+.vm-joy02-reason{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts);line-height:1.7;margin-bottom:16px}
+.vm-joy02-tiebreaker{font-family:var(--vm-fm);font-size:.6rem;color:#1A7A8A;padding:6px 14px;border-radius:6px;background:rgba(26,122,138,.1);border:1px solid rgba(26,122,138,.25);display:inline-block}
+.vm-joy03-section{background:#0C4452;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy03-notes{max-width:700px;margin:0 auto 16px;padding:20px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txt);line-height:1.8;white-space:pre-wrap}
+.vm-joy03-copy{display:block;margin:0 auto}
+.vm-joy03-t01{max-width:700px;margin:12px auto 0;padding:8px 14px;border-radius:6px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);font-family:var(--vm-fm);font-size:.55rem;color:var(--vm-txts);text-align:center}
+.vm-joy04-section{background:#1A2030;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy04-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:700px;margin:0 auto 16px}
+.vm-joy04-pent{text-align:center}
+.vm-joy04-pent-label{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts);margin-bottom:8px}
+.vm-joy04-canvas{width:100%;max-width:260px;height:260px;display:block;margin:0 auto}
+.vm-joy04-print{display:block;margin:0 auto}
+.vm-joy05-section{background:#0D2B4E;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy05-panel{max-width:500px;margin:0 auto;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden}
+.vm-joy05-fact{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;transition:background .25s var(--vm-ease)}
+.vm-joy05-fact:last-child{border-bottom:none}
+.vm-joy05-fact:hover{background:rgba(255,255,255,.04)}
+.vm-joy05-fact-num{font-family:var(--vm-fm);font-size:.6rem;color:#C9A84C;min-width:20px}
+.vm-joy05-fact-text{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txt);flex:1;line-height:1.5}
+.vm-joy05-fact-copy{padding:4px 10px;border:1px solid rgba(201,168,76,.2);border-radius:4px;background:rgba(201,168,76,.06);color:#C9A84C;font-family:var(--vm-fm);font-size:.5rem;cursor:pointer;transition:all .2s var(--vm-ease);flex-shrink:0}
+.vm-joy05-fact-copy:hover{background:rgba(201,168,76,.15)}
+.vm-joy06-section{background:#0C4452;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy06-ring{max-width:300px;margin:0 auto 16px;text-align:center}
+.vm-joy06-ring svg{width:240px;height:240px}
+.vm-joy06-milestone{font-family:var(--vm-fm);font-size:.7rem;color:#C9A84C;min-height:24px;text-align:center;margin-top:8px;transition:opacity .4s var(--vm-ease)}
+.vm-joy06-controls{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.vm-joy07-section{background:#1A2030;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy07-dual{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px;margin:0 auto 16px}
+.vm-joy07-side{text-align:center}
+.vm-joy07-label{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts);margin-bottom:8px}
+.vm-joy07-canvas{width:100%;max-width:280px;height:280px;display:block;margin:0 auto}
+.vm-joy07-sliders{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:200px;margin:8px auto 0}
+.vm-joy07-sl{display:flex;align-items:center;gap:4px}
+.vm-joy07-sl label{font-family:var(--vm-fm);font-size:.5rem;color:var(--vm-txts);min-width:20px}
+.vm-joy07-sl input{width:60px;height:4px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.12);border-radius:2px;outline:none}
+.vm-joy07-insight{max-width:800px;margin:0 auto;padding:12px 16px;border-radius:8px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);text-align:center}
+.vm-joy08-section{background:#0D2B4E;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy08-search{display:block;max-width:400px;margin:0 auto 20px;padding:10px 16px;border:1px solid rgba(201,168,76,.25);border-radius:8px;background:rgba(0,0,0,.2);color:var(--vm-txt);font-family:var(--vm-fm);font-size:.7rem;width:100%;outline:none}
+.vm-joy08-search:focus{border-color:rgba(201,168,76,.5)}
+.vm-joy08-list{max-width:700px;margin:0 auto;display:grid;gap:6px}
+.vm-joy08-term{padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:6px;cursor:pointer;transition:all .25s var(--vm-ease)}
+.vm-joy08-term:hover{background:rgba(255,255,255,.07)}
+.vm-joy08-term-name{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txt)}
+.vm-joy08-term-def{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);line-height:1.6;display:none;margin-top:6px}
+.vm-joy08-term.vm-joy08-open .vm-joy08-term-def{display:block}
+.vm-joy08-highlight{background:rgba(201,168,76,.25);color:#C9A84C;border-radius:2px;padding:0 2px}
+.vm-joy08-hidden{display:none}
+.vm-joy09-section{background:#0C4452;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy09-builder{max-width:800px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.vm-joy09-before,.vm-joy09-after{padding:20px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);border-radius:12px}
+.vm-joy09-col-title{font-family:var(--vm-fs);font-size:1.1rem;font-weight:600;margin-bottom:12px;text-align:center}
+.vm-joy09-slider-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.vm-joy09-slider-row label{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txts);min-width:24px}
+.vm-joy09-slider-row input{flex:1;height:5px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.12);border-radius:2px;outline:none}
+.vm-joy09-slider-row .vm-joy09-val{font-family:var(--vm-fm);font-size:.6rem;color:var(--vm-txt);min-width:24px;text-align:right}
+.vm-joy09-results{max-width:800px;margin:16px auto 0;padding:14px 16px;border-radius:8px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts);line-height:1.7;text-align:center}
+.vm-joy10-section{background:#1A2030;padding:60px 24px;border-top:1px solid rgba(244,244,242,.06)}
+.vm-joy10-progress{max-width:600px;margin:0 auto 20px}
+.vm-joy10-bar-wrap{width:100%;height:16px;background:rgba(255,255,255,.08);border-radius:8px;overflow:hidden;margin-bottom:8px}
+.vm-joy10-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#1A7A8A,#C9A84C);transition:width .5s var(--vm-ease);width:0}
+.vm-joy10-count{font-family:var(--vm-fm);font-size:.7rem;color:var(--vm-txts);text-align:center;margin-bottom:16px}
+.vm-joy10-milestones{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.vm-joy10-ms{padding:8px 16px;border-radius:8px;font-family:var(--vm-fm);font-size:.65rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--vm-txts);transition:all .4s var(--vm-ease)}
+.vm-joy10-ms.vm-joy10-achieved{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.12);color:#C9A84C}
+.vm-joy10-celebration{text-align:center;margin-top:20px;font-family:var(--vm-fs);font-size:1.2rem;color:#C9A84C;opacity:0;transition:opacity .6s var(--vm-ease);max-width:600px;margin-left:auto;margin-right:auto}
+.vm-joy10-celebration.vm-joy10-show{opacity:1}
+/* ── Reduced motion ── */
+@media(prefers-reduced-motion:reduce){.vm-mn11-col,.vm-mn12-btn,.vm-mn13-tog,.vm-mn14-stressor-btn,.vm-mn15-state-btn,.vm-mn16-gate,.vm-mn16-card,.vm-mn17-point,.vm-mn18-brick,.vm-mn19-zoom-btn,.vm-mn20-book,.vm-joy01-level,.vm-joy06-ring svg,.vm-joy10-bar-fill,.vm-joy10-celebration{transition:none !important;animation:none !important}}
+/* ── Responsive ── */
+@media(max-width:768px){.vm-mn11-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.vm-mn12-compare,.vm-joy04-compare,.vm-joy07-dual,.vm-joy09-builder{grid-template-columns:1fr}.vm-mn18-wall{grid-template-columns:1fr}.vm-mn18-divider{flex-direction:row;padding:12px 0}}
+</style>
+
+<section class="vm-mn11-section" id="vm-mn11-section" aria-label="VOLTERRAIN Driver Command Centre">
+<div class="vm-mn11-title">VOLTERRAIN&#8482; Driver Command Centre</div>
+<div class="vm-mn11-sub">D5 SPRA: Seven driver columns with status, slider, node composition, and evidence tier.</div>
+<div class="vm-mn11-alert" id="vm-mn11-alert" role="alert">Compound Loading Alert: Multiple zones above threshold detected. Review cascade implications.</div>
+<div class="vm-mn11-grid" id="vm-mn11-grid"></div>
+<div class="vm-mn11-gauge" id="vm-mn11-gauge">
+<svg viewBox="0 0 320 180" role="img" aria-label="Bioelectrical gauge"><defs><linearGradient id="vm-mn11-gg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1A7A8A"/><stop offset="50%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#D63030"/></linearGradient></defs><path d="M40,160 A120,120 0 0,1 280,160" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14" stroke-linecap="round"/><path d="M40,160 A120,120 0 0,1 280,160" fill="none" stroke="url(#vm-mn11-gg)" stroke-width="14" stroke-linecap="round" id="vm-mn11-gauge-arc" stroke-dasharray="0 377"/><line x1="160" y1="160" x2="160" y2="60" stroke="#C9A84C" stroke-width="2" id="vm-mn11-needle" transform="rotate(-90,160,160)"/><circle cx="160" cy="160" r="6" fill="#C9A84C"/></svg>
+<div class="vm-mn11-gauge-label" id="vm-mn11-gauge-label">Aggregate burden: 0%</div>
+</div>
+<div class="vm-mn11-spra">D5 SPRA: Systematic Practitioner Review Architecture</div>
+</section>
+<script>
+(function(){var ZONES=[{id:'Z1',name:'Metabolic Energy Axis',colour:'#C9A84C',nodes:'N3 + N6',threshold:40,evidence:'Established'},{id:'Z2',name:'Resilience Network',colour:'#1A7A8A',nodes:'N1 + N2 + N6',threshold:40,evidence:'Established'},{id:'Z3',name:'Cardiovascular-Neural Axis',colour:'#7B5EA7',nodes:'N5 + N6',threshold:40,evidence:'Emerging'},{id:'Z4',name:'Detoxification Trident',colour:'#5F7C6C',nodes:'N2 + N4',threshold:40,evidence:'Emerging'},{id:'Z5',name:'Hormonal Terrain Axis',colour:'#2E6DB4',nodes:'N3 + N4 + N6',threshold:32,evidence:'Emerging'},{id:'DRD',name:'Highest burden zone',colour:'#C9A84C',nodes:'Computed',threshold:0,evidence:'L4 Causality'},{id:'N6',name:'Endocrine Signalling',colour:'#C9A84C',nodes:'0.7x dampening',threshold:0,evidence:'Established'}];var grid=document.getElementById('vm-mn11-grid');var alertEl=document.getElementById('vm-mn11-alert');var gaugeArc=document.getElementById('vm-mn11-gauge-arc');var needle=document.getElementById('vm-mn11-needle');var gaugeLabel=document.getElementById('vm-mn11-gauge-label');var values=[];for(var i=0;i<ZONES.length;i++){(function(idx){var z=ZONES[idx];values[idx]=20;var col=document.createElement('div');col.className='vm-mn11-col';col.style.borderTopColor=z.colour;col.style.borderTopWidth='3px';var hdr=document.createElement('div');hdr.className='vm-mn11-col-hdr';hdr.style.color=z.colour;hdr.textContent=z.id+': '+z.name;var status=document.createElement('div');status.className='vm-mn11-status vm-mn11-status-inactive';status.textContent='INACTIVE';status.id='vm-mn11-status-'+idx;var slider=document.createElement('input');slider.type='range';slider.min='0';slider.max='100';slider.value='20';slider.className='vm-mn11-slider';slider.setAttribute('aria-label',z.id+' burden slider');var nodes=document.createElement('div');nodes.className='vm-mn11-nodes';nodes.textContent='Nodes: '+z.nodes;var ev=document.createElement('div');ev.className='vm-mn11-evidence';ev.textContent=z.evidence;col.appendChild(hdr);col.appendChild(status);col.appendChild(slider);col.appendChild(nodes);col.appendChild(ev);grid.appendChild(col);slider.addEventListener('input',function(){var v=parseInt(this.value,10);values[idx]=v;var s=document.getElementById('vm-mn11-status-'+idx);if(v>=z.threshold&&z.threshold>0){s.className='vm-mn11-status vm-mn11-status-active';s.textContent='ACTIVE ('+v+')';}else{s.className='vm-mn11-status vm-mn11-status-inactive';s.textContent=z.threshold>0?'INACTIVE ('+v+')':v+'';}updateGauge();});})(i);}function updateGauge(){var sum=0;var count=0;var aboveCount=0;for(var j=0;j<5;j++){sum+=values[j];count++;if(values[j]>=ZONES[j].threshold)aboveCount++;}var avg=sum/count;var pct=Math.round(avg);var arcLen=Math.round((avg/100)*377);gaugeArc.setAttribute('stroke-dasharray',arcLen+' 377');var angle=-90+(avg/100)*180;needle.setAttribute('transform','rotate('+angle+',160,160)');gaugeLabel.textContent='Aggregate burden: '+pct+'%';if(aboveCount>=3){alertEl.classList.add('vm-mn11-show');}else{alertEl.classList.remove('vm-mn11-show');}}})();
+</script>
+
+<section class="vm-mn12-section" id="vm-mn12-section" aria-label="TerrainSpiral Phase Transition Demo">
+<div class="vm-mn12-title">TerrainSpiral&#8482; Phase Transition Demo</div>
+<div class="vm-mn12-sub">Phase 1 (manual, 4 buttons) vs Phase 1.5 (auto-computed). APEX&#8482; modifier and permitted descriptor badge.</div>
+<div class="vm-mn12-compare"><div class="vm-mn12-panel"><div class="vm-mn12-phase-label vm-mn12-p1">Phase 1: Manual Selection</div><div class="vm-mn12-panel-title">Practitioner selects zone focus</div><div class="vm-mn12-btns" id="vm-mn12-p1-btns"><button class="vm-mn12-btn" data-zone="Z1" type="button">Z1 Gold</button><button class="vm-mn12-btn" data-zone="Z2" type="button">Z2 Teal</button><button class="vm-mn12-btn" data-zone="Z3" type="button">Z3 Purple</button><button class="vm-mn12-btn" data-zone="Z4" type="button">Z4 Sage</button></div><div class="vm-mn12-output" id="vm-mn12-p1-out">Select a zone to see Phase 1 manual output.</div></div><div class="vm-mn12-panel"><div class="vm-mn12-phase-label vm-mn12-p15">Phase 1.5: Auto-Computed</div><div class="vm-mn12-panel-title">Architecture determines priority</div><div class="vm-mn12-output" id="vm-mn12-p15-out">Phase 1.5 computes highest burden zone, cascade propagation, and TerrainLock&#8482; status automatically. No manual selection required.</div><div class="vm-mn12-apex">APEX&#8482; modifier: Investigation tier adjusts based on computed zone priority and cascade velocity.</div><div class="vm-mn12-badge">Permitted descriptor: Terrain Support Considerations</div></div></div>
+</section>
+<script>
+(function(){var P1_DATA={Z1:{text:'Z1 Metabolic Energy Axis selected. Manual focus: N3 + N6 (dampened at 0.7x). Practitioner reviews energy production markers. Threshold: 40 internal.',colour:'#C9A84C'},Z2:{text:'Z2 Resilience Network selected. Manual focus: N1 + N2 + N6 (dampened at 0.7x). Practitioner reviews immune and repair markers. Threshold: 40 internal.',colour:'#1A7A8A'},Z3:{text:'Z3 Cardiovascular-Neural Axis selected. Manual focus: N5 + N6 (dampened at 0.7x). Practitioner reviews transport and signalling. Threshold: 40 internal.',colour:'#7B5EA7'},Z4:{text:'Z4 Detoxification Trident selected. Manual focus: N2 + N4. Practitioner reviews biotransformation pathways. Threshold: 40 internal.',colour:'#5F7C6C'}};var btns=document.getElementById('vm-mn12-p1-btns').querySelectorAll('.vm-mn12-btn');var p1Out=document.getElementById('vm-mn12-p1-out');for(var i=0;i<btns.length;i++){(function(btn){btn.addEventListener('click',function(){for(var j=0;j<btns.length;j++){btns[j].classList.remove('vm-mn12-active');}btn.classList.add('vm-mn12-active');var zone=btn.getAttribute('data-zone');var d=P1_DATA[zone];p1Out.textContent=d.text;p1Out.style.borderLeft='3px solid '+d.colour;});})(btns[i]);}})();
+</script>
+
+<section class="vm-mn13-section" id="vm-mn13-section" aria-label="MODES Three-Channel Analyser">
+<div class="vm-mn13-title">MODES&#8482; Three-Channel Analyser</div>
+<div class="vm-mn13-sub">Oscilloscope: 3 channels, amplitude = node impact, multi-modal interference detection.</div>
+<div class="vm-mn13-toggles" id="vm-mn13-toggles"><button class="vm-mn13-tog vm-mn13-on" data-ch="0" type="button">Ch1: Metabolic (Z1)</button><button class="vm-mn13-tog vm-mn13-on" data-ch="1" type="button">Ch2: Immune (Z2)</button><button class="vm-mn13-tog vm-mn13-on" data-ch="2" type="button">Ch3: Hormonal (Z5)</button></div>
+<div class="vm-mn13-scope"><canvas class="vm-mn13-canvas" id="vm-mn13-canvas" width="800" height="220" aria-label="Three-channel oscilloscope display"></canvas></div>
+<div class="vm-mn13-interference" id="vm-mn13-interference">Multi-modal interference: all 3 channels active. Combined waveform complexity increases when channels overlap.</div>
+<div class="vm-mn13-wall">MODES&#8482; and NEXUS&#8482; are separate architectural constructs. MODES analyses multi-modal input channels. NEXUS analyses coupling between physiological axes.</div>
+</section>
+<script>
+(function(){var canvas=document.getElementById('vm-mn13-canvas');var ctx=canvas.getContext('2d');var channels=[{colour:'#C9A84C',freq:0.03,amp:40,active:true},{colour:'#1A7A8A',freq:0.05,amp:30,active:true},{colour:'#2E6DB4',freq:0.02,amp:50,active:true}];var phase=0;var prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var toggles=document.getElementById('vm-mn13-toggles').querySelectorAll('.vm-mn13-tog');var intEl=document.getElementById('vm-mn13-interference');for(var i=0;i<toggles.length;i++){(function(tog,idx){tog.addEventListener('click',function(){channels[idx].active=!channels[idx].active;tog.classList.toggle('vm-mn13-on');var ac=0;for(var c=0;c<channels.length;c++){if(channels[c].active)ac++;}if(ac>=3)intEl.textContent='Multi-modal interference: all 3 channels active. Combined waveform complexity increases when channels overlap.';else if(ac===2)intEl.textContent='Two-channel mode: partial interference pattern visible.';else if(ac===1)intEl.textContent='Single channel isolated. No interference.';else intEl.textContent='All channels muted.';});})(toggles[i],i);}function draw(){ctx.clearRect(0,0,800,220);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=1;for(var g=0;g<5;g++){ctx.beginPath();ctx.moveTo(0,44*g+22);ctx.lineTo(800,44*g+22);ctx.stroke();}for(var c=0;c<channels.length;c++){if(!channels[c].active)continue;var ch=channels[c];ctx.strokeStyle=ch.colour;ctx.lineWidth=2;ctx.globalAlpha=0.8;ctx.beginPath();for(var x=0;x<800;x++){var y=110+Math.sin((x*ch.freq)+phase*(c+1)*0.5)*ch.amp+Math.sin(x*0.01+phase*0.3)*10;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();ctx.globalAlpha=1;}phase+=0.04;if(!prefersReduced)requestAnimationFrame(draw);}draw();if(prefersReduced){ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='12px monospace';ctx.fillText('Animation paused (prefers-reduced-motion)',250,110);}})();
+</script>
+
+<section class="vm-mn14-section" id="vm-mn14-section" aria-label="GRADE Absorption Stress Test">
+<div class="vm-mn14-title">GRADE&#8482; Absorption Stress Test</div>
+<div class="vm-mn14-sub">Interactive vessel: add stressors, watch grade transitions, FLINT&#8482; anchor bars deplete. W08 warning at Grade C.</div>
+<div class="vm-mn14-vessel" id="vm-mn14-vessel"><div class="vm-mn14-vessel-label">Current Grade</div><div class="vm-mn14-grade" id="vm-mn14-grade" style="color:#60C060">A</div><div class="vm-mn14-grade-desc" id="vm-mn14-grade-desc">Optimal absorption capacity. All FLINT&#8482; layers intact.</div><div class="vm-mn14-fill"><div class="vm-mn14-fill-bar" id="vm-mn14-fill" style="width:100%;background:#60C060"></div></div></div>
+<div class="vm-mn14-stressors" id="vm-mn14-stressors"><button class="vm-mn14-stressor-btn" type="button" data-impact="15">Gut dysbiosis</button><button class="vm-mn14-stressor-btn" type="button" data-impact="12">Chronic inflammation</button><button class="vm-mn14-stressor-btn" type="button" data-impact="18">Toxic burden</button><button class="vm-mn14-stressor-btn" type="button" data-impact="10">Nutrient depletion</button><button class="vm-mn14-stressor-btn" type="button" data-impact="20">HPA axis disruption</button><button class="vm-mn14-stressor-btn" type="button" data-impact="8">Oxidative stress</button></div>
+<div class="vm-mn14-flint"><div class="vm-mn14-flint-bar" style="background:#C9A84C;opacity:1" id="vm-mn14-f1"></div><div class="vm-mn14-flint-bar" style="background:#1A7A8A;opacity:1" id="vm-mn14-f2"></div><div class="vm-mn14-flint-bar" style="background:#7B5EA7;opacity:1" id="vm-mn14-f3"></div><div class="vm-mn14-flint-bar" style="background:#5F7C6C;opacity:1" id="vm-mn14-f4"></div><div class="vm-mn14-flint-bar" style="background:#2E6DB4;opacity:1" id="vm-mn14-f5"></div></div>
+<div class="vm-mn14-w08" id="vm-mn14-w08">W08 Regulatory Warning: Grade C reached. Clinical review required. This demonstration does not constitute clinical advice.</div>
+</section>
+<script>
+(function(){var capacity=100;var gradeEl=document.getElementById('vm-mn14-grade');var descEl=document.getElementById('vm-mn14-grade-desc');var fillEl=document.getElementById('vm-mn14-fill');var vesselEl=document.getElementById('vm-mn14-vessel');var w08El=document.getElementById('vm-mn14-w08');var btns=document.getElementById('vm-mn14-stressors').querySelectorAll('.vm-mn14-stressor-btn');var flintBars=['vm-mn14-f1','vm-mn14-f2','vm-mn14-f3','vm-mn14-f4','vm-mn14-f5'];function updateGrade(){var grade,colour,desc;if(capacity>=80){grade='A';colour='#60C060';desc='Optimal absorption capacity. All FLINT layers intact.';}else if(capacity>=60){grade='A-';colour='#90C060';desc='Minor stress detected. FLINT layers beginning to show load.';}else if(capacity>=40){grade='B';colour='#C9A84C';desc='Moderate absorption compromise. Review cascade pathways.';}else if(capacity>=20){grade='B-';colour='#D08030';desc='Significant burden. Multiple FLINT layers affected.';}else{grade='C';colour='#D04040';desc='Critical absorption failure. Immediate practitioner review required.';}gradeEl.textContent=grade;gradeEl.style.color=colour;descEl.textContent=desc;fillEl.style.width=Math.max(capacity,0)+'%';fillEl.style.background=colour;vesselEl.style.borderColor=colour;if(capacity<=20)w08El.style.display='block';for(var f=0;f<flintBars.length;f++){var threshold=(5-f)*20;document.getElementById(flintBars[f]).style.opacity=capacity>=threshold?'1':'0.2';}}for(var i=0;i<btns.length;i++){(function(btn){btn.addEventListener('click',function(){if(btn.classList.contains('vm-mn14-added'))return;btn.classList.add('vm-mn14-added');capacity=Math.max(capacity-parseInt(btn.getAttribute('data-impact'),10),0);updateGrade();});})(btns[i]);}})();
+</script>
+
+<section class="vm-mn15-section" id="vm-mn15-section" aria-label="NEXUS Coupling Visualiser">
+<div class="vm-mn15-title">NEXUS&#8482; Coupling Visualiser</div>
+<div class="vm-mn15-sub">Two animated wave systems (HPA/Vagal). 3 state buttons change coupling. S1+S5 velocity flags.</div>
+<div class="vm-mn15-states" id="vm-mn15-states"><button class="vm-mn15-state-btn vm-mn15-active" data-state="coherent" type="button">Coherent</button><button class="vm-mn15-state-btn" data-state="decoupled" type="button">Decoupled</button><button class="vm-mn15-state-btn" data-state="chaotic" type="button">Chaotic</button></div>
+<div class="vm-mn15-waves"><canvas class="vm-mn15-canvas" id="vm-mn15-canvas" width="800" height="200" aria-label="HPA and Vagal wave coupling display"></canvas></div>
+<div class="vm-mn15-flags"><div class="vm-mn15-flag">S1: Z2 to Z1 | MEDIUM velocity</div><div class="vm-mn15-flag">S5: Z2 to Z3 | FAST velocity</div></div>
+<div class="vm-mn15-checker">MOD-030 compliance: active. WS2.4 coupling verification: passed. S4 THEORETICAL: excluded from coupling analysis (D-12). S6 UNIDIRECTIONAL: Z1 to Z3 only.</div>
+</section>
+<script>
+(function(){var canvas=document.getElementById('vm-mn15-canvas');var ctx=canvas.getContext('2d');var couplingState='coherent';var phase=0;var prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var stateBtns=document.getElementById('vm-mn15-states').querySelectorAll('.vm-mn15-state-btn');for(var i=0;i<stateBtns.length;i++){(function(btn){btn.addEventListener('click',function(){for(var j=0;j<stateBtns.length;j++)stateBtns[j].classList.remove('vm-mn15-active');btn.classList.add('vm-mn15-active');couplingState=btn.getAttribute('data-state');});})(stateBtns[i]);}function draw(){ctx.clearRect(0,0,800,200);ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,100);ctx.lineTo(800,100);ctx.stroke();var offset2=0,amp2Mod=1;if(couplingState==='coherent'){offset2=0;amp2Mod=1;}else if(couplingState==='decoupled'){offset2=Math.PI;amp2Mod=0.6;}else{offset2=Math.sin(phase*0.5)*Math.PI;amp2Mod=1.3;}ctx.strokeStyle='#1A7A8A';ctx.lineWidth=2.5;ctx.globalAlpha=0.85;ctx.beginPath();for(var x=0;x<800;x++){var y=100+Math.sin(x*0.02+phase)*35;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();ctx.strokeStyle='#C9A84C';ctx.beginPath();for(var x2=0;x2<800;x2++){var y2=100+Math.sin(x2*0.02+phase+offset2)*35*amp2Mod;if(x2===0)ctx.moveTo(x2,y2);else ctx.lineTo(x2,y2);}ctx.stroke();ctx.globalAlpha=1;ctx.fillStyle='rgba(255,255,255,.4)';ctx.font='10px monospace';ctx.fillText('HPA axis (teal)',10,20);ctx.fillText('Vagal tone (gold)',10,35);ctx.fillText('State: '+couplingState,680,20);phase+=0.03;if(!prefersReduced)requestAnimationFrame(draw);}draw();if(prefersReduced){ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='12px monospace';ctx.fillText('Animation paused (prefers-reduced-motion)',250,100);}})();
+</script>
+
+<section class="vm-mn16-section" id="vm-mn16-section" aria-label="VANTAGE Assembly Line">
+<div class="vm-mn16-title">VANTAGE&#8482; Assembly Line</div>
+<div class="vm-mn16-sub">Conveyor belt: raw FLINT&#8482; blocks enter left, pass 7 Synthesis gates, finished dimension cards emerge right.</div>
+<div class="vm-mn16-conveyor"><div class="vm-mn16-belt" id="vm-mn16-belt"></div></div>
+<div class="vm-mn16-stamp">Evidence floor stamp: All outputs pass through FLINT&#8482; five-layer model (L1 to L5) before VANTAGE&#8482; synthesis.</div>
+</section>
+<script>
+(function(){var GATES=[{num:1,label:'Node Intelligence',desc:'L1: WHERE is the burden?'},{num:2,label:'Zone Intelligence',desc:'L2: WHICH zone carries it?'},{num:3,label:'Cascade Intelligence',desc:'L3: HOW does it propagate?'},{num:4,label:'Causality Intelligence',desc:'L4: WHO drives, who reacts?'},{num:5,label:'Examination Intelligence',desc:'L5: WHAT to investigate?'},{num:6,label:'Synthesis',desc:'Combine all five layers.'},{num:7,label:'Dimension Output',desc:'Generate terrain dimension card.'}];var belt=document.getElementById('vm-mn16-belt');var block=document.createElement('div');block.className='vm-mn16-block';block.textContent='RAW FLINT';belt.appendChild(block);for(var i=0;i<GATES.length;i++){var arrow=document.createElement('div');arrow.className='vm-mn16-arrow';arrow.innerHTML='&#9654;';belt.appendChild(arrow);var gate=document.createElement('div');gate.className='vm-mn16-gate';gate.setAttribute('role','button');gate.setAttribute('tabindex','0');gate.setAttribute('aria-label','Gate '+GATES[i].num+': '+GATES[i].label);var gn=document.createElement('div');gn.className='vm-mn16-gate-num';gn.textContent='G'+GATES[i].num;var gl=document.createElement('div');gl.textContent=GATES[i].label;gate.appendChild(gn);gate.appendChild(gl);gate.setAttribute('data-desc',GATES[i].desc);belt.appendChild(gate);(function(g,d){g.addEventListener('click',function(){var existing=document.getElementById('vm-mn16-desc-popup');if(existing)existing.parentNode.removeChild(existing);var popup=document.createElement('div');popup.id='vm-mn16-desc-popup';popup.style.cssText='margin-top:4px;padding:6px 10px;border-radius:4px;background:rgba(201,168,76,.12);font-size:.6rem;color:#C9A84C;font-family:var(--vm-fm)';popup.textContent=d;g.appendChild(popup);setTimeout(function(){if(popup.parentNode)popup.parentNode.removeChild(popup);},3000);});})(gate,GATES[i].desc);}var af=document.createElement('div');af.className='vm-mn16-arrow';af.innerHTML='&#9654;';belt.appendChild(af);var card=document.createElement('div');card.className='vm-mn16-card';card.textContent='VANTAGE Dimension Card: Terrain Support Considerations';card.id='vm-mn16-output-card';belt.appendChild(card);setTimeout(function(){document.getElementById('vm-mn16-output-card').classList.add('vm-mn16-visible');},1500);})();
+</script>
+
+<section class="vm-mn17-section" id="vm-mn17-section" aria-label="VERITY Architecture Inspector">
+<div class="vm-mn17-title">VERITY&#8482; Architecture Inspector</div>
+<div class="vm-mn17-sub">Toggle X-ray mode: page dims, 8 inspection points glow, click for rule detail. Gold seal at 8/8.</div>
+<button class="vm-mn17-xray-btn" id="vm-mn17-xray-btn" type="button">Toggle X-Ray Mode</button>
+<div class="vm-mn17-viewport" id="vm-mn17-viewport"><div class="vm-mn17-points" id="vm-mn17-points"></div></div>
+<div class="vm-mn17-seal" id="vm-mn17-seal">VERITY&#8482; Gold Seal: 8/8 Architectural Checks Passed</div>
+</section>
+<script>
+(function(){var POINTS=[{name:'Node Count',pass:true,detail:'N1 Assimilation, N2 Defence and Repair, N3 Energy, N4 Biotransformation and Elimination, N5 Transport, N6 Endocrine Signalling (0.7x), N7 Structural Integrity (Phase 2).'},{name:'Zone Count',pass:true,detail:'Z1 Metabolic Energy Axis, Z2 Resilience Network, Z3 Cardiovascular-Neural Axis, Z4 Detoxification Trident, Z5 Hormonal Terrain Axis.'},{name:'Stack Count',pass:true,detail:'S1 Z2 to Z1 MEDIUM, S2 Z1 to Z5 FAST, S3 Z4 to Z1 SLOW, S4 Z5 to Z2 MEDIUM THEORETICAL, S5 Z2 to Z3 FAST, S6 Z1 to Z3 MEDIUM UNIDIRECTIONAL.'},{name:'S4 THEORETICAL',pass:true,detail:'S4 (Z5 to Z2) is THEORETICAL. Excluded from DRD cascade trace per D-12.'},{name:'S6 UNIDIRECTIONAL',pass:true,detail:'S6 (Z1 to Z3) is UNIDIRECTIONAL: signal flows from Z1 to Z3 only.'},{name:'T-01 Compliance',pass:true,detail:'DRD = "Highest burden zone". Output title = "Terrain Support Considerations". Protective header permanent.'},{name:'Zone Colours D-85',pass:true,detail:'Z1 #C9A84C, Z2 #1A7A8A, Z3 #7B5EA7, Z4 #5F7C6C, Z5 #2E6DB4. No legacy #D4B870.'},{name:'Floor Formula',pass:true,detail:'MAX(dampened node values) minus 10 on 0 to 100 internal scale. Never MIN(dampened)+1. N6 dampening 0.7x applied before floor check.'}];var viewport=document.getElementById('vm-mn17-viewport');var xrayBtn=document.getElementById('vm-mn17-xray-btn');var sealEl=document.getElementById('vm-mn17-seal');var pointsEl=document.getElementById('vm-mn17-points');var xrayActive=false;var passCount=0;for(var i=0;i<POINTS.length;i++){(function(p,idx){var point=document.createElement('div');point.className='vm-mn17-point';point.setAttribute('role','button');point.setAttribute('tabindex','0');var name=document.createElement('div');name.className='vm-mn17-point-name';name.textContent=(idx+1)+'. '+p.name;var detail=document.createElement('div');detail.className='vm-mn17-point-detail';detail.textContent=p.detail;var pf=document.createElement('div');pf.className='vm-mn17-pf '+(p.pass?'vm-mn17-pass':'vm-mn17-fail');pf.textContent=p.pass?'PASS':'FAIL';point.appendChild(name);point.appendChild(detail);point.appendChild(pf);pointsEl.appendChild(point);point.addEventListener('click',function(){point.classList.toggle('vm-mn17-open');if(point.classList.contains('vm-mn17-open')&&p.pass){passCount++;if(passCount>=8)sealEl.style.display='block';}});point.addEventListener('keydown',function(e){if(e.key==='Enter')point.click();});})(POINTS[i],i);}xrayBtn.addEventListener('click',function(){xrayActive=!xrayActive;viewport.classList.toggle('vm-mn17-xray');var pts=pointsEl.querySelectorAll('.vm-mn17-point');for(var j=0;j<pts.length;j++){if(xrayActive)pts[j].classList.add('vm-mn17-glow');else pts[j].classList.remove('vm-mn17-glow');}xrayBtn.textContent=xrayActive?'Exit X-Ray Mode':'Toggle X-Ray Mode';});})();
+</script>
+
+<section class="vm-mn18-section" id="vm-mn18-section" aria-label="CADENCE Risk Firewall">
+<div class="vm-mn18-title">CADENCE&#8482; Risk Firewall</div>
+<div class="vm-mn18-sub">Animated firewall bricks lay on scroll. IC39 safe side vs CADENCE&#8482; locked side. HIGHEST MHRA badge.</div>
+<div class="vm-mn18-wall"><div class="vm-mn18-side vm-mn18-safe" id="vm-mn18-safe-side" role="button" tabindex="0"><div class="vm-mn18-side-title" style="color:#60C060">IC39 Safe Zone</div><div style="font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts)">Click to view details</div><div class="vm-mn18-side-detail"><p style="margin-bottom:8px">The IC39 safe zone contains all features that have passed regulatory review.</p><p style="margin-bottom:8px">Terrain Support Considerations, educational content, and practitioner reference materials operate safely within this boundary.</p><p>No MHRA-gated capabilities appear on this side. ICO ZC101813 compliant.</p></div></div><div class="vm-mn18-divider" id="vm-mn18-divider"></div><div class="vm-mn18-side vm-mn18-locked" id="vm-mn18-locked-side" role="button" tabindex="0"><div class="vm-mn18-side-title" style="color:#E06060">CADENCE&#8482; Locked Zone</div><div style="font-family:var(--vm-fm);font-size:.65rem;color:var(--vm-txts)">Click to view details</div><div class="vm-mn18-side-detail"><p style="margin-bottom:8px">The CADENCE locked zone contains features awaiting MHRA SaMD clearance.</p><p style="margin-bottom:8px">Red flag engine (F2), AI-driven clinical suggestions, and any W08-flagged capabilities remain behind this firewall.</p><p>CS09/CS10 are hard-stopped per W08 regulatory gate.</p></div></div></div>
+<div class="vm-mn18-mhra">HIGHEST MHRA GOVERNANCE BADGE: All clinical outputs carry protective header. T-01 restrictions active.</div>
+<div class="vm-mn18-countdown">MHRA Compliant SaMD. Regulatory timeline under review.</div>
+</section>
+<script>
+(function(){var divider=document.getElementById('vm-mn18-divider');for(var i=0;i<12;i++){var brick=document.createElement('div');brick.className='vm-mn18-brick';divider.appendChild(brick);}var bricks=divider.querySelectorAll('.vm-mn18-brick');var laid=false;var prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;function layBricks(){if(laid)return;laid=true;for(var b=0;b<bricks.length;b++){(function(br,delay){if(prefersReduced)br.classList.add('vm-mn18-laid');else setTimeout(function(){br.classList.add('vm-mn18-laid');},delay);})(bricks[b],b*120);}}if(typeof IntersectionObserver!=='undefined'){var obs=new IntersectionObserver(function(entries){for(var e=0;e<entries.length;e++){if(entries[e].isIntersecting){layBricks();obs.disconnect();}}},{threshold:0.3});obs.observe(document.getElementById('vm-mn18-section'));}else{layBricks();}var safeSide=document.getElementById('vm-mn18-safe-side');var lockedSide=document.getElementById('vm-mn18-locked-side');safeSide.addEventListener('click',function(){safeSide.classList.toggle('vm-mn18-expanded');});lockedSide.addEventListener('click',function(){lockedSide.classList.toggle('vm-mn18-expanded');});safeSide.addEventListener('keydown',function(e){if(e.key==='Enter')safeSide.click();});lockedSide.addEventListener('keydown',function(e){if(e.key==='Enter')lockedSide.click();});})();
+</script>
+
+<section class="vm-mn19-section" id="vm-mn19-section" aria-label="VISTA Predictive Telescope">
+<div class="vm-mn19-title">VISTA&#8482; Predictive Telescope</div>
+<div class="vm-mn19-sub">Telescope viewport: near = sharp Phase 1, mid = Phase 1.5, far = foggy Phase 2. D-80 gate doors.</div>
+<div class="vm-mn19-zoom" id="vm-mn19-zoom"><button class="vm-mn19-zoom-btn vm-mn19-active" data-zoom="near" type="button">Near: Phase 1</button><button class="vm-mn19-zoom-btn" data-zoom="mid" type="button">Mid: Phase 1.5</button><button class="vm-mn19-zoom-btn" data-zoom="far" type="button">Far: Phase 2</button></div>
+<div class="vm-mn19-telescope"><div class="vm-mn19-viewport-inner" id="vm-mn19-inner"><div class="vm-mn19-phase-name" id="vm-mn19-phase-name">Phase 1: Active</div><div class="vm-mn19-phase-desc" id="vm-mn19-phase-desc">Sharp focus. Five zones (Z1 to Z5), six cascade stacks (S1 to S6), seven nodes (N1 to N7). S4 THEORETICAL. S6 UNIDIRECTIONAL: Z1 to Z3 only. DRD computed as highest burden zone. FLINT five-layer model active. TerrainLock detection available. APEX three-tier investigation planning.</div></div></div>
+<div class="vm-mn19-gate-door" id="vm-mn19-gate" style="background:rgba(80,180,80,.08);border:1px solid rgba(80,180,80,.2);color:#60C060">D-80 Gate: OPEN for Phase 1 features</div>
+<div class="vm-mn19-accuracy"><span class="vm-mn19-accuracy-bar"><span class="vm-mn19-accuracy-fill" id="vm-mn19-acc-fill" style="width:95%;background:#60C060"></span></span><span class="vm-mn19-accuracy-val" id="vm-mn19-acc-val">Accuracy: 95%</span></div>
+</section>
+<script>
+(function(){var PHASES={near:{name:'Phase 1: Active',desc:'Sharp focus. Five zones (Z1 to Z5), six cascade stacks (S1 to S6), seven nodes (N1 to N7). S4 THEORETICAL. S6 UNIDIRECTIONAL: Z1 to Z3 only. DRD computed as highest burden zone. FLINT five-layer model active.',gate:'D-80 Gate: OPEN for Phase 1 features',gateColour:'#60C060',gateBg:'rgba(80,180,80,.08)',gateBorder:'rgba(80,180,80,.2)',accuracy:95,accColour:'#60C060',blur:'0'},mid:{name:'Phase 1.5: Emerging',desc:'Moderate focus. Auto-computed zone priorities. Cascade propagation modelling. Enhanced DeltaScan trend analysis. Preliminary RECON/COMPASS data layer integration.',gate:'D-80 Gate: PARTIALLY OPEN for Phase 1.5',gateColour:'#C9A84C',gateBg:'rgba(201,168,76,.08)',gateBorder:'rgba(201,168,76,.2)',accuracy:70,accColour:'#C9A84C',blur:'1px'},far:{name:'Phase 2: Planned',desc:'Foggy horizon. N7 Structural Integrity full integration. VECTOR reintroduction pending D-36 review. Advanced pattern recognition. Features behind multiple regulatory gates.',gate:'D-80 Gate: CLOSED for Phase 2 features',gateColour:'#E06060',gateBg:'rgba(208,50,50,.08)',gateBorder:'rgba(208,50,50,.2)',accuracy:35,accColour:'#E06060',blur:'3px'}};var zoomBtns=document.getElementById('vm-mn19-zoom').querySelectorAll('.vm-mn19-zoom-btn');var phaseName=document.getElementById('vm-mn19-phase-name');var phaseDesc=document.getElementById('vm-mn19-phase-desc');var gateEl=document.getElementById('vm-mn19-gate');var accFill=document.getElementById('vm-mn19-acc-fill');var accVal=document.getElementById('vm-mn19-acc-val');for(var i=0;i<zoomBtns.length;i++){(function(btn){btn.addEventListener('click',function(){for(var j=0;j<zoomBtns.length;j++)zoomBtns[j].classList.remove('vm-mn19-active');btn.classList.add('vm-mn19-active');var z=btn.getAttribute('data-zoom');var p=PHASES[z];phaseName.textContent=p.name;phaseDesc.textContent=p.desc;phaseDesc.style.filter='blur('+p.blur+')';gateEl.textContent=p.gate;gateEl.style.background=p.gateBg;gateEl.style.borderColor=p.gateBorder;gateEl.style.color=p.gateColour;accFill.style.width=p.accuracy+'%';accFill.style.background=p.accColour;accVal.textContent='Accuracy: '+p.accuracy+'%';});})(zoomBtns[i]);}})();
+</script>
+
+<section class="vm-mn20-section" id="vm-mn20-section" aria-label="VAULT Knowledge Library">
+<div class="vm-mn20-title"><span class="vm-mn20-vault-hl">VAULT</span>&#8482; Knowledge Library</div>
+<div class="vm-mn20-sub">41 books by tier. Click to slide out and open. Tier 4 locked cabinet. Search bar. "41 mnemonics, one architecture."</div>
+<input type="text" class="vm-mn20-search" id="vm-mn20-search" placeholder="Search mnemonics..." aria-label="Search VAULT library">
+<div class="vm-mn20-shelves" id="vm-mn20-shelves"></div>
+<div class="vm-mn20-book-detail" id="vm-mn20-detail"></div>
+<div class="vm-mn20-locked-cabinet"><div style="font-family:var(--vm-fs);font-size:1.1rem;color:#E06060;margin-bottom:6px">Tier 4: Locked Cabinet</div><div>VECTOR&#8482; and VOS&#8482; are reserved. VECTOR is Phase 2 only (D-36). VOS is footer-only. These mnemonics do not appear in body text.</div></div>
+<div class="vm-mn20-motto">41 mnemonics, one architecture.</div>

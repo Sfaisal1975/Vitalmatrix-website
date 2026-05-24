@@ -1,0 +1,2268 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="audience-tier" content="practitioner">
+<title>LA-6: APEX&#8482; Investigation Planner | VitalMatrix&#8482; GENOME&#8482; Handbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C4452; --bg2:#071C33; --card:rgba(7,28,51,.90); --card2:rgba(13,43,78,.55);
+  --z1:#C9A84C; --z1r:201,168,76; --z1l:#D4B86A;
+  --z2:#1A7A8A; --z2r:26,122,138; --z2l:#2A9BAD;
+  --z3:#7B5EA7; --z3r:123,94,167; --z3l:#9B7EC8;
+  --z4:#5F7C6C; --z4r:95,124,108; --z4l:#7A9485;
+  --z5:#2E6DB4; --z5r:46,109,180; --z5l:#4A8AD0;
+  --gold:#C9A84C; --gold-l:#D4B86A; --teal:#1A7A8A; --teal-l:#2A9BAD;
+  --white:#F4F4F2; --t80:rgba(244,244,242,.80); --t55:rgba(244,244,242,.72);
+  --t35:rgba(244,244,242,.55); --t12:rgba(244,244,242,.12); --t06:rgba(244,244,242,.06);
+  --fs:'Cormorant Garamond',Georgia,serif;
+  --fd:'Outfit',system-ui,sans-serif;
+  --fm:'DM Mono',monospace;
+}
+*:focus-visible{outline:2px solid #C9A84C;outline-offset:2px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+.comp-header{background:rgba(7,28,51,.92);border-bottom:1px solid rgba(201,168,76,.20);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+.comp-id{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-l);}
+.comp-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);}
+.t01-note{font-family:var(--fm);font-size:8px;color:var(--t35);letter-spacing:.08em;}
+
+.comp-body{max-width:1100px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:280px 1fr;gap:20px;}
+@media(max-width:840px){.comp-body{grid-template-columns:1fr;}}
+
+/* CONTROL PANEL */
+.ctrl-panel{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:18px;height:fit-content;position:sticky;top:68px;}
+.panel-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+
+.driver-select{background:var(--card2);border:1px solid var(--t12);border-radius:6px;color:var(--white);font-family:var(--fm);font-size:10px;padding:8px 12px;width:100%;cursor:pointer;margin-bottom:12px;}
+.driver-select option{background:#071C33;}
+
+.budget-btn-row{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.budget-btn{
+  font-family:var(--fm);font-size:8.5px;letter-spacing:.06em;
+  padding:7px 12px;border-radius:6px;cursor:pointer;border:1px solid var(--t12);
+  background:transparent;color:var(--t55);text-align:left;transition:all .2s;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.budget-btn:hover{border-color:rgba(201,168,76,.25);color:var(--t80);}
+.budget-btn.active{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.30);color:var(--gold);}
+.budget-price{font-size:8px;color:var(--t35);}
+.budget-btn.active .budget-price{color:rgba(201,168,76,.6);}
+
+.coverage-info{background:rgba(255,255,255,.03);border-radius:6px;padding:10px;border:1px solid var(--t06);font-family:var(--fm);font-size:8.5px;color:var(--t35);line-height:1.7;}
+.coverage-info strong{color:var(--t55);display:block;margin-bottom:3px;}
+
+/* PLANNER AREA */
+.planner-area{display:flex;flex-direction:column;gap:16px;}
+
+/* PHASE HEADER */
+.phase-header{display:flex;align-items:center;gap:14px;margin-bottom:4px;}
+.phase-num{font-family:var(--fs);font-size:2rem;font-weight:600;color:var(--gold);opacity:.35;line-height:1;}
+.phase-info{}
+.phase-title{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t80);}
+.phase-goal{font-family:var(--fd);font-size:12px;font-weight:300;color:var(--t35);}
+
+/* TEST TABLE */
+.test-table{background:var(--card);border:1px solid var(--t12);border-radius:10px;overflow:hidden;}
+.test-table-head{display:grid;grid-template-columns:1fr 140px 100px 80px;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--t06);}
+.th{font-family:var(--fm);font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--t35);}
+.test-row{display:grid;grid-template-columns:1fr 140px 100px 80px;padding:11px 16px;border-bottom:1px solid var(--t06);align-items:start;transition:background .15s;}
+.test-row:last-child{border-bottom:none;}
+.test-row:hover{background:rgba(255,255,255,.02);}
+.test-name{font-family:var(--fd);font-size:13px;font-weight:400;color:var(--t80);line-height:1.35;}
+.test-why{font-family:var(--fd);font-size:11px;font-weight:300;color:var(--t35);margin-top:2px;}
+.test-prism{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:100px;display:inline-block;margin-top:3px;}
+.test-ev{font-family:var(--fm);font-size:8px;padding:2px 8px;border-radius:100px;white-space:nowrap;}
+.ev-est{background:rgba(42,155,173,.08);border:1px solid rgba(42,155,173,.20);color:var(--teal-l);}
+.ev-emg{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.20);color:var(--gold);}
+.ev-obs{background:rgba(95,124,108,.08);border:1px solid rgba(95,124,108,.20);color:#7A9485;}
+.test-cost{font-family:var(--fm);font-size:9px;color:var(--t55);white-space:nowrap;}
+
+/* EMPTY STATE */
+.empty-state{padding:28px;text-align:center;font-family:var(--fm);font-size:9px;color:var(--t35);letter-spacing:.12em;}
+
+/* BUDGET SUMMARY BAR */
+.budget-bar{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:16px;}
+.budget-bar-label{font-family:var(--fm);font-size:8.5px;color:var(--t35);white-space:nowrap;}
+.budget-bar-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;}
+.budget-bar-fill{height:100%;border-radius:3px;background:var(--gold);transition:width .4s ease;}
+.budget-bar-total{font-family:var(--fm);font-size:10px;font-weight:500;color:var(--gold);white-space:nowrap;}
+.budget-bar-note{font-family:var(--fm);font-size:8px;color:var(--t35);}
+
+.page-footer{background:#1A2030;border-top:1px solid rgba(201,168,76,.3);padding:16px 24px;border-radius:6px;font-family:var(--fm);font-size:8px;color:rgba(244,244,242,.65);line-height:1.9;}
+.page-footer strong{color:#C9A84C;}
+</style>
+<link rel="stylesheet" href="vm-la-crosscut.css">
+<link rel="stylesheet" href="vm-la-crosscut-2.css">
+<script src="vm-la-crosscut.js" defer></script>
+<script src="vm-la-crosscut-2.js" defer></script>
+</head>
+<body>
+
+<header class="comp-header">
+  <div>
+    <div class="comp-id">LA-6 &nbsp;|&nbsp; GENOME&#8482; Handbook V7 &nbsp;|&nbsp; D-53 &nbsp;|&nbsp; ALB v1.6 (D-62)</div>
+    <div class="comp-title">APEX&#8482; Investigation Planner: Assessment Priority and Evidence Xray</div>
+  </div>
+  <div class="t01-note">Non-invasive tests only &nbsp;|&nbsp; T-01 Compliant</div>
+</header>
+
+<div class="comp-body">
+
+<!-- CONTROL PANEL -->
+<div class="ctrl-panel">
+  <div class="panel-label">Highest Burden Zone Selection</div>
+  <select class="driver-select" id="driver-select" onchange="update()">
+    <option value="z1">Z1 Metabolic Energy Axis</option>
+    <option value="z2" selected>Z2 Resilience Network</option>
+    <option value="z3">Z3 Cardiovascular-Neural</option>
+    <option value="z4">Z4 Detoxification Trident</option>
+    <option value="z5">Z5 Hormonal Terrain Axis</option>
+  </select>
+
+  <div class="panel-label" style="margin-top:4px;">Budget Tier</div>
+  <div class="budget-btn-row">
+    <button class="budget-btn" id="btn-t1" onclick="setBudget(1)">
+      <span>Tier 1 &nbsp; Essential</span>
+      <span class="budget-price">GBP 200-400</span>
+    </button>
+    <button class="budget-btn active" id="btn-t2" onclick="setBudget(2)">
+      <span>Tier 2 &nbsp; Comprehensive</span>
+      <span class="budget-price">GBP 400-800</span>
+    </button>
+    <button class="budget-btn" id="btn-t3" onclick="setBudget(3)">
+      <span>Tier 3 &nbsp; Full Assessment</span>
+      <span class="budget-price">GBP 800+</span>
+    </button>
+  </div>
+
+  <div class="coverage-info">
+    <strong>APEX&#8482; Sequencing Rule</strong>
+    Phase 1 tests confirm the highest burden zone. Phase 2 examines active secondary burden zones. Phase 3 addresses structural integrity and longitudinal markers. Never run Phase 2 before Phase 1 findings are reviewed.
+  </div>
+</div>
+
+<!-- PLANNER AREA -->
+<div class="planner-area" id="planner">
+</div>
+
+</div>
+
+<footer class="page-footer">
+  <p><strong>Trademarks:</strong> VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p style="margin-top:6px;">MHRA SaMD classification pending. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not prescribe or replace clinical judgement. ICO ZC101813.</p>
+  <p style="margin-top:6px;">GENOME&#8482; Handbook V7 | LA-6 APEX&#8482; Investigation Planner | ALB v1.6 (D-62) (D-46) | D-53 | Non-invasive tests only | VitalMatrix&#8482; is a clinical intelligence platform. | For practitioner use only. Not a diagnostic tool. | Dr Shahzad Faisal, MBBS, FAAMFM | &#169; 2026 VitalMatrix Ltd | ICO ZC101813</p>
+</footer>
+
+<script>
+'use strict';
+
+var activeBudget = 2;
+
+var ZONES_META = {
+  z1:{col:'#C9A84C',colr:'201,168,76',label:'Z1',name:'Metabolic Energy Axis'},
+  z2:{col:'#1A7A8A',colr:'26,122,138',label:'Z2',name:'Resilience Network'},
+  z3:{col:'#7B5EA7',colr:'123,94,167',label:'Z3',name:'Cardiovascular-Neural'},
+  z4:{col:'#5F7C6C',colr:'95,124,108',label:'Z4',name:'Detoxification Trident'},
+  z5:{col:'#2E6DB4',colr:'46,109,180',label:'Z5',name:'Hormonal Terrain Axis'}
+};
+
+// INVESTIGATION DATABASE -- non-invasive only (B2 correction applied)
+// 4-point cortisol used (B2 correction applied)
+var TESTS = {
+  z1:{
+    p1:[
+      {name:'4-point diurnal cortisol',why:'Adrenal HPA axis function -- morning, noon, afternoon, evening',prism:'PRISM\u2122 Z1',ev:'Established',cost:'90-130',tier:1},
+      {name:'Full thyroid panel (TSH, T4, Free T3, rT3)',why:'Thyroid conversion and output -- T3/T4 ratio identifies conversion impairment',prism:'PRISM\u2122 Z1',ev:'Established',cost:'80-120',tier:1},
+      {name:'Fasting insulin and HOMA-IR',why:'Pancreatic insulin signalling burden -- HOMA-IR functional threshold <2.0',prism:'PRISM\u2122 Z1',ev:'Established',cost:'40-60',tier:1}
+    ],
+    p2:[
+      {name:'DHEA-S',why:'Adrenal reserve marker -- upstream precursor to cortisol and sex hormones',prism:'PRISM\u2122 Z1',ev:'Emerging',cost:'30-50',tier:2},
+      {name:'HbA1c and fasting glucose',why:'Pancreatic terrain history -- glucose regulation over 3 months',prism:'PRISM\u2122 Z1',ev:'Established',cost:'25-40',tier:2},
+      {name:'Reverse T3 (rT3) ratio',why:'Active conversion block -- high rT3 with normal TSH indicates peripheral impairment',prism:'PRISM\u2122 Z1',ev:'Emerging',cost:'45-70',tier:2}
+    ],
+    p3:[
+      {name:'Pregnenolone (serum)',why:'Top of steroidogenesis pathway -- upstream of all adrenal and sex hormones',prism:'PRISM\u2122 Z1/Z5',ev:'Emerging',cost:'60-90',tier:3},
+      {name:'Salivary secretory IgA (sIgA)',why:'Gut-adrenal immune bridge -- low sIgA with high cortisol indicates HPA suppression of mucosal immunity',prism:'PRISM\u2122 Z1/Z2',ev:'Emerging',cost:'50-80',tier:3},
+      {name:'Organic acid panel (OAT)',why:'Mitochondrial metabolic markers -- reveals downstream energy production efficiency',prism:'PRISM\u2122 Z1/Z3',ev:'Emerging',cost:'200-350',tier:3}
+    ]
+  },
+  z2:{
+    p1:[
+      {name:'Secretory IgA (stool)',why:'Mucosal immune function -- primary gut defence marker',prism:'PRISM\u2122 Z2',ev:'Established',cost:'60-90',tier:1},
+      {name:'Calprotectin (stool)',why:'Gut inflammation marker -- distinguishes inflammatory from functional gut patterns',prism:'PRISM\u2122 Z2',ev:'Established',cost:'50-80',tier:1},
+      {name:'hs-CRP',why:'Systemic inflammation bridge marker -- Z2 gut inflammation reaches Z3 cardiovascular zone via this marker',prism:'PRISM\u2122 Z2/Z3',ev:'Established',cost:'20-35',tier:1}
+    ],
+    p2:[
+      {name:'Zonulin (stool or serum)',why:'Intestinal permeability -- elevated zonulin with normal calprotectin = silent barrier failure',prism:'PRISM\u2122 Z2',ev:'Emerging',cost:'70-110',tier:2},
+      {name:'LPS antibodies (IgA, IgG, IgM)',why:'Endotoxin translocation -- confirms LPS crossing barrier into systemic circulation',prism:'PRISM\u2122 Z2',ev:'Emerging',cost:'80-120',tier:2},
+      {name:'Comprehensive stool microbiome',why:'Microbial diversity and dysbiosis -- identifies species implicated in S1 cascade',prism:'PRISM\u2122 Z2',ev:'Emerging',cost:'180-300',tier:2}
+    ],
+    p3:[
+      {name:'Urinary TMAO',why:'Gut-cardiovascular metabolite -- microbial TMAO production links Z2 dysbiosis to Z3 atherosclerotic risk',prism:'PRISM\u2122 Z2/Z3',ev:'Emerging',cost:'90-140',tier:3},
+      {name:'Anti-gliadin and anti-tissue transglutaminase antibodies',why:'Gluten-immune reactivity -- can drive sustained gut inflammation independent of coeliac diagnosis',prism:'PRISM\u2122 Z2',ev:'Established',cost:'50-80',tier:3},
+      {name:'Cytokine panel (IL-6, TNF-alpha, IL-10)',why:'Inflammatory signalling profile -- distinguishes pro-inflammatory from resolving terrain',prism:'PRISM\u2122 Z2',ev:'Emerging',cost:'150-220',tier:3}
+    ]
+  },
+  z3:{
+    p1:[
+      {name:'hs-CRP',why:'Endothelial inflammation -- primary cardiovascular terrain marker',prism:'PRISM\u2122 Z3',ev:'Established',cost:'20-35',tier:1},
+      {name:'Homocysteine',why:'Endothelial methylation marker -- elevated homocysteine damages vascular endothelium directly',prism:'PRISM\u2122 Z3',ev:'Established',cost:'30-50',tier:1},
+      {name:'Lipid panel with Lp(a)',why:'Vascular burden profile -- Lp(a) is an independent cardiovascular risk factor not addressed by statins',prism:'PRISM\u2122 Z3',ev:'Established',cost:'40-65',tier:1}
+    ],
+    p2:[
+      {name:'HRV (Heart Rate Variability) assessment',why:'Autonomic coherence -- COHERENCE\u2122 marker for Z3 neural-cardiovascular integration',prism:'PRISM\u2122 Z3',ev:'Emerging',cost:'30-60',tier:2},
+      {name:'Apolipoprotein B (ApoB)',why:'Small dense LDL particle burden -- more precise vascular risk than total LDL',prism:'PRISM\u2122 Z3',ev:'Established',cost:'25-40',tier:2},
+      {name:'Fibrinogen',why:'Coagulation burden and endothelial inflammation marker',prism:'PRISM\u2122 Z3',ev:'Established',cost:'20-35',tier:2}
+    ],
+    p3:[
+      {name:'ADMA (Asymmetric dimethylarginine)',why:'Endothelial nitric oxide suppression -- directly impairs vascular dilation and erectile function',prism:'PRISM\u2122 Z3',ev:'Emerging',cost:'80-130',tier:3},
+      {name:'Oxidised LDL',why:'Vascular oxidative stress -- confirms active endothelial damage beyond lipid levels',prism:'PRISM\u2122 Z3',ev:'Emerging',cost:'70-110',tier:3},
+      {name:'Urinary 8-isoprostane',why:'Whole-body oxidative stress marker -- reflects cumulative Z3 oxidative burden',prism:'PRISM\u2122 Z3',ev:'Emerging',cost:'90-140',tier:3}
+    ]
+  },
+  z4:{
+    p1:[
+      {name:'GGT (Gamma-glutamyl transferase)',why:'Hepatic Phase 2 burden -- GGT 25-40 U/L is above functional optimal despite being in lab range',prism:'PRISM\u2122 Z4',ev:'Established',cost:'15-25',tier:1},
+      {name:'ALT, AST (hepatic enzymes)',why:'Hepatic cell stress -- combined with GGT profiles Phase 1 vs Phase 2 burden',prism:'PRISM\u2122 Z4',ev:'Established',cost:'15-25',tier:1},
+      {name:'Glutathione (reduced/oxidised ratio)',why:'Antioxidant reserve -- Phase 2 conjugation efficiency depends on glutathione availability',prism:'PRISM\u2122 Z4',ev:'Emerging',cost:'80-130',tier:1}
+    ],
+    p2:[
+      {name:'Heavy metal screen (hair or urine)',why:'Toxic accumulation profile -- identifies Z4 burden load from environmental sources',prism:'PRISM\u2122 Z4',ev:'Emerging',cost:'90-150',tier:2},
+      {name:'Pyroglutamic acid (urine)',why:'Glutathione depletion marker -- elevated pyroglutamate = Phase 2 under significant stress',prism:'PRISM\u2122 Z4',ev:'Emerging',cost:'60-100',tier:2},
+      {name:'D-glucaric acid (urine)',why:'Phase 1 induction marker -- confirms hepatic cytochrome P450 upregulation',prism:'PRISM\u2122 Z4',ev:'Observed in Practice',cost:'50-80',tier:2}
+    ],
+    p3:[
+      {name:'Urinary porphyrins',why:'Toxic metal accumulation marker -- porphyrin pattern identifies specific metal burden',prism:'PRISM\u2122 Z4',ev:'Emerging',cost:'130-200',tier:3},
+      {name:'Methylation panel (SAM, SAH, homocysteine)',why:'Hepatic methylation capacity -- critical cofactor for Phase 2 detoxification',prism:'PRISM\u2122 Z4',ev:'Emerging',cost:'120-180',tier:3},
+      {name:'Organic acid toxin markers',why:'Microbial and chemical toxin metabolites -- maps Z4 toxic input sources',prism:'PRISM\u2122 Z4',ev:'Emerging',cost:'180-280',tier:3}
+    ]
+  },
+  z5:{
+    p1:[
+      {name:'Total and free testosterone with SHBG',why:'Androgen status -- SHBG below 25 nmol/L in males indicates insulin-driven Z1 mechanism, not primary Z5 failure',prism:'PRISM\u2122 Z5',ev:'Established',cost:'50-80',tier:1},
+      {name:'Oestradiol (E2)',why:'Oestrogenic burden -- elevated in males indicates aromatisation driven by Z1 insulin resistance',prism:'PRISM\u2122 Z5',ev:'Established',cost:'30-50',tier:1},
+      {name:'LH and FSH',why:'Pituitary gonadotrophin signalling -- distinguishes primary from secondary hormonal dysfunction',prism:'PRISM\u2122 Z5',ev:'Established',cost:'30-50',tier:1}
+    ],
+    p2:[
+      {name:'Pregnenolone (serum)',why:'Upstream precursor to all steroid hormones -- low pregnenolone with high cortisol reveals Z1 adrenal priority',prism:'PRISM\u2122 Z5',ev:'Emerging',cost:'60-90',tier:2},
+      {name:'DHT (dihydrotestosterone)',why:'5-alpha reductase activity -- DHT conversion rate informs androgenic pathway health',prism:'PRISM\u2122 Z5',ev:'Established',cost:'40-65',tier:2},
+      {name:'4-point cortisol (saliva)',why:'HPA-HPG axis interaction -- cortisol elevation suppresses GnRH pulse; this is S2 cascade in action',prism:'PRISM\u2122 Z5/Z1',ev:'Established',cost:'90-130',tier:2}
+    ],
+    p3:[
+      {name:'Oestrone (E1) and oestriol (E3)',why:'Full oestrogen metabolite profile -- E1:E2 ratio indicates liver Phase 2 capacity for oestrogen clearance',prism:'PRISM\u2122 Z5/Z4',ev:'Emerging',cost:'80-120',tier:3},
+      {name:'DUTCH complete hormones (dried urine)',why:'Full 24-hour steroid hormone metabolite profile -- most comprehensive Z5 investigation available',prism:'PRISM\u2122 Z5',ev:'Observed in Practice',cost:'280-400',tier:3},
+      {name:'Prolactin',why:'Pituitary reserve marker -- elevated prolactin suppresses gonadotrophin axis independently of cortisol',prism:'PRISM\u2122 Z5',ev:'Established',cost:'20-35',tier:3}
+    ]
+  }
+};
+
+function setBudget(tier){
+  activeBudget=tier;
+  [1,2,3].forEach(function(t){
+    document.getElementById('btn-t'+t).classList.toggle('active',t===tier);
+  });
+  update();
+}
+
+function evClass(ev){
+  if(ev==='Established') return 'ev-est';
+  if(ev==='Emerging') return 'ev-emg';
+  return 'ev-obs';
+}
+
+function prismChipStyle(zid){
+  var z=ZONES_META[zid];
+  return 'background:rgba('+z.colr+',.08);border:1px solid rgba('+z.colr+',.22);color:'+z.col;
+}
+
+function buildPhaseHtml(phaseNum,phaseLabel,phaseGoal,tests,driverZ){
+  if(!tests||tests.length===0) return '';
+  var z=ZONES_META[driverZ];
+  var rowsHtml=tests.map(function(t){
+    return '<div class="test-row">'+
+      '<div><div class="test-name">'+t.name+'</div>'+
+      '<div class="test-why">'+t.why+'</div>'+
+      '<span class="test-prism" style="'+prismChipStyle(driverZ)+'">'+t.prism+'</span>'+
+      '</div>'+
+      '<span class="test-ev '+evClass(t.ev)+'">'+t.ev+'</span>'+
+      '<div class="test-cost">GBP '+t.cost+'</div>'+
+    '</div>';
+  }).join('');
+
+  return '<div>'+
+    '<div class="phase-header">'+
+      '<div class="phase-num">'+phaseNum+'</div>'+
+      '<div class="phase-info">'+
+        '<div class="phase-title" style="color:'+z.col+'">'+phaseLabel+'</div>'+
+        '<div class="phase-goal">'+phaseGoal+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="test-table">'+
+      '<div class="test-table-head">'+
+        '<div class="th">Investigation</div>'+
+        '<div class="th">Evidence tier</div>'+
+        '<div class="th">Cost (approx.)</div>'+
+      '</div>'+
+      rowsHtml+
+    '</div>'+
+  '</div>';
+}
+
+function update(){
+  var driver=document.getElementById('driver-select').value;
+  var data=TESTS[driver];
+  var z=ZONES_META[driver];
+  if(!data){return;}
+
+  var p1=data.p1;
+  var p2=activeBudget>=2?data.p2:[];
+  var p3=activeBudget>=3?data.p3:[];
+
+  var html='';
+
+  // Budget summary bar
+  var allTests=[].concat(p1,p2,p3);
+  var budgetMin=allTests.reduce(function(acc,t){return acc+parseInt(t.cost.split('-')[0]);},0);
+  var budgetMax=allTests.reduce(function(acc,t){return acc+parseInt(t.cost.split('-')[1]||t.cost.split('-')[0]);},0);
+  var barPct=Math.min(100,(budgetMax/800)*100);
+  html+='<div class="budget-bar">'+
+    '<div class="budget-bar-label">Estimated cost</div>'+
+    '<div class="budget-bar-track"><div class="budget-bar-fill" style="width:'+barPct+'%"></div></div>'+
+    '<div class="budget-bar-total">GBP '+budgetMin+' &ndash; '+budgetMax+'</div>'+
+  '</div>';
+
+  html+=buildPhaseHtml(1,'Phase 1: Highest Burden Zone Confirmation','Confirm '+z.label+' '+z.name+' as the primary burden zone before committing to any secondary burden zone investigations.',p1,driver);
+  if(p2.length) html+=buildPhaseHtml(2,'Phase 2: Secondary Burden Zone Investigation','Investigate active cascade targets once Phase 1 results are reviewed.',p2,driver);
+  if(p3.length) html+=buildPhaseHtml(3,'Phase 3: Structural and Longitudinal','Comprehensive terrain assessment and baseline for DeltaScan\u2122 comparison tracking.',p3,driver);
+
+  html+='<div style="padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid var(--t06);border-radius:8px;font-family:var(--fm);font-size:8.5px;color:var(--t35);line-height:1.7;">'+
+    'APEX\u2122 (Assessment Priority and Evidence Xray) generates investigation sequences from DRD\u2122 designation. All test selections require practitioner review and clinical judgement. No invasive tests included. Cost estimates are indicative only and vary by laboratory and region. Evidence tiers: Established = systematic review/RCT data; Emerging = observational/mechanistic; Observed in Practice = clinical experience, no controlled trial data.'+
+  '</div>';
+
+  document.getElementById('planner').innerHTML=html;
+}
+
+update();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6F1: Budget Allocation Pie with Drag                        -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-la6f1-slice{transition:none!important;}
+}
+.vm-la6f1-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:20px auto;max-width:1100px;}
+.vm-la6f1-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.vm-la6f1-sub{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.vm-la6f1-layout{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.vm-la6f1-pie-wrap{flex:0 0 220px;display:flex;justify-content:center;}
+.vm-la6f1-controls{flex:1;min-width:200px;}
+.vm-la6f1-tier{margin-bottom:10px;}
+.vm-la6f1-tier-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.vm-la6f1-tier-label{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la6f1-tier-val{font-family:var(--fm);font-size:9px;font-weight:500;color:var(--gold);}
+.vm-la6f1-slider{width:100%;height:4px;border-radius:2px;outline:none;cursor:pointer;background:rgba(255,255,255,.10);-webkit-appearance:none;appearance:none;}
+.vm-la6f1-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--gold);border:2px solid var(--bg);cursor:pointer;}
+.vm-la6f1-items{margin-top:10px;}
+.vm-la6f1-item{display:flex;align-items:center;gap:6px;padding:4px 0;font-family:var(--fm);font-size:8.5px;color:var(--t55);}
+.vm-la6f1-item.vm-la6f1-active{color:var(--gold);}
+.vm-la6f1-item.vm-la6f1-inactive{opacity:.35;text-decoration:line-through;}
+.vm-la6f1-dot{width:6px;height:6px;border-radius:50%;}
+</style>
+<div class="vm-la6f1-wrap">
+  <div class="vm-la6f1-title">Budget Allocation Pie</div>
+  <div class="vm-la6f1-sub">Drag sliders to resize tier allocations: items activate or deactivate based on budget</div>
+  <div class="vm-la6f1-layout">
+    <div class="vm-la6f1-pie-wrap">
+      <svg id="vm-la6f1-pie" width="200" height="200" viewBox="0 0 200 200"></svg>
+    </div>
+    <div class="vm-la6f1-controls" id="vm-la6f1-controls"></div>
+  </div>
+  <div class="vm-la6f1-items" id="vm-la6f1-items"></div>
+</div>
+<script>
+(function(){
+  var tiers=[
+    {name:'Tier 1: Essential',col:'#C9A84C',val:50,min:200,max:400,tests:['Full Blood Count','Thyroid (TSH, fT4, fT3)','HbA1c','Vitamin D','Iron Studies']},
+    {name:'Tier 2: Extended',col:'#1A7A8A',val:30,min:400,max:800,tests:['Comprehensive Metabolic Panel','Cortisol (AM)','Homocysteine','Omega-3 Index']},
+    {name:'Tier 3: Specialist',col:'#7B5EA7',val:20,min:800,max:1200,tests:['DUTCH Hormone Panel','Organic Acids','GI-MAP','Methylation Panel']}
+  ];
+
+  function renderPie(){
+    var svg=document.getElementById('vm-la6f1-pie');
+    var total=0;
+    for(var i=0;i<tiers.length;i++) total+=tiers[i].val;
+    var html='';
+    var cumAngle=-90;
+    for(var i=0;i<tiers.length;i++){
+      var pct=tiers[i].val/total;
+      var angle=pct*360;
+      var startRad=(cumAngle)*Math.PI/180;
+      var endRad=(cumAngle+angle)*Math.PI/180;
+      var large=angle>180?1:0;
+      var x1=100+85*Math.cos(startRad);
+      var y1=100+85*Math.sin(startRad);
+      var x2=100+85*Math.cos(endRad);
+      var y2=100+85*Math.sin(endRad);
+      html+='<path d="M100,100 L'+x1.toFixed(1)+','+y1.toFixed(1)+' A85,85 0 '+large+',1 '+x2.toFixed(1)+','+y2.toFixed(1)+' Z" fill="'+tiers[i].col+'" opacity="0.7" class="vm-la6f1-slice"/>';
+      var midRad=(cumAngle+angle/2)*Math.PI/180;
+      var tx=100+55*Math.cos(midRad);
+      var ty=100+55*Math.sin(midRad);
+      html+='<text x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" fill="#F4F4F2" font-family="DM Mono,monospace" font-size="9">'+Math.round(pct*100)+'%</text>';
+      cumAngle+=angle;
+    }
+    svg.innerHTML=html;
+  }
+
+  function renderControls(){
+    var ctrls=document.getElementById('vm-la6f1-controls');
+    var html='';
+    for(var i=0;i<tiers.length;i++){
+      html+='<div class="vm-la6f1-tier">';
+      html+='<div class="vm-la6f1-tier-head"><span class="vm-la6f1-tier-label" style="color:'+tiers[i].col+';">'+tiers[i].name+'</span><span class="vm-la6f1-tier-val" id="vm-la6f1-val-'+i+'">'+tiers[i].val+'%</span></div>';
+      html+='<input type="range" class="vm-la6f1-slider" min="5" max="80" value="'+tiers[i].val+'" data-idx="'+i+'">';
+      html+='</div>';
+    }
+    ctrls.innerHTML=html;
+    var sliders=ctrls.querySelectorAll('.vm-la6f1-slider');
+    for(var j=0;j<sliders.length;j++){
+      sliders[j].addEventListener('input',function(){
+        var idx=parseInt(this.getAttribute('data-idx'));
+        tiers[idx].val=parseInt(this.value);
+        renderPie();
+        renderItems();
+        var valEl=document.getElementById('vm-la6f1-val-'+idx);
+        if(valEl){
+          var total=0;
+          for(var k=0;k<tiers.length;k++) total+=tiers[k].val;
+          valEl.textContent=Math.round(tiers[idx].val/total*100)+'%';
+        }
+      });
+    }
+  }
+
+  function renderItems(){
+    var total=0;
+    for(var i=0;i<tiers.length;i++) total+=tiers[i].val;
+    var items=document.getElementById('vm-la6f1-items');
+    var html='';
+    for(var i=0;i<tiers.length;i++){
+      var pct=tiers[i].val/total;
+      var active=pct>0.1;
+      for(var j=0;j<tiers[i].tests.length;j++){
+        var cls=active?'vm-la6f1-item vm-la6f1-active':'vm-la6f1-item vm-la6f1-inactive';
+        html+='<div class="'+cls+'">';
+        html+='<span class="vm-la6f1-dot" style="background:'+tiers[i].col+';"></span>';
+        html+=tiers[i].tests[j]+(active?' (active)':' (inactive)');
+        html+='</div>';
+      }
+    }
+    items.innerHTML=html;
+  }
+
+  renderControls();
+  renderPie();
+  renderItems();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6F2: Investigation Dependency Tree                           -->
+<!-- ============================================================ -->
+<style>
+.vm-la6f2-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:20px auto;max-width:1100px;}
+.vm-la6f2-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.vm-la6f2-sub{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.vm-la6f2-tree{display:flex;flex-direction:column;gap:6px;}
+.vm-la6f2-node{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(255,255,255,.04);border:1px solid var(--t06);border-radius:6px;cursor:pointer;transition:all .2s;}
+.vm-la6f2-node:hover{border-color:rgba(201,168,76,.25);}
+.vm-la6f2-node.vm-la6f2-checked{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.3);}
+.vm-la6f2-check{width:14px;height:14px;border:1.5px solid var(--t35);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);flex-shrink:0;}
+.vm-la6f2-node.vm-la6f2-checked .vm-la6f2-check{background:rgba(201,168,76,.2);border-color:var(--gold);}
+.vm-la6f2-text{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la6f2-node.vm-la6f2-checked .vm-la6f2-text{color:var(--gold);}
+.vm-la6f2-child{margin-left:28px;}
+.vm-la6f2-auto{font-family:var(--fm);font-size:7px;color:var(--teal);padding:1px 6px;border:1px solid rgba(26,122,138,.3);border-radius:100px;margin-left:auto;}
+</style>
+<div class="vm-la6f2-wrap">
+  <div class="vm-la6f2-title">Investigation Dependency Tree</div>
+  <div class="vm-la6f2-sub">Checking a comprehensive panel auto-checks its sub-tests</div>
+  <div class="vm-la6f2-tree" id="vm-la6f2-tree"></div>
+</div>
+<script>
+(function(){
+  var tree=[
+    {id:'cmp',name:'Comprehensive Metabolic Panel',children:['glu','bun','cre','alb','ca','na','k','co2','cl','tp','alp','alt','ast','bil']},
+    {id:'glu',name:'Glucose'},
+    {id:'bun',name:'Blood Urea Nitrogen'},
+    {id:'cre',name:'Creatinine'},
+    {id:'alb',name:'Albumin'},
+    {id:'ca',name:'Calcium'},
+    {id:'na',name:'Sodium'},
+    {id:'k',name:'Potassium'},
+    {id:'co2',name:'CO2'},
+    {id:'cl',name:'Chloride'},
+    {id:'tp',name:'Total Protein'},
+    {id:'alp',name:'ALP'},
+    {id:'alt',name:'ALT'},
+    {id:'ast',name:'AST'},
+    {id:'bil',name:'Bilirubin'},
+    {id:'thy',name:'Full Thyroid Panel',children:['tsh','ft4','ft3','tpo','tg']},
+    {id:'tsh',name:'TSH'},
+    {id:'ft4',name:'Free T4'},
+    {id:'ft3',name:'Free T3'},
+    {id:'tpo',name:'TPO Antibodies'},
+    {id:'tg',name:'Thyroglobulin Antibodies'},
+    {id:'iron',name:'Iron Studies',children:['fe','fer','tibc','tsat']},
+    {id:'fe',name:'Serum Iron'},
+    {id:'fer',name:'Ferritin'},
+    {id:'tibc',name:'TIBC'},
+    {id:'tsat',name:'Transferrin Saturation'}
+  ];
+
+  var checked={};
+  var parents={};
+  for(var i=0;i<tree.length;i++){
+    if(tree[i].children){
+      for(var j=0;j<tree[i].children.length;j++){
+        parents[tree[i].children[j]]=tree[i].id;
+      }
+    }
+  }
+
+  function render(){
+    var el=document.getElementById('vm-la6f2-tree');
+    var html='';
+    for(var i=0;i<tree.length;i++){
+      var t=tree[i];
+      var isChild=!!parents[t.id];
+      var isParent=!!t.children;
+      var isChecked=!!checked[t.id];
+      var cls='vm-la6f2-node'+(isChecked?' vm-la6f2-checked':'')+(isChild?' vm-la6f2-child':'');
+      html+='<div class="'+cls+'" data-id="'+t.id+'">';
+      html+='<span class="vm-la6f2-check">'+(isChecked?'&#10003;':'')+'</span>';
+      html+='<span class="vm-la6f2-text">'+t.name+'</span>';
+      if(isParent) html+='<span class="vm-la6f2-auto">auto-checks sub-tests</span>';
+      html+='</div>';
+    }
+    el.innerHTML=html;
+
+    var nodes=el.querySelectorAll('.vm-la6f2-node');
+    for(var k=0;k<nodes.length;k++){
+      nodes[k].addEventListener('click',function(){
+        var id=this.getAttribute('data-id');
+        toggle(id);
+        render();
+      });
+    }
+  }
+
+  function toggle(id){
+    var item=null;
+    for(var i=0;i<tree.length;i++){
+      if(tree[i].id===id){item=tree[i];break;}
+    }
+    if(!item) return;
+    if(checked[id]){
+      checked[id]=false;
+      if(item.children){
+        for(var j=0;j<item.children.length;j++){
+          checked[item.children[j]]=false;
+        }
+      }
+    } else {
+      checked[id]=true;
+      if(item.children){
+        for(var j=0;j<item.children.length;j++){
+          checked[item.children[j]]=true;
+        }
+      }
+    }
+  }
+
+  render();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6F3: Specimen Collection Workflow                            -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-la6f3-hand{animation:none!important;}
+}
+.vm-la6f3-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:20px auto;max-width:1100px;}
+.vm-la6f3-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.vm-la6f3-sub{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.vm-la6f3-timeline{display:flex;gap:0;overflow-x:auto;padding-bottom:8px;}
+.vm-la6f3-step{flex:0 0 140px;text-align:center;padding:12px 8px;border-right:1px solid var(--t06);position:relative;}
+.vm-la6f3-step:last-child{border-right:none;}
+.vm-la6f3-clock{font-family:var(--fm);font-size:11px;font-weight:500;color:var(--gold);margin-bottom:4px;}
+.vm-la6f3-icon{font-size:22px;margin-bottom:4px;}
+.vm-la6f3-name{font-family:var(--fm);font-size:8.5px;color:var(--t80);margin-bottom:2px;}
+.vm-la6f3-detail{font-family:var(--fd);font-size:8px;color:var(--t35);line-height:1.4;}
+.vm-la6f3-hand{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:2px;height:8px;background:var(--gold);border-radius:1px;}
+.vm-la6f3-active .vm-la6f3-hand{animation:vm-la6f3-tick 1s ease-in-out infinite alternate;}
+@keyframes vm-la6f3-tick{0%{height:8px;opacity:.5}100%{height:14px;opacity:1}}
+.vm-la6f3-fasting{background:rgba(201,168,76,.06);border:1px dashed rgba(201,168,76,.25);border-radius:4px;padding:2px 6px;font-family:var(--fm);font-size:7px;color:var(--gold);margin-top:4px;display:inline-block;}
+</style>
+<div class="vm-la6f3-wrap">
+  <div class="vm-la6f3-title">Specimen Collection Workflow</div>
+  <div class="vm-la6f3-sub">Optimal fasting and circadian collection order with animated clock</div>
+  <div class="vm-la6f3-timeline" id="vm-la6f3-timeline"></div>
+</div>
+<script>
+(function(){
+  var steps=[
+    {time:'06:00',icon:'\u23F0',name:'Wake',detail:'Fasting state maintained since 22:00',fasting:true},
+    {time:'07:00',icon:'\uD83E\uDE78',name:'Cortisol (AM)',detail:'Fasting, within 30 min of waking',fasting:true,active:true},
+    {time:'07:15',icon:'\uD83E\uDE78',name:'Fasting Glucose + Insulin',detail:'Minimum 10 hours fasted',fasting:true},
+    {time:'07:30',icon:'\uD83E\uDE78',name:'Thyroid Panel',detail:'TSH, fT4, fT3: circadian low morning draw',fasting:true},
+    {time:'07:45',icon:'\uD83E\uDE78',name:'Iron Studies + FBC',detail:'Diurnal iron peak: early morning',fasting:true},
+    {time:'08:00',icon:'\uD83C\uDF73',name:'Break Fast',detail:'Fasting window complete. Hydrate.',fasting:false},
+    {time:'09:00',icon:'\uD83E\uDDEA',name:'Urine Collection',detail:'First void or timed collection for organic acids',fasting:false},
+    {time:'22:00',icon:'\uD83E\uDE78',name:'Saliva Cortisol (PM)',detail:'4-point cortisol: bedtime sample',fasting:false}
+  ];
+
+  var tl=document.getElementById('vm-la6f3-timeline');
+  var html='';
+  for(var i=0;i<steps.length;i++){
+    var s=steps[i];
+    var cls='vm-la6f3-step'+(s.active?' vm-la6f3-active':'');
+    html+='<div class="'+cls+'">';
+    html+='<div class="vm-la6f3-clock">'+s.time+'</div>';
+    html+='<div class="vm-la6f3-icon">'+s.icon+'</div>';
+    html+='<div class="vm-la6f3-name">'+s.name+'</div>';
+    html+='<div class="vm-la6f3-detail">'+s.detail+'</div>';
+    if(s.fasting) html+='<span class="vm-la6f3-fasting">Fasting</span>';
+    if(s.active) html+='<div class="vm-la6f3-hand"></div>';
+    html+='</div>';
+  }
+  tl.innerHTML=html;
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6F4: Cross-Zone Investigation Venn                          -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-la6f4-glow{animation:none!important;}
+}
+.vm-la6f4-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:20px auto;max-width:1100px;}
+.vm-la6f4-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.vm-la6f4-sub{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.vm-la6f4-svg-wrap{display:flex;justify-content:center;}
+.vm-la6f4-glow{animation:vm-la6f4-pulse 2s ease-in-out infinite alternate;}
+@keyframes vm-la6f4-pulse{0%{opacity:0.2}100%{opacity:0.5}}
+.vm-la6f4-savings{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;padding:10px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:6px;}
+.vm-la6f4-savings-label{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.vm-la6f4-savings-val{font-family:var(--fm);font-size:14px;font-weight:500;color:var(--gold);}
+.vm-la6f4-legend{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap;}
+.vm-la6f4-leg{font-family:var(--fm);font-size:8px;color:var(--t35);display:flex;align-items:center;gap:4px;}
+.vm-la6f4-leg-dot{width:8px;height:8px;border-radius:50%;}
+</style>
+<div class="vm-la6f4-wrap">
+  <div class="vm-la6f4-title">Cross-Zone Investigation Venn</div>
+  <div class="vm-la6f4-sub">Three circles showing dual-yield investigations with savings counter and intersection glow</div>
+  <div class="vm-la6f4-svg-wrap">
+    <svg id="vm-la6f4-svg" width="360" height="280" viewBox="0 0 360 280">
+      <circle cx="140" cy="120" r="90" fill="rgba(201,168,76,0.12)" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="220" cy="120" r="90" fill="rgba(26,122,138,0.12)" stroke="#1A7A8A" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="180" cy="190" r="90" fill="rgba(123,94,167,0.12)" stroke="#7B5EA7" stroke-width="1.5" opacity="0.7"/>
+      <ellipse cx="180" cy="140" rx="35" ry="28" class="vm-la6f4-glow" fill="rgba(201,168,76,0.3)" stroke="none"/>
+      <text x="100" y="100" fill="#C9A84C" font-family="DM Mono,monospace" font-size="9" text-anchor="middle">Z1</text>
+      <text x="260" y="100" fill="#1A7A8A" font-family="DM Mono,monospace" font-size="9" text-anchor="middle">Z2</text>
+      <text x="180" y="250" fill="#7B5EA7" font-family="DM Mono,monospace" font-size="9" text-anchor="middle">Z3</text>
+      <text x="100" y="115" fill="rgba(244,244,242,0.5)" font-family="DM Mono,monospace" font-size="7" text-anchor="middle">Thyroid Panel</text>
+      <text x="100" y="128" fill="rgba(244,244,242,0.5)" font-family="DM Mono,monospace" font-size="7" text-anchor="middle">HbA1c</text>
+      <text x="260" y="115" fill="rgba(244,244,242,0.5)" font-family="DM Mono,monospace" font-size="7" text-anchor="middle">GI-MAP</text>
+      <text x="260" y="128" fill="rgba(244,244,242,0.5)" font-family="DM Mono,monospace" font-size="7" text-anchor="middle">Vitamin D</text>
+      <text x="180" y="230" fill="rgba(244,244,242,0.5)" font-family="DM Mono,monospace" font-size="7" text-anchor="middle">Homocysteine</text>
+      <text x="180" y="135" fill="#F4F4F2" font-family="DM Mono,monospace" font-size="8" font-weight="bold" text-anchor="middle">Dual-yield</text>
+      <text x="180" y="148" fill="rgba(244,244,242,0.6)" font-family="DM Mono,monospace" font-size="7" text-anchor="middle">FBC, Iron, CMP</text>
+    </svg>
+  </div>
+  <div class="vm-la6f4-savings">
+    <span class="vm-la6f4-savings-label">Estimated dual-yield savings:</span>
+    <span class="vm-la6f4-savings-val" id="vm-la6f4-counter">GBP 0</span>
+  </div>
+  <div class="vm-la6f4-legend">
+    <span class="vm-la6f4-leg"><span class="vm-la6f4-leg-dot" style="background:#C9A84C;"></span>Z1 Metabolic Energy</span>
+    <span class="vm-la6f4-leg"><span class="vm-la6f4-leg-dot" style="background:#1A7A8A;"></span>Z2 Resilience</span>
+    <span class="vm-la6f4-leg"><span class="vm-la6f4-leg-dot" style="background:#7B5EA7;"></span>Z3 Cardiovascular-Neural</span>
+  </div>
+</div>
+<script>
+(function(){
+  var target=85;
+  var current=0;
+  var el=document.getElementById('vm-la6f4-counter');
+  var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(reducedMotion){
+    el.textContent='GBP '+target;
+    return;
+  }
+
+  var counted=false;
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&!counted){
+      counted=true;
+      var iv=setInterval(function(){
+        current+=3;
+        if(current>=target){current=target;clearInterval(iv);}
+        el.textContent='GBP '+current;
+      },40);
+      obs.disconnect();
+    }
+  },{threshold:0.5});
+  obs.observe(el);
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6F5: Lab Cost Comparison Bars                               -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){
+  .vm-la6f5-bar-fill{transition:none!important;}
+}
+.vm-la6f5-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:20px auto;max-width:1100px;}
+.vm-la6f5-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.vm-la6f5-sub{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.vm-la6f5-table{width:100%;}
+.vm-la6f5-row{display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center;margin-bottom:8px;}
+.vm-la6f5-test-name{font-family:var(--fm);font-size:9px;color:var(--t80);}
+.vm-la6f5-bars{display:flex;flex-direction:column;gap:3px;}
+.vm-la6f5-bar-row{display:flex;align-items:center;gap:6px;}
+.vm-la6f5-bar-label{font-family:var(--fm);font-size:7px;color:var(--t35);min-width:60px;text-align:right;}
+.vm-la6f5-bar-track{flex:1;height:10px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden;}
+.vm-la6f5-bar-fill{height:100%;border-radius:3px;transition:width 1s ease-out;width:0;}
+.vm-la6f5-bar-fill.vm-la6f5-shown{width:var(--w);}
+.vm-la6f5-bar-cost{font-family:var(--fm);font-size:8px;color:var(--t55);min-width:50px;}
+.vm-la6f5-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:12px;line-height:1.6;}
+</style>
+<div class="vm-la6f5-wrap">
+  <div class="vm-la6f5-title">Lab Cost Comparison Bars</div>
+  <div class="vm-la6f5-sub">NHS vs Private vs Specialist animated bars per investigation</div>
+  <div class="vm-la6f5-table" id="vm-la6f5-table"></div>
+  <div class="vm-la6f5-note">Costs are indicative estimates only. Actual prices vary by laboratory and region. NHS costs reflect internal pathology budgets, not patient charges. S4 THEORETICAL. DRD = Highest burden zone.</div>
+</div>
+<script>
+(function(){
+  var tests=[
+    {name:'Full Thyroid Panel',nhs:15,priv:85,spec:145},
+    {name:'Iron Studies',nhs:8,priv:45,spec:70},
+    {name:'HbA1c',nhs:5,priv:35,spec:50},
+    {name:'Vitamin D',nhs:10,priv:40,spec:65},
+    {name:'Cortisol (AM)',nhs:12,priv:55,spec:90},
+    {name:'GI-MAP',nhs:0,priv:0,spec:350},
+    {name:'DUTCH Hormone',nhs:0,priv:0,spec:280},
+    {name:'Organic Acids',nhs:0,priv:0,spec:220}
+  ];
+
+  var maxCost=0;
+  for(var i=0;i<tests.length;i++){
+    var m=Math.max(tests[i].nhs,tests[i].priv,tests[i].spec);
+    if(m>maxCost) maxCost=m;
+  }
+
+  var tbl=document.getElementById('vm-la6f5-table');
+  var html='';
+  var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var channels=[
+    {key:'nhs',label:'NHS',col:'#1A7A8A'},
+    {key:'priv',label:'Private',col:'#C9A84C'},
+    {key:'spec',label:'Specialist',col:'#7B5EA7'}
+  ];
+
+  for(var i=0;i<tests.length;i++){
+    var t=tests[i];
+    html+='<div class="vm-la6f5-row">';
+    html+='<div class="vm-la6f5-test-name">'+t.name+'</div>';
+    html+='<div class="vm-la6f5-bars">';
+    for(var c=0;c<channels.length;c++){
+      var ch=channels[c];
+      var cost=t[ch.key];
+      var pct=maxCost>0?Math.round(cost/maxCost*100):0;
+      var shownClass=reducedMotion?' vm-la6f5-shown':'';
+      html+='<div class="vm-la6f5-bar-row">';
+      html+='<span class="vm-la6f5-bar-label">'+ch.label+'</span>';
+      html+='<div class="vm-la6f5-bar-track">';
+      html+='<div class="vm-la6f5-bar-fill'+shownClass+'" style="background:'+ch.col+';--w:'+pct+'%;'+(reducedMotion?'width:'+pct+'%;':'')+'"></div>';
+      html+='</div>';
+      html+='<span class="vm-la6f5-bar-cost">'+(cost>0?'GBP '+cost:'N/A')+'</span>';
+      html+='</div>';
+    }
+    html+='</div></div>';
+  }
+  tbl.innerHTML=html;
+
+  if(!reducedMotion){
+    var revealed=false;
+    var obs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting&&!revealed){
+        revealed=true;
+        var fills=tbl.querySelectorAll('.vm-la6f5-bar-fill');
+        for(var k=0;k<fills.length;k++){
+          fills[k].classList.add('vm-la6f5-shown');
+        }
+        obs.disconnect();
+      }
+    },{threshold:0.2});
+    obs.observe(tbl);
+  }
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6-FEAT-BUDGET: Budget Tier Calculator                       -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){.la6fb-anim{animation:none!important;transition:none!important;}}
+.la6fb-wrap{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:20px;margin:20px auto;max-width:1100px;}
+.la6fb-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.la6fb-sub{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.la6fb-tabs{display:flex;gap:6px;margin-bottom:16px;}
+.la6fb-tab{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--t12);background:transparent;color:var(--t55);transition:all .2s;}
+.la6fb-tab:hover{border-color:rgba(201,168,76,.25);color:var(--t80);}
+.la6fb-tab.la6fb-active{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.30);color:var(--gold);}
+.la6fb-tab-price{font-size:7px;color:var(--t35);display:block;margin-top:2px;}
+.la6fb-tab.la6fb-active .la6fb-tab-price{color:rgba(201,168,76,.6);}
+.la6fb-zones{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.la6fb-zone-btn{font-family:var(--fm);font-size:8px;padding:5px 12px;border-radius:100px;cursor:pointer;border:1px solid var(--t12);background:transparent;color:var(--t55);transition:all .2s;}
+.la6fb-zone-btn.la6fb-zon-active{border-color:currentColor;background:rgba(255,255,255,.06);}
+.la6fb-result{background:rgba(255,255,255,.03);border:1px solid var(--t06);border-radius:8px;padding:14px;min-height:80px;}
+.la6fb-result-item{font-family:var(--fd);font-size:12px;color:var(--t80);padding:6px 0;border-bottom:1px solid var(--t06);display:flex;justify-content:space-between;align-items:center;}
+.la6fb-result-item:last-child{border-bottom:none;}
+.la6fb-result-cost{font-family:var(--fm);font-size:9px;color:var(--gold);}
+.la6fb-result-ev{font-family:var(--fm);font-size:7px;padding:2px 6px;border-radius:100px;}
+.la6fb-total{font-family:var(--fm);font-size:10px;color:var(--gold);margin-top:10px;text-align:right;}
+</style>
+<div class="la6fb-wrap" id="la6-feat-budget">
+  <div class="la6fb-title">Budget Tier Calculator</div>
+  <div class="la6fb-sub">APEX: Assessment Priority and Evidence Xray | Select active zones and budget tier</div>
+  <div class="la6fb-tabs" id="la6fb-tabs"></div>
+  <div style="font-family:var(--fm);font-size:8px;color:var(--t35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;">Active Zones</div>
+  <div class="la6fb-zones" id="la6fb-zones"></div>
+  <div class="la6fb-result" id="la6fb-result"></div>
+  <div class="la6fb-total" id="la6fb-total"></div>
+</div>
+<script>
+(function(){
+  var tiers=[
+    {id:1,label:'Tier 1 Essential',price:'GBP 200-400'},
+    {id:2,label:'Tier 2 Comprehensive',price:'GBP 400-800'},
+    {id:3,label:'Tier 3 Full Assessment',price:'GBP 800+'}
+  ];
+  var zones=[
+    {id:'z1',label:'Z1',col:'#C9A84C',name:'Metabolic Energy Axis'},
+    {id:'z2',label:'Z2',col:'#1A7A8A',name:'Resilience Network'},
+    {id:'z3',label:'Z3',col:'#7B5EA7',name:'Cardiovascular-Neural'},
+    {id:'z4',label:'Z4',col:'#5F7C6C',name:'Detoxification Trident'},
+    {id:'z5',label:'Z5',col:'#2E6DB4',name:'Hormonal Terrain Axis'}
+  ];
+  var activeTier=1;
+  var activeZones={z2:true};
+
+  function render(){
+    var tabsEl=document.getElementById('la6fb-tabs');
+    var html='';
+    for(var i=0;i<tiers.length;i++){
+      var t=tiers[i];
+      html+='<button class="la6fb-tab'+(activeTier===t.id?' la6fb-active':'')+'" data-tier="'+t.id+'">'+t.label+'<span class="la6fb-tab-price">'+t.price+'</span></button>';
+    }
+    tabsEl.innerHTML=html;
+    tabsEl.querySelectorAll('.la6fb-tab').forEach(function(b){
+      b.addEventListener('click',function(){activeTier=parseInt(this.dataset.tier);render();});
+    });
+
+    var zonesEl=document.getElementById('la6fb-zones');
+    html='';
+    for(var j=0;j<zones.length;j++){
+      var z=zones[j];
+      html+='<button class="la6fb-zone-btn'+(activeZones[z.id]?' la6fb-zon-active':'')+'" style="color:'+z.col+'" data-zid="'+z.id+'">'+z.label+' '+z.name+'</button>';
+    }
+    zonesEl.innerHTML=html;
+    zonesEl.querySelectorAll('.la6fb-zone-btn').forEach(function(b){
+      b.addEventListener('click',function(){var zid=this.dataset.zid;activeZones[zid]=!activeZones[zid];render();});
+    });
+
+    var resEl=document.getElementById('la6fb-result');
+    var totalEl=document.getElementById('la6fb-total');
+    var items=[];
+    var activeKeys=Object.keys(activeZones).filter(function(k){return activeZones[k];});
+    if(activeKeys.length===0){
+      resEl.innerHTML='<div style="font-family:var(--fm);font-size:9px;color:var(--t35);text-align:center;padding:20px;">Select at least one zone to see prioritised investigations</div>';
+      totalEl.textContent='';
+      return;
+    }
+    activeKeys.forEach(function(zid){
+      if(typeof TESTS!=='undefined'&&TESTS[zid]){
+        var d=TESTS[zid];
+        if(activeTier>=1&&d.p1) d.p1.forEach(function(t){items.push({test:t,zid:zid});});
+        if(activeTier>=2&&d.p2) d.p2.forEach(function(t){items.push({test:t,zid:zid});});
+        if(activeTier>=3&&d.p3) d.p3.forEach(function(t){items.push({test:t,zid:zid});});
+      }
+    });
+    items.sort(function(a,b){return a.test.tier-b.test.tier;});
+    html='';
+    var costMin=0,costMax=0;
+    for(var k=0;k<items.length;k++){
+      var it=items[k].test;
+      var evCls=it.ev==='Established'?'ev-est':(it.ev==='Emerging'?'ev-emg':'ev-obs');
+      html+='<div class="la6fb-result-item"><span>'+it.name+' <span class="la6fb-result-ev '+evCls+'">'+it.ev+'</span></span><span class="la6fb-result-cost">GBP '+it.cost+'</span></div>';
+      var parts=it.cost.split('-');
+      costMin+=parseInt(parts[0]);
+      costMax+=parseInt(parts[1]||parts[0]);
+    }
+    resEl.innerHTML=html;
+    totalEl.textContent='Estimated total: GBP '+costMin+' - '+costMax;
+  }
+  render();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6-FEAT-PRISM: PRISM Evidence Mapper                         -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){.la6fp-line{animation:none!important;transition:none!important;}}
+.la6fp-wrap{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:20px;margin:20px auto;max-width:1100px;}
+.la6fp-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.la6fp-sub{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.la6fp-layout{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.la6fp-zones{display:flex;flex-direction:column;gap:8px;flex:0 0 180px;}
+.la6fp-zone{font-family:var(--fm);font-size:9px;padding:10px 14px;border-radius:8px;cursor:pointer;border:1px solid var(--t12);background:transparent;text-align:left;transition:all .2s;color:var(--t55);}
+.la6fp-zone:hover{border-color:rgba(255,255,255,.15);}
+.la6fp-zone.la6fp-sel{background:rgba(255,255,255,.06);border-color:currentColor;}
+.la6fp-canvas-wrap{flex:1;min-width:300px;position:relative;}
+.la6fp-tests{display:flex;flex-direction:column;gap:6px;min-height:200px;}
+.la6fp-test{font-family:var(--fd);font-size:12px;color:var(--t80);padding:8px 12px;background:rgba(255,255,255,.03);border:1px solid var(--t06);border-radius:6px;display:flex;align-items:center;gap:8px;opacity:0;transform:translateX(10px);transition:all .3s ease;}
+.la6fp-test.la6fp-vis{opacity:1;transform:translateX(0);}
+.la6fp-test-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.la6fp-test-ev{font-family:var(--fm);font-size:7px;padding:2px 6px;border-radius:100px;margin-left:auto;}
+@media(prefers-reduced-motion:reduce){.la6fp-test{transition:none!important;opacity:1!important;transform:none!important;}}
+</style>
+<div class="la6fp-wrap" id="la6-feat-prism">
+  <div class="la6fp-title">PRISM Evidence Mapper</div>
+  <div class="la6fp-sub">Click a zone to see APEX-recommended biomarker tests with animated connections</div>
+  <div class="la6fp-layout">
+    <div class="la6fp-zones" id="la6fp-zones"></div>
+    <div class="la6fp-canvas-wrap">
+      <div class="la6fp-tests" id="la6fp-tests"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var zones=[
+    {id:'z1',label:'Z1',col:'#C9A84C',name:'Metabolic Energy Axis'},
+    {id:'z2',label:'Z2',col:'#1A7A8A',name:'Resilience Network'},
+    {id:'z3',label:'Z3',col:'#7B5EA7',name:'Cardiovascular-Neural'},
+    {id:'z4',label:'Z4',col:'#5F7C6C',name:'Detoxification Trident'},
+    {id:'z5',label:'Z5',col:'#2E6DB4',name:'Hormonal Terrain Axis'}
+  ];
+  var selected='z2';
+  var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render(){
+    var zonesEl=document.getElementById('la6fp-zones');
+    var html='';
+    for(var i=0;i<zones.length;i++){
+      var z=zones[i];
+      html+='<button class="la6fp-zone'+(selected===z.id?' la6fp-sel':'')+'" style="color:'+z.col+'" data-zid="'+z.id+'">'+z.label+' '+z.name+'</button>';
+    }
+    zonesEl.innerHTML=html;
+    zonesEl.querySelectorAll('.la6fp-zone').forEach(function(b){
+      b.addEventListener('click',function(){selected=this.dataset.zid;render();});
+    });
+
+    var testsEl=document.getElementById('la6fp-tests');
+    html='';
+    if(typeof TESTS!=='undefined'&&TESTS[selected]){
+      var allT=[].concat(TESTS[selected].p1||[],TESTS[selected].p2||[],TESTS[selected].p3||[]);
+      var zMeta=null;
+      for(var j=0;j<zones.length;j++){if(zones[j].id===selected) zMeta=zones[j];}
+      for(var k=0;k<allT.length;k++){
+        var t=allT[k];
+        var evCls=t.ev==='Established'?'ev-est':(t.ev==='Emerging'?'ev-emg':'ev-obs');
+        var delay=reducedMotion?0:(k*80);
+        html+='<div class="la6fp-test" style="transition-delay:'+delay+'ms;"><span class="la6fp-test-dot" style="background:'+zMeta.col+';"></span>'+t.name+'<span class="la6fp-test-ev '+evCls+'">'+t.ev+'</span></div>';
+      }
+    }
+    testsEl.innerHTML=html;
+    requestAnimationFrame(function(){
+      testsEl.querySelectorAll('.la6fp-test').forEach(function(el){el.classList.add('la6fp-vis');});
+    });
+  }
+  render();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6-FEAT-RANKER: Investigation Priority Ranker                -->
+<!-- ============================================================ -->
+<style>
+.la6fr-wrap{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:20px;margin:20px auto;max-width:1100px;}
+.la6fr-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.la6fr-sub{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:6px;}
+.la6fr-warn{font-family:var(--fm);font-size:8px;color:rgba(212,160,23,.8);background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.25);border-radius:6px;padding:8px 12px;margin-bottom:14px;}
+.la6fr-list{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
+.la6fr-item{font-family:var(--fd);font-size:12px;color:var(--t80);padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid var(--t06);border-radius:6px;cursor:grab;display:flex;align-items:center;gap:10px;user-select:none;transition:background .15s;}
+.la6fr-item:active{cursor:grabbing;background:rgba(201,168,76,.08);}
+.la6fr-item.la6fr-drag{opacity:.4;}
+.la6fr-item.la6fr-over{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.06);}
+.la6fr-num{font-family:var(--fm);font-size:9px;color:var(--gold);width:18px;text-align:center;}
+.la6fr-grip{font-family:var(--fm);font-size:10px;color:var(--t35);cursor:grab;}
+.la6fr-score-wrap{display:flex;align-items:center;gap:12px;}
+.la6fr-score-label{font-family:var(--fm);font-size:9px;color:var(--t55);}
+.la6fr-score{font-family:var(--fm);font-size:18px;font-weight:500;color:var(--gold);}
+.la6fr-check-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:6px 16px;border-radius:6px;cursor:pointer;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:var(--gold);transition:all .2s;}
+.la6fr-check-btn:hover{background:rgba(201,168,76,.15);}
+</style>
+<div class="la6fr-wrap" id="la6-feat-ranker">
+  <div class="la6fr-title">Investigation Priority Ranker</div>
+  <div class="la6fr-sub">Drag investigations into clinical priority order</div>
+  <div class="la6fr-warn">For practitioner use only. Not a diagnostic tool.</div>
+  <div class="la6fr-list" id="la6fr-list"></div>
+  <div class="la6fr-score-wrap">
+    <button class="la6fr-check-btn" id="la6fr-check">Check Alignment</button>
+    <span class="la6fr-score-label">APEX alignment:</span>
+    <span class="la6fr-score" id="la6fr-score">--</span>
+  </div>
+</div>
+<script>
+(function(){
+  var items=[
+    {name:'Full thyroid panel (TSH, T4, Free T3, rT3)',ideal:1},
+    {name:'4-point diurnal cortisol',ideal:2},
+    {name:'Fasting insulin and HOMA-IR',ideal:3},
+    {name:'hs-CRP',ideal:4},
+    {name:'Secretory IgA (stool)',ideal:5},
+    {name:'Total and free testosterone with SHBG',ideal:6},
+    {name:'Homocysteine',ideal:7},
+    {name:'GGT',ideal:8}
+  ];
+
+  var order=items.map(function(_,i){return i;});
+  // Shuffle initial order
+  for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=order[i];order[i]=order[j];order[j]=tmp;}
+
+  var dragIdx=null;
+
+  function render(){
+    var list=document.getElementById('la6fr-list');
+    var html='';
+    for(var i=0;i<order.length;i++){
+      var it=items[order[i]];
+      html+='<div class="la6fr-item" draggable="true" data-idx="'+i+'"><span class="la6fr-grip">&#9776;</span><span class="la6fr-num">'+(i+1)+'</span>'+it.name+'</div>';
+    }
+    list.innerHTML=html;
+    var els=list.querySelectorAll('.la6fr-item');
+    els.forEach(function(el){
+      el.addEventListener('dragstart',function(e){dragIdx=parseInt(this.dataset.idx);this.classList.add('la6fr-drag');});
+      el.addEventListener('dragend',function(){this.classList.remove('la6fr-drag');dragIdx=null;});
+      el.addEventListener('dragover',function(e){e.preventDefault();this.classList.add('la6fr-over');});
+      el.addEventListener('dragleave',function(){this.classList.remove('la6fr-over');});
+      el.addEventListener('drop',function(e){
+        e.preventDefault();this.classList.remove('la6fr-over');
+        var toIdx=parseInt(this.dataset.idx);
+        if(dragIdx!==null&&dragIdx!==toIdx){
+          var moved=order.splice(dragIdx,1)[0];
+          order.splice(toIdx,0,moved);
+          render();
+        }
+      });
+    });
+  }
+
+  document.getElementById('la6fr-check').addEventListener('click',function(){
+    var score=0;
+    for(var i=0;i<order.length;i++){
+      var diff=Math.abs((i+1)-items[order[i]].ideal);
+      score+=Math.max(0,items.length-diff);
+    }
+    var maxScore=items.length*items.length;
+    var pct=Math.round(score/maxScore*100);
+    document.getElementById('la6fr-score').textContent=pct+'%';
+  });
+
+  render();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6-FEAT-PATHWAY: APEX Pathway Visualiser                     -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){.la6pp-arrow{animation:none!important;}.la6pp-node{transition:none!important;}}
+.la6pp-wrap{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:20px;margin:20px auto;max-width:1100px;}
+.la6pp-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.la6pp-sub{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:14px;}
+.la6pp-flow{display:flex;align-items:center;gap:0;overflow-x:auto;padding:10px 0;}
+.la6pp-node{padding:14px 18px;background:rgba(255,255,255,.04);border:1px solid var(--t12);border-radius:8px;text-align:center;min-width:140px;transition:all .3s;flex-shrink:0;}
+.la6pp-node:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.06);}
+.la6pp-node-label{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--t35);margin-bottom:4px;}
+.la6pp-node-title{font-family:var(--fd);font-size:13px;color:var(--t80);}
+.la6pp-arrow-wrap{display:flex;align-items:center;padding:0 4px;flex-shrink:0;}
+.la6pp-arrow{width:40px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);position:relative;}
+.la6pp-arrow::after{content:'';position:absolute;right:-4px;top:-4px;border:5px solid transparent;border-left:6px solid var(--gold);}
+@keyframes la6pp-pulse{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+.la6pp-arrow{animation:la6pp-pulse 2s ease-in-out infinite;}
+</style>
+<div class="la6pp-wrap" id="la6-feat-pathway">
+  <div class="la6pp-title">APEX Pathway Visualiser</div>
+  <div class="la6pp-sub">L5 Examination Intelligence decision tree: zone burden to investigation selection</div>
+  <div class="la6pp-flow" id="la6pp-flow"></div>
+</div>
+<script>
+(function(){
+  var steps=[
+    {label:'Input',title:'Zone Burden Scores'},
+    {label:'L3',title:'DRD Designation'},
+    {label:'L5',title:'APEX Priority Engine'},
+    {label:'Filter',title:'Budget Allocation'},
+    {label:'Output',title:'Investigation List'}
+  ];
+  var el=document.getElementById('la6pp-flow');
+  var html='';
+  for(var i=0;i<steps.length;i++){
+    if(i>0) html+='<div class="la6pp-arrow-wrap"><div class="la6pp-arrow"></div></div>';
+    html+='<div class="la6pp-node"><div class="la6pp-node-label">'+steps[i].label+'</div><div class="la6pp-node-title">'+steps[i].title+'</div></div>';
+  }
+  el.innerHTML=html;
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6-SV-BRIDGE: State Bridge                                   -->
+<!-- ============================================================ -->
+<style>
+.la6sv-bridge{background:rgba(7,28,51,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;margin:20px auto;max-width:1100px;}
+.la6sv-bridge-title{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.la6sv-bridge-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.la6sv-bridge-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:6px;cursor:pointer;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:var(--gold);transition:all .2s;}
+.la6sv-bridge-btn:hover{background:rgba(201,168,76,.15);}
+.la6sv-bridge-url{flex:1;font-family:var(--fm);font-size:9px;color:var(--t55);background:rgba(255,255,255,.04);border:1px solid var(--t06);border-radius:4px;padding:6px 10px;word-break:break-all;min-height:30px;max-height:60px;overflow-y:auto;}
+</style>
+<div class="la6sv-bridge" id="la6-sv-bridge">
+  <div class="la6sv-bridge-title">State Bridge: Cross-Page Transfer</div>
+  <div class="la6sv-bridge-row">
+    <button class="la6sv-bridge-btn" id="la6-bridge-share">Share State</button>
+    <button class="la6sv-bridge-btn" id="la6-bridge-load">Load State</button>
+    <div class="la6sv-bridge-url" id="la6-bridge-url">No state shared yet</div>
+  </div>
+</div>
+<script>
+(function(){
+  document.getElementById('la6-bridge-share').addEventListener('click',function(){
+    var state={page:'LA6',driver:document.getElementById('driver-select')?document.getElementById('driver-select').value:'z2',budget:typeof activeBudget!=='undefined'?activeBudget:2,ts:Date.now()};
+    var encoded=btoa(JSON.stringify(state));
+    var url=location.origin+location.pathname+'?state='+encoded;
+    document.getElementById('la6-bridge-url').textContent=url;
+    if(navigator.clipboard) navigator.clipboard.writeText(url);
+  });
+  document.getElementById('la6-bridge-load').addEventListener('click',function(){
+    var params=new URLSearchParams(location.search);
+    var s=params.get('state');
+    if(s){
+      try{
+        var state=JSON.parse(atob(s));
+        if(state.driver&&document.getElementById('driver-select')){document.getElementById('driver-select').value=state.driver;}
+        if(state.budget&&typeof setBudget==='function'){setBudget(state.budget);}
+        document.getElementById('la6-bridge-url').textContent='State loaded: '+state.page+' | driver='+state.driver+' | budget=Tier '+state.budget;
+      }catch(e){document.getElementById('la6-bridge-url').textContent='Error decoding state';}
+    }else{document.getElementById('la6-bridge-url').textContent='No state parameter in URL';}
+  });
+  // Auto-load on page load
+  var params=new URLSearchParams(location.search);
+  if(params.get('state')){document.getElementById('la6-bridge-load').click();}
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6-SV-TRACE: Pipeline Trace                                  -->
+<!-- ============================================================ -->
+<style>
+@media(prefers-reduced-motion:reduce){.la6tr-glow{animation:none!important;}}
+.la6tr-wrap{background:var(--card);border:1px solid var(--t12);border-radius:12px;padding:20px;margin:20px auto;max-width:1100px;}
+.la6tr-title{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.la6tr-pipeline{display:flex;align-items:center;gap:0;overflow-x:auto;padding:10px 0;}
+.la6tr-stage{padding:12px 16px;border:1px solid var(--t12);border-radius:8px;text-align:center;position:relative;flex-shrink:0;min-width:120px;background:rgba(255,255,255,.03);}
+.la6tr-stage-label{font-family:var(--fm);font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--t35);}
+.la6tr-stage-name{font-family:var(--fd);font-size:11px;color:var(--t80);margin-top:2px;}
+.la6tr-conn{width:30px;height:2px;background:var(--gold);position:relative;flex-shrink:0;opacity:.5;}
+.la6tr-glow{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--gold);top:-3px;left:0;animation:la6tr-flow 1.5s linear infinite;box-shadow:0 0 8px rgba(201,168,76,.6);}
+@keyframes la6tr-flow{0%{left:0;opacity:1}100%{left:100%;opacity:0}}
+.la6tr-stage.la6tr-active{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.06);}
+</style>
+<div class="la6tr-wrap" id="la6-sv-trace">
+  <div class="la6tr-title">Pipeline Trace: Computation Flow</div>
+  <div class="la6tr-pipeline" id="la6tr-pipeline"></div>
+</div>
+<script>
+(function(){
+  var stages=[
+    {label:'Stage 1',name:'Input Data'},
+    {label:'Stage 2',name:'Zone Burden'},
+    {label:'Stage 3',name:'APEX Priority'},
+    {label:'Stage 4',name:'Budget Filter'},
+    {label:'Stage 5',name:'Investigation List'}
+  ];
+  var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var el=document.getElementById('la6tr-pipeline');
+  var html='';
+  for(var i=0;i<stages.length;i++){
+    if(i>0){
+      html+='<div class="la6tr-conn">';
+      if(!reducedMotion) html+='<div class="la6tr-glow"></div>';
+      html+='</div>';
+    }
+    html+='<div class="la6tr-stage"><div class="la6tr-stage-label">'+stages[i].label+'</div><div class="la6tr-stage-name">'+stages[i].name+'</div></div>';
+  }
+  el.innerHTML=html;
+
+  // Animate active stage
+  if(!reducedMotion){
+    var idx=0;
+    var allStages=el.querySelectorAll('.la6tr-stage');
+    setInterval(function(){
+      allStages.forEach(function(s){s.classList.remove('la6tr-active');});
+      allStages[idx].classList.add('la6tr-active');
+      idx=(idx+1)%allStages.length;
+    },1200);
+  }
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- LA6-SV-NAV: Architecture Navigator                            -->
+<!-- ============================================================ -->
+<style>
+.la6sv-nav{position:fixed;bottom:16px;right:16px;z-index:200;background:rgba(7,28,51,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px;width:180px;font-family:var(--fm);}
+.la6sv-nav-title{font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.la6sv-nav-grid{display:flex;flex-wrap:wrap;gap:6px;}
+.la6sv-nav-dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--t12);display:flex;align-items:center;justify-content:center;font-size:6px;color:var(--t55);cursor:pointer;text-decoration:none;transition:all .2s;background:transparent;}
+.la6sv-nav-dot:hover{border-color:rgba(201,168,76,.4);color:var(--t80);}
+.la6sv-nav-dot.la6sv-nav-cur{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.12);box-shadow:0 0 8px rgba(201,168,76,.3);}
+.la6sv-nav-toggle{position:fixed;bottom:16px;right:16px;z-index:201;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,.3);background:rgba(7,28,51,.92);color:var(--gold);font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
+</style>
+<div class="la6sv-nav" id="la6-sv-nav">
+  <div class="la6sv-nav-title">Architecture Navigator</div>
+  <div class="la6sv-nav-grid" id="la6-nav-grid"></div>
+</div>
+<script>
+(function(){
+  var pages=[
+    {id:'LA4',label:'LA4',href:'LA4_',cur:false},
+    {id:'LA5',label:'LA5',href:'LA5_',cur:false},
+    {id:'LA6',label:'LA6',href:'LA6_',cur:true},
+    {id:'LA7',label:'LA7',href:'LA7_',cur:false},
+    {id:'LA8',label:'LA8',href:'LA8_',cur:false},
+    {id:'LA9',label:'LA9',href:'LA9_',cur:false},
+    {id:'LA10',label:'LA10',href:'LA10_',cur:false},
+    {id:'CA',label:'CA',href:'CascadeAtlas',cur:false},
+    {id:'NCZ',label:'NCZ',href:'NCZ',cur:false}
+  ];
+  var grid=document.getElementById('la6-nav-grid');
+  var html='';
+  for(var i=0;i<pages.length;i++){
+    var p=pages[i];
+    html+='<a class="la6sv-nav-dot'+(p.cur?' la6sv-nav-cur':'')+'" title="'+p.id+'">'+p.label+'</a>';
+  }
+  grid.innerHTML=html;
+})();
+</script>
+
+<!-- ============================================================
+     SV-04: TERRAIN PARTICLE NETWORK | LA-6
+     ============================================================ -->
+<style>
+#la6-sv4-wrap{background:rgba(7,28,51,.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:28px 24px 20px;margin:48px auto 32px;max-width:660px;}
+#la6-sv4-title{font-family:var(--fs,'Cormorant Garamond',Georgia,serif);font-weight:300;font-size:1.35rem;color:#F4F4F2;margin-bottom:4px;}
+#la6-sv4-sub{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#C9A84C;margin-bottom:16px;}
+#la6-sv4-canvas{display:block;margin:0 auto;border-radius:8px;background:rgba(12,68,82,0.35);cursor:pointer;}
+#la6-sv4-info{font-family:var(--fm,'DM Mono',monospace);font-size:9px;color:rgba(244,244,242,.55);text-align:center;margin-top:10px;letter-spacing:.12em;}
+@media(prefers-reduced-motion:reduce){#la6-sv4-canvas{opacity:0.7;}}
+</style>
+<div id="la6-sv4-wrap">
+  <div id="la6-sv4-title">Terrain Particle Network</div>
+  <div id="la6-sv4-sub">SV-04 &middot; CASCADE FLOW VISUALISATION</div>
+  <canvas id="la6-sv4-canvas" width="600" height="400"></canvas>
+  <div id="la6-sv4-info">CLICK A ZONE NODE TO HIGHLIGHT CASCADES</div>
+</div>
+<script>
+(function(){
+  var canvas=document.getElementById('la6-sv4-canvas');
+  if(!canvas||!canvas.getContext)return;
+  var ctx=canvas.getContext('2d');
+  var W=600,H=400,cx=W/2,cy=H/2;
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  var zones=[
+    {id:'Z1',label:'Z1',sub:'(metabolic)',x:cx,y:55,color:'#C9A84C',r:'201,168,76'},
+    {id:'Z2',label:'Z2',sub:'(immune)',x:cx+220,y:165,color:'#1A7A8A',r:'26,122,138'},
+    {id:'Z3',label:'Z3',sub:'(neuro)',x:cx+136,y:345,color:'#7B5EA7',r:'123,94,167'},
+    {id:'Z4',label:'Z4',sub:'(structural)',x:cx-136,y:345,color:'#5F7C6C',r:'95,124,108'},
+    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#2E6DB4',r:'46,109,180'}
+  ];
+
+  var cascades=[
+    {id:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:''},
+    {id:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:''},
+    {id:'S3',from:3,to:0,color:'#5F7C6C',speed:1.2,dash:false,label:''},
+    {id:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'THEORETICAL'},
+    {id:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:''},
+    {id:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'UNIDIRECTIONAL'}
+  ];
+
+  var particles=[];
+  var selected=-1;
+  var animId=null;
+
+  function spawnParticle(ci){
+    var c=cascades[ci];
+    var f=zones[c.from];var t=zones[c.to];
+    particles.push({cx:ci,x:f.x,y:f.y,tx:t.x,ty:t.y,p:0,speed:c.speed,color:c.color,dash:c.dash,alpha:1});
+  }
+
+  function init(){
+    var i;
+    for(i=0;i<cascades.length;i++){
+      spawnParticle(i);
+      spawnParticle(i);
+    }
+  }
+
+  function isActive(ci){
+    if(selected===-1)return true;
+    var c=cascades[ci];
+    return c.from===selected||c.to===selected;
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    var i,j,c,f,t,p;
+
+    for(i=0;i<cascades.length;i++){
+      c=cascades[i];f=zones[c.from];t=zones[c.to];
+      var active=isActive(i);
+      ctx.save();
+      ctx.globalAlpha=active?0.55:0.12;
+      ctx.strokeStyle=c.color;
+      ctx.lineWidth=active?2:1;
+      if(c.dash){ctx.setLineDash([6,4]);}else{ctx.setLineDash([]);}
+      ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(t.x,t.y);ctx.stroke();
+      if(c.label){
+        var mx=(f.x+t.x)/2;var my=(f.y+t.y)/2;
+        ctx.font='7px "DM Mono",monospace';
+        ctx.fillStyle=c.color;
+        ctx.globalAlpha=active?0.8:0.2;
+        ctx.textAlign='center';
+        ctx.fillText(c.label,mx,my-6);
+      }
+      var mx2=(f.x+t.x)/2;var my2=(f.y+t.y)/2;
+      ctx.font='8px "DM Mono",monospace';
+      ctx.fillStyle='rgba(244,244,242,0.45)';
+      ctx.globalAlpha=active?0.6:0.15;
+      ctx.textAlign='center';
+      ctx.fillText(c.id,mx2,my2+10);
+      ctx.restore();
+    }
+
+    for(i=0;i<particles.length;i++){
+      p=particles[i];
+      var pActive=isActive(p.cx);
+      if(!reduced){
+        p.p+=p.speed*0.008;
+        if(p.p>=1){p.p=0;p.alpha=1;}
+        p.alpha=1-p.p*0.6;
+      }
+      var px=p.x+(p.tx-p.x)*p.p;
+      var py=p.y+(p.ty-p.y)*p.p;
+      ctx.save();
+      ctx.globalAlpha=pActive?(p.alpha*0.9):0.08;
+      ctx.fillStyle=p.color;
+      ctx.shadowColor=p.color;
+      ctx.shadowBlur=pActive?10:0;
+      ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);ctx.fill();
+      if(pActive&&!reduced){
+        ctx.globalAlpha=p.alpha*0.25;
+        ctx.beginPath();ctx.arc(px,py,7,0,Math.PI*2);ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    for(i=0;i<zones.length;i++){
+      var z=zones[i];
+      var zActive=(selected===-1||selected===i);
+      ctx.save();
+      ctx.globalAlpha=zActive?1:0.35;
+      ctx.fillStyle=z.color;
+      ctx.shadowColor=z.color;
+      ctx.shadowBlur=zActive?18:0;
+      ctx.beginPath();ctx.arc(z.x,z.y,16,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#071C33';
+      ctx.font='bold 10px "DM Mono",monospace';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.shadowBlur=0;
+      ctx.fillText(z.label,z.x,z.y);
+      ctx.restore();
+      ctx.save();
+      ctx.globalAlpha=zActive?0.6:0.2;
+      ctx.fillStyle=z.color;
+      ctx.font='7px "DM Mono",monospace';
+      ctx.textAlign='center';
+      ctx.fillText(z.sub,z.x,z.y+28);
+      ctx.restore();
+    }
+
+    if(!reduced){animId=requestAnimationFrame(draw);}
+  }
+
+  canvas.addEventListener('click',function(e){
+    var rect=canvas.getBoundingClientRect();
+    var mx=(e.clientX-rect.left)*(W/rect.width);
+    var my=(e.clientY-rect.top)*(H/rect.height);
+    var i,z,dx,dy,hit=-1;
+    for(i=0;i<zones.length;i++){
+      z=zones[i];dx=mx-z.x;dy=my-z.y;
+      if(dx*dx+dy*dy<900){hit=i;break;}
+    }
+    selected=(hit===selected)?-1:hit;
+    if(reduced){draw();}
+  });
+
+  init();
+  draw();
+})();
+</script>
+
+<!-- ============================================================
+     SV-05: TERRAIN PULSE MONITOR | LA-6
+     ============================================================ -->
+<style>
+#la6-sv5-wrap{background:rgba(7,28,51,.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:28px 24px 20px;margin:0 auto 48px;max-width:660px;}
+#la6-sv5-title{font-family:var(--fs,'Cormorant Garamond',Georgia,serif);font-weight:300;font-size:1.35rem;color:#F4F4F2;margin-bottom:4px;}
+#la6-sv5-sub{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#C9A84C;margin-bottom:16px;}
+#la6-sv5-svg{display:block;margin:0 auto;}
+#la6-sv5-sliders{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px;}
+.la6-sv5-sld{display:flex;flex-direction:column;align-items:center;}
+.la6-sv5-sld label{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px;}
+.la6-sv5-sld input[type=range]{width:80px;accent-color:#C9A84C;cursor:pointer;}
+.la6-sv5-sld .la6-sv5-val{font-family:var(--fm,'DM Mono',monospace);font-size:10px;color:rgba(244,244,242,.7);margin-top:2px;}
+@media(prefers-reduced-motion:reduce){#la6-sv5-sweep{display:none;}.la6-sv5-pulse{animation:none!important;}}
+</style>
+<div id="la6-sv5-wrap">
+  <div id="la6-sv5-title">Terrain Pulse Monitor</div>
+  <div id="la6-sv5-sub">SV-05 &middot; ZONE BURDEN RADAR</div>
+  <svg id="la6-sv5-svg" viewBox="0 0 400 400" width="400" height="400"></svg>
+  <div id="la6-sv5-sliders"></div>
+</div>
+<script>
+(function(){
+  var svg=document.getElementById('la6-sv5-svg');
+  var sliderBox=document.getElementById('la6-sv5-sliders');
+  if(!svg||!sliderBox)return;
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var ns='http://www.w3.org/2000/svg';
+  var CX=200,CY=200,MAX_R=150,MIN_R=30;
+
+  var zones=[
+    {id:'Z1',label:'Z1',color:'#C9A84C',angle:-90,thresh:40,val:50},
+    {id:'Z2',label:'Z2',color:'#1A7A8A',angle:-18,thresh:40,val:50},
+    {id:'Z3',label:'Z3',color:'#7B5EA7',angle:54,thresh:40,val:50},
+    {id:'Z4',label:'Z4',color:'#5F7C6C',angle:126,thresh:40,val:50},
+    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#2E6DB4',angle:198,thresh:32,val:50}
+  ];
+
+  function rad(d){return d*Math.PI/180;}
+  function endXY(a,r){return{x:CX+Math.cos(rad(a))*r,y:CY+Math.sin(rad(a))*r};}
+  function displayScore(internal){return Math.round((100-internal)/10);}
+  function n6Dampen(v){return Math.round(v*0.7);}
+
+  function buildSVG(){
+    var html='';
+    html+='<circle cx="'+CX+'" cy="'+CY+'" r="'+MAX_R+'" fill="none" stroke="rgba(244,244,242,0.06)" stroke-width="1"/>';
+    html+='<circle cx="'+CX+'" cy="'+CY+'" r="'+(MAX_R*0.66)+'" fill="none" stroke="rgba(244,244,242,0.04)" stroke-width="1"/>';
+    html+='<circle cx="'+CX+'" cy="'+CY+'" r="'+(MAX_R*0.33)+'" fill="none" stroke="rgba(244,244,242,0.04)" stroke-width="1"/>';
+    var i,z,ep;
+    for(i=0;i<zones.length;i++){
+      z=zones[i];
+      ep=endXY(z.angle,MAX_R);
+      html+='<line x1="'+CX+'" y1="'+CY+'" x2="'+ep.x+'" y2="'+ep.y+'" stroke="rgba(244,244,242,0.08)" stroke-width="1"/>';
+    }
+
+    for(i=0;i<zones.length;i++){
+      z=zones[i];
+      var pctRaw=z.val/100;
+      var armR=MIN_R+(MAX_R-MIN_R)*pctRaw;
+      var dp=endXY(z.angle,armR);
+      var dampened=n6Dampen(z.val);
+      var ds=displayScore(dampened);
+      var aboveThresh=z.val>=z.thresh;
+      var nearThresh=!aboveThresh&&z.val>=(z.thresh-5);
+
+      if(nearThresh){
+        var warnR=MIN_R+(MAX_R-MIN_R)*(z.thresh/100);
+        var wp=endXY(z.angle,warnR);
+        html+='<circle cx="'+wp.x+'" cy="'+wp.y+'" r="10" fill="none" stroke="#D4A017" stroke-width="1.5" opacity="0.5">';
+        if(!reduced){html+='<animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>';}
+        html+='</circle>';
+      }
+
+      var glowOp=aboveThresh?'0.6':'0.15';
+      html+='<circle cx="'+dp.x+'" cy="'+dp.y+'" r="'+(aboveThresh?8:5)+'" fill="'+z.color+'" opacity="'+glowOp+'">';
+      if(!reduced&&aboveThresh){html+='<animate attributeName="r" values="8;12;8" dur="1.5s" repeatCount="indefinite"/>';html+='<animate attributeName="opacity" values="0.6;0.3;0.6" dur="1.5s" repeatCount="indefinite"/>';}
+      html+='</circle>';
+      html+='<circle cx="'+dp.x+'" cy="'+dp.y+'" r="4" fill="'+z.color+'"/>';
+
+      var lp=endXY(z.angle,MAX_R+20);
+      html+='<text x="'+lp.x+'" y="'+lp.y+'" text-anchor="middle" dominant-baseline="middle" fill="'+z.color+'" font-family="\'DM Mono\',monospace" font-size="8" letter-spacing="0.15em">'+z.id+'</text>';
+      html+='<text x="'+lp.x+'" y="'+(lp.y+12)+'" text-anchor="middle" dominant-baseline="middle" fill="rgba(244,244,242,0.5)" font-family="\'DM Mono\',monospace" font-size="9">'+ds+'</text>';
+    }
+
+    if(!reduced){
+      html+='<line id="la6-sv5-sweep" x1="'+CX+'" y1="'+CY+'" x2="'+CX+'" y2="'+(CY-MAX_R)+'" stroke="rgba(201,168,76,0.25)" stroke-width="1">';
+      html+='<animateTransform attributeName="transform" type="rotate" from="0 '+CX+' '+CY+'" to="360 '+CX+' '+CY+'" dur="4s" repeatCount="indefinite"/>';
+      html+='</line>';
+    }
+
+    svg.innerHTML=html;
+  }
+
+  function buildSliders(){
+    var html='';var i,z;
+    for(i=0;i<zones.length;i++){
+      z=zones[i];
+      var ds=displayScore(n6Dampen(z.val));
+      html+='<div class="la6-sv5-sld"><label style="color:'+z.color+'">'+z.id+'</label>';
+      html+='<input type="range" min="0" max="100" value="'+z.val+'" data-zi="'+i+'" aria-label="'+z.id+' burden score">';
+      html+='<span class="la6-sv5-val" id="la6-sv5-v'+i+'">'+ds+'</span></div>';
+    }
+    sliderBox.innerHTML=html;
+    var inputs=sliderBox.querySelectorAll('input[type=range]');
+    for(i=0;i<inputs.length;i++){
+      inputs[i].addEventListener('input',function(){
+        var idx=parseInt(this.getAttribute('data-zi'),10);
+        zones[idx].val=parseInt(this.value,10);
+        var d=displayScore(n6Dampen(zones[idx].val));
+        document.getElementById('la6-sv5-v'+idx).textContent=d;
+        buildSVG();
+      });
+    }
+  }
+
+  buildSVG();
+  buildSliders();
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- UPGRADE 1: Patient Case Presets                               -->
+<!-- ============================================================ -->
+<style>
+#la6-preset-bar{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;margin:20px auto;max-width:1100px;}
+#la6-preset-bar .preset-bar-label{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,244,242,.55);margin-bottom:12px;}
+.la6-preset-btn{font-family:var(--fm,'DM Mono',monospace);font-size:9px;letter-spacing:.06em;padding:10px 18px;border-radius:8px;cursor:pointer;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(244,244,242,.72);transition:all .25s;display:inline-block;margin:0 6px 6px 0;text-align:left;line-height:1.5;}
+.la6-preset-btn:hover{border-color:rgba(201,168,76,.3);color:#C9A84C;}
+.la6-preset-btn.la6-preset-active{border-color:#C9A84C;background:rgba(201,168,76,.08);color:#C9A84C;box-shadow:0 0 12px rgba(201,168,76,.12);}
+.la6-preset-btn .preset-name{font-weight:500;display:block;}
+.la6-preset-btn .preset-desc{font-size:8px;color:rgba(244,244,242,.45);display:block;margin-top:2px;}
+.la6-preset-btn.la6-preset-active .preset-desc{color:rgba(201,168,76,.6);}
+@media(prefers-reduced-motion:reduce){.la6-preset-btn{transition:none!important;}}
+</style>
+<div id="la6-preset-bar">
+  <div class="preset-bar-label">PATIENT CASE PRESETS</div>
+  <div id="la6-preset-btns"></div>
+</div>
+<script>
+(function(){
+  var PRESETS=[
+    {key:'mark',name:'Mark',desc:'TerrainLock active (S1+S2+S4)',z1:65,z2:72,z3:35,z4:28,z5:68,driver:'z2'},
+    {key:'sarah',name:'Sarah',desc:'Z1 dominant improving (single zone burden)',z1:55,z2:30,z3:25,z4:20,z5:22,driver:'z1'},
+    {key:'james',name:'James',desc:'Z5 near-threshold (Z5 at threshold edge)',z1:38,z2:42,z3:30,z4:35,z5:30,driver:'z2'},
+    {key:'priya',name:'Priya',desc:'Multi-zone elevated (widespread moderate burden)',z1:48,z2:52,z3:45,z4:50,z5:40,driver:'z2'}
+  ];
+  var activePreset=null;
+  var wrap=document.getElementById('la6-preset-btns');
+  var html='';
+  for(var i=0;i<PRESETS.length;i++){
+    var p=PRESETS[i];
+    html+='<button class="la6-preset-btn" id="la6-preset-'+p.key+'" data-pi="'+i+'">';
+    html+='<span class="preset-name">'+p.name+'</span>';
+    html+='<span class="preset-desc">'+p.desc+'</span>';
+    html+='</button>';
+  }
+  wrap.innerHTML=html;
+
+  function applyPreset(idx){
+    var p=PRESETS[idx];
+    /* LA6 uses driver-select and budget rather than individual zone sliders.
+       Set the driver to the highest burden zone from the preset, then
+       also set any range sliders on the page (SV-05 radar). */
+    var highZ='z1';var highV=0;
+    var map={z1:p.z1,z2:p.z2,z3:p.z3,z4:p.z4,z5:p.z5};
+    var keys=['z1','z2','z3','z4','z5'];
+    for(var k=0;k<keys.length;k++){
+      if(map[keys[k]]>highV){highV=map[keys[k]];highZ=keys[k];}
+    }
+    var driverSel=document.getElementById('driver-select');
+    if(driverSel){driverSel.value=highZ;}
+    /* Set any range sliders on page (SV-05 radar sliders) */
+    var allSliders=document.querySelectorAll('input[type=range][data-zi]');
+    for(var s=0;s<allSliders.length;s++){
+      var zi=parseInt(allSliders[s].getAttribute('data-zi'),10);
+      if(zi>=0&&zi<keys.length){
+        allSliders[s].value=map[keys[zi]];
+        allSliders[s].dispatchEvent(new Event('input',{bubbles:true}));
+      }
+    }
+    if(typeof update==='function'){update();}
+    activePreset=idx;
+    var btns=wrap.querySelectorAll('.la6-preset-btn');
+    for(var b=0;b<btns.length;b++){
+      btns[b].classList.toggle('la6-preset-active',b===idx);
+    }
+  }
+
+  var btns=wrap.querySelectorAll('.la6-preset-btn');
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(){
+      applyPreset(parseInt(this.getAttribute('data-pi'),10));
+    });
+  }
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- UPGRADE 2: Clinical Walkthrough Mode                          -->
+<!-- ============================================================ -->
+<style>
+#la6-walk-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9998;display:none;pointer-events:none;}
+#la6-walk-tooltip{position:fixed;z-index:10000;background:rgba(7,28,51,0.95);border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:20px 24px;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.5);display:none;}
+#la6-walk-tooltip .walk-step-num{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#C9A84C;margin-bottom:6px;}
+#la6-walk-tooltip .walk-step-title{font-family:var(--fs,'Cormorant Garamond',Georgia,serif);font-size:1.1rem;font-weight:600;color:#F4F4F2;margin-bottom:6px;}
+#la6-walk-tooltip .walk-step-desc{font-family:var(--fd,'Outfit',system-ui,sans-serif);font-size:12px;color:rgba(244,244,242,.65);line-height:1.55;margin-bottom:14px;}
+.la6-walk-btn{font-family:var(--fm,'DM Mono',monospace);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:6px;cursor:pointer;border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.08);color:#C9A84C;transition:all .2s;margin-right:6px;}
+.la6-walk-btn:hover{background:rgba(201,168,76,.15);}
+.la6-walk-btn-skip{background:transparent;border-color:rgba(255,255,255,.12);color:rgba(244,244,242,.55);}
+.la6-walk-btn-skip:hover{border-color:rgba(255,255,255,.25);color:rgba(244,244,242,.8);}
+#la6-walk-start{font-family:var(--fm,'DM Mono',monospace);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:8px 20px;border-radius:6px;cursor:pointer;border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.08);color:#C9A84C;transition:all .2s;margin:12px auto;display:block;}
+#la6-walk-start:hover{background:rgba(201,168,76,.15);border-color:#C9A84C;}
+.la6-walk-highlight{box-shadow:0 0 0 4px rgba(201,168,76,0.5),0 0 40px rgba(201,168,76,0.15)!important;position:relative;z-index:9999!important;pointer-events:auto!important;}
+@media(prefers-reduced-motion:reduce){.la6-walk-highlight{box-shadow:0 0 0 4px rgba(201,168,76,0.5)!important;}}
+</style>
+<button id="la6-walk-start">Start Walkthrough</button>
+<div id="la6-walk-overlay"></div>
+<div id="la6-walk-tooltip">
+  <div class="walk-step-num" id="la6-walk-counter"></div>
+  <div class="walk-step-title" id="la6-walk-title"></div>
+  <div class="walk-step-desc" id="la6-walk-desc"></div>
+  <div>
+    <button class="la6-walk-btn" id="la6-walk-next">Next</button>
+    <button class="la6-walk-btn la6-walk-btn-skip" id="la6-walk-skip">Skip</button>
+  </div>
+</div>
+<script>
+(function(){
+  var steps=[
+    {target:'#driver-select',title:'Zone Selection',desc:'Select the highest burden zone to investigate. APEX sequences non-invasive tests around this zone as the primary focus.'},
+    {target:'.budget-btn-row',title:'APEX Budget',desc:'Choose a budget tier to control how many investigation phases are displayed. Tier 1 covers essentials; Tier 3 provides full assessment.'},
+    {target:'#planner',title:'Investigation List',desc:'The phased investigation plan shows recommended non-invasive tests with evidence tiers and approximate costs for the selected zone.'},
+    {target:'.budget-bar',title:'Cross-Zone Finder',desc:'The budget summary bar tracks total estimated cost against your selected tier and shows how spending distributes across investigation phases.'}
+  ];
+  var current=-1;
+  var overlay=document.getElementById('la6-walk-overlay');
+  var tooltip=document.getElementById('la6-walk-tooltip');
+  var prevHighlight=null;
+
+  function showStep(idx){
+    if(prevHighlight){prevHighlight.classList.remove('la6-walk-highlight');}
+    if(idx>=steps.length||idx<0){endWalk();return;}
+    current=idx;
+    var s=steps[idx];
+    var el=document.querySelector(s.target);
+    if(el){
+      el.classList.add('la6-walk-highlight');
+      prevHighlight=el;
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    document.getElementById('la6-walk-counter').textContent='STEP '+(idx+1)+' OF '+steps.length;
+    document.getElementById('la6-walk-title').textContent=s.title;
+    document.getElementById('la6-walk-desc').textContent=s.desc;
+    overlay.style.display='block';
+    tooltip.style.display='block';
+    if(el){
+      var r=el.getBoundingClientRect();
+      var tLeft=r.right+16;
+      if(tLeft+340>window.innerWidth){tLeft=r.left-356;}
+      if(tLeft<8){tLeft=8;}
+      var tTop=r.top;
+      if(tTop+200>window.innerHeight){tTop=window.innerHeight-220;}
+      if(tTop<8){tTop=8;}
+      tooltip.style.left=tLeft+'px';
+      tooltip.style.top=tTop+'px';
+    }
+  }
+
+  function endWalk(){
+    if(prevHighlight){prevHighlight.classList.remove('la6-walk-highlight');}
+    overlay.style.display='none';
+    tooltip.style.display='none';
+    current=-1;
+  }
+
+  document.getElementById('la6-walk-start').addEventListener('click',function(){showStep(0);});
+  document.getElementById('la6-walk-next').addEventListener('click',function(){showStep(current+1);});
+  document.getElementById('la6-walk-skip').addEventListener('click',function(){endWalk();});
+  overlay.addEventListener('click',function(){endWalk();});
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- UPGRADE 3: Practitioner Export Report                          -->
+<!-- ============================================================ -->
+<style>
+#la6-report-wrap{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;margin:20px auto;max-width:1100px;}
+#la6-report-wrap .report-bar-label{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,244,242,.55);margin-bottom:12px;}
+#la6-report-output{font-family:var(--fm,'DM Mono',monospace);font-size:10px;color:rgba(244,244,242,.80);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:18px;white-space:pre-wrap;line-height:1.7;display:none;margin-top:12px;}
+.la6-report-btn{font-family:var(--fm,'DM Mono',monospace);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:8px 20px;border-radius:6px;cursor:pointer;border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.08);color:#C9A84C;transition:all .2s;margin-right:8px;}
+.la6-report-btn:hover{background:rgba(201,168,76,.15);border-color:#C9A84C;}
+.la6-report-flash{background:rgba(201,168,76,.25)!important;transition:background .15s;}
+</style>
+<div id="la6-report-wrap">
+  <div class="report-bar-label">PRACTITIONER EXPORT REPORT</div>
+  <div>
+    <button class="la6-report-btn" id="la6-report-gen">Generate Report</button>
+    <button class="la6-report-btn" id="la6-report-copy" style="display:none;">Copy to Clipboard</button>
+    <button class="la6-report-btn" id="la6-report-print" style="display:none;">Print</button>
+  </div>
+  <div id="la6-report-output"></div>
+</div>
+<script>
+(function(){
+  function n6Damp(v){return Math.round(v*0.85);}
+  function dispScore(v){return (10-Math.round(v/10)).toFixed(1);}
+  var THRESHOLDS={z1:40,z2:40,z3:40,z4:40,z5:32};
+  var NAMES={z1:'Z1 Metabolic Energy Axis',z2:'Z2 Resilience Network',z3:'Z3 Cardiovascular-Neural',z4:'Z4 Detoxification Trident',z5:'Z5 Hormonal Terrain Axis (endocrine signalling)'};
+
+  document.getElementById('la6-report-gen').addEventListener('click',function(){
+    var keys=['z1','z2','z3','z4','z5'];
+    /* LA6 may not have individual zone sliders in the main panel;
+       read from SV-05 radar sliders if present, else use defaults */
+    var raw={};var disp={};var active=[];var highest=null;var highVal=0;
+    var radarSliders=document.querySelectorAll('input[type=range][data-zi]');
+    var radarMap={};
+    for(var r=0;r<radarSliders.length;r++){
+      var zi=parseInt(radarSliders[r].getAttribute('data-zi'),10);
+      if(zi>=0&&zi<5){radarMap[keys[zi]]=parseInt(radarSliders[r].value,10);}
+    }
+    for(var i=0;i<keys.length;i++){
+      var k=keys[i];
+      var v=(radarMap[k]!==undefined)?radarMap[k]:30;
+      raw[k]=v;
+      var dampened=(k==='z5')?n6Damp(v):v;
+      disp[k]=dispScore(dampened);
+      if(dampened>=THRESHOLDS[k]){active.push(NAMES[k]);}
+      if(dampened>highVal){highVal=dampened;highest=k;}
+    }
+    var driverSel=document.getElementById('driver-select');
+    var driver=driverSel?driverSel.value:'z2';
+    var budgetTier=(typeof activeBudget!=='undefined')?activeBudget:2;
+    var tlActive=(raw.z1>=THRESHOLDS.z1)&&(raw.z2>=THRESHOLDS.z2)&&(raw.z4>=THRESHOLDS.z4);
+    var lines=[];
+    lines.push('========================================================');
+    lines.push('  Terrain Support Considerations');
+    lines.push('  For practitioner use only. Not a diagnostic tool.');
+    lines.push('========================================================');
+    lines.push('');
+    lines.push('ZONE SCORES (display scale 0-10, inverted):');
+    for(var j=0;j<keys.length;j++){
+      var zk=keys[j];
+      var suffix=(zk==='z5')?' [N6 dampened]':'';
+      lines.push('  '+NAMES[zk]+': '+disp[zk]+suffix);
+    }
+    lines.push('');
+    lines.push('ACTIVE CASCADES (above threshold):');
+    if(active.length>0){
+      for(var a=0;a<active.length;a++){lines.push('  - '+active[a]);}
+    }else{lines.push('  None');}
+    lines.push('');
+    lines.push('HIGHEST BURDEN ZONE: '+(highest?NAMES[highest]:'N/A'));
+    lines.push('SELECTED INVESTIGATION ZONE: '+NAMES[driver]);
+    lines.push('BUDGET TIER: '+budgetTier);
+    lines.push('');
+    lines.push('N6 DAMPENING: Z5 (endocrine signalling) raw='+raw.z5+', dampened='+n6Damp(raw.z5)+' (x0.85)');
+    lines.push('');
+    lines.push('TERRAINLOCK STATUS: '+(tlActive?'ACTIVE (S1+S2+S4 all above threshold)':'Not detected'));
+    lines.push('');
+    lines.push('Timestamp: '+new Date().toISOString());
+    lines.push('Source: LA-6 APEX Investigation Planner | GENOME Handbook V7');
+    lines.push('========================================================');
+
+    var output=document.getElementById('la6-report-output');
+    output.textContent=lines.join('\n');
+    output.style.display='block';
+    document.getElementById('la6-report-copy').style.display='inline-block';
+    document.getElementById('la6-report-print').style.display='inline-block';
+  });
+
+  document.getElementById('la6-report-copy').addEventListener('click',function(){
+    var text=document.getElementById('la6-report-output').textContent;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text);
+      var btn=this;
+      btn.textContent='Copied!';
+      btn.classList.add('la6-report-flash');
+      setTimeout(function(){btn.textContent='Copy to Clipboard';btn.classList.remove('la6-report-flash');},1200);
+    }
+  });
+
+  document.getElementById('la6-report-print').addEventListener('click',function(){
+    window.print();
+  });
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- UPGRADE 4: Cross-Page State Continuity                        -->
+<!-- ============================================================ -->
+<style>
+#la6-cont-wrap{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;margin:20px auto;max-width:1100px;}
+#la6-cont-wrap .cont-label{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,244,242,.55);margin-bottom:12px;}
+.la6-cont-btn{font-family:var(--fm,'DM Mono',monospace);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;border-radius:6px;cursor:pointer;border:1px solid rgba(201,168,76,.30);background:rgba(201,168,76,.06);color:#C9A84C;transition:all .2s;margin:0 6px 6px 0;}
+.la6-cont-btn:hover{background:rgba(201,168,76,.14);border-color:#C9A84C;}
+</style>
+<div id="la6-cont-wrap">
+  <div class="cont-label">OPEN CURRENT STATE IN OTHER TOOLS</div>
+  <div id="la6-cont-btns">
+    <button class="la6-cont-btn" data-target="LA4_DRD_Visualiser_D53_2026-04-11_v2.html">Open in LA4 DRD</button>
+    <button class="la6-cont-btn" data-target="LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html">Open in LA5 KINETICS</button>
+    <button class="la6-cont-btn" data-target="LA7_TerrainLock_LoopVisualiser_D53_2026-04-11_v2.html">Open in LA7 TerrainLock</button>
+    <button class="la6-cont-btn" data-target="LA10_TIQ_CompositeScore_D53_2026-04-11_v2.html">Open in LA10 TIQ</button>
+  </div>
+</div>
+<script>
+(function(){
+  function gatherState(){
+    var state={page:'LA6'};
+    var driverSel=document.getElementById('driver-select');
+    if(driverSel){state.driver=driverSel.value;}
+    state.budget=(typeof activeBudget!=='undefined')?activeBudget:2;
+    /* Also encode SV-05 radar slider values if present */
+    var keys=['z1','z2','z3','z4','z5'];
+    var radarSliders=document.querySelectorAll('input[type=range][data-zi]');
+    for(var r=0;r<radarSliders.length;r++){
+      var zi=parseInt(radarSliders[r].getAttribute('data-zi'),10);
+      if(zi>=0&&zi<5){state[keys[zi]]=parseInt(radarSliders[r].value,10);}
+    }
+    state.ts=Date.now();
+    return state;
+  }
+
+  var btns=document.getElementById('la6-cont-btns').querySelectorAll('.la6-cont-btn');
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(){
+      var target=this.getAttribute('data-target');
+      var state=gatherState();
+      var encoded=btoa(JSON.stringify(state));
+      var base=window.location.href.substring(0,window.location.href.lastIndexOf('/')+1);
+      var url=base+target+'?state='+encoded;
+      window.open(url,'_blank');
+    });
+  }
+})();
+</script>
+
+<!-- ============================================================ -->
+<!-- UPGRADE 5: Print Stylesheet                                   -->
+<!-- ============================================================ -->
+<style>
+@media print {
+  body { background: #fff !important; color: #1A1A1A !important; }
+  .comp-header { position: static !important; background: #fff !important; border-bottom: 2px solid #1A1A1A !important; }
+  canvas { display: none !important; }
+  input[type=range] { display: none !important; }
+  [class*="-sv-"] { display: none !important; }
+  [class*="-walk-"] { display: none !important; }
+  [class*="-preset-"] { display: none !important; }
+  [class*="-cont-"] { display: none !important; }
+  .comp-id, .card-label, .panel-label { color: #1A1A1A !important; }
+  * { box-shadow: none !important; backdrop-filter: none !important; }
+}
+</style>
+
+<!-- ============================================================
+     CROSS-CUTTING FEATURES 1-5  |  LA-6 APEX Investigation Planner
+     Architecture Glossary, Practitioner Annotations, Dependency
+     Graph, Confidence Badges, Multi-Patient Compare
+============================================================ -->
+<style>
+/* --- F1: GLOSSARY PANEL --- */
+#la6-gloss-btn{position:fixed;bottom:24px;left:24px;width:40px;height:40px;border-radius:50%;border:2px solid var(--gold,#C9A84C);background:rgba(7,28,51,0.92);color:var(--gold,#C9A84C);font-family:var(--fs,'Cormorant Garamond',Georgia,serif);font-size:20px;font-weight:600;cursor:pointer;z-index:900;display:flex;align-items:center;justify-content:center;transition:box-shadow .3s;}
+#la6-gloss-btn:hover{box-shadow:0 0 12px rgba(201,168,76,0.4);}
+#la6-gloss-panel{position:fixed;top:0;left:-380px;width:360px;height:100vh;background:rgba(7,28,51,0.97);border-right:1px solid rgba(201,168,76,0.25);z-index:950;padding:20px;overflow-y:auto;transition:left .35s ease;}
+#la6-gloss-panel.open{left:0;}
+#la6-gloss-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--white,#F4F4F2);font-size:18px;cursor:pointer;}
+#la6-gloss-search{width:100%;padding:8px 12px;margin:8px 0 14px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);color:var(--white,#F4F4F2);font-family:var(--fm,'DM Mono',monospace);font-size:11px;}
+.la6-gloss-title{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold,#C9A84C);margin-bottom:4px;}
+.la6-gloss-term{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .2s;}
+.la6-gloss-term:hover{border-color:rgba(201,168,76,0.3);}
+.la6-gloss-term-name{font-family:var(--fm,'DM Mono',monospace);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold,#C9A84C);margin-bottom:2px;}
+.la6-gloss-term-short{font-family:var(--fd,'Outfit',system-ui,sans-serif);font-size:12px;color:rgba(244,244,242,0.72);}
+.la6-gloss-term-full{font-family:var(--fd,'Outfit',system-ui,sans-serif);font-size:11px;color:rgba(244,244,242,0.55);margin-top:6px;display:none;line-height:1.6;}
+.la6-gloss-term.expanded .la6-gloss-term-full{display:block;}
+@media(prefers-reduced-motion:reduce){#la6-gloss-panel{transition:none;}}
+
+/* --- F2: ANNOTATION LAYER --- */
+#la6-note-bar{position:fixed;bottom:24px;left:80px;display:flex;gap:8px;z-index:900;}
+.la6-note-btn{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:6px;border:1px solid rgba(201,168,76,0.3);background:rgba(7,28,51,0.92);color:var(--gold,#C9A84C);cursor:pointer;transition:background .2s;}
+.la6-note-btn:hover{background:rgba(201,168,76,0.1);}
+#la6-note-add-badge{background:rgba(201,168,76,0.25);color:var(--gold,#C9A84C);border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;margin-left:4px;vertical-align:middle;}
+.la6-note-card{position:absolute;width:180px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.35);border-radius:8px;z-index:800;box-shadow:0 4px 16px rgba(0,0,0,0.3);cursor:move;}
+.la6-note-card-head{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid rgba(201,168,76,0.2);}
+.la6-note-card-head span{font-family:var(--fm,'DM Mono',monospace);font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,168,76,0.7);}
+.la6-note-card-head button{background:none;border:none;color:rgba(201,168,76,0.6);font-size:14px;cursor:pointer;}
+.la6-note-card textarea{width:100%;min-height:80px;padding:8px 10px;background:transparent;border:none;color:var(--white,#F4F4F2);font-family:var(--fd,'Outfit',system-ui,sans-serif);font-size:11px;resize:vertical;line-height:1.5;}
+
+/* --- F3: DEPENDENCY GRAPH --- */
+#la6-dep-toggle{position:fixed;bottom:24px;right:24px;font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:6px;border:1px solid rgba(201,168,76,0.3);background:rgba(7,28,51,0.92);color:var(--gold,#C9A84C);cursor:pointer;z-index:900;}
+#la6-dep-panel{display:none;position:fixed;bottom:70px;right:24px;width:340px;background:rgba(7,28,51,0.96);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px;z-index:900;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+#la6-dep-panel.open{display:block;}
+.la6-dep-title{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold,#C9A84C);margin-bottom:12px;}
+.la6-dep-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px;margin-bottom:8px;position:relative;overflow:hidden;}
+.la6-dep-card::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--gold,#C9A84C);animation:la6DepPulse 2s ease-in-out infinite;}
+.la6-dep-from{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,244,242,0.55);margin-bottom:4px;}
+.la6-dep-desc{font-family:var(--fd,'Outfit',system-ui,sans-serif);font-size:11px;color:rgba(244,244,242,0.72);margin-bottom:6px;}
+.la6-dep-link{font-family:var(--fm,'DM Mono',monospace);font-size:8px;color:var(--gold,#C9A84C);text-decoration:none;letter-spacing:.08em;}
+.la6-dep-link:hover{text-decoration:underline;}
+@keyframes la6DepPulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+@media(prefers-reduced-motion:reduce){.la6-dep-card::before{animation:none;opacity:0.7;}}
+
+/* --- F4: CONFIDENCE BADGE --- */
+#la6-conf-badge{position:fixed;top:64px;right:24px;padding:8px 16px;border-radius:100px;font-family:var(--fm,'DM Mono',monospace);font-size:9px;letter-spacing:.12em;text-transform:uppercase;z-index:900;cursor:default;animation:la6ConfPulse 3s ease-in-out infinite;border:1px solid rgba(255,255,255,0.12);}
+#la6-conf-badge.high{background:rgba(76,175,80,0.15);border-color:rgba(76,175,80,0.4);color:#66BB6A;}
+#la6-conf-badge.medium{background:rgba(255,183,77,0.15);border-color:rgba(255,183,77,0.4);color:#FFB74D;}
+#la6-conf-badge.low{background:rgba(229,115,115,0.15);border-color:rgba(229,115,115,0.4);color:#EF5350;}
+#la6-conf-tooltip{display:none;position:fixed;top:96px;right:24px;background:rgba(7,28,51,0.95);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px 12px;font-family:var(--fm,'DM Mono',monospace);font-size:9px;color:rgba(244,244,242,0.72);z-index:901;}
+@keyframes la6ConfPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+@media(prefers-reduced-motion:reduce){#la6-conf-badge{animation:none;}}
+
+/* --- F5: COMPARE VIEW --- */
+#la6-compare-toggle{position:fixed;top:64px;right:200px;font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:6px;border:1px solid rgba(201,168,76,0.3);background:rgba(7,28,51,0.92);color:var(--gold,#C9A84C);cursor:pointer;z-index:900;}
+#la6-compare-overlay{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(7,28,51,0.98);z-index:1000;overflow-y:auto;padding:20px;}
+#la6-compare-overlay.open{display:block;}
+.la6-compare-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.la6-compare-title{font-family:var(--fs,'Cormorant Garamond',Georgia,serif);font-size:1.2rem;color:var(--white,#F4F4F2);}
+#la6-compare-exit{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:6px;border:1px solid rgba(229,115,115,0.4);background:rgba(229,115,115,0.1);color:#EF5350;cursor:pointer;}
+.la6-compare-grid{display:grid;grid-template-columns:1fr 120px 1fr;gap:16px;}
+@media(max-width:800px){.la6-compare-grid{grid-template-columns:1fr;}}
+.la6-compare-patient{background:rgba(7,28,51,0.90);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px;}
+.la6-compare-patient-label{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold,#C9A84C);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.la6-compare-zone-row{margin-bottom:12px;}
+.la6-compare-zone-label{font-family:var(--fm,'DM Mono',monospace);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,244,242,0.55);display:flex;justify-content:space-between;margin-bottom:4px;}
+.la6-compare-zone-row input[type=range]{width:100%;height:4px;border-radius:2px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,0.1);outline:none;cursor:pointer;}
+.la6-compare-zone-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;border:2px solid rgba(7,28,51,0.9);cursor:pointer;}
+.la6-compare-divergence{display:flex;flex-direction:column;justify-content:center;gap:8px;}
+.la6-compare-div-bar{display:flex;align-items:center;gap:6px;}
+.la6-compare-div-label{font-family:var(--fm,'DM Mono',monospace);font-size:7px;width:24px;text-align:right;color:rgba(244,244,242,0.5);}
+.la6-compare-div-track{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,0.06);overflow:hidden;}
+.la6-compare-div-fill{height:100%;border-radius:4px;transition:width .3s,background .3s;}
+.la6-compare-n6-note{font-family:var(--fm,'DM Mono',monospace);font-size:8px;color:rgba(244,244,242,0.4);margin-top:6px;text-align:center;}
+</style>
+
+<!-- F1: Glossary Button + Panel -->
+<button id="la6-gloss-btn" aria-label="Open architecture glossary">?</button>
+<div id="la6-gloss-panel" role="dialog" aria-label="Architecture Glossary">
+  <button id="la6-gloss-close" aria-label="Close glossary">&times;</button>
+  <div class="la6-gloss-title">Architecture Glossary</div>
+  <input id="la6-gloss-search" type="text" placeholder="Search terms..." aria-label="Filter glossary terms">
+  <div id="la6-gloss-list"></div>
+</div>
+
+<!-- F2: Annotation Bar -->
+<div id="la6-note-bar">
+  <button class="la6-note-btn" id="la6-note-add">Add Note <span id="la6-note-add-badge">0</span></button>
+  <button class="la6-note-btn" id="la6-note-clear">Clear All Notes</button>
+</div>
+
+<!-- F3: Dependency Graph -->
+<button id="la6-dep-toggle">Dependencies</button>
+<div id="la6-dep-panel" role="dialog" aria-label="Feature dependencies"></div>
+
+<!-- F4: Confidence Badge -->
+<div id="la6-conf-badge" class="low">LOW</div>
+<div id="la6-conf-tooltip"></div>
+
+<!-- F5: Compare View -->
+<button id="la6-compare-toggle">Compare</button>
+<div id="la6-compare-overlay"></div>
+
+<script>
+/* ============================================================
+   CROSS-CUTTING FEATURES — LA-6 APEX Investigation Planner
+   ES5 only. No template literals. No default params.
+============================================================ */
+(function(){
+  var PFX = 'la6';
+  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_IDS  = ['Z1','Z2','Z3','Z4','Z5'];
+  var ZONE_NAMES = ['Metabolic','Immune','Neurological','Hormonal','Cardiovascular'];
+  var N6_DAMP = 0.7;
+
+  /* ---- F1: GLOSSARY ---- */
+  var glossTerms = [
+    {term:'NCZ',  short:'Node Convergence Zone', full:'A zone where multiple cascade pathways converge, creating compound clinical burden. NCZs are identified by overlapping stack activations across two or more zones.'},
+    {term:'DRD',  short:'Highest burden zone designation (T-01a)', full:'Disease Risk Designation. Identifies the zone carrying the greatest aggregate burden score across all six cascade stacks. Subject to T-01a classification restrictions.'},
+    {term:'APEX', short:'Assessment Priority and Evidence Xray', full:'Investigation planner that prioritises clinical tests based on zone burden scores, cascade velocity, and available budget tiers.'},
+    {term:'FLINT',short:'Five-layer intelligence model (L1-L5)', full:'The five-layer architecture: L1 Input, L2 Terrain Mapping, L3 Cascade Intelligence, L4 Pattern Recognition, L5 Output Synthesis. Each layer builds on data from the layer below.'},
+    {term:'TerrainLock', short:'Self-perpetuating loop Z2 to Z1 to Z5 to Z2', full:'A pathological feedback loop where immune activation (Z2) drives metabolic disruption (Z1), which triggers cardiovascular compensation (Z5), which re-activates immune burden (Z2). Requires S1 + S2 + S4 activation.'},
+    {term:'CascadeIQ', short:'Six cascade stacks S1-S6', full:'The six cascade stacks: S1 Inflammatory, S2 Oxidative, S3 Methylation, S4 Mitochondrial, S5 Detoxification, S6 Structural. Each stack cross-cuts all five zones with varying weight.'},
+    {term:'N6',   short:'Endocrine signalling node, dampened 0.7x', full:'Node 6 (endocrine signalling) carries a 0.7x dampening coefficient to reflect the indirect nature of hormonal cascade propagation. All N6 contributions are multiplied by 0.7 before inclusion in zone scores.'},
+    {term:'Display Scale', short:'0-10 inverted from 0-100 internal', full:'Internal burden scores operate on a 0-100 scale. The display scale converts to 0-10 for practitioner readability. A display value of 7.2 equals an internal score of 72.'}
+  ];
+
+  var glossList = document.getElementById(PFX + '-gloss-list');
+  var glossSearch = document.getElementById(PFX + '-gloss-search');
+  var glossPanel = document.getElementById(PFX + '-gloss-panel');
+  var glossBtn = document.getElementById(PFX + '-gloss-btn');
+  var glossClose = document.getElementById(PFX + '-gloss-close');
+
+  function renderGloss(filter) {
+    var html = '';
+    var f = (filter || '').toLowerCase();
+    for (var i = 0; i < glossTerms.length; i++) {
+      var t = glossTerms[i];
+      if (f && t.term.toLowerCase().indexOf(f) === -1 && t.short.toLowerCase().indexOf(f) === -1) continue;
+      html += '<div class="' + PFX + '-gloss-term" data-idx="' + i + '">';
+      html += '<div class="' + PFX + '-gloss-term-name">' + t.term + '</div>';
+      html += '<div class="' + PFX + '-gloss-term-short">' + t.short + '</div>';
+      html += '<div class="' + PFX + '-gloss-term-full">' + t.full + '</div>';
+      html += '</div>';
+    }
+    glossList.innerHTML = html;
+    var cards = glossList.querySelectorAll('.' + PFX + '-gloss-term');
+    for (var j = 0; j < cards.length; j++) {
+      cards[j].addEventListener('click', function() { this.classList.toggle('expanded'); });
+    }
+  }
+  renderGloss('');
+  glossSearch.addEventListener('input', function() { renderGloss(this.value); });
+  glossBtn.addEventListener('click', function() { glossPanel.classList.add('open'); });
+  glossClose.addEventListener('click', function() { glossPanel.classList.remove('open'); });
+
+  /* ---- F2: ANNOTATIONS ---- */
+  var noteCount = 0;
+  var noteMax = 10;
+  var noteStorageKey = PFX + '-annotations';
+  var noteAddBtn = document.getElementById(PFX + '-note-add');
+  var noteClearBtn = document.getElementById(PFX + '-note-clear');
+  var noteBadge = document.getElementById(PFX + '-note-add-badge');
+
+  function updateNoteBadge() {
+    var cards = document.querySelectorAll('.' + PFX + '-note-card');
+    noteCount = cards.length;
+    noteBadge.textContent = String(noteCount);
+    saveNotes();
+  }
+
+  function saveNotes() {
+    var cards = document.querySelectorAll('.' + PFX + '-note-card');
+    var data = [];
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      var ta = c.querySelector('textarea');
+      data.push({x: c.style.left, y: c.style.top, text: ta ? ta.value : ''});
+    }
+    try { sessionStorage.setItem(noteStorageKey, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function createNote(x, y, text) {
+    if (noteCount >= noteMax) return;
+    var card = document.createElement('div');
+    card.className = PFX + '-note-card';
+    card.style.left = x;
+    card.style.top = y;
+    var headHtml = '<div class="' + PFX + '-note-card-head"><span>Note</span><button aria-label="Delete note">&times;</button></div>';
+    var bodyHtml = '<textarea placeholder="Type note...">' + (text || '') + '</textarea>';
+    card.innerHTML = headHtml + bodyHtml;
+    document.body.appendChild(card);
+    card.querySelector('button').addEventListener('click', function() { card.remove(); updateNoteBadge(); });
+    card.querySelector('textarea').addEventListener('input', function() { saveNotes(); });
+    var head = card.querySelector('.' + PFX + '-note-card-head');
+    var dragging = false, offX = 0, offY = 0;
+    head.addEventListener('mousedown', function(e) {
+      dragging = true; offX = e.clientX - card.getBoundingClientRect().left; offY = e.clientY - card.getBoundingClientRect().top;
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+      card.style.left = (e.clientX - offX) + 'px'; card.style.top = (e.clientY - offY) + 'px';
+    });
+    document.addEventListener('mouseup', function() { if (dragging) { dragging = false; saveNotes(); } });
+    updateNoteBadge();
+  }
+
+  noteAddBtn.addEventListener('click', function() {
+    createNote((120 + noteCount * 20) + 'px', (200 + noteCount * 20) + 'px', '');
+  });
+  noteClearBtn.addEventListener('click', function() {
+    var cards = document.querySelectorAll('.' + PFX + '-note-card');
+    for (var i = 0; i < cards.length; i++) cards[i].remove();
+    updateNoteBadge();
+  });
+  try {
+    var saved = sessionStorage.getItem(noteStorageKey);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      for (var n = 0; n < arr.length; n++) createNote(arr[n].x, arr[n].y, arr[n].text);
+    }
+  } catch(e) {}
+
+  /* ---- F3: DEPENDENCY GRAPH ---- */
+  var deps = [
+    {from:'LA-4 DRD', desc:'Zone priority scores determine investigation ranking order', file:'LA4_DRD_Visualiser_D53_2026-04-11_v2.html'},
+    {from:'LA-5 KINETICS', desc:'Cascade timing data informs test urgency classification', file:'LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html'}
+  ];
+  var depPanel = document.getElementById(PFX + '-dep-panel');
+  var depToggle = document.getElementById(PFX + '-dep-toggle');
+
+  function renderDeps() {
+    var html = '<div class="' + PFX + '-dep-title">Feature Dependencies</div>';
+    for (var i = 0; i < deps.length; i++) {
+      var d = deps[i];
+      html += '<div class="' + PFX + '-dep-card">';
+      html += '<div class="' + PFX + '-dep-from">Depends on: ' + d.from + '</div>';
+      html += '<div class="' + PFX + '-dep-desc">' + d.desc + '</div>';
+      html += '<a class="' + PFX + '-dep-link" href="' + d.file + '">Open ' + d.from + ' &rarr;</a>';
+      html += '</div>';
+    }
+    depPanel.innerHTML = html;
+  }
+  renderDeps();
+  depToggle.addEventListener('click', function() { depPanel.classList.toggle('open'); });
+
+  /* ---- F4: CONFIDENCE BADGE ---- */
+  var confBadge = document.getElementById(PFX + '-conf-badge');
+  var confTip = document.getElementById(PFX + '-conf-tooltip');
+
+  function updateConfidence() {
+    var sliders = document.querySelectorAll('input[type=range]');
+    var total = 0, adjusted = 0;
+    for (var i = 0; i < sliders.length; i++) {
+      if (sliders[i].closest('#' + PFX + '-compare-overlay')) continue;
+      total++;
+      var def = sliders[i].getAttribute('data-default') || sliders[i].defaultValue;
+      if (String(sliders[i].value) !== String(def)) adjusted++;
+    }
+    var pct = total > 0 ? (adjusted / total) * 100 : 0;
+    var level, label;
+    if (pct > 80) { level = 'high'; label = 'HIGH'; }
+    else if (pct >= 40) { level = 'medium'; label = 'MEDIUM'; }
+    else { level = 'low'; label = 'LOW'; }
+    confBadge.className = level;
+    confBadge.id = PFX + '-conf-badge';
+    confBadge.textContent = label;
+    confTip.textContent = adjusted + ' of ' + total + ' inputs configured';
+  }
+  updateConfidence();
+  document.addEventListener('input', function(e) { if (e.target && e.target.type === 'range') updateConfidence(); });
+  confBadge.addEventListener('mouseenter', function() { confTip.style.display = 'block'; });
+  confBadge.addEventListener('mouseleave', function() { confTip.style.display = 'none'; });
+
+  /* ---- F5: MULTI-PATIENT COMPARE ---- */
+  var compToggle = document.getElementById(PFX + '-compare-toggle');
+  var compOverlay = document.getElementById(PFX + '-compare-overlay');
+
+  function buildCompare() {
+    var html = '<div class="' + PFX + '-compare-header">';
+    html += '<div class="' + PFX + '-compare-title">Multi-Patient Compare View</div>';
+    html += '<button id="' + PFX + '-compare-exit">Exit Compare</button>';
+    html += '</div>';
+    html += '<div class="' + PFX + '-compare-grid">';
+    html += '<div class="' + PFX + '-compare-patient">';
+    html += '<div class="' + PFX + '-compare-patient-label">Patient A</div>';
+    for (var i = 0; i < 5; i++) {
+      html += '<div class="' + PFX + '-compare-zone-row">';
+      html += '<div class="' + PFX + '-compare-zone-label"><span style="color:' + ZONE_COLS[i] + '">' + ZONE_IDS[i] + ' ' + ZONE_NAMES[i] + '</span><span id="' + PFX + '-compare-a-val-' + i + '">50</span></div>';
+      html += '<input type="range" min="0" max="100" value="50" data-patient="a" data-zone="' + i + '" style="accent-color:' + ZONE_COLS[i] + '">';
+      html += '</div>';
+    }
+    html += '<div class="' + PFX + '-compare-n6-note">N6 (endocrine signalling): 0.7x dampening applied</div>';
+    html += '</div>';
+    html += '<div class="' + PFX + '-compare-divergence">';
+    for (var j = 0; j < 5; j++) {
+      html += '<div class="' + PFX + '-compare-div-bar">';
+      html += '<div class="' + PFX + '-compare-div-label">' + ZONE_IDS[j] + '</div>';
+      html += '<div class="' + PFX + '-compare-div-track"><div class="' + PFX + '-compare-div-fill" id="' + PFX + '-compare-div-' + j + '" style="width:0;background:' + ZONE_COLS[j] + '"></div></div>';
+      html += '</div>';
+    }
+    html += '</div>';
+    html += '<div class="' + PFX + '-compare-patient">';
+    html += '<div class="' + PFX + '-compare-patient-label">Patient B</div>';
+    for (var k = 0; k < 5; k++) {
+      html += '<div class="' + PFX + '-compare-zone-row">';
+      html += '<div class="' + PFX + '-compare-zone-label"><span style="color:' + ZONE_COLS[k] + '">' + ZONE_IDS[k] + ' ' + ZONE_NAMES[k] + '</span><span id="' + PFX + '-compare-b-val-' + k + '">50</span></div>';
+      html += '<input type="range" min="0" max="100" value="50" data-patient="b" data-zone="' + k + '" style="accent-color:' + ZONE_COLS[k] + '">';
+      html += '</div>';
+    }
+    html += '<div class="' + PFX + '-compare-n6-note">N6 (endocrine signalling): 0.7x dampening applied</div>';
+    html += '</div>';
+    html += '</div>';
+    compOverlay.innerHTML = html;
+
+    document.getElementById(PFX + '-compare-exit').addEventListener('click', function() {
+      compOverlay.classList.remove('open');
+    });
+
+    var compSliders = compOverlay.querySelectorAll('input[type=range]');
+    for (var s = 0; s < compSliders.length; s++) {
+      compSliders[s].addEventListener('input', function() {
+        var p = this.getAttribute('data-patient');
+        var z = this.getAttribute('data-zone');
+        var raw = parseInt(this.value, 10);
+        var display = (raw / 10).toFixed(1);
+        document.getElementById(PFX + '-compare-' + p + '-val-' + z).textContent = display;
+        updateDivergence();
+      });
+    }
+  }
+
+  function updateDivergence() {
+    var maxDiff = -1, maxIdx = -1;
+    for (var i = 0; i < 5; i++) {
+      var aSlider = compOverlay.querySelector('input[data-patient="a"][data-zone="' + i + '"]');
+      var bSlider = compOverlay.querySelector('input[data-patient="b"][data-zone="' + i + '"]');
+      if (!aSlider || !bSlider) continue;
+      var aVal = parseInt(aSlider.value, 10);
+      var bVal = parseInt(bSlider.value, 10);
+      if (i === 3) { aVal = Math.round(aVal * N6_DAMP); bVal = Math.round(bVal * N6_DAMP); }
+      var diff = Math.abs(aVal - bVal);
+      var pct = diff;
+      var bar = document.getElementById(PFX + '-compare-div-' + i);
+      if (bar) bar.style.width = pct + '%';
+      if (diff > maxDiff) { maxDiff = diff; maxIdx = i; }
+    }
+    var bars = compOverlay.querySelectorAll('.' + PFX + '-compare-div-bar');
+    for (var j = 0; j < bars.length; j++) {
+      bars[j].style.outline = (j === maxIdx) ? '2px solid ' + ZONE_COLS[maxIdx] : 'none';
+      bars[j].style.outlineOffset = '2px';
+      bars[j].style.borderRadius = '4px';
+    }
+  }
+
+  buildCompare();
+  compToggle.addEventListener('click', function() { compOverlay.classList.add('open'); });
+})();
+</script>
+
+</body>
+</html>

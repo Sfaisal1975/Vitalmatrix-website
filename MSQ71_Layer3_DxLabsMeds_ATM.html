@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSQ-71 Layer 3: Diagnoses, Labs, Medications, ATM | VitalMatrix&#8482;</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D2B4E;--card:#1A2030;--deep:#0C4452;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#2E6DB4;--red:#D63030;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--mutedx:rgba(244,244,242,.35);--border:rgba(255,255,255,.11);--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+body{background:var(--bg);color:var(--white);font-family:var(--fd);font-size:14px;line-height:1.7}
+.w{max-width:960px;margin:0 auto;padding:20px}
+.hdr{text-align:center;padding:32px 0 24px;border-bottom:1px solid rgba(201,168,76,.12)}
+.hdr h1{font-family:var(--fs);font-size:clamp(24px,3.5vw,36px);font-weight:300;margin-bottom:6px}
+.hdr h1 em{color:var(--purple);font-style:italic}
+.hdr p{font-size:12px;color:var(--muted);max-width:580px;margin:0 auto}
+.warn{background:rgba(123,94,167,.06);border:1px solid rgba(123,94,167,.15);border-left:3px solid var(--purple);padding:10px 14px;border-radius:4px;margin:16px 0;font-family:var(--fm);font-size:9px;color:var(--purple);line-height:1.6}
+/* Tabs */
+.stabs{display:flex;gap:0;margin:16px 0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.stab{flex:1;padding:8px;text-align:center;font-family:var(--fm);font-size:9px;letter-spacing:.06em;cursor:pointer;background:transparent;border:none;color:var(--muted);transition:all .2s}
+.stab.act{background:rgba(123,94,167,.1);color:var(--purple)}
+.spanel{display:none}.spanel.vis{display:block}
+/* Items */
+.cat{margin:20px 0}
+.cat-hd{font-family:var(--fm);font-size:10px;letter-spacing:.1em;color:var(--gold);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid rgba(201,168,76,.08)}
+.itm{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:4px;margin-bottom:3px;background:rgba(255,255,255,.02);border:1px solid var(--border)}
+.itm-nm{flex:1;font-size:12px}
+.itm-meta{font-family:var(--fm);font-size:7px;color:var(--mutedx);max-width:200px;text-align:right}
+.itm-node{font-family:var(--fm);font-size:8px;color:var(--muted);min-width:20px}
+.cb{width:16px;height:16px;accent-color:var(--purple);cursor:pointer;flex-shrink:0}
+/* Meds */
+.med-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:4px;margin-bottom:4px;background:rgba(255,255,255,.02);border:1px solid var(--border)}
+.med-nm{flex:1;font-size:12px;font-weight:500}
+.med-mech{font-size:9px;color:var(--muted);flex:1}
+.dur-sel{background:var(--card);border:1px solid var(--border);color:var(--white);font-family:var(--fm);font-size:9px;padding:4px 8px;border-radius:3px}
+.dur-sel option{background:var(--card)}
+/* ATM Timeline */
+.atm-band{margin:16px 0;padding:14px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.02)}
+.atm-hd{font-family:var(--fm);font-size:10px;letter-spacing:.1em;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.atm-hd::before{content:'';width:12px;height:2px;border-radius:1px}
+.atm-entry{display:flex;gap:8px;margin-bottom:6px;align-items:flex-start}
+.atm-age{font-family:var(--fm);font-size:9px;color:var(--gold);min-width:50px;padding-top:6px}
+.atm-input{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);font-family:var(--fd);font-size:12px;padding:6px 10px;border-radius:4px;resize:none}
+.atm-input:focus{border-color:var(--teal);outline:none}
+.atm-node-sel{background:var(--card);border:1px solid var(--border);color:var(--white);font-family:var(--fm);font-size:9px;padding:4px;border-radius:3px;min-width:40px}
+.atm-add{font-family:var(--fm);font-size:9px;padding:4px 12px;border-radius:3px;border:1px solid rgba(201,168,76,.2);background:transparent;color:var(--gold);cursor:pointer;transition:all .2s}
+.atm-add:hover{background:rgba(201,168,76,.08)}
+/* Output */
+.out{margin-top:24px;padding:16px;border-radius:8px;background:var(--card);border:1px solid rgba(123,94,167,.15)}
+.out-hd{font-family:var(--fs);font-size:1.1rem;margin-bottom:8px}
+.nb{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.nb-id{font-family:var(--fm);font-size:9px;min-width:20px;font-weight:700}
+.nb-track{flex:1;height:5px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden}
+.nb-fill{height:100%;border-radius:3px;transition:width .6s}
+.nb-val{font-family:var(--fm);font-size:9px;min-width:24px;text-align:right}
+.compute-btn{display:block;margin:20px auto;padding:10px 24px;border-radius:6px;border:2px solid var(--purple);background:transparent;color:var(--purple);font-family:var(--fm);font-size:11px;cursor:pointer;transition:all .2s}
+.compute-btn:hover{background:rgba(123,94,167,.1)}
+.ft{margin-top:24px;padding:16px 0;border-top:1px solid rgba(201,168,76,.06);text-align:center;font-family:var(--fm);font-size:7px;color:rgba(244,244,242,.18);line-height:1.9}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="hdr">
+    <h1>Layer 3: <em>Diagnoses, Labs, Medications, ATM</em></h1>
+    <p>28 diagnoses, 31 lab markers, 10 toxin exposures, 40 medications with mechanisms, and the ATM Matrix Timeline (Antecedents / Triggers / Mediators). Practitioner-entry fields.</p>
+  </div>
+  <div class="warn">LAYER 3 is practitioner-completed. These are clinical findings, not patient-reported symptoms. T-01 content filter applies: supplements, dietary, lifestyle only in any output. Medication entries are for terrain burden mapping (MedTerrain&#8482;), not prescribing.</div>
+
+  <div class="stabs">
+    <button class="stab act" data-p="p-dx">DIAGNOSES (28)</button>
+    <button class="stab" data-p="p-lab">LABS (31)</button>
+    <button class="stab" data-p="p-tox">TOXINS (10)</button>
+    <button class="stab" data-p="p-med">MEDICATIONS (40)</button>
+    <button class="stab" data-p="p-atm">ATM TIMELINE</button>
+  </div>
+
+  <div class="spanel vis" id="p-dx"></div>
+  <div class="spanel" id="p-lab"></div>
+  <div class="spanel" id="p-tox"></div>
+  <div class="spanel" id="p-med"></div>
+  <div class="spanel" id="p-atm">
+    <div class="atm-band">
+      <div class="atm-hd" style="color:var(--teal)"><span style="display:inline-block;width:12px;height:2px;background:var(--teal);border-radius:1px"></span>ANTECEDENTS</div>
+      <div id="atm-ante"></div>
+      <button class="atm-add" data-band="ante">+ Add Antecedent</button>
+    </div>
+    <div class="atm-band">
+      <div class="atm-hd" style="color:var(--gold)"><span style="display:inline-block;width:12px;height:2px;background:var(--gold);border-radius:1px"></span>TRIGGERS</div>
+      <div id="atm-trig"></div>
+      <button class="atm-add" data-band="trig">+ Add Trigger</button>
+    </div>
+    <div class="atm-band">
+      <div class="atm-hd" style="color:var(--purple)"><span style="display:inline-block;width:12px;height:2px;background:var(--purple);border-radius:1px"></span>MEDIATORS</div>
+      <div id="atm-medi"></div>
+      <button class="atm-add" data-band="medi">+ Add Mediator</button>
+    </div>
+  </div>
+
+  <button class="compute-btn" id="l3-compute">Compute Layer 3 Node Adjustments</button>
+  <div class="out" id="l3-out" style="display:none">
+    <div class="out-hd">Layer 3 Node Score Adjustments</div>
+    <div id="l3-bars"></div>
+    <div id="l3-med-summary" style="margin-top:12px"></div>
+    <div id="l3-atm-summary" style="margin-top:12px"></div>
+  </div>
+
+  <div class="ft">MSQ-71 Layer 3 | VitalMatrix&#8482; | ALB v1.5 | D-85 | T-01 Active | Gate O1 weight vectors | MedTerrain&#8482; medication mapping<br>For practitioner use only. Not a diagnostic tool.</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var NODES=['N1','N2','N3','N4','N5','N6','N7'];
+var NC={N1:'#C9A84C',N2:'#1A7A8A',N3:'#7B5EA7',N4:'#5F7C6C',N5:'#2E6DB4',N6:'#C9A84C',N7:'#5F7C6C'};
+
+/* ═══ DIAGNOSES (28) ═══ */
+var DX=[
+  {nm:'Hypothyroidism (subclinical)',w:[0,0,0.5,0,0,1,0]},
+  {nm:'Hashimoto thyroiditis',w:[0.5,1,0,0,0,1,0]},
+  {nm:'Insulin resistance',w:[0.5,0,0.5,0,0.5,1,0]},
+  {nm:'Type 2 diabetes',w:[0.5,0.5,0.5,0,0.5,1,0]},
+  {nm:'Metabolic syndrome',w:[0.5,0,0.5,0.5,0.5,1,0]},
+  {nm:'Adrenal / HPA dysregulation',w:[0,0,0.5,0,0,1,0]},
+  {nm:'SIBO',w:[1,0.5,0,0,0,0,0]},
+  {nm:'Leaky gut (intestinal permeability)',w:[1,1,0,0,0,0,0]},
+  {nm:'Dysbiosis',w:[1,0.5,0,0,0,0,0]},
+  {nm:'Candida overgrowth',w:[1,1,0,0,0,0,0]},
+  {nm:'IBS',w:[1,0.5,0,0,0,0.5,0]},
+  {nm:'GERD',w:[1,0,0,0,0,0.5,0]},
+  {nm:'Chronic fatigue syndrome',w:[0.5,0.5,1,0.5,0,0.5,0]},
+  {nm:'Fibromyalgia',w:[0,1,0.5,0,0,0.5,1]},
+  {nm:'Non-alcoholic fatty liver disease',w:[0,0,0.5,1,0,0.5,0]},
+  {nm:'Elevated homocysteine',w:[0.5,0,0,1,0.5,0,0]},
+  {nm:'Hypertension',w:[0,0,0.5,0,1,0.5,0]},
+  {nm:'Dyslipidaemia',w:[0,0,0.5,0.5,1,0,0]},
+  {nm:'Atherosclerosis',w:[0,0.5,0,0,1,0,0.5]},
+  {nm:'Sleep apnoea',w:[0,0,0.5,0,1,0.5,0.5]},
+  {nm:'Testosterone deficiency',w:[0,0,0.5,0,0,1,0.5]},
+  {nm:'Oestrogen dominance',w:[0,0,0,1,0,0.5,0]},
+  {nm:'Progesterone deficiency',w:[0,0,0,0,0,1,0]},
+  {nm:'PCOS',w:[0,0.5,0.5,0,0,1,0]},
+  {nm:'Perimenopause / menopause',w:[0,0,0,0,0.5,1,0.5]},
+  {nm:'Gout',w:[0,1,0,0.5,0,0,1]},
+  {nm:'Rheumatoid arthritis',w:[0.5,1,0,0,0,0,1]},
+  {nm:'Osteoarthritis',w:[0,0.5,0,0,0,0,1]}
+];
+
+/* ═══ LAB MARKERS (31) ═══ */
+var LABS=[
+  {nm:'Elevated CRP (>3 mg/L)',w:[0,1,0,0,0.5,0,0]},
+  {nm:'Elevated ESR',w:[0,1,0,0,0,0,0]},
+  {nm:'Low vitamin D (<50 nmol/L)',w:[0.5,0.5,0,0,0,0,1]},
+  {nm:'Low ferritin (<30 ug/L)',w:[1,0,0.5,0,0,0,0]},
+  {nm:'Elevated fasting glucose (>5.5)',w:[0,0,1,0,0.5,0.5,0]},
+  {nm:'Elevated HbA1c (>38 mmol/mol)',w:[0,0,1,0,0.5,0.5,0]},
+  {nm:'Elevated fasting insulin (>10 mU/L)',w:[0,0,0.5,0,0.5,1,0]},
+  {nm:'TSH >2.5 mIU/L',w:[0,0,0.5,0,0,1,0]},
+  {nm:'Low free T3',w:[0,0,0.5,0,0,1,0]},
+  {nm:'Elevated thyroid antibodies',w:[0.5,1,0,0,0,1,0]},
+  {nm:'Low total testosterone (<12 nmol/L)',w:[0,0,0.5,0,0,1,0.5]},
+  {nm:'Elevated SHBG',w:[0,0,0,0.5,0,1,0]},
+  {nm:'Low DHEA-S',w:[0,0,0.5,0,0,1,0]},
+  {nm:'Elevated cortisol (morning)',w:[0,0.5,0.5,0,0,1,0]},
+  {nm:'Flat cortisol curve',w:[0,0,0.5,0,0,1,0]},
+  {nm:'Elevated LDL (>3.5 mmol/L)',w:[0,0,0,0.5,1,0,0]},
+  {nm:'Low HDL (<1.0 mmol/L)',w:[0,0,0.5,0,1,0,0]},
+  {nm:'Elevated triglycerides (>1.7)',w:[0,0,1,0,0.5,0.5,0]},
+  {nm:'Elevated Lp(a)',w:[0,0,0,0,1,0,0]},
+  {nm:'Elevated ALT or GGT',w:[0,0,0,1,0,0,0]},
+  {nm:'Elevated uric acid',w:[0,0.5,0.5,1,0,0,0]},
+  {nm:'Low magnesium (RBC)',w:[0.5,0,1,0,0.5,0,0.5]},
+  {nm:'Low zinc',w:[0.5,0.5,0,0,0,0.5,0.5]},
+  {nm:'Low B12',w:[1,0,0.5,0,0,0.5,0]},
+  {nm:'Low folate',w:[1,0,0,0.5,0,0,0]},
+  {nm:'Elevated homocysteine (>10 umol/L)',w:[0.5,0,0,1,0.5,0,0]},
+  {nm:'Elevated hs-CRP (>1 mg/L)',w:[0,1,0,0,0.5,0,0]},
+  {nm:'Low omega-3 index (<4%)',w:[0,1,0,0,0.5,0,0]},
+  {nm:'Elevated Lp-PLA2',w:[0,0.5,0,0,1,0,0]},
+  {nm:'Low glutathione',w:[0,0.5,0,1,0,0,0]},
+  {nm:'Elevated urinary organic acids',w:[0.5,0,0.5,1,0,0,0]}
+];
+
+/* ═══ TOXINS (10) ═══ */
+var TOX=[
+  {nm:'Mercury exposure (amalgams, fish)',w:[0,0.5,0,1,0,0.5,0]},
+  {nm:'Lead exposure (occupational, housing)',w:[0,0.5,0.5,1,0.5,0.5,0]},
+  {nm:'Arsenic exposure',w:[0,0,0,1,0.5,0,0]},
+  {nm:'Cadmium exposure',w:[0,0,0,1,0,0.5,0.5]},
+  {nm:'Pesticide exposure (organophosphates)',w:[0,0.5,0.5,1,0,0.5,0]},
+  {nm:'BPA or phthalate exposure',w:[0,0,0,1,0,0.5,0]},
+  {nm:'Mould exposure (mycotoxins)',w:[0.5,1,0.5,1,0,0,0]},
+  {nm:'Glyphosate exposure',w:[1,0.5,0,1,0,0,0]},
+  {nm:'VOC exposure',w:[0,0.5,0,1,0,0,0]},
+  {nm:'Fluoride excess',w:[0,0,0,0.5,0,1,0.5]}
+];
+
+/* ═══ MEDICATIONS (40) ═══ */
+var MEDS=[
+  {nm:'Metformin',w:[1,0,0.5,0,0,0.5,0],mech:'B12 depletion, GI disruption'},
+  {nm:'Statins (atorvastatin, rosuvastatin)',w:[0,0.5,0.5,1,0.5,0,0.5],mech:'CoQ10 depletion, myopathy, hepatic load'},
+  {nm:'PPIs (omeprazole, lansoprazole)',w:[1,0,0,0,0,0,0.5],mech:'B12/Mg/Ca malabsorption, microbiome disruption'},
+  {nm:'Beta blockers',w:[0,0,0.5,0,1,0.5,0],mech:'Fatigue, reduced HRV, CoQ10 depletion'},
+  {nm:'ACE inhibitors',w:[0,0,0,0.5,1,0,0],mech:'Zinc depletion, renal monitoring'},
+  {nm:'ARBs',w:[0,0,0,0.5,1,0,0],mech:'Potassium elevation, renal load'},
+  {nm:'Calcium channel blockers',w:[0,0,0,0.5,1,0,0],mech:'Peripheral oedema, hepatic metabolism'},
+  {nm:'Thiazide diuretics',w:[0,0,0.5,0.5,1,0,0],mech:'Mg/K/Zn depletion, glucose elevation'},
+  {nm:'SSRIs',w:[0.5,0,0,0.5,0,1,0],mech:'Serotonin modulation, sexual dysfunction, GI'},
+  {nm:'SNRIs',w:[0,0,0,0.5,0.5,1,0],mech:'Noradrenaline/serotonin, BP elevation'},
+  {nm:'Benzodiazepines',w:[0,0,0.5,0.5,0,1,0],mech:'GABA modulation, cognitive impairment'},
+  {nm:'Gabapentin / pregabalin',w:[0,0,0.5,0,0,1,0],mech:'GABA analogue, cognitive blunting, weight gain'},
+  {nm:'NSAIDs',w:[1,0.5,0,0.5,0.5,0,0],mech:'GI mucosal damage, renal load, CV risk'},
+  {nm:'Paracetamol (chronic)',w:[0,0,0,1,0,0,0],mech:'Glutathione depletion, hepatic load'},
+  {nm:'Aspirin (low dose)',w:[0.5,0.5,0,0,1,0,0],mech:'GI erosion, antiplatelet, iron depletion'},
+  {nm:'Corticosteroids',w:[0.5,0.5,0.5,0,0,1,0.5],mech:'Immunosuppression, adrenal suppression, bone loss'},
+  {nm:'Levothyroxine',w:[0.5,0,0.5,0,0,1,0],mech:'Ca/Fe absorption interference'},
+  {nm:'Testosterone replacement (TRT)',w:[0,0,0.5,0.5,0.5,1,0],mech:'Erythrocytosis, lipid changes, HPG suppression'},
+  {nm:'Oestrogen HRT',w:[0,0,0,0.5,0.5,1,0],mech:'Clotting risk, hepatic metabolism'},
+  {nm:'Progesterone (micronised)',w:[0,0,0,0,0,1,0],mech:'GABA modulation, sleep effects'},
+  {nm:'Oral contraceptives',w:[0.5,0,0,0.5,0.5,1,0],mech:'B6/B12/Mg/Zn/folate depletion, hepatic'},
+  {nm:'Antibiotics (broad spectrum)',w:[1,0.5,0,0,0,0,0],mech:'Microbiome disruption, resistance risk'},
+  {nm:'Antifungals',w:[0.5,0.5,0,1,0,0,0],mech:'Hepatic load, microbiome impact'},
+  {nm:'Antihistamines',w:[0,1,0,0.5,0,0,0],mech:'Immune modulation, anticholinergic effects'},
+  {nm:'Allopurinol',w:[0,0.5,0,1,0,0,0.5],mech:'Xanthine oxidase inhibition'},
+  {nm:'Colchicine',w:[1,0.5,0,0,0,0,0],mech:'GI disruption, B12 malabsorption'},
+  {nm:'Bisphosphonates',w:[0.5,0,0,0,0,0,1],mech:'GI erosion, bone remodelling alteration'},
+  {nm:'Warfarin',w:[0,0,0,1,1,0,0.5],mech:'Vitamin K depletion, hepatic, bone density'},
+  {nm:'DOACs',w:[0.5,0,0,0.5,1,0,0],mech:'GI bleed risk, renal clearance'},
+  {nm:'Opioids',w:[1,0,0.5,0.5,0,1,0],mech:'GI motility, endocrine disruption, dependency'},
+  {nm:'Insulin',w:[0,0,1,0,0.5,1,0],mech:'Hypoglycaemia, weight gain, metabolic dependency'},
+  {nm:'SGLT2 inhibitors',w:[0,0.5,0.5,1,0.5,0,0],mech:'UTI/genital infection, renal, ketoacidosis'},
+  {nm:'GLP-1 agonists (semaglutide)',w:[1,0,0.5,0,0,0.5,0],mech:'GI disruption, gallbladder, appetite'},
+  {nm:'DPP-4 inhibitors',w:[1,0.5,0.5,0,0,0.5,0],mech:'Joint pain, pancreatitis risk'},
+  {nm:'Sulfonylureas',w:[0,0,0.5,0,0,1,0],mech:'Hypoglycaemia, weight gain, beta cell exhaustion'},
+  {nm:'Alpha blockers (tamsulosin)',w:[0,0,0,0,1,0.5,0],mech:'Postural hypotension, ejaculatory dysfunction'},
+  {nm:'5-alpha reductase inhibitors',w:[0,0,0,0,0,1,0],mech:'DHT suppression, sexual dysfunction, mood'},
+  {nm:'PDE5 inhibitors',w:[0,0,0,0,1,0.5,0],mech:'Vascular modulation, CV interaction'},
+  {nm:'Immunosuppressants',w:[0.5,1,0,1,0,0,0],mech:'Immune suppression, hepatotoxicity, folate'},
+  {nm:'Lithium',w:[0,0,0,0.5,0,1,0],mech:'Thyroid suppression, renal load'}
+];
+
+var DUR_WEIGHTS = {'<1 year':1.0,'1-2 years':1.0,'2-5 years':1.5,'>5 years':2.0};
+
+/* ═══ STATE ═══ */
+var dxChecked = DX.map(function(){return false;});
+var labChecked = LABS.map(function(){return false;});
+var toxChecked = TOX.map(function(){return false;});
+var medState = MEDS.map(function(){return{on:false,dur:'<1 year'};});
+var atmEntries = {ante:[],trig:[],medi:[]};
+
+/* ═══ BUILD PANELS ═══ */
+function buildCheckList(items, containerId, stateArr, label){
+  var el = document.getElementById(containerId);
+  el.innerHTML = '<div class="cat-hd">'+label+'</div>';
+  items.forEach(function(itm,i){
+    var pn='N?';var mx=0;itm.w.forEach(function(wt,ni){if(wt>mx){mx=wt;pn=NODES[ni];}});
+    el.innerHTML += '<div class="itm"><input type="checkbox" class="cb" data-panel="'+containerId+'" data-i="'+i+'"'+(stateArr[i]?' checked':'')+'><span class="itm-node" style="color:'+NC[pn]+'">'+pn+'</span><div class="itm-nm">'+itm.nm+'</div></div>';
+  });
+  el.querySelectorAll('.cb').forEach(function(cb){
+    cb.addEventListener('change',function(){
+      var idx = parseInt(cb.getAttribute('data-i'));
+      stateArr[idx] = cb.checked;
+    });
+  });
+}
+
+function buildMeds(){
+  var el = document.getElementById('p-med');
+  el.innerHTML = '<div class="cat-hd">MEDICATIONS (40) — MedTerrain&#8482; Mapping</div>';
+  MEDS.forEach(function(m,i){
+    el.innerHTML += '<div class="med-row"><input type="checkbox" class="cb" data-med="'+i+'"'+(medState[i].on?' checked':'')+'><div class="med-nm">'+m.nm+'</div><div class="med-mech">'+m.mech+'</div><select class="dur-sel" data-med-dur="'+i+'"><option value="<1 year">&lt;1 yr</option><option value="1-2 years">1-2 yr</option><option value="2-5 years">2-5 yr</option><option value=">5 years">&gt;5 yr</option></select></div>';
+  });
+  el.querySelectorAll('.cb[data-med]').forEach(function(cb){
+    cb.addEventListener('change',function(){medState[parseInt(cb.getAttribute('data-med'))].on=cb.checked;});
+  });
+  el.querySelectorAll('.dur-sel').forEach(function(sel){
+    sel.addEventListener('change',function(){medState[parseInt(sel.getAttribute('data-med-dur'))].dur=sel.value;});
+  });
+}
+
+function buildATM(){
+  ['ante','trig','medi'].forEach(function(band){
+    var cont = document.getElementById('atm-'+band);
+    cont.innerHTML = '';
+    atmEntries[band].forEach(function(entry,i){
+      cont.innerHTML += '<div class="atm-entry"><input class="atm-input" style="width:60px" placeholder="Age" value="'+(entry.age||'')+'" data-band="'+band+'" data-i="'+i+'" data-field="age"><input class="atm-input" placeholder="Description" value="'+(entry.desc||'')+'" data-band="'+band+'" data-i="'+i+'" data-field="desc"><select class="atm-node-sel" data-band="'+band+'" data-i="'+i+'" data-field="node"><option value="">Node</option><option value="N1"'+(entry.node==='N1'?' selected':'')+'>N1</option><option value="N2"'+(entry.node==='N2'?' selected':'')+'>N2</option><option value="N3"'+(entry.node==='N3'?' selected':'')+'>N3</option><option value="N4"'+(entry.node==='N4'?' selected':'')+'>N4</option><option value="N5"'+(entry.node==='N5'?' selected':'')+'>N5</option><option value="N6"'+(entry.node==='N6'?' selected':'')+'>N6</option><option value="N7"'+(entry.node==='N7'?' selected':'')+'>N7</option></select></div>';
+    });
+    cont.querySelectorAll('.atm-input,.atm-node-sel').forEach(function(inp){
+      inp.addEventListener('change',function(){
+        var b=inp.getAttribute('data-band');var idx=parseInt(inp.getAttribute('data-i'));var f=inp.getAttribute('data-field');
+        atmEntries[b][idx][f]=inp.value;
+      });
+    });
+  });
+}
+
+document.querySelectorAll('.atm-add').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var band=btn.getAttribute('data-band');
+    atmEntries[band].push({age:'',desc:'',node:''});
+    buildATM();
+  });
+});
+
+/* Tab switching */
+document.querySelectorAll('.stab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('act');});
+    document.querySelectorAll('.spanel').forEach(function(p){p.classList.remove('vis');});
+    t.classList.add('act');
+    document.getElementById(t.getAttribute('data-p')).classList.add('vis');
+  });
+});
+
+/* ═══ COMPUTE ═══ */
+document.getElementById('l3-compute').addEventListener('click',function(){
+  var nodeAdj={N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+  var nodeMax={N1:0,N2:0,N3:0,N4:0,N5:0,N6:0,N7:0};
+  var weight = 3; // diagnoses and labs treated as severity 3 (confirmed clinical finding)
+
+  // Diagnoses
+  DX.forEach(function(d,i){
+    if(!dxChecked[i])return;
+    for(var n=0;n<7;n++){if(d.w[n]>0){nodeAdj[NODES[n]]+=weight*d.w[n];nodeMax[NODES[n]]+=4*d.w[n];}}
+  });
+
+  // Labs
+  LABS.forEach(function(l,i){
+    if(!labChecked[i])return;
+    for(var n=0;n<7;n++){if(l.w[n]>0){nodeAdj[NODES[n]]+=weight*l.w[n];nodeMax[NODES[n]]+=4*l.w[n];}}
+  });
+
+  // Toxins
+  TOX.forEach(function(t,i){
+    if(!toxChecked[i])return;
+    for(var n=0;n<7;n++){if(t.w[n]>0){nodeAdj[NODES[n]]+=weight*t.w[n];nodeMax[NODES[n]]+=4*t.w[n];}}
+  });
+
+  // Medications (with duration weight)
+  var medSummary = [];
+  MEDS.forEach(function(m,i){
+    if(!medState[i].on)return;
+    var durW = DUR_WEIGHTS[medState[i].dur] || 1.0;
+    for(var n=0;n<7;n++){if(m.w[n]>0){nodeAdj[NODES[n]]+=weight*m.w[n]*durW;nodeMax[NODES[n]]+=4*m.w[n]*durW;}}
+    medSummary.push(m.nm + ' (' + medState[i].dur + ', x' + durW + '): ' + m.mech);
+  });
+
+  // ATM entries (each entry with node adds a fixed contribution)
+  var atmSummary = [];
+  ['ante','trig','medi'].forEach(function(band){
+    atmEntries[band].forEach(function(e){
+      if(e.node && e.desc){
+        nodeAdj[e.node] += 5; // fixed ATM contribution
+        nodeMax[e.node] += 10;
+        atmSummary.push(band.toUpperCase() + ' | ' + (e.age||'?') + ' | ' + e.desc + ' | ' + e.node);
+      }
+    });
+  });
+
+  // Render
+  var bars = document.getElementById('l3-bars');bars.innerHTML='';
+  NODES.forEach(function(nid){
+    var val = nodeMax[nid]>0?Math.round((nodeAdj[nid]/nodeMax[nid])*100):0;
+    bars.innerHTML += '<div class="nb"><span class="nb-id" style="color:'+NC[nid]+'">'+nid+'</span><div class="nb-track"><div class="nb-fill" style="width:'+val+'%;background:'+NC[nid]+'"></div></div><span class="nb-val" style="color:'+NC[nid]+'">'+val+'</span></div>';
+  });
+
+  var medEl = document.getElementById('l3-med-summary');
+  if(medSummary.length){
+    medEl.innerHTML = '<div style="font-family:var(--fm);font-size:8px;color:var(--gold);letter-spacing:.08em;margin-bottom:4px">MEDTERRAIN MAPPING ('+medSummary.length+' medications)</div>' + medSummary.map(function(s){return '<div style="font-size:10px;color:var(--muted);margin-bottom:2px">'+s+'</div>';}).join('');
+  } else {medEl.innerHTML='';}
+
+  var atmEl = document.getElementById('l3-atm-summary');
+  if(atmSummary.length){
+    atmEl.innerHTML = '<div style="font-family:var(--fm);font-size:8px;color:var(--teal);letter-spacing:.08em;margin-bottom:4px">ATM TIMELINE ENTRIES ('+atmSummary.length+')</div>' + atmSummary.map(function(s){return '<div style="font-size:10px;color:var(--muted);margin-bottom:2px">'+s+'</div>';}).join('');
+  } else {atmEl.innerHTML='';}
+
+  document.getElementById('l3-out').style.display='block';
+});
+
+/* Init */
+buildCheckList(DX,'p-dx',dxChecked,'DIAGNOSES (28) — Confirmed clinical diagnoses');
+buildCheckList(LABS,'p-lab',labChecked,'LAB MARKERS (31) — Abnormal lab findings');
+buildCheckList(TOX,'p-tox',toxChecked,'TOXIN EXPOSURES (10) — Environmental and occupational');
+buildMeds();
+// Seed 3 empty ATM entries per band
+['ante','trig','medi'].forEach(function(b){for(var i=0;i<3;i++)atmEntries[b].push({age:'',desc:'',node:''});});
+buildATM();
+
+})();
+</script>
+</body>
+</html>

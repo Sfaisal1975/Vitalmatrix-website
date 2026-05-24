@@ -1,0 +1,198 @@
+<!-- LA-2: NCZ Living Architecture V2 | D-53 | ALB v1.5 -->
+<section id="vm-la2-ncz" class="vm-reveal" style="background:#0C4452;padding:80px 24px;margin:0;border:none;">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap');
+#vm-la2-ncz{--z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#2E6DB4;
+  --bg:#0C4452;--text:#F4F4F2;--muted:#8BA5B8;--card:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.11);font-family:'Outfit',sans-serif;color:var(--text);max-width:960px;margin:0 auto}
+#vm-la2-ncz *{box-sizing:border-box}
+#vm-la2-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--z2);text-align:center;margin-bottom:12px}
+#vm-la2-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,40px);
+  font-weight:700;text-align:center;margin:0 0 48px;line-height:1.2}
+#vm-la2-grid{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:start}
+@media(max-width:720px){#vm-la2-grid{grid-template-columns:1fr;gap:24px}}
+#vm-la2-nodes{display:flex;flex-direction:column;gap:8px}
+.vm-la2-node{padding:14px 16px;border-radius:10px;background:var(--card);border:1px solid var(--border);
+  cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:12px}
+.vm-la2-node:hover,.vm-la2-node.active{border-color:var(--z2);background:rgba(26,122,138,0.12)}
+.vm-la2-node-id{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;
+  width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.08);flex-shrink:0}
+.vm-la2-node-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:500}
+.vm-la2-node-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
+.vm-la2-node.phase2{opacity:0.45;cursor:default}
+.vm-la2-node.phase2 .vm-la2-badge{font-family:'DM Mono',monospace;font-size:9px;
+  padding:2px 8px;border-radius:20px;border:1px solid var(--muted);color:var(--muted);margin-left:auto}
+.vm-la2-node.dampened .vm-la2-coeff{font-family:'DM Mono',monospace;font-size:9px;
+  padding:2px 8px;border-radius:20px;background:rgba(201,168,76,0.15);color:var(--z1);margin-left:auto}
+#vm-la2-zones{display:flex;flex-direction:column;gap:10px}
+.vm-la2-zone{padding:18px 20px;border-radius:12px;background:var(--card);
+  border:1px solid var(--border);cursor:pointer;transition:all 0.25s}
+.vm-la2-zone:hover,.vm-la2-zone.active{transform:translateY(-2px)}
+.vm-la2-zone-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.vm-la2-zone-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.vm-la2-zone-id{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700}
+.vm-la2-zone-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600}
+.vm-la2-zone-systems{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+.vm-la2-zone-nodes{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);
+  padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.04);margin-top:6px}
+.vm-la2-zone-nodes .vm-la2-hl{font-weight:500;color:var(--text)}
+.vm-la2-dim{opacity:0.25!important;transform:none!important}
+.vm-la2-node.vm-la2-dim{opacity:0.25!important}
+</style>
+
+<p id="vm-la2-eyebrow">Node-Cascade Zone Architecture</p>
+<h2 id="vm-la2-heading">Seven Nodes. Five Zones. One Architecture.</h2>
+
+<div id="vm-la2-grid">
+  <div id="vm-la2-nodes">
+    <div class="vm-la2-node" data-node="N1">
+      <span class="vm-la2-node-id">N1</span>
+      <div><div class="vm-la2-node-name">Assimilation</div>
+      <div class="vm-la2-node-sub">Feeds Z2</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N2">
+      <span class="vm-la2-node-id">N2</span>
+      <div><div class="vm-la2-node-name">Defence and Repair</div>
+      <div class="vm-la2-node-sub">Feeds Z2, Z4</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N3">
+      <span class="vm-la2-node-id">N3</span>
+      <div><div class="vm-la2-node-name">Energy</div>
+      <div class="vm-la2-node-sub">Feeds Z1, Z5</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N4">
+      <span class="vm-la2-node-id">N4</span>
+      <div><div class="vm-la2-node-name">Biotransformation and Elimination</div>
+      <div class="vm-la2-node-sub">Feeds Z4, Z5</div></div>
+    </div>
+    <div class="vm-la2-node" data-node="N5">
+      <span class="vm-la2-node-id">N5</span>
+      <div><div class="vm-la2-node-name">Transport</div>
+      <div class="vm-la2-node-sub">Feeds Z3</div></div>
+    </div>
+    <div class="vm-la2-node dampened" data-node="N6">
+      <span class="vm-la2-node-id">N6</span>
+      <div><div class="vm-la2-node-name">Communication</div>
+      <div class="vm-la2-node-sub">Feeds Z1, Z2, Z3, Z5</div></div>
+      <span class="vm-la2-coeff">0.7x</span>
+    </div>
+    <div class="vm-la2-node phase2" data-node="N7">
+      <span class="vm-la2-node-id">N7</span>
+      <div><div class="vm-la2-node-name">Structural Integrity</div>
+      <div class="vm-la2-node-sub">No zone assignment</div></div>
+      <span class="vm-la2-badge">Phase 2</span>
+    </div>
+  </div>
+
+  <div id="vm-la2-zones">
+    <div class="vm-la2-zone" data-zone="Z1" style="border-color:var(--z1)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z1)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z1)">Z1</span>
+        <div><div class="vm-la2-zone-name">Metabolic Energy Axis</div>
+        <div class="vm-la2-zone-systems">Adrenal &middot; Thyroid &middot; Pancreatic</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N3</span> (Energy) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z2" style="border-color:var(--z2)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z2)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z2)">Z2</span>
+        <div><div class="vm-la2-zone-name">Resilience Network</div>
+        <div class="vm-la2-zone-systems">Gut &middot; Immune &middot; Brain</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N1</span> (Assimilation) + <span class="vm-la2-hl">N2</span> (Defence and Repair) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z3" style="border-color:var(--z3)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z3)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z3)">Z3</span>
+        <div><div class="vm-la2-zone-name">Cardiovascular-Neural Axis</div>
+        <div class="vm-la2-zone-systems">Cardiac &middot; Pulmonary &middot; Neurovascular</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N5</span> (Transport) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z4" style="border-color:var(--z4)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z4)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z4)">Z4</span>
+        <div><div class="vm-la2-zone-name">Detoxification Trident</div>
+        <div class="vm-la2-zone-systems">Hepatic &middot; Lymphatic &middot; Renal</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N2</span> (Defence and Repair) + <span class="vm-la2-hl">N4</span> (Biotransformation and Elimination)</div>
+    </div>
+    <div class="vm-la2-zone" data-zone="Z5" style="border-color:var(--z5)">
+      <div class="vm-la2-zone-top">
+        <span class="vm-la2-zone-dot" style="background:var(--z5)"></span>
+        <span class="vm-la2-zone-id" style="color:var(--z5)">Z5</span>
+        <div><div class="vm-la2-zone-name">Hormonal Terrain Axis</div>
+        <div class="vm-la2-zone-systems">Androgenic &middot; Estrogenic &middot; Progestogenic</div></div>
+      </div>
+      <div class="vm-la2-zone-nodes">Nodes: <span class="vm-la2-hl">N3</span> (Energy) + <span class="vm-la2-hl">N4</span> (Biotransformation and Elimination) + <span class="vm-la2-hl">N6</span> (endocrine signalling)</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var MAP={N1:["Z2"],N2:["Z2","Z4"],N3:["Z1","Z5"],N4:["Z4","Z5"],N5:["Z3"],N6:["Z1","Z2","Z3","Z5"],N7:[]};
+  var REV={Z1:["N3","N6"],Z2:["N1","N2","N6"],Z3:["N5","N6"],Z4:["N2","N4"],Z5:["N3","N4","N6"]};
+  var nodes=document.querySelectorAll(".vm-la2-node");
+  var zones=document.querySelectorAll(".vm-la2-zone");
+  var activeNode=null,activeZone=null;
+
+  function clearAll(){
+    activeNode=null;activeZone=null;
+    nodes.forEach(function(n){n.classList.remove("active","vm-la2-dim")});
+    zones.forEach(function(z){z.classList.remove("active","vm-la2-dim")});
+  }
+
+  function highlightFromNode(nid){
+    var feeds=MAP[nid]||[];
+    nodes.forEach(function(n){
+      var id=n.getAttribute("data-node");
+      if(id===nid){n.classList.add("active");n.classList.remove("vm-la2-dim")}
+      else{n.classList.remove("active");n.classList.add("vm-la2-dim")}
+    });
+    zones.forEach(function(z){
+      var id=z.getAttribute("data-zone");
+      if(feeds.indexOf(id)!==-1){z.classList.add("active");z.classList.remove("vm-la2-dim")}
+      else{z.classList.remove("active");z.classList.add("vm-la2-dim")}
+    });
+  }
+
+  function highlightFromZone(zid){
+    var src=REV[zid]||[];
+    zones.forEach(function(z){
+      var id=z.getAttribute("data-zone");
+      if(id===zid){z.classList.add("active");z.classList.remove("vm-la2-dim")}
+      else{z.classList.remove("active");z.classList.add("vm-la2-dim")}
+    });
+    nodes.forEach(function(n){
+      var id=n.getAttribute("data-node");
+      if(src.indexOf(id)!==-1){n.classList.add("active");n.classList.remove("vm-la2-dim")}
+      else{n.classList.remove("active");n.classList.add("vm-la2-dim")}
+    });
+  }
+
+  nodes.forEach(function(n){
+    n.addEventListener("click",function(){
+      var nid=n.getAttribute("data-node");
+      if(nid==="N7")return;
+      if(activeNode===nid){clearAll();return}
+      clearAll();activeNode=nid;highlightFromNode(nid);
+    });
+  });
+
+  zones.forEach(function(z){
+    z.addEventListener("click",function(){
+      var zid=z.getAttribute("data-zone");
+      if(activeZone===zid){clearAll();return}
+      clearAll();activeZone=zid;highlightFromZone(zid);
+    });
+  });
+})();
+</script>
+</section>

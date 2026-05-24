@@ -1,0 +1,137 @@
+<!-- LA-5 KINETICS Velocity Board | VitalMatrix | D-53 | ALB v1.5 -->
+<section id="vm-la5-root" class="vm-reveal" style="background:#0C4452;padding:64px 24px;font-family:'Outfit',sans-serif;color:#F4F4F2;">
+<style>
+  #vm-la5-root *{box-sizing:border-box;margin:0;padding:0}
+  #vm-la5-root .la5-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:6px}
+  #vm-la5-root .la5-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:#F4F4F2;margin-bottom:10px}
+  #vm-la5-root .la5-subtitle{font-size:14px;color:rgba(255,255,255,.55);max-width:680px;line-height:1.6;margin-bottom:32px}
+  #vm-la5-root .la5-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-bottom:28px}
+  #vm-la5-root .la5-slider-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:14px 16px}
+  #vm-la5-root .la5-slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  #vm-la5-root .la5-zone-tag{font-family:'DM Mono',monospace;font-size:11px;font-weight:700}
+  #vm-la5-root .la5-zone-val{font-family:'DM Mono',monospace;font-size:10px}
+  #vm-la5-root input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.12);border-radius:3px;outline:none;cursor:pointer}
+  #vm-la5-root input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid #0C4452;cursor:pointer}
+  #vm-la5-root .la5-thr{font-size:9px;color:rgba(255,255,255,.4);margin-top:4px}
+  #vm-la5-root .la5-stacks{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:28px}
+  #vm-la5-root .la5-card{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.11);border-radius:10px;padding:16px;opacity:.55;transition:all .35s ease}
+  #vm-la5-root .la5-card.active{opacity:1}
+  #vm-la5-root .la5-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  #vm-la5-root .la5-sid{font-family:'DM Mono',monospace;font-size:14px;font-weight:700}
+  #vm-la5-root .la5-vel{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:4px;font-weight:700}
+  #vm-la5-root .la5-dir{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.65);margin-bottom:6px}
+  #vm-la5-root .la5-pulse-track{height:4px;border-radius:2px;overflow:hidden;margin-bottom:8px}
+  #vm-la5-root .la5-pulse-bar{height:100%;width:40%;border-radius:2px}
+  #vm-la5-root .la5-evidence{font-size:9px;color:rgba(255,255,255,.45);margin-bottom:4px}
+  #vm-la5-root .la5-timing{font-size:10px;color:rgba(255,255,255,.6);line-height:1.55}
+  #vm-la5-root .la5-status{font-family:'DM Mono',monospace;font-size:9px;margin-top:6px;display:inline-block;padding:2px 8px;border-radius:4px;font-weight:700}
+  #vm-la5-root .la5-tl-box{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.11);border-radius:10px;padding:18px;margin-bottom:18px;transition:all .35s ease}
+  #vm-la5-root .la5-tl-title{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;margin-bottom:6px}
+  #vm-la5-root .la5-tl-status{font-size:13px;font-weight:700;margin-bottom:6px}
+  #vm-la5-root .la5-tl-gates{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:8px}
+  #vm-la5-root .la5-tl-note{font-size:10px;color:rgba(255,255,255,.5);padding:6px 10px;border-radius:6px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2)}
+  #vm-la5-root .la5-footer{font-size:10px;color:rgba(255,255,255,.35);font-style:italic;text-align:center}
+  @keyframes la5Pulse{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+</style>
+
+<div style="max-width:960px;margin:0 auto">
+  <p class="la5-eyebrow">Velocity Intelligence</p>
+  <h2 class="la5-heading">How Fast Is the Terrain Moving?</h2>
+  <p class="la5-subtitle">Cascade velocity classification across all six stacks. Velocity indicates the clinical speed at which burden transfers between zones. S4 is THEORETICAL, excluded from DRD cascade trace (D-12). S6 is UNIDIRECTIONAL: Z1 to Z3 only, reverse direction does not exist.</p>
+
+  <!-- Zone Sliders -->
+  <div class="la5-grid" id="vm-la5-sliders"></div>
+
+  <!-- Stack Velocity Cards -->
+  <div class="la5-stacks" id="vm-la5-stacks"></div>
+
+  <!-- TerrainLock Detection -->
+  <div class="la5-tl-box" id="vm-la5-terrainlock"></div>
+
+  <p class="la5-footer">LA-5 KINETICS&#8482; Velocity Board | ALB v1.5 | Educational demonstration only</p>
+</div>
+
+<script>
+(function(){
+  var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+  var TH={Z1:40,Z2:40,Z3:40,Z4:40,Z5:32};
+  var scores={Z1:45,Z2:55,Z3:30,Z4:25,Z5:50};
+
+  var STACKS=[
+    {id:'S1',from:'Z2',to:'Z1',velocity:'MEDIUM',qualifier:'',animSpeed:'2.4s',evidence:'Mechanism Established, Cascade Emerging',timing:'Weeks to months: gut-driven metabolic burden develops gradually. Dietary and microbial factors modulate speed.'},
+    {id:'S2',from:'Z1',to:'Z5',velocity:'FAST',qualifier:'',animSpeed:'1.2s',evidence:'Established',timing:'Days to weeks: metabolic disruption impacts hormonal terrain rapidly via HPA axis and cortisol signalling.'},
+    {id:'S3',from:'Z4',to:'Z1',velocity:'SLOW',qualifier:'',animSpeed:'4.5s',evidence:'Emerging',timing:'Months to quarters: detoxification burden accumulates slowly. Most commonly missed upstream pathway.'},
+    {id:'S4',from:'Z5',to:'Z2',velocity:'MEDIUM',qualifier:'THEORETICAL',animSpeed:'2.4s',evidence:'Theoretical',timing:'Theoretical: hormonal-to-resilience feedback. Excluded from DRD cascade trace (D-12). Display only.'},
+    {id:'S5',from:'Z2',to:'Z3',velocity:'FAST',qualifier:'',animSpeed:'1.2s',evidence:'Emerging (TMAO quarterly review)',timing:'Days to weeks: immune-cardiovascular axis activates rapidly. TMAO pathway under active review.'},
+    {id:'S6',from:'Z1',to:'Z3',velocity:'MEDIUM',qualifier:'UNIDIRECTIONAL',animSpeed:'2.4s',evidence:'Established',timing:'Weeks: metabolic burden loads cardiovascular-neural axis. UNIDIRECTIONAL: Z1 to Z3 only. Reverse direction does not exist.'}
+  ];
+
+  function velColour(v){return v==='FAST'?'#C0392B':v==='MEDIUM'?'#C9A84C':'#1A7A8A';}
+
+  function renderSliders(){
+    var box=document.getElementById('vm-la5-sliders');
+    box.innerHTML='';
+    ['Z1','Z2','Z3','Z4','Z5'].forEach(function(z){
+      var active=scores[z]>=TH[z];
+      var card=document.createElement('div');card.className='la5-slider-card';
+      card.innerHTML='<div class="la5-slider-label"><span class="la5-zone-tag" style="color:'+ZC[z]+'">'+z+'</span>'
+        +'<span class="la5-zone-val" style="color:'+(active?ZC[z]:'rgba(255,255,255,.45)')+'">'+scores[z]+'/100'+(active?' ACTIVE':'')+'</span></div>'
+        +'<input type="range" min="0" max="100" value="'+scores[z]+'" style="--accent:'+ZC[z]+'" data-zone="'+z+'">'
+        +'<div class="la5-thr">Threshold: '+TH[z]+' | Slide right = Higher burden</div>';
+      box.appendChild(card);
+    });
+    box.querySelectorAll('input[type=range]').forEach(function(inp){
+      inp.addEventListener('input',function(){scores[inp.dataset.zone]=parseInt(inp.value);render();});
+    });
+  }
+
+  function renderStacks(){
+    var box=document.getElementById('vm-la5-stacks');box.innerHTML='';
+    STACKS.forEach(function(s){
+      var active=scores[s.from]>=TH[s.from]&&scores[s.to]>=TH[s.to];
+      var vc=velColour(s.velocity);
+      var qual=s.qualifier?' ('+s.qualifier+')':'';
+      var card=document.createElement('div');
+      card.className='la5-card'+(active?' active':'');
+      card.style.borderColor=active?ZC[s.from]:'rgba(255,255,255,.11)';
+      if(active)card.style.background='rgba(255,255,255,.08)';
+      var pulse='';
+      if(active){
+        pulse='<div class="la5-pulse-track" style="background:'+ZC[s.from]+'30">'
+          +'<div class="la5-pulse-bar" style="background:'+ZC[s.from]+';animation:la5Pulse '+s.animSpeed+' ease-in-out infinite"></div></div>';
+      }
+      var statusHtml=active
+        ?'<span class="la5-status" style="background:rgba(26,122,138,.2);color:#1A7A8A">ACTIVE</span>'
+        :'<span class="la5-status" style="color:rgba(255,255,255,.3)">Inactive</span>';
+      card.innerHTML='<div class="la5-card-hdr"><span class="la5-sid" style="color:'+ZC[s.from]+'">'+s.id+'</span>'
+        +'<span class="la5-vel" style="background:'+vc+'20;color:'+vc+'">'+s.velocity+qual+'</span></div>'
+        +'<div class="la5-dir">'+s.from+' &#8594; '+s.to+'</div>'
+        +pulse
+        +'<div class="la5-evidence">Evidence: '+s.evidence+'</div>'
+        +'<div class="la5-timing">'+s.timing+'</div>'
+        +statusHtml;
+      box.appendChild(card);
+    });
+  }
+
+  function renderTerrainLock(){
+    var s1=scores.Z2>=TH.Z2&&scores.Z1>=TH.Z1;
+    var s2=scores.Z1>=TH.Z1&&scores.Z5>=TH.Z5;
+    var s4=scores.Z5>=TH.Z5&&scores.Z2>=TH.Z2;
+    var z5z2=scores.Z5>=60&&scores.Z2>=60;
+    var locked=s1&&s2&&(s4||z5z2);
+    var box=document.getElementById('vm-la5-terrainlock');
+    var dc=locked?'#C0392B':'rgba(255,255,255,.3)';
+    box.style.borderColor=locked?'#C0392B':'rgba(255,255,255,.11)';
+    box.style.background=locked?'rgba(192,57,43,.08)':'rgba(255,255,255,.06)';
+    box.innerHTML='<div class="la5-tl-title" style="color:'+dc+'">TERRAINLOCK&#8482; DETECTION</div>'
+      +'<div class="la5-tl-status" style="color:'+dc+'">'+(locked?'TERRAINLOCK ACTIVE: Z2 &#8594; Z1 &#8594; Z5 &#8594; Z2 self-perpetuating loop detected':'TerrainLock not active')+'</div>'
+      +'<div class="la5-tl-gates">Gate 1 (S1): '+(s1?'MET':'NOT MET')+' | Gate 2 (S2): '+(s2?'MET':'NOT MET')+' | Gate 3 (S4 OR Z5+Z2 &#8805; 60): '+((s4||z5z2)?'MET':'NOT MET')+'</div>'
+      +'<div class="la5-tl-note">Activation is architecturally possible but clinically uncommon in Phase 1. Do not present as routinely firing. S4 = THEORETICAL, excluded from DRD trace (D-12). S6 = UNIDIRECTIONAL: Z1 to Z3 only, reverse direction does not exist.</div>';
+  }
+
+  function render(){renderSliders();renderStacks();renderTerrainLock();}
+  render();
+})();
+</script>
+</section>

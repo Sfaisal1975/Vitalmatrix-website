@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Notice | VitalMatrix</title>
+<meta name="description" content="Privacy Notice for VitalMatrix Ltd - clinical intelligence platform. ICO ZC101813.">
+<link rel="icon" href="/assets/vmx-favicon-512.png" type="image/png">
+
+<style>
+/* ============================================================
+   VITALMATRIX DESIGN SYSTEM v1.5
+   Privacy Notice | Charcoal #1A2030
+   Offline fonts: @font-face local only. No CDN.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: local('Cormorant Garamond'), local('CormorantGaramond');
+}
+
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: local('Outfit');
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: local('DM Mono'), local('DMMono');
+}
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+
+:root {
+  --vm-bg-charcoal:        #1A2030;
+  --vm-bg-prussian:        #0D2B4E;
+  --vm-bg-teal:            #0C4452;
+  --vm-bg-footer:          #071C33;
+
+  --vm-gold:               #C9A84C;
+  --vm-teal:               #1A7A8A;
+  --vm-teal-light:         #2A9BAD;
+  --vm-purple:             #7B5EA7;
+  --vm-sage:               #5F7C6C;
+  --vm-white:              #F4F4F2;
+  --vm-white-60:           rgba(244,244,242,0.60);
+  --vm-white-40:           rgba(244,244,242,0.40);
+  --vm-white-15:           rgba(244,244,242,0.15);
+  --vm-white-08:           rgba(244,244,242,0.08);
+  --vm-gold-20:            rgba(201,168,76,0.20);
+  --vm-gold-10:            rgba(201,168,76,0.10);
+
+  --vm-font-display:       'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --vm-font-body:          'Outfit', 'Segoe UI', system-ui, sans-serif;
+  --vm-font-mono:          'DM Mono', 'Courier New', monospace;
+
+  --vm-nav-height:         72px;
+  --vm-max-width:          1120px;
+  --vm-content-width:      760px;
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--vm-bg-charcoal);
+  color: var(--vm-white);
+  font-family: var(--vm-font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--vm-teal-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--vm-gold);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+.vm-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--vm-bg-prussian);
+  border-bottom: 1px solid var(--vm-white-08);
+  padding: 0 48px;
+  height: var(--vm-nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vm-nav__logo {
+  line-height: 0;
+  font-size: 0;
+}
+
+.vm-nav__logo img {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  height: 44px;
+  width: auto;
+}
+
+.vm-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.vm-nav__links a {
+  font-family: var(--vm-font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--vm-white-60);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s ease;
+}
+
+.vm-nav__links a:hover {
+  color: var(--vm-white);
+}
+
+.vm-nav__cta {
+  background: var(--vm-gold);
+  color: var(--vm-bg-prussian) !important;
+  font-weight: 600 !important;
+  padding: 8px 20px;
+  border-radius: 2px;
+  text-decoration: none !important;
+  font-size: 0.8125rem !important;
+  letter-spacing: 0.06em;
+  transition: opacity 0.2s ease !important;
+}
+
+.vm-nav__cta:hover {
+  opacity: 0.88;
+  color: var(--vm-bg-prussian) !important;
+}
+
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+
+.vm-page-header {
+  background: var(--vm-bg-prussian);
+  padding: 72px 48px 64px;
+  border-bottom: 1px solid var(--vm-white-08);
+}
+
+.vm-page-header__inner {
+  max-width: var(--vm-content-width);
+  margin: 0 auto;
+}
+
+.vm-page-header__label {
+  font-family: var(--vm-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vm-teal-light);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.vm-page-header__title {
+  font-family: var(--vm-font-display);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--vm-white);
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.vm-page-header__meta {
+  font-family: var(--vm-font-mono);
+  font-size: 0.75rem;
+  color: var(--vm-white-40);
+  letter-spacing: 0.06em;
+}
+
+.vm-page-header__meta span {
+  color: var(--vm-gold);
+}
+
+/* ============================================================
+   DOCUMENT BODY
+   ============================================================ */
+
+.vm-doc {
+  padding: 64px 48px 96px;
+  background: var(--vm-bg-charcoal);
+}
+
+.vm-doc__inner {
+  max-width: var(--vm-content-width);
+  margin: 0 auto;
+}
+
+/* Section numbers */
+.vm-section {
+  margin-bottom: 56px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid var(--vm-white-08);
+}
+
+.vm-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.vm-section__number {
+  font-family: var(--vm-font-mono);
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.vm-section__heading {
+  font-family: var(--vm-font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--vm-white);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.vm-section__body {
+  font-family: var(--vm-font-body);
+  font-size: 0.9375rem;
+  color: var(--vm-white-60);
+  line-height: 1.8;
+}
+
+.vm-section__body p {
+  margin-bottom: 16px;
+}
+
+.vm-section__body p:last-child {
+  margin-bottom: 0;
+}
+
+.vm-section__body ul {
+  margin: 16px 0 16px 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.vm-section__body ul li {
+  padding: 6px 0 6px 20px;
+  position: relative;
+  color: var(--vm-white-60);
+  font-size: 0.9375rem;
+}
+
+.vm-section__body ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 6px;
+  height: 1px;
+  background: var(--vm-gold);
+}
+
+.vm-section__body strong {
+  color: var(--vm-white);
+  font-weight: 500;
+}
+
+/* ============================================================
+   TABLE (Lawful Bases)
+   ============================================================ */
+
+.vm-table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+  border-radius: 3px;
+  border: 1px solid var(--vm-white-08);
+}
+
+.vm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--vm-font-body);
+  font-size: 0.875rem;
+}
+
+.vm-table thead {
+  background: var(--vm-gold-10);
+}
+
+.vm-table thead th {
+  padding: 14px 20px;
+  text-align: left;
+  font-family: var(--vm-font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+  border-bottom: 1px solid var(--vm-white-08);
+}
+
+.vm-table tbody tr {
+  border-bottom: 1px solid var(--vm-white-08);
+  transition: background 0.15s ease;
+}
+
+.vm-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.vm-table tbody tr:hover {
+  background: var(--vm-white-08);
+}
+
+.vm-table tbody td {
+  padding: 14px 20px;
+  color: var(--vm-white-60);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.vm-table tbody td:first-child {
+  color: var(--vm-white);
+  font-weight: 400;
+}
+
+/* ============================================================
+   ARTICLE 9 BLOCK
+   ============================================================ */
+
+.vm-article9 {
+  background: var(--vm-gold-10);
+  border-left: 2px solid var(--vm-gold);
+  padding: 20px 24px;
+  margin: 24px 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.vm-article9__label {
+  font-family: var(--vm-font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.vm-article9 ul {
+  margin: 0 !important;
+  padding-left: 0 !important;
+}
+
+.vm-article9 ul li {
+  color: var(--vm-white-60) !important;
+  font-size: 0.9rem !important;
+}
+
+/* ============================================================
+   RIGHTS GRID
+   ============================================================ */
+
+.vm-rights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.vm-right-card {
+  background: var(--vm-white-08);
+  border: 1px solid var(--vm-white-08);
+  border-radius: 3px;
+  padding: 16px 18px;
+  transition: border-color 0.2s ease;
+}
+
+.vm-right-card:hover {
+  border-color: var(--vm-teal);
+}
+
+.vm-right-card__title {
+  font-family: var(--vm-font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--vm-white);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.vm-right-card__desc {
+  font-size: 0.8125rem;
+  color: var(--vm-white-60);
+  line-height: 1.55;
+}
+
+/* ============================================================
+   CONTACT CALLOUT
+   ============================================================ */
+
+.vm-contact-box {
+  background: var(--vm-white-08);
+  border: 1px solid var(--vm-teal);
+  border-radius: 3px;
+  padding: 24px 28px;
+  margin: 24px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.vm-contact-box__icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(26,122,138,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--vm-teal-light);
+  font-family: var(--vm-font-mono);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.vm-contact-box__body {
+  flex: 1;
+}
+
+.vm-contact-box__label {
+  font-family: var(--vm-font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vm-teal-light);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.vm-contact-box__detail {
+  font-size: 0.9375rem;
+  color: var(--vm-white);
+  line-height: 1.6;
+}
+
+.vm-contact-box__detail a {
+  color: var(--vm-teal-light);
+}
+
+/* ============================================================
+   ICO NOTICE BLOCK
+   ============================================================ */
+
+.vm-ico-block {
+  background: var(--vm-gold-10);
+  border: 1px solid var(--vm-gold-20);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+
+.vm-ico-block__label {
+  font-family: var(--vm-font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.vm-ico-block p {
+  font-size: 0.9rem;
+  color: var(--vm-white-60);
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+
+.vm-ico-block p:last-child {
+  margin-bottom: 0;
+}
+
+.vm-ico-block a {
+  color: var(--vm-teal-light);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.vm-footer {
+  background: var(--vm-bg-footer);
+  padding: 56px 48px;
+  border-top: 1px solid var(--vm-white-08);
+}
+
+.vm-footer__inner {
+  max-width: var(--vm-max-width);
+  margin: 0 auto;
+}
+
+.vm-footer__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 48px;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--vm-white-08);
+}
+
+.vm-footer__logo {
+  line-height: 0;
+  font-size: 0;
+}
+
+.vm-footer__logo img {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  height: 40px;
+  width: auto;
+}
+
+.vm-footer__links {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.vm-footer__link-group h4 {
+  font-family: var(--vm-font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vm-gold);
+  margin-bottom: 12px;
+}
+
+.vm-footer__link-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vm-footer__link-group ul li {
+  margin-bottom: 8px;
+}
+
+.vm-footer__link-group ul li a {
+  font-size: 0.8125rem;
+  color: var(--vm-white-40);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.vm-footer__link-group ul li a:hover {
+  color: var(--vm-white);
+}
+
+.vm-footer__tm {
+  font-family: var(--vm-font-body);
+  font-size: 0.6875rem;
+  color: var(--vm-white-40);
+  line-height: 1.8;
+}
+
+.vm-footer__tm p {
+  margin-bottom: 8px;
+}
+
+.vm-footer__tm p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .vm-nav {
+    padding: 0 20px;
+  }
+
+  .vm-nav__links {
+    display: none;
+  }
+
+  .vm-page-header {
+    padding: 48px 20px 40px;
+  }
+
+  .vm-doc {
+    padding: 48px 20px 72px;
+  }
+
+  .vm-rights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vm-footer {
+    padding: 40px 20px;
+  }
+
+  .vm-footer__top {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .vm-footer__links {
+    gap: 24px;
+  }
+
+  .vm-contact-box {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+
+<nav class="vm-nav">
+  <div class="vm-nav__logo">
+    <img
+      src="VM_Logo_1000_x_1000_px_png_New_Transparent.png"
+      alt="VitalMatrix"
+      height="48"
+      style="display:block; margin:0; padding:0; border:none;">
+  </div>
+  <ul class="vm-nav__links">
+    <li><a href="/how-it-works">How It Works</a></li>
+    <li><a href="/why-vitalmatrix">Why VitalMatrix</a></li>
+    <li><a href="/founding-practitioners">Founding Practitioners</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/book-walkthrough" class="vm-nav__cta">Book a Walkthrough</a></li>
+  </ul>
+</nav>
+
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+
+<header class="vm-page-header">
+  <div class="vm-page-header__inner">
+    <span class="vm-page-header__label">Legal and Compliance</span>
+    <h1 class="vm-page-header__title">Privacy Notice</h1>
+    <p class="vm-page-header__meta">
+      VitalMatrix Ltd &nbsp;|&nbsp;
+      Company No. <span>17046123</span> &nbsp;|&nbsp;
+      ICO Registration <span>ZC101813</span> &nbsp;|&nbsp;
+      Last updated: <span>April 2026</span>
+    </p>
+  </div>
+</header>
+
+<!-- ============================================================
+     DOCUMENT BODY
+     ============================================================ -->
+
+<main class="vm-doc">
+  <div class="vm-doc__inner">
+
+
+    <!-- Section 1 -->
+    <section class="vm-section" id="s1">
+      <span class="vm-section__number">Section 01</span>
+      <h2 class="vm-section__heading">Who We Are</h2>
+      <div class="vm-section__body">
+        <p>
+          VitalMatrix Ltd ("VitalMatrix", "we", "us", "our") is a clinical intelligence
+          platform company developing and providing software as a medical device (SaMD) for
+          functional medicine practitioners in UK private practice. We are registered
+          in England and Wales.
+        </p>
+        <ul>
+          <li><strong>Company name:</strong> VitalMatrix Ltd</li>
+          <li><strong>Company number:</strong> 17046123</li>
+          <li><strong>Registered office:</strong> 12 Faraday Road, Slough, England, SL2 1RU</li>
+          <li><strong>ICO registration:</strong> ZC101813</li>
+        </ul>
+        <p>
+          We are the data controller in respect of personal data processed through our website
+          and software products.
+        </p>
+
+        <div class="vm-contact-box">
+          <div class="vm-contact-box__icon">@</div>
+          <div class="vm-contact-box__body">
+            <span class="vm-contact-box__label">Privacy Contact</span>
+            <p class="vm-contact-box__detail">
+              For all data protection enquiries, contact us at:
+              <a href="mailto:info@vitalmatrix.co.uk">info@vitalmatrix.co.uk</a><br>
+              VitalMatrix Ltd, 12 Faraday Road, Slough, England, SL2 1RU
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Section 2 -->
+    <section class="vm-section" id="s2">
+      <span class="vm-section__number">Section 02</span>
+      <h2 class="vm-section__heading">What Personal Data We Collect</h2>
+      <div class="vm-section__body">
+        <p>We may collect and process the following categories of personal data:</p>
+        <ul>
+          <li>
+            <strong>Identity and contact data:</strong> name, email address, postal address,
+            telephone number
+          </li>
+          <li>
+            <strong>Technical data:</strong> IP address, browser type, device identifiers,
+            cookies and usage data
+          </li>
+          <li>
+            <strong>Health and clinical data:</strong> where you use our SaMD product, this
+            may include health information, symptom data, clinical assessment outputs, and
+            other data relating to physical or physiological condition. This constitutes
+            <strong>special category data</strong> under UK GDPR.
+          </li>
+          <li>
+            <strong>Account data:</strong> login credentials, preferences, and
+            user-generated content within the platform
+          </li>
+          <li>
+            <strong>Communications data:</strong> enquiries, feedback, and correspondence
+            with us
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- Section 3 -->
+    <section class="vm-section" id="s3">
+      <span class="vm-section__number">Section 03</span>
+      <h2 class="vm-section__heading">How and Why We Use Your Personal Data</h2>
+      <div class="vm-section__body">
+        <p>
+          We rely on the following lawful bases under Article 6 of the UK GDPR to process
+          your personal data:
+        </p>
+
+        <div class="vm-table-wrap">
+          <table class="vm-table">
+            <thead>
+              <tr>
+                <th>Purpose</th>
+                <th>Lawful Basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Providing and operating our SaMD product</td>
+                <td>Performance of a contract (Article 6(1)(b))</td>
+              </tr>
+              <tr>
+                <td>Complying with medical device regulatory obligations (e.g. MHRA)</td>
+                <td>Legal obligation (Article 6(1)(c))</td>
+              </tr>
+              <tr>
+                <td>Improving our products and services</td>
+                <td>Legitimate interests (Article 6(1)(f))</td>
+              </tr>
+              <tr>
+                <td>Sending marketing communications (where opted in)</td>
+                <td>Consent (Article 6(1)(a))</td>
+              </tr>
+              <tr>
+                <td>Website analytics and performance monitoring</td>
+                <td>Legitimate interests (Article 6(1)(f))</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Where we process <strong>special category health data</strong>, we rely on the
+        following additional conditions under Article 9 UK GDPR:</p>
+
+        <div class="vm-article9">
+          <span class="vm-article9__label">Article 9 Conditions</span>
+          <ul>
+            <li><strong>Article 9(2)(a):</strong> Explicit consent for use of clinical data within the SaMD</li>
+            <li><strong>Article 9(2)(h):</strong> Provision of health or social care or treatment</li>
+            <li><strong>Article 9(2)(i):</strong> Public health purposes (where applicable)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Section 4 -->
+    <section class="vm-section" id="s4">
+      <span class="vm-section__number">Section 04</span>
+      <h2 class="vm-section__heading">Who We Share Your Data With</h2>
+      <div class="vm-section__body">
+        <p>We may share your personal data with the following categories of recipients:</p>
+        <ul>
+          <li>
+            <strong>Cloud infrastructure and hosting providers:</strong> Hostinger
+            International Ltd, used for secure website and platform hosting
+          </li>
+          <li>
+            <strong>Analytics and performance monitoring providers</strong>
+          </li>
+          <li>
+            <strong>Regulatory bodies</strong> (e.g. the MHRA, ICO) where required by law
+          </li>
+          <li>
+            <strong>Healthcare providers or institutions</strong> where our SaMD is
+            deployed in a clinical setting
+          </li>
+          <li>
+            <strong>Professional advisers:</strong> legal, financial, and insurance advisers
+            bound by confidentiality obligations
+          </li>
+        </ul>
+        <p>We do not sell your personal data to third parties.</p>
+      </div>
+    </section>
+
+
+    <!-- Section 5 -->
+    <section class="vm-section" id="s5">
+      <span class="vm-section__number">Section 05</span>
+      <h2 class="vm-section__heading">International Data Transfers</h2>
+      <div class="vm-section__body">
+        <p>
+          Where we transfer personal data outside the UK, we ensure that appropriate
+          safeguards are in place in accordance with UK GDPR requirements. This includes the
+          use of International Data Transfer Agreements (IDTA) or equivalent adequacy
+          decisions issued by the UK Secretary of State.
+        </p>
+        <p>
+          You may contact us at
+          <a href="mailto:info@vitalmatrix.co.uk">info@vitalmatrix.co.uk</a> to obtain
+          further details of the safeguards applicable to any such transfer.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- Section 6 -->
+    <section class="vm-section" id="s6">
+      <span class="vm-section__number">Section 06</span>
+      <h2 class="vm-section__heading">How Long We Keep Your Data</h2>
+      <div class="vm-section__body">
+        <p>
+          We retain personal data only for as long as is necessary for the purposes for
+          which it was collected. Our retention periods are as follows:
+        </p>
+        <ul>
+          <li>
+            <strong>Account and clinical data:</strong> retained for the duration of your
+            use of the product, plus 10 years thereafter to comply with medical device
+            post-market surveillance obligations under MHRA requirements
+          </li>
+          <li>
+            <strong>Website and analytics data:</strong> up to 24 months
+          </li>
+          <li>
+            <strong>Marketing preferences:</strong> until you withdraw consent or opt out
+          </li>
+          <li>
+            <strong>Legal and regulatory records:</strong> as required by applicable law,
+            typically up to 10 years for medical device records
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- Section 7 -->
+    <section class="vm-section" id="s7">
+      <span class="vm-section__number">Section 07</span>
+      <h2 class="vm-section__heading">Your Rights</h2>
+      <div class="vm-section__body">
+        <p>
+          Under UK GDPR, you have the following rights in relation to your personal data:
+        </p>
+
+        <div class="vm-rights-grid">
+          <div class="vm-right-card">
+            <p class="vm-right-card__title">Right of Access</p>
+            <p class="vm-right-card__desc">Request a copy of the personal data we hold about you.</p>
+          </div>
+          <div class="vm-right-card">
+            <p class="vm-right-card__title">Right to Rectification</p>
+            <p class="vm-right-card__desc">Ask us to correct inaccurate or incomplete data.</p>
+          </div>
+          <div class="vm-right-card">
+            <p class="vm-right-card__title">Right to Erasure</p>
+            <p class="vm-right-card__desc">Ask us to delete your data in certain circumstances.</p>
+          </div>
+          <div class="vm-right-card">
+            <p class="vm-right-card__title">Right to Restriction</p>
+            <p class="vm-right-card__desc">Ask us to limit how we use your data.</p>
+          </div>
+          <div class="vm-right-card">
+            <p class="vm-right-card__title">Right to Data Portability</p>
+            <p class="vm-right-card__desc">Receive your data in a structured, machine-readable format.</p>
+          </div>
+          <div class="vm-right-card">
+            <p class="vm-right-card__title">Right to Object</p>
+            <p class="vm-right-card__desc">Object to processing based on legitimate interests or direct marketing.</p>
+          </div>
+        </div>
+
+        <p>
+          <strong>Right to withdraw consent:</strong> Where we rely on your consent to
+          process personal data, you have the right to withdraw that consent at any time.
+          Withdrawal of consent does not affect the lawfulness of processing carried out
+          before the withdrawal.
+        </p>
+        <p>
+          To exercise any of these rights, please contact us at
+          <a href="mailto:info@vitalmatrix.co.uk">info@vitalmatrix.co.uk</a>. We will
+          respond within one calendar month.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- Section 8 -->
+    <section class="vm-section" id="s8">
+      <span class="vm-section__number">Section 08</span>
+      <h2 class="vm-section__heading">Automated Decision-Making</h2>
+      <div class="vm-section__body">
+        <p>
+          Our SaMD generates terrain intelligence outputs and working documents for review
+          by the registered practitioner. These outputs do not constitute automated
+          decision-making producing legal or similarly significant effects on data subjects.
+        </p>
+        <p>
+          All clinical assessments are evaluated by the practitioner. Final recommendations
+          and any decisions arising from platform outputs remain entirely subject to the
+          practitioner's professional judgement and approval. VitalMatrix does not make
+          clinical decisions.
+        </p>
+        <p>
+          VitalMatrix generates working documents for practitioner review. All clinical
+          decisions remain with the registered practitioner.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- Section 9 -->
+    <section class="vm-section" id="s9">
+      <span class="vm-section__number">Section 09</span>
+      <h2 class="vm-section__heading">Cookies</h2>
+      <div class="vm-section__body">
+        <p>
+          We use cookies and similar tracking technologies on our website. Cookies help us
+          operate the site, understand how it is used, and improve your experience.
+        </p>
+        <p>
+          Please see our separate
+          <a href="/cookie-policy">Cookie Policy</a> for full details of the cookies we use,
+          the purposes for which we use them, and how you can manage your preferences.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- Section 10 -->
+    <section class="vm-section" id="s10">
+      <span class="vm-section__number">Section 10</span>
+      <h2 class="vm-section__heading">Security</h2>
+      <div class="vm-section__body">
+        <p>
+          We implement appropriate technical and organisational measures to protect your
+          personal data. These include encryption in transit and at rest, access controls,
+          multi-factor authentication mechanisms, and regular security assessments.
+        </p>
+        <p>
+          In the event of a personal data breach that is likely to result in a risk to your
+          rights and freedoms, we will notify you and the Information Commissioner's Office
+          (ICO) without undue delay, and in any event within 72 hours of becoming aware of
+          the breach, where feasible.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- Section 11 -->
+    <section class="vm-section" id="s11">
+      <span class="vm-section__number">Section 11</span>
+      <h2 class="vm-section__heading">How to Complain</h2>
+      <div class="vm-section__body">
+        <p>
+          If you are unhappy with how we handle your personal data, we welcome the
+          opportunity to address your concerns directly. Please contact us in the first
+          instance at
+          <a href="mailto:info@vitalmatrix.co.uk">info@vitalmatrix.co.uk</a>.
+        </p>
+        <p>
+          You also have the right to lodge a complaint with the Information Commissioner's
+          Office, the UK supervisory authority for data protection:
+        </p>
+
+        <div class="vm-ico-block">
+          <span class="vm-ico-block__label">Information Commissioner's Office</span>
+          <p>Website: <a href="https://ico.org.uk" target="_blank" rel="noopener">www.ico.org.uk</a></p>
+          <p>Helpline: 0303 123 1113</p>
+          <p>
+            Our ICO registration number is <strong>ZC101813</strong>. You may verify this
+            at the
+            <a href="https://ico.org.uk/ESDWebPages/Search" target="_blank" rel="noopener">ICO register</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Section 12 -->
+    <section class="vm-section" id="s12">
+      <span class="vm-section__number">Section 12</span>
+      <h2 class="vm-section__heading">Changes to This Notice</h2>
+      <div class="vm-section__body">
+        <p>
+          We may update this privacy notice from time to time to reflect changes in our
+          practices, technology, legal requirements, or other factors. We will notify you
+          of material changes by posting a prominent notice on our website or by contacting
+          you directly where appropriate.
+        </p>
+        <p>
+          The date at the top of this notice reflects when it was last revised. We
+          encourage you to review this notice periodically.
+        </p>
+        <p>
+          Continued use of the VitalMatrix platform following any update constitutes
+          acceptance of the revised notice.
+        </p>
+      </div>
+    </section>
+
+
+  </div><!-- /.vm-doc__inner -->
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+
+<footer class="vm-footer">
+  <div class="vm-footer__inner">
+
+    <div class="vm-footer__top">
+      <div class="vm-footer__logo">
+        <img
+          src="VM_Logo_1000_x_1000_px_png_New_Transparent.png"
+          alt="VitalMatrix"
+          height="40"
+          style="display:block; margin:0; padding:0; border:none;">
+      </div>
+
+      <div class="vm-footer__links">
+        <div class="vm-footer__link-group">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="/how-it-works">How It Works</a></li>
+            <li><a href="/why-vitalmatrix">Why VitalMatrix</a></li>
+            <li><a href="/our-approach">Our Approach</a></li>
+          </ul>
+        </div>
+        <div class="vm-footer__link-group">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/founding-practitioners">Founding Practitioners</a></li>
+            <li><a href="/book-walkthrough">Book a Walkthrough</a></li>
+          </ul>
+        </div>
+        <div class="vm-footer__link-group">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy-notice">Privacy Notice</a></li>
+            <li><a href="/cookie-policy">Cookie Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="vm-footer__tm">
+      <p>For practitioner use only. Not a diagnostic tool.</p>
+      <p>
+        VOS&#8482; (VitalMatrix Operating System).
+        VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;,
+        CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;,
+        MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;,
+        KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;,
+        HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;,
+        GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482;
+        and all associated marks are trademarks of VitalMatrix Ltd.
+        All rights reserved. ICO ZC101813.
+      </p>
+      <p>MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+      <p>VitalMatrix Ltd | 12 Faraday Road, Slough, England, SL2 1RU | Company No. 17046123 |
+         <a href="mailto:info@vitalmatrix.co.uk">info@vitalmatrix.co.uk</a> |
+         <a href="https://www.vitalmatrix.co.uk">www.vitalmatrix.co.uk</a>
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

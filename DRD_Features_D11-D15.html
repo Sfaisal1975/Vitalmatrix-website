@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRD Visualiser Features D11-D15 | VitalMatrix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset and Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0A0F14;
+  --surface: #111820;
+  --surface-2: #1A2230;
+  --border: #2A3444;
+  --text: #E8E6E1;
+  --text-dim: #8A94A0;
+  --gold: #C9A84C;
+  --z1: #C9A84C;
+  --z2: #1A7A8A;
+  --z3: #7B5EA7;
+  --z4: #5F7C6C;
+  --z5: #2E6DB4;
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Typography ── */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.section-desc {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+  max-width: 640px;
+}
+
+/* ── Layout ── */
+.page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.feature-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ── Slider Controls ── */
+.slider-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.slider-panel h2 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--gold);
+}
+
+.slider-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.slider-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.slider-group label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  min-width: 28px;
+  color: var(--text-dim);
+}
+
+.slider-group input[type="range"] {
+  width: 120px;
+  accent-color: var(--gold);
+}
+
+.slider-group .score-val {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  min-width: 24px;
+  text-align: right;
+  color: var(--text);
+}
+
+/* ── Buttons ── */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn:hover { background: var(--border); border-color: var(--gold); }
+.btn-gold { border-color: var(--gold); color: var(--gold); }
+.btn-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; }
+
+/* ── Canvas ── */
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+/* ── T-01 Header ── */
+.t01-header {
+  background: #1C1408;
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+/* ── D13 Sandbox ── */
+.sandbox-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sandbox-col {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  min-height: 200px;
+}
+
+.sandbox-col h4 {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.sandbox-col ul {
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.sandbox-col ul li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #1A2230;
+}
+
+.sandbox-col textarea {
+  width: 100%;
+  min-height: 100px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.5rem;
+  resize: vertical;
+}
+
+.drag-list {
+  list-style: none;
+}
+
+.drag-list li {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.4rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: grab;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  user-select: none;
+}
+
+.drag-list li.dragging {
+  opacity: 0.4;
+}
+
+.drag-list li .zone-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.reasoning-trace {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  min-height: 60px;
+  white-space: pre-wrap;
+}
+
+/* ── D14 Domino ── */
+.domino-controls {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.domino-controls select {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.narrative-strip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  min-height: 40px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+/* ── D15 Dashboard ── */
+.dashboard-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.dash-top-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.8rem;
+}
+
+.zone-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.zone-card .zc-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.zone-card .zc-score {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.zone-card .zc-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 0.3rem;
+}
+
+.zone-card canvas.sparkline {
+  width: 100%;
+  height: 24px;
+  border: none;
+  background: transparent;
+  margin-top: 0.3rem;
+}
+
+.dash-mid-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.6rem;
+}
+
+.cascade-rect {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem;
+  text-align: center;
+}
+
+.cascade-rect .cr-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.cascade-rect .cr-velocity {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  margin-top: 0.2rem;
+}
+
+.cascade-rect .cr-dots {
+  margin-top: 0.3rem;
+}
+
+.dash-bottom-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+
+.summary-metric {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.summary-metric .sm-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.3rem;
+}
+
+.summary-metric .sm-value {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.resilience-centre {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.drd-banner {
+  background: #1C1408;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.drd-banner .crown {
+  font-size: 1.2rem;
+  margin-right: 0.4rem;
+}
+
+.drd-banner .drd-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+
+/* ── Divergence highlight ── */
+.divergence { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+
+/* ── Zone click targets for D14 ── */
+.zone-click-target {
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.zone-click-target:hover { transform: scale(1.08); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sandbox-columns { grid-template-columns: 1fr; }
+  .dash-top-row { grid-template-columns: repeat(3, 1fr); }
+  .dash-mid-row { grid-template-columns: repeat(3, 1fr); }
+  .dash-bottom-row { grid-template-columns: 1fr; }
+  .section-heading { font-size: 1.4rem; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .reduced-motion-bars { display: block; }
+  .animated-canvas { display: none; }
+}
+@media not (prefers-reduced-motion: reduce) {
+  .reduced-motion-bars { display: none; }
+  .animated-canvas { display: block; }
+}
+
+/* ── Print ── */
+@media print {
+  body { background: #fff; color: #111; }
+  .feature-section { border-color: #ccc; break-inside: avoid; }
+  .slider-panel { display: none; }
+  canvas { border-color: #ccc; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- ZONE SLIDERS                                        -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="slider-panel" id="sliderPanel">
+  <h2>Zone Burden Sliders</h2>
+  <div class="slider-row">
+    <div class="slider-group">
+      <label style="color:var(--z1)">Z1</label>
+      <input type="range" id="sliderZ1" min="0" max="100" value="45">
+      <span class="score-val" id="valZ1">45</span>
+    </div>
+    <div class="slider-group">
+      <label style="color:var(--z2)">Z2</label>
+      <input type="range" id="sliderZ2" min="0" max="100" value="55">
+      <span class="score-val" id="valZ2">55</span>
+    </div>
+    <div class="slider-group">
+      <label style="color:var(--z3)">Z3</label>
+      <input type="range" id="sliderZ3" min="0" max="100" value="30">
+      <span class="score-val" id="valZ3">30</span>
+    </div>
+    <div class="slider-group">
+      <label style="color:var(--z4)">Z4</label>
+      <input type="range" id="sliderZ4" min="0" max="100" value="25">
+      <span class="score-val" id="valZ4">25</span>
+    </div>
+    <div class="slider-group">
+      <label style="color:var(--z5)">Z5</label>
+      <input type="range" id="sliderZ5" min="0" max="100" value="50">
+      <span class="score-val" id="valZ5">50</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- D11: CASCADE VELOCITY OSCILLOSCOPE                  -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="feature-section" id="sectionD11">
+  <div class="eyebrow">D11 / Cascade Velocity Oscilloscope</div>
+  <h2 class="section-heading">Waveform Channel Monitor</h2>
+  <p class="section-desc">Five horizontal waveform channels map zone burden as amplitude and cascade velocity as frequency. Impulse spikes propagate from source to target on cascade activation.</p>
+  <canvas id="oscCanvas" class="animated-canvas" width="1100" height="300"></canvas>
+  <div class="reduced-motion-bars" id="oscStaticBars"></div>
+  <div class="btn-row">
+    <button class="btn" id="oscFreeze">Freeze</button>
+    <button class="btn" id="oscReset">Reset</button>
+    <button class="btn btn-gold" id="oscTrigger">Trigger Cascades</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- D12: ZONE GRAVITY WELL SIMULATION                   -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="feature-section" id="sectionD12">
+  <div class="eyebrow">D12 / Zone Gravity Well Simulation</div>
+  <h2 class="section-heading">Gravitational Burden Wells</h2>
+  <p class="section-desc">Five gravitational wells positioned at pentagon vertices. Well depth corresponds to burden score. Fifty particles drift and are pulled toward high-burden zones. Active cascades form transfer tunnels between wells.</p>
+  <canvas id="gravCanvas" class="animated-canvas" width="800" height="600"></canvas>
+  <div class="reduced-motion-bars" id="gravStaticBars">
+    <div style="padding:1rem; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">Gravity Well Simulation (animation paused due to reduced-motion preference)</div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- D13: PRACTITIONER DECISION SANDBOX                  -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="feature-section" id="sectionD13">
+  <div class="eyebrow">D13 / Practitioner Decision Sandbox</div>
+  <h2 class="section-heading">Observe, Hypothesise, Sequence</h2>
+  <div class="t01-header">T-01: Educational sandbox. Not a clinical record.</div>
+  <p class="section-desc">Three-column reasoning workspace. Observations auto-populate from current zone data. Hypothesise freely and sequence zone priority by drag-and-drop. Compare your reasoning against the DRD designation.</p>
+  <div class="sandbox-columns">
+    <div class="sandbox-col">
+      <h4>Observe</h4>
+      <ul id="observeList"></ul>
+    </div>
+    <div class="sandbox-col">
+      <h4>Hypothesise</h4>
+      <textarea id="hypothesisText" placeholder="Enter your hypothesis here. Tag zones with @Z1, @Z2 etc."></textarea>
+    </div>
+    <div class="sandbox-col">
+      <h4>Sequence</h4>
+      <ul class="drag-list" id="sequenceList"></ul>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-gold" id="compareDRD">Compare to DRD</button>
+    <button class="btn" id="exportSandbox">Export Summary</button>
+  </div>
+  <div class="reasoning-trace" id="reasoningTrace">Reasoning trace will appear here after comparison.</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- D14: CASCADE CHAIN REACTION DOMINO MODE             -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="feature-section" id="sectionD14">
+  <div class="eyebrow">D14 / Cascade Chain Reaction Domino Mode</div>
+  <h2 class="section-heading">Domino Chain Propagation</h2>
+  <p class="section-desc">Click any active zone to initiate a domino chain. Cascades fire sequentially at velocity speed, branching through the network until no further active paths remain or a TerrainLock loop is detected.</p>
+  <div class="domino-controls">
+    <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-dim);">Speed:</span>
+    <select id="dominoSpeed">
+      <option value="0.5">0.5x</option>
+      <option value="1" selected>1x</option>
+      <option value="2">2x</option>
+    </select>
+    <button class="btn" id="dominoReplay">Replay</button>
+    <button class="btn btn-gold" id="dominoReset">Reset</button>
+  </div>
+  <canvas id="dominoCanvas" class="animated-canvas" width="800" height="500"></canvas>
+  <div class="narrative-strip" id="narrativeStrip">Click a zone on the canvas to begin the domino chain.</div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- D15: TERRAIN RESILIENCE SCORE DASHBOARD             -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="feature-section" id="sectionD15">
+  <div class="eyebrow">D15 / Terrain Resilience Score Dashboard</div>
+  <h2 class="section-heading">Composite Terrain Overview</h2>
+  <p class="section-desc">Central resilience score with zone cards, cascade activity, and summary metrics. All elements update in real time from the burden sliders above.</p>
+
+  <div class="resilience-centre">
+    <canvas id="resilCircle" width="200" height="200" style="width:200px; height:200px; border:none; background:transparent;"></canvas>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="dash-top-row" id="dashTopRow"></div>
+    <div class="dash-mid-row" id="dashMidRow"></div>
+    <div class="dash-bottom-row" id="dashBottomRow"></div>
+  </div>
+
+  <div class="drd-banner" id="drdBanner">
+    <span class="crown">&#9813;</span>
+    <span class="drd-text" id="drdText">DRD: Z2 (Highest burden zone)</span>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-gold" id="printSummary">Print Summary</button>
+  </div>
+</section>
+
+</div><!-- /.page-wrapper -->
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                          -->
+<!-- ════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── Constants ── */
+  var ZONES = [
+    { id: 'Z1', label: 'Zone 1', colour: '#C9A84C', threshold: 40, pos: 'top' },
+    { id: 'Z2', label: 'Zone 2', colour: '#1A7A8A', threshold: 40, pos: 'right' },
+    { id: 'Z3', label: 'Zone 3', colour: '#7B5EA7', threshold: 40, pos: 'bottom-right' },
+    { id: 'Z4', label: 'Zone 4', colour: '#5F7C6C', threshold: 40, pos: 'bottom-left' },
+    { id: 'Z5', label: 'Zone 5', colour: '#2E6DB4', threshold: 32, pos: 'left' }
+  ];
+
+  var STACKS = [
+    { id: 'S1', from: 1, to: 0, velocity: 'MEDIUM', type: 'STANDARD' },
+    { id: 'S2', from: 0, to: 4, velocity: 'FAST', type: 'STANDARD' },
+    { id: 'S3', from: 3, to: 0, velocity: 'SLOW', type: 'STANDARD' },
+    { id: 'S4', from: 4, to: 1, velocity: 'MEDIUM', type: 'THEORETICAL' },
+    { id: 'S5', from: 1, to: 2, velocity: 'FAST', type: 'STANDARD' },
+    { id: 'S6', from: 0, to: 2, velocity: 'MEDIUM', type: 'UNIDIRECTIONAL' }
+  ];
+
+  var VELOCITY_MAP = { SLOW: 1, MEDIUM: 2, FAST: 3 };
+  var TERRAINLOCK_ZONES = [1, 0, 4]; // Z2, Z1, Z5
+
+  var scores = [45, 55, 30, 25, 50];
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Slider Binding ── */
+  function bindSliders() {
+    for (var i = 0; i < 5; i++) {
+      (function(idx) {
+        var slider = document.getElementById('sliderZ' + (idx + 1));
+        var valEl = document.getElementById('valZ' + (idx + 1));
+        slider.addEventListener('input', function() {
+          scores[idx] = parseInt(this.value, 10);
+          valEl.textContent = this.value;
+          onScoresChanged();
+        });
+      })(i);
+    }
+  }
+
+  function onScoresChanged() {
+    updateD13Observe();
+    updateD15Dashboard();
+  }
+
+  /* ── Utility ── */
+  function getDRDIndex() {
+    var maxVal = -1;
+    var maxIdx = 0;
+    for (var i = 0; i < scores.length; i++) {
+      if (scores[i] > maxVal) { maxVal = scores[i]; maxIdx = i; }
+    }
+    return maxIdx;
+  }
+
+  function isAboveThreshold(idx) {
+    return scores[idx] >= ZONES[idx].threshold;
+  }
+
+  function isTerrainLocked() {
+    return isAboveThreshold(1) && isAboveThreshold(0) && isAboveThreshold(4);
+  }
+
+  function getPentagonPositions(cx, cy, r) {
+    var pts = [];
+    for (var i = 0; i < 5; i++) {
+      var angle = -Math.PI / 2 + (2 * Math.PI * i / 5);
+      pts.push({ x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) });
+    }
+    return pts;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* D11: CASCADE VELOCITY OSCILLOSCOPE                  */
+  /* ════════════════════════════════════════════════════ */
+  var oscCanvas = document.getElementById('oscCanvas');
+  var oscCtx = oscCanvas.getContext('2d');
+  var oscFrozen = false;
+  var oscTime = 0;
+  var oscSpikes = [];
+  var oscAnimId = null;
+
+  function getOscFreq(zoneIdx) {
+    var totalVel = 0;
+    var count = 0;
+    for (var s = 0; s < STACKS.length; s++) {
+      if (STACKS[s].to === zoneIdx) {
+        totalVel += VELOCITY_MAP[STACKS[s].velocity];
+        count++;
+      }
+    }
+    return count > 0 ? 0.5 + (totalVel / count) * 0.8 : 0.8;
+  }
+
+  function drawOscilloscope() {
+    var w = oscCanvas.width;
+    var h = oscCanvas.height;
+    var channelH = h / 5;
+
+    oscCtx.fillStyle = '#0A0F14';
+    oscCtx.fillRect(0, 0, w, h);
+
+    var tl = isTerrainLocked();
+
+    for (var i = 0; i < 5; i++) {
+      var yBase = channelH * i + channelH / 2;
+      var amp = (scores[i] / 100) * (channelH * 0.4);
+      var freq = getOscFreq(i);
+
+      // Channel separator
+      oscCtx.strokeStyle = '#1A2230';
+      oscCtx.lineWidth = 1;
+      oscCtx.beginPath();
+      oscCtx.moveTo(0, channelH * (i + 1));
+      oscCtx.lineTo(w, channelH * (i + 1));
+      oscCtx.stroke();
+
+      // Zone label
+      oscCtx.fillStyle = ZONES[i].colour;
+      oscCtx.font = '11px "DM Mono", monospace';
+      oscCtx.fillText(ZONES[i].id, 8, channelH * i + 16);
+
+      // Waveform
+      var isTLZone = (i === 0 || i === 1 || i === 4);
+      var useGold = tl && isTLZone;
+
+      oscCtx.strokeStyle = useGold ? '#C9A84C' : ZONES[i].colour;
+      oscCtx.lineWidth = useGold ? 2 : 1.5;
+      oscCtx.globalAlpha = useGold ? 1 : 0.8;
+      oscCtx.beginPath();
+
+      var phaseSync = tl && isTLZone ? 0 : i * 0.7;
+
+      for (var x = 0; x < w; x++) {
+        var spikeAmp = 0;
+        for (var sp = 0; sp < oscSpikes.length; sp++) {
+          if (oscSpikes[sp].zone === i) {
+            var dist = Math.abs(x - oscSpikes[sp].x);
+            if (dist < 40) {
+              spikeAmp += (1 - dist / 40) * channelH * 0.35 * oscSpikes[sp].strength;
+            }
+          }
+        }
+        var y = yBase + Math.sin((x * 0.02 * freq) + oscTime + phaseSync) * amp + spikeAmp * Math.sin(oscTime * 5);
+        if (x === 0) { oscCtx.moveTo(x, y); } else { oscCtx.lineTo(x, y); }
+      }
+      oscCtx.stroke();
+      oscCtx.globalAlpha = 1;
+
+      // TerrainLock gold tint overlay
+      if (useGold) {
+        oscCtx.fillStyle = 'rgba(201,168,76,0.04)';
+        oscCtx.fillRect(0, channelH * i, w, channelH);
+      }
+    }
+  }
+
+  function updateOscSpikes() {
+    for (var sp = oscSpikes.length - 1; sp >= 0; sp--) {
+      oscSpikes[sp].x += oscSpikes[sp].speed;
+      oscSpikes[sp].strength *= 0.98;
+      if (oscSpikes[sp].x > oscCanvas.width || oscSpikes[sp].strength < 0.05) {
+        oscSpikes.splice(sp, 1);
+      }
+    }
+  }
+
+  function oscLoop() {
+    if (!oscFrozen) {
+      oscTime += 0.04;
+      updateOscSpikes();
+      drawOscilloscope();
+    }
+    oscAnimId = requestAnimationFrame(oscLoop);
+  }
+
+  document.getElementById('oscFreeze').addEventListener('click', function() {
+    oscFrozen = !oscFrozen;
+    this.textContent = oscFrozen ? 'Unfreeze' : 'Freeze';
+  });
+
+  document.getElementById('oscReset').addEventListener('click', function() {
+    oscTime = 0;
+    oscSpikes = [];
+    oscFrozen = false;
+    document.getElementById('oscFreeze').textContent = 'Freeze';
+  });
+
+  document.getElementById('oscTrigger').addEventListener('click', function() {
+    for (var s = 0; s < STACKS.length; s++) {
+      if (isAboveThreshold(STACKS[s].from)) {
+        oscSpikes.push({
+          zone: STACKS[s].to,
+          x: 0,
+          speed: VELOCITY_MAP[STACKS[s].velocity] * 2.5,
+          strength: 1
+        });
+      }
+    }
+  });
+
+  // Static bars for reduced motion
+  function drawOscStaticBars() {
+    var container = document.getElementById('oscStaticBars');
+    var html = '<div style="padding:1rem; display:flex; gap:0.5rem; align-items:flex-end; height:120px;">';
+    for (var i = 0; i < 5; i++) {
+      var h = Math.max(10, scores[i]);
+      html += '<div style="flex:1; height:' + h + '%; background:' + ZONES[i].colour + '; border-radius:4px 4px 0 0; position:relative;">';
+      html += '<span style="position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:0.65rem; color:' + ZONES[i].colour + ';">' + ZONES[i].id + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+    container.innerHTML = html;
+  }
+
+  if (!reducedMotion) {
+    oscLoop();
+  } else {
+    drawOscStaticBars();
+  }
+
+
+  /* ════════════════════════════════════════════════════ */
+  /* D12: ZONE GRAVITY WELL SIMULATION                   */
+  /* ════════════════════════════════════════════════════ */
+  var gravCanvas = document.getElementById('gravCanvas');
+  var gravCtx = gravCanvas.getContext('2d');
+  var gravAnimId = null;
+
+  var particles = [];
+  for (var p = 0; p < 50; p++) {
+    particles.push({
+      x: Math.random() * 800,
+      y: Math.random() * 600,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5
+    });
+  }
+
+  function drawGravityWells() {
+    var w = gravCanvas.width;
+    var h = gravCanvas.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var R = Math.min(w, h) * 0.35;
+    var pts = getPentagonPositions(cx, cy, R);
+
+    gravCtx.fillStyle = '#0A0F14';
+    gravCtx.fillRect(0, 0, w, h);
+
+    var tl = isTerrainLocked();
+    var drdIdx = getDRDIndex();
+
+    // Draw cascade tunnels
+    for (var s = 0; s < STACKS.length; s++) {
+      var stack = STACKS[s];
+      if (isAboveThreshold(stack.from)) {
+        var p1 = pts[stack.from];
+        var p2 = pts[stack.to];
+        gravCtx.strokeStyle = 'rgba(201,168,76,0.15)';
+        gravCtx.lineWidth = 2;
+        if (stack.type === 'THEORETICAL') {
+          gravCtx.setLineDash([6, 4]);
+        } else {
+          gravCtx.setLineDash([]);
+        }
+        gravCtx.beginPath();
+        gravCtx.moveTo(p1.x, p1.y);
+        gravCtx.lineTo(p2.x, p2.y);
+        gravCtx.stroke();
+        gravCtx.setLineDash([]);
+      }
+    }
+
+    // TerrainLock basin
+    if (tl) {
+      gravCtx.fillStyle = 'rgba(201,168,76,0.05)';
+      gravCtx.beginPath();
+      gravCtx.moveTo(pts[0].x, pts[0].y);
+      gravCtx.lineTo(pts[1].x, pts[1].y);
+      gravCtx.lineTo(pts[4].x, pts[4].y);
+      gravCtx.closePath();
+      gravCtx.fill();
+      gravCtx.strokeStyle = 'rgba(201,168,76,0.3)';
+      gravCtx.lineWidth = 1;
+      gravCtx.stroke();
+    }
+
+    // Draw wells
+    for (var i = 0; i < 5; i++) {
+      var pt = pts[i];
+      var depth = scores[i] / 100;
+      var wellR = 20 + depth * 30;
+
+      // Well gradient
+      var grad = gravCtx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, wellR);
+      grad.addColorStop(0, ZONES[i].colour);
+      grad.addColorStop(1, 'rgba(10,15,20,0)');
+      gravCtx.fillStyle = grad;
+      gravCtx.beginPath();
+      gravCtx.arc(pt.x, pt.y, wellR, 0, Math.PI * 2);
+      gravCtx.fill();
+
+      // Event horizon for DRD zone
+      if (i === drdIdx) {
+        gravCtx.strokeStyle = '#C9A84C';
+        gravCtx.lineWidth = 2;
+        gravCtx.beginPath();
+        gravCtx.arc(pt.x, pt.y, wellR + 8, 0, Math.PI * 2);
+        gravCtx.stroke();
+      }
+
+      // Label
+      gravCtx.fillStyle = ZONES[i].colour;
+      gravCtx.font = '12px "DM Mono", monospace';
+      gravCtx.textAlign = 'center';
+      gravCtx.fillText(ZONES[i].id + ' (' + scores[i] + ')', pt.x, pt.y - wellR - 8);
+    }
+
+    // Update and draw particles
+    for (var pi = 0; pi < particles.length; pi++) {
+      var part = particles[pi];
+
+      // Gravity pull
+      for (var zi = 0; zi < 5; zi++) {
+        var zpt = pts[zi];
+        var dx = zpt.x - part.x;
+        var dy = zpt.y - part.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 5) dist = 5;
+        var force = (scores[zi] / 100) * 0.15 / (dist * 0.05);
+        force = Math.min(force, 0.8);
+        part.vx += (dx / dist) * force;
+        part.vy += (dy / dist) * force;
+      }
+
+      // TerrainLock circulation
+      if (tl) {
+        var tlCx = (pts[0].x + pts[1].x + pts[4].x) / 3;
+        var tlCy = (pts[0].y + pts[1].y + pts[4].y) / 3;
+        var tdx = part.x - tlCx;
+        var tdy = part.y - tlCy;
+        var tDist = Math.sqrt(tdx * tdx + tdy * tdy);
+        if (tDist < R * 0.8) {
+          part.vx += (-tdy / tDist) * 0.03;
+          part.vy += (tdx / tDist) * 0.03;
+        }
+      }
+
+      // Damping
+      part.vx *= 0.97;
+      part.vy *= 0.97;
+      part.x += part.vx;
+      part.y += part.vy;
+
+      // Bounds
+      if (part.x < 0) { part.x = 0; part.vx *= -0.5; }
+      if (part.x > w) { part.x = w; part.vx *= -0.5; }
+      if (part.y < 0) { part.y = 0; part.vy *= -0.5; }
+      if (part.y > h) { part.y = h; part.vy *= -0.5; }
+
+      // Find nearest zone for colour
+      var nearestZ = 0;
+      var nearestD = Infinity;
+      for (var nz = 0; nz < 5; nz++) {
+        var nd = Math.sqrt(Math.pow(pts[nz].x - part.x, 2) + Math.pow(pts[nz].y - part.y, 2));
+        if (nd < nearestD) { nearestD = nd; nearestZ = nz; }
+      }
+
+      gravCtx.fillStyle = ZONES[nearestZ].colour;
+      gravCtx.globalAlpha = 0.7;
+      gravCtx.beginPath();
+      gravCtx.arc(part.x, part.y, 2.5, 0, Math.PI * 2);
+      gravCtx.fill();
+      gravCtx.globalAlpha = 1;
+    }
+
+    gravCtx.textAlign = 'start';
+  }
+
+  function gravLoop() {
+    drawGravityWells();
+    gravAnimId = requestAnimationFrame(gravLoop);
+  }
+
+  if (!reducedMotion) {
+    gravLoop();
+  }
+
+
+  /* ════════════════════════════════════════════════════ */
+  /* D13: PRACTITIONER DECISION SANDBOX                  */
+  /* ════════════════════════════════════════════════════ */
+  var sequenceOrder = [0, 1, 2, 3, 4];
+
+  function updateD13Observe() {
+    var list = document.getElementById('observeList');
+    var html = '';
+    for (var i = 0; i < 5; i++) {
+      var status = isAboveThreshold(i) ? 'ACTIVE' : 'sub-threshold';
+      var statusColour = isAboveThreshold(i) ? ZONES[i].colour : '#555';
+      html += '<li><span style="color:' + ZONES[i].colour + '">' + ZONES[i].id + '</span>: ' + scores[i] + '/100 ';
+      html += '<span style="color:' + statusColour + '">(' + status + ', T=' + ZONES[i].threshold + ')</span></li>';
+    }
+    var tl = isTerrainLocked();
+    html += '<li style="color:#C9A84C; margin-top:0.5rem;">TerrainLock: ' + (tl ? 'ACTIVE (Z2-Z1-Z5)' : 'Inactive') + '</li>';
+    html += '<li>DRD: ' + ZONES[getDRDIndex()].id + ' (Highest burden zone)</li>';
+    list.innerHTML = html;
+  }
+
+  function buildSequenceList() {
+    var list = document.getElementById('sequenceList');
+    var html = '';
+    for (var i = 0; i < sequenceOrder.length; i++) {
+      var idx = sequenceOrder[i];
+      html += '<li draggable="true" data-idx="' + idx + '">';
+      html += '<span class="zone-dot" style="background:' + ZONES[idx].colour + '"></span>';
+      html += ZONES[idx].id + ' (Score: ' + scores[idx] + ')';
+      html += '</li>';
+    }
+    list.innerHTML = html;
+    attachDragHandlers();
+  }
+
+  function attachDragHandlers() {
+    var list = document.getElementById('sequenceList');
+    var items = list.querySelectorAll('li');
+    var dragItem = null;
+
+    for (var i = 0; i < items.length; i++) {
+      items[i].addEventListener('dragstart', function(e) {
+        dragItem = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      items[i].addEventListener('dragend', function() {
+        this.classList.remove('dragging');
+        dragItem = null;
+        // Update sequenceOrder
+        var newOrder = [];
+        var lis = list.querySelectorAll('li');
+        for (var j = 0; j < lis.length; j++) {
+          newOrder.push(parseInt(lis[j].getAttribute('data-idx'), 10));
+        }
+        sequenceOrder = newOrder;
+      });
+      items[i].addEventListener('dragover', function(e) {
+        e.preventDefault();
+        if (dragItem && this !== dragItem) {
+          var rect = this.getBoundingClientRect();
+          var midY = rect.top + rect.height / 2;
+          if (e.clientY < midY) {
+            list.insertBefore(dragItem, this);
+          } else {
+            list.insertBefore(dragItem, this.nextSibling);
+          }
+        }
+      });
+    }
+  }
+
+  document.getElementById('compareDRD').addEventListener('click', function() {
+    var trace = document.getElementById('reasoningTrace');
+    // DRD order: sorted by score descending
+    var drdOrder = [0, 1, 2, 3, 4].slice().sort(function(a, b) { return scores[b] - scores[a]; });
+
+    var divergences = [];
+    for (var i = 0; i < 5; i++) {
+      if (sequenceOrder[i] !== drdOrder[i]) {
+        divergences.push('Position ' + (i + 1) + ': You placed ' + ZONES[sequenceOrder[i]].id + ' but DRD designates ' + ZONES[drdOrder[i]].id + ' (score ' + scores[drdOrder[i]] + ')');
+      }
+    }
+
+    var text = 'DRD Priority Order: ' + drdOrder.map(function(idx) { return ZONES[idx].id + ' (' + scores[idx] + ')'; }).join(' > ') + '\n';
+    text += 'Your Sequence:      ' + sequenceOrder.map(function(idx) { return ZONES[idx].id + ' (' + scores[idx] + ')'; }).join(' > ') + '\n\n';
+
+    if (divergences.length === 0) {
+      text += 'No divergence detected. Your sequence matches the DRD burden-priority order.';
+    } else {
+      text += 'Divergences found (' + divergences.length + '):\n';
+      for (var d = 0; d < divergences.length; d++) {
+        text += '  - ' + divergences[d] + '\n';
+      }
+      text += '\nReasoning: The DRD designation ranks zones strictly by descending burden score. ';
+      text += 'Divergence in your sequence may reflect clinical reasoning about cascade relationships, ';
+      text += 'zone interactions, or TerrainLock dynamics that go beyond raw score ordering. ';
+      text += 'This is the purpose of the sandbox: to explore whether additional context changes your prioritisation.';
+    }
+
+    trace.textContent = text;
+
+    // Highlight divergent items
+    var lis = document.getElementById('sequenceList').querySelectorAll('li');
+    for (var li = 0; li < lis.length; li++) {
+      if (sequenceOrder[li] !== drdOrder[li]) {
+        lis[li].classList.add('divergence');
+      } else {
+        lis[li].classList.remove('divergence');
+      }
+    }
+  });
+
+  document.getElementById('exportSandbox').addEventListener('click', function() {
+    var hypothesis = document.getElementById('hypothesisText').value || '(none entered)';
+    var tl = isTerrainLocked();
+    var summary = '=== PRACTITIONER DECISION SANDBOX EXPORT ===\n';
+    summary += 'T-01: Educational sandbox. Not a clinical record.\n';
+    summary += 'Date: ' + new Date().toISOString().split('T')[0] + '\n\n';
+    summary += '-- OBSERVATIONS --\n';
+    for (var i = 0; i < 5; i++) {
+      summary += ZONES[i].id + ': ' + scores[i] + '/100 (' + (isAboveThreshold(i) ? 'ACTIVE' : 'sub-threshold') + ', threshold=' + ZONES[i].threshold + ')\n';
+    }
+    summary += 'TerrainLock: ' + (tl ? 'ACTIVE (Z2-Z1-Z5)' : 'Inactive') + '\n';
+    summary += 'DRD: ' + ZONES[getDRDIndex()].id + ' (Highest burden zone)\n\n';
+    summary += '-- HYPOTHESIS --\n' + hypothesis + '\n\n';
+    summary += '-- SEQUENCE --\n';
+    for (var j = 0; j < sequenceOrder.length; j++) {
+      summary += (j + 1) + '. ' + ZONES[sequenceOrder[j]].id + ' (' + scores[sequenceOrder[j]] + ')\n';
+    }
+    summary += '\n=== END ===';
+
+    // Copy to clipboard
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(summary);
+    }
+    alert('Summary copied to clipboard.\n\n' + summary);
+  });
+
+  updateD13Observe();
+  buildSequenceList();
+
+
+  /* ════════════════════════════════════════════════════ */
+  /* D14: CASCADE CHAIN REACTION DOMINO MODE             */
+  /* ════════════════════════════════════════════════════ */
+  var domCanvas = document.getElementById('dominoCanvas');
+  var domCtx = domCanvas.getContext('2d');
+  var domAnimId = null;
+  var dominoSteps = [];
+  var dominoActive = false;
+  var dominoCurrentStep = 0;
+  var dominoTimer = 0;
+  var dominoParticles = [];
+  var dominoPulses = [];
+  var dominoSpeedVal = 1;
+  var lastDominoSource = -1;
+  var terrainLockLoopCount = 0;
+  var dominoNarrative = '';
+
+  var domPts = getPentagonPositions(400, 250, 180);
+
+  document.getElementById('dominoSpeed').addEventListener('change', function() {
+    dominoSpeedVal = parseFloat(this.value);
+  });
+
+  function drawDominoBase() {
+    var w = domCanvas.width;
+    var h = domCanvas.height;
+    domCtx.fillStyle = '#0A0F14';
+    domCtx.fillRect(0, 0, w, h);
+
+    // Draw cascade lines
+    for (var s = 0; s < STACKS.length; s++) {
+      var stack = STACKS[s];
+      var p1 = domPts[stack.from];
+      var p2 = domPts[stack.to];
+
+      domCtx.strokeStyle = 'rgba(255,255,255,0.08)';
+      domCtx.lineWidth = 1;
+      if (stack.type === 'THEORETICAL') {
+        domCtx.setLineDash([5, 4]);
+      } else {
+        domCtx.setLineDash([]);
+      }
+      domCtx.beginPath();
+      domCtx.moveTo(p1.x, p1.y);
+      domCtx.lineTo(p2.x, p2.y);
+      domCtx.stroke();
+
+      // Midpoint label
+      var mx = (p1.x + p2.x) / 2;
+      var my = (p1.y + p2.y) / 2;
+      domCtx.fillStyle = '#555';
+      domCtx.font = '9px "DM Mono", monospace';
+      domCtx.textAlign = 'center';
+      var labelText = stack.id + ' ' + stack.velocity;
+      if (stack.type === 'THEORETICAL') labelText += ' THEORETICAL';
+      if (stack.type === 'UNIDIRECTIONAL') labelText += ' UNIDIRECTIONAL';
+      domCtx.fillText(labelText, mx, my - 6);
+      domCtx.setLineDash([]);
+    }
+
+    // Draw zones
+    for (var i = 0; i < 5; i++) {
+      var pt = domPts[i];
+      var active = isAboveThreshold(i);
+      var r = active ? 28 : 22;
+
+      domCtx.fillStyle = active ? ZONES[i].colour : '#2A3444';
+      domCtx.globalAlpha = active ? 0.3 : 0.15;
+      domCtx.beginPath();
+      domCtx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+      domCtx.fill();
+      domCtx.globalAlpha = 1;
+
+      domCtx.strokeStyle = active ? ZONES[i].colour : '#444';
+      domCtx.lineWidth = 2;
+      domCtx.beginPath();
+      domCtx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+      domCtx.stroke();
+
+      domCtx.fillStyle = active ? '#fff' : '#666';
+      domCtx.font = '13px "DM Mono", monospace';
+      domCtx.textAlign = 'center';
+      domCtx.textBaseline = 'middle';
+      domCtx.fillText(ZONES[i].id, pt.x, pt.y);
+    }
+
+    domCtx.textBaseline = 'alphabetic';
+    domCtx.textAlign = 'start';
+  }
+
+  function drawDominoPulses() {
+    for (var i = dominoPulses.length - 1; i >= 0; i--) {
+      var pulse = dominoPulses[i];
+      pulse.radius += 1.5;
+      pulse.alpha -= 0.02;
+      if (pulse.alpha <= 0) { dominoPulses.splice(i, 1); continue; }
+
+      domCtx.strokeStyle = pulse.colour;
+      domCtx.globalAlpha = pulse.alpha;
+      domCtx.lineWidth = 2;
+      domCtx.beginPath();
+      domCtx.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2);
+      domCtx.stroke();
+      domCtx.globalAlpha = 1;
+    }
+  }
+
+  function drawDominoParticles() {
+    for (var i = dominoParticles.length - 1; i >= 0; i--) {
+      var dp = dominoParticles[i];
+      dp.t += dp.speed * dominoSpeedVal;
+      if (dp.t >= 1) {
+        dominoParticles.splice(i, 1);
+        continue;
+      }
+      var x = dp.sx + (dp.ex - dp.sx) * dp.t;
+      var y = dp.sy + (dp.ey - dp.sy) * dp.t;
+
+      domCtx.fillStyle = dp.colour;
+      domCtx.globalAlpha = 0.9;
+      domCtx.beginPath();
+      domCtx.arc(x, y, 3, 0, Math.PI * 2);
+      domCtx.fill();
+      domCtx.globalAlpha = 1;
+
+      // Dashed trail for THEORETICAL
+      if (dp.theoretical) {
+        domCtx.strokeStyle = 'rgba(201,168,76,0.3)';
+        domCtx.setLineDash([3, 3]);
+        domCtx.lineWidth = 1;
+        domCtx.beginPath();
+        domCtx.moveTo(dp.sx, dp.sy);
+        domCtx.lineTo(x, y);
+        domCtx.stroke();
+        domCtx.setLineDash([]);
+
+        domCtx.fillStyle = 'rgba(201,168,76,0.4)';
+        domCtx.font = '8px "DM Mono", monospace';
+        domCtx.textAlign = 'center';
+        domCtx.fillText('THEORETICAL', x, y - 10);
+        domCtx.textAlign = 'start';
+      }
+    }
+  }
+
+  function drawDominoStepMarkers() {
+    for (var i = 0; i < dominoSteps.length; i++) {
+      var step = dominoSteps[i];
+      if (!step.fired) continue;
+      var pt = domPts[step.zone];
+      domCtx.fillStyle = '#C9A84C';
+      domCtx.font = 'bold 10px "DM Mono", monospace';
+      domCtx.textAlign = 'center';
+      domCtx.fillText(String(i + 1), pt.x + 30, pt.y - 20);
+      domCtx.textAlign = 'start';
+    }
+  }
+
+  function dominoLoop() {
+    drawDominoBase();
+    drawDominoPulses();
+    drawDominoParticles();
+    drawDominoStepMarkers();
+    domAnimId = requestAnimationFrame(dominoLoop);
+  }
+
+  function startDominoChain(startZone) {
+    dominoSteps = [];
+    dominoParticles = [];
+    dominoPulses = [];
+    dominoNarrative = '';
+    terrainLockLoopCount = 0;
+    document.getElementById('narrativeStrip').textContent = '';
+
+    var visited = {};
+    var queue = [{ zone: startZone, depth: 0 }];
+    var stepNum = 0;
+
+    function processNext() {
+      if (queue.length === 0) {
+        appendNarrative('Chain complete. ' + stepNum + ' step(s) fired.');
+        return;
+      }
+
+      var current = queue.shift();
+      var zoneIdx = current.zone;
+      var key = 'z' + zoneIdx;
+
+      // TerrainLock loop detection
+      var tlZones = [0, 1, 4];
+      var isTLZone = tlZones.indexOf(zoneIdx) !== -1;
+      if (visited[key] && isTLZone && isTerrainLocked()) {
+        terrainLockLoopCount++;
+        if (terrainLockLoopCount >= 3) {
+          // Gold pulse x3
+          for (var gp = 0; gp < 3; gp++) {
+            (function(delay) {
+              setTimeout(function() {
+                for (var tz = 0; tz < tlZones.length; tz++) {
+                  dominoPulses.push({
+                    x: domPts[tlZones[tz]].x,
+                    y: domPts[tlZones[tz]].y,
+                    radius: 10,
+                    alpha: 0.8,
+                    colour: '#C9A84C'
+                  });
+                }
+              }, delay * 400 / dominoSpeedVal);
+            })(gp);
+          }
+          appendNarrative('TerrainLock loop detected at ' + ZONES[zoneIdx].id + '. Gold pulse x3. Chain halted.');
+          return;
+        }
+      }
+
+      if (visited[key] && !isTLZone) {
+        processNext();
+        return;
+      }
+      visited[key] = true;
+
+      if (!isAboveThreshold(zoneIdx)) {
+        appendNarrative('Step ' + (stepNum + 1) + ': ' + ZONES[zoneIdx].id + ' is sub-threshold. Branch ends.');
+        processNext();
+        return;
+      }
+
+      stepNum++;
+      dominoSteps.push({ zone: zoneIdx, fired: true });
+
+      // Pulse
+      dominoPulses.push({
+        x: domPts[zoneIdx].x,
+        y: domPts[zoneIdx].y,
+        radius: 5,
+        alpha: 0.9,
+        colour: ZONES[zoneIdx].colour
+      });
+
+      appendNarrative('Step ' + stepNum + ': ' + ZONES[zoneIdx].id + ' fires (score ' + scores[zoneIdx] + ').');
+
+      // Find outgoing cascades
+      var outgoing = [];
+      for (var s = 0; s < STACKS.length; s++) {
+        if (STACKS[s].from === zoneIdx) {
+          outgoing.push(STACKS[s]);
+        }
+      }
+
+      for (var o = 0; o < outgoing.length; o++) {
+        var stack = outgoing[o];
+        var velSpeed = VELOCITY_MAP[stack.velocity] * 0.015;
+        dominoParticles.push({
+          sx: domPts[stack.from].x,
+          sy: domPts[stack.from].y,
+          ex: domPts[stack.to].x,
+          ey: domPts[stack.to].y,
+          t: 0,
+          speed: velSpeed,
+          colour: ZONES[stack.from].colour,
+          theoretical: stack.type === 'THEORETICAL'
+        });
+
+        var label = stack.id + ' ' + stack.velocity;
+        if (stack.type === 'THEORETICAL') label += ' THEORETICAL';
+        if (stack.type === 'UNIDIRECTIONAL') label += ' UNIDIRECTIONAL';
+        appendNarrative('  -> ' + label + ' to ' + ZONES[stack.to].id);
+
+        queue.push({ zone: stack.to, depth: current.depth + 1 });
+      }
+
+      if (outgoing.length === 0) {
+        appendNarrative('  No outgoing cascades from ' + ZONES[zoneIdx].id + '.');
+      }
+
+      var delay = 800 / dominoSpeedVal;
+      setTimeout(processNext, delay);
+    }
+
+    processNext();
+  }
+
+  function appendNarrative(text) {
+    dominoNarrative += text + '\n';
+    var strip = document.getElementById('narrativeStrip');
+    strip.textContent = dominoNarrative;
+    strip.scrollTop = strip.scrollHeight;
+  }
+
+  // Click handler on canvas for zone selection
+  domCanvas.addEventListener('click', function(e) {
+    var rect = domCanvas.getBoundingClientRect();
+    var scaleX = domCanvas.width / rect.width;
+    var scaleY = domCanvas.height / rect.height;
+    var mx = (e.clientX - rect.left) * scaleX;
+    var my = (e.clientY - rect.top) * scaleY;
+
+    for (var i = 0; i < 5; i++) {
+      var dx = mx - domPts[i].x;
+      var dy = my - domPts[i].y;
+      if (Math.sqrt(dx * dx + dy * dy) < 35 && isAboveThreshold(i)) {
+        lastDominoSource = i;
+        startDominoChain(i);
+        return;
+      }
+    }
+  });
+
+  document.getElementById('dominoReplay').addEventListener('click', function() {
+    if (lastDominoSource >= 0) {
+      startDominoChain(lastDominoSource);
+    }
+  });
+
+  document.getElementById('dominoReset').addEventListener('click', function() {
+    dominoSteps = [];
+    dominoParticles = [];
+    dominoPulses = [];
+    dominoNarrative = '';
+    lastDominoSource = -1;
+    terrainLockLoopCount = 0;
+    document.getElementById('narrativeStrip').textContent = 'Click a zone on the canvas to begin the domino chain.';
+  });
+
+  if (!reducedMotion) {
+    dominoLoop();
+  } else {
+    drawDominoBase();
+  }
+
+
+  /* ════════════════════════════════════════════════════ */
+  /* D15: TERRAIN RESILIENCE SCORE DASHBOARD             */
+  /* ════════════════════════════════════════════════════ */
+  var resilCanvas = document.getElementById('resilCircle');
+  var resilCtx = resilCanvas.getContext('2d');
+  var sparkHistory = [[45],[55],[30],[25],[50]];
+
+  function getResilienceScore() {
+    var avg = 0;
+    for (var i = 0; i < scores.length; i++) avg += scores[i];
+    avg = avg / scores.length;
+    // Invert: high burden = low resilience. Scale 0-10.
+    return Math.max(0, Math.min(10, ((100 - avg) / 100) * 10)).toFixed(1);
+  }
+
+  function drawResilienceCircle() {
+    var w = resilCanvas.width;
+    var h = resilCanvas.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var r = 80;
+
+    resilCtx.clearRect(0, 0, w, h);
+
+    var resil = parseFloat(getResilienceScore());
+    var pct = resil / 10;
+
+    // Background arc
+    resilCtx.strokeStyle = '#2A3444';
+    resilCtx.lineWidth = 10;
+    resilCtx.beginPath();
+    resilCtx.arc(cx, cy, r, -Math.PI * 0.75, Math.PI * 0.75);
+    resilCtx.stroke();
+
+    // Value arc
+    var startAngle = -Math.PI * 0.75;
+    var endAngle = startAngle + (Math.PI * 1.5) * pct;
+    var colour = resil > 6 ? '#5F7C6C' : resil > 3 ? '#C9A84C' : '#AA3333';
+    resilCtx.strokeStyle = colour;
+    resilCtx.lineWidth = 10;
+    resilCtx.lineCap = 'round';
+    resilCtx.beginPath();
+    resilCtx.arc(cx, cy, r, startAngle, endAngle);
+    resilCtx.stroke();
+    resilCtx.lineCap = 'butt';
+
+    // Centre text
+    resilCtx.fillStyle = colour;
+    resilCtx.font = 'bold 32px "DM Mono", monospace';
+    resilCtx.textAlign = 'center';
+    resilCtx.textBaseline = 'middle';
+    resilCtx.fillText(resil.toString(), cx, cy - 6);
+
+    resilCtx.fillStyle = '#8A94A0';
+    resilCtx.font = '10px "DM Mono", monospace';
+    resilCtx.fillText('RESILIENCE', cx, cy + 22);
+    resilCtx.fillText('(0-10 inverted)', cx, cy + 36);
+
+    resilCtx.textAlign = 'start';
+    resilCtx.textBaseline = 'alphabetic';
+  }
+
+  function buildDashTopRow() {
+    var container = document.getElementById('dashTopRow');
+    var html = '';
+    for (var i = 0; i < 5; i++) {
+      var active = isAboveThreshold(i);
+      var badgeBg = active ? ZONES[i].colour : '#2A3444';
+      var badgeText = active ? 'ACTIVE' : 'SUB';
+      html += '<div class="zone-card">';
+      html += '<div class="zc-label" style="color:' + ZONES[i].colour + '">' + ZONES[i].id + '</div>';
+      html += '<div class="zc-score" style="color:' + ZONES[i].colour + '">' + scores[i] + '</div>';
+      html += '<canvas class="sparkline" id="spark' + i + '" width="120" height="24"></canvas>';
+      html += '<span class="zc-badge" style="background:' + badgeBg + '; color:#fff;">' + badgeText + '</span>';
+      html += '</div>';
+    }
+    container.innerHTML = html;
+
+    // Draw sparklines
+    for (var j = 0; j < 5; j++) {
+      if (sparkHistory[j].length > 20) sparkHistory[j].shift();
+      sparkHistory[j].push(scores[j]);
+      drawSparkline(j);
+    }
+  }
+
+  function drawSparkline(idx) {
+    var canvas = document.getElementById('spark' + idx);
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width;
+    var h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    var data = sparkHistory[idx];
+    if (data.length < 2) return;
+
+    ctx.strokeStyle = ZONES[idx].colour;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+
+    var step = w / (data.length - 1);
+    for (var i = 0; i < data.length; i++) {
+      var x = i * step;
+      var y = h - (data[i] / 100) * h;
+      if (i === 0) { ctx.moveTo(x, y); } else { ctx.lineTo(x, y); }
+    }
+    ctx.stroke();
+  }
+
+  function buildDashMidRow() {
+    var container = document.getElementById('dashMidRow');
+    var html = '';
+    for (var s = 0; s < STACKS.length; s++) {
+      var stack = STACKS[s];
+      var active = isAboveThreshold(stack.from);
+      var borderCol = active ? ZONES[stack.from].colour : '#2A3444';
+      var velDots = '';
+      var dotCount = VELOCITY_MAP[stack.velocity];
+      for (var d = 0; d < 3; d++) {
+        var dotCol = d < dotCount ? ZONES[stack.from].colour : '#2A3444';
+        velDots += '<span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:' + dotCol + '; margin:0 2px;"></span>';
+      }
+      var typeLabel = '';
+      if (stack.type === 'THEORETICAL') typeLabel = ' <span style="color:#C9A84C; font-style:italic;">THEORETICAL</span>';
+      if (stack.type === 'UNIDIRECTIONAL') typeLabel = ' <span style="color:#8A94A0;">UNIDIRECTIONAL</span>';
+
+      html += '<div class="cascade-rect" style="border-color:' + borderCol + '">';
+      html += '<div class="cr-label">' + stack.id + ': ' + ZONES[stack.from].id + ' > ' + ZONES[stack.to].id + typeLabel + '</div>';
+      html += '<div class="cr-velocity">' + stack.velocity + '</div>';
+      html += '<div class="cr-dots">' + velDots + '</div>';
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  }
+
+  function buildDashBottomRow() {
+    var container = document.getElementById('dashBottomRow');
+    var activeCount = 0;
+    for (var i = 0; i < 5; i++) {
+      if (isAboveThreshold(i)) activeCount++;
+    }
+
+    var cascadeLoad = 0;
+    for (var s = 0; s < STACKS.length; s++) {
+      if (isAboveThreshold(STACKS[s].from)) cascadeLoad++;
+    }
+
+    var tl = isTerrainLocked();
+
+    var html = '';
+    html += '<div class="summary-metric"><div class="sm-label">Active Zones</div><div class="sm-value">' + activeCount + '/5</div></div>';
+    html += '<div class="summary-metric"><div class="sm-label">Cascade Load</div><div class="sm-value">' + cascadeLoad + '/6</div></div>';
+    html += '<div class="summary-metric"><div class="sm-label">TerrainLock</div><div class="sm-value" style="color:' + (tl ? '#C9A84C' : '#555') + '">' + (tl ? 'ACTIVE' : 'OFF') + '</div></div>';
+    container.innerHTML = html;
+  }
+
+  function updateDRDBanner() {
+    var drdIdx = getDRDIndex();
+    var text = document.getElementById('drdText');
+    text.textContent = 'DRD: ' + ZONES[drdIdx].id + ' (Highest burden zone) - Score ' + scores[drdIdx] + '/100';
+  }
+
+  function updateD15Dashboard() {
+    drawResilienceCircle();
+    buildDashTopRow();
+    buildDashMidRow();
+    buildDashBottomRow();
+    updateDRDBanner();
+  }
+
+  document.getElementById('printSummary').addEventListener('click', function() {
+    var printContent = '=== TERRAIN RESILIENCE SCORE DASHBOARD ===\n';
+    printContent += 'T-01: This output is generated from an educational demonstration tool.\n';
+    printContent += 'It does not constitute clinical advice, diagnosis, or treatment recommendation.\n\n';
+    printContent += 'Date: ' + new Date().toISOString().split('T')[0] + '\n';
+    printContent += 'Terrain Resilience Score: ' + getResilienceScore() + '/10 (inverted scale)\n\n';
+    printContent += '-- ZONE SCORES --\n';
+    for (var i = 0; i < 5; i++) {
+      printContent += ZONES[i].id + ': ' + scores[i] + '/100 (' + (isAboveThreshold(i) ? 'ACTIVE' : 'sub-threshold') + ')\n';
+    }
+    printContent += '\nTerrainLock: ' + (isTerrainLocked() ? 'ACTIVE (Z2-Z1-Z5)' : 'Inactive') + '\n';
+    printContent += 'DRD Designation: ' + ZONES[getDRDIndex()].id + ' (Highest burden zone)\n\n';
+    printContent += '-- CASCADE ACTIVITY --\n';
+    for (var s = 0; s < STACKS.length; s++) {
+      var stack = STACKS[s];
+      var label = stack.id + ': ' + ZONES[stack.from].id + ' > ' + ZONES[stack.to].id + ' ' + stack.velocity;
+      if (stack.type !== 'STANDARD') label += ' ' + stack.type;
+      label += ' (' + (isAboveThreshold(stack.from) ? 'ACTIVE' : 'inactive') + ')';
+      printContent += label + '\n';
+    }
+    printContent += '\n-- PRACTITIONER CLINICAL DECISION --\n';
+    printContent += '(Space intentionally left blank for practitioner use)\n\n\n\n';
+    printContent += '=== END ===';
+
+    var printWin = window.open('', '_blank');
+    if (printWin) {
+      printWin.document.write('<html><head><title>Terrain Resilience Summary</title>');
+      printWin.document.write('<style>body{font-family:"Courier New",monospace;font-size:12px;padding:2rem;white-space:pre-wrap;}</style>');
+      printWin.document.write('</head><body>');
+      printWin.document.write(printContent.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+      printWin.document.write('</body></html>');
+      printWin.document.close();
+      printWin.print();
+    }
+  });
+
+  // Initial dashboard render
+  updateD15Dashboard();
+
+  /* ── Bind sliders ── */
+  bindSliders();
+
+})();
+</script>
+</body>
+</html>

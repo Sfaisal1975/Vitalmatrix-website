@@ -1,0 +1,1065 @@
+drawFrame();
+})();
+</script>
+
+
+<!-- ============================================================ -->
+<!-- MN21-MN30: MNEMONIC-FOCUSED INTERACTIVE FEATURES (SET 3)     -->
+<!-- 10 features | vm-mn21- to vm-mn30- | 13 May 2026             -->
+<!-- ============================================================ -->
+
+<!-- ============================================================ -->
+<!-- MN21: VOLTERRAIN Driver Dominance Hierarchy                  -->
+<!-- ============================================================ -->
+<section id="vm-mn21-section" aria-label="VOLTERRAIN Driver Dominance Hierarchy">
+<style>
+#vm-mn21-section{background:#0C4452;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn21-section *{box-sizing:border-box}
+.vm-mn21-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn21-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn21-bracket{display:flex;flex-direction:column;gap:0.75rem;max-width:600px;margin:0 auto}
+.vm-mn21-round{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center}
+.vm-mn21-match{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:0.6rem 0.85rem;display:flex;align-items:center;gap:0.5rem;min-width:180px}
+.vm-mn21-driver{font-family:'DM Mono',monospace;font-size:0.75rem;color:#8BA5B8;flex:1;padding:0.25rem 0.4rem;border-radius:3px;transition:background 0.4s,color 0.4s}
+.vm-mn21-driver.winner{background:rgba(201,168,76,0.2);color:#C9A84C}
+.vm-mn21-driver.loser{opacity:0.4}
+.vm-mn21-vs{font-size:0.6rem;color:#5F7C6C;font-family:'DM Mono',monospace}
+.vm-mn21-crown{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#C9A84C;text-align:center;margin-top:0.75rem;opacity:0;transition:opacity 0.6s}
+.vm-mn21-crown.show{opacity:1}
+.vm-mn21-line{height:2px;background:linear-gradient(90deg,transparent,#C9A84C,transparent);margin:0.3rem auto;width:60%;opacity:0;transition:opacity 0.5s}
+.vm-mn21-line.show{opacity:0.5}
+.vm-mn21-btn{background:rgba(201,168,76,0.15);border:1px solid #C9A84C;border-radius:4px;padding:0.5rem 1.2rem;color:#C9A84C;font-family:'DM Mono',monospace;font-size:0.75rem;cursor:pointer;display:block;margin:1rem auto 0}
+@media(prefers-reduced-motion:reduce){#vm-mn21-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn21-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn21-heading">VOLTERRAIN Driver Dominance Hierarchy</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">Seven VOLTERRAIN drivers compete in a tournament bracket. Each match is decided by cross-zone node impact. The winner earns the crown as highest burden zone contributor.</p>
+<div class="vm-mn21-bracket" id="vm-mn21-bracket"></div>
+<div class="vm-mn21-crown" id="vm-mn21-crown"></div>
+<button class="vm-mn21-btn" id="vm-mn21-run" aria-label="Run tournament">Run Tournament</button>
+<script>
+(function(){
+var drivers=[
+{id:'D1',label:'D1: Oxidative Stress',impact:7,zones:['Z1','Z2']},
+{id:'D2',label:'D2: Inflammation',impact:8,zones:['Z2','Z4']},
+{id:'D3',label:'D3: Glycaemic Dysregulation',impact:6,zones:['Z1','Z5']},
+{id:'D4',label:'D4: Toxin Accumulation',impact:5,zones:['Z4']},
+{id:'D5',label:'D5: Gut Permeability',impact:7,zones:['Z2']},
+{id:'D6',label:'D6: HPA Axis Disruption',impact:9,zones:['Z5','Z3']},
+{id:'D7',label:'D7: Methylation Impairment',impact:6,zones:['Z1','Z3','Z4']}
+];
+var bracket=document.getElementById('vm-mn21-bracket');
+var crownEl=document.getElementById('vm-mn21-crown');
+var runBtn=document.getElementById('vm-mn21-run');
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function runTournament(){
+bracket.innerHTML='';
+crownEl.className='vm-mn21-crown';
+crownEl.textContent='';
+var pool=shuffle(drivers);
+var round=0;
+var rounds=[];
+while(pool.length>1){
+var nextPool=[];
+var matches=[];
+for(var i=0;i<pool.length-1;i+=2){
+var a=pool[i];var b=pool[i+1];
+var w=(a.impact+(a.zones.length*2))>=(b.impact+(b.zones.length*2))?a:b;
+var l=w===a?b:a;
+matches.push({a:a,b:b,winner:w,loser:l});
+nextPool.push(w);
+}
+if(pool.length%2===1){nextPool.push(pool[pool.length-1]);}
+rounds.push(matches);
+pool=nextPool;
+round++;
+}
+var champion=pool[0];
+for(var r=0;r<rounds.length;r++){
+(function(rd,ri){
+var roundDiv=document.createElement('div');
+roundDiv.className='vm-mn21-round';
+roundDiv.style.opacity='0';
+var label=document.createElement('div');
+label.style.cssText='width:100%;text-align:center;font-family:DM Mono,monospace;font-size:0.65rem;color:#5F7C6C;margin-bottom:0.25rem';
+label.textContent='Round '+(ri+1);
+roundDiv.appendChild(label);
+for(var m=0;m<rd.length;m++){
+var match=document.createElement('div');
+match.className='vm-mn21-match';
+var dA=document.createElement('span');
+dA.className='vm-mn21-driver';
+dA.textContent=rd[m].a.id;
+var vs=document.createElement('span');
+vs.className='vm-mn21-vs';
+vs.textContent='vs';
+var dB=document.createElement('span');
+dB.className='vm-mn21-driver';
+dB.textContent=rd[m].b.id;
+match.appendChild(dA);match.appendChild(vs);match.appendChild(dB);
+roundDiv.appendChild(match);
+(function(aEl,bEl,w,matchData){
+setTimeout(function(){
+if(w.id===matchData.a.id){aEl.classList.add('winner');bEl.classList.add('loser');}
+else{bEl.classList.add('winner');aEl.classList.add('loser');}
+},(ri+1)*600+200);
+})(dA,dB,rd[m].winner,rd[m]);
+}
+bracket.appendChild(roundDiv);
+var line=document.createElement('div');
+line.className='vm-mn21-line';
+bracket.appendChild(line);
+setTimeout(function(){roundDiv.style.opacity='1';line.classList.add('show');},(ri)*500);
+})(rounds[r],r);
+}
+setTimeout(function(){
+crownEl.textContent='Champion: '+champion.label+' (impact across '+champion.zones.join(', ')+')';
+crownEl.classList.add('show');
+},rounds.length*600+400);
+}
+runBtn.addEventListener('click',runTournament);
+runTournament();
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN22: TerrainSpiral Trajectory Pendulum Clock                 -->
+<!-- ============================================================ -->
+<section id="vm-mn22-section" aria-label="TerrainSpiral Trajectory Pendulum Clock">
+<style>
+#vm-mn22-section{background:#1A2030;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn22-section *{box-sizing:border-box}
+.vm-mn22-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn22-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn22-clock{position:relative;width:200px;height:300px;margin:0 auto 1.5rem;border:2px solid rgba(255,255,255,0.11);border-radius:8px;background:rgba(255,255,255,0.04);overflow:hidden}
+.vm-mn22-face{text-align:center;padding:0.75rem 0;font-family:'Cormorant Garamond',serif;font-size:1rem;color:#C9A84C;border-bottom:1px solid rgba(255,255,255,0.08)}
+.vm-mn22-pendulum-wrap{position:relative;height:200px;display:flex;justify-content:center}
+.vm-mn22-rod{position:absolute;top:0;left:50%;width:2px;height:140px;background:linear-gradient(180deg,#C9A84C,#1A7A8A);transform-origin:top center;transition:transform 0.5s ease-in-out}
+.vm-mn22-bob{position:absolute;bottom:0;left:50%;width:20px;height:20px;border-radius:50%;background:#1A7A8A;transform:translateX(-50%);border:2px solid rgba(255,255,255,0.2)}
+.vm-mn22-state{text-align:center;font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;padding:0.5rem;letter-spacing:0.06em}
+.vm-mn22-alarm{background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.5);border-radius:4px;padding:0.5rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.7rem;color:#C0392B;margin-top:0.75rem;max-width:200px;margin-left:auto;margin-right:auto;opacity:0;transition:opacity 0.4s}
+.vm-mn22-alarm.show{opacity:1}
+.vm-mn22-controls{display:flex;gap:0.5rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+.vm-mn22-cbtn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:4px;padding:0.4rem 0.8rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;cursor:pointer;transition:background 0.3s,color 0.3s}
+.vm-mn22-cbtn.active{background:rgba(201,168,76,0.15);color:#C9A84C;border-color:#C9A84C}
+@media(prefers-reduced-motion:reduce){#vm-mn22-section *{transition:none !important;animation:none !important}.vm-mn22-rod{transition:none !important}}
+</style>
+<div class="vm-mn22-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn22-heading">TerrainSpiral Trajectory Pendulum Clock</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A grandfather clock where the pendulum rate reflects trajectory state. At Acutely Destabilising, the alarm sounds. At Locked, the pendulum freezes entirely.</p>
+<div class="vm-mn22-clock" id="vm-mn22-clock">
+<div class="vm-mn22-face" id="vm-mn22-face">Stable</div>
+<div class="vm-mn22-pendulum-wrap">
+<div class="vm-mn22-rod" id="vm-mn22-rod" style="transform:rotate(0deg)">
+<div class="vm-mn22-bob"></div>
+</div>
+</div>
+<div class="vm-mn22-state" id="vm-mn22-stateLabel">Pendulum: Normal Rate</div>
+</div>
+<div class="vm-mn22-alarm" id="vm-mn22-alarm">ALARM: Acutely Destabilising</div>
+<div class="vm-mn22-controls" id="vm-mn22-controls"></div>
+<script>
+(function(){
+var states=[
+{id:'stable',label:'Stable',rate:30,colour:'#1A7A8A',frozen:false,alarm:false},
+{id:'improving',label:'Improving',rate:25,colour:'#5F7C6C',frozen:false,alarm:false},
+{id:'declining',label:'Declining',rate:40,colour:'#C9A84C',frozen:false,alarm:false},
+{id:'acute',label:'Acutely Destabilising',rate:60,colour:'#C0392B',frozen:false,alarm:true},
+{id:'locked',label:'Locked (TerrainLock)',rate:0,colour:'#7B5EA7',frozen:true,alarm:false}
+];
+var controlsWrap=document.getElementById('vm-mn22-controls');
+var rod=document.getElementById('vm-mn22-rod');
+var face=document.getElementById('vm-mn22-face');
+var stateLabel=document.getElementById('vm-mn22-stateLabel');
+var alarmEl=document.getElementById('vm-mn22-alarm');
+var pendulumTimer=null;
+var currentAngle=0;
+var direction=1;
+function startPendulum(state){
+if(pendulumTimer){clearInterval(pendulumTimer);pendulumTimer=null;}
+face.textContent=state.label;
+face.style.color=state.colour;
+rod.querySelector('.vm-mn22-bob').style.background=state.colour;
+if(state.alarm){alarmEl.classList.add('show');}else{alarmEl.classList.remove('show');}
+if(state.frozen){
+rod.style.transform='rotate(0deg)';
+stateLabel.textContent='Pendulum: Frozen';
+return;
+}
+var maxAngle=state.rate>40?25:15;
+var speed=Math.max(20,80-state.rate);
+stateLabel.textContent='Pendulum: '+(state.rate>40?'Rapid':'Normal')+' Rate';
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reducedMotion){
+rod.style.transform='rotate(0deg)';
+return;
+}
+pendulumTimer=setInterval(function(){
+currentAngle+=direction*3;
+if(currentAngle>=maxAngle){direction=-1;}
+if(currentAngle<=-maxAngle){direction=1;}
+rod.style.transform='rotate('+currentAngle+'deg)';
+},speed);
+}
+for(var i=0;i<states.length;i++){
+(function(s){
+var btn=document.createElement('button');
+btn.className='vm-mn22-cbtn';
+btn.textContent=s.label;
+btn.addEventListener('click',function(){
+var btns=controlsWrap.querySelectorAll('.vm-mn22-cbtn');
+for(var j=0;j<btns.length;j++){btns[j].classList.remove('active');}
+btn.classList.add('active');
+startPendulum(s);
+});
+controlsWrap.appendChild(btn);
+if(s.id==='stable'){btn.classList.add('active');startPendulum(s);}
+})(states[i]);
+}
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN23: MODES Signal Mixing Desk                                -->
+<!-- ============================================================ -->
+<section id="vm-mn23-section" aria-label="MODES Signal Mixing Desk">
+<style>
+#vm-mn23-section{background:#0D2B4E;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn23-section *{box-sizing:border-box}
+.vm-mn23-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn23-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn23-desk{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.vm-mn23-channel{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:8px;padding:1rem;width:150px;text-align:center}
+.vm-mn23-ch-label{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.75rem}
+.vm-mn23-fader-wrap{height:120px;display:flex;justify-content:center;align-items:center;margin-bottom:0.5rem}
+.vm-mn23-fader{-webkit-appearance:none;appearance:none;writing-mode:vertical-lr;direction:rtl;width:6px;height:100px;background:rgba(255,255,255,0.1);border-radius:3px;outline:none;cursor:pointer}
+.vm-mn23-fader::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:10px;border-radius:2px;background:#C9A84C;cursor:pointer}
+.vm-mn23-vu{width:20px;height:100px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:3px;position:relative;margin:0 auto 0.5rem}
+.vm-mn23-vu-fill{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 2px 2px;transition:height 0.3s,background 0.3s}
+.vm-mn23-pan{display:flex;align-items:center;gap:0.25rem;justify-content:center;margin-top:0.5rem}
+.vm-mn23-pan-label{font-family:'DM Mono',monospace;font-size:0.6rem;color:#5F7C6C}
+.vm-mn23-pan-knob{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);position:relative;cursor:pointer}
+.vm-mn23-pan-dot{position:absolute;width:4px;height:4px;border-radius:50%;background:#C9A84C;top:2px;left:50%;transform:translateX(-50%)}
+.vm-mn23-crosstalk{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.75rem;max-width:500px;margin:0 auto}
+.vm-mn23-ct-title{font-family:'DM Mono',monospace;font-size:0.65rem;color:#5F7C6C;text-transform:uppercase;margin-bottom:0.4rem}
+.vm-mn23-ct-row{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;padding:0.2rem 0}
+.vm-mn23-ct-val{color:#C9A84C}
+.vm-mn23-target{font-family:'DM Mono',monospace;font-size:0.65rem;color:#8BA5B8;margin-top:0.4rem;text-align:center}
+@media(prefers-reduced-motion:reduce){#vm-mn23-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn23-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn23-heading">MODES Signal Mixing Desk</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">Three modality channels with faders, VU meters, and cross-talk indicators. Pan knobs show which zones each signal targets. Adjust faders to see how modality signals interact.</p>
+<div class="vm-mn23-desk" id="vm-mn23-desk"></div>
+<div class="vm-mn23-crosstalk" id="vm-mn23-crosstalk">
+<div class="vm-mn23-ct-title">Cross-Talk Indicators</div>
+<div id="vm-mn23-ct-rows"></div>
+</div>
+<div class="vm-mn23-target" id="vm-mn23-target"></div>
+<script>
+(function(){
+var channels=[
+{id:'ch1',label:'Structural',colour:'#C9A84C',zones:['Z1','Z2'],value:50},
+{id:'ch2',label:'Functional',colour:'#1A7A8A',zones:['Z3','Z4'],value:40},
+{id:'ch3',label:'Adaptive',colour:'#7B5EA7',zones:['Z2','Z5'],value:60}
+];
+var zoneColours={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+var desk=document.getElementById('vm-mn23-desk');
+var ctRows=document.getElementById('vm-mn23-ct-rows');
+var targetEl=document.getElementById('vm-mn23-target');
+var vuFills=[];
+for(var i=0;i<channels.length;i++){
+(function(ch,idx){
+var div=document.createElement('div');
+div.className='vm-mn23-channel';
+var label=document.createElement('div');
+label.className='vm-mn23-ch-label';
+label.textContent=ch.label;
+div.appendChild(label);
+var fwrap=document.createElement('div');
+fwrap.className='vm-mn23-fader-wrap';
+var fader=document.createElement('input');
+fader.type='range';fader.min='0';fader.max='100';fader.value=String(ch.value);
+fader.className='vm-mn23-fader';
+fader.setAttribute('aria-label',ch.label+' fader');
+fwrap.appendChild(fader);
+div.appendChild(fwrap);
+var vu=document.createElement('div');
+vu.className='vm-mn23-vu';
+var vuFill=document.createElement('div');
+vuFill.className='vm-mn23-vu-fill';
+vuFill.style.height=ch.value+'%';
+vuFill.style.background=ch.colour;
+vu.appendChild(vuFill);
+div.appendChild(vu);
+vuFills.push(vuFill);
+var pan=document.createElement('div');
+pan.className='vm-mn23-pan';
+var pLabel=document.createElement('span');
+pLabel.className='vm-mn23-pan-label';
+pLabel.textContent=ch.zones.join(', ');
+var knob=document.createElement('div');
+knob.className='vm-mn23-pan-knob';
+var dot=document.createElement('div');
+dot.className='vm-mn23-pan-dot';
+knob.appendChild(dot);
+pan.appendChild(knob);pan.appendChild(pLabel);
+div.appendChild(pan);
+desk.appendChild(div);
+fader.addEventListener('input',function(){
+ch.value=parseInt(fader.value);
+vuFill.style.height=ch.value+'%';
+if(ch.value>75){vuFill.style.background='#C0392B';}
+else{vuFill.style.background=ch.colour;}
+updateCrossTalk();
+});
+})(channels[i],i);
+}
+function updateCrossTalk(){
+ctRows.innerHTML='';
+var pairs=[['Structural','Functional'],['Functional','Adaptive'],['Structural','Adaptive']];
+for(var p=0;p<pairs.length;p++){
+var a=null;var b=null;
+for(var c=0;c<channels.length;c++){
+if(channels[c].label===pairs[p][0])a=channels[c];
+if(channels[c].label===pairs[p][1])b=channels[c];
+}
+var overlap=0;
+for(var z1=0;z1<a.zones.length;z1++){
+for(var z2=0;z2<b.zones.length;z2++){
+if(a.zones[z1]===b.zones[z2])overlap++;
+}
+}
+var crosstalk=Math.round((a.value+b.value)/2*overlap/2);
+var row=document.createElement('div');
+row.className='vm-mn23-ct-row';
+row.innerHTML='<span>'+pairs[p][0]+' x '+pairs[p][1]+'</span><span class="vm-mn23-ct-val">'+crosstalk+'%</span>';
+ctRows.appendChild(row);
+}
+var allZones={};
+for(var j=0;j<channels.length;j++){
+for(var k=0;k<channels[j].zones.length;k++){
+if(!allZones[channels[j].zones[k]])allZones[channels[j].zones[k]]=0;
+allZones[channels[j].zones[k]]+=channels[j].value;
+}
+}
+var parts=[];
+for(var zk in allZones){parts.push(zk+': '+Math.min(100,allZones[zk])+'%');}
+targetEl.textContent='Zone targets: '+parts.join(' | ');
+}
+updateCrossTalk();
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN24: GRADE Terrain Resilience Spring Test                    -->
+<!-- ============================================================ -->
+<section id="vm-mn24-section" aria-label="GRADE Terrain Resilience Spring Test">
+<style>
+#vm-mn24-section{background:#0C4452;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn24-section *{box-sizing:border-box}
+.vm-mn24-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn24-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn24-sim{max-width:400px;margin:0 auto;text-align:center}
+.vm-mn24-spring-wrap{position:relative;height:220px;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.04);margin-bottom:1rem;overflow:hidden}
+.vm-mn24-anchor{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:8px;background:#5F7C6C;border-radius:0 0 3px 3px}
+.vm-mn24-coil{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:4px;background:repeating-linear-gradient(180deg,#C9A84C 0px,#C9A84C 3px,transparent 3px,transparent 6px);transition:height 0.5s ease}
+.vm-mn24-weight{position:absolute;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:#1A7A8A;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.6rem;color:#F4F4F2;transition:top 0.5s ease}
+.vm-mn24-ground{position:absolute;bottom:0;left:0;right:0;height:4px;background:#C0392B;opacity:0.3}
+.vm-mn24-grade-label{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin:0.5rem 0;transition:color 0.4s}
+.vm-mn24-info{font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;margin-top:0.5rem}
+.vm-mn24-btns{display:flex;gap:0.5rem;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.vm-mn24-gbtn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:4px;padding:0.4rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:#8BA5B8;cursor:pointer;transition:background 0.3s,color 0.3s}
+.vm-mn24-gbtn.active{background:rgba(201,168,76,0.15);color:#C9A84C;border-color:#C9A84C}
+@media(prefers-reduced-motion:reduce){#vm-mn24-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn24-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn24-heading">GRADE Terrain Resilience Spring Test</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A physics spring simulation where a weight is dropped. Grade A springs recover firmly, Grade B springs stretch further, and Grade C springs collapse entirely.</p>
+<div class="vm-mn24-sim">
+<div class="vm-mn24-btns" id="vm-mn24-btns"></div>
+<div class="vm-mn24-spring-wrap" id="vm-mn24-wrap">
+<div class="vm-mn24-anchor"></div>
+<div class="vm-mn24-coil" id="vm-mn24-coil" style="height:60px"></div>
+<div class="vm-mn24-weight" id="vm-mn24-weight" style="top:68px">W</div>
+<div class="vm-mn24-ground"></div>
+</div>
+<div class="vm-mn24-grade-label" id="vm-mn24-label">Grade A: Firm Recovery</div>
+<div class="vm-mn24-info" id="vm-mn24-info">The terrain absorbs the intervention load and returns to baseline. Full tolerance confirmed.</div>
+</div>
+<script>
+(function(){
+var grades=[
+{id:'A',label:'Grade A: Firm Recovery',coilH:80,weightTop:88,colour:'#5F7C6C',info:'The terrain absorbs the intervention load and returns to baseline. Full tolerance confirmed.'},
+{id:'B',label:'Grade B: Partial Stretch',coilH:130,weightTop:138,colour:'#C9A84C',info:'The terrain stretches under load. Partial recovery with residual deformation. Reduced tolerance.'},
+{id:'C',label:'Grade C: Collapse',coilH:170,weightTop:178,colour:'#C0392B',info:'The terrain cannot sustain the load. Spring collapses. No tolerance for this intervention class.'}
+];
+var btnsWrap=document.getElementById('vm-mn24-btns');
+var coil=document.getElementById('vm-mn24-coil');
+var weight=document.getElementById('vm-mn24-weight');
+var labelEl=document.getElementById('vm-mn24-label');
+var infoEl=document.getElementById('vm-mn24-info');
+function setGrade(g){
+coil.style.height=g.coilH+'px';
+weight.style.top=g.weightTop+'px';
+weight.style.background=g.colour;
+labelEl.textContent=g.label;
+labelEl.style.color=g.colour;
+infoEl.textContent=g.info;
+}
+for(var i=0;i<grades.length;i++){
+(function(g){
+var btn=document.createElement('button');
+btn.className='vm-mn24-gbtn';
+btn.textContent='Grade '+g.id;
+btn.addEventListener('click',function(){
+var all=btnsWrap.querySelectorAll('.vm-mn24-gbtn');
+for(var j=0;j<all.length;j++){all[j].classList.remove('active');}
+btn.classList.add('active');
+setGrade(g);
+});
+btnsWrap.appendChild(btn);
+if(g.id==='A'){btn.classList.add('active');}
+})(grades[i]);
+}
+setGrade(grades[0]);
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN25: NEXUS Regulatory Bridge                                 -->
+<!-- ============================================================ -->
+<section id="vm-mn25-section" aria-label="NEXUS Regulatory Bridge">
+<style>
+#vm-mn25-section{background:#1A2030;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn25-section *{box-sizing:border-box}
+.vm-mn25-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn25-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn25-bridge{position:relative;height:200px;max-width:500px;margin:0 auto 1.5rem;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.04);overflow:hidden}
+.vm-mn25-cliff{position:absolute;bottom:0;width:80px;height:120px;border-radius:4px 4px 0 0}
+.vm-mn25-cliff-left{left:20px;background:linear-gradient(180deg,#1A7A8A,#0C4452)}
+.vm-mn25-cliff-right{right:20px;background:linear-gradient(180deg,#7B5EA7,#3D2F54)}
+.vm-mn25-cliff-label{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:0.6rem;color:#F4F4F2;white-space:nowrap;text-align:center}
+.vm-mn25-span{position:absolute;top:75px;left:100px;right:100px;height:6px;border-radius:3px;transition:all 0.5s}
+.vm-mn25-span.coupled{background:linear-gradient(90deg,#1A7A8A,#C9A84C,#7B5EA7)}
+.vm-mn25-span.partial{background:linear-gradient(90deg,#1A7A8A,rgba(201,168,76,0.4),#7B5EA7);opacity:0.6}
+.vm-mn25-span.broken{opacity:0}
+.vm-mn25-gap{position:absolute;top:80px;left:45%;width:10%;text-align:center;font-family:'DM Mono',monospace;font-size:1.2rem;color:#C0392B;opacity:0;transition:opacity 0.4s}
+.vm-mn25-gap.show{opacity:1}
+.vm-mn25-signs{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.vm-mn25-sign{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:4px;padding:0.35rem 0.7rem;font-family:'DM Mono',monospace;font-size:0.65rem;color:#8BA5B8;transition:opacity 0.3s}
+.vm-mn25-state-label{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;margin:0.5rem 0;transition:color 0.4s}
+.vm-mn25-ctrls{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap}
+.vm-mn25-cbtn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:4px;padding:0.4rem 0.8rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:#8BA5B8;cursor:pointer;transition:background 0.3s,color 0.3s}
+.vm-mn25-cbtn.active{background:rgba(201,168,76,0.15);color:#C9A84C;border-color:#C9A84C}
+@media(prefers-reduced-motion:reduce){#vm-mn25-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn25-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn25-heading">NEXUS Regulatory Bridge</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">An animated bridge between HPA and Vagus cliffs. Coupled state shows a solid bridge. Decoupled state shows a broken bridge with cascade velocity signs along the path.</p>
+<div class="vm-mn25-bridge" id="vm-mn25-bridge">
+<div class="vm-mn25-cliff vm-mn25-cliff-left"><div class="vm-mn25-cliff-label">HPA Axis</div></div>
+<div class="vm-mn25-cliff vm-mn25-cliff-right"><div class="vm-mn25-cliff-label">Vagus</div></div>
+<div class="vm-mn25-span coupled" id="vm-mn25-span"></div>
+<div class="vm-mn25-gap" id="vm-mn25-gap">X</div>
+</div>
+<div class="vm-mn25-signs" id="vm-mn25-signs"></div>
+<div class="vm-mn25-state-label" id="vm-mn25-stateLabel" style="color:#5F7C6C">Coupled: Regulatory Axes Synchronised</div>
+<div class="vm-mn25-ctrls" id="vm-mn25-ctrls"></div>
+<script>
+(function(){
+var modes=[
+{id:'coupled',label:'Coupled',spanClass:'coupled',gap:false,colour:'#5F7C6C',text:'Coupled: Regulatory Axes Synchronised',signs:['S1: MEDIUM','S5: FAST','S6: MEDIUM (UNIDIRECTIONAL: Z1 to Z3 only)']},
+{id:'partial',label:'Partially Decoupled',spanClass:'partial',gap:false,colour:'#C9A84C',text:'Partially Decoupled: Signal Attenuation',signs:['S1: MEDIUM (attenuated)','S2: FAST','S4: MEDIUM (THEORETICAL)']},
+{id:'decoupled',label:'Decoupled',spanClass:'broken',gap:true,colour:'#C0392B',text:'Decoupled: Regulatory Bridge Broken',signs:['S1: STALLED','S5: FAST (uncontrolled)','Cascade velocity: unregulated']}
+];
+var ctrls=document.getElementById('vm-mn25-ctrls');
+var span=document.getElementById('vm-mn25-span');
+var gap=document.getElementById('vm-mn25-gap');
+var stateLabel=document.getElementById('vm-mn25-stateLabel');
+var signsWrap=document.getElementById('vm-mn25-signs');
+function setMode(m){
+span.className='vm-mn25-span '+m.spanClass;
+if(m.gap){gap.classList.add('show');}else{gap.classList.remove('show');}
+stateLabel.textContent=m.text;
+stateLabel.style.color=m.colour;
+signsWrap.innerHTML='';
+for(var i=0;i<m.signs.length;i++){
+var s=document.createElement('div');
+s.className='vm-mn25-sign';
+s.textContent=m.signs[i];
+signsWrap.appendChild(s);
+}
+}
+for(var i=0;i<modes.length;i++){
+(function(m){
+var btn=document.createElement('button');
+btn.className='vm-mn25-cbtn';
+btn.textContent=m.label;
+btn.addEventListener('click',function(){
+var all=ctrls.querySelectorAll('.vm-mn25-cbtn');
+for(var j=0;j<all.length;j++){all[j].classList.remove('active');}
+btn.classList.add('active');
+setMode(m);
+});
+ctrls.appendChild(btn);
+if(m.id==='coupled'){btn.classList.add('active');}
+})(modes[i]);
+}
+setMode(modes[0]);
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN26: VANTAGE Crystal Prism                                   -->
+<!-- ============================================================ -->
+<section id="vm-mn26-section" aria-label="VANTAGE Crystal Prism">
+<style>
+#vm-mn26-section{background:#0D2B4E;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn26-section *{box-sizing:border-box}
+.vm-mn26-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn26-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn26-prism-wrap{position:relative;max-width:500px;height:280px;margin:0 auto 1.5rem}
+.vm-mn26-light-in{position:absolute;left:0;top:50%;width:30%;height:4px;background:linear-gradient(90deg,#F4F4F2,rgba(244,244,242,0.8));transform:translateY(-50%)}
+.vm-mn26-prism{position:absolute;left:28%;top:25%;width:0;height:0;border-left:60px solid transparent;border-right:60px solid transparent;border-bottom:140px solid rgba(255,255,255,0.08);filter:drop-shadow(0 0 10px rgba(201,168,76,0.2))}
+.vm-mn26-label-prism{position:absolute;left:28%;top:68%;font-family:'DM Mono',monospace;font-size:0.6rem;color:#8BA5B8;transform:translateX(20px)}
+.vm-mn26-beams{position:absolute;right:10%;top:10%;height:80%;display:flex;flex-direction:column;justify-content:space-between;gap:0.25rem}
+.vm-mn26-beam{height:4px;width:120px;border-radius:2px;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;opacity:0.8}
+.vm-mn26-beam:hover{transform:scaleY(2);opacity:1;box-shadow:0 0 8px currentColor}
+.vm-mn26-beam-label{font-family:'DM Mono',monospace;font-size:0.6rem;margin-top:2px;transition:color 0.3s}
+.vm-mn26-detail{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:1rem;max-width:500px;margin:0 auto;min-height:60px}
+.vm-mn26-detail-title{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;margin-bottom:0.4rem}
+.vm-mn26-detail-text{font-size:0.85rem;color:#8BA5B8;line-height:1.5}
+@media(prefers-reduced-motion:reduce){#vm-mn26-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn26-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn26-heading">VANTAGE Crystal Prism</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">White light (representing FLINT intelligence) enters a crystal prism and refracts into five coloured beams, one for each VANTAGE dimension. Click a beam to expand its detail.</p>
+<div class="vm-mn26-prism-wrap" id="vm-mn26-wrap">
+<div class="vm-mn26-light-in"></div>
+<div class="vm-mn26-prism"></div>
+<div class="vm-mn26-label-prism">FLINT</div>
+<div class="vm-mn26-beams" id="vm-mn26-beams"></div>
+</div>
+<div class="vm-mn26-detail" id="vm-mn26-detail">
+<div class="vm-mn26-detail-title" id="vm-mn26-dtitle">Select a beam</div>
+<div class="vm-mn26-detail-text" id="vm-mn26-dtext">Click one of the five coloured beams above to explore that VANTAGE dimension in detail.</div>
+</div>
+<script>
+(function(){
+var dims=[
+{zone:'Z1',colour:'#C9A84C',label:'Metabolic Energy',desc:'The Metabolic Energy dimension reveals how cellular energy production pathways interact with burden patterns. Node N3 (Energy) and N6 (endocrine signalling, dampened 0.7x) converge here. Threshold: 40 internal.'},
+{zone:'Z2',colour:'#1A7A8A',label:'Resilience Network',desc:'The Resilience Network dimension maps immune and repair capacity. Nodes N1, N2, and N6 contribute. This zone serves as the default tiebreaker entry point for DRD (highest burden zone) designation. Threshold: 40 internal.'},
+{zone:'Z3',colour:'#7B5EA7',label:'Cardiovascular-Neural',desc:'The Cardiovascular-Neural dimension tracks transport and signalling pathways. Nodes N5 and N6 feed this axis. S6 is UNIDIRECTIONAL: Z1 to Z3 only. Threshold: 40 internal.'},
+{zone:'Z4',colour:'#5F7C6C',label:'Detoxification Trident',desc:'The Detoxification Trident dimension monitors biotransformation capacity. Nodes N2 and N4 combine here. S3 (Z4 to Z1) is the slowest cascade at SLOW velocity. Threshold: 40 internal.'},
+{zone:'Z5',colour:'#2E6DB4',label:'Hormonal Terrain',desc:'The Hormonal Terrain dimension captures endocrine axis sensitivity. Nodes N3, N4, and N6 converge. Lower threshold of 32 internal reflects heightened hormonal sensitivity. S4 (Z5 to Z2) is THEORETICAL.'}
+];
+var beamsWrap=document.getElementById('vm-mn26-beams');
+var dtitle=document.getElementById('vm-mn26-dtitle');
+var dtext=document.getElementById('vm-mn26-dtext');
+for(var i=0;i<dims.length;i++){
+(function(d){
+var bwrap=document.createElement('div');
+var beam=document.createElement('div');
+beam.className='vm-mn26-beam';
+beam.style.background=d.colour;
+beam.style.color=d.colour;
+beam.setAttribute('role','button');
+beam.setAttribute('tabindex','0');
+beam.setAttribute('aria-label',d.zone+' '+d.label+' beam');
+var lbl=document.createElement('div');
+lbl.className='vm-mn26-beam-label';
+lbl.style.color=d.colour;
+lbl.textContent=d.zone+': '+d.label;
+bwrap.appendChild(beam);
+bwrap.appendChild(lbl);
+beamsWrap.appendChild(bwrap);
+function expand(){
+dtitle.textContent=d.zone+': '+d.label;
+dtitle.style.color=d.colour;
+dtext.textContent=d.desc;
+}
+beam.addEventListener('click',expand);
+beam.addEventListener('keydown',function(e){if(e.key==='Enter')expand();});
+})(dims[i]);
+}
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN27: VERITY Quality Seal Stamping Machine                    -->
+<!-- ============================================================ -->
+<section id="vm-mn27-section" aria-label="VERITY Quality Seal Stamping Machine">
+<style>
+#vm-mn27-section{background:#0C4452;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn27-section *{box-sizing:border-box}
+.vm-mn27-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn27-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn27-conveyor{display:flex;gap:0.5rem;overflow-x:auto;padding:0.5rem 0;margin-bottom:1rem;-webkit-overflow-scrolling:touch}
+.vm-mn27-doc{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:0.75rem;min-width:130px;text-align:center;transition:transform 0.4s,border-color 0.4s,opacity 0.4s}
+.vm-mn27-doc.stamped-v{border-color:#5F7C6C;background:rgba(95,124,108,0.1)}
+.vm-mn27-doc.stamped-r{border-color:#C0392B;background:rgba(192,57,43,0.1)}
+.vm-mn27-doc-title{font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;margin-bottom:0.4rem}
+.vm-mn27-stamp{font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-weight:700;opacity:0;transition:opacity 0.5s,transform 0.5s;transform:scale(1.5) rotate(-10deg)}
+.vm-mn27-stamp.show{opacity:1;transform:scale(1) rotate(-5deg)}
+.vm-mn27-stamp.verified{color:#5F7C6C}
+.vm-mn27-stamp.rejected{color:#C0392B}
+.vm-mn27-counter{display:flex;gap:1.5rem;justify-content:center;margin:1rem 0;font-family:'DM Mono',monospace;font-size:0.8rem}
+.vm-mn27-cv{color:#5F7C6C}
+.vm-mn27-cr{color:#C0392B}
+.vm-mn27-rbtn{background:rgba(201,168,76,0.15);border:1px solid #C9A84C;border-radius:4px;padding:0.5rem 1.2rem;color:#C9A84C;font-family:'DM Mono',monospace;font-size:0.75rem;cursor:pointer;display:block;margin:0 auto}
+@media(prefers-reduced-motion:reduce){#vm-mn27-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn27-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn27-heading">VERITY Quality Seal Stamping Machine</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A conveyor belt carries eight documents through a quality seal stamping machine. Each document receives a VERIFIED or REJECTED stamp based on compliance criteria. Click Replay to run the sequence again.</p>
+<div class="vm-mn27-conveyor" id="vm-mn27-conveyor"></div>
+<div class="vm-mn27-counter" id="vm-mn27-counter">
+<span class="vm-mn27-cv" id="vm-mn27-vcount">Verified: 0</span>
+<span class="vm-mn27-cr" id="vm-mn27-rcount">Rejected: 0</span>
+</div>
+<button class="vm-mn27-rbtn" id="vm-mn27-replay">Replay</button>
+<script>
+(function(){
+var docs=[
+{title:'T-01 Header',pass:true,reason:'Protective header present'},
+{title:'Zone Colours',pass:true,reason:'D-53 compliant'},
+{title:'S4 Label',pass:true,reason:'THEORETICAL marked'},
+{title:'DRD Display',pass:true,reason:'Highest burden zone used'},
+{title:'Node Count',pass:false,reason:'8 nodes detected (should be 7)'},
+{title:'S6 Label',pass:true,reason:'UNIDIRECTIONAL in same sentence'},
+{title:'Credentials',pass:false,reason:'ABAARM found (prohibited)'},
+{title:'TerrainRoot',pass:true,reason:'Not referenced beyond name'}
+];
+var conveyor=document.getElementById('vm-mn27-conveyor');
+var vcount=document.getElementById('vm-mn27-vcount');
+var rcount=document.getElementById('vm-mn27-rcount');
+var replayBtn=document.getElementById('vm-mn27-replay');
+function runStamping(){
+conveyor.innerHTML='';
+vcount.textContent='Verified: 0';
+rcount.textContent='Rejected: 0';
+var vc=0;var rc=0;
+for(var i=0;i<docs.length;i++){
+(function(d,idx){
+var card=document.createElement('div');
+card.className='vm-mn27-doc';
+var title=document.createElement('div');
+title.className='vm-mn27-doc-title';
+title.textContent=d.title;
+var stamp=document.createElement('div');
+stamp.className='vm-mn27-stamp '+(d.pass?'verified':'rejected');
+stamp.textContent=d.pass?'VERIFIED':'REJECTED';
+card.appendChild(title);
+card.appendChild(stamp);
+conveyor.appendChild(card);
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var delay=reducedMotion?0:(idx+1)*400;
+setTimeout(function(){
+stamp.classList.add('show');
+card.classList.add(d.pass?'stamped-v':'stamped-r');
+if(d.pass){vc++;}else{rc++;}
+vcount.textContent='Verified: '+vc;
+rcount.textContent='Rejected: '+rc;
+},delay);
+})(docs[i],i);
+}
+}
+replayBtn.addEventListener('click',runStamping);
+runStamping();
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN28: CADENCE Containment Chamber                             -->
+<!-- ============================================================ -->
+<section id="vm-mn28-section" aria-label="CADENCE Containment Chamber">
+<style>
+#vm-mn28-section{background:#1A2030;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn28-section *{box-sizing:border-box}
+.vm-mn28-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn28-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn28-chamber{position:relative;max-width:400px;height:300px;margin:0 auto 1.5rem;border:2px solid rgba(255,255,255,0.08);border-radius:12px;background:linear-gradient(180deg,rgba(13,43,78,0.6),rgba(26,32,48,0.8));overflow:hidden}
+.vm-mn28-orb{position:absolute;top:50%;left:50%;width:60px;height:60px;border-radius:50%;transform:translate(-50%,-50%);transition:box-shadow 0.8s,background 0.8s}
+.vm-mn28-orb-inner{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.6),rgba(201,168,76,0.1));animation:vm-mn28-pulse 2s ease-in-out infinite}
+@keyframes vm-mn28-pulse{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.15);opacity:1}}
+.vm-mn28-wall-label{position:absolute;font-family:'DM Mono',monospace;font-size:0.55rem;color:#8BA5B8;text-transform:uppercase;letter-spacing:0.06em;opacity:0.7}
+.vm-mn28-wl-top{top:12px;left:50%;transform:translateX(-50%)}
+.vm-mn28-wl-right{right:12px;top:50%;transform:translateY(-50%) rotate(90deg)}
+.vm-mn28-wl-bottom{bottom:12px;left:50%;transform:translateX(-50%)}
+.vm-mn28-wl-left{left:12px;top:50%;transform:translateY(-50%) rotate(-90deg)}
+.vm-mn28-threat{display:flex;align-items:center;gap:0.75rem;max-width:400px;margin:0 auto 1rem;padding:0.75rem;background:rgba(255,255,255,0.04);border-radius:6px;border:1px solid rgba(255,255,255,0.08)}
+.vm-mn28-threat-label{font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;white-space:nowrap}
+.vm-mn28-threat-bar{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.vm-mn28-threat-fill{height:100%;border-radius:4px;transition:width 0.5s,background 0.5s}
+.vm-mn28-ic39{max-width:400px;margin:0 auto;padding:0.75rem;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.25);border-radius:6px;text-align:center}
+.vm-mn28-ic39-title{font-family:'DM Mono',monospace;font-size:0.65rem;color:#C0392B;text-transform:uppercase;margin-bottom:0.3rem}
+.vm-mn28-ic39-text{font-size:0.8rem;color:#8BA5B8;line-height:1.4}
+.vm-mn28-slider-wrap{max-width:400px;margin:1rem auto 0;display:flex;align-items:center;gap:0.75rem}
+.vm-mn28-slider-label{font-family:'DM Mono',monospace;font-size:0.65rem;color:#5F7C6C}
+.vm-mn28-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;outline:none;cursor:pointer}
+.vm-mn28-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#C9A84C;cursor:pointer}
+@media(prefers-reduced-motion:reduce){#vm-mn28-section *{transition:none !important;animation:none !important}.vm-mn28-orb-inner{animation:none !important}}
+</style>
+<div class="vm-mn28-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn28-heading">CADENCE Containment Chamber</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A sci-fi containment chamber with a glowing orb represents governed clinical output. Governance controls are labelled on the chamber walls. The threat gauge reads HIGHEST. Outside the chamber, IC39 non-response operates free from containment.</p>
+<div class="vm-mn28-chamber" id="vm-mn28-chamber">
+<div class="vm-mn28-orb" id="vm-mn28-orb"><div class="vm-mn28-orb-inner"></div></div>
+<div class="vm-mn28-wall-label vm-mn28-wl-top">T-01 Protective Header</div>
+<div class="vm-mn28-wall-label vm-mn28-wl-right">MHRA Gate</div>
+<div class="vm-mn28-wall-label vm-mn28-wl-bottom">Practitioner Decision</div>
+<div class="vm-mn28-wall-label vm-mn28-wl-left">Evidence Floor</div>
+</div>
+<div class="vm-mn28-threat" id="vm-mn28-threat">
+<div class="vm-mn28-threat-label">Threat Gauge</div>
+<div class="vm-mn28-threat-bar"><div class="vm-mn28-threat-fill" id="vm-mn28-fill" style="width:85%;background:#C0392B"></div></div>
+<div class="vm-mn28-threat-label" id="vm-mn28-level" style="color:#C0392B">HIGHEST</div>
+</div>
+<div class="vm-mn28-slider-wrap">
+<span class="vm-mn28-slider-label">Threat</span>
+<input type="range" class="vm-mn28-slider" id="vm-mn28-slider" min="0" max="100" value="85" aria-label="Threat level slider">
+</div>
+<div class="vm-mn28-ic39">
+<div class="vm-mn28-ic39-title">IC39: Outside Containment</div>
+<div class="vm-mn28-ic39-text">Non-response patterns operate beyond governance boundaries. Four differential causes must be evaluated before intervention escalation.</div>
+</div>
+<script>
+(function(){
+var slider=document.getElementById('vm-mn28-slider');
+var fill=document.getElementById('vm-mn28-fill');
+var level=document.getElementById('vm-mn28-level');
+var orb=document.getElementById('vm-mn28-orb');
+slider.addEventListener('input',function(){
+var v=parseInt(slider.value);
+fill.style.width=v+'%';
+var lbl='LOW';var c='#5F7C6C';
+if(v>=80){lbl='HIGHEST';c='#C0392B';}
+else if(v>=60){lbl='HIGH';c='#C9A84C';}
+else if(v>=40){lbl='MODERATE';c='#1A7A8A';}
+else if(v>=20){lbl='LOW';c='#5F7C6C';}
+else{lbl='MINIMAL';c='#7B5EA7';}
+fill.style.background=c;
+level.textContent=lbl;
+level.style.color=c;
+orb.style.boxShadow='0 0 '+(v/2)+'px '+c;
+});
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN29: VISTA Fog of Uncertainty Landscape                      -->
+<!-- ============================================================ -->
+<section id="vm-mn29-section" aria-label="VISTA Fog of Uncertainty Landscape">
+<style>
+#vm-mn29-section{background:#0D2B4E;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn29-section *{box-sizing:border-box}
+.vm-mn29-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn29-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn29-canvas-wrap{position:relative;max-width:500px;margin:0 auto 1rem}
+.vm-mn29-canvas{width:100%;height:250px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);display:block}
+.vm-mn29-slider-wrap{max-width:500px;margin:0 auto 1rem;display:flex;align-items:center;gap:0.75rem}
+.vm-mn29-slider-label{font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;white-space:nowrap}
+.vm-mn29-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;outline:none;cursor:pointer}
+.vm-mn29-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#C9A84C;cursor:pointer}
+.vm-mn29-legend{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:0.75rem}
+.vm-mn29-leg-item{display:flex;align-items:center;gap:0.3rem;font-family:'DM Mono',monospace;font-size:0.65rem;color:#8BA5B8}
+.vm-mn29-leg-dot{width:10px;height:10px;border-radius:2px}
+.vm-mn29-phase-label{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:#C9A84C;margin-top:0.5rem}
+@media(prefers-reduced-motion:reduce){#vm-mn29-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn29-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn29-heading">VISTA Fog of Uncertainty Landscape</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A canvas terrain with fog layers. Phase 1 features are sharp and clear. Phase 1.5 is hazy. Phase 2 is deeply fogged. Use the confidence slider to reveal or obscure the terrain.</p>
+<div class="vm-mn29-canvas-wrap">
+<canvas class="vm-mn29-canvas" id="vm-mn29-canvas" width="500" height="250"></canvas>
+</div>
+<div class="vm-mn29-slider-wrap">
+<span class="vm-mn29-slider-label">Confidence</span>
+<input type="range" class="vm-mn29-slider" id="vm-mn29-slider" min="0" max="100" value="80" aria-label="Confidence level slider">
+<span class="vm-mn29-slider-label" id="vm-mn29-val">80%</span>
+</div>
+<div class="vm-mn29-phase-label" id="vm-mn29-phase">Phase 1: Clear Visibility</div>
+<div class="vm-mn29-legend">
+<div class="vm-mn29-leg-item"><div class="vm-mn29-leg-dot" style="background:#C9A84C"></div>Phase 1 (sharp)</div>
+<div class="vm-mn29-leg-item"><div class="vm-mn29-leg-dot" style="background:#1A7A8A"></div>Phase 1.5 (hazy)</div>
+<div class="vm-mn29-leg-item"><div class="vm-mn29-leg-dot" style="background:#7B5EA7"></div>Phase 2 (foggy)</div>
+</div>
+<script>
+(function(){
+var canvas=document.getElementById('vm-mn29-canvas');
+var ctx=canvas.getContext('2d');
+var slider=document.getElementById('vm-mn29-slider');
+var valEl=document.getElementById('vm-mn29-val');
+var phaseEl=document.getElementById('vm-mn29-phase');
+var w=canvas.width;var h=canvas.height;
+var peaks=[
+{x:50,h:100,phase:1,colour:'#C9A84C',label:'NCZ'},
+{x:120,h:80,phase:1,colour:'#C9A84C',label:'FLINT'},
+{x:190,h:90,phase:1,colour:'#C9A84C',label:'DRD'},
+{x:260,h:70,phase:1.5,colour:'#1A7A8A',label:'KINETICS'},
+{x:330,h:85,phase:1.5,colour:'#1A7A8A',label:'APEX'},
+{x:400,h:60,phase:2,colour:'#7B5EA7',label:'N7'},
+{x:450,h:50,phase:2,colour:'#7B5EA7',label:'SPHERE'}
+];
+function draw(confidence){
+ctx.clearRect(0,0,w,h);
+ctx.fillStyle='#0D2B4E';
+ctx.fillRect(0,0,w,h);
+for(var i=0;i<peaks.length;i++){
+var p=peaks[i];
+var fogThreshold=p.phase===1?20:p.phase===1.5?50:80;
+var visibility=Math.max(0,Math.min(1,(confidence-fogThreshold)/40));
+ctx.globalAlpha=0.15+visibility*0.85;
+ctx.fillStyle=p.colour;
+ctx.beginPath();
+ctx.moveTo(p.x-30,h);
+ctx.lineTo(p.x-15,h-p.h*0.6);
+ctx.lineTo(p.x,h-p.h);
+ctx.lineTo(p.x+15,h-p.h*0.6);
+ctx.lineTo(p.x+30,h);
+ctx.closePath();
+ctx.fill();
+if(visibility>0.3){
+ctx.fillStyle='#F4F4F2';
+ctx.globalAlpha=visibility*0.9;
+ctx.font='9px DM Mono, monospace';
+ctx.textAlign='center';
+ctx.fillText(p.label,p.x,h-p.h-8);
+}
+}
+ctx.globalAlpha=1;
+var fogLevel=Math.max(0,1-confidence/100);
+if(fogLevel>0){
+ctx.fillStyle='rgba(13,43,78,'+fogLevel*0.7+')';
+ctx.fillRect(0,0,w,h);
+}
+}
+function update(){
+var v=parseInt(slider.value);
+valEl.textContent=v+'%';
+if(v>=60){phaseEl.textContent='Phase 1: Clear Visibility';}
+else if(v>=30){phaseEl.textContent='Phase 1.5: Partial Haze';}
+else{phaseEl.textContent='Phase 2: Dense Fog';}
+draw(v);
+}
+slider.addEventListener('input',update);
+update();
+})();
+</script>
+</section>
+
+<!-- ============================================================ -->
+<!-- MN30: VAULT Mnemonic Constellation Map                        -->
+<!-- ============================================================ -->
+<section id="vm-mn30-section" aria-label="VAULT Mnemonic Constellation Map">
+<style>
+#vm-mn30-section{background:#0A0F14;padding:3rem 1.5rem;margin:0;border:none;color:#F4F4F2;font-family:'Outfit',sans-serif}
+#vm-mn30-section *{box-sizing:border-box}
+.vm-mn30-heading{font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:#F4F4F2;margin:0 0 0.5rem 0}
+.vm-mn30-t01{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.vm-mn30-canvas-wrap{position:relative;max-width:600px;margin:0 auto 1rem}
+.vm-mn30-canvas{width:100%;height:400px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);display:block;cursor:crosshair}
+.vm-mn30-tooltip{position:absolute;background:rgba(13,43,78,0.95);border:1px solid rgba(201,168,76,0.4);border-radius:4px;padding:0.5rem 0.75rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:#F4F4F2;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:10;max-width:200px}
+.vm-mn30-detail{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:1rem;max-width:600px;margin:0 auto;min-height:50px}
+.vm-mn30-detail-title{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;margin-bottom:0.4rem}
+.vm-mn30-detail-text{font-size:0.82rem;color:#8BA5B8;line-height:1.5}
+.vm-mn30-legend{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:0.75rem}
+.vm-mn30-leg-item{display:flex;align-items:center;gap:0.3rem;font-family:'DM Mono',monospace;font-size:0.6rem;color:#8BA5B8}
+.vm-mn30-leg-dot{width:8px;height:8px;border-radius:50%}
+@media(prefers-reduced-motion:reduce){#vm-mn30-section *{transition:none !important;animation:none !important}}
+</style>
+<div class="vm-mn30-t01">Terrain Support Considerations</div>
+<h2 class="vm-mn30-heading">VAULT Mnemonic Constellation Map</h2>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A star map showing all 41 VitalMatrix mnemonics as stars arranged by tier. Constellation lines connect related concepts. Hover for a tooltip, click for detail. Ambient rotation and shooting stars bring the sky to life.</p>
+<div class="vm-mn30-canvas-wrap" id="vm-mn30-wrap">
+<canvas class="vm-mn30-canvas" id="vm-mn30-canvas" width="600" height="400"></canvas>
+<div class="vm-mn30-tooltip" id="vm-mn30-tooltip"></div>
+</div>
+<div class="vm-mn30-detail" id="vm-mn30-detail">
+<div class="vm-mn30-detail-title" id="vm-mn30-dtitle">Click a star</div>
+<div class="vm-mn30-detail-text" id="vm-mn30-dtext">Click any star on the constellation map to learn about that mnemonic and its role in the VitalMatrix architecture.</div>
+</div>
+<div class="vm-mn30-legend">
+<div class="vm-mn30-leg-item"><div class="vm-mn30-leg-dot" style="background:#C9A84C"></div>Core (6)</div>
+<div class="vm-mn30-leg-item"><div class="vm-mn30-leg-dot" style="background:#1A7A8A"></div>Architecture (21)</div>
+<div class="vm-mn30-leg-item"><div class="vm-mn30-leg-dot" style="background:#7B5EA7"></div>Clinical (6)</div>
+<div class="vm-mn30-leg-item"><div class="vm-mn30-leg-dot" style="background:#5F7C6C"></div>Governance (6)</div>
+<div class="vm-mn30-leg-item"><div class="vm-mn30-leg-dot" style="background:#2E6DB4"></div>Reserved (2)</div>
+</div>
+<script>
+(function(){
+var canvas=document.getElementById('vm-mn30-canvas');
+var ctx=canvas.getContext('2d');
+var tooltip=document.getElementById('vm-mn30-tooltip');
+var dtitle=document.getElementById('vm-mn30-dtitle');
+var dtext=document.getElementById('vm-mn30-dtext');
+var w=canvas.width;var h=canvas.height;
+var stars=[
+{name:'VitalMatrix',tier:'core',desc:'The platform itself: clinical intelligence for functional medicine practitioners.',x:300,y:60,r:5},
+{name:'NCZ',tier:'core',desc:'Node-Cascade Zone: the five-zone architecture built from seven nodes and six cascade stacks.',x:200,y:90,r:4},
+{name:'DRD',tier:'core',desc:'Highest burden zone designation. Z2 tiebreaker. Excluded from S4 (THEORETICAL) cascade trace.',x:400,y:90,r:4},
+{name:'FLINT',tier:'core',desc:'Five-Layer Intelligence: L1 Node, L2 Zone, L3 Cascade, L4 Causality, L5 Examination.',x:150,y:130,r:4},
+{name:'APEX',tier:'core',desc:'Assessment Priority and Evidence Xray: three-tier investigation planner.',x:450,y:130,r:4},
+{name:'CascadeAtlas',tier:'core',desc:'The master connection map: pentagon layout, six stacks, TerrainLock visualisation.',x:300,y:140,r:5},
+{name:'CascadeIQ',tier:'arch',desc:'Six cascade stacks scored. S4 THEORETICAL. S6 UNIDIRECTIONAL: Z1 to Z3 only.',x:100,y:170,r:3},
+{name:'TerrainLock',tier:'arch',desc:'Self-perpetuating loop: Z2 to Z1 to Z5 to Z2 via S1, S2, S4.',x:500,y:170,r:3},
+{name:'KINETICS',tier:'arch',desc:'Cascade velocity intelligence. FAST, MEDIUM, SLOW classifications.',x:180,y:200,r:3},
+{name:'TRACE',tier:'arch',desc:'Temporal reconstruction of cascade activation sequence.',x:420,y:200,r:3},
+{name:'DeltaScan',tier:'arch',desc:'Follow-up layer comparing T1 and T2 terrain states. Not a FLINT layer.',x:80,y:220,r:3},
+{name:'PRISM',tier:'arch',desc:'Investigation routing concept across APEX tiers.',x:520,y:220,r:3},
+{name:'COHERENCE',tier:'arch',desc:'Zone coherence arc measuring alignment across all five zones.',x:250,y:230,r:3},
+{name:'MedTerrain',tier:'arch',desc:'Medication terrain assessment module.',x:350,y:230,r:3},
+{name:'TIQ',tier:'arch',desc:'Terrain Intelligence Quotient composite score.',x:140,y:250,r:3},
+{name:'CIB',tier:'arch',desc:'Clinical Intelligence Brief summary output.',x:460,y:250,r:3},
+{name:'CZR',tier:'arch',desc:'Cascade Zone Relationship mapping.',x:210,y:270,r:3},
+{name:'ORBIT',tier:'arch',desc:'Seven-stage clinical pipeline tracker.',x:390,y:270,r:3},
+{name:'SPHERE',tier:'arch',desc:'Contextual assessment framework.',x:300,y:280,r:3},
+{name:'MAPS',tier:'arch',desc:'Clinical mapping and pathway system.',x:120,y:300,r:3},
+{name:'RECON',tier:'arch',desc:'Biomarker reconnaissance registry: 85 biomarkers, 12 categories.',x:480,y:300,r:3},
+{name:'COMPASS',tier:'arch',desc:'Protocol compass: 54 terrain support protocols.',x:60,y:310,r:3},
+{name:'GENOME',tier:'arch',desc:'The practitioner handbook: V7, 241 sections, 13,600+ lines.',x:540,y:310,r:3},
+{name:'ANCHOR',tier:'arch',desc:'Cross-cutting verification overlay spanning FLINT L1 through L5.',x:200,y:320,r:3},
+{name:'AXIS',tier:'arch',desc:'Zone axis alignment and scoring reference.',x:400,y:320,r:3},
+{name:'INTAKE',tier:'arch',desc:'Patient intake and MSQ-71 assessment module.',x:300,y:330,r:3},
+{name:'TerrainRoot',tier:'arch',desc:'Name only per D-42. Phase 2 placeholder. Never referenced in output.',x:160,y:340,r:2},
+{name:'VOLTERRAIN',tier:'clinical',desc:'Seven driver framework for terrain assessment.',x:80,y:180,r:3},
+{name:'VANTAGE',tier:'clinical',desc:'Five-dimension clinical perspective panel.',x:520,y:180,r:3},
+{name:'GRADE',tier:'clinical',desc:'Absorption classifier: Grade A (firm), B (partial), C (collapse).',x:240,y:190,r:3},
+{name:'NEXUS',tier:'clinical',desc:'HPA-Vagus regulatory pair. Coupled, Partially Decoupled, Decoupled states.',x:360,y:190,r:3},
+{name:'MODES',tier:'clinical',desc:'Three-modality signal classifier: Structural, Functional, Adaptive.',x:130,y:210,r:3},
+{name:'CADENCE',tier:'clinical',desc:'Governance containment and clinical output cadence.',x:470,y:210,r:3},
+{name:'HERALD',tier:'gov',desc:'Footer-only mnemonic. Never used in body text.',x:100,y:360,r:2},
+{name:'BEACON',tier:'gov',desc:'Footer-only mnemonic. Never used in body text.',x:200,y:370,r:2},
+{name:'VOS',tier:'gov',desc:'VitalMatrix Operating System. Footer only with expansion on first use.',x:300,y:380,r:2},
+{name:'VECTOR',tier:'reserved',desc:'Phase 2 reserved. Excluded from count. Footer only.',x:400,y:370,r:2},
+{name:'VISTA',tier:'gov',desc:'Fog of uncertainty landscape for phase visibility.',x:500,y:360,r:2},
+{name:'VAULT',tier:'gov',desc:'Mnemonic constellation repository and reference map.',x:350,y:360,r:2},
+{name:'VERITY',tier:'gov',desc:'Quality seal and compliance verification system.',x:450,y:380,r:2},
+{name:'CLVF',tier:'reserved',desc:'Eight-rule clinical validation framework.',x:250,y:380,r:2}
+];
+var tierColours={core:'#C9A84C',arch:'#1A7A8A',clinical:'#7B5EA7',gov:'#5F7C6C',reserved:'#2E6DB4'};
+var connections=[
+['VitalMatrix','NCZ'],['VitalMatrix','DRD'],['VitalMatrix','FLINT'],['VitalMatrix','CascadeAtlas'],
+['NCZ','CascadeIQ'],['NCZ','TerrainLock'],['FLINT','APEX'],['FLINT','ANCHOR'],
+['CascadeIQ','KINETICS'],['CascadeIQ','TRACE'],['APEX','PRISM'],['DRD','DeltaScan'],
+['TerrainLock','COHERENCE'],['KINETICS','CADENCE'],['MODES','VANTAGE'],['GRADE','NEXUS']
+];
+var shootingStars=[];
+var rotation=0;
+var hoveredStar=null;
+var animId=null;
+function getStarPos(s){
+var cx=w/2;var cy=h/2;
+var dx=s.x-cx;var dy=s.y-cy;
+var cos=Math.cos(rotation);var sin=Math.sin(rotation);
+return{x:cx+dx*cos-dy*sin*0.02,y:cy+dx*sin*0.02+dy*cos*0.02+dy};
+}
+function draw(){
+ctx.clearRect(0,0,w,h);
+ctx.fillStyle='#0A0F14';
+ctx.fillRect(0,0,w,h);
+for(var b=0;b<40;b++){
+ctx.fillStyle='rgba(244,244,242,'+(0.1+Math.random()*0.15)+')';
+ctx.fillRect(Math.random()*w,Math.random()*h,1,1);
+}
+ctx.globalAlpha=0.15;
+ctx.strokeStyle='#C9A84C';
+ctx.lineWidth=0.5;
+for(var c=0;c<connections.length;c++){
+var a=null;var bStar=null;
+for(var s=0;s<stars.length;s++){
+if(stars[s].name===connections[c][0])a=stars[s];
+if(stars[s].name===connections[c][1])bStar=stars[s];
+}
+if(a&&bStar){
+var pa=getStarPos(a);var pb=getStarPos(bStar);
+ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();
+}
+}
+ctx.globalAlpha=1;
+for(var i=0;i<stars.length;i++){
+var pos=getStarPos(stars[i]);
+stars[i]._px=pos.x;stars[i]._py=pos.y;
+var col=tierColours[stars[i].tier]||'#8BA5B8';
+ctx.fillStyle=col;
+ctx.globalAlpha=stars[i]===hoveredStar?1:0.8;
+ctx.beginPath();
+ctx.arc(pos.x,pos.y,stars[i].r,0,Math.PI*2);
+ctx.fill();
+if(stars[i]===hoveredStar){
+ctx.strokeStyle=col;ctx.lineWidth=1;
+ctx.beginPath();ctx.arc(pos.x,pos.y,stars[i].r+3,0,Math.PI*2);ctx.stroke();
+}
+ctx.globalAlpha=0.6;
+ctx.fillStyle='#F4F4F2';
+ctx.font='7px DM Mono, monospace';
+ctx.textAlign='center';
+ctx.fillText(stars[i].name,pos.x,pos.y-stars[i].r-4);
+}
+ctx.globalAlpha=1;
+for(var j=shootingStars.length-1;j>=0;j--){
+var ss=shootingStars[j];
+ss.x+=ss.vx;ss.y+=ss.vy;ss.life--;
+if(ss.life<=0){shootingStars.splice(j,1);continue;}
+ctx.globalAlpha=ss.life/30;
+ctx.strokeStyle='#C9A84C';ctx.lineWidth=1;
+ctx.beginPath();ctx.moveTo(ss.x,ss.y);ctx.lineTo(ss.x-ss.vx*3,ss.y-ss.vy*3);ctx.stroke();
+}
+ctx.globalAlpha=1;
+if(Math.random()<0.01){
+shootingStars.push({x:Math.random()*w,y:0,vx:2+Math.random()*3,vy:2+Math.random()*2,life:30});
+}
+var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!reducedMotion){rotation+=0.0003;}
+animId=requestAnimationFrame(draw);
+}
+canvas.addEventListener('mousemove',function(e){
+var rect=canvas.getBoundingClientRect();
+var mx=(e.clientX-rect.left)*(w/rect.width);
+var my=(e.clientY-rect.top)*(h/rect.height);
+hoveredStar=null;
+for(var i=0;i<stars.length;i++){
+var dx=mx-(stars[i]._px||stars[i].x);
+var dy=my-(stars[i]._py||stars[i].y);
+if(Math.sqrt(dx*dx+dy*dy)<stars[i].r+6){
+hoveredStar=stars[i];break;
+}
+}
+if(hoveredStar){
+tooltip.style.opacity='1';
+tooltip.textContent=hoveredStar.name+': '+hoveredStar.desc.substring(0,80)+'...';
+tooltip.style.left=Math.min(e.clientX-canvas.getBoundingClientRect().left+10,400)+'px';
+tooltip.style.top=(e.clientY-canvas.getBoundingClientRect().top-30)+'px';
+}else{
+tooltip.style.opacity='0';
+}
+});
+canvas.addEventListener('click',function(e){
+var rect=canvas.getBoundingClientRect();
+var mx=(e.clientX-rect.left)*(w/rect.width);
+var my=(e.clientY-rect.top)*(h/rect.height);
+for(var i=0;i<stars.length;i++){
+var dx=mx-(stars[i]._px||stars[i].x);
+var dy=my-(stars[i]._py||stars[i].y);
+if(Math.sqrt(dx*dx+dy*dy)<stars[i].r+6){
+dtitle.textContent=stars[i].name;
+dtitle.style.color=tierColours[stars[i].tier]||'#C9A84C';
+dtext.textContent=stars[i].desc;
+break;
+}
+}
+});
+canvas.addEventListener('mouseleave',function(){
+tooltip.style.opacity='0';
+hoveredStar=null;
+});
+draw();

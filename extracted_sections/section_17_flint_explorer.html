@@ -1,0 +1,83 @@
+<div class="vm-section-collapse" id="collapse-arch">
+<section class="vm-reveal vm-depth vm-texture-gold" aria-label="The architecture" data-zone="z1" style="background:#0D2B4E; padding:140px 0;">
+  <div class="container" style="text-align:center;">
+    <p class="eyebrow-arch" style="justify-content:center;">Architecture</p>
+    <h2 class="vm-font-sharpen heading-gradient">The <em>Architecture</em></h2>
+    <p style="font-size:16px;color:rgba(244,244,242,0.58);max-width:600px;margin:0 auto 0;line-height:1.8;">FLINT&#8482; is the five-layer terrain intelligence engine that powers every VitalMatrix&#8482; output.</p>
+    <button class="vm-ask-btn" onclick="askAbout('How does the FLINT five-layer architecture work?')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> Ask the terminal</button>
+    <!-- Feature 5: Interactive FLINT Explorer -->
+    <svg id="flint-explorer" viewBox="0 0 720 160" fill="none" style="max-width:720px;margin:48px auto 0;display:block;" aria-label="Five FLINT layers: click to explore">
+      <!-- Connection lines -->
+      <line x1="108" y1="80" x2="216" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <line x1="252" y1="80" x2="324" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <line x1="396" y1="80" x2="468" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <line x1="504" y1="80" x2="612" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <!-- Pulse -->
+      <circle r="3" fill="#C9A84C" opacity="0.5"><animateMotion path="M30,80 L690,80" dur="5s" repeatCount="indefinite"/></circle>
+      <!-- Clickable hexagons -->
+      <g class="flint-hex-btn active" data-layer="1" onclick="showLayer(1)"><g transform="translate(72,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#C9A84C" font-family="DM Mono,monospace" font-size="16" font-weight="500">L1</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">INTAKE</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="2" onclick="showLayer(2)"><g transform="translate(216,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(74,142,201,0.12)" stroke="rgba(74,142,201,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#6BA3D6" font-family="DM Mono,monospace" font-size="16" font-weight="500">L2</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">NCZ</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="3" onclick="showLayer(3)"><g transform="translate(360,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(123,94,167,0.12)" stroke="rgba(123,94,167,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#9B7EC8" font-family="DM Mono,monospace" font-size="16" font-weight="500">L3</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">DRD</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="4" onclick="showLayer(4)"><g transform="translate(504,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(180,190,200,0.12)" stroke="rgba(180,190,200,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#A0AEB8" font-family="DM Mono,monospace" font-size="16" font-weight="500">L4</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">COMPASS</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="5" onclick="showLayer(5)"><g transform="translate(648,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(95,124,108,0.12)" stroke="rgba(95,124,108,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#7A9485" font-family="DM Mono,monospace" font-size="16" font-weight="500">L5</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">ANCHOR</text>
+      </g></g>
+    </svg>
+    <!-- Expandable detail panels -->
+    <div style="max-width:720px;margin:0 auto;">
+      <div id="layer-1" class="flint-explorer-panel active" style="border-left:3px solid #C9A84C;background:rgba(201,168,76,0.04);border-radius:0 8px 8px 0;margin-top:24px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">L1: WHERE is the burden?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">Structured patient intake maps dysfunction across seven biological nodes. MSQ-71, antecedent timeline, and MedTerrain&#8482; medication analysis feed the terrain picture.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#C9A84C;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-2" class="flint-explorer-panel" style="border-left:3px solid #6BA3D6;background:rgba(74,142,201,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#6BA3D6;margin-bottom:8px;">L2: WHICH zones are active?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">NCZ&#8482; composite scoring identifies which of five convergence zones are active. N6 dampened at 0.7x. Z5 activates at a lower threshold reflecting hormonal sensitivity.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#6BA3D6;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-3" class="flint-explorer-panel" style="border-left:3px solid #9B7EC8;background:rgba(123,94,167,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#9B7EC8;margin-bottom:8px;">L3: HOW are zones connected?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">DRD&#8482; identifies the zone carrying the highest terrain burden for practitioner review. Cascade direction traced across six directional stacks. Theoretical pathways flagged.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#9B7EC8;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-4" class="flint-explorer-panel" style="border-left:3px solid #A0AEB8;background:rgba(180,190,200,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#A0AEB8;margin-bottom:8px;">L4: WHAT support is generated?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">COMPASS&#8482; builds the phased terrain support considerations document. Sequenced by cascade position and burden zone. Linked to patient-specific biomarker findings.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#A0AEB8;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-5" class="flint-explorer-panel" style="border-left:3px solid #7A9485;background:rgba(95,124,108,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7A9485;margin-bottom:8px;">L5: WHO has clinical authority?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">ANCHOR&#8482; maintains the session governance record. Audit trail, evidence tier labels, and practitioner review timestamps. Clinical authority stays with the registered practitioner.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#7A9485;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="/how-it-works/" class="vm-cta-glow">See How It Works</a>
+      <button onclick="copyArch(this)" style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.08em;color:rgba(201,168,76,0.55);background:transparent;border:1px solid rgba(201,168,76,0.20);border-radius:999px;padding:5px 14px;cursor:pointer;margin-left:12px;transition:all 0.2s;">Copy Summary</button>
+    </div>
+  </div>
+</section>
+</div>
+<div class="vm-expand-trigger" onclick="toggleCollapse('collapse-arch',this)">
+  <span class="vm-expand-label">The FLINT architecture</span>
+  <span class="vm-expand-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span>
+</div>
+

@@ -1,0 +1,387 @@
+<section class="vm-reveal vm-depth vm-texture-gold" aria-label="The architecture" data-zone="z1" style="background:#0D2B4E; padding:140px 0;">
+  <div class="container" style="text-align:center;">
+    <p class="eyebrow-arch" style="justify-content:center;">Architecture</p>
+    <h2 class="vm-font-sharpen heading-gradient">The <em>Architecture</em></h2>
+    <p style="font-size:16px;color:rgba(244,244,242,0.58);max-width:600px;margin:0 auto 0;line-height:1.8;">FLINT&#8482; is the five-layer terrain intelligence engine that powers every VitalMatrix&#8482; output.</p>
+    <button class="vm-ask-btn" onclick="askAbout('How does the FLINT five-layer architecture work?')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> Ask the terminal</button>
+    <!-- Feature 5: Interactive FLINT Explorer -->
+    <svg id="flint-explorer" viewBox="0 0 720 160" fill="none" style="max-width:720px;margin:48px auto 0;display:block;" aria-label="Five FLINT layers: click to explore">
+      <!-- Connection lines -->
+      <line x1="108" y1="80" x2="216" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <line x1="252" y1="80" x2="324" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <line x1="396" y1="80" x2="468" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <line x1="504" y1="80" x2="612" y2="80" stroke="rgba(244,244,242,0.08)" stroke-width="1.5"/>
+      <!-- Pulse -->
+      <circle r="3" fill="#C9A84C" opacity="0.5"><animateMotion path="M30,80 L690,80" dur="5s" repeatCount="indefinite"/></circle>
+      <!-- Clickable hexagons -->
+      <g class="flint-hex-btn active" data-layer="1" onclick="showLayer(1)"><g transform="translate(72,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#C9A84C" font-family="DM Mono,monospace" font-size="16" font-weight="500">L1</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">INTAKE</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="2" onclick="showLayer(2)"><g transform="translate(216,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(74,142,201,0.12)" stroke="rgba(74,142,201,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#6BA3D6" font-family="DM Mono,monospace" font-size="16" font-weight="500">L2</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">NCZ</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="3" onclick="showLayer(3)"><g transform="translate(360,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(123,94,167,0.12)" stroke="rgba(123,94,167,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#9B7EC8" font-family="DM Mono,monospace" font-size="16" font-weight="500">L3</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">DRD</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="4" onclick="showLayer(4)"><g transform="translate(504,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(180,190,200,0.12)" stroke="rgba(180,190,200,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#A0AEB8" font-family="DM Mono,monospace" font-size="16" font-weight="500">L4</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">COMPASS</text>
+      </g></g>
+      <g class="flint-hex-btn" data-layer="5" onclick="showLayer(5)"><g transform="translate(648,80)">
+        <polygon points="0,-48 42,-24 42,24 0,48 -42,24 -42,-24" fill="rgba(95,124,108,0.12)" stroke="rgba(95,124,108,0.45)" stroke-width="1.5"/>
+        <text y="-6" text-anchor="middle" fill="#7A9485" font-family="DM Mono,monospace" font-size="16" font-weight="500">L5</text>
+        <text y="14" text-anchor="middle" fill="rgba(244,244,242,0.45)" font-family="DM Mono,monospace" font-size="8">ANCHOR</text>
+      </g></g>
+    </svg>
+    <!-- Expandable detail panels -->
+    <div style="max-width:720px;margin:0 auto;">
+      <div id="layer-1" class="flint-explorer-panel active" style="border-left:3px solid #C9A84C;background:rgba(201,168,76,0.04);border-radius:0 8px 8px 0;margin-top:24px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">L1: WHERE is the burden?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">Structured patient intake maps dysfunction across seven biological nodes. MSQ-71, antecedent timeline, and MedTerrain&#8482; medication analysis feed the terrain picture.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#C9A84C;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-2" class="flint-explorer-panel" style="border-left:3px solid #6BA3D6;background:rgba(74,142,201,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#6BA3D6;margin-bottom:8px;">L2: WHICH zones are active?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">NCZ&#8482; composite scoring identifies which of five convergence zones are active. N6 dampened at 0.7x. Z5 activates at a lower threshold reflecting hormonal sensitivity.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#6BA3D6;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-3" class="flint-explorer-panel" style="border-left:3px solid #9B7EC8;background:rgba(123,94,167,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#9B7EC8;margin-bottom:8px;">L3: HOW are zones connected?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">DRD&#8482; identifies the zone carrying the highest terrain burden for practitioner review. Cascade direction traced across six directional stacks. Theoretical pathways flagged.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#9B7EC8;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-4" class="flint-explorer-panel" style="border-left:3px solid #A0AEB8;background:rgba(180,190,200,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#A0AEB8;margin-bottom:8px;">L4: WHAT support is generated?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">COMPASS&#8482; builds the phased terrain support considerations document. Sequenced by cascade position and burden zone. Linked to patient-specific biomarker findings.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#A0AEB8;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+      <div id="layer-5" class="flint-explorer-panel" style="border-left:3px solid #7A9485;background:rgba(95,124,108,0.04);border-radius:0 8px 8px 0;margin-top:8px;">
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7A9485;margin-bottom:8px;">L5: WHO has clinical authority?</p>
+        <p style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.75;margin-bottom:12px;">ANCHOR&#8482; maintains the session governance record. Audit trail, evidence tier labels, and practitioner review timestamps. Clinical authority stays with the registered practitioner.</p>
+        <a href="/how-it-works/" style="font-family:var(--vm-fm);font-size:9px;color:#7A9485;letter-spacing:0.08em;">Learn more &#8594;</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="/how-it-works/" class="vm-cta-glow">See How It Works</a>
+      <button onclick="copyArch(this)" style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.08em;color:rgba(201,168,76,0.55);background:transparent;border:1px solid rgba(201,168,76,0.20);border-radius:999px;padding:5px 14px;cursor:pointer;margin-left:12px;transition:all 0.2s;">Copy Summary</button>
+    </div>
+  </div>
+</section>
+</div>
+<div class="vm-expand-trigger" onclick="toggleCollapse('collapse-arch',this)">
+  <span class="vm-expand-label">The FLINT architecture</span>
+  <span class="vm-expand-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span>
+</div>
+
+<!-- Feature 155: Interactive Pentagon Zone Map (collapsible) -->
+<div class="vm-section-collapse" id="collapse-pentagon">
+<section class="vm-reveal vm-depth" aria-label="Interactive zone map" style="background:#071C33; padding:80px 0;">
+  <div class="container" style="text-align:center;">
+    <p class="eyebrow-arch" style="justify-content:center;">Zone Architecture</p>
+    <h2 class="vm-font-sharpen heading-gradient" style="font-size:clamp(24px,3.5vw,40px);">Five convergence zones. <em>Six cascade stacks.</em></h2>
+    <p style="font-size:14px;color:rgba(244,244,242,0.40);max-width:500px;margin:0 auto 40px;line-height:1.7;">Click any zone to explore its composition, activation threshold, and cascade connections.</p>
+    <div id="vm-pentagon-map">
+      <svg id="vm-penta-svg" viewBox="0 0 500 460" fill="none">
+        <!-- Cascade connection lines (hidden until zone active) -->
+        <line class="penta-cascade" id="pc-s1" x1="400" y1="175" x2="250" y2="55" stroke="rgba(26,122,138,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s2" x1="250" y1="55" x2="75" y2="175" stroke="rgba(201,168,76,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s3" x1="125" y1="400" x2="250" y2="55" stroke="rgba(95,124,108,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s4" x1="75" y1="175" x2="400" y2="175" stroke="rgba(123,94,167,0.30)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s5" x1="400" y1="175" x2="375" y2="400" stroke="rgba(26,122,138,0.40)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line class="penta-cascade" id="pc-s6" x1="250" y1="55" x2="375" y2="400" stroke="rgba(201,168,76,0.35)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <!-- Pentagon outline -->
+        <polygon points="250,55 400,175 375,400 125,400 100,175" stroke="rgba(244,244,242,0.06)" stroke-width="1" fill="none"/>
+        <!-- Inner pentagon -->
+        <polygon points="250,120 350,195 330,340 170,340 150,195" stroke="rgba(244,244,242,0.03)" stroke-width="1" fill="none"/>
+        <!-- Z1: Metabolic Energy Axis (top) -->
+        <g class="penta-zone" data-zone="Z1" onclick="showPentaZone('Z1')">
+          <circle class="penta-node" cx="250" cy="55" r="28" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.30)" stroke-width="1.5" style="color:#C9A84C"/>
+          <circle cx="250" cy="55" r="6" fill="#C9A84C" opacity="0.7"/>
+          <text class="penta-label" x="250" y="59">Z1</text>
+          <text class="penta-zone-name" x="250" y="18">Metabolic Energy</text>
+        </g>
+        <!-- Z2: Resilience Network (top-right) -->
+        <g class="penta-zone" data-zone="Z2" onclick="showPentaZone('Z2')">
+          <circle class="penta-node" cx="400" cy="175" r="28" fill="rgba(26,122,138,0.08)" stroke="rgba(26,122,138,0.30)" stroke-width="1.5" style="color:#1A7A8A"/>
+          <circle cx="400" cy="175" r="6" fill="#1A7A8A" opacity="0.7"/>
+          <text class="penta-label" x="400" y="179">Z2</text>
+          <text class="penta-zone-name" x="455" y="165">Resilience</text>
+          <text class="penta-zone-name" x="455" y="178">Network</text>
+        </g>
+        <!-- Z3: Cardiovascular-Neural (bottom-right) -->
+        <g class="penta-zone" data-zone="Z3" onclick="showPentaZone('Z3')">
+          <circle class="penta-node" cx="375" cy="400" r="28" fill="rgba(123,94,167,0.08)" stroke="rgba(123,94,167,0.30)" stroke-width="1.5" style="color:#7B5EA7"/>
+          <circle cx="375" cy="400" r="6" fill="#7B5EA7" opacity="0.7"/>
+          <text class="penta-label" x="375" y="404">Z3</text>
+          <text class="penta-zone-name" x="430" y="420">Cardiovascular</text>
+        </g>
+        <!-- Z4: Detoxification Trident (bottom-left) -->
+        <g class="penta-zone" data-zone="Z4" onclick="showPentaZone('Z4')">
+          <circle class="penta-node" cx="125" cy="400" r="28" fill="rgba(95,124,108,0.08)" stroke="rgba(95,124,108,0.30)" stroke-width="1.5" style="color:#5F7C6C"/>
+          <circle cx="125" cy="400" r="6" fill="#5F7C6C" opacity="0.7"/>
+          <text class="penta-label" x="125" y="404">Z4</text>
+          <text class="penta-zone-name" x="65" y="420">Detoxification</text>
+        </g>
+        <!-- Z5: Hormonal Terrain (top-left) -->
+        <g class="penta-zone" data-zone="Z5" onclick="showPentaZone('Z5')">
+          <circle class="penta-node" cx="100" cy="175" r="28" fill="rgba(74,133,201,0.08)" stroke="rgba(74,133,201,0.30)" stroke-width="1.5" style="color:#4A85C9"/>
+          <circle cx="100" cy="175" r="6" fill="#4A85C9" opacity="0.7"/>
+          <text class="penta-label" x="100" y="179">Z5</text>
+          <text class="penta-zone-name" x="42" y="165">Hormonal</text>
+          <text class="penta-zone-name" x="42" y="178">Terrain</text>
+        </g>
+        <!-- Travelling particle around pentagon -->
+        <circle r="3" fill="#C9A84C" opacity="0.4">
+          <animateMotion path="M250,55 L400,175 L375,400 L125,400 L100,175 Z" dur="12s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+      <!-- Detail panel -->
+      <div id="vm-penta-detail">
+        <button class="pd-close" onclick="closePentaDetail()">&times;</button>
+        <div id="vm-penta-detail-content"></div>
+      </div>
+    </div>
+    <p style="font-family:var(--vm-fm);font-size:8px;color:rgba(244,244,242,0.15);margin-top:20px;letter-spacing:0.06em;">Click any zone node to explore. S4 is Theoretical. S6 is UNIDIRECTIONAL (Z1 to Z3 only).</p>
+  </div>
+</section>
+</div>
+<div class="vm-expand-trigger" onclick="toggleCollapse('collapse-pentagon',this)">
+  <span class="vm-expand-label">Explore the five-zone pentagon map</span>
+  <span class="vm-expand-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 03: From Workaround to Infrastructure (COLLAPSIBLE)
+     ════════════════════════════════════════════════════════════════ -->
+<div class="vm-section-collapse" id="collapse-shift">
+<section id="section-03" class="vm-reveal section-blur" aria-label="From workaround to infrastructure" style="background:#FFFFFF; padding:100px 0;">
+  <div class="container">
+    <p style="font-family:var(--vm-fm);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#1A7A8A;margin-bottom:20px;display:flex;align-items:center;"><span style="width:40px;height:1px;background:#1A7A8A;margin-right:10px;display:inline-block;"></span>The Shift</p>
+    <h2 class="vm-font-sharpen" style="color:#0D2B4E;margin-bottom:18px;">From workaround <em style="color:#1A7A8A;font-style:italic;">to infrastructure.</em></h2>
+    <p style="font-size:16px;color:#555;max-width:640px;line-height:1.8;margin-bottom:48px;">Five changes in how clinical intelligence is applied. Each shifts the practitioner from manual effort to structured output.</p>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+
+      <!-- Row 1: Light Teal -->
+      <div class="shift-row" style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:16px;padding:22px 28px;border-radius:12px;background:#EBF8FA;border:1px solid rgba(26,122,138,0.15);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:rgba(26,43,78,0.35);text-transform:uppercase;display:block;margin-bottom:6px;">Before</span>
+          <p style="font-size:14px;color:#888;line-height:1.6;margin:0;">Scattered biomarker findings across seven biological systems</p>
+        </div>
+        <p style="text-align:center;color:#1A7A8A;font-size:20px;margin:0;">&#8594;</p>
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:#1A7A8A;text-transform:uppercase;display:block;margin-bottom:6px;">With VitalMatrix&#8482;</span>
+          <p style="font-size:14px;font-weight:500;color:#0D2B4E;line-height:1.6;margin:0;">Five Node-Cascade Zones mapped, scored, and direction-assigned</p>
+        </div>
+      </div>
+
+      <!-- Row 2: Dark Teal -->
+      <div class="shift-row" style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:16px;padding:22px 28px;border-radius:12px;background:#0C4452;border:1px solid rgba(26,122,138,0.20);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:rgba(244,244,242,0.30);text-transform:uppercase;display:block;margin-bottom:6px;">Before</span>
+          <p style="font-size:14px;color:rgba(244,244,242,0.45);line-height:1.6;margin:0;">Severity-based clinical ranking</p>
+        </div>
+        <p style="text-align:center;color:#2A9BAD;font-size:20px;margin:0;">&#8594;</p>
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:#2A9BAD;text-transform:uppercase;display:block;margin-bottom:6px;">With VitalMatrix&#8482;</span>
+          <p style="font-size:14px;font-weight:500;color:#F4F4F2;line-height:1.6;margin:0;">Highest burden zone identification (DRD&#8482;)</p>
+        </div>
+      </div>
+
+      <!-- Row 3: Light Teal -->
+      <div class="shift-row" style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:16px;padding:22px 28px;border-radius:12px;background:#EBF8FA;border:1px solid rgba(26,122,138,0.15);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:rgba(26,43,78,0.35);text-transform:uppercase;display:block;margin-bottom:6px;">Before</span>
+          <p style="font-size:14px;color:#888;line-height:1.6;margin:0;">Intuitive pattern recognition held in clinical memory</p>
+        </div>
+        <p style="text-align:center;color:#1A7A8A;font-size:20px;margin:0;">&#8594;</p>
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:#1A7A8A;text-transform:uppercase;display:block;margin-bottom:6px;">With VitalMatrix&#8482;</span>
+          <p style="font-size:14px;font-weight:500;color:#0D2B4E;line-height:1.6;margin:0;">Documented cascade pathways with evidence tier labels applied</p>
+        </div>
+      </div>
+
+      <!-- Row 4: Dark Teal -->
+      <div class="shift-row" style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:16px;padding:22px 28px;border-radius:12px;background:#0C4452;border:1px solid rgba(26,122,138,0.20);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:rgba(244,244,242,0.30);text-transform:uppercase;display:block;margin-bottom:6px;">Before</span>
+          <p style="font-size:14px;color:rgba(244,244,242,0.45);line-height:1.6;margin:0;">Simultaneous investigation across all presenting systems</p>
+        </div>
+        <p style="text-align:center;color:#2A9BAD;font-size:20px;margin:0;">&#8594;</p>
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:#2A9BAD;text-transform:uppercase;display:block;margin-bottom:6px;">With VitalMatrix&#8482;</span>
+          <p style="font-size:14px;font-weight:500;color:#F4F4F2;line-height:1.6;margin:0;">Sequenced testing by cascade position: highest burden zone confirmed first</p>
+        </div>
+      </div>
+
+      <!-- Row 5: Light Teal -->
+      <div class="shift-row" style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:16px;padding:22px 28px;border-radius:12px;background:#EBF8FA;border:1px solid rgba(26,122,138,0.15);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:rgba(26,43,78,0.35);text-transform:uppercase;display:block;margin-bottom:6px;">Before</span>
+          <p style="font-size:14px;color:#888;line-height:1.6;margin:0;">Post-consultation documentation from memory and templates</p>
+        </div>
+        <p style="text-align:center;color:#1A7A8A;font-size:20px;margin:0;">&#8594;</p>
+        <div>
+          <span style="font-family:var(--vm-fm);font-size:0.55rem;letter-spacing:0.2em;color:#1A7A8A;text-transform:uppercase;display:block;margin-bottom:6px;">With VitalMatrix&#8482;</span>
+          <p style="font-size:14px;font-weight:500;color:#0D2B4E;line-height:1.6;margin:0;">Structured terrain summary: reviewed, edited, and placed in record</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+</div>
+<div class="vm-expand-trigger" onclick="toggleCollapse('collapse-shift',this)">
+  <span class="vm-expand-label">From workaround to infrastructure</span>
+  <span class="vm-expand-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     ARCHITECTURE FACT STRIP (replaces testimonial ticker: factual, no attribution)
+     ════════════════════════════════════════════════════════════════ -->
+<div style="background:#0D2B4E;border-top:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);padding:18px 0;overflow:hidden;white-space:nowrap;">
+  <div style="display:inline-flex;gap:0;animation:tickerScroll 50s linear infinite;">
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Seven biological nodes</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Five convergence zones</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Six directional cascade stacks</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Five clinical outputs per consultation</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">One structured patient intake</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Terrain precision</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Directional confidence</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Seven biological nodes</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Five convergence zones</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Six directional cascade stacks</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+    <span style="font-family:var(--vm-fm);font-size:11px;color:rgba(244,244,242,0.40);padding:0 24px;">Five clinical outputs per consultation</span>
+    <span style="color:rgba(201,168,76,0.35);font-size:8px;">&#9670;</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 04: Clinical Philosophy
+     ════════════════════════════════════════════════════════════════ -->
+<section id="section-04" class="vm-reveal section-blur vm-depth vm-texture-teal" aria-label="Clinical philosophy" style="background:#1A2030;">
+  <div class="container">
+    <p class="eyebrow-clinical">Clinical Philosophy</p>
+    <h2 class="vm-font-sharpen heading-gradient">The principles <em>behind the platform.</em></h2>
+    <p class="sec-sub">Four commitments that define how VitalMatrix&#8482; approaches clinical intelligence. Each one is a choice about what the platform is not.</p>
+    <button class="vm-ask-btn" onclick="askAbout('What are the four clinical principles behind VitalMatrix?')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> Ask the terminal</button>
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:48px;">
+      <span style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,244,242,0.35);">4 Architectural Principles</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#1A7A8A;opacity:0.5;"></span>
+        <span style="width:20px;height:1px;background:rgba(26,122,138,0.20);"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#C9A84C;opacity:0.5;"></span>
+        <span style="width:20px;height:1px;background:rgba(201,168,76,0.20);"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#7B5EA7;opacity:0.5;"></span>
+        <span style="width:20px;height:1px;background:rgba(123,94,167,0.20);"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#5F7C6C;opacity:0.5;"></span>
+      </div>
+    </div>
+    <div class="vm-stagger-grid grid-2" role="list">
+      <div class="vm-glass vm-card-glow vm-card-2 vm-tilt card-pad" role="listitem">
+        <div class="principle-icon principle-icon-01">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A7A8A" stroke-width="2" stroke-linecap="round" role="img" aria-labelledby="icon-terrain-title">
+            <title id="icon-terrain-title">Terrain mapping icon</title>
+            <path d="M4 17 Q8 13 12 14 Q16 15 20 11"/>
+            <path d="M4 13 Q8 9 12 10 Q16 11 20 7"/>
+            <path d="M4 9 Q8 5 12 6 Q16 7 20 3"/>
+          </svg>
+        </div>
+        <p class="eyebrow-clinical" style="font-size:10px; margin-bottom:18px; color:#1A7A8A;">01 / PRINCIPLE</p>
+        <h3 class="card-title">Terrain, not targets</h3>
+        <p class="card-body">The platform does not identify pathogens, deficiencies, or clinical conditions. It maps biological terrain: the functional state of seven interconnected systems and the Node-Cascade Zones where burden accumulates. Terrain intelligence identifies where to look. Clinical judgement determines what to do.</p>
+      </div>
+      <div class="vm-glass vm-card-glow vm-card-2 vm-tilt card-pad" role="listitem">
+        <div class="principle-icon principle-icon-02">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" role="img" aria-labelledby="icon-direction-title">
+            <title id="icon-direction-title">Directional cascade icon</title>
+            <line x1="12" y1="4" x2="12" y2="12"/>
+            <path d="M12 12 L8 18"/>
+            <path d="M12 12 L16 18"/>
+            <polyline points="6,15 8,18 10,15"/>
+            <polyline points="14,15 16,18 18,15"/>
+          </svg>
+        </div>
+        <p class="eyebrow-clinical" style="font-size:10px; margin-bottom:18px; color:#C9A84C;">02 / PRINCIPLE</p>
+        <h3 class="card-title">Direction, not description</h3>
+        <p class="card-body">Other platforms describe what is present. VitalMatrix&#8482; designates direction: which zone is driving the others, which systems are reacting downstream, and which cascade pathways connect them. Directional intelligence is the difference between treating the loudest signal and treating its source.</p>
+      </div>
+      <div class="vm-glass vm-card-glow vm-card-2 vm-tilt card-pad" role="listitem">
+        <div class="principle-icon principle-icon-03">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7B5EA7" stroke-width="2" stroke-linecap="round" role="img" aria-labelledby="icon-sequence-title">
+            <title id="icon-sequence-title">Sequential order icon</title>
+            <line x1="4" y1="7" x2="14" y2="7"/>
+            <line x1="7" y1="12" x2="18" y2="12"/>
+            <line x1="10" y1="17" x2="21" y2="17"/>
+          </svg>
+        </div>
+        <p class="eyebrow-clinical" style="font-size:10px; margin-bottom:18px; color:#7B5EA7;">03 / PRINCIPLE</p>
+        <h3 class="card-title">Sequence, not simultaneity</h3>
+        <p class="card-body">The platform does not produce a list of everything to investigate. It sequences investigation by cascade position: confirm the driver zone first, then trace downstream impact. Sequenced investigation is more efficient, more cost-effective, and more clinically coherent than parallel testing.</p>
+      </div>
+      <div class="vm-glass vm-card-glow vm-card-2 vm-tilt card-pad" role="listitem">
+        <div class="principle-icon principle-icon-04">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5F7C6C" stroke-width="2" stroke-linecap="round" role="img" aria-labelledby="icon-governance-title">
+            <title id="icon-governance-title">Practitioner governance icon</title>
+            <rect x="5" y="3" width="14" height="18" rx="2"/>
+            <polyline points="9,12 11,14 15,10"/>
+          </svg>
+        </div>
+        <p class="eyebrow-clinical" style="font-size:10px; margin-bottom:18px; color:#5F7C6C;">04 / PRINCIPLE</p>
+        <h3 class="card-title">Governance, not autonomy</h3>
+        <p class="card-body">Every output includes an evidence tier label, a practitioner override option, and a blank Practitioner Clinical Decision section. VitalMatrix&#8482; generates working documents for practitioner review. The clinical decision, always, belongs to the registered practitioner.</p>
+      </div>
+    </div>
+    <div class="mobile-swipe-hint" aria-hidden="true"><svg viewBox="0 0 14 14"><polyline points="4,2 10,7 4,12"/></svg> Swipe to explore</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     BREATHING SECTION: Data statement between Philosophy and Commitments (COLLAPSIBLE)
+     ════════════════════════════════════════════════════════════════ -->
+<div class="vm-section-collapse" id="collapse-numbers">
+<section class="vm-reveal" aria-label="Architecture depth" style="background:#0C4452; padding:100px 0; text-align:center;">
+  <div class="container" style="display:flex;justify-content:center;gap:clamp(32px,6vw,80px);flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <p style="font-family:var(--vm-fs);font-size:clamp(48px,7vw,72px);font-weight:200;color:var(--vm-gold);line-height:1;">5</p>
+      <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,244,242,0.40);margin-top:8px;">FLINT&#8482; Layers</p>
+    </div>
+    <div style="text-align:center;">
+      <p style="font-family:var(--vm-fs);font-size:clamp(48px,7vw,72px);font-weight:200;color:var(--vm-teal-l);line-height:1;">7</p>
+      <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,244,242,0.40);margin-top:8px;">Biological Nodes</p>
+    </div>
+    <div style="text-align:center;">
+      <p style="font-family:var(--vm-fs);font-size:clamp(48px,7vw,72px);font-weight:200;color:var(--vm-white);line-height:1;">6</p>
+      <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,244,242,0.40);margin-top:8px;">Cascade Stacks</p>
+    </div>
+    <div style="text-align:center;">
+      <p style="font-family:var(--vm-fs);font-size:clamp(48px,7vw,72px);font-weight:200;color:var(--vm-gold);line-height:1;">30</p>
+      <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,244,242,0.40);margin-top:8px;">Branded Mnemonics</p>
+    </div>
+    <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,244,242,0.30);margin-top:32px;">The complete FLINT&#8482; architecture: from intake to governance</p>
+  </div>
+</section>
+</div>
+<div class="vm-expand-trigger" onclick="toggleCollapse('collapse-numbers',this)">
+  <span class="vm-expand-label">Architecture by the numbers</span>
+  <span class="vm-expand-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span>
+</div>
+
+<!-- Commitments + Founding Programme moved to P4 landing page -->

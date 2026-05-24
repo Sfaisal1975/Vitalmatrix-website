@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CascadeAtlas&#8482; Modular | VitalMatrix&#8482; | Clinical Intelligence Platform</title>
+<meta name="description" content="CascadeAtlas&#8482; modular build: five-zone, six-stack terrain cascade architecture with 36+ interactive clinical intelligence features. VitalMatrix&#8482; clinical intelligence platform.">
+<style>
+  body { margin: 0; padding: 0; background: #1A2030; color: #F4F4F2; font-family: 'Outfit', sans-serif; }
+  .vm-mod-loading { text-align: center; padding: 24px; font-family: 'DM Mono', monospace; font-size: 0.7rem; color: rgba(244,244,242,0.4); }
+</style>
+</head>
+<body>
+
+<div id="ca-module-core"><div class="vm-mod-loading">Loading core...</div></div>
+<div id="ca-module-drd-1"><div class="vm-mod-loading">Loading DRD D1-D5...</div></div>
+<div id="ca-module-drd-2"><div class="vm-mod-loading">Loading DRD D6-D10...</div></div>
+<div id="ca-module-ov1"><div class="vm-mod-loading">Loading OV1-OV10...</div></div>
+<div id="ca-module-ov2"><div class="vm-mod-loading">Loading OV11-OV20...</div></div>
+<div id="ca-module-ov3"><div class="vm-mod-loading">Loading OV21-OV30...</div></div>
+<div id="ca-module-ov4"><div class="vm-mod-loading">Loading OV31-OV40...</div></div>
+<div id="ca-module-ov5"><div class="vm-mod-loading">Loading OV41-OV50...</div></div>
+<div id="ca-module-ov6"><div class="vm-mod-loading">Loading OV51-OV60...</div></div>
+<div id="ca-module-pf"><div class="vm-mod-loading">Loading PF01-PF25...</div></div>
+<div id="ca-module-mn1"><div class="vm-mod-loading">Loading MN01-MN10...</div></div>
+<div id="ca-module-mn3"><div class="vm-mod-loading">Loading MN21-MN30...</div></div>
+<div id="ca-module-mn2"><div class="vm-mod-loading">Loading MN11-MN20...</div></div>
+<div id="ca-module-joy"><div class="vm-mod-loading">Loading JOY01-JOY10...</div></div>
+<div id="ca-module-footer"><div class="vm-mod-loading">Loading footer...</div></div>
+
+<script>
+// CascadeAtlas Modular Loader
+// Loads each module sequentially to preserve DOM order and script execution
+(function() {
+  'use strict';
+
+  var modules = [
+    { id: 'ca-module-core',   file: 'ca-core.html' },
+    { id: 'ca-module-drd-1',  file: 'ca-drd-d1-d5.html' },
+    { id: 'ca-module-drd-2',  file: 'ca-drd-d6-d10.html' },
+    { id: 'ca-module-ov1',    file: 'ca-overlay-ov1-ov10.html' },
+    { id: 'ca-module-ov2',    file: 'ca-overlay-ov11-ov20.html' },
+    { id: 'ca-module-ov3',    file: 'ca-overlay-ov21-ov30.html' },
+    { id: 'ca-module-ov4',    file: 'ca-overlay-ov31-ov40.html' },
+    { id: 'ca-module-ov5',    file: 'ca-overlay-ov41-ov50.html' },
+    { id: 'ca-module-ov6',    file: 'ca-overlay-ov51-ov60.html' },
+    { id: 'ca-module-pf',     file: 'ca-practitioner-pf1-pf25.html' },
+    { id: 'ca-module-mn1',    file: 'ca-mnemonic-mn1-mn10.html' },
+    { id: 'ca-module-mn3',    file: 'ca-mnemonic-mn21-mn30.html' },
+    { id: 'ca-module-mn2',    file: 'ca-mnemonic-mn11-mn20.html' },
+    { id: 'ca-module-joy',    file: 'ca-joy-joy1-joy10.html' },
+    { id: 'ca-module-footer', file: 'ca-footer.html' }
+  ];
+
+  var idx = 0;
+
+  function loadNext() {
+    if (idx >= modules.length) {
+      console.log('[CascadeAtlas] All ' + modules.length + ' modules loaded.');
+      return;
+    }
+    var mod = modules[idx];
+    var container = document.getElementById(mod.id);
+    if (!container) { idx++; loadNext(); return; }
+
+    fetch(mod.file)
+      .then(function(response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status + ' loading ' + mod.file);
+        return response.text();
+      })
+      .then(function(html) {
+        // Inject HTML content
+        container.innerHTML = html;
+
+        // Execute any script tags in the injected HTML
+        var scripts = container.querySelectorAll('script');
+        var scriptPromises = [];
+        for (var s = 0; s < scripts.length; s++) {
+          var oldScript = scripts[s];
+          var newScript = document.createElement('script');
+          if (oldScript.src) {
+            newScript.src = oldScript.src;
+            // For external scripts, wait for load
+            scriptPromises.push(new Promise(function(resolve, reject) {
+              newScript.onload = resolve;
+              newScript.onerror = reject;
+            }));
+          } else {
+            newScript.textContent = oldScript.textContent;
+          }
+          // Copy attributes
+          for (var a = 0; a < oldScript.attributes.length; a++) {
+            var attr = oldScript.attributes[a];
+            if (attr.name !== 'src') {
+              newScript.setAttribute(attr.name, attr.value);
+            }
+          }
+          oldScript.parentNode.replaceChild(newScript, oldScript);
+        }
+
+        // Wait for external scripts then load next module
+        if (scriptPromises.length > 0) {
+          Promise.all(scriptPromises).then(function() {
+            console.log('[CascadeAtlas] Loaded: ' + mod.file);
+            idx++;
+            loadNext();
+          });
+        } else {
+          console.log('[CascadeAtlas] Loaded: ' + mod.file);
+          idx++;
+          loadNext();
+        }
+      })
+      .catch(function(err) {
+        console.error('[CascadeAtlas] Failed to load ' + mod.file + ': ' + err.message);
+        container.innerHTML = '<div class="vm-mod-loading" style="color:#D63030;">Failed to load ' + mod.file + '</div>';
+        idx++;
+        loadNext();
+      });
+  }
+
+  // Start sequential loading
+  loadNext();
+})();
+</script>
+
+</body>
+</html>

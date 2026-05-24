@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="audience-tier" content="practitioner">
+<title>LA-9: TRACE&#8482; Timeline | VitalMatrix&#8482;</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C4452;--card:rgba(7,28,51,.90);--card2:rgba(13,43,78,.55);
+  --z1:#C9A84C;--z2:#1A7A8A;--z2l:#2A9BAD;--z3:#7B5EA7;--z3l:#9B7EC8;
+  --z4:#5F7C6C;--z4l:#7A9485;--z5:#2E6DB4;--z5l:#DCC888;
+  --gold:#C9A84C;--gold-l:#D4B86A;--teal:#1A7A8A;--teal-l:#2A9BAD;
+  --ev-diet:#2A9BAD;--ev-env:#7B5EA7;--ev-stress:#C9A84C;--ev-infect:#C0392B;--ev-life:#5F7C6C;
+  --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
+  --t35:rgba(244,244,242,.55);--t12:rgba(244,244,242,.12);--t06:rgba(244,244,242,.06);
+  --fs:'Cormorant Garamond',Georgia,serif;--fd:'Outfit',system-ui,sans-serif;--fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:2px;}
+body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+.comp-header{background:rgba(7,28,51,.92);border-bottom:1px solid rgba(201,168,76,.20);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+.comp-id{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+.comp-title{font-family:var(--fs);font-size:1.1rem;font-weight:600;color:var(--white);}
+.trace-expand{font-family:var(--fm);font-size:8px;color:var(--teal-l);letter-spacing:.08em;}
+
+.comp-body{max-width:1100px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:1fr 300px;gap:20px;}
+@media(max-width:860px){.comp-body{grid-template-columns:1fr;}}
+
+/* TIMELINE AREA */
+.timeline-area{display:flex;flex-direction:column;gap:16px;}
+.card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:18px;}
+.card-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+
+/* TIMELINE RAIL */
+.timeline-rail{position:relative;padding:8px 0;}
+.rail-line{position:absolute;top:24px;bottom:24px;left:80px;width:2px;background:rgba(255,255,255,.07);}
+.timeline-year{display:flex;align-items:flex-start;gap:0;margin-bottom:4px;position:relative;}
+.ty-label{font-family:var(--fm);font-size:9px;color:var(--t35);width:72px;flex-shrink:0;padding-top:14px;text-align:right;padding-right:14px;}
+.ty-events{flex:1;display:flex;flex-direction:column;gap:4px;padding-left:16px;}
+
+/* Event pill */
+.ev-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:100px;font-family:var(--fm);font-size:8.5px;cursor:pointer;position:relative;transition:opacity .2s;}
+.ev-pill:hover{opacity:.85;}
+.ev-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.ev-text{color:var(--t80);}
+.ev-type-diet{background:rgba(42,155,173,.12);border:1px solid rgba(42,155,173,.25);}
+.ev-type-env{background:rgba(123,94,167,.12);border:1px solid rgba(123,94,167,.25);}
+.ev-type-stress{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);}
+.ev-type-infect{background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.25);}
+.ev-type-life{background:rgba(95,124,108,.12);border:1px solid rgba(95,124,108,.25);}
+
+/* Zone burden band */
+.burden-track{display:flex;align-items:center;gap:8px;margin-top:3px;}
+.bt-label{font-family:var(--fm);font-size:7px;color:var(--t35);width:24px;text-align:right;flex-shrink:0;}
+.bt-bar{flex:1;height:5px;border-radius:3px;opacity:.65;}
+
+/* Cascade onset marker */
+.cascade-marker{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:100px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);font-family:var(--fm);font-size:8px;color:var(--gold);margin-left:16px;}
+
+/* Tree ring sidebar */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.tree-ring-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:18px;}
+.tr-diagram{display:flex;align-items:center;justify-content:center;padding:12px 0;}
+.tr-legend{display:flex;flex-direction:column;gap:5px;margin-top:8px;}
+.tr-leg-row{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:8px;color:var(--t55);}
+.tr-leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.analogy-card{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:16px;}
+.analogy-quote{font-family:var(--fs);font-size:1.05rem;font-style:italic;color:var(--t80);line-height:1.6;border-left:2px solid var(--teal);padding-left:14px;}
+.ev-legend{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:16px;}
+.evl-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-family:var(--fm);font-size:8.5px;color:var(--t55);}
+.evl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+.page-footer{background:#1A2030;border-top:1px solid rgba(201,168,76,.3);padding:16px 24px;border-radius:6px;font-family:var(--fm);font-size:8px;color:rgba(244,244,242,.65);line-height:1.9;}
+.page-footer strong{color:#C9A84C;}
+</style>
+<link rel="stylesheet" href="vm-la-crosscut.css">
+<link rel="stylesheet" href="vm-la-crosscut-2.css">
+<script src="vm-la-crosscut.js" defer></script>
+<script src="vm-la-crosscut-2.js" defer></script>
+</head>
+<body>
+
+<header class="comp-header">
+  <div>
+    <div class="comp-id">LA-9 | GENOME&#8482; Handbook V7 | D-53 | ALB v1.6</div>
+    <div class="comp-title">TRACE&#8482; Timeline: Temporal Reconstruction and Cascade Evaluation</div>
+  </div>
+  <div class="trace-expand">Composite case: Mark, 49</div>
+</header>
+
+<div class="comp-body">
+<div class="timeline-area">
+
+<!-- TIMELINE -->
+<div class="card">
+  <div class="card-label">Terrain History Timeline: TRACE&#8482; Reconstruction</div>
+  <div class="timeline-rail">
+    <div class="rail-line"></div>
+
+    <!-- Year -12 -->
+    <div class="timeline-year">
+      <div class="ty-label">2014</div>
+      <div class="ty-events">
+        <span class="ev-pill ev-type-stress"><span class="ev-dot" style="background:#C9A84C"></span><span class="ev-text">Management role change -- HPA activation begins</span></span>
+        <span class="ev-pill ev-type-life"><span class="ev-dot" style="background:#5F7C6C"></span><span class="ev-text">Reduced sleep onset (6-hour nights begin)</span></span>
+        <div class="burden-track"><div class="bt-label">Z1</div><div class="bt-bar" style="width:18%;background:#C9A84C;"></div><div class="bt-label" style="width:auto;color:#C9A84C;font-size:8px;">Low</div></div>
+      </div>
+    </div>
+
+    <!-- Year -9 -->
+    <div class="timeline-year">
+      <div class="ty-label">2017</div>
+      <div class="ty-events">
+        <span class="ev-pill ev-type-diet"><span class="ev-dot" style="background:#2A9BAD"></span><span class="ev-text">Diet shift -- higher processed food load, alcohol increase</span></span>
+        <span class="cascade-marker">S1 cascade (MEDIUM): Z2 to Z1 begins emerging</span>
+        <div class="burden-track"><div class="bt-label">Z1</div><div class="bt-bar" style="width:30%;background:#C9A84C;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z2</div><div class="bt-bar" style="width:22%;background:#1A7A8A;"></div></div>
+      </div>
+    </div>
+
+    <!-- Year -7 -->
+    <div class="timeline-year">
+      <div class="ty-label">2019</div>
+      <div class="ty-events">
+        <span class="ev-pill ev-type-env"><span class="ev-dot" style="background:#7B5EA7"></span><span class="ev-text">Office relocation -- poor air quality environment</span></span>
+        <span class="ev-pill ev-type-infect"><span class="ev-dot" style="background:#C0392B"></span><span class="ev-text">Repeated viral illness (3 episodes in 18 months)</span></span>
+        <span class="cascade-marker">Z4 load increases. S3 cascade (SLOW): Z4 to Z1 activating.</span>
+        <div class="burden-track"><div class="bt-label">Z1</div><div class="bt-bar" style="width:42%;background:#C9A84C;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z2</div><div class="bt-bar" style="width:38%;background:#1A7A8A;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z4</div><div class="bt-bar" style="width:28%;background:#5F7C6C;"></div></div>
+      </div>
+    </div>
+
+    <!-- Year -4 -->
+    <div class="timeline-year">
+      <div class="ty-label">2022</div>
+      <div class="ty-events">
+        <span class="ev-pill ev-type-stress"><span class="ev-dot" style="background:#C9A84C"></span><span class="ev-text">Business restructuring -- sustained cortisol elevation confirmed</span></span>
+        <span class="cascade-marker">S2 cascade (FAST): Z1 to Z5 now established. Weight gain onset.</span>
+        <div class="burden-track"><div class="bt-label">Z1</div><div class="bt-bar" style="width:58%;background:#C9A84C;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z2</div><div class="bt-bar" style="width:52%;background:#1A7A8A;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z5</div><div class="bt-bar" style="width:40%;background:#2E6DB4;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z4</div><div class="bt-bar" style="width:35%;background:#5F7C6C;"></div></div>
+      </div>
+    </div>
+
+    <!-- Year -2 -->
+    <div class="timeline-year">
+      <div class="ty-label">2024</div>
+      <div class="ty-events">
+        <span class="ev-pill ev-type-life"><span class="ev-dot" style="background:#5F7C6C"></span><span class="ev-text">First symptom presentation: fatigue, libido decline, weight gain</span></span>
+        <span class="ev-pill ev-type-stress"><span class="ev-dot" style="background:#C9A84C"></span><span class="ev-text">GP visit: testosterone low-normal, no treatment initiated</span></span>
+        <span class="cascade-marker">S6 cascade (MEDIUM, UNIDIRECTIONAL Z1 to Z3): endothelial markers begin shifting</span>
+        <div class="burden-track"><div class="bt-label">Z1</div><div class="bt-bar" style="width:70%;background:#C9A84C;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z2</div><div class="bt-bar" style="width:65%;background:#1A7A8A;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z5</div><div class="bt-bar" style="width:55%;background:#2E6DB4;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z3</div><div class="bt-bar" style="width:28%;background:#7B5EA7;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z4</div><div class="bt-bar" style="width:42%;background:#5F7C6C;"></div></div>
+      </div>
+    </div>
+
+    <!-- Present -->
+    <div class="timeline-year">
+      <div class="ty-label" style="color:var(--gold);">2026 Now</div>
+      <div class="ty-events">
+        <span class="ev-pill ev-type-life" style="background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);"><span class="ev-dot" style="background:#C9A84C"></span><span class="ev-text" style="color:var(--gold);">First VitalMatrix&#8482; assessment</span></span>
+        <div style="font-family:var(--fm);font-size:8.5px;color:var(--t35);margin-top:4px;padding-left:2px;">Z1=72, Z2=78, Z3=35, Z4=48, Z5=65 (internal)</div>
+        <div class="burden-track"><div class="bt-label" style="color:var(--gold);">Z1</div><div class="bt-bar" style="width:72%;background:#C9A84C;opacity:1;"></div></div>
+        <div class="burden-track"><div class="bt-label" style="color:#2A9BAD;">Z2</div><div class="bt-bar" style="width:78%;background:#1A7A8A;opacity:1;"></div></div>
+        <div class="burden-track"><div class="bt-label" style="color:#2E6DB4;">Z5</div><div class="bt-bar" style="width:65%;background:#2E6DB4;opacity:1;"></div></div>
+        <div class="burden-track"><div class="bt-label" style="color:#7A9485;">Z4</div><div class="bt-bar" style="width:48%;background:#5F7C6C;opacity:1;"></div></div>
+        <div class="burden-track"><div class="bt-label" style="color:#9B7EC8;">Z3</div><div class="bt-bar" style="width:35%;background:#7B5EA7;opacity:1;"></div></div>
+      </div>
+    </div>
+
+  </div><!-- end rail -->
+</div>
+
+<div class="card">
+  <div class="card-label">TRACE&#8482; Clinical Interpretation</div>
+  <div style="font-family:var(--fd);font-size:13px;font-weight:300;color:var(--t55);line-height:1.8;">
+    Z1 has been accumulating burden for <strong style="color:var(--white);">12 years</strong>. The presenting complaint (fatigue, libido decline) appeared 2 years ago. The Z1 driver was already operating silently for a decade before symptoms emerged. TRACE&#8482; identifies this trajectory: the terrain was accumulating long before the patient noticed anything was wrong.
+    <br><br>
+    Z2 gut burden predates Z1 by 2 years (dietary shift 2017). The S1 cascade has been running from Z2 to Z1 for approximately 9 years. This is not a new problem. This is a decade-long cascade that conventional tests did not detect until Z1 reached symptom threshold.
+    <br><br>
+    Support timeline implication: <strong style="color:var(--white);">12 years of terrain accumulation requires a sustained protocol horizon.</strong> Four to six weeks of support will not reverse a decade of cascade loading. Manage patient expectations accordingly.
+  </div>
+</div>
+
+</div><!-- end timeline-area -->
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+  <!-- Tree Ring Diagram -->
+  <div class="tree-ring-card">
+    <div class="card-label">Tree Ring Analogy</div>
+    <div class="tr-diagram">
+      <svg viewBox="0 0 160 160" width="160" height="160">
+        <circle cx="80" cy="80" r="75" fill="none" stroke="rgba(95,124,108,.35)" stroke-width="8"/>
+        <circle cx="80" cy="80" r="63" fill="none" stroke="rgba(201,168,76,.30)" stroke-width="8"/>
+        <circle cx="80" cy="80" r="51" fill="none" stroke="rgba(26,122,138,.35)" stroke-width="8"/>
+        <circle cx="80" cy="80" r="39" fill="none" stroke="rgba(212,184,112,.30)" stroke-width="8"/>
+        <circle cx="80" cy="80" r="27" fill="none" stroke="rgba(201,168,76,.45)" stroke-width="8"/>
+        <circle cx="80" cy="80" r="15" fill="rgba(201,168,76,.15)" stroke="rgba(201,168,76,.5)" stroke-width="2"/>
+        <text x="80" y="85" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(201,168,76,.8)" letter-spacing=".04em">NOW</text>
+      </svg>
+    </div>
+    <div class="analogy-quote">
+      Each ring is a year of terrain accumulation. The outer rings formed silently. The inner rings show active burden. The core is where the patient is today.
+    </div>
+    <div class="tr-legend" style="margin-top:10px;">
+      <div class="tr-leg-row"><div class="tr-leg-dot" style="background:rgba(95,124,108,.5)"></div>2014: Z4 environmental load begins</div>
+      <div class="tr-leg-row"><div class="tr-leg-dot" style="background:rgba(201,168,76,.5)"></div>2017: Z1 metabolic burden</div>
+      <div class="tr-leg-row"><div class="tr-leg-dot" style="background:rgba(26,122,138,.5)"></div>2019: Z2 resilience network</div>
+      <div class="tr-leg-row"><div class="tr-leg-dot" style="background:rgba(212,184,112,.5)"></div>2022: Z5 hormonal axis</div>
+      <div class="tr-leg-row"><div class="tr-leg-dot" style="background:rgba(201,168,76,.8)"></div>2026: Presentation</div>
+    </div>
+  </div>
+
+  <!-- TRACE Expansion -->
+  <div class="analogy-card">
+    <div class="card-label">TRACE&#8482;</div>
+    <div style="font-family:var(--fm);font-size:8.5px;color:var(--t55);line-height:1.75;">
+      <strong style="color:var(--white);display:block;margin-bottom:4px;">Temporal Reconstruction and Cascade Evaluation</strong>
+      <span style="display:block;font-size:7.5px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">FLINT Layer: L4/L5 Support (Temporal Reconstruction) &nbsp;|&nbsp; Evidence Tier: Emerging</span>
+      TRACE&#8482; maps the patient's terrain history on a structured timeline. Trigger events, symptom onset markers, and cascade activation points are documented to establish how long each zone has been under burden. Duration informs DRD&#8482; weighting and support timeline expectations.
+      <br><br>
+      <em style="color:var(--teal-l);font-size:8px;">Timeline reveals cascade sequence, not just current state.</em>
+    </div>
+  </div>
+
+  <!-- Event Type Legend -->
+  <div class="ev-legend">
+    <div class="card-label">Event Types</div>
+    <div class="evl-row"><div class="evl-dot" style="background:#2A9BAD"></div>Dietary trigger</div>
+    <div class="evl-row"><div class="evl-dot" style="background:#7B5EA7"></div>Environmental exposure</div>
+    <div class="evl-row"><div class="evl-dot" style="background:#C9A84C"></div>Psychological stressor</div>
+    <div class="evl-row"><div class="evl-dot" style="background:#C0392B"></div>Infectious trigger</div>
+    <div class="evl-row"><div class="evl-dot" style="background:#5F7C6C"></div>Lifestyle / structural</div>
+  </div>
+
+</div><!-- end sidebar -->
+</div>
+
+<footer class="page-footer">
+  <p><strong>Trademarks:</strong> VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
+  <p style="margin-top:6px;">GENOME&#8482; Handbook V7 | LA-9 TRACE&#8482; Timeline | ALB v1.6 (D-46) | D-53 | Composite case -- illustrative only | For practitioner use only. Not a diagnostic tool. VitalMatrix&#8482; is a clinical intelligence platform. | Dr Shahzad Faisal, MBBS, FAAMFM | &copy; 2026 VitalMatrix Ltd | ICO ZC101813</p>
+  <p style="margin-top:6px;">MHRA Compliant SaMD. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+</footer>
+
+<!-- ================================================================ -->
+<!-- LA9F1: Temporal Reconstruction Scroll                             -->
+<!-- ================================================================ -->
+<style>
+.vm-la9f1-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:16px auto;max-width:1100px;}
+.vm-la9f1-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la9f1-timeline{position:relative;height:60px;margin:10px 0;overflow:hidden;}
+.vm-la9f1-rail{position:absolute;top:28px;left:30px;right:30px;height:2px;background:rgba(244,244,242,.08);}
+.vm-la9f1-marker{position:absolute;top:10px;display:flex;flex-direction:column;align-items:center;opacity:0;transition:opacity .5s ease,transform .5s ease;transform:translateY(-10px);}
+.vm-la9f1-marker.vm-la9f1-visible{opacity:1;transform:translateY(0);}
+.vm-la9f1-marker-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--bg);}
+.vm-la9f1-marker-year{font-family:var(--fm);font-size:7px;color:var(--t35);margin-top:4px;}
+.vm-la9f1-marker-event{font-family:var(--fm);font-size:7px;color:var(--t55);max-width:70px;text-align:center;margin-top:2px;line-height:1.2;}
+.vm-la9f1-progress{position:absolute;top:28px;left:30px;height:2px;background:var(--gold);transition:width .3s ease;width:0;}
+.vm-la9f1-instruction{font-family:var(--fm);font-size:8px;color:var(--t35);text-align:center;margin-top:6px;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la9f1-marker{transition:none !important;}
+  .vm-la9f1-progress{transition:none !important;}
+}
+</style>
+<div class="vm-la9f1-wrap" id="vm-la9f1-wrap">
+  <div class="vm-la9f1-label">LA9F1: Temporal Reconstruction Scroll</div>
+  <div class="vm-la9f1-timeline" id="vm-la9f1-timeline">
+    <div class="vm-la9f1-rail"></div>
+    <div class="vm-la9f1-progress" id="vm-la9f1-progress"></div>
+  </div>
+  <div class="vm-la9f1-instruction">Scroll down to reveal timeline markers</div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var EVENTS=[
+    {year:2014,pct:0,col:'#C9A84C',label:'HPA activation'},
+    {year:2017,pct:25,col:'#1A7A8A',label:'Diet shift'},
+    {year:2019,pct:42,col:'#7B5EA7',label:'Env exposure'},
+    {year:2022,pct:67,col:'#5F7C6C',label:'Cortisol elevation'},
+    {year:2024,pct:83,col:'#C9A84C',label:'Symptom onset'},
+    {year:2026,pct:100,col:'#C9A84C',label:'Assessment'}
+  ];
+  var timeline=document.getElementById('vm-la9f1-timeline');
+  var progress=document.getElementById('vm-la9f1-progress');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  for(var i=0;i<EVENTS.length;i++){
+    var e=EVENTS[i];
+    var marker=document.createElement('div');
+    marker.className='vm-la9f1-marker';
+    marker.setAttribute('data-pct',e.pct);
+    marker.style.left='calc(30px + '+e.pct+'% * (100% - 60px) / 100)';
+
+    var dot=document.createElement('div');
+    dot.className='vm-la9f1-marker-dot';
+    dot.style.background=e.col;
+
+    var yr=document.createElement('div');
+    yr.className='vm-la9f1-marker-year';
+    yr.textContent=e.year;
+
+    var ev=document.createElement('div');
+    ev.className='vm-la9f1-marker-event';
+    ev.textContent=e.label;
+
+    marker.appendChild(dot);
+    marker.appendChild(yr);
+    marker.appendChild(ev);
+    timeline.appendChild(marker);
+  }
+
+  function onScroll(){
+    var wrap=document.getElementById('vm-la9f1-wrap');
+    var rect=wrap.getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    var scrollPct=Math.max(0,Math.min(1,(vh-rect.top)/(vh+rect.height)));
+    var revealPct=scrollPct*100;
+
+    progress.style.width='calc('+Math.min(revealPct,100)+'% * (100% - 60px) / 100)';
+
+    var markers=timeline.querySelectorAll('.vm-la9f1-marker');
+    for(var i=0;i<markers.length;i++){
+      var pct=parseFloat(markers[i].getAttribute('data-pct'));
+      if(revealPct>=pct||reducedMotion){
+        markers[i].classList.add('vm-la9f1-visible');
+      }
+    }
+  }
+
+  window.addEventListener('scroll',onScroll);
+  onScroll();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9F2: Cascade Sequence Reveal                                    -->
+<!-- ================================================================ -->
+<style>
+.vm-la9f2-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1100px;}
+.vm-la9f2-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la9f2-sequence{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;padding:10px 0;}
+.vm-la9f2-step{display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.15;transition:opacity .5s ease;}
+.vm-la9f2-step.vm-la9f2-active{opacity:1;}
+.vm-la9f2-step-box{padding:6px 10px;border-radius:6px;font-family:var(--fm);font-size:9px;border:1px solid var(--t12);background:rgba(244,244,242,.03);}
+.vm-la9f2-step-year{font-family:var(--fm);font-size:7px;color:var(--t35);}
+.vm-la9f2-arrow{font-size:14px;color:var(--gold);opacity:.3;transition:opacity .5s ease;}
+.vm-la9f2-arrow.vm-la9f2-active{opacity:1;}
+.vm-la9f2-controls{display:flex;justify-content:center;gap:10px;margin-top:10px;}
+.vm-la9f2-btn{font-family:var(--fm);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:4px;cursor:pointer;border:1px solid var(--t12);background:transparent;color:var(--t55);transition:all .2s;}
+.vm-la9f2-btn:hover{border-color:rgba(201,168,76,.3);color:var(--gold);}
+.vm-la9f2-step-theoretical{border-style:dashed !important;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la9f2-step,.vm-la9f2-arrow{transition:none !important;}
+}
+</style>
+<div class="vm-la9f2-wrap">
+  <div class="vm-la9f2-label">LA9F2: Cascade Sequence Reveal</div>
+  <div class="vm-la9f2-sequence" id="vm-la9f2-sequence"></div>
+  <div class="vm-la9f2-controls">
+    <button class="vm-la9f2-btn" id="vm-la9f2-play">Play Sequence</button>
+    <button class="vm-la9f2-btn" id="vm-la9f2-reset">Reset</button>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var CASCADE_SEQ=[
+    {name:'S1: Z2\u2192Z1',year:'2017',col:'#1A7A8A',vel:'MEDIUM',theoretical:false},
+    {name:'S3: Z4\u2192Z1',year:'2019',col:'#5F7C6C',vel:'SLOW',theoretical:false},
+    {name:'S2: Z1\u2192Z5',year:'2022',col:'#C9A84C',vel:'FAST',theoretical:false},
+    {name:'S4: Z5\u2192Z2',year:'2024',col:'#2E6DB4',vel:'MEDIUM',theoretical:true},
+    {name:'S5: Z2\u2192Z3',year:'2024',col:'#1A7A8A',vel:'FAST',theoretical:false},
+    {name:'S6: Z1\u2192Z3 (UNIDIRECTIONAL)',year:'2024',col:'#C9A84C',vel:'MEDIUM',theoretical:false}
+  ];
+  var container=document.getElementById('vm-la9f2-sequence');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var currentStep=0;
+  var playTimer=null;
+
+  function build(){
+    container.innerHTML='';
+    for(var i=0;i<CASCADE_SEQ.length;i++){
+      if(i>0){
+        var arrow=document.createElement('span');
+        arrow.className='vm-la9f2-arrow';
+        arrow.textContent='\u2192';
+        arrow.setAttribute('data-idx',String(i));
+        container.appendChild(arrow);
+      }
+      var step=document.createElement('div');
+      step.className='vm-la9f2-step';
+      step.setAttribute('data-idx',String(i));
+
+      var box=document.createElement('div');
+      box.className='vm-la9f2-step-box';
+      if(CASCADE_SEQ[i].theoretical)box.classList.add('vm-la9f2-step-theoretical');
+      box.style.color=CASCADE_SEQ[i].col;
+      box.textContent=CASCADE_SEQ[i].name;
+
+      var yr=document.createElement('div');
+      yr.className='vm-la9f2-step-year';
+      yr.textContent=CASCADE_SEQ[i].year+' | '+CASCADE_SEQ[i].vel;
+
+      step.appendChild(box);
+      step.appendChild(yr);
+      container.appendChild(step);
+    }
+  }
+
+  function reveal(upTo){
+    var steps=container.querySelectorAll('.vm-la9f2-step');
+    var arrows=container.querySelectorAll('.vm-la9f2-arrow');
+    for(var i=0;i<steps.length;i++){
+      if(i<=upTo){steps[i].classList.add('vm-la9f2-active');}
+      else{steps[i].classList.remove('vm-la9f2-active');}
+    }
+    for(var i=0;i<arrows.length;i++){
+      if(i<upTo){arrows[i].classList.add('vm-la9f2-active');}
+      else{arrows[i].classList.remove('vm-la9f2-active');}
+    }
+  }
+
+  function play(){
+    if(playTimer){clearInterval(playTimer);playTimer=null;}
+    currentStep=-1;
+    reveal(-1);
+    var delay=reducedMotion?0:600;
+    playTimer=setInterval(function(){
+      currentStep++;
+      if(currentStep>=CASCADE_SEQ.length){clearInterval(playTimer);playTimer=null;return;}
+      reveal(currentStep);
+    },delay);
+  }
+
+  function reset(){
+    if(playTimer){clearInterval(playTimer);playTimer=null;}
+    currentStep=-1;
+    reveal(-1);
+  }
+
+  build();
+  document.getElementById('vm-la9f2-play').addEventListener('click',play);
+  document.getElementById('vm-la9f2-reset').addEventListener('click',reset);
+  if(reducedMotion){reveal(CASCADE_SEQ.length-1);}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9F3: Onset Age Calculator                                       -->
+<!-- ================================================================ -->
+<style>
+.vm-la9f3-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1100px;}
+.vm-la9f3-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la9f3-slider-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.vm-la9f3-age-display{font-family:var(--fs);font-size:2rem;font-weight:600;color:var(--gold);min-width:60px;text-align:center;}
+.vm-la9f3-slider{flex:1;}
+.vm-la9f3-stages{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;}
+.vm-la9f3-stage{padding:6px 12px;border-radius:6px;font-family:var(--fm);font-size:8px;border:1px solid var(--t06);background:rgba(244,244,242,.03);color:var(--t35);transition:all .3s ease;text-align:center;}
+.vm-la9f3-stage.vm-la9f3-current{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3);color:var(--gold);}
+.vm-la9f3-events-at-age{margin-top:12px;padding:10px;background:rgba(244,244,242,.03);border-radius:6px;}
+.vm-la9f3-event-item{font-family:var(--fm);font-size:8.5px;color:var(--t55);padding:3px 0;border-bottom:1px solid var(--t06);}
+.vm-la9f3-event-item:last-child{border-bottom:none;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la9f3-stage{transition:none !important;}
+}
+</style>
+<div class="vm-la9f3-wrap">
+  <div class="vm-la9f3-label">LA9F3: Onset Age Calculator</div>
+  <div class="vm-la9f3-slider-row">
+    <div class="vm-la9f3-age-display" id="vm-la9f3-age">49</div>
+    <div class="vm-la9f3-slider">
+      <input type="range" id="vm-la9f3-slider" min="20" max="80" value="49" style="width:100%;">
+    </div>
+  </div>
+  <div class="vm-la9f3-stages" id="vm-la9f3-stages"></div>
+  <div class="vm-la9f3-events-at-age" id="vm-la9f3-events"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var STAGES=[
+    {name:'Early Adult',lo:20,hi:29,col:'#2D9C6A'},
+    {name:'Accumulation',lo:30,hi:39,col:'#1A7A8A'},
+    {name:'Emergence',lo:40,hi:49,col:'#C9A84C'},
+    {name:'Expression',lo:50,hi:59,col:'#C9A84C'},
+    {name:'Chronic',lo:60,hi:69,col:'#C0392B'},
+    {name:'Late',lo:70,hi:80,col:'#C0392B'}
+  ];
+  var EVENTS_BY_AGE=[
+    {age:37,text:'HPA activation begins (stress response)',col:'#C9A84C'},
+    {age:40,text:'Diet shift: processed food and alcohol increase',col:'#1A7A8A'},
+    {age:42,text:'Environmental exposure: poor air quality',col:'#7B5EA7'},
+    {age:42,text:'Repeated viral illness',col:'#C0392B'},
+    {age:45,text:'Business restructuring: sustained cortisol',col:'#C9A84C'},
+    {age:47,text:'Symptom presentation: fatigue, weight gain',col:'#5F7C6C'},
+    {age:49,text:'First VitalMatrix assessment',col:'#C9A84C'}
+  ];
+
+  var stagesContainer=document.getElementById('vm-la9f3-stages');
+  for(var i=0;i<STAGES.length;i++){
+    var s=STAGES[i];
+    var div=document.createElement('div');
+    div.className='vm-la9f3-stage';
+    div.setAttribute('data-lo',s.lo);
+    div.setAttribute('data-hi',s.hi);
+    div.textContent=s.name+' ('+s.lo+'-'+s.hi+')';
+    stagesContainer.appendChild(div);
+  }
+
+  function renderAge(){
+    var age=parseInt(document.getElementById('vm-la9f3-slider').value);
+    document.getElementById('vm-la9f3-age').textContent=age;
+
+    var stages=stagesContainer.querySelectorAll('.vm-la9f3-stage');
+    for(var i=0;i<stages.length;i++){
+      var lo=parseInt(stages[i].getAttribute('data-lo'));
+      var hi=parseInt(stages[i].getAttribute('data-hi'));
+      if(age>=lo&&age<=hi){stages[i].classList.add('vm-la9f3-current');}
+      else{stages[i].classList.remove('vm-la9f3-current');}
+    }
+
+    var eventsDiv=document.getElementById('vm-la9f3-events');
+    eventsDiv.innerHTML='';
+    var found=false;
+    for(var i=0;i<EVENTS_BY_AGE.length;i++){
+      if(EVENTS_BY_AGE[i].age<=age){
+        found=true;
+        var item=document.createElement('div');
+        item.className='vm-la9f3-event-item';
+        item.style.borderLeft='3px solid '+EVENTS_BY_AGE[i].col;
+        item.style.paddingLeft='8px';
+        item.textContent='Age '+EVENTS_BY_AGE[i].age+': '+EVENTS_BY_AGE[i].text;
+        eventsDiv.appendChild(item);
+      }
+    }
+    if(!found){
+      var none=document.createElement('div');
+      none.className='vm-la9f3-event-item';
+      none.textContent='No recorded events at this age';
+      eventsDiv.appendChild(none);
+    }
+  }
+
+  document.getElementById('vm-la9f3-slider').addEventListener('input',renderAge);
+  renderAge();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9F4: Pattern Recognition Grid                                   -->
+<!-- ================================================================ -->
+<style>
+.vm-la9f4-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1100px;}
+.vm-la9f4-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la9f4-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.vm-la9f4-card{background:rgba(244,244,242,.03);border:1px solid var(--t06);border-radius:8px;padding:12px;transition:border-color .3s;}
+.vm-la9f4-card:hover{border-color:rgba(201,168,76,.2);}
+.vm-la9f4-card-name{font-family:var(--fm);font-size:9px;font-weight:500;color:var(--t80);margin-bottom:6px;}
+.vm-la9f4-card-desc{font-family:var(--fm);font-size:8px;color:var(--t35);margin-bottom:8px;line-height:1.5;}
+.vm-la9f4-bar-bg{height:6px;background:rgba(244,244,242,.06);border-radius:3px;overflow:hidden;}
+.vm-la9f4-bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.vm-la9f4-match{font-family:var(--fm);font-size:8px;margin-top:4px;text-align:right;}
+@media (prefers-reduced-motion:reduce){
+  .vm-la9f4-bar-fill{transition:none !important;}
+  .vm-la9f4-card{transition:none !important;}
+}
+</style>
+<div class="vm-la9f4-wrap">
+  <div class="vm-la9f4-label">LA9F4: Pattern Recognition Grid</div>
+  <div class="vm-la9f4-grid" id="vm-la9f4-grid"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ARCHETYPES=[
+    {name:'Stress-Metabolic Cascade',desc:'Chronic stress drives Z1 as primary burden, with Z5 as downstream reactor via S2.',match:85,col:'#C9A84C'},
+    {name:'Gut-Driven Multi-Zone',desc:'Z2 resilience network as entry point, cascading to Z1 and Z3 through S1 and S5.',match:72,col:'#1A7A8A'},
+    {name:'Environmental Toxic Load',desc:'Z4 detoxification trident overloaded, slow cascade (S3) feeding Z1.',match:55,col:'#5F7C6C'},
+    {name:'Hormonal Terrain Collapse',desc:'Z5 as primary, with S4 (THEORETICAL) feedback to Z2, creating loop risk.',match:40,col:'#2E6DB4'},
+    {name:'Cardiovascular-Neural Early',desc:'Z3 activated early via S5 or S6 (UNIDIRECTIONAL Z1 to Z3), neural impact emerging.',match:30,col:'#7B5EA7'},
+    {name:'TerrainLock Pattern',desc:'Full Z2-Z1-Z5-Z2 loop: S1 + S2 + S4 all active. Self-perpetuating burden.',match:25,col:'#C0392B'}
+  ];
+
+  var grid=document.getElementById('vm-la9f4-grid');
+  for(var i=0;i<ARCHETYPES.length;i++){
+    var a=ARCHETYPES[i];
+    var card=document.createElement('div');
+    card.className='vm-la9f4-card';
+
+    var name=document.createElement('div');
+    name.className='vm-la9f4-card-name';
+    name.textContent=a.name;
+
+    var desc=document.createElement('div');
+    desc.className='vm-la9f4-card-desc';
+    desc.textContent=a.desc;
+
+    var barBg=document.createElement('div');
+    barBg.className='vm-la9f4-bar-bg';
+
+    var fill=document.createElement('div');
+    fill.className='vm-la9f4-bar-fill';
+    fill.style.background=a.col;
+    fill.style.width='0%';
+
+    barBg.appendChild(fill);
+
+    var matchLabel=document.createElement('div');
+    matchLabel.className='vm-la9f4-match';
+    matchLabel.style.color=a.col;
+    matchLabel.textContent=a.match+'% similarity';
+
+    card.appendChild(name);
+    card.appendChild(desc);
+    card.appendChild(barBg);
+    card.appendChild(matchLabel);
+    grid.appendChild(card);
+
+    (function(f,m){
+      setTimeout(function(){f.style.width=m+'%';},100+i*150);
+    })(fill,a.match);
+  }
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9F5: Burden Accumulation Area Chart                             -->
+<!-- ================================================================ -->
+<style>
+.vm-la9f5-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1100px;}
+.vm-la9f5-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.vm-la9f5-svg{width:100%;height:220px;}
+.vm-la9f5-legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
+.vm-la9f5-leg-item{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:8px;color:var(--t55);}
+.vm-la9f5-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+</style>
+<div class="vm-la9f5-wrap" id="vm-la9f5-wrap">
+  <div class="vm-la9f5-label">LA9F5: Burden Accumulation Area Chart</div>
+  <svg class="vm-la9f5-svg" viewBox="0 0 600 200" preserveAspectRatio="none" id="vm-la9f5-svg"></svg>
+  <div class="vm-la9f5-legend" id="vm-la9f5-legend"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneNames=['Z1 Metabolic','Z2 Resilience','Z3 Cardiovascular','Z4 Detoxification','Z5 Hormonal'];
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // Data: burden percentages at each year point (2014,2017,2019,2022,2024,2026)
+  var DATA=[
+    [18,30,42,58,70,72], // Z1
+    [5,22,38,52,65,78],  // Z2
+    [0,0,5,8,28,35],     // Z3
+    [5,8,28,35,42,48],   // Z4
+    [0,0,5,40,55,65]     // Z5
+  ];
+  var YEARS=[2014,2017,2019,2022,2024,2026];
+  var W=600,H=200;
+  var padL=40,padR=10,padT=10,padB=25;
+  var chartW=W-padL-padR;
+  var chartH=H-padT-padB;
+
+  var svg=document.getElementById('vm-la9f5-svg');
+  svg.innerHTML='';
+
+  // Y axis labels
+  for(var v=0;v<=100;v+=25){
+    var y=padT+chartH-(v/100*chartH);
+    var text=document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x',padL-6);
+    text.setAttribute('y',y+3);
+    text.setAttribute('text-anchor','end');
+    text.setAttribute('fill','rgba(244,244,242,.3)');
+    text.setAttribute('font-family','DM Mono,monospace');
+    text.setAttribute('font-size','7');
+    text.textContent=v;
+    svg.appendChild(text);
+
+    var line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',padL);line.setAttribute('x2',W-padR);
+    line.setAttribute('y1',y);line.setAttribute('y2',y);
+    line.setAttribute('stroke','rgba(244,244,242,.04)');
+    svg.appendChild(line);
+  }
+
+  // X axis labels
+  for(var i=0;i<YEARS.length;i++){
+    var x=padL+(i/(YEARS.length-1))*chartW;
+    var text=document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x',x);
+    text.setAttribute('y',H-5);
+    text.setAttribute('text-anchor','middle');
+    text.setAttribute('fill','rgba(244,244,242,.3)');
+    text.setAttribute('font-family','DM Mono,monospace');
+    text.setAttribute('font-size','7');
+    text.textContent=YEARS[i];
+    svg.appendChild(text);
+  }
+
+  // Stacked areas (draw from top zone down so earlier zones are on top)
+  var revealed=false;
+  for(var z=4;z>=0;z--){
+    var baseLine=[];
+    for(var i=0;i<YEARS.length;i++){
+      var stackBelow=0;
+      for(var k=0;k<z;k++){stackBelow+=DATA[k][i];}
+      baseLine.push(stackBelow);
+    }
+    var topLine=[];
+    for(var i=0;i<YEARS.length;i++){
+      topLine.push(baseLine[i]+DATA[z][i]);
+    }
+
+    var d='M';
+    for(var i=0;i<YEARS.length;i++){
+      var x=padL+(i/(YEARS.length-1))*chartW;
+      var y=padT+chartH-(topLine[i]/200*chartH);
+      d+=(i>0?' L ':'')+x.toFixed(1)+' '+y.toFixed(1);
+    }
+    for(var i=YEARS.length-1;i>=0;i--){
+      var x=padL+(i/(YEARS.length-1))*chartW;
+      var y=padT+chartH-(baseLine[i]/200*chartH);
+      d+=' L '+x.toFixed(1)+' '+y.toFixed(1);
+    }
+    d+=' Z';
+
+    var path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',d);
+    path.setAttribute('fill',zoneColours[z]);
+    path.setAttribute('fill-opacity','0.3');
+    path.setAttribute('stroke',zoneColours[z]);
+    path.setAttribute('stroke-width','1');
+    if(!reducedMotion){
+      path.style.opacity='0';
+      path.style.transition='opacity .6s ease '+(z*0.15)+'s';
+    }
+    path.setAttribute('data-zone',String(z));
+    svg.appendChild(path);
+  }
+
+  // Legend
+  var legend=document.getElementById('vm-la9f5-legend');
+  for(var i=0;i<5;i++){
+    var item=document.createElement('div');
+    item.className='vm-la9f5-leg-item';
+    var dot=document.createElement('div');
+    dot.className='vm-la9f5-leg-dot';
+    dot.style.background=zoneColours[i];
+    var txt=document.createElement('span');
+    txt.textContent=zoneNames[i];
+    item.appendChild(dot);
+    item.appendChild(txt);
+    legend.appendChild(item);
+  }
+
+  function checkReveal(){
+    if(revealed)return;
+    var wrap=document.getElementById('vm-la9f5-wrap');
+    var rect=wrap.getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    if(rect.top<vh*0.85){
+      revealed=true;
+      var paths=svg.querySelectorAll('path[data-zone]');
+      for(var i=0;i<paths.length;i++){paths[i].style.opacity='1';}
+    }
+  }
+
+  if(reducedMotion){revealed=true;}
+  else{window.addEventListener('scroll',checkReveal);checkReveal();}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9-UP1: Onset Sequence Visualiser                                -->
+<!-- ================================================================ -->
+<style>
+.la9-up1-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1100px;}
+.la9-up1-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la9-up1-sequence{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:12px 0;}
+.la9-up1-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;border-radius:8px;background:rgba(244,244,242,.03);border:1px solid var(--t06);transition:all .4s ease;min-width:80px;}
+.la9-up1-item.la9-up1-root{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.08);}
+.la9-up1-dot{width:12px;height:12px;border-radius:50%;}
+.la9-up1-name{font-family:var(--fm);font-size:9px;font-weight:500;}
+.la9-up1-year{font-family:var(--fm);font-size:7px;color:var(--t35);}
+.la9-up1-rootbadge{font-family:var(--fm);font-size:7px;padding:1px 6px;border-radius:100px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:#C9A84C;}
+.la9-up1-arrow{font-family:var(--fm);font-size:14px;color:var(--gold);opacity:.4;}
+@media(prefers-reduced-motion:reduce){.la9-up1-item{transition:none !important;}}
+</style>
+<div class="la9-up1-wrap">
+  <div class="la9-up1-label">LA9-UP1: Onset Sequence Visualiser</div>
+  <div class="la9-up1-sequence" id="la9-up1-seq"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ONSET=[
+    {zone:'Z1',name:'Z1 Metabolic',colour:'#C9A84C',year:2014,desc:'Earliest burden onset'},
+    {zone:'Z2',name:'Z2 Resilience',colour:'#1A7A8A',year:2017,desc:'Dietary trigger'},
+    {zone:'Z4',name:'Z4 Detox',colour:'#5F7C6C',year:2019,desc:'Environmental exposure'},
+    {zone:'Z5',name:'Z5 Hormonal',colour:'#2E6DB4',year:2022,desc:'S2 cascade downstream'},
+    {zone:'Z3',name:'Z3 Cardiovascular',colour:'#7B5EA7',year:2024,desc:'Late-stage S6 cascade'}
+  ];
+  var container=document.getElementById('la9-up1-seq');
+  for(var i=0;i<ONSET.length;i++){
+    if(i>0){
+      var arrow=document.createElement('span');
+      arrow.className='la9-up1-arrow';
+      arrow.textContent='\u2192';
+      container.appendChild(arrow);
+    }
+    var item=document.createElement('div');
+    item.className='la9-up1-item';
+    if(i===0)item.classList.add('la9-up1-root');
+    var dot=document.createElement('div');
+    dot.className='la9-up1-dot';
+    dot.style.background=ONSET[i].colour;
+    var nm=document.createElement('div');
+    nm.className='la9-up1-name';
+    nm.style.color=ONSET[i].colour;
+    nm.textContent=ONSET[i].name;
+    var yr=document.createElement('div');
+    yr.className='la9-up1-year';
+    yr.textContent=ONSET[i].year+': '+ONSET[i].desc;
+    item.appendChild(dot);
+    item.appendChild(nm);
+    item.appendChild(yr);
+    if(i===0){
+      var badge=document.createElement('div');
+      badge.className='la9-up1-rootbadge';
+      badge.textContent='Potential root cause';
+      item.appendChild(badge);
+    }
+    container.appendChild(item);
+  }
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9-UP2: Cascade History Reconstructor                            -->
+<!-- ================================================================ -->
+<style>
+.la9-up2-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1100px;}
+.la9-up2-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la9-up2-timeline{display:flex;flex-direction:column;gap:8px;}
+.la9-up2-event{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:6px;background:rgba(244,244,242,.03);border-left:3px solid;opacity:0;transform:translateX(-16px);transition:opacity .5s ease,transform .5s ease;}
+.la9-up2-event.la9-up2-visible{opacity:1;transform:translateX(0);}
+.la9-up2-year-tag{font-family:var(--fm);font-size:8px;color:var(--t35);min-width:36px;}
+.la9-up2-cascade{font-family:var(--fm);font-size:9px;font-weight:500;min-width:56px;}
+.la9-up2-desc{font-family:var(--fd);font-size:12px;color:var(--t55);flex:1;}
+.la9-up2-vel{font-family:var(--fm);font-size:7.5px;padding:2px 6px;border-radius:100px;}
+.la9-up2-theoretical{border-style:dashed !important;}
+@media(prefers-reduced-motion:reduce){.la9-up2-event{opacity:1;transform:none;transition:none !important;}}
+</style>
+<div class="la9-up2-wrap" id="la9-up2-wrap">
+  <div class="la9-up2-label">LA9-UP2: Cascade History Reconstructor</div>
+  <div class="la9-up2-timeline" id="la9-up2-timeline"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var HISTORY=[
+    {year:2017,stack:'S1',dir:'Z2 to Z1',vel:'MEDIUM',col:'#1A7A8A',desc:'Gut-driven metabolic cascade begins. Dietary shift triggers Z2, overflows to Z1.',theoretical:false},
+    {year:2019,stack:'S3',dir:'Z4 to Z1',vel:'SLOW',col:'#5F7C6C',desc:'Environmental load on Z4 begins slow feed into Z1 metabolic burden.',theoretical:false},
+    {year:2022,stack:'S2',dir:'Z1 to Z5',vel:'FAST',col:'#C9A84C',desc:'Z1 metabolic burden now high enough to rapidly drive Z5 hormonal terrain.',theoretical:false},
+    {year:2024,stack:'S5',dir:'Z2 to Z3',vel:'FAST',col:'#1A7A8A',desc:'Gut burden cascades to cardiovascular-neural axis via TMAO pathway.',theoretical:false},
+    {year:2024,stack:'S4',dir:'Z5 to Z2',vel:'MEDIUM',col:'#2E6DB4',desc:'Theoretical hormonal-to-resilience feedback. S4 is THEORETICAL.',theoretical:true},
+    {year:2024,stack:'S6',dir:'Z1 to Z3',vel:'MEDIUM',col:'#C9A84C',desc:'Metabolic burden loads cardiovascular-neural axis. S6 is UNIDIRECTIONAL: Z1 to Z3 only.',theoretical:false}
+  ];
+  var velColours={FAST:'rgba(192,57,43,.7)',MEDIUM:'rgba(201,168,76,.7)',SLOW:'rgba(26,122,138,.7)'};
+  var container=document.getElementById('la9-up2-timeline');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  for(var i=0;i<HISTORY.length;i++){
+    var h=HISTORY[i];
+    var ev=document.createElement('div');
+    ev.className='la9-up2-event';
+    if(h.theoretical)ev.classList.add('la9-up2-theoretical');
+    ev.style.borderLeftColor=h.col;
+    ev.setAttribute('data-idx',String(i));
+
+    var yr=document.createElement('div');yr.className='la9-up2-year-tag';yr.textContent=h.year;
+    var casc=document.createElement('div');casc.className='la9-up2-cascade';casc.style.color=h.col;casc.textContent=h.stack+': '+h.dir;
+    var desc=document.createElement('div');desc.className='la9-up2-desc';desc.textContent=h.desc;
+    var vel=document.createElement('div');vel.className='la9-up2-vel';vel.style.background=velColours[h.vel]||'rgba(244,244,242,.1)';vel.style.color='var(--white)';vel.textContent=h.vel;
+
+    ev.appendChild(yr);ev.appendChild(casc);ev.appendChild(desc);ev.appendChild(vel);
+    container.appendChild(ev);
+  }
+
+  function revealEvents(){
+    var events=container.querySelectorAll('.la9-up2-event');
+    var wrapRect=document.getElementById('la9-up2-wrap').getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    if(wrapRect.top<vh*0.9||reducedMotion){
+      for(var i=0;i<events.length;i++){
+        (function(el,delay){
+          setTimeout(function(){el.classList.add('la9-up2-visible');},reducedMotion?0:delay);
+        })(events[i],i*200);
+      }
+    }
+  }
+  window.addEventListener('scroll',revealEvents);
+  revealEvents();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9-UP3: Burden Accumulation Chart                                -->
+<!-- ================================================================ -->
+<style>
+.la9-up3-wrap{background:var(--card);border:1px solid var(--t12);border-radius:10px;padding:20px;margin:0 auto 16px;max-width:1100px;}
+.la9-up3-label{font-family:var(--fm);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--t35);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--t06);}
+.la9-up3-svg{width:100%;height:240px;}
+.la9-up3-legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
+.la9-up3-leg-item{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:8px;color:var(--t55);}
+.la9-up3-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.la9-up3-total{font-family:var(--fm);font-size:9px;color:var(--gold);text-align:center;margin-top:8px;}
+</style>
+<div class="la9-up3-wrap" id="la9-up3-wrap">
+  <div class="la9-up3-label">LA9-UP3: Burden Accumulation Chart (Animated Stacked Area)</div>
+  <svg class="la9-up3-svg" viewBox="0 0 600 220" preserveAspectRatio="none" id="la9-up3-svg"></svg>
+  <div class="la9-up3-legend" id="la9-up3-legend"></div>
+  <div class="la9-up3-total" id="la9-up3-total"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneNames=['Z1 Metabolic','Z2 Resilience','Z3 Cardiovascular','Z4 Detoxification','Z5 Hormonal'];
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var DATA=[
+    [18,30,42,58,70,72],
+    [5,22,38,52,65,78],
+    [0,0,5,8,28,35],
+    [5,8,28,35,42,48],
+    [0,0,5,40,55,65]
+  ];
+  var YEARS=[2014,2017,2019,2022,2024,2026];
+  var W=600,H=220;
+  var padL=40,padR=10,padT=10,padB=25;
+  var chartW=W-padL-padR;
+  var chartH=H-padT-padB;
+  var svg=document.getElementById('la9-up3-svg');
+  var ns='http://www.w3.org/2000/svg';
+  svg.innerHTML='';
+
+  for(var v=0;v<=100;v+=25){
+    var y=padT+chartH-(v/100*chartH);
+    var text=document.createElementNS(ns,'text');
+    text.setAttribute('x',padL-6);text.setAttribute('y',y+3);text.setAttribute('text-anchor','end');
+    text.setAttribute('fill','rgba(244,244,242,.3)');text.setAttribute('font-family','DM Mono,monospace');text.setAttribute('font-size','7');
+    text.textContent=v;svg.appendChild(text);
+    var line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',padL);line.setAttribute('x2',W-padR);line.setAttribute('y1',y);line.setAttribute('y2',y);
+    line.setAttribute('stroke','rgba(244,244,242,.04)');svg.appendChild(line);
+  }
+  for(var i=0;i<YEARS.length;i++){
+    var x=padL+(i/(YEARS.length-1))*chartW;
+    var text=document.createElementNS(ns,'text');
+    text.setAttribute('x',x);text.setAttribute('y',H-5);text.setAttribute('text-anchor','middle');
+    text.setAttribute('fill','rgba(244,244,242,.3)');text.setAttribute('font-family','DM Mono,monospace');text.setAttribute('font-size','7');
+    text.textContent=YEARS[i];svg.appendChild(text);
+  }
+
+  var maxStack=0;
+  for(var i=0;i<YEARS.length;i++){var sum=0;for(var z=0;z<5;z++)sum+=DATA[z][i];if(sum>maxStack)maxStack=sum;}
+
+  for(var z=4;z>=0;z--){
+    var baseLine=[];var topLine=[];
+    for(var i=0;i<YEARS.length;i++){
+      var sb=0;for(var k=0;k<z;k++)sb+=DATA[k][i];
+      baseLine.push(sb);topLine.push(sb+DATA[z][i]);
+    }
+    var d='M';
+    for(var i=0;i<YEARS.length;i++){
+      var x=padL+(i/(YEARS.length-1))*chartW;
+      var y=padT+chartH-(topLine[i]/maxStack*chartH);
+      d+=(i>0?' L ':'')+x.toFixed(1)+' '+y.toFixed(1);
+    }
+    for(var i=YEARS.length-1;i>=0;i--){
+      var x=padL+(i/(YEARS.length-1))*chartW;
+      var y=padT+chartH-(baseLine[i]/maxStack*chartH);
+      d+=' L '+x.toFixed(1)+' '+y.toFixed(1);
+    }
+    d+=' Z';
+    var path=document.createElementNS(ns,'path');
+    path.setAttribute('d',d);path.setAttribute('fill',zoneColours[z]);
+    path.setAttribute('fill-opacity','0.35');path.setAttribute('stroke',zoneColours[z]);path.setAttribute('stroke-width','1');
+    if(!reducedMotion){path.style.opacity='0';path.style.transition='opacity .6s ease '+(z*0.15)+'s';}
+    path.setAttribute('data-zone',String(z));
+    svg.appendChild(path);
+  }
+
+  var legend=document.getElementById('la9-up3-legend');
+  for(var i=0;i<5;i++){
+    var item=document.createElement('div');item.className='la9-up3-leg-item';
+    var dot=document.createElement('div');dot.className='la9-up3-leg-dot';dot.style.background=zoneColours[i];
+    var txt=document.createElement('span');txt.textContent=zoneNames[i];
+    item.appendChild(dot);item.appendChild(txt);legend.appendChild(item);
+  }
+
+  var totalBurden=0;
+  for(var z=0;z<5;z++)totalBurden+=DATA[z][YEARS.length-1];
+  document.getElementById('la9-up3-total').textContent='Total accumulated burden at presentation: '+totalBurden+' (combined zone scores)';
+
+  var revealed=false;
+  function checkReveal(){
+    if(revealed)return;
+    var wrap=document.getElementById('la9-up3-wrap');
+    var rect=wrap.getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    if(rect.top<vh*0.85||reducedMotion){
+      revealed=true;
+      var paths=svg.querySelectorAll('path[data-zone]');
+      for(var i=0;i<paths.length;i++){paths[i].style.opacity='1';}
+    }
+  }
+  if(reducedMotion){revealed=true;}
+  else{window.addEventListener('scroll',checkReveal);checkReveal();}
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9-SV1: TRACE State Bridge                                       -->
+<!-- ================================================================ -->
+<style>
+.la9-sv1-bridge{position:sticky;bottom:0;z-index:90;background:rgba(7,28,51,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(201,168,76,.22);padding:12px 24px;opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.la9-sv1-bridge.la9-sv1-visible{opacity:1;transform:translateY(0);}
+.la9-sv1-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.la9-sv1-title{font-family:var(--fm);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);flex-shrink:0;}
+.la9-sv1-markers{display:flex;gap:8px;flex:1;min-width:0;overflow-x:auto;align-items:center;}
+.la9-sv1-marker{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition:transform .3s ease,box-shadow .3s ease;min-width:60px;}
+.la9-sv1-marker:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(201,168,76,.15);}
+.la9-sv1-marker-zone{font-family:var(--fm);font-size:8px;font-weight:500;}
+.la9-sv1-marker-year{font-family:var(--fm);font-size:7px;color:var(--t35);}
+.la9-sv1-earliest{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.25);}
+.la9-sv1-earliest-badge{font-family:var(--fm);font-size:6.5px;padding:1px 6px;border-radius:100px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#C9A84C;white-space:nowrap;}
+.la9-sv1-arrow{font-family:var(--fm);font-size:12px;color:var(--gold);opacity:.3;flex-shrink:0;}
+.la9-sv1-cta{font-family:var(--fd);font-size:.72rem;font-weight:500;color:#0C4452;background:var(--gold);border:none;padding:7px 18px;border-radius:5px;cursor:pointer;transition:background .3s ease;white-space:nowrap;flex-shrink:0;}
+.la9-sv1-cta:hover{background:#D4B86A;}
+.la9-sv1-particles{position:absolute;top:0;left:0;right:0;height:2px;overflow:hidden;pointer-events:none;}
+.la9-sv1-particle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:0;}
+@keyframes la9-sv1-drift{0%{opacity:0;transform:translateX(0) translateY(0);}20%{opacity:.6;}80%{opacity:.4;}100%{opacity:0;transform:translateX(50px) translateY(-6px);}}
+@media(prefers-reduced-motion:reduce){
+  .la9-sv1-bridge{transition:none !important;}
+  .la9-sv1-marker{transition:none !important;}
+  .la9-sv1-particle{display:none !important;}
+}
+</style>
+<div class="la9-sv1-bridge" id="la9-sv1-bridge" role="complementary" aria-label="TRACE State Bridge">
+  <div class="la9-sv1-particles" id="la9-sv1-particles"></div>
+  <div class="la9-sv1-inner">
+    <div class="la9-sv1-title">TRACE State Bridge</div>
+    <div class="la9-sv1-markers" id="la9-sv1-markers"></div>
+    <button class="la9-sv1-cta" id="la9-sv1-cta" type="button">Open in CascadeAtlas</button>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ONSET=[
+    {zone:'Z1',name:'Z1 Metabolic',colour:'#C9A84C',year:2014},
+    {zone:'Z2',name:'Z2 Resilience',colour:'#1A7A8A',year:2017},
+    {zone:'Z4',name:'Z4 Detox',colour:'#5F7C6C',year:2019},
+    {zone:'Z5',name:'Z5 Hormonal',colour:'#2E6DB4',year:2022},
+    {zone:'Z3',name:'Z3 Cardiovascular',colour:'#7B5EA7',year:2024}
+  ];
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var bridge=document.getElementById('la9-sv1-bridge');
+  var markersContainer=document.getElementById('la9-sv1-markers');
+  var particlesContainer=document.getElementById('la9-sv1-particles');
+
+  function renderMarkers(){
+    markersContainer.innerHTML='';
+    for(var i=0;i<ONSET.length;i++){
+      if(i>0){
+        var arrow=document.createElement('span');
+        arrow.className='la9-sv1-arrow';
+        arrow.textContent='\u2192';
+        markersContainer.appendChild(arrow);
+      }
+      var marker=document.createElement('div');
+      marker.className='la9-sv1-marker';
+      if(i===0)marker.classList.add('la9-sv1-earliest');
+      var zoneLbl=document.createElement('div');
+      zoneLbl.className='la9-sv1-marker-zone';
+      zoneLbl.style.color=ONSET[i].colour;
+      zoneLbl.textContent=ONSET[i].name;
+      var yearLbl=document.createElement('div');
+      yearLbl.className='la9-sv1-marker-year';
+      yearLbl.textContent=String(ONSET[i].year);
+      marker.appendChild(zoneLbl);
+      marker.appendChild(yearLbl);
+      if(i===0){
+        var badge=document.createElement('div');
+        badge.className='la9-sv1-earliest-badge';
+        badge.textContent='Earliest onset';
+        marker.appendChild(badge);
+      }
+      markersContainer.appendChild(marker);
+    }
+  }
+
+  function emitParticle(){
+    if(reducedMotion)return;
+    var p=document.createElement('div');
+    p.className='la9-sv1-particle';
+    p.style.left=Math.random()*90+'%';
+    p.style.animation='la9-sv1-drift 2s ease forwards';
+    particlesContainer.appendChild(p);
+    setTimeout(function(){if(p.parentNode)p.parentNode.removeChild(p);},2200);
+  }
+
+  var particleTimer;
+  function startParticles(){if(particleTimer)return;particleTimer=setInterval(emitParticle,400);}
+  function stopParticles(){clearInterval(particleTimer);particleTimer=null;}
+
+  function checkVisibility(){
+    var scrolled=window.scrollY||window.pageYOffset;
+    if(scrolled>300){bridge.classList.add('la9-sv1-visible');startParticles();}
+    else{bridge.classList.remove('la9-sv1-visible');stopParticles();}
+  }
+
+  document.getElementById('la9-sv1-cta').addEventListener('click',function(){
+    var encoded='trace';
+    for(var i=0;i<ONSET.length;i++){encoded+='-'+ONSET[i].zone+':'+ONSET[i].year;}
+    window.location.href='../CascadeAtlas_latest.html?state='+encodeURIComponent(encoded);
+  });
+
+  renderMarkers();
+  window.addEventListener('scroll',checkVisibility);
+  checkVisibility();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9-SV2: TRACE Temporal Reconstruction Overlay                    -->
+<!-- ================================================================ -->
+<style>
+.la9-sv2-trigger{position:sticky;bottom:56px;z-index:88;display:flex;justify-content:flex-end;padding:0 24px;pointer-events:none;}
+.la9-sv2-btn{pointer-events:all;font-family:var(--fm);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:rgba(7,28,51,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(201,168,76,.25);padding:8px 16px;border-radius:6px;cursor:pointer;transition:background .3s ease,transform .3s ease;}
+.la9-sv2-btn:hover{background:rgba(201,168,76,.12);transform:scale(1.04);}
+.la9-sv2-overlay{display:none;z-index:200;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(7,28,51,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow-y:auto;}
+.la9-sv2-overlay.la9-sv2-active{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;}
+.la9-sv2-close{position:absolute;top:20px;right:24px;font-family:var(--fm);font-size:10px;color:var(--gold);background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:6px 14px;border-radius:4px;cursor:pointer;z-index:201;}
+.la9-sv2-close:hover{background:rgba(201,168,76,.16);}
+.la9-sv2-title{font-family:var(--fs);font-size:1.6rem;font-weight:300;color:var(--white);margin-bottom:8px;text-align:center;}
+.la9-sv2-subtitle{font-family:var(--fm);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;text-align:center;}
+.la9-sv2-steps{display:flex;flex-direction:column;gap:16px;max-width:600px;width:100%;}
+.la9-sv2-step{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);opacity:0;transform:translateX(-20px);transition:opacity .7s ease,transform .7s ease,box-shadow .4s ease;}
+.la9-sv2-step.la9-sv2-step-active{opacity:1;transform:translateX(0);}
+.la9-sv2-step.la9-sv2-step-current{box-shadow:0 0 20px rgba(201,168,76,.2);border-color:rgba(201,168,76,.3);}
+.la9-sv2-step-num{font-family:var(--fm);font-size:12px;color:var(--gold);width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.la9-sv2-step-content{flex:1;}
+.la9-sv2-step-label{font-family:var(--fd);font-size:.85rem;font-weight:500;color:var(--white);margin-bottom:2px;}
+.la9-sv2-step-desc{font-family:var(--fm);font-size:8px;color:var(--t55);}
+.la9-sv2-step-bar{height:3px;background:rgba(201,168,76,.08);border-radius:2px;margin-top:6px;overflow:hidden;}
+.la9-sv2-step-fill{height:100%;width:0;background:var(--gold);border-radius:2px;transition:width 2.6s linear;}
+.la9-sv2-step.la9-sv2-step-current .la9-sv2-step-fill{width:100%;}
+.la9-sv2-glow{position:absolute;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(123,94,167,.1) 0%,transparent 70%);pointer-events:none;opacity:0;transition:opacity 1s ease;}
+.la9-sv2-overlay.la9-sv2-active .la9-sv2-glow{opacity:1;}
+@media(prefers-reduced-motion:reduce){
+  .la9-sv2-step{opacity:1;transform:none;transition:none !important;}
+  .la9-sv2-step-fill{transition:none !important;}
+  .la9-sv2-btn{transition:none !important;}
+  .la9-sv2-glow{display:none !important;}
+}
+</style>
+<div class="la9-sv2-trigger">
+  <button class="la9-sv2-btn" id="la9-sv2-btn" type="button">Show Temporal Reconstruction</button>
+</div>
+<div class="la9-sv2-overlay" id="la9-sv2-overlay" role="dialog" aria-label="TRACE Temporal Reconstruction Overlay">
+  <button class="la9-sv2-close" id="la9-sv2-close" type="button">Close</button>
+  <div class="la9-sv2-glow" style="top:18%;left:8%;"></div>
+  <div class="la9-sv2-glow" style="bottom:15%;right:10%;width:80px;height:80px;"></div>
+  <div class="la9-sv2-title">TRACE Temporal Reconstruction</div>
+  <div class="la9-sv2-subtitle">Sequential timeline building process</div>
+  <div class="la9-sv2-steps" id="la9-sv2-steps"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var STEPS=[
+    {label:'Zone Onset Points Placed Chronologically',desc:'Each zone burden onset is positioned on a temporal axis using patient history, questionnaire data, and practitioner notes. Earliest onset identified as potential root.'},
+    {label:'Cascade Sequence Inferred',desc:'Stack directions (S1 through S6) are overlaid onto the timeline. S4 is THEORETICAL. S6 is UNIDIRECTIONAL: Z1 to Z3 only. Cascade propagation order reconstructed from onset sequence.'},
+    {label:'Pattern Identified',desc:'Overall burden accumulation pattern classified: progressive cascade, simultaneous multi-zone, or single-zone dominant. This informs terrain support considerations and practitioner review priorities.'}
+  ];
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var overlay=document.getElementById('la9-sv2-overlay');
+  var stepsContainer=document.getElementById('la9-sv2-steps');
+
+  function buildSteps(){
+    stepsContainer.innerHTML='';
+    for(var i=0;i<STEPS.length;i++){
+      var step=document.createElement('div');
+      step.className='la9-sv2-step';
+      var num=document.createElement('div');
+      num.className='la9-sv2-step-num';
+      num.textContent=String(i+1);
+      var content=document.createElement('div');
+      content.className='la9-sv2-step-content';
+      var label=document.createElement('div');
+      label.className='la9-sv2-step-label';
+      label.textContent=STEPS[i].label;
+      var desc=document.createElement('div');
+      desc.className='la9-sv2-step-desc';
+      desc.textContent=STEPS[i].desc;
+      var bar=document.createElement('div');
+      bar.className='la9-sv2-step-bar';
+      var fill=document.createElement('div');
+      fill.className='la9-sv2-step-fill';
+      bar.appendChild(fill);
+      content.appendChild(label);content.appendChild(desc);content.appendChild(bar);
+      step.appendChild(num);step.appendChild(content);
+      stepsContainer.appendChild(step);
+    }
+  }
+
+  function runSequence(){
+    var steps=stepsContainer.querySelectorAll('.la9-sv2-step');
+    var delay=reducedMotion?0:2660;
+    for(var i=0;i<steps.length;i++){
+      (function(el,idx){
+        setTimeout(function(){
+          el.classList.add('la9-sv2-step-active');
+          el.classList.add('la9-sv2-step-current');
+          if(idx>0){
+            var prev=stepsContainer.querySelectorAll('.la9-sv2-step')[idx-1];
+            if(prev)prev.classList.remove('la9-sv2-step-current');
+          }
+        },idx*delay);
+      })(steps[i],i);
+    }
+  }
+
+  function openOverlay(){
+    buildSteps();
+    overlay.classList.add('la9-sv2-active');
+    document.body.style.overflow='hidden';
+    setTimeout(runSequence,300);
+  }
+
+  function closeOverlay(){
+    overlay.classList.remove('la9-sv2-active');
+    document.body.style.overflow='';
+  }
+
+  document.getElementById('la9-sv2-btn').addEventListener('click',openOverlay);
+  document.getElementById('la9-sv2-close').addEventListener('click',closeOverlay);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeOverlay();});
+  buildSteps();
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- LA9-SV3: TRACE Connection Navigator                               -->
+<!-- ================================================================ -->
+<style>
+.la9-sv3-wrap{background:rgba(7,28,51,.90);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:24px;margin:24px auto;max-width:600px;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.la9-sv3-wrap.la9-sv3-visible{opacity:1;transform:translateY(0);}
+.la9-sv3-label{font-family:var(--fm);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;text-align:center;}
+.la9-sv3-svg{width:100%;max-width:400px;margin:0 auto;display:block;}
+.la9-sv3-node{cursor:pointer;transition:transform .3s ease;}
+.la9-sv3-node:hover{transform:scale(1.08);}
+.la9-sv3-tooltip{position:absolute;background:rgba(7,28,51,.95);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:8px 12px;font-family:var(--fm);font-size:8px;color:var(--white);pointer-events:none;z-index:210;display:none;max-width:200px;}
+.la9-sv3-centre-glow{animation:la9-sv3-pulse 3s ease infinite;}
+@keyframes la9-sv3-pulse{0%,100%{opacity:.15;}50%{opacity:.35;}}
+@media(prefers-reduced-motion:reduce){
+  .la9-sv3-wrap{opacity:1;transform:none;transition:none !important;}
+  .la9-sv3-node{transition:none !important;}
+  .la9-sv3-centre-glow{animation:none !important;opacity:.2;}
+}
+</style>
+<div class="la9-sv3-wrap" id="la9-sv3-wrap" role="navigation" aria-label="TRACE Connection Navigator">
+  <div class="la9-sv3-label">TRACE Connection Navigator</div>
+  <svg class="la9-sv3-svg" viewBox="0 0 300 300" id="la9-sv3-svg"></svg>
+  <div class="la9-sv3-tooltip" id="la9-sv3-tooltip"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var PAGES=[
+    {name:'CascadeAtlas',href:'../CascadeAtlas_latest.html',colour:'#C9A84C',desc:'Interactive cascade map with full DRD visualiser'},
+    {name:'NCZ Architecture',href:'../NCZArchitecture_latest.html',colour:'#1A7A8A',desc:'Node-to-zone assembly architecture'},
+    {name:'KINETICS',href:'LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html',colour:'#2A9BAD',desc:'Cascade velocity classification'},
+    {name:'DeltaScan',href:'LA8_DeltaScan_ComparisonView_D53_2026-04-11_v2.html',colour:'#5F7C6C',desc:'T1 vs T2 longitudinal comparison'},
+    {name:'TIQ',href:'LA10_TIQ_CompositeScore_D53_2026-04-11_v2.html',colour:'#2E6DB4',desc:'Composite terrain intelligence quotient'},
+    {name:'Terrain Intelligence',href:'../TerrainIntelligence_latest.html',colour:'#7B5EA7',desc:'Four-layer terrain intelligence overview'}
+  ];
+  var CX=150,CY=150,R=100;
+  var ns='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('la9-sv3-svg');
+  var tooltip=document.getElementById('la9-sv3-tooltip');
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // Centre glow
+  var glow=document.createElementNS(ns,'circle');
+  glow.setAttribute('cx',CX);glow.setAttribute('cy',CY);glow.setAttribute('r','45');
+  glow.setAttribute('fill','rgba(123,94,167,.12)');glow.setAttribute('class','la9-sv3-centre-glow');
+  svg.appendChild(glow);
+
+  // Centre node
+  var cc=document.createElementNS(ns,'circle');
+  cc.setAttribute('cx',CX);cc.setAttribute('cy',CY);cc.setAttribute('r','28');
+  cc.setAttribute('fill','rgba(123,94,167,.12)');cc.setAttribute('stroke','#7B5EA7');cc.setAttribute('stroke-width','2');
+  svg.appendChild(cc);
+  var ct=document.createElementNS(ns,'text');
+  ct.setAttribute('x',CX);ct.setAttribute('y',CY+1);
+  ct.setAttribute('text-anchor','middle');ct.setAttribute('dominant-baseline','central');
+  ct.setAttribute('fill','#7B5EA7');ct.setAttribute('font-family','DM Mono,monospace');ct.setAttribute('font-size','10');ct.setAttribute('font-weight','500');
+  ct.textContent='TRACE';
+  svg.appendChild(ct);
+
+  for(var i=0;i<PAGES.length;i++){
+    var angle=-Math.PI/2+i*(2*Math.PI/PAGES.length);
+    var nx=CX+R*Math.cos(angle);
+    var ny=CY+R*Math.sin(angle);
+
+    var line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',CX);line.setAttribute('y1',CY);
+    line.setAttribute('x2',nx.toFixed(1));line.setAttribute('y2',ny.toFixed(1));
+    line.setAttribute('stroke',PAGES[i].colour);line.setAttribute('stroke-width','1');line.setAttribute('stroke-opacity','.3');
+    line.setAttribute('stroke-dasharray','4 3');
+    svg.appendChild(line);
+
+    var g=document.createElementNS(ns,'g');
+    g.setAttribute('class','la9-sv3-node');
+
+    var circle=document.createElementNS(ns,'circle');
+    circle.setAttribute('cx',nx.toFixed(1));circle.setAttribute('cy',ny.toFixed(1));circle.setAttribute('r','20');
+    circle.setAttribute('fill','rgba('+parseInt(PAGES[i].colour.slice(1,3),16)+','+parseInt(PAGES[i].colour.slice(3,5),16)+','+parseInt(PAGES[i].colour.slice(5,7),16)+',.12)');
+    circle.setAttribute('stroke',PAGES[i].colour);circle.setAttribute('stroke-width','1.5');
+    g.appendChild(circle);
+
+    var text=document.createElementNS(ns,'text');
+    text.setAttribute('x',nx.toFixed(1));text.setAttribute('y',(ny+1).toFixed(1));
+    text.setAttribute('text-anchor','middle');text.setAttribute('dominant-baseline','central');
+    text.setAttribute('fill',PAGES[i].colour);text.setAttribute('font-family','DM Mono,monospace');text.setAttribute('font-size','7');
+    text.textContent=PAGES[i].name.length>12?PAGES[i].name.substring(0,11)+'..':PAGES[i].name;
+    g.appendChild(text);
+
+    (function(page,group){
+      group.addEventListener('mouseenter',function(){
+        tooltip.style.display='block';
+        tooltip.textContent=page.name+': '+page.desc;
+      });
+      group.addEventListener('mouseleave',function(){tooltip.style.display='none';});
+      group.addEventListener('click',function(){window.location.href=page.href;});
+    })(PAGES[i],g);
+
+    svg.appendChild(g);
+  }
+
+  function checkVisible(){
+    var wrap=document.getElementById('la9-sv3-wrap');
+    var rect=wrap.getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    if(rect.top<vh*0.85||reducedMotion){wrap.classList.add('la9-sv3-visible');}
+  }
+  window.addEventListener('scroll',checkVisible);
+  checkVisible();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,435 @@
+/* ============================================================
+   vm-la-crosscut.css
+   VitalMatrix Living Architecture Cross-Cutting Upgrades
+   CCU1-CCU5 | All LA pages | D-53 compliant
+   ============================================================ */
+
+/* ---- CCU4: Skip-to-content link ---- */
+.vm-skip-link {
+  position: absolute;
+  top: -100px;
+  left: 8px;
+  z-index: 100000;
+  background: #0D2B4E;
+  color: #C9A84C;
+  padding: 8px 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  border: 2px solid #C9A84C;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.vm-skip-link:focus {
+  top: 8px;
+}
+
+/* ---- CCU4: Focus-visible styling ---- */
+*:focus-visible {
+  outline: 2px solid #C9A84C;
+  outline-offset: 2px;
+}
+
+/* ---- CCU4: Tab navigation gold outline on interactive elements ---- */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #C9A84C;
+  outline-offset: 2px;
+}
+
+/* ---- CCU5: Lazy-load fade-in for below-fold sections ---- */
+.vm-cc-lazy {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.vm-cc-lazy.vm-cc-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   CCU1: Cross-LA Navigation Bar
+   ============================================================ */
+.vm-la-nav {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99990;
+  background: rgba(10, 15, 20, 0.95);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 0;
+  font-family: 'Outfit', sans-serif;
+  transition: height 0.3s ease, padding 0.3s ease;
+}
+.vm-la-nav.vm-la-nav--collapsed {
+  height: 3px;
+  overflow: hidden;
+  background: #C9A84C;
+  border-top: none;
+  padding: 0;
+}
+.vm-la-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 6px 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.vm-la-nav__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  max-width: 110px;
+  padding: 8px 4px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: color 0.2s;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+.vm-la-nav__link:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+.vm-la-nav__link.vm-la-nav__link--active {
+  color: #C9A84C;
+  font-weight: 700;
+}
+/* Tooltip on hover */
+.vm-la-nav__tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: #0D2B4E;
+  color: #FAF8F4;
+  font-size: 11px;
+  font-weight: 400;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.vm-la-nav__link:hover .vm-la-nav__tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+/* Collapse/expand button */
+.vm-la-nav__toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  color: #C9A84C;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+.vm-la-nav__toggle:hover {
+  background: rgba(201, 168, 76, 0.15);
+}
+/* Collapsed state: show expand chevron */
+.vm-la-nav--collapsed .vm-la-nav__toggle {
+  position: fixed;
+  bottom: 6px;
+  right: 8px;
+  top: auto;
+  transform: none;
+  z-index: 99991;
+  background: rgba(10, 15, 20, 0.9);
+}
+
+/* ============================================================
+   CCU2: Patient Journey Thread
+   ============================================================ */
+.vm-pj-btn {
+  position: fixed;
+  bottom: 56px;
+  left: 16px;
+  z-index: 99980;
+  background: #0D2B4E;
+  color: #C9A84C;
+  border: 1px solid rgba(201, 168, 76, 0.5);
+  border-radius: 24px;
+  padding: 8px 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.4px;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.vm-pj-btn:hover {
+  background: #0C4452;
+  transform: scale(1.04);
+}
+.vm-pj-panel {
+  position: fixed;
+  top: 0;
+  left: -360px;
+  width: 340px;
+  height: 100vh;
+  z-index: 99985;
+  background: rgba(10, 15, 20, 0.97);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 24px 20px;
+  overflow-y: auto;
+  font-family: 'Outfit', sans-serif;
+  transition: left 0.3s ease;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+}
+.vm-pj-panel.vm-pj-panel--open {
+  left: 0;
+}
+.vm-pj-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.vm-pj-panel__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #C9A84C;
+  margin: 0;
+}
+.vm-pj-panel__close {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #FAF8F4;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+.vm-pj-panel__close:hover {
+  background: rgba(255,255,255,0.1);
+}
+.vm-pj-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 8px;
+  border-left: 2px solid rgba(255,255,255,0.1);
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  border-radius: 0 6px 6px 0;
+}
+.vm-pj-step:hover {
+  background: rgba(255,255,255,0.05);
+}
+.vm-pj-step--current {
+  border-left-color: #C9A84C;
+  background: rgba(201, 168, 76, 0.08);
+}
+.vm-pj-step--completed {
+  border-left-color: #2ECC71;
+}
+.vm-pj-step--future {
+  opacity: 0.45;
+}
+.vm-pj-step__icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.vm-pj-step--completed .vm-pj-step__icon {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ECC71;
+  border: 1px solid rgba(46, 204, 113, 0.4);
+}
+.vm-pj-step--current .vm-pj-step__icon {
+  background: rgba(201, 168, 76, 0.2);
+  color: #C9A84C;
+  border: 1px solid rgba(201, 168, 76, 0.5);
+}
+.vm-pj-step--future .vm-pj-step__icon {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.vm-pj-step__body {
+  flex: 1;
+}
+.vm-pj-step__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FAF8F4;
+  margin: 0 0 2px;
+}
+.vm-pj-step--future .vm-pj-step__name {
+  color: rgba(255,255,255,0.5);
+}
+.vm-pj-step__badge {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   CCU3: Guided Onboarding Tour
+   ============================================================ */
+.vm-tour-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99995;
+  background: rgba(0,0,0,0.5);
+  pointer-events: auto;
+}
+.vm-tour-tooltip {
+  position: fixed;
+  z-index: 99996;
+  background: #0D2B4E;
+  border: 1px solid rgba(201, 168, 76, 0.5);
+  border-radius: 8px;
+  padding: 16px 20px;
+  max-width: 320px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  font-family: 'Outfit', sans-serif;
+}
+.vm-tour-tooltip__text {
+  font-size: 14px;
+  color: #FAF8F4;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+.vm-tour-tooltip__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.vm-tour-tooltip__dots {
+  display: flex;
+  gap: 6px;
+}
+.vm-tour-tooltip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  padding: 0;
+}
+.vm-tour-tooltip__dot--active {
+  background: #C9A84C;
+}
+.vm-tour-tooltip__actions {
+  display: flex;
+  gap: 8px;
+}
+.vm-tour-btn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+.vm-tour-btn--skip {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+}
+.vm-tour-btn--skip:hover {
+  color: #FAF8F4;
+  border-color: rgba(255,255,255,0.4);
+}
+.vm-tour-btn--next {
+  background: #C9A84C;
+  color: #071C33;
+  font-weight: 600;
+}
+.vm-tour-btn--next:hover {
+  background: #D4B870;
+}
+/* Tour highlight ring around target element */
+.vm-tour-highlight {
+  position: relative;
+  z-index: 99994;
+  box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.5), 0 0 24px rgba(201, 168, 76, 0.2);
+  border-radius: 6px;
+}
+
+/* ============================================================
+   prefers-reduced-motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .vm-cc-lazy {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .vm-la-nav,
+  .vm-pj-panel,
+  .vm-pj-btn,
+  .vm-la-nav__tooltip,
+  .vm-tour-tooltip,
+  .vm-tour-overlay,
+  .vm-pj-step {
+    transition: none;
+  }
+  .vm-tour-overlay,
+  .vm-tour-tooltip,
+  .vm-tour-highlight {
+    display: none !important;
+  }
+}

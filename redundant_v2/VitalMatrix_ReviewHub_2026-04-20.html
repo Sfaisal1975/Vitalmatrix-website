@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VitalMatrix Review Hub | 20 April 2026</title>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:local('Cormorant Garamond'),local('CormorantGaramond')}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300 700;font-display:swap;src:local('Outfit')}
+@font-face{font-family:'DM Mono';font-style:normal;font-weight:400 500;font-display:swap;src:local('DM Mono'),local('DMMono')}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D2B4E;--bg2:#071C33;--gold:#C9A84C;--teal:#1A7A8A;
+  --white:#F4F4F2;--white60:rgba(244,244,242,0.60);--white40:rgba(244,244,242,0.40);
+  --white08:rgba(244,244,242,0.08);--grey:#555;--missing-border:rgba(244,244,242,0.12);
+}
+body{background:var(--bg);color:var(--white);font-family:'Outfit',system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.hub-header{text-align:center;padding:48px 24px 32px;border-bottom:1px solid var(--white08)}
+.hub-header img{height:44px;margin-bottom:20px}
+.hub-header h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:400;color:var(--white);margin-bottom:8px}
+.hub-header .meta{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--white40);letter-spacing:0.1em}
+.hub-header .meta span{color:var(--gold)}
+
+.hub-summary{text-align:center;padding:24px;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;color:var(--gold)}
+
+.hub-grid{max-width:1100px;margin:0 auto;padding:0 24px 48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+
+.card{background:rgba(255,255,255,0.03);border:1.5px solid var(--gold);border-radius:8px;padding:20px 22px;display:flex;flex-direction:column;gap:10px;transition:transform 0.15s,box-shadow 0.15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.25)}
+.card.missing{border-color:var(--missing-border);opacity:0.5}
+.card.missing:hover{transform:none;box-shadow:none}
+
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-id{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);flex-shrink:0}
+.card.missing .card-id{color:var(--grey)}
+.card-badge{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.badge-found{background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
+.badge-missing{background:rgba(244,244,242,0.05);color:var(--grey);border:1px solid var(--missing-border)}
+.badge-legal{background:rgba(26,122,138,0.12);color:var(--teal);border:1px solid rgba(26,122,138,0.25)}
+.badge-extra{background:rgba(123,94,167,0.12);color:#7B5EA7;border:1px solid rgba(123,94,167,0.25)}
+
+.card-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.15rem;font-weight:500;color:var(--white)}
+.card.missing .card-name{color:var(--white40)}
+
+.card-file{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--white40);letter-spacing:0.04em;word-break:break-all}
+
+.card-btn{display:inline-block;font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:600;color:var(--bg);background:var(--gold);padding:8px 20px;border-radius:4px;text-decoration:none;text-align:center;transition:opacity 0.15s;margin-top:auto}
+.card-btn:hover{opacity:0.88}
+.card.missing .card-btn{background:var(--missing-border);color:var(--grey);pointer-events:none;cursor:default}
+
+.hub-note{max-width:760px;margin:0 auto 40px;padding:0 24px;font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--white40);text-align:center;line-height:1.8;letter-spacing:0.04em}
+
+.hub-footer{background:var(--bg2);padding:40px 24px;text-align:center;border-top:1px solid var(--white08)}
+.hub-footer p{font-family:'DM Mono',monospace;font-size:0.56rem;color:var(--white40);line-height:1.9;max-width:720px;margin:0 auto 8px;letter-spacing:0.02em}
+.hub-footer p:last-child{margin-bottom:0}
+
+@media(max-width:640px){.hub-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hub-header">
+  <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" alt="VitalMatrix" height="44">
+  <h1>Website Review Hub</h1>
+  <p class="meta">W05 Build Review &nbsp;|&nbsp; <span>20 April 2026</span> &nbsp;|&nbsp; ALB v1.5 (D-46) &nbsp;|&nbsp; ICO <span>ZC101813</span></p>
+</div>
+
+<div class="hub-summary">16 of 16 expected pages FOUND &nbsp;&bull;&nbsp; 2 Legal pages &nbsp;&bull;&nbsp; 1 Platform Demo</div>
+
+<div class="hub-grid">
+
+  <!-- P1 Homepage -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P1</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Homepage</p>
+    <p class="card-file">S8_Homepage_2026-04-13.html (495 KB)</p>
+    <a class="card-btn" href="S8_Homepage_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P2 How It Works -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P2</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">How It Works</p>
+    <p class="card-file">HowItWorks_v2_2026-04-15.html (58 KB)</p>
+    <a class="card-btn" href="HowItWorks_v2_2026-04-15.html">Open Page</a>
+  </div>
+
+  <!-- P3 Why VitalMatrix -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P3</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Why VitalMatrix</p>
+    <p class="card-file">WhyVitalMatrix_v2_2026-04-13.html (29 KB)</p>
+    <a class="card-btn" href="WhyVitalMatrix_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P4 Founding Practitioners -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P4</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Founding Practitioners</p>
+    <p class="card-file">FoundingPractitioners_v2_2026-04-13.html (27 KB)</p>
+    <a class="card-btn" href="FoundingPractitioners_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P5 Pricing -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P5</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Pricing</p>
+    <p class="card-file">Pricing_v2_2026-04-13.html (35 KB)</p>
+    <a class="card-btn" href="Pricing_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P6 About -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P6</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">About Dr Faisal</p>
+    <p class="card-file">About_v2_2026-04-13.html (38 KB)</p>
+    <a class="card-btn" href="About_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P7 Book a Walkthrough -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P7</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Book a Walkthrough</p>
+    <p class="card-file">BookWalkthrough_v2_2026-04-13.html (18 KB)</p>
+    <a class="card-btn" href="BookWalkthrough_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P8 Our Approach -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P8</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Our Approach</p>
+    <p class="card-file">OurApproach_v2_2026-04-13.html (41 KB)</p>
+    <a class="card-btn" href="OurApproach_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P9 Mission -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P9</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Mission</p>
+    <p class="card-file">Mission_v2_2026-04-13.html (23 KB)</p>
+    <a class="card-btn" href="Mission_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P10 Clinical Ethics -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P10</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Clinical Ethics</p>
+    <p class="card-file">ClinicalEthics_v2_2026-04-13.html (30 KB)</p>
+    <a class="card-btn" href="ClinicalEthics_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P11 Terrain Intelligence -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P11</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Terrain Intelligence</p>
+    <p class="card-file">TerrainIntelligence_v2_2026-04-13.html (35 KB)</p>
+    <a class="card-btn" href="TerrainIntelligence_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P13 CascadeAtlas -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P13</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">CascadeAtlas</p>
+    <p class="card-file">CascadeAtlas_v2_2026-04-13.html (44 KB)</p>
+    <a class="card-btn" href="CascadeAtlas_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P14 NCZ Architecture -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P14</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">NCZ Architecture</p>
+    <p class="card-file">NCZArchitecture_v2_2026-04-13.html (41 KB)</p>
+    <a class="card-btn" href="NCZArchitecture_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P15 Trust and Safety -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P15</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Trust and Safety</p>
+    <p class="card-file">TrustSafety_v2_2026-04-13.html (29 KB)</p>
+    <a class="card-btn" href="TrustSafety_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P19 FAQ -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P19</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">FAQ</p>
+    <p class="card-file">FAQ_v2_2026-04-13.html (38 KB)</p>
+    <a class="card-btn" href="FAQ_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- P20 Contact Us -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P20</span><span class="card-badge badge-found">Found</span></div>
+    <p class="card-name">Contact Us</p>
+    <p class="card-file">Contact_v2_2026-04-13.html (25 KB)</p>
+    <a class="card-btn" href="Contact_v2_2026-04-13.html">Open Page</a>
+  </div>
+
+  <!-- Legal: Privacy Notice -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P12</span><span class="card-badge badge-legal">Legal</span></div>
+    <p class="card-name">Privacy Notice</p>
+    <p class="card-file">Privacy_VitalMatrix_2026-04-20.html (33 KB)</p>
+    <a class="card-btn" href="Privacy_VitalMatrix_2026-04-20.html">Open Page</a>
+  </div>
+
+  <!-- Legal: Cookie Policy -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">P12b</span><span class="card-badge badge-legal">Legal</span></div>
+    <p class="card-name">Cookie Policy</p>
+    <p class="card-file">CookiePolicy_VitalMatrix_2026-04-20.html (30 KB)</p>
+    <a class="card-btn" href="CookiePolicy_VitalMatrix_2026-04-20.html">Open Page</a>
+  </div>
+
+  <!-- Extra: Platform Demo -->
+  <div class="card">
+    <div class="card-top"><span class="card-id">Demo</span><span class="card-badge badge-extra">Extra</span></div>
+    <p class="card-name">Platform Demo</p>
+    <p class="card-file">PlatformDemo_v2_2026-04-15.html (7 KB)</p>
+    <a class="card-btn" href="PlatformDemo_v2_2026-04-15.html">Open Page</a>
+  </div>
+
+</div>
+
+<p class="hub-note">
+  Duplicate/older versions present: HowItWorks_v2_2026-04-13.html (superseded by 04-15),
+  WhyVitalMatrix_v2_EDITED_2026-04-17.html, TerrainIntelligence_v2_EDITED_2026-04-18.html,
+  index.html (6 KB placeholder). Hub links to latest version of each page.
+</p>
+
+<div class="hub-footer">
+  <p>For practitioner use only. Not a diagnostic tool.</p>
+  <p>
+    VOS&#8482; (VitalMatrix Operating System).
+    VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;,
+    CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;,
+    MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;,
+    KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;,
+    HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;,
+    GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482;
+    and all associated marks are trademarks of VitalMatrix Ltd.
+    All rights reserved. ICO ZC101813.
+  </p>
+  <p>MHRA SaMD classification has not yet commenced. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p>VitalMatrix Ltd 2026 | Dr Shahzad Faisal, MBBS, FAAMFM</p>
+</div>
+
+</body>
+</html>
