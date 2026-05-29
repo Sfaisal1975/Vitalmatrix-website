@@ -13,7 +13,7 @@
   --z2:#1A7A8A;--z2r:26,122,138;--z2l:#2A9BAD;
   --z3:#7B5EA7;--z3r:123,94,167;--z3l:#9B7EC8;
   --z4:#5F7C6C;--z4r:95,124,108;--z4l:#7A9485;
-  --z5:#2E6DB4;--z5r:212,184,112;--z5l:#DCC888;
+  --z5:#D4B870;--z5r:212,184,112;--z5l:#DCC888;
   --gold:#C9A84C;--gold-l:#D4B86A;--teal:#1A7A8A;--teal-l:#2A9BAD;
   --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
   --t35:rgba(244,244,242,.55);--t12:rgba(244,244,242,.12);--t06:rgba(244,244,242,.06);
@@ -559,7 +559,7 @@ update();
 (function(){
   'use strict';
   var cx=120,cy=120,maxR=90;
-  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var zoneLabels=['Z1','Z2','Z3','Z4','Z5'];
   var ZONE_SCORES=[72,78,35,48,65]; // default from Mark
   var mode='both'; // 'both','composite','individual'
@@ -1439,7 +1439,7 @@ update();
     {name:'KINETICS',href:'LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html',colour:'#2A9BAD',desc:'Cascade velocity classification'},
     {name:'DeltaScan',href:'LA8_DeltaScan_ComparisonView_D53_2026-04-11_v2.html',colour:'#5F7C6C',desc:'T1 vs T2 longitudinal comparison'},
     {name:'TRACE',href:'LA9_TRACE_Timeline_D53_2026-04-11_v2.html',colour:'#7B5EA7',desc:'Temporal reconstruction timeline'},
-    {name:'Terrain Intelligence',href:'../TerrainIntelligence_latest.html',colour:'#2E6DB4',desc:'Four-layer terrain intelligence overview'}
+    {name:'Terrain Intelligence',href:'../TerrainIntelligence_latest.html',colour:'#D4B870',desc:'Four-layer terrain intelligence overview'}
   ];
   var CX=150,CY=150,R=100;
   var ns='http://www.w3.org/2000/svg';
@@ -1454,12 +1454,12 @@ update();
 
   var cc=document.createElementNS(ns,'circle');
   cc.setAttribute('cx',CX);cc.setAttribute('cy',CY);cc.setAttribute('r','28');
-  cc.setAttribute('fill','rgba(46,109,180,.12)');cc.setAttribute('stroke','#2E6DB4');cc.setAttribute('stroke-width','2');
+  cc.setAttribute('fill','rgba(46,109,180,.12)');cc.setAttribute('stroke','#D4B870');cc.setAttribute('stroke-width','2');
   svg.appendChild(cc);
   var ct=document.createElementNS(ns,'text');
   ct.setAttribute('x',CX);ct.setAttribute('y',CY+1);
   ct.setAttribute('text-anchor','middle');ct.setAttribute('dominant-baseline','central');
-  ct.setAttribute('fill','#2E6DB4');ct.setAttribute('font-family','DM Mono,monospace');ct.setAttribute('font-size','11');ct.setAttribute('font-weight','500');
+  ct.setAttribute('fill','#D4B870');ct.setAttribute('font-family','DM Mono,monospace');ct.setAttribute('font-size','11');ct.setAttribute('font-weight','500');
   ct.textContent='TIQ';
   svg.appendChild(ct);
 

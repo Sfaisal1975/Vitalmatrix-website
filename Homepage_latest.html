@@ -13,10 +13,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VitalMatrix: The Operating System for Terrain-Led Medicine</title>
-<meta name="description" content="VitalMatrix is a terrain intelligence platform for functional medicine practitioners. The VitalMatrix Operating System (VOS), powered by the Terrain Intelligence Engine (TIE), turns one structured patient input into five terrain-based clinical outputs. Every consultation.">
-<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, terrain intelligence platform, FLINT, NCZ, cascade mapping, practitioner tools, clinical intelligence, terrain-based medicine">
+<meta name="description" content="VitalMatrix is a clinical intelligence platform for functional medicine practitioners. The VitalMatrix Operating System (VOS), powered by the Terrain Intelligence Engine (TIE), turns one structured patient input into five terrain-based clinical outputs. Every consultation.">
+<meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform, FLINT, NCZ, cascade mapping, practitioner tools, clinical intelligence, terrain-based medicine">
 <meta property="og:title" content="VitalMatrix: The Operating System for Terrain-Led Medicine">
-<meta property="og:description" content="The terrain intelligence platform for functional medicine practitioners. Powered by the Terrain Intelligence Engine.">
+<meta property="og:description" content="The clinical intelligence platform for functional medicine practitioners. Powered by the Terrain Intelligence Engine.">
 <meta property="og:type" content="website">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Dr Shahzad Faisal, MBBS, FAAMFM">
@@ -34,7 +34,7 @@
   --vm-prussian:#0D2B4E; --vm-charcoal:#1A2030; --vm-deep-teal:#0C4452;
   --vm-navy-d:#071C33; --vm-gold:#C9A84C; --vm-gold-l:#C9A84C;
   --vm-teal:#1A7A8A; --vm-teal-l:#2A9BAD; --vm-white:#F4F4F2;
-  --vm-z1:#C9A84C; --vm-z2:#1A7A8A; --vm-z3:#7B5EA7; --vm-z4:#5F7C6C; --vm-z5:#2E6DB4;
+  --vm-z1:#C9A84C; --vm-z2:#1A7A8A; --vm-z3:#7B5EA7; --vm-z4:#5F7C6C; --vm-z5:#D4B870;
   --vm-fs:'Cormorant Garamond',Georgia,serif;
   --vm-fd:'Outfit',system-ui,sans-serif;
   --vm-fm:'DM Mono',monospace;
@@ -322,7 +322,7 @@ h3 { font-size:clamp(20px, 2.5vw, 28px); color:var(--vm-white); margin-bottom:14
 .pp-card { background:#0C4452; border:1px solid rgba(26,122,138,0.20); border-radius:12px; padding:28px 24px; position:relative; overflow:hidden; transition:transform 0.3s ease, box-shadow 0.3s ease; }
 .pp-card:hover { transform:translateY(-4px); box-shadow:0 8px 32px rgba(12,68,82,0.3); border-color:rgba(26,122,138,0.40); }
 .pp-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; border-radius:12px 12px 0 0; }
-.pp-card-01::before { background:linear-gradient(90deg,#C9A84C,#2E6DB4,rgba(201,168,76,0.15)); }
+.pp-card-01::before { background:linear-gradient(90deg,#C9A84C,#D4B870,rgba(201,168,76,0.15)); }
 .pp-card-02::before { background:linear-gradient(90deg,#1A7A8A,#2A9BAD,rgba(26,122,138,0.15)); }
 .pp-card-03::before { background:linear-gradient(90deg,#5F7C6C,#7A9B89,rgba(95,124,108,0.15)); }
 .pp-card-01:hover { border-color:rgba(201,168,76,0.35); }
@@ -357,7 +357,7 @@ h3 { font-size:clamp(20px, 2.5vw, 28px); color:var(--vm-white); margin-bottom:14
 .output-card-04 { background:#F3F7F4; border:1.5px solid rgba(95,124,108,0.35); }
 .output-card-04::before { background:#5F7C6C; }
 .output-card-05 { background:#F0F4FA; border:1.5px solid rgba(46,109,180,0.35); }
-.output-card-05::before { background:#2E6DB4; }
+.output-card-05::before { background:#D4B870; }
 .output-icon { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px; flex-shrink:0; }
 .output-icon svg { width:22px; height:22px; }
 .output-icon-01 { background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); }
@@ -2340,7 +2340,7 @@ section[style*="background:#FFFFFF"] .sv-section-time { color:rgba(13,43,78,0.20
   h2 { font-size:18pt !important; }
   .vm-cta-glow, .btn-s { display:none !important; }
   /* Print header */
-  body::before { content:'VitalMatrix\2122 \A Terrain Intelligence Platform'; display:block; font-family:Georgia,serif; font-size:10pt; color:#C9A84C; text-align:center; padding:12pt 0; border-bottom:1pt solid #C9A84C; margin-bottom:24pt; white-space:pre-line; }
+  body::before { content:'VitalMatrix\2122 \A Clinical Intelligence Platform'; display:block; font-family:Georgia,serif; font-size:10pt; color:#C9A84C; text-align:center; padding:12pt 0; border-bottom:1pt solid #C9A84C; margin-bottom:24pt; white-space:pre-line; }
   /* Print footer */
   body::after { content:'\A9 VitalMatrix Ltd 2026. ICO ZC101813. For practitioner use only. Not a diagnostic tool.'; display:block; font-family:monospace; font-size:7pt; color:#999; text-align:center; padding:16pt 0 0; border-top:0.5pt solid #ddd; margin-top:24pt; }
   /* Section numbering */
@@ -3011,7 +3011,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
 .td-val-purple { color:#7B5EA7; }
 .td-val-sage { color:#5F7C6C; }
 .td-val-white { color:rgba(244,244,242,0.80); }
-.td-val-blue { color:#2E6DB4; }
+.td-val-blue { color:#D4B870; }
 .td-bar-wrap { display:inline-flex; align-items:center; gap:6px; }
 .td-bar { height:4px; border-radius:2px; display:inline-block; transition:width 0.8s cubic-bezier(0.16,1,0.3,1); }
 .td-typing { display:inline-block; width:2px; height:1em; background:rgba(201,168,76,0.6); animation:cursorBlink 1s step-end infinite; vertical-align:middle; margin-left:4px; }
@@ -3489,14 +3489,14 @@ body { --vm-scroll-accent:var(--vm-accent); }
 .ch-animate .ch-h2-tie{opacity:0;animation:chFadeIn 0.8s ease 0.9s forwards}
 .ch-hook{font-family:var(--vm-fs,'Cormorant Garamond',Georgia,serif);font-size:clamp(1.05rem,1.8vw,1.35rem);font-style:italic;font-weight:400;color:rgba(244,244,242,0.88);max-width:720px;margin:0 auto 1.8rem;line-height:1.45;text-shadow:0 2px 20px rgba(0,0,0,0.70)}
 .ch-animate .ch-hook{opacity:0;animation:chFadeIn 1.0s ease 1.2s forwards}
-/* D-214 Architecture strip (light background) */
-.vm-arch-strip{background:#F4F1EB;padding:2.5rem 2rem;border-bottom:1px solid #D8D2C6;margin:0}
+/* D-214 Architecture strip */
+.vm-arch-strip{background:rgba(244,241,235,0.06);padding:2.5rem 2rem;border-bottom:1px solid rgba(255,255,255,0.08);margin:0}
 .vm-arch-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
 .vm-arch-stat{display:flex;align-items:baseline;gap:0.5rem}
-.vm-arch-stat .num{font-family:var(--vm-fs);font-size:2.4rem;font-weight:500;color:#0D2B4E;line-height:1}
-.vm-arch-stat .label{font-family:var(--vm-fm);font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;color:#4A5060}
+.vm-arch-stat .num{font-family:var(--vm-fs);font-size:2.4rem;font-weight:500;color:#C9A84C;line-height:1}
+.vm-arch-stat .label{font-family:var(--vm-fm);font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(244,244,242,0.45)}
 .vm-arch-read{font-family:var(--vm-fm);font-size:0.8rem;letter-spacing:0.1em;color:var(--vm-teal);text-decoration:none;margin-left:1rem;transition:color 0.2s ease}
-.vm-arch-read:hover{color:#0D2B4E}
+.vm-arch-read:hover{color:#C9A84C}
 @keyframes chFadeIn{to{opacity:1}}
 @media(max-width:768px){#hero{padding:60px 20px 48px !important}.ch-mesh{width:300px;height:300px}.ch-grid{height:40%}.ch-counters{gap:24px}.ch-flare{width:600px}}
 @media(max-width:700px){.ch-h1-d214{font-size:clamp(1.9rem,7vw,2.4rem)}.ch-vos-attrib{font-size:0.7rem}.ch-h2-tie{font-size:1.1rem;font-weight:500}.ch-hook{font-size:1rem;margin-left:0}.vm-arch-inner{gap:1.5rem;flex-direction:column}.vm-arch-stat .num{font-size:2rem}}
@@ -3550,93 +3550,50 @@ body { --vm-scroll-accent:var(--vm-accent); }
   <!-- L12: Film grain (#222) -->
   <div class="ch-grain"></div>
 
-  <!-- CONTENT (z-index:20) — D-214 Pattern B + Option 1, 24 May 2026 -->
+  <!-- CONTENT (z-index:20) -->
   <div class="ch-content" id="ch-hero-content">
     <!-- Accent line -->
     <div class="ch-accent-line"></div>
-    <!-- Eyebrow: audience filter (D-214) -->
-    <p class="ch-eyebrow">For Functional Medicine Practitioners</p>
-    <!-- H1: VOS positioning (D-214 Pattern B) -->
-    <h1 class="ch-h1-d214">The Operating System for Terrain-Led Medicine.</h1>
-    <!-- VOS attribution (Option 1: explicit) -->
-    <div class="ch-vos-attrib">The VitalMatrix Operating System (VOS&#8482;)</div>
-    <!-- H2: TIE engine credit (D-214, first-use expansion permitted) -->
-    <p class="ch-h2-tie">Powered by the Terrain Intelligence Engine (TIE&#8482;).</p>
-    <!-- Sub-headline: analytical hook (retained, repositioned) -->
-    <p class="ch-hook">Measuring biological burden is a solved problem.<br>Knowing which burden is driving the others is not.</p>
-    <!-- Supporting paragraph (unchanged) -->
-    <p class="ch-sub">VitalMatrix&#8482; is a terrain intelligence platform designed for functional medicine practitioners in UK private practice. One structured patient input. Five terrain-based clinical outputs. Every consultation.</p>
-    <!-- CTAs (unchanged) -->
+    <!-- Eyebrow (#224) -->
+    <p class="ch-eyebrow">Clinical Intelligence Platform</p>
+    <!-- W29 Rule 02: Signature dot (hero) -->
+    <div class="vm-rule-dot" style="justify-content:center;margin:12px auto 16px;"></div>
+    <!-- H1 clip reveal (#223) -->
+    <h1>
+      <span class="ch-h1-line"><span class="ch-h1-inner" style="color:rgba(255,255,255,.72);">Measuring biological burden is a solved problem.</span></span>
+      <span class="ch-h1-line"><span class="ch-h1-inner"><em style="color:#C9A84C;">Knowing which burden is driving the others is not.</em></span></span>
+    </h1>
+    <!-- Tagline: updated 18 May 2026 per session review -->
+    <p class="ch-tagline">The Analytical Layer You Have Never Had.</p>
+    <!-- W29 Rule 09: Gold drop (hero eyebrow to content) -->
+    <div class="vm-rule-drop" style="margin:10px auto 10px;"></div>
+    <!-- Divider -->
+    <div class="ch-divider"></div>
+    <!-- Subtitle typewriter (#225) -->
+    <p class="ch-sub"><span id="typewriter-text"></span><span id="typewriter-cursor" class="blinking"></span></p>
+    <!-- VOS pill gradient border (#226) -->
+    <div class="ch-vos-box">
+      <div class="ch-vos-pill">Built on VOS&#8482; &nbsp;|&nbsp; the VitalMatrix Operating System<span class="vos-cursor"></span></div>
+    </div>
+    <p class="vm-reading-meta" style="text-align:center;">5 min read</p>
+    <!-- CTAs -->
     <div class="ch-ctas">
       <a href="/book-walkthrough/" class="vm-cta-glow" id="magnetic-cta" style="box-shadow:0 4px 40px rgba(201,168,76,0.35),0 0 100px rgba(201,168,76,0.08);">Book a Clinical Walkthrough</a>
-      <a href="/how-it-works/" class="btn-s" style="backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(244,244,242,0.04);">See How It Works &rarr;</a>
+      <a href="/how-it-works/" class="btn-s" style="backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(244,244,242,0.04);">See How It Works</a>
       <a class="vm-quiz-cta" onclick="openQuiz()"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>Take the Quiz</a>
+    </div>
+    <!-- Counters (#227) -->
+    <div class="ch-counters">
+      <div class="ch-counter"><div class="ch-counter-num" data-target="7">0</div><div class="ch-counter-label">Nodes</div></div>
+      <div class="ch-counter"><div class="ch-counter-num" data-target="5">0</div><div class="ch-counter-label">Zones</div></div>
+      <div class="ch-counter"><div class="ch-counter-num" data-target="6">0</div><div class="ch-counter-label">Cascades</div></div>
+      <div class="ch-counter"><div class="ch-counter-num" data-target="5">0</div><div class="ch-counter-label">Outputs</div></div>
     </div>
   </div>
   <!-- Scroll prompt -->
   <div class="vm-scroll-prompt">
     <span class="vm-scroll-prompt-text">Scroll to explore</span>
     <div class="vm-scroll-prompt-line"><div class="vm-scroll-prompt-dot"></div></div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════
-     D-214 ARCHITECTURE STRIP : below the fold
-     Added 24 May 2026
-     ══════════════════════════════════════════════════ -->
-<section class="vm-arch-strip">
-  <div class="vm-arch-inner">
-    <div class="vm-arch-stat"><span class="num">7</span><span class="label">Nodes</span></div>
-    <div class="vm-arch-stat"><span class="num">5</span><span class="label">Zones</span></div>
-    <div class="vm-arch-stat"><span class="num">6</span><span class="label">Cascade Stacks</span></div>
-    <a href="#how-it-works" class="vm-arch-read">3 min read &rarr;</a>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════
-     HOW IT WORKS : D-214 Analytical Layer placement
-     Section 09 of W06 Propagation Routing Brief
-     Added 24 May 2026
-     ══════════════════════════════════════════════════ -->
-<style>
-.vm-howitworks{background:#FAF9F6;padding:5rem 2rem}
-.vm-howitworks-inner{max-width:1100px;margin:0 auto;text-align:center}
-.vm-howitworks-eyebrow{font-family:var(--vm-fm,'DM Mono',monospace);font-size:0.8rem;letter-spacing:0.25em;text-transform:uppercase;color:#C9A84C;margin-bottom:1.5rem}
-.vm-howitworks-h2{font-family:var(--vm-fs,'Cormorant Garamond',Georgia,serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:500;line-height:1.1;color:#0D2B4E;margin-bottom:1.5rem;letter-spacing:-0.01em}
-.vm-howitworks-intro{font-family:var(--vm-fd,'Outfit',sans-serif);font-size:clamp(1rem,1.4vw,1.15rem);font-weight:300;color:#4A5060;max-width:720px;margin:0 auto 3rem;line-height:1.6}
-.vm-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-bottom:3rem;text-align:left}
-.vm-step{padding:1.5rem;background:#F4F1EB;border-left:3px solid #C9A84C}
-.vm-step-num{font-family:var(--vm-fm,'DM Mono',monospace);font-size:0.85rem;letter-spacing:0.15em;color:#C9A84C;margin-bottom:0.5rem;font-weight:500}
-.vm-step-title{font-family:var(--vm-fs,'Cormorant Garamond',Georgia,serif);font-size:1.4rem;font-weight:500;color:#0D2B4E;margin-bottom:0.6rem}
-.vm-step p{font-family:var(--vm-fd,'Outfit',sans-serif);font-size:0.95rem;color:#4A5060;line-height:1.6;margin:0}
-.vm-howitworks-cta{display:inline-block;font-family:var(--vm-fd,'Outfit',sans-serif);font-weight:500;font-size:1rem;color:#1A7A8A;text-decoration:none;border-bottom:1px solid #1A7A8A;padding-bottom:0.2rem;transition:all 0.2s ease}
-.vm-howitworks-cta:hover{color:#0D2B4E;border-bottom-color:#0D2B4E}
-@media(max-width:700px){.vm-howitworks{padding:3rem 1.2rem}.vm-steps{grid-template-columns:1fr;gap:1.5rem}}
-</style>
-
-<section class="vm-howitworks" id="how-it-works">
-  <div class="vm-howitworks-inner">
-    <div class="vm-howitworks-eyebrow">How It Works</div>
-    <h2 class="vm-howitworks-h2">The Analytical Layer<br>You Have Never Had.</h2>
-    <p class="vm-howitworks-intro">VitalMatrix sits between your patient intake and your clinical decision, turning unstructured signal into five structured terrain outputs.</p>
-    <div class="vm-steps">
-      <div class="vm-step">
-        <div class="vm-step-num">01</div>
-        <h3 class="vm-step-title">Patient Input</h3>
-        <p>One structured intake captures clinical signal across the seven nodes and five zones.</p>
-      </div>
-      <div class="vm-step">
-        <div class="vm-step-num">02</div>
-        <h3 class="vm-step-title">Engine Synthesis</h3>
-        <p>The Terrain Intelligence Engine maps signal onto the cascade architecture and identifies the driving burden.</p>
-      </div>
-      <div class="vm-step">
-        <div class="vm-step-num">03</div>
-        <h3 class="vm-step-title">Practitioner Output</h3>
-        <p>Five terrain-based clinical outputs delivered to the practitioner in consultation-ready format.</p>
-      </div>
-    </div>
-    <a href="/how-it-works/" class="vm-howitworks-cta">See a clinical example &rarr;</a>
   </div>
 </section>
 
@@ -3655,10 +3612,9 @@ body { --vm-scroll-accent:var(--vm-accent); }
 .vm-s2-tagline{font-family:var(--vm-fs,'Cormorant Garamond',serif);font-size:clamp(1.1rem,2vw,1.45rem);font-weight:400;color:rgba(244,244,242,0.88);line-height:1.55;max-width:780px;margin:0 auto 0.8rem}
 .vm-s2-tagline em{color:#C9A84C;font-style:italic}
 .vm-s2-hook{font-family:var(--vm-fb,'Outfit',sans-serif);font-size:clamp(0.85rem,1.2vw,0.95rem);font-weight:400;color:rgba(244,244,242,0.55);line-height:1.6;max-width:640px;margin:0.6rem auto 0}
-.vm-s2-layers{display:flex;align-items:center;justify-content:center;gap:0.6rem;flex-wrap:wrap;margin-top:2rem;padding:1.2rem 1.5rem;background:rgba(0,0,0,0.25);border-radius:8px;border:1px solid rgba(201,168,76,0.12)}
-.vm-s2-layer{font-family:var(--vm-fm,'DM Mono',monospace);font-size:0.65rem;letter-spacing:0.10em;text-transform:uppercase;padding:6px 14px;border-radius:4px;background:rgba(201,168,76,0.08);color:rgba(244,244,242,0.80);border:1px solid rgba(201,168,76,0.25);transition:background 0.2s ease,border-color 0.2s ease,transform 0.2s ease}
-.vm-s2-layer:hover{background:rgba(201,168,76,0.18);border-color:rgba(201,168,76,0.50);transform:translateY(-2px)}
-.vm-s2-arrow{color:#C9A84C;font-size:0.85rem;font-weight:600;text-shadow:0 0 8px rgba(201,168,76,0.40)}
+.vm-s2-layers{display:flex;align-items:center;justify-content:center;gap:0.4rem;flex-wrap:wrap;margin-top:2rem}
+.vm-s2-layer{font-family:var(--vm-fm,'DM Mono',monospace);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:3px;background:rgba(255,255,255,0.04);color:rgba(244,244,242,0.35);border:1px solid rgba(255,255,255,0.06)}
+.vm-s2-arrow{color:rgba(201,168,76,0.30);font-size:0.7rem}
 @media(max-width:700px){.vm-s2-stats{gap:1.5rem;flex-direction:column}.vm-s2-stat .num{font-size:2rem}.vm-s2-layers{gap:0.3rem}.vm-s2-layer{font-size:0.5rem;padding:3px 7px}}
 </style>
 
@@ -3666,7 +3622,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
   <div class="vm-s2-inner">
     <!-- Architecture numbers -->
     <div class="vm-s2-stats">
-      <div class="vm-s2-stat"><span class="num">500+</span><span class="label">Intelligence Features</span></div>
+      <div class="vm-s2-stat"><span class="num">400</span><span class="label">Intelligence Features</span></div>
       <div class="vm-s2-stat"><span class="num">7</span><span class="label">Nodes</span></div>
       <div class="vm-s2-stat"><span class="num">5</span><span class="label">Zones</span></div>
       <div class="vm-s2-stat"><span class="num">6</span><span class="label">Cascades</span></div>
@@ -3674,7 +3630,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
     </div>
     <div class="vm-s2-divider"></div>
     <!-- OPTION 3: LOCKED -->
-    <p class="vm-s2-tagline">500+ intelligence features process the evidence. The terrain engine maps the burden.<br>But the clinical decision is yours &mdash; VitalMatrix makes it <em>the best-informed decision you have ever made.</em></p>
+    <p class="vm-s2-tagline">400 intelligence features process the evidence. The terrain engine maps the burden.<br>But the clinical decision is yours &mdash; VitalMatrix makes it <em>the best-informed decision you have ever made.</em></p>
     <!-- Supporting line -->
     <p class="vm-s2-hook">The terrain engine finds the root cause. The intelligence platform builds the protocol. Your clinical judgement completes the picture.</p>
     <!-- Layer flow -->
@@ -3710,7 +3666,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
   var el=document.getElementById('typewriter-text');
   var cursor=document.getElementById('typewriter-cursor');
   if(!el||!cursor)return;
-  var text='VitalMatrix\u2122 is a terrain intelligence platform designed for functional medicine practitioners in UK private practice. One structured patient input. Five terrain-based clinical outputs. Every consultation.';
+  var text='VitalMatrix\u2122 is a clinical intelligence platform designed for functional medicine practitioners in UK private practice. One structured patient input. Five terrain-based clinical outputs. Every consultation.';
   el.textContent='';
   setTimeout(function(){
     var i=0;
@@ -3906,7 +3862,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
             <circle cx="60" cy="140" r="8" fill="#C9A84C" opacity="0.9"><animate attributeName="opacity" values="0.6;0.9;0.6" dur="5s" repeatCount="indefinite"/></circle>
             <circle cx="120" cy="35" r="7" fill="#7B5EA7" opacity="0.8"><animate attributeName="opacity" values="0.5;0.9;0.5" dur="6s" repeatCount="indefinite"/></circle>
             <circle cx="340" cy="40" r="6" fill="#5F7C6C" opacity="0.7"><animate attributeName="opacity" values="0.5;0.8;0.5" dur="7s" repeatCount="indefinite"/></circle>
-            <circle cx="350" cy="145" r="6" fill="#2E6DB4" opacity="0.7"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite"/></circle>
+            <circle cx="350" cy="145" r="6" fill="#D4B870" opacity="0.7"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite"/></circle>
             <circle cx="30" cy="55" r="5" fill="#C9A84C" opacity="0.6"/>
             <!-- Connection lines — brighter -->
             <line x1="60" y1="140" x2="200" y2="90" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"><animate attributeName="stroke-opacity" values="0.2;0.5;0.2" dur="5s" repeatCount="indefinite"/></line>
@@ -4113,7 +4069,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
         <div style="background:#0A0F14;border:1px solid rgba(201,168,76,0.12);border-radius:8px;padding:24px;font-family:var(--vm-fm);font-size:11px;line-height:2;color:rgba(244,244,242,0.60);">
   <span style="color:rgba(244,244,242,0.30);">$</span> <span style="color:#C9A84C;">vitalmatrix</span> terrain-assess --patient 0042<br>
   <br>
-  <span style="color:rgba(244,244,242,0.30);">zones.active:</span> <span style="color:#1A7A8A;">Z2</span> <span style="color:#C9A84C;">Z1</span> <span style="color:#2E6DB4;">Z5</span><br>
+  <span style="color:rgba(244,244,242,0.30);">zones.active:</span> <span style="color:#1A7A8A;">Z2</span> <span style="color:#C9A84C;">Z1</span> <span style="color:#D4B870;">Z5</span><br>
   <span style="color:rgba(244,244,242,0.30);">burden.primary:</span> <span style="color:#1A7A8A;font-weight:500;">Z2 Resilience Network</span><br>
   <span style="color:rgba(244,244,242,0.30);">cascade.trace:</span> S1 <span style="color:rgba(244,244,242,0.40);">Z2 &#8594; Z1</span> (Emerging)<br>
   <span style="color:rgba(244,244,242,0.30);">velocity:</span> <span style="color:#C9A84C;">MEDIUM</span> (weeks to months)<br>
@@ -4160,7 +4116,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
       <!-- Step 01 -->
       <div class="step-card">
-        <div class="step-ribbon" style="background:linear-gradient(90deg,#C9A84C,#2E6DB4,rgba(201,168,76,0.2));"></div>
+        <div class="step-ribbon" style="background:linear-gradient(90deg,#C9A84C,#D4B870,rgba(201,168,76,0.2));"></div>
         <div class="step-inner">
           <div class="step-icon-wrap" style="background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.25);">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -4406,7 +4362,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
 
       <!-- Card 01: The question -->
       <div class="pos-card">
-        <div class="pos-ribbon" style="background:linear-gradient(90deg,#C9A84C,#2E6DB4,rgba(201,168,76,0.15));"></div>
+        <div class="pos-ribbon" style="background:linear-gradient(90deg,#C9A84C,#D4B870,rgba(201,168,76,0.15));"></div>
         <div class="pos-inner">
           <div class="pos-icon" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.22);">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
@@ -4432,10 +4388,10 @@ body { --vm-scroll-accent:var(--vm-accent); }
 
       <!-- Card 03: The infrastructure -->
       <div class="pos-card">
-        <div class="pos-ribbon" style="background:linear-gradient(90deg,#2E6DB4,#5A8FD4,rgba(46,109,180,0.15));"></div>
+        <div class="pos-ribbon" style="background:linear-gradient(90deg,#D4B870,#5A8FD4,rgba(46,109,180,0.15));"></div>
         <div class="pos-inner">
           <div class="pos-icon" style="background:rgba(46,109,180,0.08);border:1px solid rgba(46,109,180,0.22);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E6DB4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4B870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
           </div>
           <p style="font-family:var(--vm-fm);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(46,109,180,0.7);margin-bottom:12px;">The infrastructure</p>
           <h3 style="font-family:var(--vm-fs);font-size:1.2rem;font-weight:400;color:#F4F4F2;line-height:1.3;margin-bottom:14px;"><span style="color:rgba(255,255,255,.75);">Functional medicine has the tools to measure everything.</span> <span style="color:#5A8FD4;">VitalMatrix&#8482; is the infrastructure to sequence it.</span></h3>
@@ -4538,7 +4494,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
 
       <div class="output-card output-card-05 vm-tilt" role="listitem">
         <div class="output-icon output-icon-05">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2E6DB4" stroke-width="1.8" stroke-linecap="round" role="img" aria-label="Governance record">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4B870" stroke-width="1.8" stroke-linecap="round" role="img" aria-label="Governance record">
             <circle cx="12" cy="6" r="3"/><line x1="12" y1="9" x2="12" y2="20"/><line x1="6" y1="13" x2="18" y2="13"/><path d="M6 20 Q6 16 12 16 Q18 16 18 20"/>
           </svg>
         </div>
@@ -4591,7 +4547,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
         <rect x="195" y="82" width="50" height="28" rx="6" fill="rgba(26,122,138,0.06)" stroke="rgba(26,122,138,0.25)" stroke-width="1"/><text x="220" y="100" fill="#1A7A8A" font-family="DM Mono,monospace" font-size="8" text-anchor="middle">Z2</text>
         <rect x="195" y="122" width="50" height="28" rx="6" fill="rgba(123,94,167,0.06)" stroke="rgba(123,94,167,0.25)" stroke-width="1"/><text x="220" y="140" fill="#7B5EA7" font-family="DM Mono,monospace" font-size="8" text-anchor="middle">Z3</text>
         <rect x="195" y="162" width="50" height="28" rx="6" fill="rgba(95,124,108,0.06)" stroke="rgba(95,124,108,0.25)" stroke-width="1"/><text x="220" y="180" fill="#5F7C6C" font-family="DM Mono,monospace" font-size="8" text-anchor="middle">Z4</text>
-        <rect x="195" y="202" width="50" height="28" rx="6" fill="rgba(46,109,180,0.06)" stroke="rgba(46,109,180,0.25)" stroke-width="1"/><text x="220" y="220" fill="#2E6DB4" font-family="DM Mono,monospace" font-size="8" text-anchor="middle">Z5</text>
+        <rect x="195" y="202" width="50" height="28" rx="6" fill="rgba(46,109,180,0.06)" stroke="rgba(46,109,180,0.25)" stroke-width="1"/><text x="220" y="220" fill="#D4B870" font-family="DM Mono,monospace" font-size="8" text-anchor="middle">Z5</text>
         <!-- Cascades -->
         <text x="380" y="20" fill="rgba(123,94,167,0.35)" font-family="DM Mono,monospace" font-size="8" text-anchor="middle" letter-spacing="0.1em">6 CASCADES</text>
         <line x1="250" y1="96" x2="340" y2="56" stroke="rgba(26,122,138,0.15)" stroke-width="1.5"/><text x="380" y="50" fill="rgba(26,122,138,0.40)" font-family="DM Mono,monospace" font-size="7" text-anchor="middle">S1: Z2&#8594;Z1</text>
@@ -4659,7 +4615,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
           <div class="vw-zone-row"><span class="vw-zone-label">Z2</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z2" style="background:#1A7A8A;"></div></div><span class="vw-zone-score" id="vw-z2s"></span></div>
           <div class="vw-zone-row"><span class="vw-zone-label">Z3</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z3" style="background:#7B5EA7;"></div></div><span class="vw-zone-score" id="vw-z3s"></span></div>
           <div class="vw-zone-row"><span class="vw-zone-label">Z4</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z4" style="background:#5F7C6C;"></div></div><span class="vw-zone-score" id="vw-z4s"></span></div>
-          <div class="vw-zone-row"><span class="vw-zone-label">Z5</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z5" style="background:#2E6DB4;"></div></div><span class="vw-zone-score" id="vw-z5s"></span></div>
+          <div class="vw-zone-row"><span class="vw-zone-label">Z5</span><div class="vw-zone-bar"><div class="vw-zone-fill" id="vw-z5" style="background:#D4B870;"></div></div><span class="vw-zone-score" id="vw-z5s"></span></div>
         </div>
       </div>
       <div class="vw-scene" id="vw-s3">
@@ -4722,7 +4678,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
           <div class="vld-zone-row"><span class="vld-zone-label">Z2</span><div class="vld-zone-bar"><div class="vld-zone-fill" id="vld-z2" style="background:#1A7A8A;"></div></div><span class="vld-zone-score" id="vld-z2s"></span></div>
           <div class="vld-zone-row"><span class="vld-zone-label">Z3</span><div class="vld-zone-bar"><div class="vld-zone-fill" id="vld-z3" style="background:#7B5EA7;"></div></div><span class="vld-zone-score" id="vld-z3s"></span></div>
           <div class="vld-zone-row"><span class="vld-zone-label">Z4</span><div class="vld-zone-bar"><div class="vld-zone-fill" id="vld-z4" style="background:#5F7C6C;"></div></div><span class="vld-zone-score" id="vld-z4s"></span></div>
-          <div class="vld-zone-row"><span class="vld-zone-label">Z5</span><div class="vld-zone-bar"><div class="vld-zone-fill" id="vld-z5f" style="background:#2E6DB4;"></div></div><span class="vld-zone-score" id="vld-z5s"></span></div>
+          <div class="vld-zone-row"><span class="vld-zone-label">Z5</span><div class="vld-zone-bar"><div class="vld-zone-fill" id="vld-z5f" style="background:#D4B870;"></div></div><span class="vld-zone-score" id="vld-z5s"></span></div>
         </div>
       </div>
       <div class="vld-stage" id="vld-3">
@@ -4841,7 +4797,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
             <circle cx="80" cy="360" r="4" fill="#5F7C6C" opacity="0.8"/>
             <text x="60" y="345" text-anchor="end" fill="rgba(95,124,108,0.50)" font-family="DM Mono,monospace" font-size="9">Z4</text>
             <circle cx="20" cy="160" r="18" fill="rgba(46,109,180,0.08)" stroke="rgba(46,109,180,0.30)" stroke-width="1"><animate attributeName="r" values="18;20;18" dur="7s" begin="2s" repeatCount="indefinite"/></circle>
-            <circle cx="20" cy="160" r="4.5" fill="#2E6DB4" opacity="0.8"/>
+            <circle cx="20" cy="160" r="4.5" fill="#D4B870" opacity="0.8"/>
             <text x="20" y="195" text-anchor="middle" fill="rgba(46,109,180,0.50)" font-family="DM Mono,monospace" font-size="9">Z5</text>
             <!-- Travelling particles -->
             <circle r="2.5" fill="#C9A84C" opacity="0.6"><animateMotion path="M200,40 L380,160 L320,360 L80,360 L20,160 Z" dur="8s" repeatCount="indefinite"/></circle>
@@ -5066,8 +5022,8 @@ body { --vm-scroll-accent:var(--vm-accent); }
         </g>
         <!-- Z5: Hormonal Terrain (top-left) -->
         <g class="penta-zone" data-zone="Z5" onclick="showPentaZone('Z5')">
-          <circle class="penta-node" cx="100" cy="175" r="28" fill="rgba(46,109,180,0.08)" stroke="rgba(46,109,180,0.30)" stroke-width="1.5" style="color:#2E6DB4"/>
-          <circle cx="100" cy="175" r="6" fill="#2E6DB4" opacity="0.7"/>
+          <circle class="penta-node" cx="100" cy="175" r="28" fill="rgba(46,109,180,0.08)" stroke="rgba(46,109,180,0.30)" stroke-width="1.5" style="color:#D4B870"/>
+          <circle cx="100" cy="175" r="6" fill="#D4B870" opacity="0.7"/>
           <text class="penta-label" x="100" y="179">Z5</text>
           <text class="penta-zone-name" x="42" y="165">Hormonal</text>
           <text class="penta-zone-name" x="42" y="178">Terrain</text>
@@ -5648,7 +5604,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
       </div>
       <div class="vm-faq-item">
         <div class="vm-faq-q" onclick="toggleFaq(this)">Does it work with my existing clinical system?<span class="vm-faq-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span></div>
-        <div class="vm-faq-a">VitalMatrix operates as a standalone terrain intelligence platform. Outputs can be exported and placed into your existing patient record system. Direct EMR integration is on the Phase 2 roadmap. The platform does not require you to change your existing clinical workflow.</div>
+        <div class="vm-faq-a">VitalMatrix operates as a standalone clinical intelligence platform. Outputs can be exported and placed into your existing patient record system. Direct EMR integration is on the Phase 2 roadmap. The platform does not require you to change your existing clinical workflow.</div>
       </div>
       <div class="vm-faq-item">
         <div class="vm-faq-q" onclick="toggleFaq(this)">What training is required?<span class="vm-faq-arrow"><svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg></span></div>
@@ -5879,10 +5835,10 @@ body { --vm-scroll-accent:var(--vm-accent); }
     <div class="vm-la10-zone-bar-bg"><div class="vm-la10-zone-bar-fill" style="background:#5F7C6C"></div></div>
     <div class="vm-la10-zone-val" style="color:#5F7C6C">—</div>
   </div>
-  <div class="vm-la10-zone" data-zone="Z5" data-color="#2E6DB4" data-val="55">
-    <div class="vm-la10-zone-label" style="color:#2E6DB4">Z5 Hormonal</div>
-    <div class="vm-la10-zone-bar-bg"><div class="vm-la10-zone-bar-fill" style="background:#2E6DB4"></div></div>
-    <div class="vm-la10-zone-val" style="color:#2E6DB4">—</div>
+  <div class="vm-la10-zone" data-zone="Z5" data-color="#D4B870" data-val="55">
+    <div class="vm-la10-zone-label" style="color:#D4B870">Z5 Hormonal</div>
+    <div class="vm-la10-zone-bar-bg"><div class="vm-la10-zone-bar-fill" style="background:#D4B870"></div></div>
+    <div class="vm-la10-zone-val" style="color:#D4B870">—</div>
   </div>
 </div>
 
@@ -6052,7 +6008,7 @@ body { --vm-scroll-accent:var(--vm-accent); }
   <div class="footer-brand">
     <img src="VM_Logo_1000_x_1000_px_png_New_Transparent.png" height="64" alt="VitalMatrix" loading="lazy">
   </div>
-  <p class="footer-tagline">Terrain Intelligence Platform</p>
+  <p class="footer-tagline">Clinical Intelligence Platform</p>
   <div class="footer-links">
     <div>
       <p class="foot-nav-t">Platform</p>
@@ -6165,7 +6121,7 @@ var vmDefer = function(fn) {
 
   // Keyword fallback responses (used when API unavailable)
   var fallback = {
-    'platform': '> VitalMatrix is a terrain intelligence platform that transforms one structured patient intake into five terrain-based clinical outputs.',
+    'platform': '> VitalMatrix is a clinical intelligence platform that transforms one structured patient intake into five terrain-based clinical outputs.',
     'price': '> Founding practitioner rates are available at vitalmatrix.co.uk/pricing/. Book a clinical walkthrough for details.',
     'pricing': '> Founding practitioner rates are available at vitalmatrix.co.uk/pricing/. Book a clinical walkthrough for details.',
     'book': '> Book a 30-minute clinical walkthrough at vitalmatrix.co.uk/book/. Dr Faisal takes every call personally.',
@@ -6310,7 +6266,7 @@ var vmDefer = function(fn) {
   var pips = document.querySelectorAll('.commit-pip');
   var section = document.getElementById('section-05');
   if (!pips.length || !section) return;
-  var colours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var colours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var filled = false;
   function fillPips() {
     if (filled) return;
@@ -6806,7 +6762,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('sp-seg4'),
     document.getElementById('sp-seg5')
   ];
-  var colours = ['#C9A84C', '#1A7A8A', '#7B5EA7', '#5F7C6C', '#2E6DB4'];
+  var colours = ['#C9A84C', '#1A7A8A', '#7B5EA7', '#5F7C6C', '#D4B870'];
   var empty = 'rgba(255,255,255,0.06)';
   window.addEventListener('scroll', function() {
     var scrollY = window.scrollY || window.pageYOffset;
@@ -6894,7 +6850,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var legend = document.getElementById('zone-legend');
   if (!legend) return;
   var zoneColours = {
-    Z1: '#C9A84C', Z2: '#1A7A8A', Z3: '#7B5EA7', Z4: '#5F7C6C', Z5: '#2E6DB4',
+    Z1: '#C9A84C', Z2: '#1A7A8A', Z3: '#7B5EA7', Z4: '#5F7C6C', Z5: '#D4B870',
     L1: '#C9A84C', L2: '#6BA3D6', L3: '#9B7EC8', L4: '#A0AEB8', L5: '#7A9485'
   };
   var sectionZones = [
@@ -7279,7 +7235,7 @@ function closeToc() {
 
 /* Feature 52: Share page */
 function sharePage() {
-  var shareData = { title: 'VitalMatrix: Terrain Intelligence Platform', url: window.location.href };
+  var shareData = { title: 'VitalMatrix: Clinical Intelligence Platform', url: window.location.href };
   if (navigator.share) {
     navigator.share(shareData);
   } else {
@@ -9939,7 +9895,7 @@ var pentaData = {
     note: 'Not ready for composite scoring in Phase 1.'
   },
   Z5: {
-    name: 'Hormonal Terrain Axis', colour: '#2E6DB4',
+    name: 'Hormonal Terrain Axis', colour: '#D4B870',
     nodes: 'N6 Communication + N4 Biotransformation + N3 Energy',
     subsystems: 'Androgenic, Estrogenic, Progestogenic',
     threshold: '32 (internal scale \u2014 lower threshold reflecting hormonal sensitivity)',
@@ -10831,7 +10787,7 @@ function toggleBookmark() {
 (function() {
   var bar = document.getElementById('vm-nav-zone-bar');
   if (!bar) return;
-  var zoneColours = { z1:'#C9A84C', z2:'#1A7A8A', z3:'#7B5EA7', z4:'#5F7C6C', z5:'#2E6DB4' };
+  var zoneColours = { z1:'#C9A84C', z2:'#1A7A8A', z3:'#7B5EA7', z4:'#5F7C6C', z5:'#D4B870' };
   window.addEventListener('scroll', function() {
     var scrollY = window.pageYOffset || document.documentElement.scrollTop;
     var pct = Math.min(100, Math.round((scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100));

@@ -115,7 +115,7 @@
   --vm-z2: #1A7A8A;
   --vm-z3: #7B5EA7;
   --vm-z4: #5F7C6C;
-  --vm-z5: #2E6DB4;
+  --vm-z5: #D4B870;
   --vm-fs: 'Cormorant Garamond', Georgia, serif;
   --vm-fd: 'Outfit', system-ui, sans-serif;
   --vm-fm: 'DM Mono', monospace;
@@ -567,8 +567,8 @@ a:focus-visible {
 }
 .vm-pipeline-stage:nth-child(1) { --card-accent: #C9A84C; --card-glow: rgba(201,168,76,0.20); }
 .vm-pipeline-stage:nth-child(1)::before { background: #C9A84C; }
-.vm-pipeline-stage:nth-child(2) { --card-accent: #2E6DB4; --card-glow: rgba(74,127,181,0.20); }
-.vm-pipeline-stage:nth-child(2)::before { background: #2E6DB4; }
+.vm-pipeline-stage:nth-child(2) { --card-accent: #D4B870; --card-glow: rgba(74,127,181,0.20); }
+.vm-pipeline-stage:nth-child(2)::before { background: #D4B870; }
 .vm-pipeline-stage:nth-child(3) { --card-accent: #1A7A8A; --card-glow: rgba(26,122,138,0.20); }
 .vm-pipeline-stage:nth-child(3)::before { background: #1A7A8A; }
 .vm-pipeline-stage:nth-child(4) { --card-accent: #6B1E2E; --card-glow: rgba(107,30,46,0.20); }
@@ -623,7 +623,7 @@ a:focus-visible {
 .vm-pipeline-desc .vm-text-highlight { color: var(--card-accent) !important; font-weight: 700; }
 /* Dot uses card accent via CSS var already. Give question pill per-card tint: */
 .vm-pipeline-stage:nth-child(1) .vm-pipeline-question { background: #C9A84C !important; color: #1A1A1A !important; }
-.vm-pipeline-stage:nth-child(2) .vm-pipeline-question { background: #2E6DB4 !important; color: #fff !important; }
+.vm-pipeline-stage:nth-child(2) .vm-pipeline-question { background: #D4B870 !important; color: #fff !important; }
 .vm-pipeline-stage:nth-child(3) .vm-pipeline-question { background: #1A7A8A !important; color: #fff !important; }
 .vm-pipeline-stage:nth-child(4) .vm-pipeline-question { background: #6B1E2E !important; color: #fff !important; }
 .vm-pipeline-stage:nth-child(5) .vm-pipeline-question { background: #7B5EA7 !important; color: #fff !important; }
@@ -2747,7 +2747,7 @@ a:focus-visible {
       <div class="vm-pipeline-sticky" id="pipelineSticky">
         <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;" aria-label="FLINT six-stage pipeline diagram">
           <defs>
-            <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#C9A84C"/><stop offset="50%" stop-color="#2E6DB4"/><stop offset="100%" stop-color="#D63030"/></linearGradient>
+            <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#C9A84C"/><stop offset="50%" stop-color="#D4B870"/><stop offset="100%" stop-color="#D63030"/></linearGradient>
             <filter id="glowG"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <filter id="glowB"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
@@ -2768,10 +2768,10 @@ a:focus-visible {
           </g>
           <!-- Stage 2: L2 — Metallic Blue -->
           <g class="pipe-stage" data-pipe-stage="1">
-            <circle cx="225" cy="80" r="30" fill="rgba(74,127,181,0.15)" stroke="#2E6DB4" stroke-width="2" filter="url(#glowB)"/>
-            <circle cx="225" cy="80" r="34" fill="none" stroke="#2E6DB4" stroke-width="0.5" opacity="0.4"><animate attributeName="r" values="34;42" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0" dur="2.2s" repeatCount="indefinite"/></circle>
-            <text x="225" y="35" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#2E6DB4" font-weight="600" letter-spacing="0.12em">STAGE 2</text>
-            <text x="225" y="76" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="#2E6DB4" font-weight="700">L2</text>
+            <circle cx="225" cy="80" r="30" fill="rgba(74,127,181,0.15)" stroke="#D4B870" stroke-width="2" filter="url(#glowB)"/>
+            <circle cx="225" cy="80" r="34" fill="none" stroke="#D4B870" stroke-width="0.5" opacity="0.4"><animate attributeName="r" values="34;42" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0" dur="2.2s" repeatCount="indefinite"/></circle>
+            <text x="225" y="35" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#D4B870" font-weight="600" letter-spacing="0.12em">STAGE 2</text>
+            <text x="225" y="76" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="#D4B870" font-weight="700">L2</text>
             <text x="225" y="90" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="6.5" fill="#0D2B4E" font-weight="600">NCZ</text>
             <text x="225" y="130" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="8" fill="rgba(13,43,78,0.7)">Which zones</text>
             <text x="225" y="142" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="8" fill="rgba(13,43,78,0.7)">are active?</text>
@@ -2874,7 +2874,7 @@ a:focus-visible {
 <!-- ======== LA-3: FLINT LIVING ARCHITECTURE ======== -->
 <!-- LA-3: FLINT Five-Layer Architecture Section -->
 <style>
-#vm-la3-root{--vm-prussian:#0D2B4E;--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-teal-light:#2A9BAD;--vm-purple:#7B5EA7;--vm-sage:#5F7C6C;--vm-white:#F4F4F2;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;--vm-z1:#C9A84C;--vm-z2:#1A7A8A;--vm-z3:#7B5EA7;--vm-z4:#5F7C6C;--vm-z5:#2E6DB4;--vm-danger:#C0392B;--vm-muted:rgba(244,244,242,0.55);--vm-card-border:rgba(255,255,255,0.11);background:#F5F0E4;color:var(--vm-prussian);padding:64px 24px;font-family:'Outfit',sans-serif}
+#vm-la3-root{--vm-prussian:#0D2B4E;--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-teal-light:#2A9BAD;--vm-purple:#7B5EA7;--vm-sage:#5F7C6C;--vm-white:#F4F4F2;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;--vm-z1:#C9A84C;--vm-z2:#1A7A8A;--vm-z3:#7B5EA7;--vm-z4:#5F7C6C;--vm-z5:#D4B870;--vm-danger:#C0392B;--vm-muted:rgba(244,244,242,0.55);--vm-card-border:rgba(255,255,255,0.11);background:#F5F0E4;color:var(--vm-prussian);padding:64px 24px;font-family:'Outfit',sans-serif}
 #vm-la3-root *,#vm-la3-root *::before{box-sizing:border-box;margin:0;padding:0}
 #vm-la3-root .la3-ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#1A7A8A;margin-bottom:8px}
 #vm-la3-root h2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#0D2B4E;margin-bottom:10px;line-height:1.15}
@@ -2883,7 +2883,7 @@ a:focus-visible {
 #vm-la3-root .la3-ly:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.30)}
 #vm-la3-root .la3-ly.open{box-shadow:0 8px 40px rgba(0,0,0,0.35)}
 /* Combo 7: Mid-dark jewel tone cards */
-#vm-la3-root .la3-ly:nth-child(1){background:#0A2240;border-left:4px solid #2E6DB4}
+#vm-la3-root .la3-ly:nth-child(1){background:#0A2240;border-left:4px solid #D4B870}
 #vm-la3-root .la3-ly:nth-child(3){background:#0A3038;border-left:4px solid #2A9BAD}
 #vm-la3-root .la3-ly:nth-child(5){background:#1A1A28;border-left:4px solid #C9A84C}
 #vm-la3-root .la3-ly:nth-child(7){background:#1E1835;border-left:4px solid #9B82C4}
@@ -3022,8 +3022,8 @@ a:focus-visible {
 </div></section>
 <script>
 (function(){
-  var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'},
-      LC=['#2E6DB4','#2A9BAD','#C9A84C','#9B82C4','#8BA5B8'],
+  var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'},
+      LC=['#D4B870','#2A9BAD','#C9A84C','#9B82C4','#8BA5B8'],
       layers=[
         {id:'L1',title:'Layer 1: Node Scoring',q:'WHERE is the functional load?'},
         {id:'L2',title:'Layer 2: Zone Activation (NCZ)',q:'WHICH systems are burdened?'},
@@ -3063,7 +3063,7 @@ a:focus-visible {
       if(s.n)h+='<div class="la3-sn">'+s.n+'</div>';
       h+='</div></div>';
     });
-    h+='</div><div class="la3-tl"><div class="la3-tlh">TerrainLock: Self-Perpetuating Loop</div><div class="la3-tp"><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#C9A84C;background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.25)">Z1</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#2E6DB4;background:rgba(46,109,180,.12);border-color:rgba(46,109,180,.25)">Z5</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span style="font-size:16px;color:#C9A84C;margin-left:4px">&#8635;</span></div><div style="font-size:12px;margin-bottom:4px">Z2 gut restoration is the default tiebreaker entry point.</div><div style="font-size:10px;color:var(--vm-muted);font-family:\'DM Mono\',monospace">Activation: S1 Active + S2 Active + S4 Active</div></div>';
+    h+='</div><div class="la3-tl"><div class="la3-tlh">TerrainLock: Self-Perpetuating Loop</div><div class="la3-tp"><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#C9A84C;background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.25)">Z1</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#D4B870;background:rgba(46,109,180,.12);border-color:rgba(46,109,180,.25)">Z5</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span style="font-size:16px;color:#C9A84C;margin-left:4px">&#8635;</span></div><div style="font-size:12px;margin-bottom:4px">Z2 gut restoration is the default tiebreaker entry point.</div><div style="font-size:10px;color:var(--vm-muted);font-family:\'DM Mono\',monospace">Activation: S1 Active + S2 Active + S4 Active</div></div>';
     return h;
   }
   function buildL4(){
@@ -3125,7 +3125,7 @@ a:focus-visible {
   var expandedLayers={};// Feature 3: track which layers have been expanded
 
   // Feature 2: hover preview dots per layer
-  var hoverColours=[['#C9A84C','#C9A84C','#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'],['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'],['#1A7A8A','#C9A84C','#5F7C6C','#C0392B','#7B5EA7','#1A7A8A'],['#C9A84C','#1A7A8A','#2E6DB4'],['#5F7C6C','#C9A84C','#1A7A8A','#7B5EA7','#2E6DB4']];
+  var hoverColours=[['#C9A84C','#C9A84C','#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'],['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'],['#1A7A8A','#C9A84C','#5F7C6C','#C0392B','#7B5EA7','#1A7A8A'],['#C9A84C','#1A7A8A','#D4B870'],['#5F7C6C','#C9A84C','#1A7A8A','#7B5EA7','#D4B870']];
 
   function renderLayers(){
     var renderers=currentMode==='patient'?patientRenderers:[buildL1,buildL2,buildL3,buildL4,buildL5];
@@ -3391,7 +3391,7 @@ a:focus-visible {
       ];
       var ZBC={Z1:'rgba(201,168,76,0.30)',Z2:'rgba(26,122,138,0.30)',Z3:'rgba(123,94,167,0.30)',Z4:'rgba(95,124,108,0.30)',Z5:'rgba(46,109,180,0.30)'};
       var ZFILL={Z1:40,Z2:40,Z3:20,Z4:30,Z5:25};
-      var ZCC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+      var ZCC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
       var grid=document.getElementById('vmNodeGrid');
       var stClasses=['','stagger-1','stagger-2','stagger-3','stagger-4','stagger-5','stagger-6'];
       ND.forEach(function(n,i){
@@ -3495,9 +3495,9 @@ a:focus-visible {
         </g>
         <!-- Z5 hex -->
         <g transform="translate(810,120)">
-          <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26" fill="rgba(46,109,180,0.10)" stroke="#2E6DB4" stroke-width="1.2"/>
+          <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26" fill="rgba(46,109,180,0.10)" stroke="#D4B870" stroke-width="1.2"/>
           <circle r="56" fill="none" stroke="rgba(46,109,180,0.15)" stroke-width="0.5"><animate attributeName="r" values="56;72" dur="3s" begin="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0" dur="3s" begin="2.4s" repeatCount="indefinite"/></circle>
-          <text y="-10" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="#2E6DB4" font-weight="500">Z5</text>
+          <text y="-10" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="#D4B870" font-weight="500">Z5</text>
           <text y="6" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="7.5" fill="rgba(244,244,242,0.6)">Hormonal</text>
           <text y="17" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="7.5" fill="rgba(244,244,242,0.6)">Terrain</text>
           <text y="38" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6" fill="rgba(46,109,180,0.45)">N6+N4+N3</text>
@@ -3635,7 +3635,7 @@ a:focus-visible {
 
 <script>
 (function(){
-  var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+  var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
   var TH={Z1:40,Z2:40,Z3:40,Z4:40,Z5:32};
   var scores={Z1:45,Z2:55,Z3:30,Z4:25,Z5:50};
 
@@ -3801,7 +3801,7 @@ a:focus-visible {
 <section id="vm-la4-root" class="vm-reveal" style="
   --vm-prussian:#0D2B4E;--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;
   --vm-sage:#5F7C6C;--vm-white:#F4F4F2;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;
-  --z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#2E6DB4;
+  --z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#D4B870;
   background:var(--vm-deep-teal);padding:80px 24px;font-family:'Outfit',sans-serif;color:var(--vm-white);
 ">
 <style>
@@ -3914,7 +3914,7 @@ a:focus-visible {
     {id:"Z2",name:"Resilience Network",colour:"#1A7A8A",threshold:40},
     {id:"Z3",name:"Cardiovascular-Neural Axis",colour:"#7B5EA7",threshold:40},
     {id:"Z4",name:"Detoxification Trident",colour:"#5F7C6C",threshold:40},
-    {id:"Z5",name:"Hormonal Terrain Axis",colour:"#2E6DB4",threshold:32}
+    {id:"Z5",name:"Hormonal Terrain Axis",colour:"#D4B870",threshold:32}
   ];
   var STACKS = [
     {id:"S1",from:"Z2",to:"Z1",label:"S1: Z2 to Z1 (MEDIUM, Emerging)"},
@@ -4663,7 +4663,7 @@ a:focus-visible {
 <section id="vm-la8-root" class="vm-reveal" style="
   --vm-prussian:#0D2B4E;--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;
   --vm-sage:#5F7C6C;--vm-white:#F4F4F2;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;
-  --z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#2E6DB4;
+  --z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#D4B870;
   background:var(--vm-charcoal);color:var(--vm-white);padding:80px 24px;
   font-family:'Outfit',sans-serif;margin:0;box-sizing:border-box;">
 <style>
@@ -4740,7 +4740,7 @@ a:focus-visible {
     {key:"Z2",name:"Resilience Network",color:"#1A7A8A"},
     {key:"Z3",name:"Cardiovascular-Neural Axis",color:"#7B5EA7"},
     {key:"Z4",name:"Detoxification Trident",color:"#5F7C6C"},
-    {key:"Z5",name:"Hormonal Terrain Axis",color:"#2E6DB4"}
+    {key:"Z5",name:"Hormonal Terrain Axis",color:"#D4B870"}
   ];
   var T1 = {Z1:55,Z2:62,Z3:38,Z4:45,Z5:50};
   var T2 = {Z1:42,Z2:48,Z3:35,Z4:40,Z5:38};
@@ -4842,7 +4842,7 @@ a:focus-visible {
           <marker id="aZ2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1A7A8A" opacity="0.7"/></marker>
           <marker id="aZ3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7B5EA7" opacity="0.7"/></marker>
           <marker id="aZ4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5F7C6C" opacity="0.7"/></marker>
-          <marker id="aZ5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2E6DB4" opacity="0.7"/></marker>
+          <marker id="aZ5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#D4B870" opacity="0.7"/></marker>
           <filter id="atlasGlow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
         <!-- Stack paths drawn by JS -->
@@ -5293,8 +5293,8 @@ a:focus-visible {
      ═══════════════════════════════════════════════════════════ */
   var atlasSvg = document.getElementById('atlasSvg');
   if (atlasSvg) {
-    var ZCOL = { Z1:'#C9A84C', Z2:'#1A7A8A', Z3:'#7B5EA7', Z4:'#5F7C6C', Z5:'#2E6DB4' };
-    var SCOL = { S1:'#1A7A8A', S2:'#C9A84C', S3:'#5F7C6C', S4:'#2E6DB4', S5:'#2A9BAD', S6:'#C9A84C' };
+    var ZCOL = { Z1:'#C9A84C', Z2:'#1A7A8A', Z3:'#7B5EA7', Z4:'#5F7C6C', Z5:'#D4B870' };
+    var SCOL = { S1:'#1A7A8A', S2:'#C9A84C', S3:'#5F7C6C', S4:'#D4B870', S5:'#2A9BAD', S6:'#C9A84C' };
     var ZPOS = { Z1:{x:300,y:90}, Z2:{x:100,y:210}, Z3:{x:500,y:210}, Z4:{x:160,y:390}, Z5:{x:440,y:390} };
     var SPATHS = { S1:{from:'Z2',to:'Z1'}, S2:{from:'Z1',to:'Z5'}, S3:{from:'Z4',to:'Z1'}, S4:{from:'Z5',to:'Z2'}, S5:{from:'Z2',to:'Z3'}, S6:{from:'Z1',to:'Z3'} };
     var ZDATA = {
@@ -6240,7 +6240,7 @@ a:focus-visible {
 
   var NODE_POS = {N1:[350,100],N2:[568,192],N3:[612,430],N4:[455,590],N5:[245,590],N6:[88,430],N7:[132,192]};
   var NODE_ZONES = {N1:['Z2'],N2:['Z2','Z4'],N3:['Z1','Z5'],N4:['Z4','Z5'],N5:['Z3'],N6:['Z1','Z2','Z3','Z5'],N7:[]};
-  var ZCC = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+  var ZCC = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
 
   /* ── E3: Sequential node reveal on scroll ── */
   var nodeCircles = nodeSvg.querySelectorAll('.node-circle');

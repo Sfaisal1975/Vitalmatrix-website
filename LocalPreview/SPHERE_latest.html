@@ -28,14 +28,14 @@
 --vm-bg:#0A0F14;
 --vm-card:rgba(255,255,255,0.04);
 --vm-card-border:rgba(255,255,255,0.08);
---vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;--vm-sage:#5F7C6C;--vm-blue:#2E6DB4;
+--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;--vm-sage:#5F7C6C;--vm-blue:#D4B870;
 --vm-gold-d:#A8873A;--vm-teal-l:#2A9BAD;
 --vm-white:#F4F4F2;
 --vm-text:rgba(244,244,242,0.80);--vm-text-s:rgba(244,244,242,0.55);--vm-text-t:rgba(244,244,242,0.35);
 --vm-brd-gold:rgba(201,168,76,0.18);--vm-brd-white:rgba(255,255,255,0.06);
 --vm-fs:'Cormorant Garamond',Georgia,serif;--vm-fd:'Outfit',system-ui,sans-serif;--vm-fm:'DM Mono',monospace;
 --vm-ease:cubic-bezier(0.4,0,0.2,1);
---ring-1:#C9A84C;--ring-2:#C9A84C;--ring-3:#1A7A8A;--ring-4:#1A7A8A;--ring-5:#7B5EA7;--ring-6:#7B5EA7;--ring-7:#5F7C6C;--ring-8:#5F7C6C;--ring-9:#2E6DB4;--ring-10:#2E6DB4;
+--ring-1:#C9A84C;--ring-2:#C9A84C;--ring-3:#1A7A8A;--ring-4:#1A7A8A;--ring-5:#7B5EA7;--ring-6:#7B5EA7;--ring-7:#5F7C6C;--ring-8:#5F7C6C;--ring-9:#D4B870;--ring-10:#D4B870;
 }
 *:focus-visible{outline:2px solid #C9A84C;outline-offset:2px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -572,8 +572,8 @@ a{color:inherit;text-decoration:none}
     {id:6,name:'Medication Terrain (MedTerrain)',colour:'#7B5EA7',desc:'Medication-terrain interaction data. Phase 1: manual entry. Provides node-level impact annotations (e.g. "also impacts N7").',orbit:'Stage 2 manual register',zones:['Z1','Z3','Z5']},
     {id:7,name:'Environmental Context',colour:'#5F7C6C',desc:'Toxin exposure, mould, heavy metals, occupational hazards. Maps to Detoxification Trident (Z4).',orbit:'Stage 2 capture',zones:['Z4','Z1']},
     {id:8,name:'Psychological / Relational',colour:'#5F7C6C',desc:'Stress, relationships, mental health factors influencing terrain. ACE score integration where available.',orbit:'Stage 2 capture',zones:['Z2','Z5']},
-    {id:9,name:'Temporal / Generational',colour:'#2E6DB4',desc:'Where TRACE operates. Childhood illness history, generational health patterns, cascade age estimation. Informs DRD (highest burden zone) temporal precedence.',orbit:'Stage 3 TRACE analysis',zones:['Z1','Z2','Z3','Z4','Z5']},
-    {id:10,name:'Circadian / Seasonal',colour:'#2E6DB4',desc:'Sleep-wake patterns, seasonal symptom variation, chronobiology. Links to hormonal terrain (Z5).',orbit:'Stage 2 capture',zones:['Z5','Z1']}
+    {id:9,name:'Temporal / Generational',colour:'#D4B870',desc:'Where TRACE operates. Childhood illness history, generational health patterns, cascade age estimation. Informs DRD (highest burden zone) temporal precedence.',orbit:'Stage 3 TRACE analysis',zones:['Z1','Z2','Z3','Z4','Z5']},
+    {id:10,name:'Circadian / Seasonal',colour:'#D4B870',desc:'Sleep-wake patterns, seasonal symptom variation, chronobiology. Links to hormonal terrain (Z5).',orbit:'Stage 2 capture',zones:['Z5','Z1']}
   ];
 
   var CLUSTERS = [
@@ -581,7 +581,7 @@ a{color:inherit;text-decoration:none}
     {num:2,name:'Evidence Layer',rings:'Rings 3 and 4',colour:'#1A7A8A'},
     {num:3,name:'Intervention Layer',rings:'Rings 5 and 6',colour:'#7B5EA7'},
     {num:4,name:'Environmental / Psychological',rings:'Rings 7 and 8',colour:'#5F7C6C'},
-    {num:5,name:'Temporal Layer',rings:'Rings 9 and 10',colour:'#2E6DB4'}
+    {num:5,name:'Temporal Layer',rings:'Rings 9 and 10',colour:'#D4B870'}
   ];
 
   var PRINCIPLES = [
@@ -591,7 +591,7 @@ a{color:inherit;text-decoration:none}
     {label:'TRACE and Ring 9',title:'TRACE&#8482; and the Temporal Ring',body:'The Temporal / Generational ring is where TRACE operates. Childhood illness history and generational patterns inform DRD (highest burden zone) temporal precedence.'}
   ];
 
-  var ZONE_COLOURS = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
+  var ZONE_COLOURS = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
   var ZONE_NAMES = {Z1:'Metabolic Energy Axis',Z2:'Resilience Network',Z3:'Cardiovascular-Neural Axis',Z4:'Detoxification Trident',Z5:'Hormonal Terrain Axis'};
 
   /* ═══ UTILITY: Scroll reveal ═══ */
@@ -1350,7 +1350,7 @@ a{color:inherit;text-decoration:none}
     var ctx=c.getContext('2d');
     var W=700;var H=700;var CX=350;var CY=350;
 
-    var CLUSTER_COLOURS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+    var CLUSTER_COLOURS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
 
     // Particles: each starts at a random angle on its ring and flows inward
     var particles=[];
@@ -1544,7 +1544,7 @@ a{color:inherit;text-decoration:none}
       {key:'Z2',name:'Z2 Resilience',colour:'#1A7A8A'},
       {key:'Z3',name:'Z3 Cardiovascular',colour:'#7B5EA7'},
       {key:'Z4',name:'Z4 Detoxification',colour:'#5F7C6C'},
-      {key:'Z5',name:'Z5 Hormonal',colour:'#2E6DB4'}
+      {key:'Z5',name:'Z5 Hormonal',colour:'#D4B870'}
     ];
 
     var RING_ROWS = [
@@ -1722,7 +1722,7 @@ a{color:inherit;text-decoration:none}
   /* ═══ SPHERE-I5: Patient Timeline Ring View ═══ */
   (function(){
     var NS = 'http://www.w3.org/2000/svg';
-    var CLUSTER_COLOURS = ['#C9A84C','#C9A84C','#1A7A8A','#1A7A8A','#7B5EA7','#7B5EA7','#5F7C6C','#5F7C6C','#2E6DB4','#2E6DB4'];
+    var CLUSTER_COLOURS = ['#C9A84C','#C9A84C','#1A7A8A','#1A7A8A','#7B5EA7','#7B5EA7','#5F7C6C','#5F7C6C','#D4B870','#D4B870'];
     var STATUS_GREEN = '#60BF7A';
     var STATUS_AMBER = '#C9A84C';
     var STATUS_RED = '#E06060';
@@ -2197,7 +2197,7 @@ a{color:inherit;text-decoration:none}
       {name: "Evidence Layer", rings: "Rings 3-4", colour: "#1A7A8A", indices: [2, 3]},
       {name: "Intervention Layer", rings: "Rings 5-6", colour: "#7B5EA7", indices: [4, 5]},
       {name: "Environmental / Psychological", rings: "Rings 7-8", colour: "#5F7C6C", indices: [6, 7]},
-      {name: "Temporal Layer", rings: "Rings 9-10", colour: "#2E6DB4", indices: [8, 9]}
+      {name: "Temporal Layer", rings: "Rings 9-10", colour: "#D4B870", indices: [8, 9]}
     ];
 
     function buildPipeline(){
@@ -2347,12 +2347,12 @@ a{color:inherit;text-decoration:none}
       {id: "LA5", label: "LA5", href: "LA5_latest.html", colour: "#1A7A8A"},
       {id: "LA6", label: "LA6", href: "LA6_latest.html", colour: "#7B5EA7"},
       {id: "LA7", label: "LA7", href: "LA7_latest.html", colour: "#5F7C6C"},
-      {id: "LA8", label: "LA8", href: "LA8_latest.html", colour: "#2E6DB4"},
+      {id: "LA8", label: "LA8", href: "LA8_latest.html", colour: "#D4B870"},
       {id: "LA9", label: "LA9 TRACE", href: "LA9_latest.html", colour: "#C9A84C"},
       {id: "LA10", label: "LA10", href: "LA10_latest.html", colour: "#1A7A8A"},
       {id: "CascadeAtlas", label: "CASCADEATLAS", href: "CascadeAtlas_latest.html", colour: "#7B5EA7"},
       {id: "NCZ", label: "NCZ", href: "NCZ_latest.html", colour: "#5F7C6C"},
-      {id: "TerrainIntelligence", label: "TERRAIN", href: "TerrainIntelligence_latest.html", colour: "#2E6DB4"},
+      {id: "TerrainIntelligence", label: "TERRAIN", href: "TerrainIntelligence_latest.html", colour: "#D4B870"},
       {id: "ORBIT", label: "ORBIT", href: "ORBIT_latest.html", colour: "#1A7A8A"},
       {id: "SPHERE", label: "SPHERE", href: "#", colour: "#C9A84C", current: true}
     ];
@@ -2480,7 +2480,7 @@ a{color:inherit;text-decoration:none}
 <script>
 (function(){
   "use strict";
-  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#2E6DB4","#2E6DB4"];
+  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#D4B870","#D4B870"];
   var RING_NAMES = ["Biological","Node Health","Biomarker","Symptom","Lifestyle","MedTerrain","Environmental","Psychological","Temporal","Circadian"];
   var RING_SUBS = [
     ["Oxidative Stress","Inflammatory Markers","Nutrient Status","Mitochondrial Function"],
@@ -2683,7 +2683,7 @@ a{color:inherit;text-decoration:none}
 <script>
 (function(){
   "use strict";
-  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#2E6DB4","#2E6DB4"];
+  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#D4B870","#D4B870"];
   var RING_NAMES = ["Biological","Node Health","Biomarker","Symptom","Lifestyle","MedTerrain","Environmental","Psychological","Temporal","Circadian"];
   var STATUSES = ["green","amber","red"];
   var STATUS_LABELS = ["GREEN","AMBER","RED"];
@@ -2842,7 +2842,7 @@ a{color:inherit;text-decoration:none}
 <script>
 (function(){
   "use strict";
-  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#2E6DB4","#2E6DB4"];
+  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#D4B870","#D4B870"];
   var RING_NAMES = ["Biological","Node Health","Biomarker","Symptom","Lifestyle","MedTerrain","Environmental","Psychological","Temporal","Circadian"];
   var STATUS_CYCLE = ["green","amber","red"];
   var ringStates = [0,0,0,0,0,0,0,0,0,0]; // 0=green
@@ -3240,7 +3240,7 @@ a{color:inherit;text-decoration:none}
 
   var RING_NAMES = ["Biological Terrain","Node Health","Biomarker Evidence","Symptom Burden","Lifestyle Forces","MedTerrain (endocrine signalling)","Environmental","Psychological","Temporal","Circadian"];
   var RING_SHORT = ["R1 Bio","R2 Node","R3 Biomarker","R4 Symptom","R5 Lifestyle","R6 MedTerrain","R7 Environ","R8 Psych","R9 Temporal","R10 Circadian"];
-  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#2E6DB4","#2E6DB4"];
+  var RING_COLOURS = ["#C9A84C","#C9A84C","#1A7A8A","#1A7A8A","#7B5EA7","#7B5EA7","#5F7C6C","#5F7C6C","#D4B870","#D4B870"];
   var STATUS_CYCLE = ["green","amber","red"];
   var STATUS_LABELS = {green:"GREEN",amber:"AMBER",red:"RED"};
 
