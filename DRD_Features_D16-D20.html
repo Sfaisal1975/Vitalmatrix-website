@@ -21,7 +21,7 @@
   --vm-teal:#1A7A8A;
   --vm-purple:#7B5EA7;
   --vm-sage:#5F7C6C;
-  --vm-blue:#2E6DB4;
+  --vm-blue:#D4B870;
   --vm-white:#FFFFFF;
   --vm-red:#E74C3C;
   --vm-green:#27AE60;
@@ -510,7 +510,7 @@ var ZONES = {
   Z2: {id:"Z2",name:"Gut",colour:"#1A7A8A",threshold:40,defaultScore:55},
   Z3: {id:"Z3",name:"Immune",colour:"#7B5EA7",threshold:40,defaultScore:30},
   Z4: {id:"Z4",name:"Detox",colour:"#5F7C6C",threshold:40,defaultScore:25},
-  Z5: {id:"Z5",name:"Hormonal",colour:"#2E6DB4",threshold:32,defaultScore:50}
+  Z5: {id:"Z5",name:"Hormonal",colour:"#D4B870",threshold:32,defaultScore:50}
 };
 
 var STACKS = [
@@ -581,7 +581,7 @@ function clamp(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
 var sliderIds = ["z1slider","z2slider","z3slider","z4slider","z5slider"];
 var valIds = ["z1val","z2val","z3val","z4val","z5val"];
 var zoneKeys = ["Z1","Z2","Z3","Z4","Z5"];
-var zoneColours = ["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#2E6DB4"];
+var zoneColours = ["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#D4B870"];
 
 function setupSliders(){
   for(var i=0;i<sliderIds.length;i++){

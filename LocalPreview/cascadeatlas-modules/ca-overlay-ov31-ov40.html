@@ -20,7 +20,7 @@ var ZD=[
 {id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:55,th:40},
 {id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40},
 {id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:25,th:40},
-{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:50,th:32}
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#D4B870',score:50,th:32}
 ];
 function ds(internal){return Math.max(0,Math.min(10,(100-internal)/10)).toFixed(1);}
 var totalBurden=0;
@@ -208,7 +208,7 @@ var stacks=[
 {id:'S1',from:'Z2',to:'Z1',vel:'MEDIUM',tier:'Emerging',srcColor:'#1A7A8A',pct:0.6,theoretical:false,uni:false},
 {id:'S2',from:'Z1',to:'Z5',vel:'FAST',tier:'Established',srcColor:'#C9A84C',pct:1.0,theoretical:false,uni:false},
 {id:'S3',from:'Z4',to:'Z1',vel:'SLOW',tier:'Emerging',srcColor:'#5F7C6C',pct:0.3,theoretical:false,uni:false},
-{id:'S4',from:'Z5',to:'Z2',vel:'MEDIUM',tier:'Theoretical',srcColor:'#2E6DB4',pct:0.6,theoretical:true,uni:false},
+{id:'S4',from:'Z5',to:'Z2',vel:'MEDIUM',tier:'Theoretical',srcColor:'#D4B870',pct:0.6,theoretical:true,uni:false},
 {id:'S5',from:'Z2',to:'Z3',vel:'FAST',tier:'Emerging',srcColor:'#1A7A8A',pct:1.0,theoretical:false,uni:false},
 {id:'S6',from:'Z1',to:'Z3',vel:'MEDIUM',tier:'Established',srcColor:'#C9A84C',pct:0.6,theoretical:false,uni:true}
 ];
@@ -518,7 +518,7 @@ var zonePos=[
 {id:'Z2',color:'#1A7A8A',score:55},
 {id:'Z3',color:'#7B5EA7',score:30},
 {id:'Z4',color:'#5F7C6C',score:25},
-{id:'Z5',color:'#2E6DB4',score:50}
+{id:'Z5',color:'#D4B870',score:50}
 ];
 var stacks=[
 {id:'S1',fromIdx:1,toIdx:0,vel:'MEDIUM',tier:'Emerging',narr:'Gut-driven immune disruption reaches metabolic energy burden. Mechanism Established, Cascade Emerging.',active:true,theoretical:false,uni:false},
@@ -715,7 +715,7 @@ var zones=[
 {id:'Z2',color:'#1A7A8A',th:40,near:35},
 {id:'Z3',color:'#7B5EA7',th:40,near:35},
 {id:'Z4',color:'#5F7C6C',th:40,near:35},
-{id:'Z5',color:'#2E6DB4',th:32,near:27}
+{id:'Z5',color:'#D4B870',th:32,near:27}
 ];
 var timeline=document.getElementById('vm-ov35-timeline');
 var trackLeft=40;var trackRight=40;
@@ -994,7 +994,7 @@ obs.observe(document.getElementById('vm-ov36-section'));
 <script>
 (function(){
 var ns='http://www.w3.org/2000/svg';
-var zColors=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+var zColors=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
 // Patient B T1 data (first 17 days - lower burden)
 // Patient B T2 data (days 18-35 - escalating burden)
 var dayData=[];
@@ -1171,7 +1171,7 @@ var zones=[
 {id:'Z2',name:'Resilience Network',color:'#1A7A8A',th:40},
 {id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',th:40},
 {id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',th:40},
-{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',th:32}
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#D4B870',th:32}
 ];
 var stacks=[
 {from:1,to:0},{from:0,to:4},{from:3,to:0},
@@ -1554,7 +1554,7 @@ var zones=[
 {id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:72,th:40},
 {id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:45,th:40},
 {id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:38,th:40},
-{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:65,th:32}
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#D4B870',score:65,th:32}
 ];
 var stacks=[
 {id:'S1',from:1,to:0,active:true,label:'S1: Z2>Z1'},

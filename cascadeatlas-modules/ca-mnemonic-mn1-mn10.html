@@ -6,7 +6,7 @@
 <!-- ══════════════════════════════════════════════════════════════
      MN01-MN10: MNEMONIC-FOCUSED INTERACTIVE ANIMATED FEATURES
      10 features | vm-mn01- to vm-mn10- | 13 May 2026
-     Zone colours: Z1 #C9A84C, Z2 #1A7A8A, Z3 #7B5EA7, Z4 #5F7C6C, Z5 #2E6DB4
+     Zone colours: Z1 #C9A84C, Z2 #1A7A8A, Z3 #7B5EA7, Z4 #5F7C6C, Z5 #D4B870
      S4 THEORETICAL | S6 UNIDIRECTIONAL | DRD="Highest burden zone"
      T-01 headers | British English | No em dashes | No template literals
      No default params | No position:fixed | No localStorage
@@ -26,7 +26,7 @@
 .vm-mn-badge-red{background:rgba(192,57,43,.15);color:#E74C3C;border:1px solid rgba(192,57,43,.3)}
 .vm-mn-badge-teal{background:rgba(26,122,138,.15);color:#1A7A8A;border:1px solid rgba(26,122,138,.3)}
 .vm-mn-badge-purple{background:rgba(123,94,167,.15);color:#7B5EA7;border:1px solid rgba(123,94,167,.3)}
-.vm-mn-badge-blue{background:rgba(46,109,180,.15);color:#2E6DB4;border:1px solid rgba(46,109,180,.3)}
+.vm-mn-badge-blue{background:rgba(46,109,180,.15);color:#D4B870;border:1px solid rgba(46,109,180,.3)}
 .vm-mn-badge-sage{background:rgba(95,124,108,.15);color:#5F7C6C;border:1px solid rgba(95,124,108,.3)}
 .vm-mn-btn{font-family:var(--vm-fd);font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--vm-gold);color:var(--vm-gold);background:transparent;padding:8px 20px;border-radius:4px;cursor:pointer;transition:all .3s var(--vm-ease)}
 .vm-mn-btn:hover,.vm-mn-btn.active{background:var(--vm-gold);color:#0D2B4E}
@@ -137,7 +137,7 @@ var nodes=[
 {id:'N4',label:'N4 Biotransformation',zone:'Z4',colour:'#5F7C6C',burden:45,detail:'Biotransformation and Elimination: detoxification pathways. Maps to Z4 and Z5.'},
 {id:'N5',label:'N5 Transport',zone:'Z3',colour:'#7B5EA7',burden:35,detail:'Transport node: cardiovascular and lymphatic delivery. Maps to Z3.'},
 {id:'N6',label:'N6 Signalling',zone:'Z1',colour:'#C9A84C',burden:60,detail:'Endocrine signalling node: dampened at 0.7x. Maps to Z1, Z2, Z3, Z5.'},
-{id:'N7',label:'N7 Structural',zone:'',colour:'#2E6DB4',burden:20,detail:'Structural Integrity: Phase 2 placeholder. Label and badge only in Phase 1.'}
+{id:'N7',label:'N7 Structural',zone:'',colour:'#D4B870',burden:20,detail:'Structural Integrity: Phase 2 placeholder. Label and badge only in Phase 1.'}
 ];
 var connections=[
 [0,1],[0,5],[1,3],[2,5],[3,6],[4,5],[2,3]
@@ -295,7 +295,7 @@ if(!canvas||!canvas.getContext)return;
 var ctx=canvas.getContext('2d');
 var W=500,H=500;
 var trajectory='stabilising';
-var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
 var phase=0;
 
 var btns=document.querySelectorAll('#vm-mn02-controls .vm-mn-btn');
@@ -399,7 +399,7 @@ var prefersReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion
 var svg=document.getElementById('vm-mn03-svg');
 if(!svg)return;
 var bands=[
-{id:'electrical',label:'Electrical',colour:'#2E6DB4',freq:3,amplitude:0.7,detail:'Electrical signalling band: neural impulse propagation. High amplitude indicates elevated nervous system burden. Highlights N5 Transport and N6 Signalling on the pentagon.'},
+{id:'electrical',label:'Electrical',colour:'#D4B870',freq:3,amplitude:0.7,detail:'Electrical signalling band: neural impulse propagation. High amplitude indicates elevated nervous system burden. Highlights N5 Transport and N6 Signalling on the pentagon.'},
 {id:'chemical',label:'Chemical',colour:'#C9A84C',freq:5,amplitude:0.5,detail:'Chemical signalling band: hormonal and neurotransmitter cascades. Amplitude reflects endocrine disruption patterns. Highlights N3 Energy and N4 Biotransformation.'},
 {id:'mechanical',label:'Mechanical',colour:'#5F7C6C',freq:2,amplitude:0.4,detail:'Mechanical signalling band: structural integrity and connective tissue tension. Lower frequency reflects slower mechanical propagation. Highlights N7 Structural and N2 Defence.'}
 ];
@@ -523,7 +523,7 @@ var flintLevels=[
 {label:'L2 Zone',pct:100,colour:'#1A7A8A'},
 {label:'L3 Cascade',pct:100,colour:'#7B5EA7'},
 {label:'L4 Causality',pct:100,colour:'#5F7C6C'},
-{label:'L5 Exam',pct:100,colour:'#2E6DB4'}
+{label:'L5 Exam',pct:100,colour:'#D4B870'}
 ];
 
 function setGrade(g){
@@ -836,7 +836,7 @@ var dimensions=[
 {label:'Cascade Velocity',colour:'#1A7A8A',detail:'Measures propagation speed between zones via the six cascade stacks. FAST, MEDIUM, or SLOW classification.'},
 {label:'Resilience Depth',colour:'#7B5EA7',detail:'Assesses the reserve capacity within each zone. Lower resilience correlates with higher vulnerability to cascade effects.'},
 {label:'Recovery Trajectory',colour:'#5F7C6C',detail:'Tracks the directional trend of terrain scores over time. Stabilising, destabilising, plateau, or oscillating.'},
-{label:'Intervention Alignment',colour:'#2E6DB4',detail:'Evaluates how well current terrain support considerations align with identified burden patterns.'}
+{label:'Intervention Alignment',colour:'#D4B870',detail:'Evaluates how well current terrain support considerations align with identified burden patterns.'}
 ];
 
 var metaOutputs=['Terrain Resilience Index','Cascade Complexity Score','Confidence Interval'];
@@ -1333,7 +1333,7 @@ ctx.fillRect(farStart,horizonY,W-farStart,H-horizonY);
 ctx.fillStyle='rgba(26,32,48,'+farFog+')';
 ctx.fillRect(farStart,0,W-farStart,H);
 ctx.font='600 11px "DM Mono",monospace';
-ctx.fillStyle='#2E6DB4';
+ctx.fillStyle='#D4B870';
 ctx.fillText('PHASE 2',(farStart+W)/2,H-20);
 ctx.font='400 9px "Outfit",sans-serif';
 ctx.fillStyle='rgba(244,244,242,.4)';

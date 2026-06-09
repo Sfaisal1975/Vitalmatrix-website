@@ -21,7 +21,7 @@
   --z2:#1A7A8A;  --z2r:26,122,138;  --z2l:#2A9BAD;   /* Teal */
   --z3:#7B5EA7;  --z3r:123,94,167;  --z3l:#9B7EC8;   /* Purple */
   --z4:#5F7C6C;  --z4r:95,124,108;  --z4l:#7A9485;   /* Sage */
-  --z5:#2E6DB4;  --z5r:46,109,180;  --z5l:#4A8AD0;   /* D-185: Blue */
+  --z5:#D4B870;  --z5r:46,109,180;  --z5l:#4A8AD0;   /* D-185: Blue */
   --gold:#C9A84C; --gold-l:#D4B86A;
   --teal:#1A7A8A; --teal-l:#2A9BAD;
   --white:#F4F4F2;
@@ -482,7 +482,7 @@ var ZONES = {
   z2:{id:'z2',name:'Z2 Resilience Network',        short:'Z2',col:'#1A7A8A',colr:'26,122,138',  nodes:['N1','N2','N6'], threshold:40},
   z3:{id:'z3',name:'Z3 Cardiovascular-Neural',     short:'Z3',col:'#7B5EA7',colr:'123,94,167',  nodes:['N5','N6'], threshold:40},
   z4:{id:'z4',name:'Z4 Detoxification Trident',    short:'Z4',col:'#5F7C6C',colr:'95,124,108',  nodes:['N2','N4'], threshold:40},
-  z5:{id:'z5',name:'Z5 Hormonal Terrain Axis',     short:'Z5',col:'#2E6DB4',colr:'46,109,180', nodes:['N3','N4','N6'], threshold:32}
+  z5:{id:'z5',name:'Z5 Hormonal Terrain Axis',     short:'Z5',col:'#D4B870',colr:'46,109,180', nodes:['N3','N4','N6'], threshold:32}
 };
 
 // S4 permanently excluded from DRD trace (D-12)
@@ -692,7 +692,7 @@ update();
     {id:'z2',label:'Z2',name:'Resilience Network',col:'#1A7A8A',colr:'26,122,138',nodes:'N1, N2, N6 (endocrine signalling)',stacks:'S1 (source), S4 (target, excluded), S5 (source)',desc:'Z2 aggregates N1, N2, and N6 (endocrine signalling) node inputs. Duration weighting amplifies chronic burden. S1 cascades FROM Z2, S5 cascades FROM Z2. S4 targets Z2 but is THEORETICAL and excluded from DRD&#8482; computation (D-12). Z2 is the default TerrainLock&#8482; entry point.'},
     {id:'z3',label:'Z3',name:'Cardiovascular-Neural',col:'#7B5EA7',colr:'123,94,167',nodes:'N5, N6 (endocrine signalling)',stacks:'S5 (target), S6 (target, UNIDIRECTIONAL)',desc:'Z3 receives cascade burden from S5 (Z2 to Z3) and S6 (Z1 to Z3, UNIDIRECTIONAL). Node inputs N5 and N6 (endocrine signalling) contribute to raw score. Z3 is typically a downstream burden receiver. DRD&#8482; designation as Z3 highest burden is uncommon unless S5 and S6 are both active.'},
     {id:'z4',label:'Z4',name:'Detoxification Trident',col:'#5F7C6C',colr:'95,124,108',nodes:'N2, N4',stacks:'S3 (source)',desc:'Z4 burden is driven by N2 and N4 node inputs. Duration weighting is critical here as toxic accumulation is typically chronic (lifelong multiplier = 1.75x). S3 cascades FROM Z4 to Z1 at SLOW velocity. Z4 highest burden zone designation indicates primary toxic load requiring long-horizon intervention.'},
-    {id:'z5',label:'Z5',name:'Hormonal Terrain Axis',col:'#2E6DB4',colr:'46,109,180',nodes:'N3, N4, N6 (endocrine signalling)',stacks:'S2 (target), S4 (source, excluded)',desc:'Z5 receives cascade burden from S2 (Z1 to Z5, FAST). S4 originates from Z5 but is THEORETICAL and excluded from DRD&#8482; trace (D-12). Z5 threshold is 32 (lower than other zones at 40). N6 (endocrine signalling) is critical for Z5 score. Z5 participates in TerrainLock&#8482; detection when both Z2 and Z5 exceed 60.'}
+    {id:'z5',label:'Z5',name:'Hormonal Terrain Axis',col:'#D4B870',colr:'46,109,180',nodes:'N3, N4, N6 (endocrine signalling)',stacks:'S2 (target), S4 (source, excluded)',desc:'Z5 receives cascade burden from S2 (Z1 to Z5, FAST). S4 originates from Z5 but is THEORETICAL and excluded from DRD&#8482; trace (D-12). Z5 threshold is 32 (lower than other zones at 40). N6 (endocrine signalling) is critical for Z5 score. Z5 participates in TerrainLock&#8482; detection when both Z2 and Z5 exceed 60.'}
   ];
   var container = document.getElementById('la4-explainer-cards');
   var output = document.getElementById('la4-explainer-output');
@@ -766,7 +766,7 @@ update();
     z4:{x:160,y:280},
     z5:{x:640,y:280}
   };
-  var zoneColors = {z1:'#C9A84C',z2:'#1A7A8A',z3:'#7B5EA7',z4:'#5F7C6C',z5:'#2E6DB4'};
+  var zoneColors = {z1:'#C9A84C',z2:'#1A7A8A',z3:'#7B5EA7',z4:'#5F7C6C',z5:'#D4B870'};
   var zoneLabels = {z1:'Z1',z2:'Z2',z3:'Z3',z4:'Z4',z5:'Z5'};
   var stacks = [
     {id:'S1',from:'z2',to:'z1',vel:'MEDIUM'},
@@ -910,7 +910,7 @@ update();
     {id:'z2',label:'Z2',name:'Resilience Network',col:'#1A7A8A',colr:'26,122,138'},
     {id:'z3',label:'Z3',name:'Cardiovascular-Neural',col:'#7B5EA7',colr:'123,94,167'},
     {id:'z4',label:'Z4',name:'Detox Trident',col:'#5F7C6C',colr:'95,124,108'},
-    {id:'z5',label:'Z5',name:'Hormonal Terrain',col:'#2E6DB4',colr:'46,109,180'}
+    {id:'z5',label:'Z5',name:'Hormonal Terrain',col:'#D4B870',colr:'46,109,180'}
   ];
   var stacks = [
     {id:'S1',from:'z2',to:'z1',vel:'MEDIUM',theoretical:false},
@@ -1021,7 +1021,7 @@ update();
      supplements:['NAC','Milk thistle','Calcium-D-glucarate','Chlorella/spirulina'],
      dietary:['Cruciferous sulforaphane','Filtered water','Organic prioritisation','Fibre for binding'],
      lifestyle:['Sauna (IR)','Dry brushing','Environmental audit','Toxin avoidance']},
-    {zone:'Z5',name:'Hormonal Terrain',col:'#2E6DB4',
+    {zone:'Z5',name:'Hormonal Terrain',col:'#D4B870',
      supplements:['Ashwagandha (KSM-66)','DIM/I3C','Vitamin D3','DHEA (if indicated)'],
      dietary:['Adequate protein','Healthy fats','Zinc-rich foods','Phytoestrogen moderation'],
      lifestyle:['Resistance training','Sleep 7-9h','Stress management','Endocrine disruptor avoidance']}
@@ -1075,7 +1075,7 @@ update();
     {id:'z2',label:'Z2',col:'#1A7A8A'},
     {id:'z3',label:'Z3',col:'#7B5EA7'},
     {id:'z4',label:'Z4',col:'#5F7C6C'},
-    {id:'z5',label:'Z5',col:'#2E6DB4'}
+    {id:'z5',label:'Z5',col:'#D4B870'}
   ];
   var N6_DAMPENING = 0.7;
   var beforeScores = {z1:62,z2:74,z3:28,z4:41,z5:55};
@@ -1378,14 +1378,14 @@ update();
     {id:'Z2',label:'Z2',sub:'(immune)',x:cx+220,y:165,color:'#1A7A8A',r:'26,122,138'},
     {id:'Z3',label:'Z3',sub:'(neuro)',x:cx+136,y:345,color:'#7B5EA7',r:'123,94,167'},
     {id:'Z4',label:'Z4',sub:'(structural)',x:cx-136,y:345,color:'#5F7C6C',r:'95,124,108'},
-    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#2E6DB4',r:'46,109,180'}
+    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#D4B870',r:'46,109,180'}
   ];
 
   var cascades=[
     {id:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:''},
     {id:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:''},
     {id:'S3',from:3,to:0,color:'#5F7C6C',speed:1.2,dash:false,label:''},
-    {id:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'THEORETICAL'},
+    {id:'S4',from:4,to:1,color:'#D4B870',speed:2,dash:true,label:'THEORETICAL'},
     {id:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:''},
     {id:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'UNIDIRECTIONAL'}
   ];
@@ -1547,7 +1547,7 @@ update();
     {id:'Z2',label:'Z2',color:'#1A7A8A',angle:-18,thresh:40,val:50},
     {id:'Z3',label:'Z3',color:'#7B5EA7',angle:54,thresh:40,val:50},
     {id:'Z4',label:'Z4',color:'#5F7C6C',angle:126,thresh:40,val:50},
-    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#2E6DB4',angle:198,thresh:32,val:50}
+    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#D4B870',angle:198,thresh:32,val:50}
   ];
 
   function rad(d){return d*Math.PI/180;}
@@ -2055,7 +2055,7 @@ update();
 ============================================================ */
 (function(){
   var PFX = 'la4';
-  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var ZONE_IDS  = ['Z1','Z2','Z3','Z4','Z5'];
   var ZONE_NAMES = ['Metabolic','Immune','Neurological','Hormonal','Cardiovascular'];
   var N6_DAMP = 0.7;

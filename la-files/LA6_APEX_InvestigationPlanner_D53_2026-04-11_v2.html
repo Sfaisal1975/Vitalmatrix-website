@@ -13,7 +13,7 @@
   --z2:#1A7A8A; --z2r:26,122,138; --z2l:#2A9BAD;
   --z3:#7B5EA7; --z3r:123,94,167; --z3l:#9B7EC8;
   --z4:#5F7C6C; --z4r:95,124,108; --z4l:#7A9485;
-  --z5:#2E6DB4; --z5r:46,109,180; --z5l:#4A8AD0;
+  --z5:#D4B870; --z5r:46,109,180; --z5l:#4A8AD0;
   --gold:#C9A84C; --gold-l:#D4B86A; --teal:#1A7A8A; --teal-l:#2A9BAD;
   --white:#F4F4F2; --t80:rgba(244,244,242,.80); --t55:rgba(244,244,242,.72);
   --t35:rgba(244,244,242,.55); --t12:rgba(244,244,242,.12); --t06:rgba(244,244,242,.06);
@@ -167,7 +167,7 @@ var ZONES_META = {
   z2:{col:'#1A7A8A',colr:'26,122,138',label:'Z2',name:'Resilience Network'},
   z3:{col:'#7B5EA7',colr:'123,94,167',label:'Z3',name:'Cardiovascular-Neural'},
   z4:{col:'#5F7C6C',colr:'95,124,108',label:'Z4',name:'Detoxification Trident'},
-  z5:{col:'#2E6DB4',colr:'46,109,180',label:'Z5',name:'Hormonal Terrain Axis'}
+  z5:{col:'#D4B870',colr:'46,109,180',label:'Z5',name:'Hormonal Terrain Axis'}
 };
 
 // INVESTIGATION DATABASE -- non-invasive only (B2 correction applied)
@@ -866,7 +866,7 @@ update();
     {id:'z2',label:'Z2',col:'#1A7A8A',name:'Resilience Network'},
     {id:'z3',label:'Z3',col:'#7B5EA7',name:'Cardiovascular-Neural'},
     {id:'z4',label:'Z4',col:'#5F7C6C',name:'Detoxification Trident'},
-    {id:'z5',label:'Z5',col:'#2E6DB4',name:'Hormonal Terrain Axis'}
+    {id:'z5',label:'Z5',col:'#D4B870',name:'Hormonal Terrain Axis'}
   ];
   var activeTier=1;
   var activeZones={z2:true};
@@ -967,7 +967,7 @@ update();
     {id:'z2',label:'Z2',col:'#1A7A8A',name:'Resilience Network'},
     {id:'z3',label:'Z3',col:'#7B5EA7',name:'Cardiovascular-Neural'},
     {id:'z4',label:'Z4',col:'#5F7C6C',name:'Detoxification Trident'},
-    {id:'z5',label:'Z5',col:'#2E6DB4',name:'Hormonal Terrain Axis'}
+    {id:'z5',label:'Z5',col:'#D4B870',name:'Hormonal Terrain Axis'}
   ];
   var selected='z2';
   var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1311,14 +1311,14 @@ update();
     {id:'Z2',label:'Z2',sub:'(immune)',x:cx+220,y:165,color:'#1A7A8A',r:'26,122,138'},
     {id:'Z3',label:'Z3',sub:'(neuro)',x:cx+136,y:345,color:'#7B5EA7',r:'123,94,167'},
     {id:'Z4',label:'Z4',sub:'(structural)',x:cx-136,y:345,color:'#5F7C6C',r:'95,124,108'},
-    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#2E6DB4',r:'46,109,180'}
+    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#D4B870',r:'46,109,180'}
   ];
 
   var cascades=[
     {id:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:''},
     {id:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:''},
     {id:'S3',from:3,to:0,color:'#5F7C6C',speed:1.2,dash:false,label:''},
-    {id:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'THEORETICAL'},
+    {id:'S4',from:4,to:1,color:'#D4B870',speed:2,dash:true,label:'THEORETICAL'},
     {id:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:''},
     {id:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'UNIDIRECTIONAL'}
   ];
@@ -1480,7 +1480,7 @@ update();
     {id:'Z2',label:'Z2',color:'#1A7A8A',angle:-18,thresh:40,val:50},
     {id:'Z3',label:'Z3',color:'#7B5EA7',angle:54,thresh:40,val:50},
     {id:'Z4',label:'Z4',color:'#5F7C6C',angle:126,thresh:40,val:50},
-    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#2E6DB4',angle:198,thresh:32,val:50}
+    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#D4B870',angle:198,thresh:32,val:50}
   ];
 
   function rad(d){return d*Math.PI/180;}
@@ -2013,7 +2013,7 @@ update();
 ============================================================ */
 (function(){
   var PFX = 'la6';
-  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var ZONE_IDS  = ['Z1','Z2','Z3','Z4','Z5'];
   var ZONE_NAMES = ['Metabolic','Immune','Neurological','Hormonal','Cardiovascular'];
   var N6_DAMP = 0.7;

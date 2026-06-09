@@ -10,7 +10,7 @@
 :root{
   --bg:#0C4452;--card:rgba(7,28,51,.90);--card2:rgba(13,43,78,.55);
   --z1:#C9A84C;--z2:#1A7A8A;--z2l:#2A9BAD;--z3:#7B5EA7;--z3l:#9B7EC8;
-  --z4:#5F7C6C;--z4l:#7A9485;--z5:#2E6DB4;--z5l:#4A8AD0;
+  --z4:#5F7C6C;--z4l:#7A9485;--z5:#D4B870;--z5l:#4A8AD0;
   --gold:#C9A84C;--gold-l:#D4B86A;--teal:#1A7A8A;--teal-l:#2A9BAD;
   --ev-diet:#2A9BAD;--ev-env:#7B5EA7;--ev-stress:#C9A84C;--ev-infect:#C0392B;--ev-life:#5F7C6C;
   --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
@@ -143,7 +143,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
         <span class="cascade-marker">S2 cascade (FAST): Z1 to Z5 now established. Weight gain onset.</span>
         <div class="burden-track"><div class="bt-label">Z1</div><div class="bt-bar" style="width:58%;background:#C9A84C;"></div></div>
         <div class="burden-track"><div class="bt-label">Z2</div><div class="bt-bar" style="width:52%;background:#1A7A8A;"></div></div>
-        <div class="burden-track"><div class="bt-label">Z5</div><div class="bt-bar" style="width:40%;background:#2E6DB4;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z5</div><div class="bt-bar" style="width:40%;background:#D4B870;"></div></div>
         <div class="burden-track"><div class="bt-label">Z4</div><div class="bt-bar" style="width:35%;background:#5F7C6C;"></div></div>
       </div>
     </div>
@@ -157,7 +157,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
         <span class="cascade-marker">S6 cascade (MEDIUM, UNIDIRECTIONAL Z1 to Z3): endothelial markers begin shifting</span>
         <div class="burden-track"><div class="bt-label">Z1</div><div class="bt-bar" style="width:70%;background:#C9A84C;"></div></div>
         <div class="burden-track"><div class="bt-label">Z2</div><div class="bt-bar" style="width:65%;background:#1A7A8A;"></div></div>
-        <div class="burden-track"><div class="bt-label">Z5</div><div class="bt-bar" style="width:55%;background:#2E6DB4;"></div></div>
+        <div class="burden-track"><div class="bt-label">Z5</div><div class="bt-bar" style="width:55%;background:#D4B870;"></div></div>
         <div class="burden-track"><div class="bt-label">Z3</div><div class="bt-bar" style="width:28%;background:#7B5EA7;"></div></div>
         <div class="burden-track"><div class="bt-label">Z4</div><div class="bt-bar" style="width:42%;background:#5F7C6C;"></div></div>
       </div>
@@ -171,7 +171,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
         <div style="font-family:var(--fm);font-size:8.5px;color:var(--t35);margin-top:4px;padding-left:2px;">Z1=72, Z2=78, Z3=35, Z4=48, Z5=65 (internal)</div>
         <div class="burden-track"><div class="bt-label" style="color:var(--gold);">Z1</div><div class="bt-bar" style="width:72%;background:#C9A84C;opacity:1;"></div></div>
         <div class="burden-track"><div class="bt-label" style="color:#2A9BAD;">Z2</div><div class="bt-bar" style="width:78%;background:#1A7A8A;opacity:1;"></div></div>
-        <div class="burden-track"><div class="bt-label" style="color:#2E6DB4;">Z5</div><div class="bt-bar" style="width:65%;background:#2E6DB4;opacity:1;"></div></div>
+        <div class="burden-track"><div class="bt-label" style="color:#D4B870;">Z5</div><div class="bt-bar" style="width:65%;background:#D4B870;opacity:1;"></div></div>
         <div class="burden-track"><div class="bt-label" style="color:#7A9485;">Z4</div><div class="bt-bar" style="width:48%;background:#5F7C6C;opacity:1;"></div></div>
         <div class="burden-track"><div class="bt-label" style="color:#9B7EC8;">Z3</div><div class="bt-bar" style="width:35%;background:#7B5EA7;opacity:1;"></div></div>
       </div>
@@ -380,7 +380,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
     {name:'S1: Z2\u2192Z1',year:'2017',col:'#1A7A8A',vel:'MEDIUM',theoretical:false},
     {name:'S3: Z4\u2192Z1',year:'2019',col:'#5F7C6C',vel:'SLOW',theoretical:false},
     {name:'S2: Z1\u2192Z5',year:'2022',col:'#C9A84C',vel:'FAST',theoretical:false},
-    {name:'S4: Z5\u2192Z2',year:'2024',col:'#2E6DB4',vel:'MEDIUM',theoretical:true},
+    {name:'S4: Z5\u2192Z2',year:'2024',col:'#D4B870',vel:'MEDIUM',theoretical:true},
     {name:'S5: Z2\u2192Z3',year:'2024',col:'#1A7A8A',vel:'FAST',theoretical:false},
     {name:'S6: Z1\u2192Z3 (UNIDIRECTIONAL)',year:'2024',col:'#C9A84C',vel:'MEDIUM',theoretical:false}
   ];
@@ -588,7 +588,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
     {name:'Stress-Metabolic Cascade',desc:'Chronic stress drives Z1 as primary burden, with Z5 as downstream reactor via S2.',match:85,col:'#C9A84C'},
     {name:'Gut-Driven Multi-Zone',desc:'Z2 resilience network as entry point, cascading to Z1 and Z3 through S1 and S5.',match:72,col:'#1A7A8A'},
     {name:'Environmental Toxic Load',desc:'Z4 detoxification trident overloaded, slow cascade (S3) feeding Z1.',match:55,col:'#5F7C6C'},
-    {name:'Hormonal Terrain Collapse',desc:'Z5 as primary, with S4 (THEORETICAL) feedback to Z2, creating loop risk.',match:40,col:'#2E6DB4'},
+    {name:'Hormonal Terrain Collapse',desc:'Z5 as primary, with S4 (THEORETICAL) feedback to Z2, creating loop risk.',match:40,col:'#D4B870'},
     {name:'Cardiovascular-Neural Early',desc:'Z3 activated early via S5 or S6 (UNIDIRECTIONAL Z1 to Z3), neural impact emerging.',match:30,col:'#7B5EA7'},
     {name:'TerrainLock Pattern',desc:'Full Z2-Z1-Z5-Z2 loop: S1 + S2 + S4 all active. Self-perpetuating burden.',match:25,col:'#C0392B'}
   ];
@@ -654,7 +654,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
 <script>
 (function(){
   'use strict';
-  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var zoneNames=['Z1 Metabolic','Z2 Resilience','Z3 Cardiovascular','Z4 Detoxification','Z5 Hormonal'];
   var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
@@ -803,7 +803,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
 .la9-fc-event[data-zone="z2"]::before{background:#1A7A8A;}
 .la9-fc-event[data-zone="z3"]::before{background:#7B5EA7;}
 .la9-fc-event[data-zone="z4"]::before{background:#5F7C6C;}
-.la9-fc-event[data-zone="z5"]::before{background:#2E6DB4;}
+.la9-fc-event[data-zone="z5"]::before{background:#D4B870;}
 .la9-fc-event-text{font-family:var(--fm);font-size:9px;color:var(--t80);flex:1;}
 .la9-fc-event-time{font-family:var(--fm);font-size:8px;color:var(--t35);}
 .la9-fc-event-del{font-family:var(--fm);font-size:10px;color:var(--t35);cursor:pointer;padding:2px 6px;border-radius:4px;transition:color .2s;}
@@ -1188,13 +1188,13 @@ For practitioner use only. Not a diagnostic tool.
     {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',x:530,y:185},
     {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',x:445,y:365},
     {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',x:155,y:365},
-    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',x:70,y:185}
+    {id:'Z5',label:'Z5 Circulatory',color:'#D4B870',x:70,y:185}
   ];
   var cascades = [
     {name:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:'S1: Z2\u2192Z1'},
     {name:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:'S2: Z1\u2192Z5'},
     {name:'S3',from:3,to:0,color:'#5F7C6C',speed:1,dash:false,label:'S3: Z4\u2192Z1'},
-    {name:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'S4: Z5\u2192Z2 (theoretical)'},
+    {name:'S4',from:4,to:1,color:'#D4B870',speed:2,dash:true,label:'S4: Z5\u2192Z2 (theoretical)'},
     {name:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:'S5: Z2\u2192Z3'},
     {name:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'S6: Z1\u2192Z3 (unidirectional)'}
   ];
@@ -1330,7 +1330,7 @@ For practitioner use only. Not a diagnostic tool.
     {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',threshold:40,value:50},
     {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',threshold:40,value:50},
     {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',threshold:40,value:50},
-    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',threshold:32,value:50}
+    {id:'Z5',label:'Z5 Circulatory',color:'#D4B870',threshold:32,value:50}
   ];
   var sweepAngle = 0;
   var dotEls = []; var glowEls = []; var amberEls = []; var scoreEls = [];
@@ -2029,7 +2029,7 @@ For practitioner use only. Not a diagnostic tool.
   var panelB = document.getElementById('la9-compare-panelB');
   var divCol = document.getElementById('la9-compare-divCol');
   var zoneNames = ['Z1 Metabolic','Z2 Immune','Z3 Neuro','Z4 Gut','Z5 Cardiac'];
-  var zoneColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var valsA = [50,50,50,50,50];
   var valsB = [50,50,50,50,50];
 

@@ -17,7 +17,7 @@
     --z2: #1A7A8A;
     --z3: #7B5EA7;
     --z4: #5F7C6C;
-    --z5: #2E6DB4;
+    --z5: #D4B870;
     --bg: #F8F6F1;
     --surface: #FFFFFF;
     --surface-2: #F2EFE9;
@@ -573,14 +573,14 @@
           <td><span class="zone-chip z5">Z5</span></td>
           <td>Hormonal Terrain Axis</td>
           <td>N6 + N4 + N3</td>
-          <td><span style="display:inline-block;width:12px;height:12px;background:#2E6DB4;border-radius:2px;vertical-align:middle;margin-right:5px;"></span> Deep Steel Blue #2E6DB4</td>
+          <td><span style="display:inline-block;width:12px;height:12px;background:#D4B870;border-radius:2px;vertical-align:middle;margin-right:5px;"></span> Deep Steel Blue #D4B870</td>
           <td><span class="node-code">32</span></td>
           <td>27&ndash;31</td>
         </tr>
       </tbody>
     </table>
     <div class="alert-box alert-warn" style="margin-top:14px;">
-      <strong>Z5 colour authority:</strong> #2E6DB4 universally across ALL contexts including GENOME™ Handbook (D-185, 13 May 2026). CSS token: <code style="font-family:'DM Mono',monospace;font-size:11px;">--zone-z5: #2E6DB4</code>
+      <strong>Z5 colour authority:</strong> #D4B870 universally across ALL contexts including GENOME™ Handbook (D-185, 13 May 2026). CSS token: <code style="font-family:'DM Mono',monospace;font-size:11px;">--zone-z5: #D4B870</code>
     </div>
     <div class="alert-box alert-rule" style="margin-top:8px;">
       Near-threshold display: "Borderline (near threshold)" for zones scoring within 5 internal points of activation threshold (D-13/D-38).
@@ -957,7 +957,7 @@
   (function(){
     if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
     var header=document.querySelector('.site-header');if(!header)return;
-    var ZC=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+    var ZC=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
     var wrap=document.createElement('div');wrap.style.cssText='display:flex;gap:8px;align-items:center';
     for(var i=0;i<5;i++){var dot=document.createElement('div');dot.style.cssText='width:8px;height:8px;border-radius:50%;background:'+ZC[i]+';opacity:0.6;animation:flintZonePulse '+(2+i*0.4)+'s ease-in-out infinite';wrap.appendChild(dot);}
     header.appendChild(wrap);
@@ -969,7 +969,7 @@
     if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
     var bar=document.createElement('div');bar.id='flint-pipeline-bar';
     bar.style.cssText='position:fixed;top:0;left:0;right:0;height:4px;z-index:10000;display:flex';
-    var LC=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4','#0C4452','#C9A84C','#1A7A8A','#7B5EA7'];
+    var LC=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870','#0C4452','#C9A84C','#1A7A8A','#7B5EA7'];
     var segments=[];for(var i=0;i<9;i++){var seg=document.createElement('div');seg.style.cssText='flex:1;height:100%;background:'+LC[i]+';transform:scaleX(0);transform-origin:left;transition:transform 0.3s ease';bar.appendChild(seg);segments.push(seg);}
     document.body.appendChild(bar);
     function updateBar(){var scrollY=window.pageYOffset;var docH=document.documentElement.scrollHeight-window.innerHeight;var progress=scrollY/docH;for(var i=0;i<9;i++){var segStart=i/9;var segEnd=(i+1)/9;var segProgress=Math.max(0,Math.min(1,(progress-segStart)/(segEnd-segStart)));segments[i].style.transform='scaleX('+segProgress+')';}requestAnimationFrame(updateBar);}
@@ -994,7 +994,7 @@
     var tlSection=document.querySelector('.terrainlock-conditions');if(!tlSection)return;
     var canvas=document.createElement('canvas');canvas.style.cssText='width:100%;height:180px;display:block;margin-top:16px;border-radius:6px;background:#0A1225';
     tlSection.parentElement.appendChild(canvas);
-    var ctx=canvas.getContext('2d');var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z5:'#2E6DB4'};
+    var ctx=canvas.getContext('2d');var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z5:'#D4B870'};
     var particles=[];for(var s=0;s<3;s++)for(var p=0;p<4;p++)particles.push({seg:s,t:p/4,speed:0.004+Math.random()*0.002});
 
     function resize(){canvas.width=canvas.offsetWidth*2;canvas.height=360;ctx.setTransform(2,0,0,2,0,0);}
@@ -1064,7 +1064,7 @@
     if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
     var legend=document.createElement('div');legend.id='flint-ev-legend';
     legend.style.cssText='position:fixed;bottom:20px;right:20px;background:rgba(13,43,78,0.95);backdrop-filter:blur(12px);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:12px 16px;z-index:9998;opacity:0;transition:opacity 0.4s ease;pointer-events:none';
-    var tiers=[{l:'Established',c:'#1A7A8A'},{l:'Emerging',c:'#C9A84C'},{l:'Theoretical',c:'#2E6DB4'},{l:'Observed',c:'#5F7C6C'},{l:'Contested',c:'#7B5EA7'}];
+    var tiers=[{l:'Established',c:'#1A7A8A'},{l:'Emerging',c:'#C9A84C'},{l:'Theoretical',c:'#D4B870'},{l:'Observed',c:'#5F7C6C'},{l:'Contested',c:'#7B5EA7'}];
     var html='<div style="font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:0.12em;color:rgba(244,244,242,0.4);margin-bottom:6px;text-transform:uppercase">Evidence Tiers</div>';
     tiers.forEach(function(t){html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><div style="width:8px;height:8px;border-radius:50%;background:'+t.c+'"></div><span style="font-family:\'DM Mono\',monospace;font-size:9px;color:rgba(244,244,242,0.6)">'+t.l+'</span></div>';});
     legend.innerHTML=html;document.body.appendChild(legend);
@@ -1095,7 +1095,7 @@
     if(window.matchMedia('(prefers-reduced-motion:reduce)').matches||window.innerWidth<769)return;
     var sections=document.querySelectorAll('.section-wrap');if(sections.length<3)return;
     var nav=document.createElement('div');nav.style.cssText='position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:9997;display:flex;flex-direction:column;gap:6px';
-    var LC=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4','#0C4452','#C9A84C','#1A7A8A','#7B5EA7'];
+    var LC=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870','#0C4452','#C9A84C','#1A7A8A','#7B5EA7'];
     var dots=[];
     sections.forEach(function(s,i){
       var dot=document.createElement('div');dot.style.cssText='width:6px;height:6px;border-radius:50%;background:'+(LC[i%9]||'#C9A84C')+';opacity:0.25;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)';

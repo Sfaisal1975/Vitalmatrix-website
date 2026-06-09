@@ -26,8 +26,8 @@ body{background:#0C4452;color:rgba(244,244,242,0.80);font-family:'Outfit',system
 .z2-card .zone-label{color:#1A7A8A;}
 .z1-card{background:rgba(201,168,76,0.20);border:2px solid #C9A84C;}
 .z1-card .zone-label{color:#C9A84C;}
-.z5-card{background:rgba(46,109,180,0.20);border:2px solid #2E6DB4;}
-.z5-card .zone-label{color:#2E6DB4;}
+.z5-card{background:rgba(46,109,180,0.20);border:2px solid #D4B870;}
+.z5-card .zone-label{color:#D4B870;}
 .arrow-row{display:flex;justify-content:space-around;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:12px;}
 .arrow-label{font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(244,244,242,0.85);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 16px;text-align:center;line-height:1.6;}
 .arrow-label.theoretical{border-style:dashed;border-color:rgba(212,160,23,0.40);color:#D4A017;}
@@ -123,7 +123,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
   <button onclick="var p=this.nextElementSibling;p.style.display=p.style.display==='none'?'block':'none'" style="width:100%;background:#111820;border:none;border-top:1px solid rgba(201,168,76,0.18);padding:12px 20px;cursor:pointer;text-align:left;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:#C9A84C;">Architecture Constants (click to expand)</button>
   <div style="display:none;background:#111820;padding:20px 28px;font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(244,244,242,0.55);line-height:2;">
     7 nodes (N1-N7) | 5 zones (Z1-Z5) | 6 stacks (S1-S6)<br>
-    D-53 colours: Z1 #C9A84C | Z2 #1A7A8A | Z3 #7B5EA7 | Z4 #5F7C6C | Z5 #2E6DB4<br>
+    D-53 colours: Z1 #C9A84C | Z2 #1A7A8A | Z3 #7B5EA7 | Z4 #5F7C6C | Z5 #D4B870<br>
     Floor formula: MAX(dampened node values) minus 10 on internal 0-100 scale (D-37)<br>
     Z5 threshold: 32 internal (Z1-Z4: 40)<br>
     S4: THEORETICAL always | S6: UNIDIRECTIONAL Z1 to Z3 only<br>
@@ -173,7 +173,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
   var zones=[
     {id:'Z2',col:'#1A7A8A',angle:-90,label:'Z2 Resilience'},
     {id:'Z1',col:'#C9A84C',angle:30,label:'Z1 Metabolic Energy'},
-    {id:'Z5',col:'#2E6DB4',angle:150,label:'Z5 Hormonal Terrain'}
+    {id:'Z5',col:'#D4B870',angle:150,label:'Z5 Hormonal Terrain'}
   ];
   var broken=-1;
   var t=0;
@@ -388,7 +388,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
     var col=count>15?'rgba(192,57,43,0.6)':'rgba(201,168,76,0.5)';
     html+='<path d="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5"/>';
     // Zone markers on spiral
-    var zCols=['#1A7A8A','#C9A84C','#2E6DB4'];
+    var zCols=['#1A7A8A','#C9A84C','#D4B870'];
     var zLabels=['Z2','Z1','Z5'];
     for(var i=0;i<3;i++){
       var angle=(i*240)*Math.PI/180;
@@ -473,10 +473,10 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
   var entries=[
     {zone:'Z2',col:'#1A7A8A',label:'Z2 Entry (Default)',badge:'Tiebreaker',badgeCol:'rgba(26,122,138,0.2)',badgeBorder:'rgba(26,122,138,0.5)',vals:[0.5,0.9,0.4,0.3,0.6]},
     {zone:'Z1',col:'#C9A84C',label:'Z1 Entry',badge:'Alternative',badgeCol:'rgba(201,168,76,0.15)',badgeBorder:'rgba(201,168,76,0.4)',vals:[0.9,0.5,0.6,0.3,0.7]},
-    {zone:'Z5',col:'#2E6DB4',label:'Z5 Entry',badge:'Theoretical',badgeCol:'rgba(46,109,180,0.15)',badgeBorder:'rgba(46,109,180,0.4)',vals:[0.6,0.4,0.3,0.3,0.9]}
+    {zone:'Z5',col:'#D4B870',label:'Z5 Entry',badge:'Theoretical',badgeCol:'rgba(46,109,180,0.15)',badgeBorder:'rgba(46,109,180,0.4)',vals:[0.6,0.4,0.3,0.3,0.9]}
   ];
   var zoneLabels=['Z1','Z2','Z3','Z4','Z5'];
-  var zoneCols=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneCols=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
 
   function pentagonPoints(cx,cy,r,vals){
     var pts=[];
@@ -544,12 +544,12 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
 .vm-la7f4-evidence{padding:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;}
 .vm-la7f4-ev-title{font-family:'DM Mono',monospace;font-size:0.6rem;font-weight:500;color:rgba(244,244,242,.80);margin-bottom:8px;}
 .vm-la7f4-ev-item{font-family:'Outfit',sans-serif;font-size:0.72rem;color:rgba(244,244,242,.55);line-height:1.7;margin-bottom:6px;padding-left:12px;position:relative;}
-.vm-la7f4-ev-item::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:#2E6DB4;}
+.vm-la7f4-ev-item::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:#D4B870;}
 .vm-la7f4-gauge-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;}
 .vm-la7f4-gauge-label{font-family:'DM Mono',monospace;font-size:0.54rem;color:rgba(244,244,242,.55);margin-bottom:10px;letter-spacing:.1em;text-transform:uppercase;}
 .vm-la7f4-badge-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
 .vm-la7f4-badge{font-family:'DM Mono',monospace;font-size:0.48rem;padding:4px 10px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase;}
-.vm-la7f4-badge-theo{background:rgba(46,109,180,0.15);border:1px dashed rgba(46,109,180,0.5);color:#2E6DB4;}
+.vm-la7f4-badge-theo{background:rgba(46,109,180,0.15);border:1px dashed rgba(46,109,180,0.5);color:#D4B870;}
 .vm-la7f4-badge-drd{background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);color:rgba(192,57,43,0.8);}
 </style>
 <div class="vm-la7f4-wrap">
@@ -568,8 +568,8 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
       <div class="vm-la7f4-gauge-label">Confidence Level</div>
       <svg width="160" height="100" viewBox="0 0 160 100">
         <path d="M20,90 A70,70 0 0,1 140,90" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10" stroke-linecap="round"/>
-        <path d="M20,90 A70,70 0 0,1 56,35" fill="none" stroke="#2E6DB4" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
-        <text x="80" y="75" text-anchor="middle" fill="#2E6DB4" font-family="DM Mono,monospace" font-size="18" font-weight="bold">30%</text>
+        <path d="M20,90 A70,70 0 0,1 56,35" fill="none" stroke="#D4B870" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+        <text x="80" y="75" text-anchor="middle" fill="#D4B870" font-family="DM Mono,monospace" font-size="18" font-weight="bold">30%</text>
         <text x="80" y="90" text-anchor="middle" fill="rgba(244,244,242,0.4)" font-family="DM Mono,monospace" font-size="7">THEORETICAL</text>
       </svg>
       <div class="vm-la7f4-badge-row">
@@ -610,7 +610,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
   var entries=[
     {label:'Z2 Entry (Default)',weeks:8,col:'#1A7A8A',pct:53},
     {label:'Z1 Entry',weeks:12,col:'#C9A84C',pct:80},
-    {label:'Z5 Entry',weeks:15,col:'#2E6DB4',pct:100,dash:true},
+    {label:'Z5 Entry',weeks:15,col:'#D4B870',pct:100,dash:true},
     {label:'Multi-zone (Z2+Z1)',weeks:6,col:'#7B5EA7',pct:40}
   ];
 
@@ -690,7 +690,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
   var zones=[
     {id:'z2',label:'Z2 Resilience',col:'#1A7A8A',score:50},
     {id:'z1',label:'Z1 Metabolic Energy',col:'#C9A84C',score:45},
-    {id:'z5',label:'Z5 Hormonal Terrain',col:'#2E6DB4',score:40}
+    {id:'z5',label:'Z5 Hormonal Terrain',col:'#D4B870',score:40}
   ];
   var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -827,7 +827,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
     for(var i=0;i<stacks.length;i++){
       var s=stacks[i];
       var cls='la7st-card'+(selected===i?' la7st-sel':'')+(s.theoretical?' la7st-theo':'');
-      var badgeCls=s.theoretical?'background:rgba(46,109,180,.12);border:1px dashed rgba(46,109,180,.5);color:#2E6DB4;':'background:rgba(26,122,138,.12);border:1px solid rgba(26,122,138,.3);color:#2A9BAD;';
+      var badgeCls=s.theoretical?'background:rgba(46,109,180,.12);border:1px dashed rgba(46,109,180,.5);color:#D4B870;':'background:rgba(26,122,138,.12);border:1px solid rgba(26,122,138,.3);color:#2A9BAD;';
       html+='<div class="'+cls+'" data-idx="'+i+'">';
       html+='<div class="la7st-card-id">'+s.id+'</div>';
       html+='<div class="la7st-card-route">'+s.route+' | '+s.speed+'</div>';
@@ -885,15 +885,15 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
      items:[
        {text:'Blood sugar stabilisation: reduce insulin spikes via low-glycaemic meals',col:'#C9A84C'},
        {text:'Adaptogenic support for HPA axis regulation (e.g. ashwagandha, rhodiola)',col:'#C9A84C'},
-       {text:'Circadian rhythm optimisation: sleep hygiene, light exposure timing',col:'#2E6DB4'},
+       {text:'Circadian rhythm optimisation: sleep hygiene, light exposure timing',col:'#D4B870'},
        {text:'Thyroid nutrient cofactors: selenium, iodine, iron (if depleted)',col:'#C9A84C'}
      ]},
-    {label:'S4: Z5 > Z2',route:'Hormonal to Gut-Immune (THEORETICAL)',col:'#2E6DB4',
+    {label:'S4: Z5 > Z2',route:'Hormonal to Gut-Immune (THEORETICAL)',col:'#D4B870',
      items:[
-       {text:'Oestrogen metabolism support via cruciferous vegetables and DIM (if indicated)',col:'#2E6DB4'},
+       {text:'Oestrogen metabolism support via cruciferous vegetables and DIM (if indicated)',col:'#D4B870'},
        {text:'Liver Phase 2 conjugation support for hormone clearance',col:'#5F7C6C'},
        {text:'Microbiome-oestrogen axis: beta-glucuronidase reduction strategies',col:'#1A7A8A'},
-       {text:'Note: S4 is THEORETICAL (D-12). Interventions targeting this link are speculative.',col:'#2E6DB4'}
+       {text:'Note: S4 is THEORETICAL (D-12). Interventions targeting this link are speculative.',col:'#D4B870'}
      ]}
   ];
   var selected=0;
@@ -961,7 +961,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
     {id:'Z2',col:'#1A7A8A',noLock:6.5,locked:2.9},
     {id:'Z3',col:'#7B5EA7',noLock:7.8,locked:6.1},
     {id:'Z4',col:'#5F7C6C',noLock:8.0,locked:7.2},
-    {id:'Z5',col:'#2E6DB4',noLock:6.0,locked:3.1}
+    {id:'Z5',col:'#D4B870',noLock:6.0,locked:3.1}
   ];
   var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var showLocked=true;
@@ -1163,14 +1163,14 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
     {id:'Z2',label:'Z2',sub:'(immune)',x:cx+220,y:165,color:'#1A7A8A',r:'26,122,138'},
     {id:'Z3',label:'Z3',sub:'(neuro)',x:cx+136,y:345,color:'#7B5EA7',r:'123,94,167'},
     {id:'Z4',label:'Z4',sub:'(structural)',x:cx-136,y:345,color:'#5F7C6C',r:'95,124,108'},
-    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#2E6DB4',r:'46,109,180'}
+    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#D4B870',r:'46,109,180'}
   ];
 
   var cascades=[
     {id:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:''},
     {id:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:''},
     {id:'S3',from:3,to:0,color:'#5F7C6C',speed:1.2,dash:false,label:''},
-    {id:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'THEORETICAL'},
+    {id:'S4',from:4,to:1,color:'#D4B870',speed:2,dash:true,label:'THEORETICAL'},
     {id:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:''},
     {id:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'UNIDIRECTIONAL'}
   ];
@@ -1332,7 +1332,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
     {id:'Z2',label:'Z2',color:'#1A7A8A',angle:-18,thresh:40,val:50},
     {id:'Z3',label:'Z3',color:'#7B5EA7',angle:54,thresh:40,val:50},
     {id:'Z4',label:'Z4',color:'#5F7C6C',angle:126,thresh:40,val:50},
-    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#2E6DB4',angle:198,thresh:32,val:50}
+    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#D4B870',angle:198,thresh:32,val:50}
   ];
 
   function rad(d){return d*Math.PI/180;}
@@ -1835,7 +1835,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
 ============================================================ */
 (function(){
   var PFX = 'la7';
-  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var ZONE_IDS  = ['Z1','Z2','Z3','Z4','Z5'];
   var ZONE_NAMES = ['Metabolic','Immune','Neurological','Hormonal','Cardiovascular'];
   var N6_DAMP = 0.7;

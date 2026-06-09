@@ -68,7 +68,7 @@
   --vm-gold:#C9A84C; --vm-gold-d:#A8873A; --vm-gold-l:#E8C96A; --vm-gold-w:#D4B870;
   --vm-sage:#5F7C6C; --vm-purple:#7B5EA7;
   /* Zone colours D-53 */
-  --zone-z1:#C9A84C; --zone-z2:#1A7A8A; --zone-z3:#7B5EA7; --zone-z4:#5F7C6C; --zone-z5:#4A90C4;
+  --zone-z1:#C9A84C; --zone-z2:#1A7A8A; --zone-z3:#7B5EA7; --zone-z4:#5F7C6C; --zone-z5:#D4B870;
   /* Light backgrounds */
   --vm-light-purple:#F0EBF8; --vm-light-gold:#FBF6E9;
   --vm-white:#F4F4F2; --vm-text:rgba(244,244,242,0.80); --vm-text-s:rgba(244,244,242,0.55);
@@ -125,8 +125,8 @@ a{color:inherit;text-decoration:none;}
 .zc-z3 .zone-card-label{color:#7B5EA7;}
 .zc-z4{bottom:5%;left:10%;border:2px solid #5F7C6C;background:rgba(95,124,108,0.08);}
 .zc-z4 .zone-card-label{color:#5F7C6C;}
-.zc-z5{top:50%;left:50%;transform:translate(-50%,-50%);border:2px solid #4A90C4;background:rgba(212,184,112,0.08);}
-.zc-z5 .zone-card-label{color:#4A90C4;}
+.zc-z5{top:50%;left:50%;transform:translate(-50%,-50%);border:2px solid #D4B870;background:rgba(212,184,112,0.08);}
+.zc-z5 .zone-card-label{color:#D4B870;}
 
 /* SVG arrows overlay */
 .hero-svg-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;}
@@ -168,8 +168,8 @@ a{color:inherit;text-decoration:none;}
 .zdc-z3 .zone-badge{color:#7B5EA7;}
 .zdc-z4{border-left:3px solid #5F7C6C;}
 .zdc-z4 .zone-badge{color:#5F7C6C;}
-.zdc-z5{border-left:3px solid #4A90C4;}
-.zdc-z5 .zone-badge{color:#4A90C4;}
+.zdc-z5{border-left:3px solid #D4B870;}
+.zdc-z5 .zone-badge{color:#D4B870;}
 
 /* ── SECTION 4: SIX STACKS (Deep Teal) ── */
 .s-stacks{background:var(--vm-deep-teal);padding:80px 24px;}
@@ -193,7 +193,7 @@ a{color:inherit;text-decoration:none;}
 .stack-row-s4{border-left:2px solid #5F7C6C;}
 .stack-row-s6{border-left:2px solid #1A7A8A;}
 .stack-qualifier{display:inline-block;font-family:var(--vm-fm);font-size:0.5rem;padding:2px 8px;border-radius:3px;margin-left:8px;text-transform:uppercase;letter-spacing:0.1em;}
-.qual-theoretical{background:rgba(212,184,112,0.12);color:#4A90C4;border:1px solid rgba(212,184,112,0.25);}
+.qual-theoretical{background:rgba(212,184,112,0.12);color:#D4B870;border:1px solid rgba(212,184,112,0.25);}
 .qual-unidirectional{background:rgba(26,122,138,0.12);color:#2A9BAD;border:1px solid rgba(26,122,138,0.25);}
 
 /* ── SECTION 5: TERRAINLOCK (Charcoal) ── */
@@ -207,7 +207,7 @@ a{color:inherit;text-decoration:none;}
 .tl-node{position:absolute;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--vm-fm);font-size:0.7rem;font-weight:500;z-index:2;}
 .tl-node-z2{top:0;left:50%;transform:translateX(-50%);border:2px solid #1A7A8A;background:rgba(26,122,138,0.12);color:#1A7A8A;}
 .tl-node-z1{bottom:0;left:16px;border:2px solid #C9A84C;background:rgba(201,168,76,0.12);color:#C9A84C;}
-.tl-node-z5{bottom:0;right:16px;border:2px solid #4A90C4;background:rgba(212,184,112,0.12);color:#4A90C4;}
+.tl-node-z5{bottom:0;right:16px;border:2px solid #D4B870;background:rgba(212,184,112,0.12);color:#D4B870;}
 .tl-svg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;}
 .tl-label{font-family:'DM Mono',monospace;font-size:0.6rem;fill:rgba(244,244,242,0.60);}
 .tl-arrow{stroke-width:1.5;fill:none;opacity:0.65;}
@@ -386,7 +386,7 @@ a{color:inherit;text-decoration:none;}
             <polygon points="0 0, 8 3, 0 6" fill="#5F7C6C" opacity="0.55"/>
           </marker>
           <marker id="ah-wgold" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#4A90C4" opacity="0.55"/>
+            <polygon points="0 0, 8 3, 0 6" fill="#D4B870" opacity="0.55"/>
           </marker>
         </defs>
 
@@ -403,7 +403,7 @@ a{color:inherit;text-decoration:none;}
         <text x="235" y="400" class="arrow-label" text-anchor="end">S3: SLOW</text>
 
         <!-- S4: Z5 → Z2, Warm Gold, MEDIUM, Theoretical (dashed) -->
-        <line x1="680" y1="340" x2="880" y2="175" stroke="#4A90C4" stroke-width="1.5" opacity="0.55" stroke-dasharray="6,4" marker-end="url(#ah-wgold)"/>
+        <line x1="680" y1="340" x2="880" y2="175" stroke="#D4B870" stroke-width="1.5" opacity="0.55" stroke-dasharray="6,4" marker-end="url(#ah-wgold)"/>
         <text x="810" y="270" class="arrow-label" text-anchor="middle">S4: MEDIUM (Theoretical)</text>
 
         <!-- S5: Z2 → Z3, Teal, FAST -->
@@ -574,7 +574,7 @@ a{color:inherit;text-decoration:none;}
             <polygon points="0 0, 7 2.5, 0 5" fill="#C9A84C" opacity="0.65"/>
           </marker>
           <marker id="tl-ah-wgold" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-            <polygon points="0 0, 7 2.5, 0 5" fill="#4A90C4" opacity="0.65"/>
+            <polygon points="0 0, 7 2.5, 0 5" fill="#D4B870" opacity="0.65"/>
           </marker>
         </defs>
         <!-- S1: Z2 (top centre) → Z1 (bottom left) -->
@@ -584,7 +584,7 @@ a{color:inherit;text-decoration:none;}
         <line x1="100" y1="255" x2="240" y2="255" stroke="#C9A84C" class="tl-arrow" marker-end="url(#tl-ah-gold)"/>
         <text x="170" y="248" class="tl-label" text-anchor="middle">S2</text>
         <!-- S4: Z5 (bottom right) to Z2 (top centre): DASHED (Theoretical) -->
-        <line x1="258" y1="225" x2="180" y2="55" stroke="#4A90C4" class="tl-arrow" stroke-dasharray="6,4" marker-end="url(#tl-ah-wgold)"/>
+        <line x1="258" y1="225" x2="180" y2="55" stroke="#D4B870" class="tl-arrow" stroke-dasharray="6,4" marker-end="url(#tl-ah-wgold)"/>
         <text x="238" y="140" class="tl-label" text-anchor="middle">S4 (Theoretical)</text>
       </svg>
     </div>

@@ -25,7 +25,7 @@ var zones=[
 {id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:48,th:40},
 {id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40},
 {id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:35,th:40},
-{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:42,th:32}
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#D4B870',score:42,th:32}
 ];
 var nodes=[
 {id:'N1',name:'Assimilation',score:60,zones:['Z2'],color:'#1A7A8A'},
@@ -258,7 +258,7 @@ obs41.observe(document.getElementById('vm-ov41-section'));
 (function(){
 var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 var zoneIds=['Z1','Z2','Z3','Z4','Z5'];
-var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#2E6DB4'};
+var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#D4B870'};
 var zoneNames={'Z1':'Metabolic Energy','Z2':'Resilience Network','Z3':'Cardiovascular-Neural','Z4':'Detoxification Trident','Z5':'Hormonal Terrain'};
 var stacks=[
 {from:'Z2',to:'Z1',label:'S1',velocity:'MEDIUM'},
@@ -420,7 +420,7 @@ var zones=[
 {id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:48,th:40},
 {id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40},
 {id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:35,th:40},
-{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:42,th:32}
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#D4B870',score:42,th:32}
 ];
 var bins=[];
 for(var b=0;b<10;b++){bins.push({min:b*10,max:(b+1)*10,zones:[]});}
@@ -605,7 +605,7 @@ obs44.observe(document.getElementById('vm-ov44-section'));
 @keyframes vm-ov45-pulse{0%,100%{opacity:1}50%{opacity:.5}}
 .vm-ov45-borderline{color:#D4A017}
 .vm-ov45-inactive{color:rgba(244,244,242,.4)}
-.vm-ov45-z5-note{font-family:'DM Mono',monospace;font-size:.55rem;color:#2E6DB4;text-align:center;margin-top:12px}
+.vm-ov45-z5-note{font-family:'DM Mono',monospace;font-size:.55rem;color:#D4B870;text-align:center;margin-top:12px}
 .vm-ov45-tooltip{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:#1A2030;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:4px 8px;font-family:'DM Mono',monospace;font-size:.55rem;color:#F4F4F2;white-space:nowrap;display:none;z-index:10;pointer-events:none}
 .vm-ov45-hatch{position:absolute;top:0;bottom:0;right:0;opacity:.4;background:repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(212,160,23,.3) 3px,rgba(212,160,23,.3) 6px)}
 </style>
@@ -625,7 +625,7 @@ var zones=[
 {id:'Z2',color:'#1A7A8A',score:48,th:40},
 {id:'Z3',color:'#7B5EA7',score:30,th:40},
 {id:'Z4',color:'#5F7C6C',score:35,th:40},
-{id:'Z5',color:'#2E6DB4',score:42,th:32}
+{id:'Z5',color:'#D4B870',score:42,th:32}
 ];
 var container=document.getElementById('vm-ov45-bars');
 var fills=[];
@@ -743,7 +743,7 @@ var stacks=[
 {id:'S1',label:'S1: Z2\u2192Z1',velocity:'MEDIUM',active:true,color:'#1A7A8A',srcScore:48,tgtScore:55,theoretical:false},
 {id:'S2',label:'S2: Z1\u2192Z5',velocity:'FAST',active:true,color:'#C9A84C',srcScore:55,tgtScore:42,theoretical:false},
 {id:'S3',label:'S3: Z4\u2192Z1',velocity:'SLOW',active:false,color:'#5F7C6C',srcScore:35,tgtScore:55,theoretical:false},
-{id:'S4',label:'S4: Z5\u2192Z2 (THEORETICAL)',velocity:'THEORETICAL',active:false,color:'#2E6DB4',srcScore:42,tgtScore:48,theoretical:true},
+{id:'S4',label:'S4: Z5\u2192Z2 (THEORETICAL)',velocity:'THEORETICAL',active:false,color:'#D4B870',srcScore:42,tgtScore:48,theoretical:true},
 {id:'S5',label:'S5: Z2\u2192Z3',velocity:'FAST',active:true,color:'#7B5EA7',srcScore:48,tgtScore:30,theoretical:false},
 {id:'S6',label:'S6: Z1\u2192Z3 (UNIDIRECTIONAL)',velocity:'MEDIUM',active:true,color:'#C9A84C',srcScore:55,tgtScore:30,theoretical:false}
 ];
@@ -851,7 +851,7 @@ buildLegend();
 (function(){
 var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 var zones=['Z1','Z2','Z3','Z4','Z5'];
-var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#2E6DB4'};
+var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#D4B870'};
 var sessions=[
 {Z1:58,Z2:42,Z3:25,Z4:30,Z5:35,drd:'Z1'},
 {Z1:56,Z2:44,Z3:28,Z4:32,Z5:36,drd:'Z1'},
@@ -976,7 +976,7 @@ var bannerEl=document.getElementById('vm-ov48-banner');
 var infoEl=document.getElementById('vm-ov48-info');
 var cx=170,cy=170;
 var zones=['Z1','Z2','Z3','Z4','Z5'];
-var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#2E6DB4'};
+var zoneColors={'Z1':'#C9A84C','Z2':'#1A7A8A','Z3':'#7B5EA7','Z4':'#5F7C6C','Z5':'#D4B870'};
 var zoneAngles={'Z1':-90,'Z2':-18,'Z3':54,'Z4':126,'Z5':198};
 var ringR=[40,80,120];
 var ringLabels=['Primary','Secondary','Monitor'];
@@ -1242,7 +1242,7 @@ var zones=[
 {id:'Z2',name:'Resilience Network',color:'#1A7A8A',score:48,th:40,grade:'Moderate'},
 {id:'Z3',name:'Cardiovascular-Neural Axis',color:'#7B5EA7',score:30,th:40,grade:'Low'},
 {id:'Z4',name:'Detoxification Trident',color:'#5F7C6C',score:35,th:40,grade:'Low'},
-{id:'Z5',name:'Hormonal Terrain Axis',color:'#2E6DB4',score:42,th:32,grade:'Moderate'}
+{id:'Z5',name:'Hormonal Terrain Axis',color:'#D4B870',score:42,th:32,grade:'Moderate'}
 ];
 var cascades=[
 {id:'S1',from:1,to:0,velocity:'MEDIUM',active:true,width:2,theoretical:false},

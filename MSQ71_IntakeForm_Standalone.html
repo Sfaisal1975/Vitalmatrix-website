@@ -6,7 +6,7 @@
 <title>MSQ-71 Terrain Intake | VitalMatrix&#8482;</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0D2B4E;--card:#1A2030;--deep:#0C4452;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#2E6DB4;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--border:rgba(255,255,255,.11);--z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#2E6DB4;--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+:root{--bg:#0D2B4E;--card:#1A2030;--deep:#0C4452;--gold:#C9A84C;--teal:#1A7A8A;--purple:#7B5EA7;--sage:#5F7C6C;--blue:#D4B870;--white:#F4F4F2;--muted:rgba(244,244,242,.55);--border:rgba(255,255,255,.11);--z1:#C9A84C;--z2:#1A7A8A;--z3:#7B5EA7;--z4:#5F7C6C;--z5:#D4B870;--fs:'Cormorant Garamond',serif;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
 body{background:var(--bg);color:var(--white);font-family:var(--fd);font-size:15px;line-height:1.7}
 .msq-wrap{max-width:900px;margin:0 auto;padding:24px}
 .msq-header{text-align:center;padding:40px 0 32px;border-bottom:1px solid rgba(201,168,76,.12)}
@@ -208,7 +208,7 @@ var NODES = [
   {id:'N2',name:'Defence and Repair',colour:'#1A7A8A'},
   {id:'N3',name:'Energy',colour:'#7B5EA7'},
   {id:'N4',name:'Biotransformation and Elimination',colour:'#5F7C6C'},
-  {id:'N5',name:'Transport',colour:'#2E6DB4'},
+  {id:'N5',name:'Transport',colour:'#D4B870'},
   {id:'N6',name:'Communication',colour:'#C9A84C'},
   {id:'N7',name:'Structural Integrity',colour:'#5F7C6C'}
 ];
@@ -218,7 +218,7 @@ var ZONE_DEFS = [
   {id:'Z2',name:'Resilience Network',nodes:['N1','N2','N6'],threshold:40,colour:'#1A7A8A'},
   {id:'Z3',name:'Cardiovascular-Neural Axis',nodes:['N5','N6'],threshold:40,colour:'#7B5EA7'},
   {id:'Z4',name:'Detoxification Trident',nodes:['N2','N4'],threshold:40,colour:'#5F7C6C'},
-  {id:'Z5',name:'Hormonal Terrain Axis',nodes:['N3','N4','N6'],threshold:32,colour:'#2E6DB4'}
+  {id:'Z5',name:'Hormonal Terrain Axis',nodes:['N3','N4','N6'],threshold:32,colour:'#D4B870'}
 ];
 
 var STACKS = [

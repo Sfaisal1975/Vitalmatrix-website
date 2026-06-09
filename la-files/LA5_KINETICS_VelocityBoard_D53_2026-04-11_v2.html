@@ -21,7 +21,7 @@
   --z2:#1A7A8A; --z2r:26,122,138; --z2l:#2A9BAD;
   --z3:#7B5EA7; --z3r:123,94,167; --z3l:#9B7EC8;
   --z4:#5F7C6C; --z4r:95,124,108; --z4l:#7A9485;
-  --z5:#2E6DB4; --z5r:46,109,180; --z5l:#4A8AD0;
+  --z5:#D4B870; --z5r:46,109,180; --z5l:#4A8AD0;
   --gold:#C9A84C; --gold-l:#D4B86A;
   --teal:#1A7A8A; --teal-l:#2A9BAD;
   --white:#F4F4F2;
@@ -351,7 +351,7 @@ var ZONES = {
   z2:{col:'#1A7A8A',colr:'26,122,138',label:'Z2',name:'Resilience Network',thresh:40},
   z3:{col:'#7B5EA7',colr:'123,94,167',label:'Z3',name:'Cardiovascular-Neural',thresh:40},
   z4:{col:'#5F7C6C',colr:'95,124,108',label:'Z4',name:'Detoxification Trident',thresh:40},
-  z5:{col:'#2E6DB4',colr:'46,109,180',label:'Z5',name:'Hormonal Terrain Axis',thresh:32}
+  z5:{col:'#D4B870',colr:'46,109,180',label:'Z5',name:'Hormonal Terrain Axis',thresh:32}
 };
 
 var STACKS = [
@@ -573,7 +573,7 @@ update();
     {id:'S1',from:'Z2',to:'Z1',vel:'MEDIUM',col:'#1A7A8A',speed:2.2},
     {id:'S2',from:'Z1',to:'Z5',vel:'FAST',col:'#C9A84C',speed:3.5},
     {id:'S3',from:'Z4',to:'Z1',vel:'SLOW',col:'#5F7C6C',speed:1.2},
-    {id:'S4',from:'Z5',to:'Z2',vel:'MEDIUM',col:'#2E6DB4',speed:2.2,theo:true},
+    {id:'S4',from:'Z5',to:'Z2',vel:'MEDIUM',col:'#D4B870',speed:2.2,theo:true},
     {id:'S5',from:'Z2',to:'Z3',vel:'FAST',col:'#1A7A8A',speed:3.5},
     {id:'S6',from:'Z1',to:'Z3',vel:'MEDIUM',col:'#C9A84C',speed:2.2}
   ];
@@ -708,7 +708,7 @@ update();
     {col:'#1A7A8A',freq:0.035,amp:55,label:'S1'},
     {col:'#C9A84C',freq:0.055,amp:70,label:'S2'},
     {col:'#5F7C6C',freq:0.02,amp:35,label:'S3'},
-    {col:'#2E6DB4',freq:0.035,amp:55,label:'S4',dash:true},
+    {col:'#D4B870',freq:0.035,amp:55,label:'S4',dash:true},
     {col:'#1A7A8A',freq:0.055,amp:70,label:'S5'},
     {col:'#C9A84C',freq:0.035,amp:55,label:'S6'}
   ];
@@ -792,7 +792,7 @@ update();
     {label:'S1 (MEDIUM)',col:'#1A7A8A',decay:0.6},
     {label:'S2 (FAST)',col:'#C9A84C',decay:0.3},
     {label:'S3 (SLOW)',col:'#5F7C6C',decay:0.9},
-    {label:'S4 (MEDIUM) THEORETICAL',col:'#2E6DB4',decay:0.6,dash:true},
+    {label:'S4 (MEDIUM) THEORETICAL',col:'#D4B870',decay:0.6,dash:true},
     {label:'S5 (FAST)',col:'#1A7A8A',decay:0.3},
     {label:'S6 (MEDIUM) UNIDIRECTIONAL',col:'#C9A84C',decay:0.6}
   ];
@@ -867,7 +867,7 @@ update();
     {x:100,y:100,vx:0,vy:0,col:'#C9A84C',label:'S1',mass:2.2,r:14},
     {x:250,y:80,vx:0,vy:0,col:'#C9A84C',label:'S2',mass:3.5,r:18},
     {x:400,y:120,vx:0,vy:0,col:'#5F7C6C',label:'S3',mass:1.2,r:10},
-    {x:120,y:280,vx:0,vy:0,col:'#2E6DB4',label:'S4',mass:2.2,r:14},
+    {x:120,y:280,vx:0,vy:0,col:'#D4B870',label:'S4',mass:2.2,r:14},
     {x:350,y:300,vx:0,vy:0,col:'#1A7A8A',label:'S5',mass:3.5,r:18},
     {x:250,y:200,vx:0,vy:0,col:'#C9A84C',label:'S6',mass:2.2,r:14}
   ];
@@ -995,7 +995,7 @@ update();
     {label:'FAST (S2, S5)',optimal:{start:0,width:25},sub:{start:25,width:30},critical:{start:55,width:45},col:'#C9A84C'},
     {label:'MEDIUM (S1, S6)',optimal:{start:5,width:35},sub:{start:40,width:30},critical:{start:70,width:30},col:'#1A7A8A'},
     {label:'SLOW (S3)',optimal:{start:10,width:45},sub:{start:55,width:25},critical:{start:80,width:20},col:'#5F7C6C'},
-    {label:'S4 THEORETICAL',optimal:{start:5,width:35},sub:{start:40,width:30},critical:{start:70,width:30},col:'#2E6DB4',dash:true}
+    {label:'S4 THEORETICAL',optimal:{start:5,width:35},sub:{start:40,width:30},critical:{start:70,width:30},col:'#D4B870',dash:true}
   ];
 
   var timeline=document.getElementById('vm-la5f5-timeline');
@@ -1069,7 +1069,7 @@ update();
     {id:'S1',vel:'MEDIUM',col:'#1A7A8A',colr:'26,122,138'},
     {id:'S2',vel:'FAST',col:'#C9A84C',colr:'201,168,76'},
     {id:'S3',vel:'SLOW',col:'#5F7C6C',colr:'95,124,108'},
-    {id:'S4',vel:'MEDIUM',col:'#2E6DB4',colr:'46,109,180'},
+    {id:'S4',vel:'MEDIUM',col:'#D4B870',colr:'46,109,180'},
     {id:'S5',vel:'FAST',col:'#1A7A8A',colr:'26,122,138'},
     {id:'S6',vel:'MEDIUM',col:'#C9A84C',colr:'201,168,76'}
   ];
@@ -1191,7 +1191,7 @@ update();
      detail:'S2 is the highest-confidence cascade. HPA axis dysregulation from metabolic stress suppressing gonadal hormone output is well-documented. Multiple RCTs and meta-analyses confirm the Z1-to-Z5 direction. FAST velocity reflects the rapid hormonal response to metabolic correction.'},
     {id:'S3',name:'Toxic Load to Metabolic',from:'Z4',to:'Z1',vel:'SLOW',evidence:'Emerging',col:'#5F7C6C',
      detail:'S3 evidence is EMERGING. Environmental toxin burden affecting metabolic function is supported by epidemiological data and mechanistic studies (endocrine disruptors, heavy metals, persistent organic pollutants). SLOW velocity reflects the chronic, insidious nature of toxic accumulation. Long-horizon intervention required.'},
-    {id:'S4',name:'Hormonal-Gut Axis',from:'Z5',to:'Z2',vel:'MEDIUM',evidence:'THEORETICAL',col:'#2E6DB4',
+    {id:'S4',name:'Hormonal-Gut Axis',from:'Z5',to:'Z2',vel:'MEDIUM',evidence:'THEORETICAL',col:'#D4B870',
      detail:'S4 is THEORETICAL. While hormonal influence on gut function has some mechanistic plausibility (oestrogen receptor density in gut epithelium, testosterone effects on microbiome diversity), the evidence for a directed cascade from Z5 to Z2 does not meet the threshold for clinical action. S4 is permanently excluded from DRD computation (D-12). Do not base intervention sequencing on S4.'},
     {id:'S5',name:'Gut-Cardiac Axis',from:'Z2',to:'Z3',vel:'FAST',evidence:'Emerging',col:'#1A7A8A',
      detail:'S5 evidence is EMERGING. The gut-cardiovascular axis via TMAO, LPS translocation, and systemic inflammation is rapidly gaining evidentiary support. FAST velocity reflects the acute inflammatory cascade from gut dysbiosis to endothelial dysfunction. Bridge markers: hs-CRP, homocysteine.'},
@@ -1236,7 +1236,7 @@ update();
     <span><span class="la5-tl-legend-dot" style="background:#C9A84C;"></span>FAST</span>
     <span><span class="la5-tl-legend-dot" style="background:rgba(244,244,242,.5);"></span>MEDIUM</span>
     <span><span class="la5-tl-legend-dot" style="background:rgba(244,244,242,.25);"></span>SLOW</span>
-    <span style="border-left:1px dashed var(--t12);padding-left:8px;margin-left:4px;"><span class="la5-tl-legend-dot" style="background:#2E6DB4;"></span>THEORETICAL</span>
+    <span style="border-left:1px dashed var(--t12);padding-left:8px;margin-left:4px;"><span class="la5-tl-legend-dot" style="background:#D4B870;"></span>THEORETICAL</span>
   </div>
   <div style="margin-top:10px;"><button class="la5-btn" id="la5-tl-play">Play Timeline</button></div>
 </section>
@@ -1246,7 +1246,7 @@ update();
     {id:'S1',vel:'MEDIUM',col:'#1A7A8A',speed:2.4,y:10},
     {id:'S2',vel:'FAST',col:'#C9A84C',speed:1.2,y:42},
     {id:'S3',vel:'SLOW',col:'#5F7C6C',speed:4.5,y:74},
-    {id:'S4',vel:'MEDIUM',col:'#2E6DB4',speed:2.4,y:106,theoretical:true},
+    {id:'S4',vel:'MEDIUM',col:'#D4B870',speed:2.4,y:106,theoretical:true},
     {id:'S5',vel:'FAST',col:'#1A7A8A',speed:1.2,y:138},
     {id:'S6',vel:'MEDIUM',col:'#C9A84C',speed:2.4,y:170}
   ];
@@ -1517,14 +1517,14 @@ update();
     {id:'Z2',label:'Z2',sub:'(immune)',x:cx+220,y:165,color:'#1A7A8A',r:'26,122,138'},
     {id:'Z3',label:'Z3',sub:'(neuro)',x:cx+136,y:345,color:'#7B5EA7',r:'123,94,167'},
     {id:'Z4',label:'Z4',sub:'(structural)',x:cx-136,y:345,color:'#5F7C6C',r:'95,124,108'},
-    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#2E6DB4',r:'46,109,180'}
+    {id:'Z5',label:'Z5',sub:'(endocrine signalling)',x:cx-220,y:165,color:'#D4B870',r:'46,109,180'}
   ];
 
   var cascades=[
     {id:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:''},
     {id:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:''},
     {id:'S3',from:3,to:0,color:'#5F7C6C',speed:1.2,dash:false,label:''},
-    {id:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'THEORETICAL'},
+    {id:'S4',from:4,to:1,color:'#D4B870',speed:2,dash:true,label:'THEORETICAL'},
     {id:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:''},
     {id:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'UNIDIRECTIONAL'}
   ];
@@ -1686,7 +1686,7 @@ update();
     {id:'Z2',label:'Z2',color:'#1A7A8A',angle:-18,thresh:40,val:50},
     {id:'Z3',label:'Z3',color:'#7B5EA7',angle:54,thresh:40,val:50},
     {id:'Z4',label:'Z4',color:'#5F7C6C',angle:126,thresh:40,val:50},
-    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#2E6DB4',angle:198,thresh:32,val:50}
+    {id:'Z5',label:'Z5 (endocrine signalling)',color:'#D4B870',angle:198,thresh:32,val:50}
   ];
 
   function rad(d){return d*Math.PI/180;}
@@ -2187,7 +2187,7 @@ update();
 ============================================================ */
 (function(){
   var PFX = 'la5';
-  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_COLS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var ZONE_IDS  = ['Z1','Z2','Z3','Z4','Z5'];
   var ZONE_NAMES = ['Metabolic','Immune','Neurological','Hormonal','Cardiovascular'];
   var N6_DAMP = 0.7;

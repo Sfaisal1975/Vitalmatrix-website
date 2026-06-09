@@ -13,7 +13,7 @@
   --z2:#1A7A8A;--z2r:26,122,138;--z2l:#2A9BAD;
   --z3:#7B5EA7;--z3r:123,94,167;--z3l:#9B7EC8;
   --z4:#5F7C6C;--z4r:95,124,108;--z4l:#7A9485;
-  --z5:#2E6DB4;--z5r:46,109,180;--z5l:#4A8AD0;
+  --z5:#D4B870;--z5r:46,109,180;--z5l:#4A8AD0;
   --gold:#C9A84C;--teal:#1A7A8A;--teal-l:#2A9BAD;
   --improve:#2D9C6A;--worsen:#C0392B;--neutral:rgba(244,244,242,.35);
   --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
@@ -200,7 +200,7 @@ var ZONES = [
   {id:'z2',name:'Z2 Resilience Network',short:'Z2',col:'#1A7A8A',colr:'26,122,138'},
   {id:'z3',name:'Z3 Cardiovascular-Neural',short:'Z3',col:'#7B5EA7',colr:'123,94,167'},
   {id:'z4',name:'Z4 Detoxification Trident',short:'Z4',col:'#5F7C6C',colr:'95,124,108'},
-  {id:'z5',name:'Z5 Hormonal Terrain Axis',short:'Z5',col:'#2E6DB4',colr:'46,109,180'}
+  {id:'z5',name:'Z5 Hormonal Terrain Axis',short:'Z5',col:'#D4B870',colr:'46,109,180'}
 ];
 var PRESETS = {
   typical:{s1:{z1:72,z2:78,z3:35,z4:48,z5:65},s3:{z1:55,z2:60,z3:30,z4:38,z5:52}},
@@ -323,7 +323,7 @@ update();
 (function(){
   'use strict';
   var cx=130,cy=130,maxR=100;
-  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var zoneLabels=['Z1','Z2','Z3','Z4','Z5'];
   var frozen=false;
   var morphPhase=0;
@@ -426,7 +426,7 @@ update();
 <script>
 (function(){
   'use strict';
-  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var zoneNames=['Z1','Z2','Z3','Z4','Z5'];
   var ids=['z1','z2','z3','z4','z5'];
   var positiveCol='#C0392B';
@@ -607,7 +607,7 @@ update();
 <script>
 (function(){
   'use strict';
-  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var zoneNames=['Z1','Z2','Z3','Z4','Z5'];
   var ids=['z1','z2','z3','z4','z5'];
 
@@ -730,7 +730,7 @@ update();
 <script>
 (function(){
   'use strict';
-  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var zoneNames=['Z1','Z2','Z3','Z4','Z5'];
   var ids=['z1','z2','z3','z4','z5'];
   var THRESHOLD=8;
@@ -825,7 +825,7 @@ update();
 <script>
 (function(){
   'use strict';
-  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var ZONE_NAMES=['Z1','Z2','Z3','Z4','Z5'];
   var N6_DAMP=0.7;
   var timepoints=[
@@ -961,7 +961,7 @@ update();
 <script>
 (function(){
   'use strict';
-  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var ZONE_NAMES=['Z1','Z2','Z3','Z4','Z5'];
   var ids=['z1','z2','z3','z4','z5'];
 
@@ -1070,7 +1070,7 @@ update();
 <script>
 (function(){
   'use strict';
-  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var ZONE_COLS=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var ids=['z1','z2','z3','z4','z5'];
   var INTERVENTIONS=[
     {name:'Metabolic support protocol',zones:[0],desc:'Targets Z1 burden reduction via energy axis support.'},
@@ -1327,13 +1327,13 @@ update();
     {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',x:530,y:185},
     {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',x:445,y:365},
     {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',x:155,y:365},
-    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',x:70,y:185}
+    {id:'Z5',label:'Z5 Circulatory',color:'#D4B870',x:70,y:185}
   ];
   var cascades = [
     {name:'S1',from:1,to:0,color:'#C9A84C',speed:2,dash:false,label:'S1: Z2\u2192Z1'},
     {name:'S2',from:0,to:4,color:'#C9A84C',speed:3,dash:false,label:'S2: Z1\u2192Z5'},
     {name:'S3',from:3,to:0,color:'#5F7C6C',speed:1,dash:false,label:'S3: Z4\u2192Z1'},
-    {name:'S4',from:4,to:1,color:'#2E6DB4',speed:2,dash:true,label:'S4: Z5\u2192Z2 (theoretical)'},
+    {name:'S4',from:4,to:1,color:'#D4B870',speed:2,dash:true,label:'S4: Z5\u2192Z2 (theoretical)'},
     {name:'S5',from:1,to:2,color:'#1A7A8A',speed:3,dash:false,label:'S5: Z2\u2192Z3'},
     {name:'S6',from:0,to:2,color:'#1A7A8A',speed:2,dash:false,label:'S6: Z1\u2192Z3 (unidirectional)'}
   ];
@@ -1474,7 +1474,7 @@ update();
     {id:'Z2',label:'Z2 Respiratory',color:'#1A7A8A',threshold:40,value:50},
     {id:'Z3',label:'Z3 Eliminative',color:'#7B5EA7',threshold:40,value:50},
     {id:'Z4',label:'Z4 Structural',color:'#5F7C6C',threshold:40,value:50},
-    {id:'Z5',label:'Z5 Circulatory',color:'#2E6DB4',threshold:32,value:50}
+    {id:'Z5',label:'Z5 Circulatory',color:'#D4B870',threshold:32,value:50}
   ];
   var sweepAngle = 0;
   var dotEls = []; var glowEls = []; var amberEls = []; var scoreEls = [];
@@ -2194,7 +2194,7 @@ update();
   var panelB = document.getElementById('la8-compare-panelB');
   var divCol = document.getElementById('la8-compare-divCol');
   var zoneNames = ['Z1 Metabolic','Z2 Immune','Z3 Neuro','Z4 Gut','Z5 Cardiac'];
-  var zoneColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
+  var zoneColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
   var valsA = [50,50,50,50,50];
   var valsB = [50,50,50,50,50];
 

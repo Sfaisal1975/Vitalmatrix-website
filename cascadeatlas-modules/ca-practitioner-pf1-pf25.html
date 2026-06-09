@@ -46,7 +46,7 @@ var driverData=[
 {id:'D7',label:'D7: Methylation Impairment',zones:['z1','z3','z4'],effect:'Epigenetic regulation falters across zones'}
 ];
 var zoneNames={z1:'Z1 Metabolic Energy',z2:'Z2 Resilience',z3:'Z3 Cardiovascular-Neural',z4:'Z4 Detoxification',z5:'Z5 Hormonal Terrain'};
-var zoneColours={z1:'#C9A84C',z2:'#1A7A8A',z3:'#7B5EA7',z4:'#5F7C6C',z5:'#2E6DB4'};
+var zoneColours={z1:'#C9A84C',z2:'#1A7A8A',z3:'#7B5EA7',z4:'#5F7C6C',z5:'#D4B870'};
 var wrap=document.getElementById('vm-pf01-drivers');
 var activeDrivers={};
 for(var i=0;i<driverData.length;i++){
@@ -118,7 +118,7 @@ var zones=[
 {id:'z2',label:'Z2',colour:'#1A7A8A',x:85,y:35},
 {id:'z3',label:'Z3',colour:'#7B5EA7',x:72,y:80},
 {id:'z4',label:'Z4',colour:'#5F7C6C',x:28,y:80},
-{id:'z5',label:'Z5',colour:'#2E6DB4',x:15,y:35}
+{id:'z5',label:'Z5',colour:'#D4B870',x:15,y:35}
 ];
 var upstreamMap={
 z1:{nodes:['N3','N6'],drivers:['D1: Oxidative Stress','D3: Glycaemic Dysregulation'],stacks:['S1 (Z2 to Z1)','S3 (Z4 to Z1)']},
@@ -215,7 +215,7 @@ var drivers=[
 {id:'D1',label:'D1: Oxidative Stress',zones:3,impact:87,colour:'#C9A84C'},
 {id:'D2',label:'D2: Inflammation',zones:3,impact:82,colour:'#1A7A8A'},
 {id:'D7',label:'D7: Methylation Impairment',zones:3,impact:79,colour:'#7B5EA7'},
-{id:'D6',label:'D6: HPA Axis Disruption',zones:2,impact:74,colour:'#2E6DB4'},
+{id:'D6',label:'D6: HPA Axis Disruption',zones:2,impact:74,colour:'#D4B870'},
 {id:'D3',label:'D3: Glycaemic Dysregulation',zones:2,impact:71,colour:'#C9A84C'},
 {id:'D5',label:'D5: Gut Permeability',zones:1,impact:63,colour:'#1A7A8A'},
 {id:'D4',label:'D4: Toxin Accumulation',zones:1,impact:58,colour:'#5F7C6C'}
@@ -467,7 +467,7 @@ var zones=[
 {id:'Z2',colour:'#1A7A8A',data:[40,42,45,50,55],trend:'worsening'},
 {id:'Z3',colour:'#7B5EA7',data:[30,35,32,38,34],trend:'mixed'},
 {id:'Z4',colour:'#5F7C6C',data:[55,52,48,44,40],trend:'improving'},
-{id:'Z5',colour:'#2E6DB4',data:[28,30,35,40,45],trend:'worsening'}
+{id:'Z5',colour:'#D4B870',data:[28,30,35,40,45],trend:'worsening'}
 ];
 var grid=document.getElementById('vm-pf07-grid');
 function trendColour(t){if(t==='improving')return '#5F7C6C';if(t==='worsening')return '#D63030';return '#C9A84C';}
@@ -542,7 +542,7 @@ var events=[
 {time:'24 months ago',event:'Recurrent infections',zone:'Z2',colour:'#1A7A8A',root:false},
 {time:'18 months ago',event:'Brain fog and palpitations',zone:'Z3',colour:'#7B5EA7',root:false},
 {time:'12 months ago',event:'Chemical sensitivity',zone:'Z4',colour:'#5F7C6C',root:false},
-{time:'6 months ago',event:'Hormonal disruption',zone:'Z5',colour:'#2E6DB4',root:false}
+{time:'6 months ago',event:'Hormonal disruption',zone:'Z5',colour:'#D4B870',root:false}
 ];
 var timeline=document.getElementById('vm-pf08-timeline');
 var rootEl=document.getElementById('vm-pf08-root');
@@ -608,7 +608,7 @@ var zones=[
 {id:'Z2',colour:'#1A7A8A',t1:42,t2:50},
 {id:'Z3',colour:'#7B5EA7',t1:38,t2:35},
 {id:'Z4',colour:'#5F7C6C',t1:55,t2:44},
-{id:'Z5',colour:'#2E6DB4',t1:30,t2:40}
+{id:'Z5',colour:'#D4B870',t1:30,t2:40}
 ];
 var carousel=document.getElementById('vm-pf09-carousel');
 for(var i=0;i<zones.length;i++){
@@ -988,7 +988,7 @@ txt.textContent=insights[card.getAttribute('data-state')];
 <circle id="vm-pf15-z2" cx="185" cy="70" r="8" fill="#1A7A8A" opacity="0.4"/>
 <circle id="vm-pf15-z3" cx="155" cy="165" r="8" fill="#7B5EA7" opacity="0.4"/>
 <circle id="vm-pf15-z4" cx="45" cy="165" r="8" fill="#5F7C6C" opacity="0.4"/>
-<circle id="vm-pf15-z5" cx="15" cy="70" r="8" fill="#2E6DB4" opacity="0.4"/>
+<circle id="vm-pf15-z5" cx="15" cy="70" r="8" fill="#D4B870" opacity="0.4"/>
 <line id="vm-pf15-s1-line" x1="185" y1="70" x2="100" y2="15" stroke="#1A7A8A" stroke-width="2" opacity="0" stroke-dasharray="4,3"/>
 <line id="vm-pf15-s5-line" x1="185" y1="70" x2="155" y2="165" stroke="#1A7A8A" stroke-width="2" opacity="0" stroke-dasharray="4,3"/>
 <text x="100" y="100" text-anchor="middle" fill="rgba(255,255,255,0.1)" font-size="10" font-family="DM Mono,monospace">NEXUS</text>
