@@ -1763,7 +1763,7 @@ N6 (endocrine signalling) dampening: 0.7x | Floor: MAX(dampened) minus 10 | Disp
 
     var lines = [];
     lines.push('==================================================');
-    lines.push('  Terrain Support Considerations');
+    lines.push('  Personalised Terrain Management Protocol');
     lines.push('  For practitioner use only. Not a diagnostic tool.');
     lines.push('==================================================');
     lines.push('');
@@ -1775,7 +1775,7 @@ N6 (endocrine signalling) dampening: 0.7x | Floor: MAX(dampened) minus 10 | Disp
     }
     lines.push('');
     lines.push('Active Cascades:      ' + (activeCascades.length > 0 ? activeCascades.join(', ') : 'None'));
-    lines.push('Highest Burden Zone:  ' + names[highestIdx] + ' (DRD entry point)');
+    lines.push('Driver:  ' + names[highestIdx] + ' (DRD entry point)');
     lines.push('N6 Dampening:         0.7x (endocrine signalling)');
     lines.push('TerrainLock:          ' + (terrainLock ? 'ACTIVE (Z1 + Z2 + Z4 above threshold)' : 'Inactive'));
     lines.push('');
@@ -1938,7 +1938,7 @@ N6 (endocrine signalling) dampening: 0.7x | Floor: MAX(dampened) minus 10 | Disp
     <div class="la10-dep-card" id="la10-dep-la4" tabindex="0">
       <div class="la10-dep-card-label">LA-4 DRD</div>
       <div class="la10-dep-line"></div>
-      <div class="la10-dep-card-desc">Zone scores - Highest burden zone designation</div>
+      <div class="la10-dep-card-desc">Zone scores - Driver designation</div>
     </div>
     <div class="la10-dep-card" id="la10-dep-la8" tabindex="0">
       <div class="la10-dep-card-label">LA-8 DeltaScan</div>
@@ -1980,7 +1980,7 @@ N6 (endocrine signalling) dampening: 0.7x | Floor: MAX(dampened) minus 10 | Disp
   /* ===== F1: GLOSSARY ===== */
   var glossTerms = [
     {term:'NCZ',def:'No-Compromise Zone. Areas of critical clinical priority that cannot be overridden.'},
-    {term:'DRD',def:'Highest burden zone. The dominant risk domain driving clinical priority.'},
+    {term:'DRD',def:'Driver. The dominant risk domain driving clinical priority.'},
     {term:'APEX',def:'Assessment Priority and Evidence Xray. Prioritisation framework for clinical evidence.'},
     {term:'FLINT',def:'Functional Layers of Intelligence in Nested Terrain. Levels L1 through L5.'},
     {term:'TerrainLock',def:'Condition requiring s1Active AND s2Active AND s4Active before terrain analysis proceeds.'},

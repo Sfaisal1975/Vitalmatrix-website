@@ -82,7 +82,7 @@ Built 11 premium interactive features for the P14 NCZ Architecture website page,
 - Zone thresholds: Z1-Z4=40, Z5=32
 - Display: 0-10 inverted, ROUND((100-internal)/10, 0)
 - Floor: MAX(dampened node values) - 10
-- DRD: "Highest burden zone" (T-01, never "Driver")
+- DRD: "Driver" (T-01, never "Driver")
 - TerrainLock: Z2→Z1→Z5→Z2, correct activation
 - Zone colours D-53/D-85: Z1=#C9A84C, Z2=#1A7A8A, Z3=#7B5EA7, Z4=#5F7C6C, Z5=#2E6DB4
 - No template literals, no default parameters, no position:fixed

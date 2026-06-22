@@ -19,7 +19,7 @@
 - N6 dampening: 0.7x applied to zone average and floor check.
 - Display scale: 0-10 inverted. Translation: ROUND((100 - internal) / 10, 0).
 - TerrainLock: Z2 to Z1 to Z5 to Z2. Activation: S1 Active + S2 Active + (S4 Active OR both Z5 and Z2 internal >= 60).
-- DRD Phase 1 display: "Highest burden zone" (never "Driver"). T-01a active.
+- DRD Phase 1 display: "Driver" (never "Driver"). T-01a active.
 
 ## Zone Colours (D-53, website and practitioner-facing)
 
@@ -109,7 +109,7 @@ Display: percentage bar, sorted descending
 
 ### F4: Intervention Sequence Animator
 
-**What:** "Simulate" button animates predicted terrain response to treating DRD-designated highest burden zone. 4-step sequence over 3 seconds: (a) driver zone score dims, (b) velocity badges visually downshift, (c) reactor zones dim with stagger delay, (d) TerrainLock re-evaluates.
+**What:** "Simulate" button animates predicted terrain response to treating DRD-designated Driver. 4-step sequence over 3 seconds: (a) driver zone score dims, (b) velocity badges visually downshift, (c) reactor zones dim with stagger delay, (d) TerrainLock re-evaluates.
 
 **Clinical question answered:** "Why does treating the driver first produce the deepest downstream shift?"
 
@@ -364,7 +364,7 @@ segment width = (loadPerZone[z] / totalLoad) * 100%
 
 - [x] S4 labelled THEORETICAL on every reference
 - [x] S6 labelled UNIDIRECTIONAL in same sentence
-- [x] DRD display: "Highest burden zone" (T-01a)
+- [x] DRD display: "Driver" (T-01a)
 - [x] Evidence tier on every clinical claim
 - [x] Protective header (W5-3, permanent)
 - [x] Blank Practitioner Clinical Decision section (W5-4, permanent)

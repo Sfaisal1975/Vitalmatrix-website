@@ -4,7 +4,7 @@
 
 <!-- ══════════════════════════════════════════════════════════════
      OV11: Four-Output Phase 1 Overlay Map
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov11-section{background:#0A0F14;padding:64px 24px;margin:0}
@@ -47,7 +47,7 @@
 }
 </style>
 <section id="vm-ov11-section">
-<div class="vm-ov11-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov11-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov11-title">Four-Output Phase 1 Overlay Map</h2>
 <div class="vm-ov11-grid" id="vm-ov11-grid"></div>
 <div class="vm-ov11-summary">
@@ -57,9 +57,9 @@
 <script>
 (function(){
 var outputs=[
-{name:"Output 1: Terrain Report",mode:"Practitioner-assisted",drd:"Highest burden zone identified per DRD logic",roadmap:"Phase 1.5: automated narrative. Phase 2: patient-facing summary.",phases:[
+{name:"Output 1: Terrain Report",mode:"Practitioner-assisted",drd:"Driver identified per DRD logic",roadmap:"Phase 1.5: automated narrative. Phase 2: patient-facing summary.",phases:[
 {label:"Phase 1: Static PDF generation",cls:"p1"},{label:"Phase 1.5: Dynamic terrain narrative",cls:"p15"},{label:"Phase 2: Patient portal delivery",cls:"p2"}]},
-{name:"Output 2: APEX Investigation Plan",mode:"Practitioner-assisted",drd:"Three-tier budget cascade aligned to highest burden zone",roadmap:"Phase 1.5: lab API integration. Phase 2: auto-ordering.",phases:[
+{name:"Output 2: APEX Investigation Plan",mode:"Practitioner-assisted",drd:"Three-tier budget cascade aligned to Driver",roadmap:"Phase 1.5: lab API integration. Phase 2: auto-ordering.",phases:[
 {label:"Phase 1: Tiered checklist",cls:"p1"},{label:"Phase 1.5: Lab integration",cls:"p15"},{label:"Phase 2: Automated ordering",cls:"p2"}]},
 {name:"Output 3: Consideration Engine",mode:"Practitioner-assisted",drd:"Terrain support items ranked by zone burden",roadmap:"Phase 1.5: evidence-weighted ranking. Phase 2: interaction checks.",phases:[
 {label:"Phase 1: Category-based suggestions",cls:"p1"},{label:"Phase 1.5: Evidence weighting",cls:"p15"},{label:"Phase 2: Interaction engine",cls:"p2"}],cadence:true},
@@ -116,7 +116,7 @@ obs.observe(grid);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV12: CLVF/VERITY Eight-Rule Verification Gate
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov12-section{background:#1A2030;padding:64px 24px;margin:0}
@@ -153,7 +153,7 @@ obs.observe(grid);
 }
 </style>
 <section id="vm-ov12-section">
-<div class="vm-ov12-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov12-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov12-title">CLVF/VERITY Eight-Rule Verification Gate</h2>
 <div class="vm-ov12-banner">Internal quality gate. Not visible to practitioners.</div>
 <div class="vm-ov12-list" id="vm-ov12-list"></div>
@@ -238,7 +238,7 @@ setTimeout(function(){runChecks();},100);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV13: VOLTERRAIN Driver-to-Node Impact Matrix
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov13-section{background:#0A0F14;padding:64px 24px;margin:0}
@@ -275,7 +275,7 @@ setTimeout(function(){runChecks();},100);
 }
 </style>
 <section id="vm-ov13-section">
-<div class="vm-ov13-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov13-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov13-title">VOLTERRAIN Driver-to-Node Impact Matrix</h2>
 <div class="vm-ov13-hint">Click a driver row or node column to highlight connections. Double-click to reset.</div>
 <div class="vm-ov13-wrap">
@@ -378,7 +378,7 @@ table.addEventListener("dblclick",function(){clearHighlights();});
 
 <!-- ══════════════════════════════════════════════════════════════
      OV14: Bioelectrical Context State Machine
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov14-section{background:#1A2030;padding:64px 24px;margin:0}
@@ -429,7 +429,7 @@ table.addEventListener("dblclick",function(){clearHighlights();});
 }
 </style>
 <section id="vm-ov14-section">
-<div class="vm-ov14-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov14-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov14-title">Bioelectrical Context State Machine</h2>
 <div class="vm-ov14-machine" id="vm-ov14-machine">
 <div class="vm-ov14-state vm-ov14-stable active-state" id="vm-ov14-s-stable">
@@ -450,7 +450,7 @@ table.addEventListener("dblclick",function(){clearHighlights();});
 <div class="vm-ov14-drivers" id="vm-ov14-drivers"></div>
 <div class="vm-ov14-compound" id="vm-ov14-compound">
 <div class="vm-ov14-compound-title">Compound Loading Warning</div>
-<div class="vm-ov14-compound-text">Multiple drivers are simultaneously active. Compound loading increases the likelihood of terrain state deterioration. Consider prioritising the highest burden zone first.</div>
+<div class="vm-ov14-compound-text">Multiple drivers are simultaneously active. Compound loading increases the likelihood of terrain state deterioration. Consider prioritising the Driver first.</div>
 </div>
 <div class="vm-ov14-detail" id="vm-ov14-detail"></div>
 <div class="vm-ov14-timeline" id="vm-ov14-timeline">
@@ -559,7 +559,7 @@ addTimelineDot(0);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV15: Synthesis Confidence Score Calculator
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov15-section{background:#0A0F14;padding:64px 24px;margin:0}
@@ -598,7 +598,7 @@ addTimelineDot(0);
 }
 </style>
 <section id="vm-ov15-section">
-<div class="vm-ov15-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov15-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov15-title">Synthesis Confidence Score Calculator</h2>
 <div class="vm-ov15-bars" id="vm-ov15-bars"></div>
 <div class="vm-ov15-confidence">
@@ -841,8 +841,8 @@ var steps=[
 {num:"Step 2",title:"Node Scoring",body:"Seven nodes scored on internal 0 to 100 scale. N6 dampened at 0.7x coefficient. Read-only source data preserved.",badges:["Read-only"]},
 {num:"Step 3",title:"Zone Aggregation",body:"Five zones computed from node composites. Z5 threshold set at 32 (hormonal sensitivity). Z1 to Z4 thresholds at 40."},
 {num:"Step 4",title:"Cascade Activation",body:"Six stacks evaluated. S4 Theoretical excluded from DRD trace (D-12). S6 Unidirectional Z1 to Z3 only. Velocity classes assigned."},
-{num:"Step 5",title:"DRD Designation",body:"Highest burden zone identified. Z2 tiebreaker applied. TerrainLock detection runs across S1, S2, and S4 loop."},
-{num:"Step 6",title:"Output Synthesis",body:"Terrain Support Considerations generated under T-01 restrictions. Evidence floor rule applied. No write-back to source data. One pass per session.",badges:["No-write-back","One pass per session"]}
+{num:"Step 5",title:"DRD Designation",body:"Driver identified. Z2 tiebreaker applied. TerrainLock detection runs across S1, S2, and S4 loop."},
+{num:"Step 6",title:"Output Synthesis",body:"Personalised Terrain Management Protocol generated under T-01 restrictions. Evidence floor rule applied. No write-back to source data. One pass per session.",badges:["No-write-back","One pass per session"]}
 ];
 var track=document.getElementById("vm-ov16-track");
 var dotsC=document.getElementById("vm-ov16-dots");
@@ -1300,9 +1300,9 @@ detailEl.className="vm-ov18-detail visible";
 (function(){
 var panelsData=[
 {title:"TerrainSpiral Compliance (D-179)",
-permitted:["Terrain Support Considerations","Highest burden zone","Terrain Resilience","Zone activation","Cascade pathway","Evidence tier"],
+permitted:["Personalised Terrain Management Protocol","Driver","Terrain Resilience","Zone activation","Cascade pathway","Evidence tier"],
 prohibited:["prognosis","prediction","clinical staging","diagnosis","treatment protocol","clinical decision support"],
-checks:["Protective header present","Title: Terrain Support Considerations","DRD shown as Highest burden zone","Practitioner Clinical Decision section blank"]},
+checks:["Protective header present","Title: Personalised Terrain Management Protocol","DRD shown as Driver","Practitioner Clinical Decision section blank"]},
 {title:"IC39 Compliance (D-180)",
 permitted:["Clinical intelligence platform","Terrain intelligence","Practitioner review","Evidence classification","Node-Cascade Zone"],
 prohibited:["clinical decision support","diagnostic tool","clinical AI platform","treatment protocol","prognosis","prediction"],
@@ -1659,7 +1659,7 @@ setInterval(drawCanvas,3000);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV21: Cascade Velocity Race Track
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){

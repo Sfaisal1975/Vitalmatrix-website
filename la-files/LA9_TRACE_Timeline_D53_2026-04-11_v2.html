@@ -1667,7 +1667,7 @@ For practitioner use only. Not a diagnostic tool.
     var maxBurden=0;var maxIdx=0;
     var lines=[];
     lines.push('=========================================');
-    lines.push('Terrain Support Considerations');
+    lines.push('Personalised Terrain Management Protocol');
     lines.push('For practitioner use only. Not a diagnostic tool.');
     lines.push('=========================================');
     lines.push('');
@@ -1690,7 +1690,7 @@ For practitioner use only. Not a diagnostic tool.
     if(s2Active)cascadesArr.push('S2 (Z1>Z5)');
     if(s4Active)cascadesArr.push('S4 (Z5>Z2, theoretical)');
     lines.push('Active Cascades: '+(cascadesArr.length>0?cascadesArr.join(', '):'None'));
-    lines.push('Highest burden zone (DRD): '+labels[maxIdx]);
+    lines.push('Driver (DRD): '+labels[maxIdx]);
     lines.push('N6 Dampening: Applied to Z5 (endocrine signalling) at 0.7x');
     lines.push('TerrainLock Status: '+(locked?'ACTIVE (S1+S2+S4)':'INACTIVE'));
     lines.push('');
@@ -1831,7 +1831,7 @@ For practitioner use only. Not a diagnostic tool.
     <div class="la9-dep-card" id="la9-dep-la4" tabindex="0">
       <div class="la9-dep-card-label">LA-4 DRD</div>
       <div class="la9-dep-line"></div>
-      <div class="la9-dep-card-desc">Zone designation - Highest burden zone scoring</div>
+      <div class="la9-dep-card-desc">Zone designation - Driver scoring</div>
     </div>
     <div class="la9-dep-card" id="la9-dep-la8" tabindex="0">
       <div class="la9-dep-card-label">LA-8 DeltaScan</div>
@@ -1873,7 +1873,7 @@ For practitioner use only. Not a diagnostic tool.
   /* ===== F1: GLOSSARY ===== */
   var glossTerms = [
     {term:'NCZ',def:'No-Compromise Zone. Areas of critical clinical priority that cannot be overridden.'},
-    {term:'DRD',def:'Highest burden zone. The dominant risk domain driving clinical priority.'},
+    {term:'DRD',def:'Driver. The dominant risk domain driving clinical priority.'},
     {term:'APEX',def:'Assessment Priority and Evidence Xray. Prioritisation framework for clinical evidence.'},
     {term:'FLINT',def:'Functional Layers of Intelligence in Nested Terrain. Levels L1 through L5.'},
     {term:'TerrainLock',def:'Condition requiring s1Active AND s2Active AND s4Active before terrain analysis proceeds.'},

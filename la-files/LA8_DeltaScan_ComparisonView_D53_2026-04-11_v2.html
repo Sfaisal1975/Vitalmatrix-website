@@ -601,7 +601,7 @@ update();
 <div class="vm-la8f4-wrap">
   <div class="vm-la8f4-label">LA8F4: DRD Designation Shift Tracker</div>
   <div class="vm-la8f4-track" id="vm-la8f4-track"></div>
-  <div class="vm-la8f4-note" id="vm-la8f4-note">Highest burden zone: crown indicates DRD designation</div>
+  <div class="vm-la8f4-note" id="vm-la8f4-note">Driver: crown indicates DRD designation</div>
 </div>
 </div>
 <script>
@@ -663,7 +663,7 @@ update();
       var drdLabel=document.createElement('div');
       drdLabel.className='vm-la8f4-drd-label';
       if(i===t2Drd){
-        drdLabel.textContent='Highest burden zone';
+        drdLabel.textContent='Driver';
         drdLabel.style.color=zoneColours[i];
       }
 
@@ -678,7 +678,7 @@ update();
     if(t1Drd!==t2Drd){
       note.textContent='DRD shift: '+zoneNames[t1Drd]+' (T1) \u2192 '+zoneNames[t2Drd]+' (T2)';
     }else{
-      note.textContent='DRD unchanged: '+zoneNames[t2Drd]+' remains highest burden zone';
+      note.textContent='DRD unchanged: '+zoneNames[t2Drd]+' remains Driver';
     }
   }
 
@@ -1062,7 +1062,7 @@ update();
 .la8-impact-note{font-family:var(--fm);font-size:8px;color:var(--t35);margin-top:10px;font-style:italic;}
 </style>
 <div class="la8-feat-impact" id="la8-feat-impact">
-  <div class="feat-label">Terrain Support Considerations</div>
+  <div class="feat-label">Personalised Terrain Management Protocol</div>
   <div class="la8-impact-t01">For practitioner use only. Not a diagnostic tool.</div>
   <div class="la8-impact-grid" id="la8-impact-grid"></div>
   <div class="la8-impact-note">Support considerations are illustrative. Actual protocol design requires practitioner clinical judgement and full patient context.</div>
@@ -1815,7 +1815,7 @@ update();
     var maxBurden=0;var maxIdx=0;
     var lines=[];
     lines.push('=========================================');
-    lines.push('Terrain Support Considerations');
+    lines.push('Personalised Terrain Management Protocol');
     lines.push('For practitioner use only. Not a diagnostic tool.');
     lines.push('=========================================');
     lines.push('');
@@ -1855,7 +1855,7 @@ update();
     if(s4Active)cascadesArr.push('S4 (Z5>Z2, theoretical)');
     lines.push('');
     lines.push('Active Cascades (Baseline): '+(cascadesArr.length>0?cascadesArr.join(', '):'None'));
-    lines.push('Highest burden zone (DRD): '+labels[maxIdx]);
+    lines.push('Driver (DRD): '+labels[maxIdx]);
     lines.push('N6 Dampening: Applied to Z5 (endocrine signalling) at 0.7x');
     lines.push('TerrainLock Status: '+(locked?'ACTIVE (S1+S2+S4)':'INACTIVE'));
     lines.push('');
@@ -1995,7 +1995,7 @@ update();
     <div class="la8-dep-card" id="la8-dep-la4" tabindex="0">
       <div class="la8-dep-card-label">LA-4 DRD</div>
       <div class="la8-dep-line"></div>
-      <div class="la8-dep-card-desc">Zone scores T1/T2 - Highest burden zone designation</div>
+      <div class="la8-dep-card-desc">Zone scores T1/T2 - Driver designation</div>
     </div>
     <div class="la8-dep-card" id="la8-dep-la10" tabindex="0">
       <div class="la8-dep-card-label">LA-10 TIQ</div>
@@ -2037,7 +2037,7 @@ update();
   /* ===== F1: GLOSSARY ===== */
   var glossTerms = [
     {term:'NCZ',def:'No-Compromise Zone. Areas of critical clinical priority that cannot be overridden.'},
-    {term:'DRD',def:'Highest burden zone. The dominant risk domain driving clinical priority.'},
+    {term:'DRD',def:'Driver. The dominant risk domain driving clinical priority.'},
     {term:'APEX',def:'Assessment Priority and Evidence Xray. Prioritisation framework for clinical evidence.'},
     {term:'FLINT',def:'Functional Layers of Intelligence in Nested Terrain. Levels L1 through L5.'},
     {term:'TerrainLock',def:'Condition requiring s1Active AND s2Active AND s4Active before terrain analysis proceeds.'},

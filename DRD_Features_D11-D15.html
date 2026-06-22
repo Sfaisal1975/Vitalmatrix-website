@@ -612,7 +612,7 @@ canvas {
 
   <div class="drd-banner" id="drdBanner">
     <span class="crown">&#9813;</span>
-    <span class="drd-text" id="drdText">DRD: Z2 (Highest burden zone)</span>
+    <span class="drd-text" id="drdText">DRD: Z2 (Driver)</span>
   </div>
 
   <div class="btn-row">
@@ -1035,7 +1035,7 @@ canvas {
     }
     var tl = isTerrainLocked();
     html += '<li style="color:#C9A84C; margin-top:0.5rem;">TerrainLock: ' + (tl ? 'ACTIVE (Z2-Z1-Z5)' : 'Inactive') + '</li>';
-    html += '<li>DRD: ' + ZONES[getDRDIndex()].id + ' (Highest burden zone)</li>';
+    html += '<li>DRD: ' + ZONES[getDRDIndex()].id + ' (Driver)</li>';
     list.innerHTML = html;
   }
 
@@ -1142,7 +1142,7 @@ canvas {
       summary += ZONES[i].id + ': ' + scores[i] + '/100 (' + (isAboveThreshold(i) ? 'ACTIVE' : 'sub-threshold') + ', threshold=' + ZONES[i].threshold + ')\n';
     }
     summary += 'TerrainLock: ' + (tl ? 'ACTIVE (Z2-Z1-Z5)' : 'Inactive') + '\n';
-    summary += 'DRD: ' + ZONES[getDRDIndex()].id + ' (Highest burden zone)\n\n';
+    summary += 'DRD: ' + ZONES[getDRDIndex()].id + ' (Driver)\n\n';
     summary += '-- HYPOTHESIS --\n' + hypothesis + '\n\n';
     summary += '-- SEQUENCE --\n';
     for (var j = 0; j < sequenceOrder.length; j++) {
@@ -1652,7 +1652,7 @@ canvas {
   function updateDRDBanner() {
     var drdIdx = getDRDIndex();
     var text = document.getElementById('drdText');
-    text.textContent = 'DRD: ' + ZONES[drdIdx].id + ' (Highest burden zone) - Score ' + scores[drdIdx] + '/100';
+    text.textContent = 'DRD: ' + ZONES[drdIdx].id + ' (Driver) - Score ' + scores[drdIdx] + '/100';
   }
 
   function updateD15Dashboard() {
@@ -1674,7 +1674,7 @@ canvas {
       printContent += ZONES[i].id + ': ' + scores[i] + '/100 (' + (isAboveThreshold(i) ? 'ACTIVE' : 'sub-threshold') + ')\n';
     }
     printContent += '\nTerrainLock: ' + (isTerrainLocked() ? 'ACTIVE (Z2-Z1-Z5)' : 'Inactive') + '\n';
-    printContent += 'DRD Designation: ' + ZONES[getDRDIndex()].id + ' (Highest burden zone)\n\n';
+    printContent += 'DRD Designation: ' + ZONES[getDRDIndex()].id + ' (Driver)\n\n';
     printContent += '-- CASCADE ACTIVITY --\n';
     for (var s = 0; s < STACKS.length; s++) {
       var stack = STACKS[s];

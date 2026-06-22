@@ -407,7 +407,7 @@ See: CascadeAtlas_10Features_Spec.md for full detail.
 
 **F16 Output Document Preview:** White document card with T-01 header, protective header, 7 clickable sections mapping to FLINT layers, blank Practitioner Clinical Decision (5 fields, never pre-populated). T-01 fully compliant.
 
-**Compliance (all 16 features):** Vanilla JS IIFEs, no template literals, no default parameters. S4 THEORETICAL, S6 UNIDIRECTIONAL. N6 x0.7, floor MAX(dampened)-10. British English, no em dashes. DRD "Highest burden zone" (T-01a).
+**Compliance (all 16 features):** Vanilla JS IIFEs, no template literals, no default parameters. S4 THEORETICAL, S6 UNIDIRECTIONAL. N6 x0.7, floor MAX(dampened)-10. British English, no em dashes. DRD "Driver" (T-01a).
 
 ---
 
@@ -433,9 +433,9 @@ See: CascadeAtlas_10Features_Spec.md for full detail.
 **Eyebrow:** DRD Designation
 **Heading:** Which Zone Carries the Highest Burden?
 **Background:** Deep Teal #0C4452
-**Interaction:** 5 range sliders (0-100). Live calculation of active zones, highest burden zone (Z2 tiebreaker), reactor zones, cascade trace.
+**Interaction:** 5 range sliders (0-100). Live calculation of active zones, Driver (Z2 tiebreaker), reactor zones, cascade trace.
 **Logic:** Display score = ROUND((100 - internal) / 10). Floor = MAX(dampened) - 10. S4 excluded per D-12.
-**Compliance:** T-01a: "Highest burden zone" not "Driver".
+**Compliance:** T-01a: "Driver" not "Driver".
 
 ---
 
@@ -789,7 +789,7 @@ See: TerrainLock_20Features_Spec.md for full detail.
 **Background:** Deep Teal #0C4452
 **Visual:** Vertical timeline with gold gradient line. 6 fictional events (2014-2026) with zone associations, cascade activations, TerrainLock confirmation.
 **Interaction:** Click-to-expand cards revealing zone burden tags and cascade markers.
-**Compliance:** T-01: "Highest burden zone designation" not "Driver". Fictional composite disclaimer.
+**Compliance:** T-01: "Driver designation" not "Driver". Fictional composite disclaimer.
 
 ---
 
@@ -993,7 +993,7 @@ Four new sections designed to convert practitioners from interested to committed
 - **Right panel (60%):** Four stacked output cards that populate live as sliders move:
   1. **Zone Activation Card:** 5 zone badges with display scores. Active/Borderline/Inactive. N6 dampening visible.
   2. **Cascade Detection Card:** Mini CascadeAtlas pentagon (LA-1 simplified, 200x160) with active stack arrows. TerrainLock status.
-  3. **DRD Designation Card:** Highest burden zone highlighted with gold crown. Secondary burden zones listed. Z2 tiebreaker note.
+  3. **DRD Designation Card:** Driver highlighted with gold crown. Secondary burden zones listed. Z2 tiebreaker note.
   4. **TIQ Composite Card:** Score ring (LA-10 style) with band label. Zone mini-bars beneath.
 - **Bottom banner:** "This is what your first consultation produces. In under two minutes." + CTA: "Book a Clinical Walkthrough" (gold) + "Apply for Founding Access" (ghost)
 
@@ -1015,7 +1015,7 @@ Four new sections designed to convert practitioners from interested to committed
 - Hormonal-Metabolic: N1=30, N2=35, N3=70, N4=55, N5=20, N6=68, N7=0. Expected: Z1 Active, Z5 Active, S2 Active, DRD=Z1.
 - Start Blank: all zeros.
 
-**Compliance:** T-01a ("Highest burden zone"). S4 THEORETICAL. S6 UNIDIRECTIONAL. Protective disclaimer: "Fictional data framework. For architectural demonstration only. Not a clinical tool." British English. No em dashes.
+**Compliance:** T-01a ("Driver"). S4 THEORETICAL. S6 UNIDIRECTIONAL. Protective disclaimer: "Fictional data framework. For architectural demonstration only. Not a clinical tool." British English. No em dashes.
 
 **Why this converts:** The practitioner sees the architecture respond to data they recognise. They stop reading about VitalMatrix and start using it. The gap between "interested" and "I need this" closes in 30 seconds.
 
@@ -1154,7 +1154,7 @@ Four new sections designed to convert practitioners from interested to committed
   **Monday 08:30 — Sarah, 41, Teacher**
   Complex fatigue with gut and hormonal complaints. Three previous practitioners. No clear sequencing answer.
   *Without VitalMatrix:* 52 minutes reconstructing terrain logic. Note produced but sequencing rationale lives in the practitioner's head. No audit trail.
-  *With VitalMatrix:* Intake completed. FLINT pipeline runs. Z1 Active (5/10), Z2 Active (5/10), Z5 Active (6/10). S1 + S2 active. DRD: Z1 Metabolic Energy Axis. Terrain Support Considerations document generated with protective header, evidence tiers, blank Practitioner Clinical Decision section. Time: 14 minutes.
+  *With VitalMatrix:* Intake completed. FLINT pipeline runs. Z1 Active (5/10), Z2 Active (5/10), Z5 Active (6/10). S1 + S2 active. DRD: Z1 Metabolic Energy Axis. Personalised Terrain Management Protocol document generated with protective header, evidence tiers, blank Practitioner Clinical Decision section. Time: 14 minutes.
   **TIQ: 4.2/10 (Significant)**
 
   **Tuesday 10:15 — James, 56, Director**
@@ -1172,12 +1172,12 @@ Four new sections designed to convert practitioners from interested to committed
   **Thursday 09:00 — David, 63, Retired**
   Follow-up consultation. 12-week review. Initial assessment: Z2 Active, Z1 Active.
   *Without VitalMatrix:* 40 minutes. "Feels a bit better." Difficult to quantify. Symptom diary reviewed manually.
-  *With VitalMatrix:* DeltaScan comparison: Z2 internal 62 to 41 (below threshold). Z1 internal 55 to 43 (still Active). S1 deactivated. DRD shifted: Z1 now sole highest burden zone. New intervention sequence generated. Progress quantified.
+  *With VitalMatrix:* DeltaScan comparison: Z2 internal 62 to 41 (below threshold). Z1 internal 55 to 43 (still Active). S1 deactivated. DRD shifted: Z1 now sole Driver. New intervention sequence generated. Progress quantified.
   **TIQ: 5.9/10 (Moderate, improved from 3.4)**
 
   **Friday 16:30 — Last patient of the week**
   *Without VitalMatrix:* Cognitive bandwidth depleted. The same clinical depth available at 08:30 Monday is not available at 16:30 Friday. Documentation quality drops. Sequencing decisions become intuitive shortcuts.
-  *With VitalMatrix:* The architecture does not fatigue. The FLINT pipeline produces the same structured depth at 16:30 Friday as it does at 08:30 Monday. Five patients this week. Five Terrain Support Considerations documents. Five governance audit trails. Five structured outputs that can be reviewed, reproduced, and built upon.
+  *With VitalMatrix:* The architecture does not fatigue. The FLINT pipeline produces the same structured depth at 16:30 Friday as it does at 08:30 Monday. Five patients this week. Five Personalised Terrain Management Protocol documents. Five governance audit trails. Five structured outputs that can be reviewed, reproduced, and built upon.
 
 - **Weekly summary strip (gold background):**
   - 5 consultations completed
@@ -1193,7 +1193,7 @@ Four new sections designed to convert practitioners from interested to committed
 
 - **CTA row:** "Apply for Founding Access" (gold) + "Book a Discovery Call" (ghost)
 
-**Compliance:** All patient names fictional. "Composite fictional cases for architectural demonstration only." T-01a compliant: "Highest burden zone" throughout. Protective header on any output preview. S4 THEORETICAL where referenced. TerrainLock architecturally possible but clinically uncommon in Phase 1. British English. No em dashes. ICO ZC101813.
+**Compliance:** All patient names fictional. "Composite fictional cases for architectural demonstration only." T-01a compliant: "Driver" throughout. Protective header on any output preview. S4 THEORETICAL where referenced. TerrainLock architecturally possible but clinically uncommon in Phase 1. British English. No em dashes. ICO ZC101813.
 
 **Why this converts:** Features are abstract. A week is concrete. The practitioner reads Monday and recognises their own 08:30. They read Friday and recognise their own 16:30. The gap between "without" and "with" is not a technology gap. It is a quality-of-life gap. That is what sells.
 
@@ -1363,7 +1363,7 @@ Key findings:
 - Z5 = #2E6DB4 (D-85) throughout
 - S4 THEORETICAL labelled everywhere
 - S6 UNIDIRECTIONAL in same sentence everywhere
-- T-01a: "Highest burden zone" (never "Driver"), "Secondary burden zone" (never "Reactor")
+- T-01a: "Driver" (never "Driver"), "Secondary burden zone" (never "Reactor")
 - N6 dampening coefficient (0.7x) not exposed in practitioner-visible content
 - All sample data labelled "SAMPLE DATA: NOT A REAL PATIENT"
 - ANCHOR verification: deterministic, rule-based, no AI inference (D-78)

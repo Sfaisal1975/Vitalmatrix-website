@@ -112,13 +112,13 @@
 **Combines:** NCZ-F16 concept extended
 **Estimated lines:** 300-350
 
-**Concept:** Two documents. Same patient. Left: free-text workaround note (greyscale, 47 minutes, no cascade mapping, no evidence tiers, no audit trail). Right: VitalMatrix Terrain Support Considerations (full colour, 12 minutes, structured zones, cascade trace, DRD, evidence tiers, ANCHOR governance, blank PCD section).
+**Concept:** Two documents. Same patient. Left: free-text workaround note (greyscale, 47 minutes, no cascade mapping, no evidence tiers, no audit trail). Right: VitalMatrix Personalised Terrain Management Protocol (full colour, 12 minutes, structured zones, cascade trace, DRD, evidence tiers, ANCHOR governance, blank PCD section).
 
 **Delta strip:** Time 47 to 12 min. Evidence labels 0 to 14. Cascade stacks identified 0 to 2. Governance records 0 to 1. Reproducibility: "Memory" to "Documented."
 
 **Close line:** "Both documents reflect genuine clinical reasoning. Only one can be reproduced, audited, and built upon."
 
-**Compliance:** Fictional patient. T-01 compliant output. DRD "Highest burden zone." Supplements/dietary/lifestyle only. British English.
+**Compliance:** Fictional patient. T-01 compliant output. DRD "Driver." Supplements/dietary/lifestyle only. British English.
 
 **Why this converts:** Every practitioner recognises the left panel as their own notes. The recognition is instant and uncomfortable. The right panel is not aspirational. It is what VitalMatrix produces today.
 

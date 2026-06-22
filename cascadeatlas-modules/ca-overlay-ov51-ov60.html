@@ -4,7 +4,7 @@
 </style>
 <section id="vm-ov51-section">
 <div class="vm-ov51-wrap">
-<div class="vm-ov51-t01">Terrain Support Considerations</div>
+<div class="vm-ov51-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov51-heading">Zone Burden Equaliser Bars</h2>
 <div class="vm-ov51-total" id="vm-ov51-total">Total system burden: 0</div>
 <div class="vm-ov51-eq" id="vm-ov51-eq"></div>
@@ -131,7 +131,7 @@ updateTotal();
 </style>
 <section id="vm-ov52-section">
 <div class="vm-ov52-wrap">
-<div class="vm-ov52-t01">Terrain Support Considerations</div>
+<div class="vm-ov52-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov52-heading">Cascade Pathfinder</h2>
 <div class="vm-ov52-controls">
 <label style="font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.5)">Start:
@@ -282,7 +282,7 @@ drawPentBase(allEdges);
 </style>
 <section id="vm-ov53-section">
 <div class="vm-ov53-wrap">
-<div class="vm-ov53-t01">Terrain Support Considerations</div>
+<div class="vm-ov53-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov53-heading">Terrain Stability Index</h2>
 <div class="vm-ov53-gauge-wrap" id="vm-ov53-gauge-wrap">
 <canvas id="vm-ov53-canvas" width="260" height="160"></canvas>
@@ -301,7 +301,7 @@ var factors=[
 {label:'Active zones',value:'3 of 5 above threshold',impact:'-20'},
 {label:'Active cascades',value:'4 of 6 stacks firing',impact:'-25'},
 {label:'TerrainLock status',value:'DETECTED (Z2, Z1, Z5 loop)',impact:'-20'},
-{label:'Highest burden zone strength',value:'Z1 at 55/100 (0.85 intensity)',impact:'-13'}
+{label:'Driver strength',value:'Z1 at 55/100 (0.85 intensity)',impact:'-13'}
 ];
 var canvas=document.getElementById('vm-ov53-canvas');
 var ctx=canvas.getContext('2d');
@@ -378,7 +378,7 @@ drawGauge(0);
 </style>
 <section id="vm-ov54-section">
 <div class="vm-ov54-wrap">
-<div class="vm-ov54-t01">Terrain Support Considerations</div>
+<div class="vm-ov54-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov54-heading">Zone Burden River Flow</h2>
 <canvas id="vm-ov54-canvas" width="800" height="500" style="max-width:100%;border-radius:10px;background:rgba(255,255,255,.03)"></canvas>
 <div class="vm-ov54-fallback">River flow animation: desktop only. Five zone tributaries merging into a single burden river. Active zones flow rapidly. TerrainLock creates a whirlpool at the Z2-Z1-Z5 confluence.</div>
@@ -556,7 +556,7 @@ obs54.observe(document.getElementById('vm-ov54-section'));
 </style>
 <section id="vm-ov55-section">
 <div class="vm-ov55-wrap">
-<div class="vm-ov55-t01">Terrain Support Considerations</div>
+<div class="vm-ov55-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov55-heading">APEX Investigation Checklist</h2>
 <div class="vm-ov55-budget">
 <span id="vm-ov55-spent">Spent: GBP 0</span>
@@ -681,7 +681,7 @@ updateBudget();
 </style>
 <section id="vm-ov56-section">
 <div class="vm-ov56-wrap">
-<div class="vm-ov56-t01">Terrain Support Considerations</div>
+<div class="vm-ov56-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov56-heading">Zone Burden Particle Cloud</h2>
 <canvas id="vm-ov56-canvas" width="800" height="500" style="max-width:100%;border-radius:10px;background:rgba(255,255,255,.03);cursor:pointer"></canvas>
 <div class="vm-ov56-fallback">Particle cloud animation: desktop only. Each zone has a cloud of particles proportional to burden score. Click a cloud to scatter and reform particles. TerrainLock particles circulate in a triangular loop.</div>
@@ -856,7 +856,7 @@ obs56.observe(document.getElementById('vm-ov56-section'));
 </style>
 <section id="vm-ov57-section">
 <div class="vm-ov57-wrap">
-<div class="vm-ov57-t01">Terrain Support Considerations</div>
+<div class="vm-ov57-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov57-heading">Clinical Question Cascade</h2>
 <div class="vm-ov57-stack" id="vm-ov57-stack">
 <div class="vm-ov57-line" id="vm-ov57-line"></div>
@@ -869,7 +869,7 @@ var questions=[
 {layer:'L1: Node Intelligence',question:'WHERE is the burden?',answer:'<strong>Node scores (Patient B T2):</strong> N1=60, N2=55, N3=50, N4=45, N5=35, N6=65 (dampened to 45.5 at 0.7x). N7=20 (Phase 2 placeholder). Highest raw node burden: N6 (endocrine signalling) at 65, but dampening reduces its zone contribution. N1 (Assimilation) and N2 (Defence and Repair) carry the highest effective burden.'},
 {layer:'L2: Zone Intelligence',question:'WHICH zones converge?',answer:'<strong>Zone scores:</strong> Z1=55 (ACTIVE, threshold 40), Z2=48 (ACTIVE, threshold 40), Z3=30 (Inactive), Z4=35 (Inactive), Z5=42 (ACTIVE, threshold 32). Three of five zones exceed their activation thresholds. Z5 uses the lower threshold of 32 due to hormonal sensitivity.'},
 {layer:'L3: Cascade Intelligence',question:'HOW is dysfunction moving?',answer:'<strong>Active cascades:</strong> S1 Z2 to Z1 MEDIUM, S2 Z1 to Z5 FAST, S5 Z2 to Z3 FAST, S6 Z1 to Z3 UNIDIRECTIONAL. S4 Z5 to Z2 is THEORETICAL (dashed, excluded from DRD per D-12). S3 Z4 to Z1 SLOW is inactive. TerrainLock detected: Z2 to Z1 to Z5 to Z2 loop.'},
-{layer:'L4: Causality Intelligence',question:'WHO started it?',answer:'<strong>Highest burden zone:</strong> Z1 (Metabolic Energy Axis) at 55/100. DRD cascade trace excludes S4 (THEORETICAL, D-12). Z2 is the default tiebreaker entry point. The cascade chain flows from Z2 (source) through Z1 (highest burden) to Z5 (downstream).'},
+{layer:'L4: Causality Intelligence',question:'WHO started it?',answer:'<strong>Driver:</strong> Z1 (Metabolic Energy Axis) at 55/100. DRD cascade trace excludes S4 (THEORETICAL, D-12). Z2 is the default tiebreaker entry point. The cascade chain flows from Z2 (source) through Z1 (highest burden) to Z5 (downstream).'},
 {layer:'L5: Examination Intelligence',question:'WHAT should be investigated?',answer:'<strong>APEX priority:</strong> Z1-focused investigations first. Tier 1 (GBP 200 to 400): FBC, metabolic panel, thyroid panel, iron studies, vitamin D, HbA1c. Tier 2 (GBP 400 to 800): organic acids, DUTCH hormone panel, stool analysis. Tier 3 (GBP 800+): advanced cardiovascular, toxins panel. Investigation sequence follows cascade direction: source zone first, downstream reactors second.'}
 ];
 var stack=document.getElementById('vm-ov57-stack');
@@ -951,7 +951,7 @@ stack.appendChild(card);
 </style>
 <section id="vm-ov58-section">
 <div class="vm-ov58-wrap">
-<div class="vm-ov58-t01">Terrain Support Considerations</div>
+<div class="vm-ov58-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov58-heading">Cascade Frequency Spectrum</h2>
 <div class="vm-ov58-hub-wrap" id="vm-ov58-hub-wrap"></div>
 <div id="vm-ov58-bars"></div>
@@ -1070,7 +1070,7 @@ obs58.observe(document.getElementById('vm-ov58-section'));
 </style>
 <section id="vm-ov59-section">
 <div class="vm-ov59-wrap">
-<div class="vm-ov59-t01">Terrain Support Considerations</div>
+<div class="vm-ov59-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov59-heading">Terrain State Snapshot Carousel</h2>
 <div class="vm-ov59-carousel" id="vm-ov59-carousel">
 <div class="vm-ov59-track" id="vm-ov59-track"></div>
@@ -1208,7 +1208,7 @@ else goTo(current>0?current-1:snapshots.length-1);
 </style>
 <section id="vm-ov60-section">
 <div class="vm-ov60-wrap">
-<div class="vm-ov60-t01">Terrain Support Considerations</div>
+<div class="vm-ov60-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov60-heading">Architecture Quiz Challenge</h2>
 <div class="vm-ov60-sub">Educational only. Test your understanding of the overlay architecture.</div>
 <div class="vm-ov60-score" id="vm-ov60-score">Score: 0/10</div>
@@ -1229,7 +1229,7 @@ var questions=[
 {q:'What does GRADE stand for in terrain assessment?',options:['Graded Reactivity and Directional Evaluation','General Risk Assessment and Diagnostic Entry','Graduated Response Analysis and Data Extraction','Global Reactive Assessment of Diagnostic Endpoints'],correct:0},
 {q:'What is the Z5 activation threshold?',options:['40','35','32','28'],correct:2},
 {q:'How many cascade stacks exist in the architecture?',options:['4','5','6','7'],correct:2},
-{q:'What does DRD display as in Phase 1?',options:['Driver','Primary zone','Highest burden zone','Root cause'],correct:2},
+{q:'What does DRD display as in Phase 1?',options:['Driver','Primary zone','Driver','Root cause'],correct:2},
 {q:'Which stack is labelled UNIDIRECTIONAL?',options:['S2','S4','S5','S6'],correct:3},
 {q:'What is the N6 dampening coefficient?',options:['0.5x','0.6x','0.7x','0.8x'],correct:2},
 {q:'How many zones are in the NCZ architecture?',options:['4','5','6','7'],correct:1}

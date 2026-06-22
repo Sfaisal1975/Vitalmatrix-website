@@ -33,7 +33,7 @@ Two parallel timelines: treat wrong zone (partial improvement then regression) v
 Shareable URL encoding terrain state. Recipient adjusts own sliders. Split-screen comparison of two practitioners' assessments.
 
 ### F4. Pattern Recognition Cohort [DAT/NET]
-Anonymised interaction analytics from website visitors. "73% designated the same highest burden zone." Requires significant visitor volume.
+Anonymised interaction analytics from website visitors. "73% designated the same Driver." Requires significant visitor volume.
 
 ### F5. Friday 16:30 Stress Test [WEB]
 Timed challenge: 90-second fictional case assessment. Compare to benchmark. Three difficulty levels. Scoring on zone/cascade/DRD accuracy.
@@ -219,7 +219,7 @@ Match current patient's Stack Fingerprint against anonymised caseload. Historica
 One bespoke sentence per assessment derived from DRD, primary cascade, downstream target. The sentence the patient remembers and repeats.
 
 ### F66. Cascade Pressure Gauge [PLT]
-Total inbound cascade velocity weight per zone. Zone under highest cascade pressure may differ from highest burden zone. Distinct clinical insight.
+Total inbound cascade velocity weight per zone. Zone under highest cascade pressure may differ from Driver. Distinct clinical insight.
 
 ### F67. Discharge Readiness Score [PLT/DAT]
 5 architectural criteria for discharge: all zones below threshold, no cascades, no TerrainLock, 3 stable DeltaScans, low volatility.
@@ -673,7 +673,7 @@ F42 Intervention Impact Forecast | F72 Supplement Redundancy Audit | F109 Terrai
 ---
 
 ### F201. "My Terrain Journey" Instagram Story Template [SOC/ENG]
-Pre-designed 5-slide Instagram story template the patient fills in: Slide 1: "My terrain score when I started: __/10." Slide 2: "My highest burden zone was: __." Slide 3: "The cascade my practitioner found: __." Slide 4: "My terrain score now: __/10." Slide 5: "Find your terrain: vitalmatrix.co.uk/try." Zone-coloured backgrounds. VitalMatrix branding. Patient shares their own story in their own words.
+Pre-designed 5-slide Instagram story template the patient fills in: Slide 1: "My terrain score when I started: __/10." Slide 2: "My Driver was: __." Slide 3: "The cascade my practitioner found: __." Slide 4: "My terrain score now: __/10." Slide 5: "Find your terrain: vitalmatrix.co.uk/try." Zone-coloured backgrounds. VitalMatrix branding. Patient shares their own story in their own words.
 
 ### F202. "Terrain Transformation Tuesday" Content Pack [SOC/MKT]
 Weekly social media series. Every Tuesday the practitioner posts an anonymised before/after pentagon pair with a one-sentence narrative: "12 weeks. Three cascades resolved. TIQ from 3.2 to 6.8." Pre-designed Canva-ready template in VitalMatrix design system. 52 weeks of content from one template.

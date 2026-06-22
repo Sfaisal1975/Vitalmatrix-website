@@ -460,7 +460,7 @@
 </style>
 <section class="vm-drd-d7-wrap" id="vm-drd-d7">
   <div class="vm-drd-d7-title">ANCHOR Confidence Gauges</div>
-  <div class="vm-drd-d7-subtitle">Zone burden scores relative to activation thresholds. Crown marks highest burden zone.</div>
+  <div class="vm-drd-d7-subtitle">Zone burden scores relative to activation thresholds. Crown marks Driver.</div>
   <div class="vm-drd-d7-gauges" id="vm-drd-d7-gauges"></div>
 </section>
 <script>
@@ -520,7 +520,7 @@
 
       var html = '';
       if(g===highestIdx){
-        html += '<div class="vm-drd-d7-crown" title="Highest burden zone">&#9813;</div>';
+        html += '<div class="vm-drd-d7-crown" title="Driver">&#9813;</div>';
       }
       html += '<svg viewBox="0 0 110 65">' + svgContent + '</svg>';
       html += '<div class="vm-drd-d7-gauge-score">' + sc[g] + ' / ' + zData[g].th + '</div>';
@@ -1362,7 +1362,7 @@
 </style>
 <section class="vm-drd-d10-wrap" id="vm-drd-d10">
   <div class="vm-drd-d10-title">DRD Decision Replay Timeline</div>
-  <div class="vm-drd-d10-subtitle">Records every highest burden zone change. Click a marker to restore that state.</div>
+  <div class="vm-drd-d10-subtitle">Records every Driver change. Click a marker to restore that state.</div>
   <div style="text-align:center;">
     <div class="vm-drd-d10-t01">T-01: Educational demonstration only. Not a clinical record.</div>
   </div>
@@ -1530,7 +1530,7 @@
   exportBtn.addEventListener('click', function(){
     if(history.length===0) return;
     var lines = ['DRD Decision Replay Timeline Export','Educational demonstration only. Not a clinical record.',''];
-    lines.push('Time | Highest Burden Zone | Scores (Z1,Z2,Z3,Z4,Z5) | TerrainLock');
+    lines.push('Time | Driver | Scores (Z1,Z2,Z3,Z4,Z5) | TerrainLock');
     lines.push('-----|---------------------|--------------------------|------------');
     history.forEach(function(e){
       lines.push(e.time + ' | ' + zNames[e.highestIdx] + ' | ' + e.scores.join(', ') + ' | ' + (e.terrainLock?'Yes':'No'));
@@ -1635,7 +1635,7 @@
 </div>
 <script>
 (function(){
-  var Z={Z1:{x:300,y:80,name:"Metabolic Energy Axis",col:"#C9A84C",nodes:"N3 + N6 (endocrine signalling)",desc:"The metabolic engine. When N6 (endocrine signalling) and N3 converge, energy production, hormonal signalling, and metabolic regulation become interdependent."},Z2:{x:490,y:230,name:"Resilience Network",col:"#1A7A8A",nodes:"N1 + N2 + N6 (endocrine signalling)",desc:"The resilience foundation. Three nodes converging to form the body's primary adaptive network. Z2 gut restoration is the default tiebreaker entry point."},Z3:{x:420,y:410,name:"Cardiovascular-Neural Axis",col:"#7B5EA7",nodes:"N5 + N6 (endocrine signalling)",desc:"The cardiovascular-neural interface. Receives from S5 and S6. Not ready for composite scoring in Phase 1."},Z4:{x:180,y:410,name:"Detoxification Trident",col:"#5F7C6C",nodes:"N2 + N4",desc:"The detoxification network. S3 drives Z4 to Z1. Not ready for composite scoring in Phase 1."},Z5:{x:110,y:230,name:"Hormonal Terrain Axis",col:"#D4B870",nodes:"N3 + N4 + N6 (endocrine signalling)",desc:"The hormonal terrain. Z5 is almost always a secondary burden zone, not the highest burden zone. Treating Z5 directly without addressing upstream zones produces temporary improvement. Threshold: 32 (20% lower)."}};
+  var Z={Z1:{x:300,y:80,name:"Metabolic Energy Axis",col:"#C9A84C",nodes:"N3 + N6 (endocrine signalling)",desc:"The metabolic engine. When N6 (endocrine signalling) and N3 converge, energy production, hormonal signalling, and metabolic regulation become interdependent."},Z2:{x:490,y:230,name:"Resilience Network",col:"#1A7A8A",nodes:"N1 + N2 + N6 (endocrine signalling)",desc:"The resilience foundation. Three nodes converging to form the body's primary adaptive network. Z2 gut restoration is the default tiebreaker entry point."},Z3:{x:420,y:410,name:"Cardiovascular-Neural Axis",col:"#7B5EA7",nodes:"N5 + N6 (endocrine signalling)",desc:"The cardiovascular-neural interface. Receives from S5 and S6. Not ready for composite scoring in Phase 1."},Z4:{x:180,y:410,name:"Detoxification Trident",col:"#5F7C6C",nodes:"N2 + N4",desc:"The detoxification network. S3 drives Z4 to Z1. Not ready for composite scoring in Phase 1."},Z5:{x:110,y:230,name:"Hormonal Terrain Axis",col:"#D4B870",nodes:"N3 + N4 + N6 (endocrine signalling)",desc:"The hormonal terrain. Z5 is almost always a secondary burden zone, not the Driver. Treating Z5 directly without addressing upstream zones produces temporary improvement. Threshold: 32 (20% lower)."}};
   var S=[{id:"S1",from:"Z2",to:"Z1",vel:"MEDIUM",ev:"Mechanism Established, Cascade Emerging",col:"#1A7A8A",note:"Gut Resilience drives Metabolic Energy Axis"},{id:"S2",from:"Z1",to:"Z5",vel:"FAST",ev:"Established",col:"#C9A84C",note:"Energy drives Hormonal Terrain Axis"},{id:"S3",from:"Z4",to:"Z1",vel:"SLOW",ev:"Emerging",col:"#5F7C6C",note:"Detox burden drives Metabolic Energy Axis"},{id:"S4",from:"Z5",to:"Z2",vel:"MEDIUM",ev:"Theoretical",col:"#D4B870",note:"S4 is THEORETICAL. Excluded from DRD cascade trace (D-12). Fires for display in TerrainLock animation only.",dash:true},{id:"S5",from:"Z2",to:"Z3",vel:"FAST",ev:"Emerging (TMAO quarterly review)",col:"#1A7A8A",note:"Gut Resilience drives Cardiovascular-Neural Axis"},{id:"S6",from:"Z1",to:"Z3",vel:"MEDIUM",ev:"Established",col:"#C9A84C",note:"S6 is UNIDIRECTIONAL: Z1 to Z3 only. Reverse direction does not exist.",uni:true}];
   var TL_SEQ=["S1","S2","S4"];
   var TL_MSG=["S1 firing: Z2 to Z1 — Gut Resilience loads Metabolic Energy","S2 firing: Z1 to Z5 — FAST — Energy loads Hormonal Terrain","S4 loop: Z5 to Z2 — THEORETICAL — display only, not DRD-traced"];

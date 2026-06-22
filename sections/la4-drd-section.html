@@ -51,7 +51,7 @@
 <div style="max-width:860px;margin:0 auto">
   <p class="la4-eyebrow">DRD Designation</p>
   <h2>Which Zone Carries the Highest Burden?</h2>
-  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; highest burden zone designation changes in real time. Lower display score = higher burden.</p>
+  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; Driver designation changes in real time. Lower display score = higher burden.</p>
 
   <!-- Sliders -->
   <div id="vm-la4-sliders" class="la4-card">
@@ -114,7 +114,7 @@
       if(val){val.textContent="Internal: "+v+" | Display: "+displayScore(v)+"/10"+(active?" ACTIVE":"");
         val.style.color=active?z.colour:"rgba(255,255,255,.5)";}
     }
-    // Highest burden zone
+    // Driver
     var hbz=null,hScore=-1;
     for(var a=0;a<activeZones.length;a++){
       var azk=activeZones[a],s=scores[azk];
@@ -126,11 +126,11 @@
     dEl.style.borderColor=hz?hz.colour:"rgba(255,255,255,.11)";
     dEl.style.background=hz?hz.colour+"18":"rgba(255,255,255,.06)";
     dEl.innerHTML="<div class='la4-desig-title' style='color:"+(hz?hz.colour:"rgba(255,255,255,.5)")
-      +"'>DRD&#8482; DESIGNATION: HIGHEST BURDEN ZONE</div>"
+      +"'>DRD&#8482; DESIGNATION: DRIVER</div>"
       +(hbz?"<div class='la4-desig-result' style='color:"+hz.colour+"'>"+hbz+": "+hz.name
         +" (Internal: "+scores[hbz]+", Display: "+displayScore(scores[hbz])+"/10)</div>"
         :"<div style='font-size:13px;color:rgba(255,255,255,.5)'>No zones currently above activation threshold.</div>")
-      +"<div class='la4-desig-note'>T-01a: Phase 1 display uses \"Highest burden zone\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
+      +"<div class='la4-desig-note'>T-01a: Phase 1 display uses \"Driver\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
 
     // Reactors
     var reactors=[];

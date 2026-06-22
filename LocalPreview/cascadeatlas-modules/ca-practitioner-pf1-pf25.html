@@ -22,7 +22,7 @@
 .vm-pf01-explain-title{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem}
 @media(prefers-reduced-motion:reduce){#vm-pf01-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-pf01-t01">Terrain Support Considerations</div>
+<div class="vm-pf01-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-pf01-heading">"Why Is My Patient Reacting?"</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">Toggle driver compounds D1 through D7 to see how bioelectrical state updates live. Compound loading explains erratic supplement responses.</p>
 <div class="vm-pf01-drivers" id="vm-pf01-drivers"></div>
@@ -327,9 +327,9 @@ update();
 .vm-pf05-intv-tier{font-family:'DM Mono',monospace;font-size:0.65rem;color:#C9A84C;margin-top:0.3rem}
 @media(prefers-reduced-motion:reduce){#vm-pf05-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-pf05-t01">Terrain Support Considerations</div>
+<div class="vm-pf05-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-pf05-heading">Driver-to-Intervention Map</h2>
-<p class="vm-pf05-sub">Toggle drivers to see matching terrain support considerations animate in and out.</p>
+<p class="vm-pf05-sub">Toggle drivers to see matching Personalised Terrain Management Protocol animate in and out.</p>
 <div class="vm-pf05-toggles" id="vm-pf05-toggles"></div>
 <div class="vm-pf05-interventions" id="vm-pf05-interventions"></div>
 <script>
@@ -1049,7 +1049,7 @@ var items=[
 'N6 dampening (0.7x) applied',
 'Zone composites calculated (5 zones)',
 'Z5 threshold set to 32 (not 40)',
-'DRD designation confirmed (highest burden zone)',
+'DRD designation confirmed (Driver)',
 'Cascade stacks assessed (S1 through S6)',
 'S4 labelled THEORETICAL, excluded from DRD trace (D-12)'
 ];
@@ -1113,7 +1113,7 @@ checklist.appendChild(item);
 <div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Cortisol rhythm disruption</div>
 <div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Stress axis burden</div>
 <div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Hormonal terrain axis</div>
-<div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Terrain support considerations</div>
+<div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Terrain Management Protocol</div>
 </div>
 <div class="vm-pf17-col">
 <div class="vm-pf17-col-title" style="color:#D63030">Prohibited</div>
@@ -1179,7 +1179,7 @@ input.style.borderColor='#5F7C6C';
 <div class="vm-pf18-modes" id="vm-pf18-modes">
 <div class="vm-pf18-mode active" data-mode="single" role="button" tabindex="0">
 <div class="vm-pf18-mode-name">Single Zone</div>
-<div class="vm-pf18-mode-desc">One zone is carrying the primary burden. Clear highest burden zone designation.</div>
+<div class="vm-pf18-mode-desc">One zone is carrying the primary burden. Clear Driver designation.</div>
 <div class="vm-pf18-zones" style="color:#C9A84C">Typical: Z1 or Z4 dominant</div>
 </div>
 <div class="vm-pf18-mode" data-mode="cascade" role="button" tabindex="0">
@@ -1193,12 +1193,12 @@ input.style.borderColor='#5F7C6C';
 <div class="vm-pf18-zones" style="color:#7B5EA7">All loop zones active</div>
 </div>
 </div>
-<div class="vm-pf18-example"><div class="vm-pf18-example-title">Clinical Example</div><div id="vm-pf18-example-txt">Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The highest burden zone is clearly Z1. Intervention targets Z1 directly.</div></div>
+<div class="vm-pf18-example"><div class="vm-pf18-example-title">Clinical Example</div><div id="vm-pf18-example-txt">Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The Driver is clearly Z1. Intervention targets Z1 directly.</div></div>
 <script>
 (function(){
 var examples={
-single:'Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The highest burden zone is clearly Z1. Intervention targets Z1 directly.',
-cascade:'Cascade Pattern: A patient with gut complaints (Z2) has developed fatigue (Z1) and hormonal disruption (Z5). Cascade stacks S1 (Z2 to Z1) and S2 (Z1 to Z5) are active. The highest burden zone traces back to Z2 as the upstream origin.',
+single:'Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The Driver is clearly Z1. Intervention targets Z1 directly.',
+cascade:'Cascade Pattern: A patient with gut complaints (Z2) has developed fatigue (Z1) and hormonal disruption (Z5). Cascade stacks S1 (Z2 to Z1) and S2 (Z1 to Z5) are active. The Driver traces back to Z2 as the upstream origin.',
 terrain:'TerrainLock: All three loop zones (Z2, Z1, Z5) are above threshold. S1, S2, and S4 (THEORETICAL, excluded from DRD trace D-12) are all active. The terrain is self-perpetuating. Breaking the loop at Z2 (default entry point) is the priority intervention.'
 };
 var modes=document.getElementById('vm-pf18-modes').querySelectorAll('.vm-pf18-mode');
@@ -1373,11 +1373,11 @@ else{cards[c].classList.add('hidden');}
 <script>
 (function(){
 var dimensions=[
-{title:'Dimension 1: Zone Pattern',content:'Five zones assessed. Z1 (Metabolic Energy Axis) carries the highest burden at 65 internal. Z2 (Resilience Network) is secondary at 52. Z4 (Detoxification Trident) is borderline at 38 (near-threshold). Z3 and Z5 are below threshold. Highest burden zone designation: Z1.'},
+{title:'Dimension 1: Zone Pattern',content:'Five zones assessed. Z1 (Metabolic Energy Axis) carries the highest burden at 65 internal. Z2 (Resilience Network) is secondary at 52. Z4 (Detoxification Trident) is borderline at 38 (near-threshold). Z3 and Z5 are below threshold. Driver designation: Z1.'},
 {title:'Dimension 2: Terrain State',content:'Three zones active (Z1, Z2, Z4 borderline). Cascade pattern detected: S1 (Z2 to Z1, MEDIUM velocity, Mechanism Established, Cascade Emerging). S6 (Z1 to Z3, UNIDIRECTIONAL: Z1 to Z3 only) not yet activated. TerrainLock not detected.'},
 {title:'Dimension 3: Cascade Intelligence',content:'S1 active. S2 approaching activation (Z1 at 65, Z5 at 28, below 32 threshold). S3 inactive. S4 THEORETICAL (excluded from DRD trace, D-12). S5 inactive. S6 UNIDIRECTIONAL: Z1 to Z3 only, currently inactive.'},
 {title:'Dimension 4: APEX Priorities',content:'Tier 1 recommended (GBP 200 to 400). Comprehensive metabolic panel, inflammatory markers, DUTCH baseline. No escalation warranted. Trajectory stable.'},
-{title:'Dimension 5: Trajectory Direction',content:'Improving. Z1 burden decreased from 72 (T1) to 65 (T2): 7-point internal change, approaching meaningful threshold of 8. Z2 stable. Continue current terrain support considerations.'}
+{title:'Dimension 5: Trajectory Direction',content:'Improving. Z1 burden decreased from 72 (T1) to 65 (T2): 7-point internal change, approaching meaningful threshold of 8. Z2 stable. Continue current Personalised Terrain Management Protocol.'}
 ];
 var rows=document.getElementById('vm-pf21-rows');
 for(var i=0;i<dimensions.length;i++){
@@ -1706,7 +1706,7 @@ var cards=[
 {title:'1. Directional Intelligence, Not Just Data',before:'Traditional platforms list symptoms and biomarkers without showing connections. Practitioners must guess which system to address first.',after:'VitalMatrix maps burden across 5 zones and 6 cascade stacks. It shows which zone is carrying the highest burden and how burden propagates. Direction, not just data.'},
 {title:'2. Cascade Architecture with Evidence Tiers',before:'No existing platform models how dysfunction in one system cascades into another. Interventions happen in isolation.',after:'Six cascade stacks (S1 through S6) with explicit evidence tiers: Established, Emerging, or Theoretical. S4 is always labelled THEORETICAL. S6 is UNIDIRECTIONAL: Z1 to Z3 only. Practitioners see the chain.'},
 {title:'3. Supplement Tolerance Grading',before:'Practitioners introduce supplements without terrain context. Patients react unpredictably. Paradoxical responses are common.',after:'The GRADE system (A, B, C) tells the practitioner whether the terrain can absorb a new supplement. Grade C means stop. Compound loading is visible. Erratic responses are explained.'},
-{title:'4. Built-In Regulatory Governance',before:'Other platforms make clinical claims without evidence labelling. Terminology is uncontrolled. Compliance is an afterthought.',after:'T-01 restrictions are permanent. Every output is titled "Terrain Support Considerations". DRD displays "Highest burden zone", never "Driver". A blank Practitioner Clinical Decision section ensures clinical autonomy. ICO ZC101813.'},
+{title:'4. Built-In Regulatory Governance',before:'Other platforms make clinical claims without evidence labelling. Terminology is uncontrolled. Compliance is an afterthought.',after:'T-01 restrictions are permanent. Every output is titled "Personalised Terrain Management Protocol". DRD displays "Driver", never "Driver". A blank Practitioner Clinical Decision section ensures clinical autonomy. ICO ZC101813.'},
 {title:'5. Terrain Trajectory, Not Snapshots',before:'Conventional approaches compare isolated lab results. There is no sense of direction or momentum.',after:'DeltaScan compares T1 to T2 across all zones. An 8-point internal change is meaningful. Trajectory arrows show improving, stable, worsening, or loop. APEX investigation tiers escalate automatically when trajectory demands it.'}
 ];
 var container=document.getElementById('vm-pf25-cards');

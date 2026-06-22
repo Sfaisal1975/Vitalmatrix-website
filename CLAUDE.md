@@ -1,4 +1,4 @@
-# VitalMatrix Website
+﻿# CLAUDE.md -- WEBSITE: VitalMatrix Website
 
 ## Project
 - Owner: Dr Shahzad Faisal, MBBS, FAAMFM | VitalMatrix Ltd | ICO ZC101813
@@ -18,3 +18,7 @@
 
 ## Universal Commands
 - `save` | `next` | `done` | `queue` | `add [desc]`
+
+
+# VitalMatrix Global Context
+@C:\Users\Lenovo\.claude\vitalmatrix-w05-global.md
