@@ -1315,7 +1315,7 @@ Browser-frame mockup positioned between trust badges and problem cards.
 ### Right Panel: Terrain Assessment
 - 5 zone score bars with colour-coded fill
 - DM Mono labels, zone colours
-- DRD indicator card: "Highest Burden Zone: Z2 Resilience Network" (T-01a compliant)
+- DRD indicator card: "Driver: Z2 Resilience Network" (T-01a compliant)
 - "Illustrative output only. Not real patient data." disclaimer
 
 ### Browser Frame
@@ -1406,7 +1406,7 @@ Browser-frame mockup positioned between trust badges and problem cards.
 ## COMPLIANCE CHECKS
 
 - [x] D-53 zone colours applied (--vm-z5 corrected to #D4B870)
-- [x] DRD display: "Highest burden zone" (T-01a)
+- [x] DRD display: "Driver" (T-01a)
 - [x] No em dashes (en dashes in comparison table)
 - [x] British English throughout
 - [x] 31-mnemonic TM footer with VOS expansion
@@ -1461,7 +1461,7 @@ Browser-frame mockup positioned between trust badges and problem cards.
 | 05 | FLINT Pillar Rows | Light Gold #FBF6E9 | Roman numeral rows (I-V), teal left border, layer questions |
 | 06 | FLINT Pipeline Vertical | Charcoal #1A2030 | Vertical scroll-reveal pipeline steps (L1-L5), IntersectionObserver animation |
 | 07 | Five Outputs | Deep Teal #0C4452 | 5 output cards with accent bars (gold/teal alternating), protective GMC note |
-| 07B | Terrain Support Considerations | Light Sage #EAF0EB | Zone accordion tables (Z1, Z2, Z4, Z5), evidence tier badges, mobile accordion, protective header |
+| 07B | Personalised Terrain Management Protocol | Light Sage #EAF0EB | Zone accordion tables (Z1, Z2, Z4, Z5), evidence tier badges, mobile accordion, protective header |
 | 08 | Methodology FAQ | Charcoal #1A2030 | 4-item FAQ accordion with plus-to-cross rotation |
 | 09 | CTA | Prussian Blue #0D2B4E | Centred CTA with Book a Walkthrough button, ICO note |
 | -- | Floating CTA | Overlay | Floating CTA button with dismiss close |
@@ -1595,7 +1595,7 @@ Browser-frame mockup positioned between trust badges and problem cards.
 | Check | Status | Notes |
 |-------|--------|-------|
 | D-53 zone colours | PASS | Z2 (#1A7A8A), Z3 (#7B5EA7), Z4 (#5F7C6C) compliant. Z1 uses #2A9BAD (override noted). Z5 #4A90C4 (Metallic Blue) correct — distinct from Z1 Gold to avoid visual duplication. |
-| DRD T-01a language | PASS | "Highest burden zone" used throughout. "Driver" does not appear in display text. |
+| DRD T-01a language | PASS | "Driver" used throughout. "Driver" does not appear in display text. |
 | 31 TM footer | PASS | VOS (with expansion), 30 mnemonics, VECTOR, ICO ZC101813 all present. |
 | MHRA governance line | PASS | Footer contains full MHRA SaMD classification pending statement with ICO reference. |
 | British English | PASS | lang="en-GB" declared. British spellings used (e.g. "prioritised", "normalisation", "oestrogen"). |
@@ -1814,7 +1814,7 @@ Browser-frame mockup positioned between trust badges and problem cards.
 | Check | Status | Notes |
 |---|---|---|
 | D-53 zone colours | PASS | Z5 #4A90C4 (Metallic Blue) is the correct website colour — distinct from Z1 Gold to avoid visual duplication of two gold zones |
-| DRD T-01a language | PASS | "highest burden zone" used (never "Driver") |
+| DRD T-01a language | PASS | "Driver" used (never "Driver") |
 | 31 TM footer | PASS | VOS(TM) + 30 marks present, ICO ZC101813 included |
 | MHRA governance line | PASS | "MHRA SaMD classification has not yet commenced..." in footer |
 | "For practitioner use only" | PASS | Present in footer governance section |
@@ -3658,14 +3658,14 @@ File now at ~4312 lines (was 3533). LA-2 also integrated.
 - **ID prefix:** ncz-f16-
 - **Background:** Prussian #0D2B4E
 - **Behaviour:** White document card. T-01 header bar. Protective header text. 7 clickable sections (Zone Summary, Cascade Detection, Highest Burden, Dietary, Supplemental, Lifestyle, APEX). Click expands content + "Maps to: [FLINT layer]". Blank Practitioner Clinical Decision (5 dashed fields, never pre-populated).
-- **T-01 compliance:** Title "Terrain Support Considerations", protective header (PERMANENT), blank PCD (PERMANENT), DRD "Highest burden zone", supplements/dietary/lifestyle only.
+- **T-01 compliance:** Title "Personalised Terrain Management Protocol", protective header (PERMANENT), blank PCD (PERMANENT), DRD "Driver", supplements/dietary/lifestyle only.
 
 ### Compliance (F12-F16)
 - All 5 features: vanilla JS IIFEs, no template literals, no default parameters
 - S4 THEORETICAL on every reference, S6 UNIDIRECTIONAL in same sentence
 - N6 dampening 0.7, floor MAX(dampened)-10, display 0-10 inverted
 - British English, no em dashes, responsive @media rules
-- DRD display: "Highest burden zone" (T-01a)
+- DRD display: "Driver" (T-01a)
 
 ### Updated Feature Map (16 total)
 
@@ -3882,7 +3882,7 @@ All 10 Living Architectures distributed across 4 pages. Cross-page CTA links act
 | Rule | Status | Notes |
 |------|--------|-------|
 | D-53 Zone Colours | PASS | Z1 Gold PASS, Z2 Teal PASS, Z3 Purple PASS, Z4 Sage PASS, Z5 #4A90C4 (Metallic Blue) PASS — distinct from Z1 Gold to avoid visual duplication |
-| DRD T-01a Language | PASS | Uses "highest burden zone" (Section 6 Step 03), never "Driver" |
+| DRD T-01a Language | PASS | Uses "Driver" (Section 6 Step 03), never "Driver" |
 | 31-Mnemonic TM Footer | PASS | VOS + 30 marks present including VECTOR. Count: 31. |
 | MHRA Governance Line | PASS | "MHRA SaMD classification has not yet commenced..." present in footer |
 | British English | PASS | lang="en-GB", spelling throughout uses British conventions |
@@ -4270,14 +4270,14 @@ All 10 Living Architectures distributed across 4 pages. Cross-page CTA links act
 | Check | Status | Notes |
 |-------|--------|-------|
 | D-53 Zone Colours | PASS | Z1 Gold, Z2 Teal, Z3 Purple, Z4 Sage all correct in usage. Z5 #4A90C4 (Metallic Blue) is the correct website colour — distinct from Z1 Gold to avoid visual duplication of two gold zones. |
-| DRD T-01a Language | PASS | No use of "Driver" anywhere. "Highest Burden Zone" language used in Section 3 DRD Language Governance card. |
+| DRD T-01a Language | PASS | No use of "Driver" anywhere. "Driver" language used in Section 3 DRD Language Governance card. |
 | 31 TM Footer | PASS | Footer contains 30 named marks (VOS + 29 others) plus "all associated marks" clause. Count: VOS, VitalMatrix, NCZ, DRD, APEX, TIQ, CIB, CascadeIQ, FLINT, CZR, TRACE, DeltaScan, MedTerrain, TerrainLock, CascadeAtlas, PRISM, KINETICS, COHERENCE, TerrainRoot, ORBIT, SPHERE, HERALD, BEACON, MAPS, RECON, COMPASS, GENOME, ANCHOR, AXIS, INTAKE, VECTOR = 31 total (30 in footer HTML; VECTOR absent from this page footer). |
 | VECTOR in Footer | FAIL | VECTOR is absent from the TM footer. D-53 website standard requires 31 mnemonics including VECTOR. |
 | MHRA Governance Line | PASS | Footer contains: "MHRA SaMD classification has not yet commenced. VitalMatrix provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813." |
 | "For practitioner use only" | PASS | Present in footer: "For practitioner use only. Not a diagnostic tool." |
 | British English | PASS | All spelling is British English throughout (e.g. "recognised", "practitioner", "organisation"). No American spellings detected. |
 | No Template Literals | PASS | No backtick template literals in inline scripts. String concatenation used. |
-| No "treatment protocol" | PASS | Term not used. "Terrain Support Considerations" used correctly in Section 3. |
+| No "treatment protocol" | PASS | Term not used. "Personalised Terrain Management Protocol" used correctly in Section 3. |
 | No "diagnose/diagnosis" claims | PASS | Only used in negation: "does not diagnose". |
 | No "clinical AI platform" | PASS | "clinical intelligence platform" used correctly in meta description. |
 | Logo height="48" | PASS | Logo img element uses height="48" with correct file reference and inline styles. |
@@ -5218,7 +5218,7 @@ Zone colours: Z1 #C9A84C | Z2 #1A7A8A | Z3 #7B5EA7 | Z4 #5F7C6C | Z5 #2E6DB4 (D-
 |-------|--------|
 | D-85 Zone Colours | All 5 zones use D-85 palette. Z5 = #2E6DB4. |
 | D-80 Mechanism Design | Predictive features (F-T09, F-T15, F-T17, F-T30) labelled "Predictive (internal use only)". No adaptive features. |
-| T-01 Language | "Highest burden zone" not "Driver". Supplements, dietary, lifestyle only. |
+| T-01 Language | "Driver" not "Driver". Supplements, dietary, lifestyle only. |
 | Protective Header | Present on all clinical output features (PERMANENT). |
 | Practitioner Clinical Decision | Blank section present on F-T20 (PERMANENT). |
 | S4 Theoretical | Dashed/labelled on F-T02, F-T07, F-T11, F-T22, F-T27. |
@@ -5279,7 +5279,7 @@ Zone colours: Z1 #C9A84C | Z2 #1A7A8A | Z3 #7B5EA7 | Z4 #5F7C6C | Z5 #2E6DB4 (D-
 ### Architecture Constants (all 20 features)
 - Zones: 5 (Z1-Z5). Z5=#2E6DB4. Thresholds: Z1-Z4=40, Z5=32.
 - Stacks: 6 (S1-S6). S4 THEORETICAL dashed, excluded from DRD. S6 UNIDIRECTIONAL same line.
-- DRD display: "Highest burden zone" (T-01a). Never "Driver".
+- DRD display: "Driver" (T-01a). Never "Driver".
 - Pentagon: Z1 top, Z2 right, Z3 bottom-right, Z4 bottom-left, Z5 left.
 
 ### Compliance (all 20 features)
@@ -5359,7 +5359,7 @@ Zone colours: Z1 #C9A84C | Z2 #1A7A8A | Z3 #7B5EA7 | Z4 #5F7C6C | Z5 #2E6DB4 (D-
 |----|---------|------|
 | LA8-F1b | Longitudinal Tracker | Interactive: T1/T2/T3, line chart, N6 0.7x |
 | LA8-F2 | Delta Heatmap | Canvas: green improved/red worsened |
-| LA8-F3 | Intervention Impact Viewer | Interactive: Terrain Support Considerations, T-01 |
+| LA8-F3 | Intervention Impact Viewer | Interactive: Personalised Terrain Management Protocol, T-01 |
 | LA8-SV1 | State Bridge | SV: btoa/atob URL state |
 | LA8-SV2 | Pipeline Trace | SV: T1/T2 delta computation |
 | LA8-SV3 | Architecture Navigator | SV: 10-page dot nav |
@@ -5425,7 +5425,7 @@ Files: LA4, LA5, LA6, LA7, LA8, LA9, LA10, TerrainIntelligence.
 Guided 4-5 step overlay with gold spotlight ring highlighting each feature in clinical sequence. Tooltip cards with step counter, description, Next/Skip navigation.
 
 ### Upgrade 3: Practitioner Export Report (8 instances)
-T-01 compliant summary generator: zone scores (0-10 inverted), active cascades, highest burden zone, N6 dampening, TerrainLock status, timestamp. Copy to clipboard with confirmation. Print button.
+T-01 compliant summary generator: zone scores (0-10 inverted), active cascades, Driver, N6 dampening, TerrainLock status, timestamp. Copy to clipboard with confirmation. Print button.
 
 ### Upgrade 4: Cross-Page State Continuity (8 instances)
 "Open in..." buttons encoding all slider values via btoa and opening target LA pages with state pre-loaded. Enables seamless clinical workflow across pages.

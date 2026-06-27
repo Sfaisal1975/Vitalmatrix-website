@@ -193,7 +193,7 @@ Each card has:
 Each card: light tinted background, zone-coloured top accent bar, icon circle, output number, title, description
 
 **Output 01:** Consultation Note (NCZ™ + DRD™) — Gold (`#FEF8F5`)
-**Output 02:** Phased Terrain Support Considerations (COMPASS™) — Teal (`#F5FCFD`)
+**Output 02:** Phased Personalised Terrain Management Protocol (COMPASS™) — Teal (`#F5FCFD`)
 **Output 03:** Patient-Facing Summary — Purple (`#F8F5FC`)
 **Output 04:** Functional Lab Interpretation Report (RECON™) — Sage (`#F3F7F4`)
 **Output 05:** Session Governance Record (ANCHOR™) — Grey (`#F7F7F7`)

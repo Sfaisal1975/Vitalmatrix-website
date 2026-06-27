@@ -562,7 +562,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
       <div class="vm-la7f4-ev-item">Oestrogen-microbiome feedback loop: observational data, no controlled trials</div>
       <div class="vm-la7f4-ev-item">HPG axis signalling to mucosal immunity: mechanistic plausibility</div>
       <div class="vm-la7f4-ev-item">Clinically uncommon activation in Phase 1 population</div>
-      <div class="vm-la7f4-ev-item">Excluded from DRD (Highest burden zone) cascade trace per D-12</div>
+      <div class="vm-la7f4-ev-item">Excluded from DRD (Driver) cascade trace per D-12</div>
     </div>
     <div class="vm-la7f4-gauge-wrap">
       <div class="vm-la7f4-gauge-label">Confidence Level</div>
@@ -603,7 +603,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
   <div class="vm-la7f5-title">Loop Resolution Timeline</div>
   <div class="vm-la7f5-sub">Estimated break time per entry point: Gantt-style bars</div>
   <div class="vm-la7f5-chart" id="vm-la7f5-chart"></div>
-  <div class="vm-la7f5-note">Timelines are theoretical estimates based on cascade velocity and zone complexity. S4 THEORETICAL: excluded from DRD (Highest burden zone) cascade trace. S6 UNIDIRECTIONAL: Z1 to Z3 only. Actual resolution times vary with individual terrain.</div>
+  <div class="vm-la7f5-note">Timelines are theoretical estimates based on cascade velocity and zone complexity. S4 THEORETICAL: excluded from DRD (Driver) cascade trace. S6 UNIDIRECTIONAL: Z1 to Z3 only. Actual resolution times vary with individual terrain.</div>
 </div>
 <script>
 (function(){
@@ -865,9 +865,9 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
 .la7brk-plan-item::before{content:'';position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;}
 </style>
 <div class="la7brk-wrap" id="la7-feat-break">
-  <div class="la7brk-title">Terrain Support Considerations</div>
+  <div class="la7brk-title">Personalised Terrain Management Protocol</div>
   <div class="la7brk-sub">Breaking the TerrainLock loop: target the weakest cascade link</div>
-  <div class="la7brk-t01">T-01 Compliance: All terrain support considerations require practitioner review and clinical judgement. Not a diagnostic tool. For practitioner use only. VitalMatrix does not prescribe or replace clinical judgement.</div>
+  <div class="la7brk-t01">T-01 Compliance: All Personalised Terrain Management Protocol require practitioner review and clinical judgement. Not a diagnostic tool. For practitioner use only. VitalMatrix does not prescribe or replace clinical judgement.</div>
   <div class="la7brk-links" id="la7brk-links"></div>
   <div class="la7brk-plan" id="la7brk-plan"></div>
 </div>
@@ -1653,7 +1653,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
     var ts=new Date();
     var lines=[];
     lines.push('=========================================');
-    lines.push('Terrain Support Considerations');
+    lines.push('Personalised Terrain Management Protocol');
     lines.push('For practitioner use only. Not a diagnostic tool.');
     lines.push('=========================================');
     lines.push('');
@@ -1664,7 +1664,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
     }
     lines.push('');
     lines.push('Active Cascades: '+(cascadesArr.length>0?cascadesArr.join(', '):'None'));
-    lines.push('Highest burden zone (DRD): '+labels[maxIdx]);
+    lines.push('Driver (DRD): '+labels[maxIdx]);
     lines.push('N6 Dampening: Applied to Z5 (endocrine signalling) at 0.7x');
     lines.push('TerrainLock Status: '+(locked?'ACTIVE (S1+S2+S4)':'INACTIVE'));
     lines.push('');
@@ -1843,7 +1843,7 @@ EDUCATIONAL DEMONSTRATION | VitalMatrix&#8482; Phase 1 | For Practitioner Use On
   /* ---- F1: GLOSSARY ---- */
   var glossTerms = [
     {term:'NCZ',  short:'Node Convergence Zone', full:'A zone where multiple cascade pathways converge, creating compound clinical burden. NCZs are identified by overlapping stack activations across two or more zones.'},
-    {term:'DRD',  short:'Highest burden zone designation (T-01a)', full:'Disease Risk Designation. Identifies the zone carrying the greatest aggregate burden score across all six cascade stacks. Subject to T-01a classification restrictions.'},
+    {term:'DRD',  short:'Driver designation (T-01a)', full:'Disease Risk Designation. Identifies the zone carrying the greatest aggregate burden score across all six cascade stacks. Subject to T-01a classification restrictions.'},
     {term:'APEX', short:'Assessment Priority and Evidence Xray', full:'Investigation planner that prioritises clinical tests based on zone burden scores, cascade velocity, and available budget tiers.'},
     {term:'FLINT',short:'Five-layer intelligence model (L1-L5)', full:'The five-layer architecture: L1 Input, L2 Terrain Mapping, L3 Cascade Intelligence, L4 Pattern Recognition, L5 Output Synthesis. Each layer builds on data from the layer below.'},
     {term:'TerrainLock', short:'Self-perpetuating loop Z2 to Z1 to Z5 to Z2', full:'A pathological feedback loop where immune activation (Z2) drives metabolic disruption (Z1), which triggers cardiovascular compensation (Z5), which re-activates immune burden (Z2). Requires S1 + S2 + S4 activation.'},

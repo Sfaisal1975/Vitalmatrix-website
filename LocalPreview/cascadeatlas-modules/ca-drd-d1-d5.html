@@ -194,7 +194,7 @@
       var actDescs=[
         'Zones count up from 0 and illuminate as they cross their activation threshold.',
         'Cascade arrows draw on sequentially with flowing particle dots.',
-        'A gold crown drops on the highest burden zone. Secondary burden badges fade in on remaining active zones.',
+        'A gold crown drops on the Driver. Secondary burden badges fade in on remaining active zones.',
         'TerrainLock detection: the gold ellipse pulses if the self-perpetuating loop is active.'
       ];
       actNames.forEach(function(name,i){
@@ -299,7 +299,7 @@
         narr='TerrainLock detected: self-perpetuating loop Z2 to Z1 to Z5 to Z2 is active. All three contributing stacks (S1, S2, S4) are firing.';
       } else {
         var activeCount=0;sc.forEach(function(v,i){if(v>=Z[i].th)activeCount++});
-        if(activeCount>0)narr=activeCount+' zone'+(activeCount>1?'s':'')+' active. Highest burden zone identified. No TerrainLock loop detected.';
+        if(activeCount>0)narr=activeCount+' zone'+(activeCount>1?'s':'')+' active. Driver identified. No TerrainLock loop detected.';
         else narr='No zones above activation threshold. Terrain is stable.';
       }
       typeText(narrativeEl,narr,25);
@@ -529,7 +529,7 @@
 <section id="vm-drd-d3-section">
   <div class="vm-ca-eyebrow">D3: Pentagon Heatmap Diffusion</div>
   <h2 class="vm-ca-title">Pentagon Heatmap Diffusion</h2>
-  <p class="vm-ca-subtitle">Zone circles as radial gradient intensity rings, proportional to burden score. Hover for detailed tooltip. Highest burden zone gains a concentric bullseye.</p>
+  <p class="vm-ca-subtitle">Zone circles as radial gradient intensity rings, proportional to burden score. Hover for detailed tooltip. Driver gains a concentric bullseye.</p>
   <div id="vm-drd-d3-svg-wrap">
     <svg id="vm-drd-d3-svg" viewBox="-10 -10 320 310">
       <defs>
@@ -731,7 +731,7 @@
     sc.forEach(function(v,i){if(v>=Z[i].th&&v>bestVal){bestVal=v;best=i}});
     if(best===-1)sc.forEach(function(v,i){if(v>bestVal){bestVal=v;best=i}});
     if(best>=0){
-      sentences.push('The highest burden zone is '+Z[best].id+' ('+Z[best].name+') with an internal score of '+sc[best]+'/100 (display: '+displayScore(sc[best])+'/10).');
+      sentences.push('The Driver is '+Z[best].id+' ('+Z[best].name+') with an internal score of '+sc[best]+'/100 (display: '+displayScore(sc[best])+'/10).');
     }
 
     var activeCascades=[];

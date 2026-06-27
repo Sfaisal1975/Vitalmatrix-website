@@ -172,7 +172,7 @@ NEXUS classifies the regulatory pair status of the HPA axis (cortisol and adrena
 
 **Adrenal terrain burden framing (D-128 mandatory):**
 
-- **PERMITTED:** Adrenal terrain burden / HPA terrain burden / Cortisol rhythm pattern suggests adrenal terrain burden / Terrain support considerations for adrenal terrain burden.
+- **PERMITTED:** Adrenal terrain burden / HPA terrain burden / Cortisol rhythm pattern suggests adrenal terrain burden / Terrain Management Protocol for adrenal terrain burden.
 - **PROHIBITED:** Adrenal fatigue / Adrenal insufficiency / Cortisol deficiency / Any first-person diagnostic statement / Any framing implying clinical diagnosis or prescription.
 
 **Assessments per D-165:**
@@ -196,7 +196,7 @@ VANTAGE is the Integrative Intelligence Output 2 of the FLINT overlay. It synthe
 | 1 | **Zone Pattern** | Which zones (Z1 to Z5) are activated and at what burden level. Contextualised by VOLTERRAIN driver burden. |
 | 2 | **Terrain State (Configuration)** | Terrain configuration pattern (W08 language ruling pending on "Archetype" name). NEXUS state. GRADE state. Intervention Tolerance Classification with one-line rationale. |
 | 3 | **Cascade Pattern** | Which cascade stacks (S1 to S6) are firing and in what direction. S4 always THEORETICAL. S6 always UNIDIRECTIONAL in same sentence. DRD Driver-Reactor designation per zone. Evidence tier of each stack shown per D-14. |
-| 4 | **APEX Priorities** | Assessment Priority and Evidence Xray. Substrate-first ordering (IC04 plus IC11). Budget-tiered. Intervention Tolerance gating applied. Terrain Support Considerations, never Management Protocol. Evidence tier on every item. |
+| 4 | **APEX Priorities** | Assessment Priority and Evidence Xray. Substrate-first ordering (IC04 plus IC11). Budget-tiered. Intervention Tolerance gating applied. Personalised Terrain Management Protocol, never Management Protocol. Evidence tier on every item. |
 | 5 | **Trajectory Direction** | Where the terrain is heading. TerrainSpiral feeds this (Output 3, Phase 1 practitioner-assisted per D-179). Practitioner-facing descriptor: "terrain trajectory assessment". Phase 1 single-timepoint mode shows: Baseline (insufficient timepoints for trajectory assessment). |
 
 ### 9b. Three Meta-Outputs
@@ -365,7 +365,7 @@ Per D-164: every surface incorporating a D5 driver burden classification must ca
 |---------|-----------|------------|
 | TerrainSpiral trajectory (D-179) | "Terrain trajectory assessment" | "Prognosis", "prediction", "clinical staging". Internal trajectory state names. |
 | Terrain configuration patterns (D-181) | T-01 compliant terrain-descriptor language (W08 assessment before use) | Internal archetype names. "Archetype" itself pending W08 language ruling. |
-| Adrenal terrain burden (D-128) | Adrenal terrain burden / HPA terrain burden / Terrain support considerations | Adrenal fatigue / Adrenal insufficiency / Cortisol deficiency / Any diagnostic statement |
+| Adrenal terrain burden (D-128) | Adrenal terrain burden / HPA terrain burden / Terrain Management Protocol | Adrenal fatigue / Adrenal insufficiency / Cortisol deficiency / Any diagnostic statement |
 | D5 EMF (D-164) | CLINICALLY OBSERVED with mandatory SPRA qualifier | VERIFIED tier. Suppression of SPRA qualifier. |
 | COMPASS (D-93) | No external reference of any kind | Any practitioner, investor, or public mention. Phase 3 silence lock. |
 | Platform descriptor (ALB v1.6) | "Clinical intelligence platform" | "Clinical AI platform", "clinical decision support" |

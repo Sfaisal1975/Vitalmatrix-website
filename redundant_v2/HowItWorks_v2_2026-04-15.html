@@ -29,7 +29,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How VitalMatrix Works | Five-Layer FLINT&#8482; Architecture | VitalMatrix</title>
-<meta name="description" content="One patient input. Five terrain-based clinical outputs. The FLINT five-layer terrain intelligence pipeline: node scoring, zone convergence, cascade mapping, highest burden zone identification, and examination prioritisation.">
+<meta name="description" content="One patient input. Five terrain-based clinical outputs. The FLINT five-layer terrain intelligence pipeline: node scoring, zone convergence, cascade mapping, Driver identification, and examination prioritisation.">
 <meta name="keywords" content="functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform, FLINT, cascade mapping, driver reactor designation, velocity intelligence">
 <meta property="og:title" content="How VitalMatrix Works | Five-Layer FLINT&#8482; Architecture">
 <meta property="og:description" content="One patient input. Five terrain-based clinical outputs. The FLINT five-layer terrain intelligence pipeline.">
@@ -811,7 +811,7 @@ body{
   line-height:1.7;
 }
 
-/* ---- SECTION 07B: TERRAIN SUPPORT CONSIDERATIONS (Light Sage) ---- */
+/* ---- SECTION 07B: Personalised Terrain Management Protocol (Light Sage) ---- */
 .vm-tsc-section{
   background:#EAF0EB;
   padding:88px 0;
@@ -1159,7 +1159,7 @@ body{
 <section class="vm-reveal vm-hero">
   <p class="vm-eyebrow" style="color:var(--vm-teal);">How It Works</p>
   <h1 class="vm-font-sharpen">One Input. Five Clinical Outputs.</h1>
-  <p class="vm-hero-sub">The FLINT&#8482; five-layer terrain intelligence pipeline: node scoring, zone convergence, cascade mapping, highest burden zone identification, and examination prioritisation.</p>
+  <p class="vm-hero-sub">The FLINT&#8482; five-layer terrain intelligence pipeline: node scoring, zone convergence, cascade mapping, Driver identification, and examination prioritisation.</p>
 
   <!-- FLINT Pipeline Visual: L1 through L5 -->
   <div class="vm-pipeline">
@@ -1243,7 +1243,7 @@ body{
         <p>CascadeIQ&#8482; identifies active directional cascade stacks. Velocity classified: Fast, Medium, or Slow.</p>
       </div>
 
-      <!-- L4 Highest Burden Zone -->
+      <!-- L4 Driver -->
       <div class="vm-five-card vm-card-glow" style="border-top-color:#5F7C6C">
         <p class="vm-five-card-layer" style="color:#5F7C6C">L4 WHO?</p>
         <svg class="vm-five-card-icon" viewBox="0 0 32 32" fill="none">
@@ -1251,7 +1251,7 @@ body{
           <circle cx="16" cy="16" r="6" stroke="#5F7C6C" stroke-width="1.2" fill="none"/>
           <circle cx="16" cy="16" r="2" fill="#5F7C6C"/>
         </svg>
-        <h3>Highest Burden Zone</h3>
+        <h3>Driver</h3>
         <p>DRD&#8482; identifies the zone carrying the highest terrain burden for practitioner review.</p>
       </div>
 
@@ -1401,7 +1401,7 @@ body{
     return h;
   }
   function buildL4(){
-    return '<div class="la3-dp"><p>Driver-Reactor Designation identifies which zone is driving the clinical picture.</p><div class="la3-dc" style="background:rgba(123,94,167,.09);border-left:3px solid #7B5EA7">Highest burden zone = Driver (Phase 1 display: "Highest burden zone")</div><p style="font-size:12px;color:var(--vm-muted)">Z5 is almost always Reactor, rarely Driver.</p><div class="la3-dc" style="background:rgba(192,57,43,.08);border-left:3px solid #C0392B">S4 (THEORETICAL) excluded from DRD cascade tracing. S6 (Established) is UNIDIRECTIONAL: Z1 to Z3 only. DRD trace only follows Established and Emerging stacks (D-12).</div><p style="font-size:11px;color:var(--vm-muted);line-height:1.6;margin-bottom:0">Evidence tier of the informing cascade stack is displayed alongside each designation (D-14).</p></div>';
+    return '<div class="la3-dp"><p>Driver-Reactor Designation identifies which zone is driving the clinical picture.</p><div class="la3-dc" style="background:rgba(123,94,167,.09);border-left:3px solid #7B5EA7">Driver = Driver (Phase 1 display: "Driver")</div><p style="font-size:12px;color:var(--vm-muted)">Z5 is almost always Reactor, rarely Driver.</p><div class="la3-dc" style="background:rgba(192,57,43,.08);border-left:3px solid #C0392B">S4 (THEORETICAL) excluded from DRD cascade tracing. S6 (Established) is UNIDIRECTIONAL: Z1 to Z3 only. DRD trace only follows Established and Emerging stacks (D-12).</div><p style="font-size:11px;color:var(--vm-muted);line-height:1.6;margin-bottom:0">Evidence tier of the informing cascade stack is displayed alongside each designation (D-14).</p></div>';
   }
   function buildL5(){
     var h='<div style="font-size:12px;color:var(--vm-muted);margin-bottom:12px;font-style:italic">Assessment Priority and Evidence Xray. Three budget tiers.</div><div class="la3-ao">';
@@ -1512,7 +1512,7 @@ body{
         </div>
         <span class="vm-drd-label">Resilience Network</span>
         <span class="vm-drd-score" style="color:#1A7A8A;">2.8/10</span>
-        <span class="vm-drd-badge vm-drd-badge-driver">Highest Burden Zone</span>
+        <span class="vm-drd-badge vm-drd-badge-driver">Driver</span>
       </div>
 
       <!-- Z3: Cardiovascular-Neural Axis — bottom right -->
@@ -1577,7 +1577,7 @@ body{
       <div class="vm-drd-explain-card">
         <p class="vm-drd-explain-step" style="color:var(--vm-teal-light);">After DRD&#8482;</p>
         <h3>Intervention Follows Cascade Direction.</h3>
-        <p>The highest burden zone is addressed first. Secondary burden zones are sequenced downstream. The cascade direction determines the intervention order. Evidence tier labelled on every pathway.</p>
+        <p>The Driver is addressed first. Secondary burden zones are sequenced downstream. The cascade direction determines the intervention order. Evidence tier labelled on every pathway.</p>
       </div>
     </div>
 
@@ -1651,7 +1651,7 @@ body{
 <div style="max-width:860px;margin:0 auto">
   <p class="la4-eyebrow">DRD Designation</p>
   <h2>Which Zone Carries the Highest Burden?</h2>
-  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; highest burden zone designation changes in real time. Lower display score = higher burden.</p>
+  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; Driver designation changes in real time. Lower display score = higher burden.</p>
 
   <!-- Sliders -->
   <div id="vm-la4-sliders" class="la4-card">
@@ -1714,7 +1714,7 @@ body{
       if(val){val.textContent="Internal: "+v+" | Display: "+displayScore(v)+"/10"+(active?" ACTIVE":"");
         val.style.color=active?z.colour:"rgba(255,255,255,.5)";}
     }
-    // Highest burden zone
+    // Driver
     var hbz=null,hScore=-1;
     for(var a=0;a<activeZones.length;a++){
       var azk=activeZones[a],s=scores[azk];
@@ -1726,11 +1726,11 @@ body{
     dEl.style.borderColor=hz?hz.colour:"rgba(255,255,255,.11)";
     dEl.style.background=hz?hz.colour+"18":"rgba(255,255,255,.06)";
     dEl.innerHTML="<div class='la4-desig-title' style='color:"+(hz?hz.colour:"rgba(255,255,255,.5)")
-      +"'>DRD&#8482; DESIGNATION: HIGHEST BURDEN ZONE</div>"
+      +"'>DRD&#8482; DESIGNATION: DRIVER</div>"
       +(hbz?"<div class='la4-desig-result' style='color:"+hz.colour+"'>"+hbz+": "+hz.name
         +" (Internal: "+scores[hbz]+", Display: "+displayScore(scores[hbz])+"/10)</div>"
         :"<div style='font-size:13px;color:rgba(255,255,255,.5)'>No zones currently above activation threshold.</div>")
-      +"<div class='la4-desig-note'>T-01a: Phase 1 display uses \"Highest burden zone\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
+      +"<div class='la4-desig-note'>T-01a: Phase 1 display uses \"Driver\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
 
     // Reactors
     var reactors=[];
@@ -1951,7 +1951,7 @@ body{
         <div class="vm-output-accent" style="background:#1A7A8A;"></div>
         <div class="vm-output-num">02</div>
         <h3>Phased Intervention Working Document</h3>
-        <p>Sequenced terrain support considerations. Unranked options list. Practitioner review gate included.</p>
+        <p>Sequenced Personalised Terrain Management Protocol. Unranked options list. Practitioner review gate included.</p>
       </div>
 
       <div class="vm-output-card">
@@ -2008,7 +2008,7 @@ body{
     <div style="background:#FFFFFF;border:2px solid #C9A84C;border-radius:4px;padding:30px;box-shadow:0 6px 24px rgba(13,43,78,.10);">
       <p style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;">Question Two &nbsp;&middot;&nbsp; Answered only by VitalMatrix&#8482;</p>
       <h3 style="font-family:'Cormorant Garamond','Georgia',serif;font-size:27px;font-weight:600;color:#0D2B4E;line-height:1.18;margin-bottom:14px;font-style:italic;">"Which burden is driving the others: and in what order should I act?"</h3>
-      <p style="font-size:14px;line-height:1.7;color:#444440;margin-bottom:16px;">CascadeIQ&#8482; traces directional pathways between activated zones. DRD&#8482; designates the highest burden zone and secondary burden zones. The FLINT&#8482; five-layer architecture sequences the clinical picture into an evidence-mapped output for practitioner review.</p>
+      <p style="font-size:14px;line-height:1.7;color:#444440;margin-bottom:16px;">CascadeIQ&#8482; traces directional pathways between activated zones. DRD&#8482; designates the Driver and secondary burden zones. The FLINT&#8482; five-layer architecture sequences the clinical picture into an evidence-mapped output for practitioner review.</p>
       <p style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#888884;">What you know after: the direction of clinical attention and the sequence to act</p>
     </div>
 
@@ -2030,14 +2030,14 @@ body{
 <!-- END: LEAD SECTION 04 — CASCADE LOGIC: TWO QUESTIONS -->
 
 <!-- ════════════════════════════════════════════════════════════════
-     SECTION 07B — TERRAIN SUPPORT CONSIDERATIONS — Light Sage #EAF0EB
+     SECTION 07B — Personalised Terrain Management Protocol — Light Sage #EAF0EB
      ════════════════════════════════════════════════════════════════ -->
 <section class="vm-reveal vm-tsc-section">
   <div class="vm-container">
-    <p class="vm-eyebrow" style="color:#1A7A8A;">Terrain Support Considerations</p>
+    <p class="vm-eyebrow" style="color:#1A7A8A;">Personalised Terrain Management Protocol</p>
     <h2 class="vm-section-heading vm-font-sharpen" style="color:#0D2B4E;">From burden to consideration. Three categories per active zone.</h2>
 
-    <div class="vm-tsc-protective">VitalMatrix&#8482; generates terrain support considerations for practitioner review. These are not clinical recommendations. All decisions regarding supplementation, dietary intervention, and lifestyle modification remain with the registered practitioner. Evidence tier indicated at point of use.</div>
+    <div class="vm-tsc-protective">VitalMatrix&#8482; generates Personalised Terrain Management Protocol for practitioner review. These are not clinical recommendations. All decisions regarding supplementation, dietary intervention, and lifestyle modification remain with the registered practitioner. Evidence tier indicated at point of use.</div>
 
     <div class="vm-stagger-grid">
 
@@ -2052,10 +2052,10 @@ body{
           <svg viewBox="0 0 20 20" fill="none"><polyline points="4 7 10 13 16 7" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
         <table class="vm-tsc-table">
-          <thead><tr><th>Category</th><th>Terrain Support Considerations</th><th>Evidence Tier</th></tr></thead>
+          <thead><tr><th>Category</th><th>Personalised Terrain Management Protocol</th><th>Evidence Tier</th></tr></thead>
           <tbody>
             <tr><td>Supplement</td><td>Zone-specific supplement considerations for practitioner review.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
-            <tr><td>Dietary</td><td>Dietary terrain support considerations targeting metabolic and energy node function.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
+            <tr><td>Dietary</td><td>Dietary Personalised Terrain Management Protocol targeting metabolic and energy node function.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
             <tr><td>Lifestyle</td><td>Lifestyle considerations supporting cortisol rhythm, sleep architecture, and activity pacing.</td><td><span class="vm-tsc-tier vm-tsc-tier-observed">Observed in Practice</span></td></tr>
           </tbody>
         </table>
@@ -2067,7 +2067,7 @@ body{
           </div>
           <div class="vm-tsc-mobile-row">
             <p class="vm-tsc-mobile-label">Dietary</p>
-            <p class="vm-tsc-mobile-text">Dietary terrain support considerations targeting metabolic and energy node function.</p>
+            <p class="vm-tsc-mobile-text">Dietary Personalised Terrain Management Protocol targeting metabolic and energy node function.</p>
             <span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span>
           </div>
           <div class="vm-tsc-mobile-row">
@@ -2089,10 +2089,10 @@ body{
           <svg viewBox="0 0 20 20" fill="none"><polyline points="4 7 10 13 16 7" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
         <table class="vm-tsc-table">
-          <thead><tr><th>Category</th><th>Terrain Support Considerations</th><th>Evidence Tier</th></tr></thead>
+          <thead><tr><th>Category</th><th>Personalised Terrain Management Protocol</th><th>Evidence Tier</th></tr></thead>
           <tbody>
             <tr><td>Supplement</td><td>Zone-specific supplement considerations for gut-immune terrain support, practitioner review.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
-            <tr><td>Dietary</td><td>Dietary terrain support considerations targeting mucosal integrity and microbiome diversity.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
+            <tr><td>Dietary</td><td>Dietary Personalised Terrain Management Protocol targeting mucosal integrity and microbiome diversity.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
             <tr><td>Lifestyle</td><td>Lifestyle considerations supporting vagal tone, stress load reduction, and sleep continuity.</td><td><span class="vm-tsc-tier vm-tsc-tier-observed">Observed in Practice</span></td></tr>
           </tbody>
         </table>
@@ -2104,7 +2104,7 @@ body{
           </div>
           <div class="vm-tsc-mobile-row">
             <p class="vm-tsc-mobile-label">Dietary</p>
-            <p class="vm-tsc-mobile-text">Dietary terrain support considerations targeting mucosal integrity and microbiome diversity.</p>
+            <p class="vm-tsc-mobile-text">Dietary Personalised Terrain Management Protocol targeting mucosal integrity and microbiome diversity.</p>
             <span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span>
           </div>
           <div class="vm-tsc-mobile-row">
@@ -2126,10 +2126,10 @@ body{
           <svg viewBox="0 0 20 20" fill="none"><polyline points="4 7 10 13 16 7" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
         <table class="vm-tsc-table">
-          <thead><tr><th>Category</th><th>Terrain Support Considerations</th><th>Evidence Tier</th></tr></thead>
+          <thead><tr><th>Category</th><th>Personalised Terrain Management Protocol</th><th>Evidence Tier</th></tr></thead>
           <tbody>
             <tr><td>Supplement</td><td>Zone-specific supplement considerations supporting biotransformation and elimination pathways, practitioner review.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
-            <tr><td>Dietary</td><td>Dietary terrain support considerations targeting hepatic load reduction and detoxification cofactor availability.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
+            <tr><td>Dietary</td><td>Dietary Personalised Terrain Management Protocol targeting hepatic load reduction and detoxification cofactor availability.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
             <tr><td>Lifestyle</td><td>Lifestyle considerations supporting toxin load reduction and bowel regularity.</td><td><span class="vm-tsc-tier vm-tsc-tier-observed">Observed in Practice</span></td></tr>
           </tbody>
         </table>
@@ -2141,7 +2141,7 @@ body{
           </div>
           <div class="vm-tsc-mobile-row">
             <p class="vm-tsc-mobile-label">Dietary</p>
-            <p class="vm-tsc-mobile-text">Dietary terrain support considerations targeting hepatic load reduction and detoxification cofactor availability.</p>
+            <p class="vm-tsc-mobile-text">Dietary Personalised Terrain Management Protocol targeting hepatic load reduction and detoxification cofactor availability.</p>
             <span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span>
           </div>
           <div class="vm-tsc-mobile-row">
@@ -2163,10 +2163,10 @@ body{
           <svg viewBox="0 0 20 20" fill="none"><polyline points="4 7 10 13 16 7" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
         <table class="vm-tsc-table">
-          <thead><tr><th>Category</th><th>Terrain Support Considerations</th><th>Evidence Tier</th></tr></thead>
+          <thead><tr><th>Category</th><th>Personalised Terrain Management Protocol</th><th>Evidence Tier</th></tr></thead>
           <tbody>
             <tr><td>Supplement</td><td>Zone-specific supplement considerations for hormonal terrain support, practitioner review.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
-            <tr><td>Dietary</td><td>Dietary terrain support considerations targeting oestrogen metabolism, blood glucose stability, and phytonutrient diversity.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
+            <tr><td>Dietary</td><td>Dietary Personalised Terrain Management Protocol targeting oestrogen metabolism, blood glucose stability, and phytonutrient diversity.</td><td><span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span></td></tr>
             <tr><td>Lifestyle</td><td>Lifestyle considerations supporting cortisol rhythm normalisation and hormonal terrain resilience.</td><td><span class="vm-tsc-tier vm-tsc-tier-observed">Observed in Practice</span></td></tr>
           </tbody>
         </table>
@@ -2178,7 +2178,7 @@ body{
           </div>
           <div class="vm-tsc-mobile-row">
             <p class="vm-tsc-mobile-label">Dietary</p>
-            <p class="vm-tsc-mobile-text">Dietary terrain support considerations targeting oestrogen metabolism, blood glucose stability, and phytonutrient diversity.</p>
+            <p class="vm-tsc-mobile-text">Dietary Personalised Terrain Management Protocol targeting oestrogen metabolism, blood glucose stability, and phytonutrient diversity.</p>
             <span class="vm-tsc-tier vm-tsc-tier-emerging">Emerging</span>
           </div>
           <div class="vm-tsc-mobile-row">
@@ -2191,9 +2191,9 @@ body{
 
     </div>
 
-    <p class="vm-tsc-z3-note">Z3 Cardiovascular-Neural Axis receives cascade input from Z1 and Z2. Z3 composite scoring is not active in Phase 1. Z3 terrain support considerations are generated at Phase 1 gated status.</p>
+    <p class="vm-tsc-z3-note">Z3 Cardiovascular-Neural Axis receives cascade input from Z1 and Z2. Z3 composite scoring is not active in Phase 1. Z3 Personalised Terrain Management Protocol are generated at Phase 1 gated status.</p>
 
-    <p class="vm-tsc-footer-note">All terrain support considerations are generated as working documents for practitioner review. Supplement, dietary, and lifestyle considerations reflect functional medicine evidence-based practice. Practitioners retain full authority to adjust, reject, or modify any consideration based on individual patient clinical need. ICO ZC101813.</p>
+    <p class="vm-tsc-footer-note">All Personalised Terrain Management Protocol are generated as working documents for practitioner review. Supplement, dietary, and lifestyle considerations reflect functional medicine evidence-based practice. Practitioners retain full authority to adjust, reject, or modify any consideration based on individual patient clinical need. ICO ZC101813.</p>
   </div>
 </section>
 
@@ -2384,7 +2384,7 @@ body{
 
       <div class="vm-faq-item">
         <button class="vm-faq-q" onclick="this.parentElement.classList.toggle('vm-faq-open')">
-          What does highest burden zone mean?
+          What does Driver mean?
           <svg class="vm-faq-icon" viewBox="0 0 20 20" fill="none"><line x1="10" y1="4" x2="10" y2="16" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
         <div class="vm-faq-a">

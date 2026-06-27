@@ -33,7 +33,7 @@ All IDs prefixed vm-ca-.
 - S4 always dashed, labelled THEORETICAL
 - S6 labelled UNIDIRECTIONAL: Z1 to Z3 only
 - TerrainLock: S1+S2 active + (S4 active OR both Z5,Z2 >= 60) — golden pulse on ellipse
-- DRD: highest burden zone among active zones gets pulsing ring + "HIGHEST BURDEN" label
+- DRD: Driver among active zones gets pulsing ring + "HIGHEST BURDEN" label
 - Z2 default tiebreaker
 
 **File:** sections/ca-features-1-2.html (combined with Feature 2)
@@ -239,7 +239,7 @@ All IDs prefixed vm-ca-.
 3. S1 animates Z2 to Z1. "Burden cascades via S1. Mechanism Established. Weeks to months."
 4. S2 animates Z1 to Z5. "Z1 chains to Z5. FAST velocity. Hormonal terrain under pressure."
 5. TerrainLock pulses. "S1 + S2 active. Z2 to Z1 to Z5 to Z2 loop is self-perpetuating."
-6. DRD badge on Z1. "Z1 is the highest burden zone. Clinical investigation starts here."
+6. DRD badge on Z1. "Z1 is the Driver. Clinical investigation starts here."
 7. End card: "This is what VitalMatrix does with every patient." + CTA "Book a Discovery Call"
 
 **File:** sections/ca-features-9-10.html (combined with Feature 9)

@@ -617,7 +617,7 @@ update();
 <div class="vm-la8f4-wrap">
   <div class="vm-la8f4-label">LA8F4: DRD Designation Shift Tracker</div>
   <div class="vm-la8f4-track" id="vm-la8f4-track"></div>
-  <div class="vm-la8f4-note" id="vm-la8f4-note">Highest burden zone: crown indicates DRD designation</div>
+  <div class="vm-la8f4-note" id="vm-la8f4-note">Driver: crown indicates DRD designation</div>
 </div>
 </div>
 <script>
@@ -679,7 +679,7 @@ update();
       var drdLabel=document.createElement('div');
       drdLabel.className='vm-la8f4-drd-label';
       if(i===t2Drd){
-        drdLabel.textContent='Highest burden zone';
+        drdLabel.textContent='Driver';
         drdLabel.style.color=zoneColours[i];
       }
 
@@ -694,7 +694,7 @@ update();
     if(t1Drd!==t2Drd){
       note.textContent='DRD shift: '+zoneNames[t1Drd]+' (T1) \u2192 '+zoneNames[t2Drd]+' (T2)';
     }else{
-      note.textContent='DRD unchanged: '+zoneNames[t2Drd]+' remains highest burden zone';
+      note.textContent='DRD unchanged: '+zoneNames[t2Drd]+' remains Driver';
     }
   }
 
@@ -1083,9 +1083,9 @@ update();
 
     var explain=document.getElementById('la8-up3-explain');
     if(shifted){
-      explain.textContent='The highest burden zone shifted from '+zoneFullNames[t1Drd]+' (T1, score '+t1[t1Drd]+') to '+zoneFullNames[t2Drd]+' (T2, score '+t2[t2Drd]+'). This indicates a cascade impact redistribution: burden has moved between zones, potentially through active cascade stacks. The practitioner should review whether the new highest burden zone is receiving adequate terrain support.';
+      explain.textContent='The Driver shifted from '+zoneFullNames[t1Drd]+' (T1, score '+t1[t1Drd]+') to '+zoneFullNames[t2Drd]+' (T2, score '+t2[t2Drd]+'). This indicates a cascade impact redistribution: burden has moved between zones, potentially through active cascade stacks. The practitioner should review whether the new Driver is receiving adequate terrain support.';
     }else{
-      explain.textContent='The highest burden zone remains '+zoneFullNames[t2Drd]+' across both sessions (T1: '+t1[t1Drd]+', T2: '+t2[t2Drd]+'). The burden centre of gravity has not shifted. Cascade patterns are maintaining the same distribution hierarchy.';
+      explain.textContent='The Driver remains '+zoneFullNames[t2Drd]+' across both sessions (T1: '+t1[t1Drd]+', T2: '+t2[t2Drd]+'). The burden centre of gravity has not shifted. Cascade patterns are maintaining the same distribution hierarchy.';
     }
   }
 
@@ -1284,7 +1284,7 @@ update();
     {label:'T2 Scores Loaded',desc:'Follow-up session scores retrieved. Same five-zone structure confirmed for comparison integrity.'},
     {label:'Deltas Computed',desc:'Per-zone delta calculated: T1 internal minus T2 internal. Positive delta indicates burden reduction (improvement).'},
     {label:'Meaningful Change Evaluated',desc:'Each delta compared against 8-point threshold. Changes below threshold classified as clinically stable.'},
-    {label:'Trajectory Direction Determined',desc:'Overall trajectory synthesised: improving, stable, mixed, or destabilising. DRD shift detected if highest burden zone changes.'}
+    {label:'Trajectory Direction Determined',desc:'Overall trajectory synthesised: improving, stable, mixed, or destabilising. DRD shift detected if Driver changes.'}
   ];
   var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var overlay=document.getElementById('la8-sv2-overlay');

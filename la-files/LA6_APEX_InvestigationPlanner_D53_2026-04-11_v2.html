@@ -114,7 +114,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
 
 <!-- CONTROL PANEL -->
 <div class="ctrl-panel">
-  <div class="panel-label">Highest Burden Zone Selection</div>
+  <div class="panel-label">Driver Selection</div>
   <select class="driver-select" id="driver-select" onchange="update()">
     <option value="z1">Z1 Metabolic Energy Axis</option>
     <option value="z2" selected>Z2 Resilience Network</option>
@@ -141,7 +141,7 @@ body{font-family:var(--fd);background:var(--bg);color:var(--white);line-height:1
 
   <div class="coverage-info">
     <strong>APEX&#8482; Sequencing Rule</strong>
-    Phase 1 tests confirm the highest burden zone. Phase 2 examines active secondary burden zones. Phase 3 addresses structural integrity and longitudinal markers. Never run Phase 2 before Phase 1 findings are reviewed.
+    Phase 1 tests confirm the Driver. Phase 2 examines active secondary burden zones. Phase 3 addresses structural integrity and longitudinal markers. Never run Phase 2 before Phase 1 findings are reviewed.
   </div>
 </div>
 
@@ -335,7 +335,7 @@ function update(){
     '<div class="budget-bar-total">GBP '+budgetMin+' &ndash; '+budgetMax+'</div>'+
   '</div>';
 
-  html+=buildPhaseHtml(1,'Phase 1: Highest Burden Zone Confirmation','Confirm '+z.label+' '+z.name+' as the primary burden zone before committing to any secondary burden zone investigations.',p1,driver);
+  html+=buildPhaseHtml(1,'Phase 1: Driver Confirmation','Confirm '+z.label+' '+z.name+' as the primary burden zone before committing to any secondary burden zone investigations.',p1,driver);
   if(p2.length) html+=buildPhaseHtml(2,'Phase 2: Secondary Burden Zone Investigation','Investigate active cascade targets once Phase 1 results are reviewed.',p2,driver);
   if(p3.length) html+=buildPhaseHtml(3,'Phase 3: Structural and Longitudinal','Comprehensive terrain assessment and baseline for DeltaScan\u2122 comparison tracking.',p3,driver);
 
@@ -752,7 +752,7 @@ update();
   <div class="vm-la6f5-title">Lab Cost Comparison Bars</div>
   <div class="vm-la6f5-sub">NHS vs Private vs Specialist animated bars per investigation</div>
   <div class="vm-la6f5-table" id="vm-la6f5-table"></div>
-  <div class="vm-la6f5-note">Costs are indicative estimates only. Actual prices vary by laboratory and region. NHS costs reflect internal pathology budgets, not patient charges. S4 THEORETICAL. DRD = Highest burden zone.</div>
+  <div class="vm-la6f5-note">Costs are indicative estimates only. Actual prices vary by laboratory and region. NHS costs reflect internal pathology budgets, not patient charges. S4 THEORETICAL. DRD = Driver.</div>
 </div>
 <script>
 (function(){
@@ -1606,7 +1606,7 @@ update();
   function applyPreset(idx){
     var p=PRESETS[idx];
     /* LA6 uses driver-select and budget rather than individual zone sliders.
-       Set the driver to the highest burden zone from the preset, then
+       Set the driver to the Driver from the preset, then
        also set any range sliders on the page (SV-05 radar). */
     var highZ='z1';var highV=0;
     var map={z1:p.z1,z2:p.z2,z3:p.z3,z4:p.z4,z5:p.z5};
@@ -1674,7 +1674,7 @@ update();
 <script>
 (function(){
   var steps=[
-    {target:'#driver-select',title:'Zone Selection',desc:'Select the highest burden zone to investigate. APEX sequences non-invasive tests around this zone as the primary focus.'},
+    {target:'#driver-select',title:'Zone Selection',desc:'Select the Driver to investigate. APEX sequences non-invasive tests around this zone as the primary focus.'},
     {target:'.budget-btn-row',title:'APEX Budget',desc:'Choose a budget tier to control how many investigation phases are displayed. Tier 1 covers essentials; Tier 3 provides full assessment.'},
     {target:'#planner',title:'Investigation List',desc:'The phased investigation plan shows recommended non-invasive tests with evidence tiers and approximate costs for the selected zone.'},
     {target:'.budget-bar',title:'Cross-Zone Finder',desc:'The budget summary bar tracks total estimated cost against your selected tier and shows how spending distributes across investigation phases.'}
@@ -1780,7 +1780,7 @@ update();
     var tlActive=(raw.z1>=THRESHOLDS.z1)&&(raw.z2>=THRESHOLDS.z2)&&(raw.z4>=THRESHOLDS.z4);
     var lines=[];
     lines.push('========================================================');
-    lines.push('  Terrain Support Considerations');
+    lines.push('  Personalised Terrain Management Protocol');
     lines.push('  For practitioner use only. Not a diagnostic tool.');
     lines.push('========================================================');
     lines.push('');
@@ -1796,7 +1796,7 @@ update();
       for(var a=0;a<active.length;a++){lines.push('  - '+active[a]);}
     }else{lines.push('  None');}
     lines.push('');
-    lines.push('HIGHEST BURDEN ZONE: '+(highest?NAMES[highest]:'N/A'));
+    lines.push('DRIVER: '+(highest?NAMES[highest]:'N/A'));
     lines.push('SELECTED INVESTIGATION ZONE: '+NAMES[driver]);
     lines.push('BUDGET TIER: '+budgetTier);
     lines.push('');
@@ -2021,7 +2021,7 @@ update();
   /* ---- F1: GLOSSARY ---- */
   var glossTerms = [
     {term:'NCZ',  short:'Node Convergence Zone', full:'A zone where multiple cascade pathways converge, creating compound clinical burden. NCZs are identified by overlapping stack activations across two or more zones.'},
-    {term:'DRD',  short:'Highest burden zone designation (T-01a)', full:'Disease Risk Designation. Identifies the zone carrying the greatest aggregate burden score across all six cascade stacks. Subject to T-01a classification restrictions.'},
+    {term:'DRD',  short:'Driver designation (T-01a)', full:'Disease Risk Designation. Identifies the zone carrying the greatest aggregate burden score across all six cascade stacks. Subject to T-01a classification restrictions.'},
     {term:'APEX', short:'Assessment Priority and Evidence Xray', full:'Investigation planner that prioritises clinical tests based on zone burden scores, cascade velocity, and available budget tiers.'},
     {term:'FLINT',short:'Five-layer intelligence model (L1-L5)', full:'The five-layer architecture: L1 Input, L2 Terrain Mapping, L3 Cascade Intelligence, L4 Pattern Recognition, L5 Output Synthesis. Each layer builds on data from the layer below.'},
     {term:'TerrainLock', short:'Self-perpetuating loop Z2 to Z1 to Z5 to Z2', full:'A pathological feedback loop where immune activation (Z2) drives metabolic disruption (Z1), which triggers cardiovascular compensation (Z5), which re-activates immune burden (Z2). Requires S1 + S2 + S4 activation.'},

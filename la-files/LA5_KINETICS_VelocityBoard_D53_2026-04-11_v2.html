@@ -987,7 +987,7 @@ update();
     <div class="vm-la5f5-legend-item"><span class="vm-la5f5-legend-dot" style="background:rgba(244,244,242,.15);"></span>Sub-optimal</div>
     <div class="vm-la5f5-legend-item"><span class="vm-la5f5-legend-dot" style="background:rgba(192,57,43,.4);"></span>Critical delay risk</div>
   </div>
-  <div class="vm-la5f5-note">DRD = Highest burden zone. S4 THEORETICAL: intervention window modelled, not clinically validated. S6 UNIDIRECTIONAL: Z1 to Z3 only.</div>
+  <div class="vm-la5f5-note">DRD = Driver. S4 THEORETICAL: intervention window modelled, not clinically validated. S6 UNIDIRECTIONAL: Z1 to Z3 only.</div>
 </div>
 <script>
 (function(){
@@ -1961,7 +1961,7 @@ update();
     var tlActive=(raw.z1>=THRESHOLDS.z1)&&(raw.z2>=THRESHOLDS.z2)&&(raw.z4>=THRESHOLDS.z4);
     var lines=[];
     lines.push('========================================================');
-    lines.push('  Terrain Support Considerations');
+    lines.push('  Personalised Terrain Management Protocol');
     lines.push('  For practitioner use only. Not a diagnostic tool.');
     lines.push('========================================================');
     lines.push('');
@@ -1977,7 +1977,7 @@ update();
       for(var a=0;a<active.length;a++){lines.push('  - '+active[a]);}
     }else{lines.push('  None');}
     lines.push('');
-    lines.push('HIGHEST BURDEN ZONE: '+(highest?NAMES[highest]:'N/A'));
+    lines.push('DRIVER: '+(highest?NAMES[highest]:'N/A'));
     lines.push('');
     lines.push('N6 DAMPENING: Z5 (endocrine signalling) raw='+raw.z5+', dampened='+n6Damp(raw.z5)+' (x0.85)');
     lines.push('');
@@ -2195,7 +2195,7 @@ update();
   /* ---- F1: GLOSSARY ---- */
   var glossTerms = [
     {term:'NCZ',  short:'Node Convergence Zone', full:'A zone where multiple cascade pathways converge, creating compound clinical burden. NCZs are identified by overlapping stack activations across two or more zones.'},
-    {term:'DRD',  short:'Highest burden zone designation (T-01a)', full:'Disease Risk Designation. Identifies the zone carrying the greatest aggregate burden score across all six cascade stacks. Subject to T-01a classification restrictions.'},
+    {term:'DRD',  short:'Driver designation (T-01a)', full:'Disease Risk Designation. Identifies the zone carrying the greatest aggregate burden score across all six cascade stacks. Subject to T-01a classification restrictions.'},
     {term:'APEX', short:'Assessment Priority and Evidence Xray', full:'Investigation planner that prioritises clinical tests based on zone burden scores, cascade velocity, and available budget tiers.'},
     {term:'FLINT',short:'Five-layer intelligence model (L1-L5)', full:'The five-layer architecture: L1 Input, L2 Terrain Mapping, L3 Cascade Intelligence, L4 Pattern Recognition, L5 Output Synthesis. Each layer builds on data from the layer below.'},
     {term:'TerrainLock', short:'Self-perpetuating loop Z2 to Z1 to Z5 to Z2', full:'A pathological feedback loop where immune activation (Z2) drives metabolic disruption (Z1), which triggers cardiovascular compensation (Z5), which re-activates immune burden (Z2). Requires S1 + S2 + S4 activation.'},

@@ -651,7 +651,7 @@ img{display:block;max-width:100%}
     },
     {
       id: 'ST.3', name: 'Intelligence Generation', subtitle: 'FLINT Pipeline Fires',
-      desc: 'L1\u2013L4 execute: node scoring, zone activation, highest burden zone designation, APEX&#8482; priority. Deterministic and auditable.',
+      desc: 'L1\u2013L4 execute: node scoring, zone activation, Driver designation, APEX&#8482; priority. Deterministic and auditable.',
       features: [
         {id:'F2',name:'StackAlert',desc:'Alerts when node stack scores exceed threshold',p1:true},
         {id:'F16',name:'BiomarkerFloor',desc:'Establishes minimum biomarker thresholds per zone',p1:false},
@@ -663,8 +663,8 @@ img{display:block;max-width:100%}
       stormSafety: 'Multiple red flags detected. Additional safety gates activated between ST.3 and ST.5. All flagged features require practitioner acknowledgement before protocol generation.'
     },
     {
-      id: 'ST.4', name: 'Clinical Decision', subtitle: 'Highest Burden Zone Review and Zone Priority',
-      desc: 'Practitioner reviews highest burden zone designation, can override. Clinical judgement applied.',
+      id: 'ST.4', name: 'Clinical Decision', subtitle: 'Driver Review and Zone Priority',
+      desc: 'Practitioner reviews Driver designation, can override. Clinical judgement applied.',
       features: [
         {id:'F13',name:'ZonePriority Override',desc:'Practitioner override for zone priority sequencing',p1:false},
         {id:'F45',name:'NodeNarrative',desc:'Generates narrative explanation of node scoring rationale',p1:false},
@@ -3506,7 +3506,7 @@ img{display:block;max-width:100%}
     html += '<span class="orbit-scen-meta-tag">Cascades: ' + p.cascades + '</span>';
     html += '<span class="orbit-scen-meta-tag">TerrainLock: ' + (p.terrainLock ? 'Active' : 'Inactive') + '</span>';
     html += '<span class="orbit-scen-meta-tag">Path: ' + p.path + '</span>';
-    html += '<span class="orbit-scen-meta-tag">DRD: ' + zoneNames[p.drdIdx] + ' (Highest burden zone)</span>';
+    html += '<span class="orbit-scen-meta-tag">DRD: ' + zoneNames[p.drdIdx] + ' (Driver)</span>';
     html += '</div>';
     patientEl.innerHTML = html;
     patientEl.className = 'orbit-scen-patient orbit-scen-patient-visible';
@@ -4171,7 +4171,7 @@ img{display:block;max-width:100%}
     {q:'How many orbital stages in ORBIT?', opts:['5','6','7','9'], ans:2},
     {q:'Max features visible per stage?', opts:['3','5','7','10'], ans:1},
     {q:'Which stage does RedFlagScan fire?', opts:['Stage 1','Stage 2','Stage 3','Stage 5'], ans:2},
-    {q:'What is the DRD display term?', opts:['Primary zone','Highest burden zone','Top risk area','Lead network'], ans:1},
+    {q:'What is the DRD display term?', opts:['Primary zone','Driver','Top risk area','Lead network'], ans:1},
     {q:'Which stage captures SPHERE Ring data?', opts:['Stage 1','Stage 2','Stage 3','Stage 4'], ans:1},
     {q:'What fires before any protocol reaches the practitioner?', opts:['StackAlert','Safety checks (Stage 5)','NodeFloor','ReadingAge'], ans:1},
     {q:'Clean Path or Storm Path has additional checkpoints?', opts:['Clean Path','Storm Path','Both','Neither'], ans:1},
@@ -4436,7 +4436,7 @@ img{display:block;max-width:100%}
         }
         h += '</div>';
         h += '<div class="orbit-preview-mock-row"><span class="orbit-preview-mock-label">Active Cascades</span><span class="orbit-preview-mock-val">Z2 to Z1 (burden propagation)</span></div>';
-        h += '<div class="orbit-preview-mock-row"><span class="orbit-preview-mock-label">DRD Designation</span><span class="orbit-preview-mock-val" style="color:#1A7A8A;">Z2 Resilience Network (Highest burden zone)</span></div>';
+        h += '<div class="orbit-preview-mock-row"><span class="orbit-preview-mock-label">DRD Designation</span><span class="orbit-preview-mock-val" style="color:#1A7A8A;">Z2 Resilience Network (Driver)</span></div>';
         return h;
       }
     },

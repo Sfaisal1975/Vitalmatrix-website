@@ -98,8 +98,8 @@ Confirms T-01 and W5 permanent rules are respected.
 
 | Check | Rule | Source |
 |-------|------|--------|
-| T-01 output title | "Terrain Support Considerations" (not Protocol) | T-01 W5-1 |
-| T-01 DRD display | "Highest burden zone" (not Driver) | T-01a |
+| T-01 output title | "Personalised Terrain Management Protocol" (not Protocol) | T-01 W5-1 |
+| T-01 DRD display | "Driver" (not Driver) | T-01a |
 | W5-3 protective header | Mandatory on every clinical output (PERMANENT) | W5-3 |
 | W5-4 blank PCD | Practitioner Clinical Decision section blank, never pre-populated (PERMANENT) | W5-4 |
 

@@ -33,8 +33,8 @@
 - **ID prefix:** ncz-f4-
 - **Position:** After FLINT context section
 - **Background:** Charcoal #1A2030
-- **Behaviour:** Left panel (scattered notes, spreadsheet, free-text EHR) fades to greyscale on scroll. Right panel (VitalMatrix structured output: node scores, zone badges, cascade detection, DRD as "Highest burden zone") sharpens with gold glow.
-- **T-01 compliance:** DRD displayed as "Highest burden zone" (never "Driver")
+- **Behaviour:** Left panel (scattered notes, spreadsheet, free-text EHR) fades to greyscale on scroll. Right panel (VitalMatrix structured output: node scores, zone badges, cascade detection, DRD as "Driver") sharpens with gold glow.
+- **T-01 compliance:** DRD displayed as "Driver" (never "Driver")
 - **Caption:** "Same clinical reasoning. One takes 45 minutes. The other is already done."
 
 ### Feature 5: Personalised Architecture Readiness Score
@@ -91,7 +91,7 @@
 - [x] Zone thresholds: Z1-Z4=40, Z5=32
 - [x] Display scale: 0-10 inverted
 - [x] Floor formula: MAX(dampened)-10 on internal 0-100
-- [x] DRD display: "Highest burden zone" (T-01)
+- [x] DRD display: "Driver" (T-01)
 - [x] TerrainLock: Z2→Z1→Z5→Z2, correct activation conditions
 - [x] Z2 default tiebreaker
 - [x] British English throughout
@@ -109,14 +109,14 @@
   - Each line triggers node score increases: N1=35, N2=47, N3=58, N6=70 (dampened=49)
   - Zone scores compute live: Z1 Active (5/10), Z2 Active (6/10), Z5 Active (6/10)
   - S1+S2+S4 fire. TerrainLock detected (Z2→Z1→Z5→Z2 loop)
-  - DRD: "Highest burden zone: Z1 Metabolic Energy Axis"
-  - Structured output assembles: T-01 compliant Terrain Support Considerations with protective header, zone summary, cascade trace, five blank Practitioner Clinical Decision fields
+  - DRD: "Driver: Z1 Metabolic Energy Axis"
+  - Structured output assembles: T-01 compliant Personalised Terrain Management Protocol with protective header, zone summary, cascade trace, five blank Practitioner Clinical Decision fields
   - Clock shows 8:49 AM. Left timer at 7/45 min.
   - Reveal sequence: four messages at 1s intervals, gold Cormorant Garamond quote: "What would you do with 26 extra minutes — every consultation — for the rest of your career?"
   - CTA: "Book a Clinical Walkthrough" → /book/
   - "Watch Again" replay button
 - **Scoring compliance:** N6 x0.7, floor MAX(dampened)-10, display ROUND((100-internal)/10), Z5 threshold 32
-- **T-01 compliance:** Title "Terrain Support Considerations", DRD "Highest burden zone", protective header, blank Practitioner Clinical Decision section, S4 THEORETICAL, S6 UNIDIRECTIONAL
+- **T-01 compliance:** Title "Personalised Terrain Management Protocol", DRD "Driver", protective header, blank Practitioner Clinical Decision section, S4 THEORETICAL, S6 UNIDIRECTIONAL
 - **Emotional design:** Sells time, not technology. The practitioner sees 45 minutes compressed into 2. The question is not "do I need this" but "how soon can I start."
 
 ## Zone Colours (D-53 Website)
@@ -148,7 +148,7 @@
 - **ID prefix:** ncz-f14-
 - **Position:** After Feature 13
 - **Background:** Prussian #0D2B4E
-- **Behaviour:** Side-by-side T1 (Baseline) vs T2 (12-week follow-up) comparison. Fictional patient Mark, 47. 5 zone burden bars with internal scores, display scores, and delta arrows (improved/worsened). DRD designation panel per timepoint showing highest burden zone shift (Z2 at baseline to Z1 at follow-up). Animated pulse arrow between columns.
+- **Behaviour:** Side-by-side T1 (Baseline) vs T2 (12-week follow-up) comparison. Fictional patient Mark, 47. 5 zone burden bars with internal scores, display scores, and delta arrows (improved/worsened). DRD designation panel per timepoint showing Driver shift (Z2 at baseline to Z1 at follow-up). Animated pulse arrow between columns.
 - **Scoring:** Display 0-10 inverted. Delta calculated as T1-T2 internal difference.
 - **Caption:** "Composite fictional patient. For architectural demonstration only."
 
@@ -164,8 +164,8 @@
 - **ID prefix:** ncz-f16-
 - **Position:** After Feature 15 (final feature before CTA)
 - **Background:** Prussian #0D2B4E
-- **Behaviour:** White document card with realistic Terrain Support Considerations layout. T-01 compliant header bar (Prussian Blue + gold badge). Protective header text. 7 clickable section blocks: Zone Activation Summary, Cascade Detection, Highest Burden Designation, Dietary, Supplemental, Lifestyle, Investigation Priorities (APEX). Click any block to expand and see content + "Maps to: [FLINT layer]" label. Blank Practitioner Clinical Decision section with 5 dashed sub-label fields (never pre-populated). Document footer with ICO ZC101813.
-- **T-01 compliance:** Title "Terrain Support Considerations", protective header (PERMANENT), blank Practitioner Clinical Decision (PERMANENT), DRD as "Highest burden zone", supplements/dietary/lifestyle only, no pharmaceutical content.
+- **Behaviour:** White document card with realistic Personalised Terrain Management Protocol layout. T-01 compliant header bar (Prussian Blue + gold badge). Protective header text. 7 clickable section blocks: Zone Activation Summary, Cascade Detection, Highest Burden Designation, Dietary, Supplemental, Lifestyle, Investigation Priorities (APEX). Click any block to expand and see content + "Maps to: [FLINT layer]" label. Blank Practitioner Clinical Decision section with 5 dashed sub-label fields (never pre-populated). Document footer with ICO ZC101813.
+- **T-01 compliance:** Title "Personalised Terrain Management Protocol", protective header (PERMANENT), blank Practitioner Clinical Decision (PERMANENT), DRD as "Driver", supplements/dietary/lifestyle only, no pharmaceutical content.
 - **Caption:** "This is the output. Click each section to see what it maps to."
 
 ---

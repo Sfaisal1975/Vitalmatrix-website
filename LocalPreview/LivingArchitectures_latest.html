@@ -1277,7 +1277,7 @@ const steps=[
  {lit:[2,1],lines:['vm-ca-ls1'],tl:false,drd:false,narr:'Burden cascades via S1 to Z1 Metabolic Energy Axis. Mechanism Established, Cascade Emerging. Timeline: weeks to months.'},
  {lit:[1,5],lines:['vm-ca-ls2'],tl:false,drd:false,narr:'Z1 chains to Z5 via S2. FAST velocity. His hormonal terrain is now under pressure.'},
  {lit:[2,1,5],lines:['vm-ca-ls1','vm-ca-ls2','vm-ca-ls5'],tl:true,drd:false,narr:'S1 + S2 active. The Z2\u2192Z1\u2192Z5\u2192Z2 loop is self-perpetuating. This is TerrainLock.'},
- {lit:[1],lines:[],tl:false,drd:true,narr:'Z1 is the highest burden zone. Clinical investigation starts here. The cascade direction determines the intervention sequence.'}
+ {lit:[1],lines:[],tl:false,drd:true,narr:'Z1 is the Driver. Clinical investigation starts here. The cascade direction determines the intervention sequence.'}
 ];
 let step=0;
 const ov=document.getElementById('vm-ca-walk-overlay'),narr=document.getElementById('vm-ca-walk-narr'),
@@ -1571,7 +1571,7 @@ ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('active')})
     return h;
   }
   function buildL4(){
-    return '<div class="la3-dp"><p>Driver-Reactor Designation identifies which zone is driving the clinical picture.</p><div class="la3-dc" style="background:rgba(123,94,167,.09);border-left:3px solid #7B5EA7">Highest burden zone = Driver (Phase 1 display: "Highest burden zone")</div><p style="font-size:12px;color:var(--vm-muted)">Z5 is almost always Reactor, rarely Driver.</p><div class="la3-dc" style="background:rgba(192,57,43,.08);border-left:3px solid #C0392B">S4 (THEORETICAL) excluded from DRD cascade tracing. S6 (Established) is UNIDIRECTIONAL: Z1 to Z3 only. DRD trace only follows Established and Emerging stacks (D-12).</div><p style="font-size:11px;color:var(--vm-muted);line-height:1.6;margin-bottom:0">Evidence tier of the informing cascade stack is displayed alongside each designation (D-14).</p></div>';
+    return '<div class="la3-dp"><p>Driver-Reactor Designation identifies which zone is driving the clinical picture.</p><div class="la3-dc" style="background:rgba(123,94,167,.09);border-left:3px solid #7B5EA7">Driver = Driver (Phase 1 display: "Driver")</div><p style="font-size:12px;color:var(--vm-muted)">Z5 is almost always Reactor, rarely Driver.</p><div class="la3-dc" style="background:rgba(192,57,43,.08);border-left:3px solid #C0392B">S4 (THEORETICAL) excluded from DRD cascade tracing. S6 (Established) is UNIDIRECTIONAL: Z1 to Z3 only. DRD trace only follows Established and Emerging stacks (D-12).</div><p style="font-size:11px;color:var(--vm-muted);line-height:1.6;margin-bottom:0">Evidence tier of the informing cascade stack is displayed alongside each designation (D-14).</p></div>';
   }
   function buildL5(){
     var h='<div style="font-size:12px;color:var(--vm-muted);margin-bottom:12px;font-style:italic">Assessment Priority and Evidence Xray. Three budget tiers.</div><div class="la3-ao">';
@@ -3181,7 +3181,7 @@ const steps=[
  {lit:[2,1],lines:['vm-ca-ls1'],tl:false,drd:false,narr:'Burden cascades via S1 to Z1 Metabolic Energy Axis. Mechanism Established, Cascade Emerging. Timeline: weeks to months.'},
  {lit:[1,5],lines:['vm-ca-ls2'],tl:false,drd:false,narr:'Z1 chains to Z5 via S2. FAST velocity. His hormonal terrain is now under pressure.'},
  {lit:[2,1,5],lines:['vm-ca-ls1','vm-ca-ls2','vm-ca-ls5'],tl:true,drd:false,narr:'S1 + S2 active. The Z2\u2192Z1\u2192Z5\u2192Z2 loop is self-perpetuating. This is TerrainLock.'},
- {lit:[1],lines:[],tl:false,drd:true,narr:'Z1 is the highest burden zone. Clinical investigation starts here. The cascade direction determines the intervention sequence.'}
+ {lit:[1],lines:[],tl:false,drd:true,narr:'Z1 is the Driver. Clinical investigation starts here. The cascade direction determines the intervention sequence.'}
 ];
 let step=0;
 const ov=document.getElementById('vm-ca-walk-overlay'),narr=document.getElementById('vm-ca-walk-narr'),
@@ -3541,7 +3541,7 @@ ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('active')})
 </div>
 <div class="vm-la-divider"></div>
 
-<!-- DRD: HIGHEST BURDEN ZONE DESIGNATION -->
+<!-- DRD: DRIVER DESIGNATION -->
 <div id="vm-la4_drd">
 <section id="vm-la4-root" class="vm-reveal" style="
   --vm-prussian:#0D2B4E;--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;
@@ -3596,7 +3596,7 @@ ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('active')})
 <div style="max-width:860px;margin:0 auto">
   <p class="la4-eyebrow">DRD Designation</p>
   <h2>Which Zone Carries the Highest Burden?</h2>
-  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; highest burden zone designation changes in real time. Lower display score = higher burden.</p>
+  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; Driver designation changes in real time. Lower display score = higher burden.</p>
 
   <!-- Sliders -->
   <div id="vm-la4-sliders" class="la4-card">
@@ -3659,7 +3659,7 @@ ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('active')})
       if(val){val.textContent="Internal: "+v+" | Display: "+displayScore(v)+"/10"+(active?" ACTIVE":"");
         val.style.color=active?z.colour:"rgba(255,255,255,.5)";}
     }
-    // Highest burden zone
+    // Driver
     var hbz=null,hScore=-1;
     for(var a=0;a<activeZones.length;a++){
       var azk=activeZones[a],s=scores[azk];
@@ -3671,11 +3671,11 @@ ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('active')})
     dEl.style.borderColor=hz?hz.colour:"rgba(255,255,255,.11)";
     dEl.style.background=hz?hz.colour+"18":"rgba(255,255,255,.06)";
     dEl.innerHTML="<div class='la4-desig-title' style='color:"+(hz?hz.colour:"rgba(255,255,255,.5)")
-      +"'>DRD&#8482; DESIGNATION: HIGHEST BURDEN ZONE</div>"
+      +"'>DRD&#8482; DESIGNATION: DRIVER</div>"
       +(hbz?"<div class='la4-desig-result' style='color:"+hz.colour+"'>"+hbz+": "+hz.name
         +" (Internal: "+scores[hbz]+", Display: "+displayScore(scores[hbz])+"/10)</div>"
         :"<div style='font-size:13px;color:rgba(255,255,255,.5)'>No zones currently above activation threshold.</div>")
-      +"<div class='la4-desig-note'>T-01a: Phase 1 display uses \"Highest burden zone\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
+      +"<div class='la4-desig-note'>T-01a: Phase 1 display uses \"Driver\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
 
     // Reactors
     var reactors=[];
@@ -3884,7 +3884,7 @@ ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('active')})
     {year:2019,type:'Infectious',title:'Recurrent infections',desc:'Two significant respiratory infections within 12 months. Gut permeability markers elevated. Z2 burden established above threshold.',zones:{Z1:42,Z2:55,Z3:28,Z4:32,Z5:38},cascades:['S1 active (Z2 to Z1)','S2 begins (Z1 to Z5, FAST)']},
     {year:2022,type:'Lifestyle',title:'Exercise capacity decline',desc:'Reduced exercise tolerance. Central weight gain. Brain fog episodes. S2 fully established: metabolic burden now loading hormonal terrain.',zones:{Z1:58,Z2:62,Z3:35,Z4:40,Z5:52},cascades:['S1 active','S2 established (Z1 to Z5)','S5 active (Z2 to Z3)']},
     {year:2024,type:'Environmental',title:'Environmental exposure confirmed',desc:'Urban air quality assessment. Occupational chemical exposure identified. Z4 burden increasing. S3 cascade emerging (Z4 to Z1, SLOW).',zones:{Z1:62,Z2:65,Z3:40,Z4:50,Z5:58},cascades:['S1 active','S2 active','S3 emerging (Z4 to Z1, SLOW)','S5 active','TerrainLock criteria approaching']},
-    {year:2026,type:'Stress',title:'Presentation to VitalMatrix practitioner',desc:'Full terrain assessment completed. TerrainLock confirmed. Highest burden zone designation: Z2 Resilience Network. TIQ: 3.1/10.',zones:{Z1:65,Z2:68,Z3:42,Z4:52,Z5:60},cascades:['S1 active','S2 active','S4 active (THEORETICAL)','S5 active','TerrainLock CONFIRMED']}
+    {year:2026,type:'Stress',title:'Presentation to VitalMatrix practitioner',desc:'Full terrain assessment completed. TerrainLock confirmed. Driver designation: Z2 Resilience Network. TIQ: 3.1/10.',zones:{Z1:65,Z2:68,Z3:42,Z4:52,Z5:60},cascades:['S1 active','S2 active','S4 active (THEORETICAL)','S5 active','TerrainLock CONFIRMED']}
   ];
 
   /* Legend */

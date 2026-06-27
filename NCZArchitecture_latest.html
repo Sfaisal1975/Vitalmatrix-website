@@ -1425,7 +1425,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 </script>
 </section>
 
-<!-- ═══════ SV-ANIM-9: DRD DESIGNATION SPOTLIGHT — Highest burden zone illuminated ═══════ -->
+<!-- ═══════ SV-ANIM-9: DRD DESIGNATION SPOTLIGHT — Driver illuminated ═══════ -->
 <section id="ncz-sv9" style="background:var(--vm-deep-teal);padding:80px 24px;margin:0;overflow:hidden">
 <style>
 #ncz-sv9-canvas{width:100%;height:500px;display:block;max-width:650px;margin:0 auto}
@@ -1435,7 +1435,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 <div style="text-align:center;max-width:650px;margin:0 auto 32px">
   <div class="vm-eyebrow vm-reveal" style="justify-content:center">DRD&#8482; Designation</div>
   <h2 class="vm-section-heading vm-reveal vm-reveal-d1" style="text-align:center;color:var(--vm-white)">Which Zone Carries the Highest Burden?</h2>
-  <p class="vm-reveal vm-reveal-d2" style="font-family:var(--vm-fd);font-size:0.85rem;color:rgba(244,244,242,0.5);max-width:460px;margin:0 auto;line-height:1.7">DRD scans all five zones and designates the highest burden zone. A golden spotlight locks onto the designated zone. All other zones dim. The practitioner sees where to intervene first.</p>
+  <p class="vm-reveal vm-reveal-d2" style="font-family:var(--vm-fd);font-size:0.85rem;color:rgba(244,244,242,0.5);max-width:460px;margin:0 auto;line-height:1.7">DRD scans all five zones and designates the Driver. A golden spotlight locks onto the designated zone. All other zones dim. The practitioner sees where to intervene first.</p>
 </div>
 <canvas id="ncz-sv9-canvas"></canvas>
 <script>
@@ -2693,7 +2693,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C0392B">&#10007;</span> Free-text EHR entries with no structure</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C0392B">&#10007;</span> Mental calculation of zone thresholds</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C0392B">&#10007;</span> No cascade detection or burden flow</div>
-      <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C0392B">&#10007;</span> Highest burden zone identified by instinct</div>
+      <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C0392B">&#10007;</span> Driver identified by instinct</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C0392B">&#10007;</span> 45 minutes per patient assessment</div>
     </div>
     <div class="ncz-f4-panel ncz-f4-new" id="ncz-f4-new">
@@ -2701,7 +2701,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> Structured node scores: N1 through N7</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> <span class="ncz-f4-zone-badge" style="background:rgba(26,122,138,0.15);color:#1A7A8A;border:1px solid rgba(26,122,138,0.2)">Z2</span><span class="ncz-f4-zone-badge" style="background:rgba(201,168,76,0.15);color:#C9A84C;border:1px solid rgba(201,168,76,0.2)">Z1</span> Zone activation badges, live</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> Cascade detection: S1, S2, S5 active</div>
-      <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> DRD&#8482;: "Highest burden zone: Z2"</div>
+      <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> DRD&#8482;: "Driver: Z2"</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> Endocrine signalling node balanced across zones automatically</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> Near-threshold borderline alerts (D-38)</div>
       <div class="ncz-f4-item"><span class="ncz-f4-item-icon" style="color:#C9A84C">&#10003;</span> Already done before you finish your notes</div>
@@ -2974,7 +2974,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
       if (scoreEl) scoreEl.textContent = score > 0 ? String(displayScore) : '-';
     });
 
-    // DRD: highest burden zone
+    // DRD: Driver
     if (maxScore > 0) {
       // Z2 is tiebreaker
       var drdZone = maxZone;
@@ -3271,13 +3271,13 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
         <div class="ncz-f11-zone-badges" id="ncz-f11-zone-badges"></div>
         <div class="ncz-f11-cascade-area" id="ncz-f11-cascade-area"></div>
         <div class="ncz-f11-terrainlock" id="ncz-f11-terrainlock">TerrainLock&#8482; Detected: Z2 &#8594; Z1 &#8594; Z5 &#8594; Z2</div>
-        <div class="ncz-f11-drd-line" id="ncz-f11-drd-line">Highest burden zone: awaiting data</div>
+        <div class="ncz-f11-drd-line" id="ncz-f11-drd-line">Driver: awaiting data</div>
       </div>
     </div>
 
     <!-- Structured Output Card -->
     <div class="ncz-f11-output-card" id="ncz-f11-output-card">
-      <h3>Terrain Support Considerations</h3>
+      <h3>Personalised Terrain Management Protocol</h3>
       <div class="ncz-f11-protective">For practitioner use only. Not a diagnostic tool. VitalMatrix&#8482; provides terrain intelligence support for practitioner review.</div>
       <div id="ncz-f11-zone-summary"></div>
       <div class="ncz-f11-cascade-trace" id="ncz-f11-cascade-trace"></div>
@@ -3752,7 +3752,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
         drdZone = ZONE_DEFS[di];
       }
     }
-    drdOutput.textContent = 'Highest burden zone: ' + drdZone.id + ' ' + drdZone.name + ' (' + internalToDisplay(drdScore) + '/10)';
+    drdOutput.textContent = 'Driver: ' + drdZone.id + ' ' + drdZone.name + ' (' + internalToDisplay(drdScore) + '/10)';
 
     outputCard.classList.add('visible');
   }
@@ -4402,7 +4402,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 <div class="ncz-f14-wrap">
   <div class="vm-eyebrow vm-reveal"><span class="vm-eyebrow__line"></span>DeltaScan&#8482; Preview</div>
   <h2 class="vm-section-heading vm-reveal vm-reveal-d1">What changes between consultations: and why it matters.</h2>
-  <p class="vm-section-sub vm-reveal vm-reveal-d2" style="max-width:640px">Fictional patient Mark, 47. Baseline assessment versus 12-week follow-up. Zone scores shift. Cascade patterns change. The highest burden zone moves.</p>
+  <p class="vm-section-sub vm-reveal vm-reveal-d2" style="max-width:640px">Fictional patient Mark, 47. Baseline assessment versus 12-week follow-up. Zone scores shift. Cascade patterns change. The Driver moves.</p>
   <div class="ncz-f14-compare">
     <div class="ncz-f14-col" id="ncz-f14-t1"></div>
     <div class="ncz-f14-mid"><span class="ncz-f14-arrow">&#8594;</span><span style="font-family:var(--vm-fm);font-size:0.5rem;color:rgba(244,244,242,0.3);margin-top:8px;writing-mode:vertical-rl">12 WEEKS</span></div>
@@ -4437,7 +4437,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
       html+='<div class="ncz-f14-bar"><div class="ncz-f14-fill" style="width:'+val+'%;background:'+z.colour+'"></div></div>';
       html+='</div>';
     });
-    html+='<div class="ncz-f14-drd"><div class="ncz-f14-drd-label">Highest Burden Zone</div><div class="ncz-f14-drd-val">'+drdZone+'</div></div>';
+    html+='<div class="ncz-f14-drd"><div class="ncz-f14-drd-label">Driver</div><div class="ncz-f14-drd-val">'+drdZone+'</div></div>';
     el.innerHTML=html;
   }
   renderCol('ncz-f14-t1','Baseline (T1)','t1','Z2 Resilience Network');
@@ -4482,7 +4482,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
     {id:'L1',title:'Node Intelligence',q:'WHERE?',output:'7 nodes scored. N1=28, N2=47, N3=58, N4=42, N5=31, N6=49, N7=Phase 2.'},
     {id:'L2',title:'Zone Intelligence (NCZ&#8482;)',q:'WHICH?',output:'Z1 Active (internal 54, display 5/10). Z2 Active (internal 48, display 5/10). Z4 Active (internal 45, display 6/10). Z5 Active (internal 47, display 5/10). Z3 Inactive.'},
     {id:'L3',title:'Cascade Intelligence (CascadeIQ&#8482;)',q:'HOW?',output:'S1 Active (Z2 to Z1, MEDIUM, Emerging). S2 Active (Z1 to Z5, FAST, Established). S4 Active (Z5 to Z2, MEDIUM, Theoretical: excluded from DRD trace). TerrainLock&#8482; detected.'},
-    {id:'L4',title:'Highest Burden Designation (DRD&#8482;)',q:'WHO?',output:'Highest burden zone: Z1 Metabolic Energy Axis (internal 54). Secondary burden zones: Z2, Z5. Z2 tiebreaker entry point for TerrainLock&#8482; loop.'},
+    {id:'L4',title:'Highest Burden Designation (DRD&#8482;)',q:'WHO?',output:'Driver: Z1 Metabolic Energy Axis (internal 54). Secondary burden zones: Z2, Z5. Z2 tiebreaker entry point for TerrainLock&#8482; loop.'},
     {id:'L5',title:'Examination Intelligence (APEX&#8482;)',q:'WHAT NEXT?',output:'Priority 1: Thyroid panel (full, including rT3). Priority 2: Cortisol diurnal curve. Priority 3: Comprehensive stool analysis. Budget tier: Tier 2 (GBP 400-800).'}
   ];
   var pipeline=document.getElementById('ncz-f15-pipeline');
@@ -4553,15 +4553,15 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 <div class="ncz-f16-wrap">
   <div class="vm-eyebrow vm-reveal"><span class="vm-eyebrow__line"></span>What Your First Consultation Produces</div>
   <h2 class="vm-section-heading vm-reveal vm-reveal-d1">This is the output. Click each section to see what it maps to.</h2>
-  <p class="vm-section-sub vm-reveal vm-reveal-d2" style="max-width:640px">A T-01 compliant Terrain Support Considerations document. Protective header. Evidence-tiered content. Blank practitioner decision section. Every consultation. Automatically.</p>
+  <p class="vm-section-sub vm-reveal vm-reveal-d2" style="max-width:640px">A T-01 compliant Personalised Terrain Management Protocol document. Protective header. Evidence-tiered content. Blank practitioner decision section. Every consultation. Automatically.</p>
   <div class="ncz-f16-doc">
     <div class="ncz-f16-header">
-      <span class="ncz-f16-header-badge">Terrain Support Considerations</span>
+      <span class="ncz-f16-header-badge">Personalised Terrain Management Protocol</span>
       <span class="ncz-f16-header-t01">T-01 Compliant &#183; Phase 1 &#183; For Practitioner Review Only</span>
     </div>
     <div class="ncz-f16-protective">This document is generated by VitalMatrix&#8482; for qualified practitioner review. It does not constitute clinical advice, diagnosis, or prescription. All clinical decisions remain with the registered practitioner. Evidence tier labels are applied to every clinical claim. ICO ZC101813.</div>
     <div class="ncz-f16-body">
-      <div class="ncz-f16-title">Terrain Support Considerations</div>
+      <div class="ncz-f16-title">Personalised Terrain Management Protocol</div>
       <div class="ncz-f16-patient">Fictional Patient &#183; Architectural Demonstration Only</div>
       <div id="ncz-f16-sections"></div>
       <div class="ncz-f16-pcd">
@@ -4581,11 +4581,11 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
   var SECTIONS=[
     {label:'Zone Activation Summary',maps:'L2: NCZ Zone Logic',content:'Z1 Metabolic Energy Axis: Active (5/10). Z2 Resilience Network: Active (5/10). Z3 Cardiovascular-Neural: Inactive. Z4 Detoxification Trident: Active (6/10). Z5 Hormonal Terrain: Active (5/10, threshold 32).'},
     {label:'Cascade Detection',maps:'L3: CascadeIQ',content:'S1 Active (Z2 to Z1, MEDIUM, Emerging). S2 Active (Z1 to Z5, FAST, Established). S4 Active (Z5 to Z2, MEDIUM, Theoretical: excluded from DRD trace). TerrainLock pattern detected.'},
-    {label:'Highest Burden Designation',maps:'L4: DRD',content:'Highest burden zone: Z1 Metabolic Energy Axis. Secondary burden zones: Z2 Resilience Network, Z5 Hormonal Terrain Axis. Z2 designated as TerrainLock loop entry point.'},
+    {label:'Highest Burden Designation',maps:'L4: DRD',content:'Driver: Z1 Metabolic Energy Axis. Secondary burden zones: Z2 Resilience Network, Z5 Hormonal Terrain Axis. Z2 designated as TerrainLock loop entry point.'},
     {label:'Terrain Support: Dietary',maps:'T-01 W5-7: Supplements, dietary, lifestyle only',content:'Anti-inflammatory dietary framework targeting Z2 gut restoration as loop entry point. Elimination of reactive foods per terrain burden profile. Functional optimal ranges applied.'},
     {label:'Terrain Support: Supplemental',maps:'T-01 W5-7: No pharmaceutical content',content:'Targeted supplementation sequenced to Z2 first (gut restoration), Z1 second (metabolic support), Z5 third (hormonal terrain). Evidence tier: Emerging for Z2 protocol, Established for Z1.'},
     {label:'Terrain Support: Lifestyle',maps:'T-01 W5-7: Lifestyle modifications',content:'Circadian rhythm optimisation (Z1 metabolic axis). Stress modulation protocol (Z2 resilience). Sleep architecture review (Z5 hormonal terrain). Sequenced by DRD priority.'},
-    {label:'Investigation Priorities (APEX)',maps:'L5: APEX Budget Tiers',content:'Tier 2 (GBP 400-800): (1) Thyroid panel with rT3. (2) Cortisol diurnal curve. (3) Comprehensive stool analysis with zonulin. Sequenced by highest burden zone priority.'}
+    {label:'Investigation Priorities (APEX)',maps:'L5: APEX Budget Tiers',content:'Tier 2 (GBP 400-800): (1) Thyroid panel with rT3. (2) Cortisol diurnal curve. (3) Comprehensive stool analysis with zonulin. Sequenced by Driver priority.'}
   ];
   var container=document.getElementById('ncz-f16-sections');
   var html='';
@@ -4763,7 +4763,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
     ro.innerHTML = h;
     var bh = '';
     bh += '<span class="ncz-sv1-badge ncz-sv1-badge-cascade">Cascades: ' + state.c.length + '</span>';
-    bh += '<span class="ncz-sv1-badge ncz-sv1-badge-drd">DRD: ' + (state.d ? state.d + ' (Highest burden zone)' : 'None') + '</span>';
+    bh += '<span class="ncz-sv1-badge ncz-sv1-badge-drd">DRD: ' + (state.d ? state.d + ' (Driver)' : 'None') + '</span>';
     bh += '<span class="ncz-sv1-badge ' + (state.t ? 'ncz-sv1-badge-lock-active' : 'ncz-sv1-badge-lock') + '">TerrainLock: ' + (state.t ? 'ACTIVE' : 'Inactive') + '</span>';
     bg.innerHTML = bh;
   }
@@ -5029,10 +5029,10 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
   for(var s2=0;s2<STK.length;s2++){var sk=STK[s2];var fi=parseInt(sk.from.replace('Z',''),10)-1;var ti=parseInt(sk.to.replace('Z',''),10)-1;var da=sk.id==='S4'?'4 4':'none';var isA=false;for(var a2=0;a2<ac.length;a2++){if(ac[a2]===sk.id)isA=true;}if(sk.id==='S4')isA=false;h+='<line x1="'+pp[fi].x+'" y1="'+pp[fi].y+'" x2="'+pp[ti].x+'" y2="'+pp[ti].y+'" stroke="'+ZC[sk.from]+'" stroke-width="'+(isA?'2':'1')+'" stroke-dasharray="'+da+'" opacity="'+(isA?'0.8':'0.25')+'"/>';}
   for(var zp=0;zp<5;zp++){h+='<circle cx="'+pp[zp].x+'" cy="'+pp[zp].y+'" r="14" fill="rgba(255,255,255,0.06)" stroke="'+ZC[zl[zp]]+'" stroke-width="1.5"/><text x="'+pp[zp].x+'" y="'+(pp[zp].y+4)+'" text-anchor="middle" fill="'+ZC[zl[zp]]+'" font-family="\'DM Mono\',monospace" font-size="9" font-weight="600">'+zl[zp]+'</text>';}
   h+='</svg></div>';el.innerHTML=h;}
-  function fillL4(){var el=document.getElementById('ncz-sv2-lb-L4');if(!el)return;var h='<div class="ncz-sv2-drd"><div class="ncz-sv2-crown'+(rm?'':'')+'" id="ncz-sv2-crn">&#9813;</div><div class="ncz-sv2-drd-z" style="color:'+ZC[drd]+'">'+drd+' '+ZN[drd]+'</div><div class="ncz-sv2-drd-l">Highest burden zone</div><div style="font-family:\'DM Mono\',monospace;font-size:10px;color:rgba(244,244,242,0.35);margin-top:4px">Internal: '+zs[drd]+' | Display: '+ds(zs[drd])+'/10 | Z2 tiebreaker applied</div></div>';var zk=['Z1','Z2','Z3','Z4','Z5'];h+='<div class="ncz-sv2-reactors">';for(var i=0;i<zk.length;i++){if(zk[i]!==drd&&zst[zk[i]]==='Active')h+='<span class="ncz-sv2-reactor'+(rm?' ncz-sv2-rf':'')+'" id="ncz-sv2-re-'+i+'" style="border:1px solid '+ZC[zk[i]]+'">'+zk[i]+' Secondary</span>';}h+='</div>';el.innerHTML=h;if(!rm){setTimeout(function(){var cr=document.getElementById('ncz-sv2-crn');if(cr)cr.classList.add('ncz-sv2-cdr');},200);for(var r=0;r<zk.length;r++){(function(idx){setTimeout(function(){var re=document.getElementById('ncz-sv2-re-'+idx);if(re)re.classList.add('ncz-sv2-rf');},600+idx*200);})(r);}}}
+  function fillL4(){var el=document.getElementById('ncz-sv2-lb-L4');if(!el)return;var h='<div class="ncz-sv2-drd"><div class="ncz-sv2-crown'+(rm?'':'')+'" id="ncz-sv2-crn">&#9813;</div><div class="ncz-sv2-drd-z" style="color:'+ZC[drd]+'">'+drd+' '+ZN[drd]+'</div><div class="ncz-sv2-drd-l">Driver</div><div style="font-family:\'DM Mono\',monospace;font-size:10px;color:rgba(244,244,242,0.35);margin-top:4px">Internal: '+zs[drd]+' | Display: '+ds(zs[drd])+'/10 | Z2 tiebreaker applied</div></div>';var zk=['Z1','Z2','Z3','Z4','Z5'];h+='<div class="ncz-sv2-reactors">';for(var i=0;i<zk.length;i++){if(zk[i]!==drd&&zst[zk[i]]==='Active')h+='<span class="ncz-sv2-reactor'+(rm?' ncz-sv2-rf':'')+'" id="ncz-sv2-re-'+i+'" style="border:1px solid '+ZC[zk[i]]+'">'+zk[i]+' Secondary</span>';}h+='</div>';el.innerHTML=h;if(!rm){setTimeout(function(){var cr=document.getElementById('ncz-sv2-crn');if(cr)cr.classList.add('ncz-sv2-cdr');},200);for(var r=0;r<zk.length;r++){(function(idx){setTimeout(function(){var re=document.getElementById('ncz-sv2-re-'+idx);if(re)re.classList.add('ncz-sv2-rf');},600+idx*200);})(r);}}}
   function fillL5(){var el=document.getElementById('ncz-sv2-lb-L5');if(!el)return;var dz=drd?drd:'Z1';var ap=APX[dz];if(!ap)ap=APX['Z1'];var h='<div class="ncz-sv2-apex-list">';for(var i=0;i<ap.it.length;i++){var del=rm?'0s':(i*0.2)+'s';h+='<div class="ncz-sv2-apex-i'+(rm?' ncz-sv2-ain':'')+'" id="ncz-sv2-ap-'+i+'" style="'+(rm?'':'animation-delay:'+del)+'"><span class="ncz-sv2-apex-r">'+(i+1)+'</span><span class="ncz-sv2-apex-t">'+ap.it[i]+'</span><span class="ncz-sv2-apex-b">'+ap.ti[i]+'</span></div>';}h+='</div>';el.innerHTML=h;if(!rm){for(var j=0;j<ap.it.length;j++){(function(idx){setTimeout(function(){var it=document.getElementById('ncz-sv2-ap-'+idx);if(it)it.classList.add('ncz-sv2-ain');},idx*200);})(j);}}}
-  function buildT01(){var o=document.getElementById('ncz-sv2-t01');if(!o)return;var h='<div class="ncz-sv2-t01h">Terrain Support Considerations</div><div class="ncz-sv2-t01p">For practitioner use only. Not a diagnostic tool.</div>';h+='<div class="ncz-sv2-t01r"><strong>Zone Pattern:</strong></div>';var zk=['Z1','Z2','Z3','Z4','Z5'];for(var i=0;i<zk.length;i++){h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;'+zk[i]+' '+ZN[zk[i]]+': <span>'+ds(zs[zk[i]])+'/10 ('+zst[zk[i]]+')</span></div>';}var cs=ac.length>0?ac.join(', '):'None';h+='<div class="ncz-sv2-t01r" style="margin-top:8px"><strong>Cascade Pattern:</strong> <span>'+cs+'</span></div>';h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;S4 THEORETICAL: excluded from DRD cascade trace (D-12)</div>';h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;S6 UNIDIRECTIONAL: Z1 to Z3 only</div>';h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;TerrainLock: <span>'+(tl?'Active':'Inactive')+'</span></div>';h+='<div class="ncz-sv2-t01r" style="margin-top:8px"><strong>DRD Designation:</strong> Highest burden zone: <span>'+drd+' '+ZN[drd]+'</span></div>';var dz=drd?drd:'Z1';var ap=APX[dz];if(!ap)ap=APX['Z1'];h+='<div class="ncz-sv2-t01r" style="margin-top:8px"><strong>APEX Priorities:</strong></div>';for(var a=0;a<ap.it.length;a++){h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;'+(a+1)+'. '+ap.it[a]+' ['+ap.ti[a]+']</div>';}h+='<div class="ncz-sv2-pcd"><div class="ncz-sv2-pcdt">Practitioner Clinical Decision</div>';var pcl=['Assessment notes','Clinical reasoning','Referral decision','Follow-up plan','Patient communication'];for(var p=0;p<pcl.length;p++){h+='<div class="ncz-sv2-pcdf">'+pcl[p]+'</div>';}h+='</div><div class="ncz-sv2-t01ft">For practitioner use only. Not a diagnostic tool. ICO ZC101813.</div>';o.innerHTML=h;o.classList.add('ncz-sv2-t01s');}
-  function t01Text(){var L=[];L.push('TERRAIN SUPPORT CONSIDERATIONS');L.push('For practitioner use only. Not a diagnostic tool.');L.push('');L.push('ZONE PATTERN:');var zk=['Z1','Z2','Z3','Z4','Z5'];for(var i=0;i<zk.length;i++){L.push('  '+zk[i]+' '+ZN[zk[i]]+': '+ds(zs[zk[i]])+'/10 ('+zst[zk[i]]+')');}L.push('');L.push('CASCADE PATTERN: '+(ac.length>0?ac.join(', '):'None'));L.push('  S4 THEORETICAL: excluded from DRD cascade trace (D-12)');L.push('  S6 UNIDIRECTIONAL: Z1 to Z3 only');L.push('  TerrainLock: '+(tl?'Active':'Inactive'));L.push('');L.push('DRD DESIGNATION: Highest burden zone: '+drd+' '+ZN[drd]);L.push('');var dz=drd?drd:'Z1';var ap=APX[dz];if(!ap)ap=APX['Z1'];L.push('APEX PRIORITIES:');for(var a=0;a<ap.it.length;a++){L.push('  '+(a+1)+'. '+ap.it[a]+' ['+ap.ti[a]+']');}L.push('');L.push('PRACTITIONER CLINICAL DECISION:');L.push('  Assessment notes:');L.push('  Clinical reasoning:');L.push('  Referral decision:');L.push('  Follow-up plan:');L.push('  Patient communication:');L.push('');L.push('For practitioner use only. Not a diagnostic tool. ICO ZC101813.');return L.join('\n');}
+  function buildT01(){var o=document.getElementById('ncz-sv2-t01');if(!o)return;var h='<div class="ncz-sv2-t01h">Personalised Terrain Management Protocol</div><div class="ncz-sv2-t01p">For practitioner use only. Not a diagnostic tool.</div>';h+='<div class="ncz-sv2-t01r"><strong>Zone Pattern:</strong></div>';var zk=['Z1','Z2','Z3','Z4','Z5'];for(var i=0;i<zk.length;i++){h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;'+zk[i]+' '+ZN[zk[i]]+': <span>'+ds(zs[zk[i]])+'/10 ('+zst[zk[i]]+')</span></div>';}var cs=ac.length>0?ac.join(', '):'None';h+='<div class="ncz-sv2-t01r" style="margin-top:8px"><strong>Cascade Pattern:</strong> <span>'+cs+'</span></div>';h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;S4 THEORETICAL: excluded from DRD cascade trace (D-12)</div>';h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;S6 UNIDIRECTIONAL: Z1 to Z3 only</div>';h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;TerrainLock: <span>'+(tl?'Active':'Inactive')+'</span></div>';h+='<div class="ncz-sv2-t01r" style="margin-top:8px"><strong>DRD Designation:</strong> Driver: <span>'+drd+' '+ZN[drd]+'</span></div>';var dz=drd?drd:'Z1';var ap=APX[dz];if(!ap)ap=APX['Z1'];h+='<div class="ncz-sv2-t01r" style="margin-top:8px"><strong>APEX Priorities:</strong></div>';for(var a=0;a<ap.it.length;a++){h+='<div class="ncz-sv2-t01r">&nbsp;&nbsp;'+(a+1)+'. '+ap.it[a]+' ['+ap.ti[a]+']</div>';}h+='<div class="ncz-sv2-pcd"><div class="ncz-sv2-pcdt">Practitioner Clinical Decision</div>';var pcl=['Assessment notes','Clinical reasoning','Referral decision','Follow-up plan','Patient communication'];for(var p=0;p<pcl.length;p++){h+='<div class="ncz-sv2-pcdf">'+pcl[p]+'</div>';}h+='</div><div class="ncz-sv2-t01ft">For practitioner use only. Not a diagnostic tool. ICO ZC101813.</div>';o.innerHTML=h;o.classList.add('ncz-sv2-t01s');}
+  function t01Text(){var L=[];L.push('Personalised Terrain Management Protocol');L.push('For practitioner use only. Not a diagnostic tool.');L.push('');L.push('ZONE PATTERN:');var zk=['Z1','Z2','Z3','Z4','Z5'];for(var i=0;i<zk.length;i++){L.push('  '+zk[i]+' '+ZN[zk[i]]+': '+ds(zs[zk[i]])+'/10 ('+zst[zk[i]]+')');}L.push('');L.push('CASCADE PATTERN: '+(ac.length>0?ac.join(', '):'None'));L.push('  S4 THEORETICAL: excluded from DRD cascade trace (D-12)');L.push('  S6 UNIDIRECTIONAL: Z1 to Z3 only');L.push('  TerrainLock: '+(tl?'Active':'Inactive'));L.push('');L.push('DRD DESIGNATION: Driver: '+drd+' '+ZN[drd]);L.push('');var dz=drd?drd:'Z1';var ap=APX[dz];if(!ap)ap=APX['Z1'];L.push('APEX PRIORITIES:');for(var a=0;a<ap.it.length;a++){L.push('  '+(a+1)+'. '+ap.it[a]+' ['+ap.ti[a]+']');}L.push('');L.push('PRACTITIONER CLINICAL DECISION:');L.push('  Assessment notes:');L.push('  Clinical reasoning:');L.push('  Referral decision:');L.push('  Follow-up plan:');L.push('  Patient communication:');L.push('');L.push('For practitioner use only. Not a diagnostic tool. ICO ZC101813.');return L.join('\n');}
   var fills=[fillL1,fillL2,fillL3,fillL4,fillL5];var lids=['L1','L2','L3','L4','L5'];
   function runTrace(){
     readSliders();compute();var ov=document.getElementById('ncz-sv2-overlay');var pp=document.getElementById('ncz-sv2-pipeline');var acts=document.getElementById('ncz-sv2-acts');var t01=document.getElementById('ncz-sv2-t01');if(!ov||!pp)return;pp.innerHTML=buildPipe();if(t01){t01.classList.remove('ncz-sv2-t01s');t01.innerHTML='';}if(acts)acts.style.display='none';ov.classList.add('ncz-sv2-show');var del=rm?0:1500;
@@ -5119,7 +5119,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
   'use strict';
   var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var PG=[
-    {name:'How It Works',colour:'#1A7A8A',file:'HowItWorks_latest.html',cl:'FLINT pipeline, zone scoring, cascade direction',ti:['FLINT five-layer pipeline','Zone activation thresholds','Cascade propagation direction','DRD highest burden designation'],hl:['Interactive FLINT layer walkthrough with sequential animation','DRD highest burden zone visualiser with cascade trace','DeltaScan T1 vs T2 trend comparison bars','N6 dampening explanation panel']},
+    {name:'How It Works',colour:'#1A7A8A',file:'HowItWorks_latest.html',cl:'FLINT pipeline, zone scoring, cascade direction',ti:['FLINT five-layer pipeline','Zone activation thresholds','Cascade propagation direction','DRD highest burden designation'],hl:['Interactive FLINT layer walkthrough with sequential animation','DRD Driver visualiser with cascade trace','DeltaScan T1 vs T2 trend comparison bars','N6 dampening explanation panel']},
     {name:'CascadeAtlas',colour:'#C9A84C',file:'CascadeAtlas_latest.html',cl:'Pentagon map, 6 cascade stacks, TerrainLock loop',ti:['Interactive cascade pentagon','Six cascade stacks with velocity','TerrainLock loop detection','S4 THEORETICAL exclusion'],hl:['36-feature interactive cascade intelligence suite','Zone-to-zone propagation simulator with particle effects','TerrainLock detection: Z2 to Z1 to Z5 to Z2 loop','S4 THEORETICAL dashed, S6 UNIDIRECTIONAL labelled']},
     {name:'Terrain Intelligence',colour:'#7B5EA7',file:'TerrainIntelligence_latest.html',cl:'KINETICS velocity, DeltaScan tracking, TIQ composite',ti:['KINETICS velocity board','DeltaScan trend tracking','TIQ composite scoring','APEX budget tier planning'],hl:['KINETICS 20-feature velocity analysis board','APEX investigation planner with three budget tiers','Real-time terrain state scoring with zone breakdown','DeltaScan follow-up comparison engine']},
     {name:'Our Approach',colour:'#5F7C6C',file:'OurApproach_latest.html',cl:'Five zones, six stacks, terrain-first principle',ti:['Seven-node biological framework','Five-zone terrain mapping','Six cascade stacks','Terrain-first clinical methodology'],hl:['Seven biological nodes mapped to five terrain zones','Six cascade stacks with evidence tiers','Terrain-first principle: structure before symptoms','N6 endocrine signalling cross-zone influence']},
@@ -5393,7 +5393,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
     var html='<div class="ncz-sv4-step-header"><span class="ncz-sv4-step-num">Step 4 of 5</span><span class="ncz-sv4-step-title">Identify the Highest Burden</span></div>';
     html+='<div class="ncz-sv4-step-body">';
     html+='<div class="ncz-sv4-drd-card">';
-    html+='<div class="ncz-sv4-drd-label">Highest Burden Zone</div>';
+    html+='<div class="ncz-sv4-drd-label">Driver</div>';
     html+='<div class="ncz-sv4-drd-zone" style="color:'+ZONE_COLOURS[drdZone]+'">'+drdZone+' '+ZONE_NAMES[drdZone]+'</div>';
     html+='<div class="ncz-sv4-drd-sub">Display score: '+displayScore(zoneScores[drdZone])+'/10</div>';
     html+='</div>';
@@ -5414,7 +5414,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
     var timeStr=mins+' minutes '+secs+' seconds';
     var html='<div class="ncz-sv4-step-header"><span class="ncz-sv4-step-num">Step 5 of 5</span><span class="ncz-sv4-step-title">Receive Your Output</span></div>';
     html+='<div class="ncz-sv4-output-card">';
-    html+='<div class="ncz-sv4-output-title">Terrain Support Considerations</div>';
+    html+='<div class="ncz-sv4-output-title">Personalised Terrain Management Protocol</div>';
     html+='<div class="ncz-sv4-protect">For practitioner use only. Not a diagnostic tool.</div>';
     var zkeys=['Z1','Z2','Z3','Z4','Z5'];
     for(var i=0;i<zkeys.length;i++){
@@ -5423,7 +5423,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
     }
     var cascadeStr=activeCascades.length>0?activeCascades.join(', '):'None';
     html+='<div class="ncz-sv4-output-row" style="margin-top:12px">Cascade trace: <span>'+cascadeStr+'</span></div>';
-    html+='<div class="ncz-sv4-output-row">Highest burden zone: <span>'+drdZone+' '+ZONE_NAMES[drdZone]+'</span></div>';
+    html+='<div class="ncz-sv4-output-row">Driver: <span>'+drdZone+' '+ZONE_NAMES[drdZone]+'</span></div>';
     html+='<div class="ncz-sv4-output-row">TerrainLock: <span>'+(terrainLockActive?'Active':'Inactive')+'</span></div>';
     html+='<div class="ncz-sv4-pcd">';
     html+='<div class="ncz-sv4-pcd-title">Practitioner Clinical Decision</div>';
@@ -5680,7 +5680,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
   }
   function checkDRD(){
     var pageText=document.body?document.body.innerHTML:'';
-    var hasApproved=pageText.indexOf('Highest burden zone')!==-1||pageText.indexOf('Highest Burden Zone')!==-1;
+    var hasApproved=pageText.indexOf('Driver')!==-1||pageText.indexOf('Driver')!==-1;
     return hasApproved;
   }
   function checkT01(){return true;}
@@ -5921,7 +5921,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 
     html+='<div class="ncz-sv6-col">';
     html+='<div class="ncz-sv6-col-title">Clinical Summary</div>';
-    html+='<div class="ncz-sv6-summary-row"><span class="ncz-sv6-summary-label">Highest burden zone</span><span class="ncz-sv6-summary-val" style="color:'+ZONE_COLOURS[drdZone]+'">'+drdZone+' '+ZONE_NAMES[drdZone]+'</span></div>';
+    html+='<div class="ncz-sv6-summary-row"><span class="ncz-sv6-summary-label">Driver</span><span class="ncz-sv6-summary-val" style="color:'+ZONE_COLOURS[drdZone]+'">'+drdZone+' '+ZONE_NAMES[drdZone]+'</span></div>';
     var resilience=displayScore(zoneScores[drdZone]);
     html+='<div class="ncz-sv6-summary-row"><span class="ncz-sv6-summary-label">Terrain Resilience</span><span class="ncz-sv6-summary-val">'+resilience+'/10</span></div>';
     var activeCount=0;
@@ -5931,7 +5931,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
     html+='<div class="ncz-sv6-summary-row"><span class="ncz-sv6-summary-label">TerrainLock</span><span class="ncz-sv6-summary-val">'+(terrainLockActive?'Active':'Inactive')+'</span></div>';
 
     html+='<div class="ncz-sv6-mini-output">';
-    html+='<div class="ncz-sv6-mini-title">Terrain Support Considerations</div>';
+    html+='<div class="ncz-sv6-mini-title">Personalised Terrain Management Protocol</div>';
     html+='<div class="ncz-sv6-mini-protect">For practitioner use only. Not a diagnostic tool.</div>';
     html+='<div class="ncz-sv6-mini-pcd">';
     html+='<div class="ncz-sv6-mini-pcd-title">Practitioner Clinical Decision</div>';
@@ -5988,7 +5988,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
     }
     lines.push('');
     lines.push('CLINICAL SUMMARY:');
-    lines.push('  Highest burden zone: '+drdZone+' '+ZONE_NAMES[drdZone]);
+    lines.push('  Driver: '+drdZone+' '+ZONE_NAMES[drdZone]);
     lines.push('  Terrain Resilience: '+displayScore(zoneScores[drdZone])+'/10');
     var activeCount=0;
     for(var ac=0;ac<zkeys.length;ac++){if(zoneStatus[zkeys[ac]]==='Active')activeCount++;}

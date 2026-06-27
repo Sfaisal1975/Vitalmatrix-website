@@ -1156,9 +1156,9 @@ var cohort = [
 /* ═══════ UTILITY FUNCTIONS ═══════ */
 function isActive(i){ return scores[i] >= ZONES[i].th; }
 function isBorderline(i){ return scores[i] >= ZONES[i].near[0] && scores[i] < ZONES[i].th; }
-// DRD designation: score-based highest burden zone (Phase 1).
+// DRD designation: score-based Driver (Phase 1).
 // D-12: S4 (Theoretical) excluded from DRD cascade trace. Cascade trace not yet implemented — applies when built.
-// W5-6: Display language = "Highest burden zone" (not "Driver"). "Secondary burden zone" (not "Reactor").
+// W5-6: Display language = "Driver" (not "Driver"). "Secondary burden zone" (not "Reactor").
 function getDriver(sc){
   var best=-1, bestVal=-1;
   sc.forEach(function(v,i){ if(v>=ZONES[i].th && v>bestVal){ bestVal=v; best=i; } });
@@ -1737,7 +1737,7 @@ updateF19Zones();
 /* ═══════ F20: VOICE NARRATION ═══════ */
 document.getElementById('vm-ca-speak-btn').addEventListener('click', function(){
   var drv = getDriver(scores);
-  var text = 'Patient terrain shows '+ZONES[drv].id+' as highest burden zone with an internal score of '+scores[drv]+'. ';
+  var text = 'Patient terrain shows '+ZONES[drv].id+' as Driver with an internal score of '+scores[drv]+'. ';
   var activeStacks = STACKS.filter(function(s){ return isActive(s.from)&&isActive(s.to); });
   if(activeStacks.length) text += activeStacks.length+' cascade stacks active. ';
   text += 'Primary restoration target: '+ZONES[drv].name+'.';
@@ -1926,7 +1926,7 @@ var tourSteps = [
   { title:'Seven Functional Nodes', text:'N1-N7. Seven nodes, never eight. MES is foundational context, not a node.' },
   { title:'Six Cascade Stacks', text:'S1-S6. Directional dysfunction pathways. S4 is Theoretical. S6 is UNIDIRECTIONAL: Z1 to Z3 only.' },
   { title:'Zone Activation', text:'Zones activate at threshold: 40 internal (Z1-Z4), 32 internal (Z5). Borderline = near threshold.' },
-  { title:'DRD\u2122 Designation', text:'The DRD\u2122 designation identifies the highest burden zone. Phase 1 display language: Highest burden zone, not Driver.' },
+  { title:'DRD\u2122 Designation', text:'The DRD\u2122 designation identifies the Driver. Phase 1 display language: Driver, not Driver.' },
   { title:'TerrainLock\u2122', text:'Z2\u2192Z1\u2192Z5\u2192Z2 self-perpetuating loop. Z2 gut restoration is the default tiebreaker.' },
   { title:'Evidence Tiers', text:'Every clinical claim carries a tier: Established, Emerging, Theoretical, Observed in Practice, or Contested.' },
   { title:'CascadeAtlas\u2122 Complete', text:'36 interactive features with Terrain Consciousness\u2122. Clinical intelligence for functional medicine practitioners.' }
@@ -2502,7 +2502,7 @@ origAxisGen.onclick=function(){
   var activeStacks=STACKS.filter(function(s){return isActive(s.from)&&isActive(s.to);});
   var s1on=isActive(1)&&isActive(0), s2on=isActive(0)&&isActive(4), s4on=isActive(4)&&isActive(1);
   var tl=s1on&&s2on&&(s4on||(scores[4]>=60&&scores[1]>=60)); // ALB v1.6: S4 OR Z5+Z2 both >= 60 internal
-  var text='This patient presents with '+ZONES[drv].id+' ('+ZONES[drv].name+') as highest burden zone (internal: '+scores[drv]+', display: '+displayScore(scores[drv])+'/10). ';
+  var text='This patient presents with '+ZONES[drv].id+' ('+ZONES[drv].name+') as Driver (internal: '+scores[drv]+', display: '+displayScore(scores[drv])+'/10). ';
   if(activeStacks.length) text+=activeStacks.length+' cascade stack'+(activeStacks.length>1?'s':'')+' active: '+activeStacks.map(function(s){return s.id+' ('+s.vel+', '+s.tier+')';}).join(', ')+'. ';
   else text+='No cascade stacks currently active. ';
   if(tl) text+='TerrainLock\u2122 is ACTIVE \u2014 self-perpetuating loop. ';
@@ -2952,7 +2952,7 @@ renderJournal();
       var actDescs=[
         'Zones count up from 0 and illuminate as they cross their activation threshold.',
         'Cascade arrows draw on sequentially with flowing particle dots.',
-        'A gold crown drops on the highest burden zone. Secondary burden badges fade in on remaining active zones.',
+        'A gold crown drops on the Driver. Secondary burden badges fade in on remaining active zones.',
         'TerrainLock detection: the gold ellipse pulses if the self-perpetuating loop is active.'
       ];
       actNames.forEach(function(name,i){
@@ -3057,7 +3057,7 @@ renderJournal();
         narr='TerrainLock detected: self-perpetuating loop Z2 to Z1 to Z5 to Z2 is active. All three contributing stacks (S1, S2, S4) are firing.';
       } else {
         var activeCount=0;sc.forEach(function(v,i){if(v>=Z[i].th)activeCount++});
-        if(activeCount>0)narr=activeCount+' zone'+(activeCount>1?'s':'')+' active. Highest burden zone identified. No TerrainLock loop detected.';
+        if(activeCount>0)narr=activeCount+' zone'+(activeCount>1?'s':'')+' active. Driver identified. No TerrainLock loop detected.';
         else narr='No zones above activation threshold. Terrain is stable.';
       }
       typeText(narrativeEl,narr,25);
@@ -3287,7 +3287,7 @@ renderJournal();
 <section id="vm-drd-d3-section">
   <div class="vm-ca-eyebrow">D3: Pentagon Heatmap Diffusion</div>
   <h2 class="vm-ca-title">Pentagon Heatmap Diffusion</h2>
-  <p class="vm-ca-subtitle">Zone circles as radial gradient intensity rings, proportional to burden score. Hover for detailed tooltip. Highest burden zone gains a concentric bullseye.</p>
+  <p class="vm-ca-subtitle">Zone circles as radial gradient intensity rings, proportional to burden score. Hover for detailed tooltip. Driver gains a concentric bullseye.</p>
   <div id="vm-drd-d3-svg-wrap">
     <svg id="vm-drd-d3-svg" viewBox="-10 -10 320 310">
       <defs>
@@ -3489,7 +3489,7 @@ renderJournal();
     sc.forEach(function(v,i){if(v>=Z[i].th&&v>bestVal){bestVal=v;best=i}});
     if(best===-1)sc.forEach(function(v,i){if(v>bestVal){bestVal=v;best=i}});
     if(best>=0){
-      sentences.push('The highest burden zone is '+Z[best].id+' ('+Z[best].name+') with an internal score of '+sc[best]+'/100 (display: '+displayScore(sc[best])+'/10).');
+      sentences.push('The Driver is '+Z[best].id+' ('+Z[best].name+') with an internal score of '+sc[best]+'/100 (display: '+displayScore(sc[best])+'/10).');
     }
 
     var activeCascades=[];
@@ -5915,7 +5915,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 </style>
 <section class="vm-drd-d7-wrap" id="vm-drd-d7">
   <div class="vm-drd-d7-title">ANCHOR Confidence Gauges</div>
-  <div class="vm-drd-d7-subtitle">Zone burden scores relative to activation thresholds. Crown marks highest burden zone.</div>
+  <div class="vm-drd-d7-subtitle">Zone burden scores relative to activation thresholds. Crown marks Driver.</div>
   <div class="vm-drd-d7-gauges" id="vm-drd-d7-gauges"></div>
 </section>
 <script>
@@ -5975,7 +5975,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 
       var html = '';
       if(g===highestIdx){
-        html += '<div class="vm-drd-d7-crown" title="Highest burden zone">&#9813;</div>';
+        html += '<div class="vm-drd-d7-crown" title="Driver">&#9813;</div>';
       }
       html += '<svg viewBox="0 0 110 65">' + svgContent + '</svg>';
       html += '<div class="vm-drd-d7-gauge-score">' + sc[g] + ' / ' + zData[g].th + '</div>';
@@ -6817,7 +6817,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 </style>
 <section class="vm-drd-d10-wrap" id="vm-drd-d10">
   <div class="vm-drd-d10-title">DRD Decision Replay Timeline</div>
-  <div class="vm-drd-d10-subtitle">Records every highest burden zone change. Click a marker to restore that state.</div>
+  <div class="vm-drd-d10-subtitle">Records every Driver change. Click a marker to restore that state.</div>
   <div style="text-align:center;">
     <div class="vm-drd-d10-t01">T-01: Educational demonstration only. Not a clinical record.</div>
   </div>
@@ -6985,7 +6985,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
   exportBtn.addEventListener('click', function(){
     if(history.length===0) return;
     var lines = ['DRD Decision Replay Timeline Export','Educational demonstration only. Not a clinical record.',''];
-    lines.push('Time | Highest Burden Zone | Scores (Z1,Z2,Z3,Z4,Z5) | TerrainLock');
+    lines.push('Time | Driver | Scores (Z1,Z2,Z3,Z4,Z5) | TerrainLock');
     lines.push('-----|---------------------|--------------------------|------------');
     history.forEach(function(e){
       lines.push(e.time + ' | ' + zNames[e.highestIdx] + ' | ' + e.scores.join(', ') + ' | ' + (e.terrainLock?'Yes':'No'));
@@ -7090,7 +7090,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 </div>
 <script>
 (function(){
-  var Z={Z1:{x:300,y:80,name:"Metabolic Energy Axis",col:"#C9A84C",nodes:"N3 + N6 (endocrine signalling)",desc:"The metabolic engine. When N6 (endocrine signalling) and N3 converge, energy production, hormonal signalling, and metabolic regulation become interdependent."},Z2:{x:490,y:230,name:"Resilience Network",col:"#1A7A8A",nodes:"N1 + N2 + N6 (endocrine signalling)",desc:"The resilience foundation. Three nodes converging to form the body's primary adaptive network. Z2 gut restoration is the default tiebreaker entry point."},Z3:{x:420,y:410,name:"Cardiovascular-Neural Axis",col:"#7B5EA7",nodes:"N5 + N6 (endocrine signalling)",desc:"The cardiovascular-neural interface. Receives from S5 and S6. Not ready for composite scoring in Phase 1."},Z4:{x:180,y:410,name:"Detoxification Trident",col:"#5F7C6C",nodes:"N2 + N4",desc:"The detoxification network. S3 drives Z4 to Z1. Not ready for composite scoring in Phase 1."},Z5:{x:110,y:230,name:"Hormonal Terrain Axis",col:"#D4B870",nodes:"N3 + N4 + N6 (endocrine signalling)",desc:"The hormonal terrain. Z5 is almost always a secondary burden zone, not the highest burden zone. Treating Z5 directly without addressing upstream zones produces temporary improvement. Threshold: 32 (20% lower)."}};
+  var Z={Z1:{x:300,y:80,name:"Metabolic Energy Axis",col:"#C9A84C",nodes:"N3 + N6 (endocrine signalling)",desc:"The metabolic engine. When N6 (endocrine signalling) and N3 converge, energy production, hormonal signalling, and metabolic regulation become interdependent."},Z2:{x:490,y:230,name:"Resilience Network",col:"#1A7A8A",nodes:"N1 + N2 + N6 (endocrine signalling)",desc:"The resilience foundation. Three nodes converging to form the body's primary adaptive network. Z2 gut restoration is the default tiebreaker entry point."},Z3:{x:420,y:410,name:"Cardiovascular-Neural Axis",col:"#7B5EA7",nodes:"N5 + N6 (endocrine signalling)",desc:"The cardiovascular-neural interface. Receives from S5 and S6. Not ready for composite scoring in Phase 1."},Z4:{x:180,y:410,name:"Detoxification Trident",col:"#5F7C6C",nodes:"N2 + N4",desc:"The detoxification network. S3 drives Z4 to Z1. Not ready for composite scoring in Phase 1."},Z5:{x:110,y:230,name:"Hormonal Terrain Axis",col:"#D4B870",nodes:"N3 + N4 + N6 (endocrine signalling)",desc:"The hormonal terrain. Z5 is almost always a secondary burden zone, not the Driver. Treating Z5 directly without addressing upstream zones produces temporary improvement. Threshold: 32 (20% lower)."}};
   var S=[{id:"S1",from:"Z2",to:"Z1",vel:"MEDIUM",ev:"Mechanism Established, Cascade Emerging",col:"#1A7A8A",note:"Gut Resilience drives Metabolic Energy Axis"},{id:"S2",from:"Z1",to:"Z5",vel:"FAST",ev:"Established",col:"#C9A84C",note:"Energy drives Hormonal Terrain Axis"},{id:"S3",from:"Z4",to:"Z1",vel:"SLOW",ev:"Emerging",col:"#5F7C6C",note:"Detox burden drives Metabolic Energy Axis"},{id:"S4",from:"Z5",to:"Z2",vel:"MEDIUM",ev:"Theoretical",col:"#D4B870",note:"S4 is THEORETICAL. Excluded from DRD cascade trace (D-12). Fires for display in TerrainLock animation only.",dash:true},{id:"S5",from:"Z2",to:"Z3",vel:"FAST",ev:"Emerging (TMAO quarterly review)",col:"#1A7A8A",note:"Gut Resilience drives Cardiovascular-Neural Axis"},{id:"S6",from:"Z1",to:"Z3",vel:"MEDIUM",ev:"Established",col:"#C9A84C",note:"S6 is UNIDIRECTIONAL: Z1 to Z3 only. Reverse direction does not exist.",uni:true}];
   var TL_SEQ=["S1","S2","S4"];
   var TL_MSG=["S1 firing: Z2 to Z1 — Gut Resilience loads Metabolic Energy","S2 firing: Z1 to Z5 — FAST — Energy loads Hormonal Terrain","S4 loop: Z5 to Z2 — THEORETICAL — display only, not DRD-traced"];
@@ -7251,7 +7251,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <div class="vm-ov1-dim-num">Dimension 1</div>
 <div class="vm-ov1-dim-name">Zone Pattern</div>
 <div class="vm-ov1-dim-value">Patient B T2</div>
-<div class="vm-ov1-dim-detail">All five zones active. Z5 highest burden (70), Z1 second (68). DRD designation: highest burden zone.</div>
+<div class="vm-ov1-dim-detail">All five zones active. Z5 highest burden (70), Z1 second (68). DRD designation: Driver.</div>
 </div>
 <div class="vm-ov1-dim-card" data-zone="z2">
 <div class="vm-ov1-dim-num">Dimension 2</div>
@@ -7339,14 +7339,14 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <div class="vm-ov2-card-title">Hidden Driver</div>
 <div class="vm-ov2-card-summary">Is a VOLTERRAIN driver active that was not in the initial inventory?</div>
 <div class="vm-ov2-card-toggle">+ expand</div>
-<div class="vm-ov2-card-detail">Consider environmental exposures, stealth infections, or undisclosed stressors not captured in the initial terrain assessment. DRD&#8482; designation: highest burden zone. Review whether cascade stacks have shifted since baseline. S4 THEORETICAL (excluded from DRD trace D-12). S6 UNIDIRECTIONAL: Z1 to Z3 only.</div>
+<div class="vm-ov2-card-detail">Consider environmental exposures, stealth infections, or undisclosed stressors not captured in the initial terrain assessment. DRD&#8482; designation: Driver. Review whether cascade stacks have shifted since baseline. S4 THEORETICAL (excluded from DRD trace D-12). S6 UNIDIRECTIONAL: Z1 to Z3 only.</div>
 </div>
 <div class="vm-ov2-card" data-border="purple" id="vm-ov2-c3" onclick="window.vmOv2Toggle('vm-ov2-c3')">
 <div class="vm-ov2-card-num">Cause 3</div>
 <div class="vm-ov2-card-title">Compliance</div>
 <div class="vm-ov2-card-summary">Is the patient executing terrain support as agreed?</div>
 <div class="vm-ov2-card-toggle">+ expand</div>
-<div class="vm-ov2-card-detail">Assess adherence to terrain support considerations (T-01). Include supplement timing, dietary modifications, and lifestyle adjustments. Non-compliance is the most common cause of non-response and should be explored without judgement.</div>
+<div class="vm-ov2-card-detail">Assess adherence to Personalised Terrain Management Protocol (T-01). Include supplement timing, dietary modifications, and lifestyle adjustments. Non-compliance is the most common cause of non-response and should be explored without judgement.</div>
 </div>
 <div class="vm-ov2-card" data-border="sage" id="vm-ov2-c4" onclick="window.vmOv2Toggle('vm-ov2-c4')">
 <div class="vm-ov2-card-num">Cause 4</div>
@@ -7419,7 +7419,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <div class="vm-ov3-card vm-ov3-active" data-grade="a" id="vm-ov3-ga">
 <div class="vm-ov3-grade-label">Grade A</div>
 <div class="vm-ov3-card-title">Adequate</div>
-<div class="vm-ov3-card-desc">Terrain absorption capacity is sufficient. Standard terrain support considerations apply. No escalation required.</div>
+<div class="vm-ov3-card-desc">Terrain absorption capacity is sufficient. Standard Personalised Terrain Management Protocol apply. No escalation required.</div>
 </div>
 <div class="vm-ov3-card" data-grade="b" id="vm-ov3-gb">
 <div class="vm-ov3-grade-label">Grade B</div>
@@ -7517,7 +7517,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <div class="vm-ov4-card" data-accent="gold" data-state="prog-destab" id="vm-ov4-s2" onclick="window.vmOv4Select('prog-destab')">
 <div class="vm-ov4-card-label">Card 2</div>
 <div class="vm-ov4-card-title">Progressively Destabilising</div>
-<div class="vm-ov4-card-desc">Worsening trajectory. APEX&#8482; tier escalates. Review cascade stack activation and DRD&#8482; designation (highest burden zone).</div>
+<div class="vm-ov4-card-desc">Worsening trajectory. APEX&#8482; tier escalates. Review cascade stack activation and DRD&#8482; designation (Driver).</div>
 <div class="vm-ov4-apex-mod">APEX budget modifier: ESCALATE to next tier.</div>
 </div>
 <div class="vm-ov4-card" data-accent="red" data-state="acute-destab" id="vm-ov4-s3" onclick="window.vmOv4Select('acute-destab')">
@@ -7613,7 +7613,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <div class="vm-ov5-gate-num">G2</div>
 <div class="vm-ov5-gate-body">
 <div class="vm-ov5-gate-name">FLINT&#8482; Pipeline Output</div>
-<div class="vm-ov5-gate-desc">Receives L1 through L5 layer outputs. Node scores, zone composites, cascade stacks, DRD&#8482; designation (highest burden zone), APEX&#8482; sequencing.</div>
+<div class="vm-ov5-gate-desc">Receives L1 through L5 layer outputs. Node scores, zone composites, cascade stacks, DRD&#8482; designation (Driver), APEX&#8482; sequencing.</div>
 </div>
 </div>
 <div class="vm-ov5-gate" data-accent="gold">
@@ -7634,7 +7634,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <div class="vm-ov5-gate-num">G5</div>
 <div class="vm-ov5-gate-body">
 <div class="vm-ov5-gate-name">Intervention Tolerance</div>
-<div class="vm-ov5-gate-desc">Assesses terrain absorption capacity (GRADE&#8482; state). Adjusts terrain support considerations intensity accordingly.</div>
+<div class="vm-ov5-gate-desc">Assesses terrain absorption capacity (GRADE&#8482; state). Adjusts Personalised Terrain Management Protocol intensity accordingly.</div>
 </div>
 </div>
 <div class="vm-ov5-gate" data-accent="gold">
@@ -8085,7 +8085,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <input type="checkbox" class="vm-ov10-checkbox" id="vm-ov10-s4-toggle" checked onchange="window.vmOv10Toggle()">
 <label class="vm-ov10-toggle-label" for="vm-ov10-s4-toggle">Include S4 (S4 Z5 to Z2 THEORETICAL, S6 Z1 to Z3 UNIDIRECTIONAL)</label>
 </div>
-<div class="vm-ov10-note" id="vm-ov10-note">S4 excluded from DRD (Highest burden zone) trace but NOT from evidence floor calculation</div>
+<div class="vm-ov10-note" id="vm-ov10-note">S4 excluded from DRD (Driver) trace but NOT from evidence floor calculation</div>
 </div>
 </section>
 <script>
@@ -8129,7 +8129,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 
 <!-- ══════════════════════════════════════════════════════════════
      OV11: Four-Output Phase 1 Overlay Map
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov11-section{background:#0A0F14;padding:64px 24px;margin:0}
@@ -8172,7 +8172,7 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 }
 </style>
 <section id="vm-ov11-section">
-<div class="vm-ov11-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov11-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov11-title">Four-Output Phase 1 Overlay Map</h2>
 <div class="vm-ov11-grid" id="vm-ov11-grid"></div>
 <div class="vm-ov11-summary">
@@ -8182,9 +8182,9 @@ if(last&&last.classList.contains("active"))document.getElementById("vm-tl-proof-
 <script>
 (function(){
 var outputs=[
-{name:"Output 1: Terrain Report",mode:"Practitioner-assisted",drd:"Highest burden zone identified per DRD logic",roadmap:"Phase 1.5: automated narrative. Phase 2: patient-facing summary.",phases:[
+{name:"Output 1: Terrain Report",mode:"Practitioner-assisted",drd:"Driver identified per DRD logic",roadmap:"Phase 1.5: automated narrative. Phase 2: patient-facing summary.",phases:[
 {label:"Phase 1: Static PDF generation",cls:"p1"},{label:"Phase 1.5: Dynamic terrain narrative",cls:"p15"},{label:"Phase 2: Patient portal delivery",cls:"p2"}]},
-{name:"Output 2: APEX Investigation Plan",mode:"Practitioner-assisted",drd:"Three-tier budget cascade aligned to highest burden zone",roadmap:"Phase 1.5: lab API integration. Phase 2: auto-ordering.",phases:[
+{name:"Output 2: APEX Investigation Plan",mode:"Practitioner-assisted",drd:"Three-tier budget cascade aligned to Driver",roadmap:"Phase 1.5: lab API integration. Phase 2: auto-ordering.",phases:[
 {label:"Phase 1: Tiered checklist",cls:"p1"},{label:"Phase 1.5: Lab integration",cls:"p15"},{label:"Phase 2: Automated ordering",cls:"p2"}]},
 {name:"Output 3: Consideration Engine",mode:"Practitioner-assisted",drd:"Terrain support items ranked by zone burden",roadmap:"Phase 1.5: evidence-weighted ranking. Phase 2: interaction checks.",phases:[
 {label:"Phase 1: Category-based suggestions",cls:"p1"},{label:"Phase 1.5: Evidence weighting",cls:"p15"},{label:"Phase 2: Interaction engine",cls:"p2"}],cadence:true},
@@ -8241,7 +8241,7 @@ obs.observe(grid);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV12: CLVF/VERITY Eight-Rule Verification Gate
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov12-section{background:#1A2030;padding:64px 24px;margin:0}
@@ -8278,7 +8278,7 @@ obs.observe(grid);
 }
 </style>
 <section id="vm-ov12-section">
-<div class="vm-ov12-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov12-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov12-title">CLVF/VERITY Eight-Rule Verification Gate</h2>
 <div class="vm-ov12-banner">Internal quality gate. Not visible to practitioners.</div>
 <div class="vm-ov12-list" id="vm-ov12-list"></div>
@@ -8363,7 +8363,7 @@ setTimeout(function(){runChecks();},100);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV13: VOLTERRAIN Driver-to-Node Impact Matrix
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov13-section{background:#0A0F14;padding:64px 24px;margin:0}
@@ -8400,7 +8400,7 @@ setTimeout(function(){runChecks();},100);
 }
 </style>
 <section id="vm-ov13-section">
-<div class="vm-ov13-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov13-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov13-title">VOLTERRAIN Driver-to-Node Impact Matrix</h2>
 <div class="vm-ov13-hint">Click a driver row or node column to highlight connections. Double-click to reset.</div>
 <div class="vm-ov13-wrap">
@@ -8503,7 +8503,7 @@ table.addEventListener("dblclick",function(){clearHighlights();});
 
 <!-- ══════════════════════════════════════════════════════════════
      OV14: Bioelectrical Context State Machine
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov14-section{background:#1A2030;padding:64px 24px;margin:0}
@@ -8554,7 +8554,7 @@ table.addEventListener("dblclick",function(){clearHighlights();});
 }
 </style>
 <section id="vm-ov14-section">
-<div class="vm-ov14-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov14-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov14-title">Bioelectrical Context State Machine</h2>
 <div class="vm-ov14-machine" id="vm-ov14-machine">
 <div class="vm-ov14-state vm-ov14-stable active-state" id="vm-ov14-s-stable">
@@ -8575,7 +8575,7 @@ table.addEventListener("dblclick",function(){clearHighlights();});
 <div class="vm-ov14-drivers" id="vm-ov14-drivers"></div>
 <div class="vm-ov14-compound" id="vm-ov14-compound">
 <div class="vm-ov14-compound-title">Compound Loading Warning</div>
-<div class="vm-ov14-compound-text">Multiple drivers are simultaneously active. Compound loading increases the likelihood of terrain state deterioration. Consider prioritising the highest burden zone first.</div>
+<div class="vm-ov14-compound-text">Multiple drivers are simultaneously active. Compound loading increases the likelihood of terrain state deterioration. Consider prioritising the Driver first.</div>
 </div>
 <div class="vm-ov14-detail" id="vm-ov14-detail"></div>
 <div class="vm-ov14-timeline" id="vm-ov14-timeline">
@@ -8684,7 +8684,7 @@ addTimelineDot(0);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV15: Synthesis Confidence Score Calculator
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 #vm-ov15-section{background:#0A0F14;padding:64px 24px;margin:0}
@@ -8723,7 +8723,7 @@ addTimelineDot(0);
 }
 </style>
 <section id="vm-ov15-section">
-<div class="vm-ov15-t01">T-01 | Terrain Support Considerations</div>
+<div class="vm-ov15-t01">T-01 | Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov15-title">Synthesis Confidence Score Calculator</h2>
 <div class="vm-ov15-bars" id="vm-ov15-bars"></div>
 <div class="vm-ov15-confidence">
@@ -8966,8 +8966,8 @@ var steps=[
 {num:"Step 2",title:"Node Scoring",body:"Seven nodes scored on internal 0 to 100 scale. N6 dampened at 0.7x coefficient. Read-only source data preserved.",badges:["Read-only"]},
 {num:"Step 3",title:"Zone Aggregation",body:"Five zones computed from node composites. Z5 threshold set at 32 (hormonal sensitivity). Z1 to Z4 thresholds at 40."},
 {num:"Step 4",title:"Cascade Activation",body:"Six stacks evaluated. S4 Theoretical excluded from DRD trace (D-12). S6 Unidirectional Z1 to Z3 only. Velocity classes assigned."},
-{num:"Step 5",title:"DRD Designation",body:"Highest burden zone identified. Z2 tiebreaker applied. TerrainLock detection runs across S1, S2, and S4 loop."},
-{num:"Step 6",title:"Output Synthesis",body:"Terrain Support Considerations generated under T-01 restrictions. Evidence floor rule applied. No write-back to source data. One pass per session.",badges:["No-write-back","One pass per session"]}
+{num:"Step 5",title:"DRD Designation",body:"Driver identified. Z2 tiebreaker applied. TerrainLock detection runs across S1, S2, and S4 loop."},
+{num:"Step 6",title:"Output Synthesis",body:"Personalised Terrain Management Protocol generated under T-01 restrictions. Evidence floor rule applied. No write-back to source data. One pass per session.",badges:["No-write-back","One pass per session"]}
 ];
 var track=document.getElementById("vm-ov16-track");
 var dotsC=document.getElementById("vm-ov16-dots");
@@ -9425,9 +9425,9 @@ detailEl.className="vm-ov18-detail visible";
 (function(){
 var panelsData=[
 {title:"TerrainSpiral Compliance (D-179)",
-permitted:["Terrain Support Considerations","Highest burden zone","Terrain Resilience","Zone activation","Cascade pathway","Evidence tier"],
+permitted:["Personalised Terrain Management Protocol","Driver","Terrain Resilience","Zone activation","Cascade pathway","Evidence tier"],
 prohibited:["prognosis","prediction","clinical staging","diagnosis","treatment protocol","clinical decision support"],
-checks:["Protective header present","Title: Terrain Support Considerations","DRD shown as Highest burden zone","Practitioner Clinical Decision section blank"]},
+checks:["Protective header present","Title: Personalised Terrain Management Protocol","DRD shown as Driver","Practitioner Clinical Decision section blank"]},
 {title:"IC39 Compliance (D-180)",
 permitted:["Clinical intelligence platform","Terrain intelligence","Practitioner review","Evidence classification","Node-Cascade Zone"],
 prohibited:["clinical decision support","diagnostic tool","clinical AI platform","treatment protocol","prognosis","prediction"],
@@ -9784,7 +9784,7 @@ setInterval(drawCanvas,3000);
 
 <!-- ══════════════════════════════════════════════════════════════
      OV21: Cascade Velocity Race Track
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -9814,7 +9814,7 @@ setInterval(drawCanvas,3000);
 </style>
 <section id="vm-ov21-section">
 <div class="vm-ov21-wrap">
-<div class="vm-ov21-t01">Terrain Support Considerations</div>
+<div class="vm-ov21-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov21-heading">Cascade Velocity Race Track</h2>
 <div id="vm-ov21-lanes"></div>
 <div class="vm-ov21-controls">
@@ -9903,7 +9903,7 @@ replayBtn.style.opacity=".5";replayBtn.style.pointerEvents="none";
 
 <!-- ══════════════════════════════════════════════════════════════
      OV22: Zone Burden Breathing Pentagon
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -9927,7 +9927,7 @@ replayBtn.style.opacity=".5";replayBtn.style.pointerEvents="none";
 </style>
 <section id="vm-ov22-section">
 <div class="vm-ov22-wrap">
-<div class="vm-ov22-t01">Terrain Support Considerations</div>
+<div class="vm-ov22-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov22-heading">Zone Burden Breathing Pentagon</h2>
 <div class="vm-ov22-svg-wrap" id="vm-ov22-svg-wrap">
 <svg id="vm-ov22-svg" viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -10041,7 +10041,7 @@ buildSVG();
 
 <!-- ══════════════════════════════════════════════════════════════
      OV23: FLINT Pipeline Waterfall Cascade
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10068,7 +10068,7 @@ buildSVG();
 </style>
 <section id="vm-ov23-section">
 <div class="vm-ov23-wrap">
-<div class="vm-ov23-t01">Terrain Support Considerations</div>
+<div class="vm-ov23-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov23-heading">FLINT Pipeline Waterfall Cascade</h2>
 <div id="vm-ov23-layers"></div>
 <div class="vm-ov23-synth" id="vm-ov23-synth">
@@ -10146,7 +10146,7 @@ obs.observe(document.getElementById("vm-ov23-section"));
 
 <!-- ══════════════════════════════════════════════════════════════
      OV24: Intervention Sequence Drag Planner
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10175,11 +10175,11 @@ obs.observe(document.getElementById("vm-ov23-section"));
 </style>
 <section id="vm-ov24-section">
 <div class="vm-ov24-wrap">
-<div class="vm-ov24-t01">Terrain Support Considerations</div>
+<div class="vm-ov24-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov24-heading">Intervention Sequence Drag Planner</h2>
 <ul class="vm-ov24-list" id="vm-ov24-list"></ul>
 <div class="vm-ov24-summary" id="vm-ov24-summary"></div>
-<button class="vm-ov24-compare-btn" onclick="window.vmOv24Compare()">Compare to DRD (Highest burden zone)</button>
+<button class="vm-ov24-compare-btn" onclick="window.vmOv24Compare()">Compare to DRD (Driver)</button>
 <div class="vm-ov24-divergence" id="vm-ov24-divergence"></div>
 </div>
 </section>
@@ -10270,7 +10270,7 @@ var drdBroken=countBrokenCascades(drdSeq);
 var divs=0;
 for(var i=0;i<order.length;i++){if(order[i]!==drdSeq[i]){divs++;}}
 var el=document.getElementById("vm-ov24-divergence");
-el.textContent="Your sequence breaks "+userBroken+" cascades vs DRD (Highest burden zone) sequence breaks "+drdBroken+" cascades. "+divs+" position"+(divs!==1?"s":"")+" differ.";
+el.textContent="Your sequence breaks "+userBroken+" cascades vs DRD (Driver) sequence breaks "+drdBroken+" cascades. "+divs+" position"+(divs!==1?"s":"")+" differ.";
 };
 })();
 </script>
@@ -10278,7 +10278,7 @@ el.textContent="Your sequence breaks "+userBroken+" cascades vs DRD (Highest bur
 
 <!-- ══════════════════════════════════════════════════════════════
      OV25: TerrainLock Loop Orbit Animation
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10301,7 +10301,7 @@ el.textContent="Your sequence breaks "+userBroken+" cascades vs DRD (Highest bur
 </style>
 <section id="vm-ov25-section">
 <div class="vm-ov25-wrap">
-<div class="vm-ov25-t01">Terrain Support Considerations</div>
+<div class="vm-ov25-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov25-heading">TerrainLock Loop Orbit</h2>
 <div class="vm-ov25-canvas-wrap">
 <canvas id="vm-ov25-canvas" width="440" height="380"></canvas>
@@ -10416,7 +10416,7 @@ document.getElementById("vm-ov25-status").innerHTML="Particles orbiting: S1 &#85
 
 <!-- ══════════════════════════════════════════════════════════════
      OV26: NEXUS-MODES Orthogonal Grid
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10444,7 +10444,7 @@ document.getElementById("vm-ov25-status").innerHTML="Particles orbiting: S1 &#85
 </style>
 <section id="vm-ov26-section">
 <div class="vm-ov26-wrap">
-<div class="vm-ov26-t01">Terrain Support Considerations</div>
+<div class="vm-ov26-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov26-heading">NEXUS-MODES Orthogonal Grid</h2>
 <div class="vm-ov26-banner-wrap"><span class="vm-ov26-banner">These are orthogonal dimensions: NEXUS states and MODES modalities are independent axes</span></div>
 <div class="vm-ov26-grid" id="vm-ov26-grid"></div>
@@ -10502,7 +10502,7 @@ document.getElementById("vm-ov26-detail").className="vm-ov26-detail";
 
 <!-- ══════════════════════════════════════════════════════════════
      OV27: Evidence Tier Stacked Bar Timeline
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10528,7 +10528,7 @@ document.getElementById("vm-ov26-detail").className="vm-ov26-detail";
 </style>
 <section id="vm-ov27-section">
 <div class="vm-ov27-wrap">
-<div class="vm-ov27-t01">Terrain Support Considerations</div>
+<div class="vm-ov27-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov27-heading">Evidence Tier Stacked Bar Timeline</h2>
 <div class="vm-ov27-legend">
 <div class="vm-ov27-legend-item"><div class="vm-ov27-legend-dot" style="background:#C9A84C"></div>Verified</div>
@@ -10605,7 +10605,7 @@ obs.observe(document.getElementById("vm-ov27-section"));
 
 <!-- ══════════════════════════════════════════════════════════════
      OV28: Zone Score Sparkline Dashboard
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10631,7 +10631,7 @@ obs.observe(document.getElementById("vm-ov27-section"));
 </style>
 <section id="vm-ov28-section">
 <div class="vm-ov28-wrap">
-<div class="vm-ov28-t01">Terrain Support Considerations</div>
+<div class="vm-ov28-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov28-heading">Zone Score Sparkline Dashboard</h2>
 <div id="vm-ov28-container"></div>
 <div class="vm-ov28-note">Click any sparkline to isolate. Click again to restore all.</div>
@@ -10719,7 +10719,7 @@ obs.observe(document.getElementById("vm-ov28-section"));
 
 <!-- ══════════════════════════════════════════════════════════════
      OV29: APEX Budget Tier Escalation Ladder
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10747,7 +10747,7 @@ obs.observe(document.getElementById("vm-ov28-section"));
 </style>
 <section id="vm-ov29-section">
 <div class="vm-ov29-wrap">
-<div class="vm-ov29-t01">Terrain Support Considerations</div>
+<div class="vm-ov29-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov29-heading">APEX Budget Tier Escalation Ladder</h2>
 <div class="vm-ov29-ladder" id="vm-ov29-ladder"></div>
 <div class="vm-ov29-badge" id="vm-ov29-badge">Budget escalated by TerrainSpiral trajectory</div>
@@ -10810,7 +10810,7 @@ updateIndicator();
 
 <!-- ══════════════════════════════════════════════════════════════
      OV30: Full Ecosystem Animated Flow Diagram
-     T-01: Terrain Support Considerations | DRD = Highest burden zone
+     T-01: Personalised Terrain Management Protocol | DRD = Driver
      ══════════════════════════════════════════════════════════════ -->
 <style>
 @media(prefers-reduced-motion:reduce){
@@ -10839,7 +10839,7 @@ updateIndicator();
 </style>
 <section id="vm-ov30-section">
 <div class="vm-ov30-wrap">
-<div class="vm-ov30-t01">Terrain Support Considerations</div>
+<div class="vm-ov30-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov30-heading">Full Ecosystem Animated Flow Diagram</h2>
 <div class="vm-ov30-internal-wrap"><span class="vm-ov30-internal">INTERNAL ONLY</span></div>
 <div class="vm-ov30-flow" id="vm-ov30-flow"></div>
@@ -10853,12 +10853,12 @@ var layers=[
 {name:"FLINT L1: Node Intelligence (WHERE?)",desc:"MSQ-71 + ATM + MedTerrain node-level scoring",detail:"L1 answers WHERE the burden sits at node level. Seven nodes scored on 0 to 100 internal scale. N6 dampened at 0.7x. N7 Structural Integrity is Phase 2 placeholder only."},
 {name:"FLINT L2: Zone Intelligence (WHICH?)",desc:"NCZ composite zone scoring with thresholds",detail:"L2 answers WHICH zone carries the highest burden. Five zones computed from node composites. Z5 threshold at 32 (lower than Z1 to Z4 at 40). Floor formula: MAX(dampened) minus 10."},
 {name:"FLINT L3: Cascade Intelligence (HOW?)",desc:"CascadeIQ six-stack directional analysis",detail:"L3 answers HOW burden propagates between zones. Six cascade stacks with velocity ratings. S4 THEORETICAL excluded from DRD trace (D-12). S6 UNIDIRECTIONAL Z1 to Z3 only. TerrainLock detection: Z2 to Z1 to Z5 to Z2 loop."},
-{name:"FLINT L4: Causality Intelligence (WHO?)",desc:"DRD (Highest burden zone) designation",detail:"L4 answers WHO is the highest burden zone. DRD designation identifies the zone driving the terrain pattern. Z2 tiebreaker rule applies. S4 excluded from trace per D-12."},
+{name:"FLINT L4: Causality Intelligence (WHO?)",desc:"DRD (Driver) designation",detail:"L4 answers WHO is the Driver. DRD designation identifies the zone driving the terrain pattern. Z2 tiebreaker rule applies. S4 excluded from trace per D-12."},
 {name:"FLINT L5: Examination Intelligence (WHAT?)",desc:"APEX and PRISM investigation planning",detail:"L5 answers WHAT to investigate. APEX budget tiers (GBP 200 to 400, GBP 400 to 800, GBP 800+) guide practitioner investigation selection. PRISM routing supports investigation sequencing."},
 {name:"CLVF (Clinical Logic Verification Framework)",desc:"Cross-layer coherence and validation checks",detail:"CLVF validates that upstream FLINT outputs are internally consistent before they reach the overlay layer. Checks include score plausibility, zone composition correctness, and stack activation coherence."},
 {name:"Overlay: TerrainSpiral, MODES, GRADE, NEXUS",desc:"Four orthogonal clinical overlay dimensions",detail:"TerrainSpiral tracks trajectory (Stabilising, Progressively Destabilising). MODES provides modality classification. GRADE stratifies clinical urgency. NEXUS maps biological state. These are orthogonal dimensions applied atop FLINT outputs."},
 {name:"Synthesis Layer",desc:"Integration of all upstream intelligence into unified terrain portrait",detail:"The Synthesis Layer combines FLINT L1 to L5 outputs with CLVF validation and Overlay context to produce a complete terrain intelligence portrait. Evidence tier floor rule applies: output carries the tier of its lowest-evidence input."},
-{name:"VANTAGE",desc:"Final synthesis output for practitioner review",detail:"VANTAGE is the final output of the ecosystem. It produces Terrain Support Considerations under T-01 restrictions. VANTAGE is NOT a sixth FLINT layer. It is a synthesis product, not a pipeline stage. Practitioner Clinical Decision section remains blank.",vantage:true}
+{name:"VANTAGE",desc:"Final synthesis output for practitioner review",detail:"VANTAGE is the final output of the ecosystem. It produces Personalised Terrain Management Protocol under T-01 restrictions. VANTAGE is NOT a sixth FLINT layer. It is a synthesis product, not a pipeline stage. Practitioner Clinical Decision section remains blank.",vantage:true}
 ];
 var container=document.getElementById("vm-ov30-flow");
 var html="";
@@ -10949,7 +10949,7 @@ obs.observe(document.getElementById("vm-ov30-section"));
 </style>
 <section id="vm-ov31-section">
 <div class="vm-ov31-wrap">
-<div class="vm-ov31-t01">Terrain Support Considerations</div>
+<div class="vm-ov31-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov31-heading">Zone Dominance Pie Chart</h2>
 <div class="vm-ov31-svg-wrap">
 <svg id="vm-ov31-svg" width="340" height="340" viewBox="0 0 340 340"></svg>
@@ -11141,7 +11141,7 @@ obs.observe(document.getElementById('vm-ov31-section'));
 </style>
 <section id="vm-ov32-section">
 <div class="vm-ov32-wrap">
-<div class="vm-ov32-t01">Terrain Support Considerations</div>
+<div class="vm-ov32-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov32-heading">Cascade Momentum Gauge</h2>
 <div class="vm-ov32-summary">Total cascade momentum: <span class="vm-ov32-summary-num" id="vm-ov32-total">0</span></div>
 <div class="vm-ov32-grid" id="vm-ov32-grid"></div>
@@ -11242,7 +11242,7 @@ obs.observe(document.getElementById('vm-ov32-section'));
 </style>
 <section id="vm-ov33-section">
 <div class="vm-ov33-wrap">
-<div class="vm-ov33-t01">Terrain Support Considerations</div>
+<div class="vm-ov33-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov33-heading">Node Contribution Radar Chart</h2>
 <button class="vm-ov33-toggle" id="vm-ov33-scale-btn">Scale: Internal (0-100)</button>
 <div class="vm-ov33-svg-wrap">
@@ -11443,7 +11443,7 @@ obs.observe(document.getElementById('vm-ov33-section'));
 </style>
 <section id="vm-ov34-section">
 <div class="vm-ov34-wrap">
-<div class="vm-ov34-t01">Terrain Support Considerations</div>
+<div class="vm-ov34-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov34-heading">Cascade Direction Compass Rose</h2>
 <div class="vm-ov34-svg-wrap" id="vm-ov34-svg-wrap">
 <svg id="vm-ov34-svg" width="420" height="420" viewBox="0 0 420 420"></svg>
@@ -11634,7 +11634,7 @@ render();
 </style>
 <section id="vm-ov35-section">
 <div class="vm-ov35-wrap">
-<div class="vm-ov35-t01">Terrain Support Considerations</div>
+<div class="vm-ov35-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov35-heading">Zone Activation Timeline</h2>
 <div class="vm-ov35-controls">
 <button class="vm-ov35-btn active" id="vm-ov35-play">Play</button>
@@ -11759,7 +11759,7 @@ obs.observe(document.getElementById('vm-ov35-section'));
 </style>
 <section id="vm-ov36-section">
 <div class="vm-ov36-wrap">
-<div class="vm-ov36-t01">Terrain Support Considerations</div>
+<div class="vm-ov36-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov36-heading">FLINT&#8482; Layer Dependency Web</h2>
 <div class="vm-ov36-svg-wrap">
 <svg id="vm-ov36-svg" width="400" height="480" viewBox="0 0 400 480"></svg>
@@ -11778,7 +11778,7 @@ var layers=[
 {id:'L1',name:'Node Intelligence',question:'WHERE?',y:40,detail:'L1 answers WHERE the burden sits at node level. MSQ-71 + ATM + MedTerrain intake. Seven nodes scored on 0 to 100 internal scale.'},
 {id:'L2',name:'Zone Intelligence',question:'WHICH?',y:120,detail:'L2 answers WHICH zone carries the highest burden. Five zones computed from node composites. Z5 threshold at 32, others at 40.'},
 {id:'L3',name:'Cascade Intelligence',question:'HOW?',y:200,detail:'L3 answers HOW burden propagates between zones. Six cascade stacks with velocity ratings. TerrainLock detection active.'},
-{id:'L4',name:'Causality Intelligence',question:'WHO?',y:280,detail:'L4 answers WHO is the highest burden zone. DRD designation identifies the zone driving the terrain pattern.'},
+{id:'L4',name:'Causality Intelligence',question:'WHO?',y:280,detail:'L4 answers WHO is the Driver. DRD designation identifies the zone driving the terrain pattern.'},
 {id:'L5',name:'Examination Intelligence',question:'WHAT?',y:360,detail:'L5 answers WHAT to investigate. APEX budget tiers guide practitioner investigation selection.'}
 ];
 var vantageY=440;
@@ -11924,7 +11924,7 @@ obs.observe(document.getElementById('vm-ov36-section'));
 </style>
 <section id="vm-ov37-section">
 <div class="vm-ov37-wrap">
-<div class="vm-ov37-t01">Terrain Support Considerations</div>
+<div class="vm-ov37-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov37-heading">Patient Burden Heat Calendar</h2>
 <div class="vm-ov37-day-labels">
 <div class="vm-ov37-day-label">Mon</div><div class="vm-ov37-day-label">Tue</div><div class="vm-ov37-day-label">Wed</div>
@@ -12095,7 +12095,7 @@ obs.observe(document.getElementById('vm-ov37-section'));
 </style>
 <section id="vm-ov38-section">
 <div class="vm-ov38-wrap">
-<div class="vm-ov38-t01">Terrain Support Considerations</div>
+<div class="vm-ov38-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov38-heading">Intervention Impact Simulator</h2>
 <div class="vm-ov38-cards" id="vm-ov38-cards"></div>
 <div class="vm-ov38-status-row">
@@ -12252,7 +12252,7 @@ updateSim();
 </style>
 <section id="vm-ov39-section">
 <div class="vm-ov39-wrap">
-<div class="vm-ov39-t01">Terrain Support Considerations</div>
+<div class="vm-ov39-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov39-heading">Evidence Tier Confidence Rings</h2>
 <div class="vm-ov39-svg-wrap">
 <svg id="vm-ov39-svg" width="360" height="360" viewBox="0 0 360 360"></svg>
@@ -12428,7 +12428,7 @@ obs.observe(document.getElementById('vm-ov39-section'));
 </style>
 <section id="vm-ov40-section">
 <div class="vm-ov40-wrap">
-<div class="vm-ov40-t01">Terrain Support Considerations</div>
+<div class="vm-ov40-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov40-heading">Session Summary Export Card</h2>
 <div id="vm-ov40-card">
 <div class="vm-ov40-protective">
@@ -12444,7 +12444,7 @@ For practitioner use only. Not a diagnostic tool. This output provides terrain i
 
 <div class="vm-ov40-section-title">Designations</div>
 <div class="vm-ov40-row">
-<span class="vm-ov40-row-label">DRD (Highest burden zone)</span>
+<span class="vm-ov40-row-label">DRD (Driver)</span>
 <span id="vm-ov40-drd"></span>
 </div>
 <div class="vm-ov40-row">
@@ -12479,7 +12479,7 @@ Practitioner Clinical Decision
 </div>
 <div class="vm-ov40-pcd-sub">1. Primary clinical impression</div><div class="vm-ov40-pcd-blank"></div>
 <div class="vm-ov40-pcd-sub">2. Investigation priorities</div><div class="vm-ov40-pcd-blank"></div>
-<div class="vm-ov40-pcd-sub">3. Terrain support considerations</div><div class="vm-ov40-pcd-blank"></div>
+<div class="vm-ov40-pcd-sub">3. Terrain Management Protocol</div><div class="vm-ov40-pcd-blank"></div>
 <div class="vm-ov40-pcd-sub">4. Patient communication plan</div><div class="vm-ov40-pcd-blank"></div>
 <div class="vm-ov40-pcd-sub">5. Follow-up schedule</div><div class="vm-ov40-pcd-blank"></div>
 </div>
@@ -12567,7 +12567,7 @@ var s=stacks[i];
 lines.push(s.label+': '+(s.active?'Active':'Inactive')+(s.theoretical?' [THEORETICAL]':''));
 }
 lines.push('');
-lines.push('DRD (Highest burden zone): '+zones[drdIdx].id+' '+zones[drdIdx].name+' ('+drdMax+')');
+lines.push('DRD (Driver): '+zones[drdIdx].id+' '+zones[drdIdx].name+' ('+drdMax+')');
 lines.push('TerrainLock: '+(tlActive?'ACTIVE':'Inactive'));
 lines.push('TerrainSpiral: Progressively Destabilising');
 lines.push('GRADE: Moderate');
@@ -12578,7 +12578,7 @@ lines.push('');
 lines.push('PRACTITIONER CLINICAL DECISION:');
 lines.push('1. Primary clinical impression: ___');
 lines.push('2. Investigation priorities: ___');
-lines.push('3. Terrain support considerations: ___');
+lines.push('3. Terrain Management Protocol: ___');
 lines.push('4. Patient communication plan: ___');
 lines.push('5. Follow-up schedule: ___');
 lines.push('');
@@ -12630,7 +12630,7 @@ obs.observe(document.getElementById('vm-ov40-section'));
 </style>
 <section id="vm-ov41-section">
 <div class="vm-ov41-wrap">
-<div class="vm-ov41-t01">Terrain Support Considerations</div>
+<div class="vm-ov41-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov41-heading">Zone Cross-Talk Network Visualiser</h2>
 <div class="vm-ov41-canvas-wrap">
 <canvas id="vm-ov41-canvas" width="600" height="600"></canvas>
@@ -12871,7 +12871,7 @@ obs41.observe(document.getElementById('vm-ov41-section'));
 </style>
 <section id="vm-ov42-section">
 <div class="vm-ov42-wrap">
-<div class="vm-ov42-t01">Terrain Support Considerations</div>
+<div class="vm-ov42-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov42-heading">Cascade Chain Length Calculator</h2>
 <div class="vm-ov42-btns" id="vm-ov42-btns"></div>
 <div class="vm-ov42-chain" id="vm-ov42-chain"></div>
@@ -13031,7 +13031,7 @@ obs42.observe(document.getElementById('vm-ov42-section'));
 </style>
 <section id="vm-ov43-section">
 <div class="vm-ov43-wrap">
-<div class="vm-ov43-t01">Terrain Support Considerations</div>
+<div class="vm-ov43-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov43-heading">Burden Distribution Histogram</h2>
 <div class="vm-ov43-histogram" id="vm-ov43-histogram"></div>
 <div id="vm-ov43-insight"></div>
@@ -13155,7 +13155,7 @@ obs43.observe(document.getElementById('vm-ov43-section'));
 </style>
 <section id="vm-ov44-section">
 <div class="vm-ov44-wrap">
-<div class="vm-ov44-t01">Terrain Support Considerations</div>
+<div class="vm-ov44-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov44-heading">FLINT Output Comparison Cards</h2>
 <div class="vm-ov44-grid">
 <div class="vm-ov44-card vm-ov44-left" id="vm-ov44-flint">
@@ -13163,7 +13163,7 @@ obs43.observe(document.getElementById('vm-ov43-section'));
 <div class="vm-ov44-row"><strong>L1 Node Intelligence:</strong> N1=60, N2=55, N3=50, N4=45, N5=35, N6=65 (dampened 0.7x), N7=20 (Phase 2)</div>
 <div class="vm-ov44-row"><strong>L2 Zone Intelligence:</strong> Z1=55, Z2=48, Z3=30, Z4=35, Z5=42</div>
 <div class="vm-ov44-row"><strong>L3 Cascade Intelligence:</strong> S1 Active (MEDIUM), S2 Active (FAST), S3 Inactive, S4 <span class="vm-ov44-highlight">THEORETICAL</span>, S5 Active (FAST), S6 Active (MEDIUM, UNIDIRECTIONAL)</div>
-<div class="vm-ov44-row"><strong>L4 Causality Intelligence:</strong> Highest burden zone: Z1. DRD excluded: S4 (D-12).</div>
+<div class="vm-ov44-row"><strong>L4 Causality Intelligence:</strong> Driver: Z1. DRD excluded: S4 (D-12).</div>
 <div class="vm-ov44-row"><strong>L5 Examination Intelligence:</strong> APEX Tier 2 (GBP 400 to 800). Z1-priority investigations.</div>
 <div class="vm-ov44-detail" id="vm-ov44-flint-detail">
 FLINT processes five layers sequentially: nodes scored at L1, zones computed at L2 with N6 dampening, cascades evaluated at L3 including TerrainLock detection, DRD designated at L4 with Z2 tiebreaker, and APEX investigation plan generated at L5.<br><br>
@@ -13237,7 +13237,7 @@ obs44.observe(document.getElementById('vm-ov44-section'));
 </style>
 <section id="vm-ov45-section">
 <div class="vm-ov45-wrap">
-<div class="vm-ov45-t01">Terrain Support Considerations</div>
+<div class="vm-ov45-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov45-heading">Zone Threshold Proximity Bars</h2>
 <div class="vm-ov45-bars" id="vm-ov45-bars"></div>
 <div class="vm-ov45-z5-note">Z5 has a lower activation threshold (32 vs 40): hormonal sensitivity</div>
@@ -13351,7 +13351,7 @@ obs45.observe(document.getElementById('vm-ov45-section'));
 </style>
 <section id="vm-ov46-section">
 <div class="vm-ov46-wrap">
-<div class="vm-ov46-t01">Terrain Support Considerations</div>
+<div class="vm-ov46-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov46-heading">Cascade Velocity Waveform</h2>
 <div class="vm-ov46-svg-wrap">
 <svg id="vm-ov46-svg" width="720" height="260" viewBox="0 0 720 260"></svg>
@@ -13467,7 +13467,7 @@ buildLegend();
 </style>
 <section id="vm-ov47-section">
 <div class="vm-ov47-wrap">
-<div class="vm-ov47-t01">Terrain Support Considerations</div>
+<div class="vm-ov47-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov47-heading">DRD Designation History Heatmap</h2>
 <div class="vm-ov47-grid" id="vm-ov47-grid"></div>
 <div class="vm-ov47-badge">Designation shift: Z1 dominant early, Z5 emerging later</div>
@@ -13582,9 +13582,9 @@ obs47.observe(document.getElementById('vm-ov47-section'));
 </style>
 <section id="vm-ov48-section">
 <div class="vm-ov48-wrap">
-<div class="vm-ov48-t01">Terrain Support Considerations</div>
+<div class="vm-ov48-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov48-heading">Terrain Support Direction Indicator</h2>
-<div class="vm-ov48-t01-long">Terrain support considerations only. All decisions remain with the practitioner. For practitioner use only. Not a diagnostic tool.</div>
+<div class="vm-ov48-t01-long">Terrain Management Protocol only. All decisions remain with the practitioner. For practitioner use only. Not a diagnostic tool.</div>
 <div class="vm-ov48-compass">
 <svg id="vm-ov48-svg" width="340" height="340" viewBox="0 0 340 340"></svg>
 </div>
@@ -13742,7 +13742,7 @@ drawCompass(0);
 </style>
 <section id="vm-ov49-section">
 <div class="vm-ov49-wrap">
-<div class="vm-ov49-t01">Terrain Support Considerations</div>
+<div class="vm-ov49-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov49-heading">Architecture Completeness Meter</h2>
 <div class="vm-ov49-meter" id="vm-ov49-meter">
 <div class="vm-ov49-line"></div>
@@ -13757,7 +13757,7 @@ var checkpoints=[
 {label:'L1 Nodes scored (MSQ-71 + ATM + MedTerrain)',active:true},
 {label:'L2 Zones calculated (NCZ composite, N6 dampened 0.7x)',active:true},
 {label:'L3 Cascades detected (CascadeIQ, 6 stacks evaluated)',active:true},
-{label:'L4 DRD designated (highest burden zone, Z2 tiebreaker)',active:true},
+{label:'L4 DRD designated (Driver, Z2 tiebreaker)',active:true},
 {label:'L5 APEX generated (investigation plan, 3 budget tiers)',active:true},
 {label:'TerrainLock evaluated (Z2 \u2192 Z1 \u2192 Z5 \u2192 Z2 loop)',active:true},
 {label:'TerrainSpiral assessed (trajectory classification)',active:false,pending:'Practitioner-assisted pending'},
@@ -13841,7 +13841,7 @@ obs49.observe(document.getElementById('vm-ov49-section'));
 </style>
 <section id="vm-ov50-section">
 <div class="vm-ov50-wrap">
-<div class="vm-ov50-t01">Terrain Support Considerations</div>
+<div class="vm-ov50-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov50-heading">Complete Terrain Picture</h2>
 <div class="vm-ov50-internal">Internal use only</div>
 <div class="vm-ov50-svg-wrap">
@@ -13892,7 +13892,7 @@ var vantage=[
 {label:'Trajectory',text:'TerrainSpiral: progressively destabilising. Z5 emerging as secondary concern. Multi-zone convergence detected.'},
 {label:'Complexity',text:'4 of 6 stacks active. TerrainLock loop detected (Z2\u2192Z1\u2192Z5\u2192Z2). High cascade density with FAST propagation on S2 and S5.'},
 {label:'Confidence',text:'Floor tier constraint active. Synthesis confidence: Emerging. N6 dampening (0.7x) applied across 4 zones.'},
-{label:'Priority',text:'GRADE: Moderate. Z1 intervention first (highest burden zone). Z5 secondary. Z2 supporting. Restorative focus recommended.'}
+{label:'Priority',text:'GRADE: Moderate. Z1 intervention first (Driver). Z5 secondary. Z2 supporting. Restorative focus recommended.'}
 ];
 var activeVantage=-1;
 function drawPentagon(){
@@ -14105,7 +14105,7 @@ if(Math.sqrt(dx*dx+dy*dy)<30){
 var z=zones[i];
 var active=z.score>=z.th;
 var txt=z.id+': '+z.name+'\nScore: '+z.score+'/100 '+(active?'(ACTIVE)':'(Inactive)')+'\nThreshold: '+z.th+'\nGRADE: '+z.grade;
-if(i===drdIdx)txt+='\nDesignation: Highest burden zone';
+if(i===drdIdx)txt+='\nDesignation: Driver';
 showTooltip(txt,e.clientX-rect.left+10,e.clientY-rect.top-60);
 found=true;break;
 }
@@ -14170,7 +14170,7 @@ obs50.observe(document.getElementById('vm-ov50-section'));
 </style>
 <section id="vm-ov51-section">
 <div class="vm-ov51-wrap">
-<div class="vm-ov51-t01">Terrain Support Considerations</div>
+<div class="vm-ov51-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov51-heading">Zone Burden Equaliser Bars</h2>
 <div class="vm-ov51-total" id="vm-ov51-total">Total system burden: 0</div>
 <div class="vm-ov51-eq" id="vm-ov51-eq"></div>
@@ -14297,7 +14297,7 @@ updateTotal();
 </style>
 <section id="vm-ov52-section">
 <div class="vm-ov52-wrap">
-<div class="vm-ov52-t01">Terrain Support Considerations</div>
+<div class="vm-ov52-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov52-heading">Cascade Pathfinder</h2>
 <div class="vm-ov52-controls">
 <label style="font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.5)">Start:
@@ -14448,7 +14448,7 @@ drawPentBase(allEdges);
 </style>
 <section id="vm-ov53-section">
 <div class="vm-ov53-wrap">
-<div class="vm-ov53-t01">Terrain Support Considerations</div>
+<div class="vm-ov53-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov53-heading">Terrain Stability Index</h2>
 <div class="vm-ov53-gauge-wrap" id="vm-ov53-gauge-wrap">
 <canvas id="vm-ov53-canvas" width="260" height="160"></canvas>
@@ -14467,7 +14467,7 @@ var factors=[
 {label:'Active zones',value:'3 of 5 above threshold',impact:'-20'},
 {label:'Active cascades',value:'4 of 6 stacks firing',impact:'-25'},
 {label:'TerrainLock status',value:'DETECTED (Z2, Z1, Z5 loop)',impact:'-20'},
-{label:'Highest burden zone strength',value:'Z1 at 55/100 (0.85 intensity)',impact:'-13'}
+{label:'Driver strength',value:'Z1 at 55/100 (0.85 intensity)',impact:'-13'}
 ];
 var canvas=document.getElementById('vm-ov53-canvas');
 var ctx=canvas.getContext('2d');
@@ -14544,7 +14544,7 @@ drawGauge(0);
 </style>
 <section id="vm-ov54-section">
 <div class="vm-ov54-wrap">
-<div class="vm-ov54-t01">Terrain Support Considerations</div>
+<div class="vm-ov54-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov54-heading">Zone Burden River Flow</h2>
 <canvas id="vm-ov54-canvas" width="800" height="500" style="max-width:100%;border-radius:10px;background:rgba(255,255,255,.03)"></canvas>
 <div class="vm-ov54-fallback">River flow animation: desktop only. Five zone tributaries merging into a single burden river. Active zones flow rapidly. TerrainLock creates a whirlpool at the Z2-Z1-Z5 confluence.</div>
@@ -14722,7 +14722,7 @@ obs54.observe(document.getElementById('vm-ov54-section'));
 </style>
 <section id="vm-ov55-section">
 <div class="vm-ov55-wrap">
-<div class="vm-ov55-t01">Terrain Support Considerations</div>
+<div class="vm-ov55-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov55-heading">APEX Investigation Checklist</h2>
 <div class="vm-ov55-budget">
 <span id="vm-ov55-spent">Spent: GBP 0</span>
@@ -14847,7 +14847,7 @@ updateBudget();
 </style>
 <section id="vm-ov56-section">
 <div class="vm-ov56-wrap">
-<div class="vm-ov56-t01">Terrain Support Considerations</div>
+<div class="vm-ov56-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov56-heading">Zone Burden Particle Cloud</h2>
 <canvas id="vm-ov56-canvas" width="800" height="500" style="max-width:100%;border-radius:10px;background:rgba(255,255,255,.03);cursor:pointer"></canvas>
 <div class="vm-ov56-fallback">Particle cloud animation: desktop only. Each zone has a cloud of particles proportional to burden score. Click a cloud to scatter and reform particles. TerrainLock particles circulate in a triangular loop.</div>
@@ -15022,7 +15022,7 @@ obs56.observe(document.getElementById('vm-ov56-section'));
 </style>
 <section id="vm-ov57-section">
 <div class="vm-ov57-wrap">
-<div class="vm-ov57-t01">Terrain Support Considerations</div>
+<div class="vm-ov57-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov57-heading">Clinical Question Cascade</h2>
 <div class="vm-ov57-stack" id="vm-ov57-stack">
 <div class="vm-ov57-line" id="vm-ov57-line"></div>
@@ -15035,7 +15035,7 @@ var questions=[
 {layer:'L1: Node Intelligence',question:'WHERE is the burden?',answer:'<strong>Node scores (Patient B T2):</strong> N1=60, N2=55, N3=50, N4=45, N5=35, N6=65 (dampened to 45.5 at 0.7x). N7=20 (Phase 2 placeholder). Highest raw node burden: N6 (endocrine signalling) at 65, but dampening reduces its zone contribution. N1 (Assimilation) and N2 (Defence and Repair) carry the highest effective burden.'},
 {layer:'L2: Zone Intelligence',question:'WHICH zones converge?',answer:'<strong>Zone scores:</strong> Z1=55 (ACTIVE, threshold 40), Z2=48 (ACTIVE, threshold 40), Z3=30 (Inactive), Z4=35 (Inactive), Z5=42 (ACTIVE, threshold 32). Three of five zones exceed their activation thresholds. Z5 uses the lower threshold of 32 due to hormonal sensitivity.'},
 {layer:'L3: Cascade Intelligence',question:'HOW is dysfunction moving?',answer:'<strong>Active cascades:</strong> S1 Z2 to Z1 MEDIUM, S2 Z1 to Z5 FAST, S5 Z2 to Z3 FAST, S6 Z1 to Z3 UNIDIRECTIONAL. S4 Z5 to Z2 is THEORETICAL (dashed, excluded from DRD per D-12). S3 Z4 to Z1 SLOW is inactive. TerrainLock detected: Z2 to Z1 to Z5 to Z2 loop.'},
-{layer:'L4: Causality Intelligence',question:'WHO started it?',answer:'<strong>Highest burden zone:</strong> Z1 (Metabolic Energy Axis) at 55/100. DRD cascade trace excludes S4 (THEORETICAL, D-12). Z2 is the default tiebreaker entry point. The cascade chain flows from Z2 (source) through Z1 (highest burden) to Z5 (downstream).'},
+{layer:'L4: Causality Intelligence',question:'WHO started it?',answer:'<strong>Driver:</strong> Z1 (Metabolic Energy Axis) at 55/100. DRD cascade trace excludes S4 (THEORETICAL, D-12). Z2 is the default tiebreaker entry point. The cascade chain flows from Z2 (source) through Z1 (highest burden) to Z5 (downstream).'},
 {layer:'L5: Examination Intelligence',question:'WHAT should be investigated?',answer:'<strong>APEX priority:</strong> Z1-focused investigations first. Tier 1 (GBP 200 to 400): FBC, metabolic panel, thyroid panel, iron studies, vitamin D, HbA1c. Tier 2 (GBP 400 to 800): organic acids, DUTCH hormone panel, stool analysis. Tier 3 (GBP 800+): advanced cardiovascular, toxins panel. Investigation sequence follows cascade direction: source zone first, downstream reactors second.'}
 ];
 var stack=document.getElementById('vm-ov57-stack');
@@ -15117,7 +15117,7 @@ stack.appendChild(card);
 </style>
 <section id="vm-ov58-section">
 <div class="vm-ov58-wrap">
-<div class="vm-ov58-t01">Terrain Support Considerations</div>
+<div class="vm-ov58-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov58-heading">Cascade Frequency Spectrum</h2>
 <div class="vm-ov58-hub-wrap" id="vm-ov58-hub-wrap"></div>
 <div id="vm-ov58-bars"></div>
@@ -15236,7 +15236,7 @@ obs58.observe(document.getElementById('vm-ov58-section'));
 </style>
 <section id="vm-ov59-section">
 <div class="vm-ov59-wrap">
-<div class="vm-ov59-t01">Terrain Support Considerations</div>
+<div class="vm-ov59-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov59-heading">Terrain State Snapshot Carousel</h2>
 <div class="vm-ov59-carousel" id="vm-ov59-carousel">
 <div class="vm-ov59-track" id="vm-ov59-track"></div>
@@ -15374,7 +15374,7 @@ else goTo(current>0?current-1:snapshots.length-1);
 </style>
 <section id="vm-ov60-section">
 <div class="vm-ov60-wrap">
-<div class="vm-ov60-t01">Terrain Support Considerations</div>
+<div class="vm-ov60-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-ov60-heading">Architecture Quiz Challenge</h2>
 <div class="vm-ov60-sub">Educational only. Test your understanding of the overlay architecture.</div>
 <div class="vm-ov60-score" id="vm-ov60-score">Score: 0/10</div>
@@ -15395,7 +15395,7 @@ var questions=[
 {q:'What does GRADE stand for in terrain assessment?',options:['Graded Reactivity and Directional Evaluation','General Risk Assessment and Diagnostic Entry','Graduated Response Analysis and Data Extraction','Global Reactive Assessment of Diagnostic Endpoints'],correct:0},
 {q:'What is the Z5 activation threshold?',options:['40','35','32','28'],correct:2},
 {q:'How many cascade stacks exist in the architecture?',options:['4','5','6','7'],correct:2},
-{q:'What does DRD display as in Phase 1?',options:['Driver','Primary zone','Highest burden zone','Root cause'],correct:2},
+{q:'What does DRD display as in Phase 1?',options:['Driver','Primary zone','Driver','Root cause'],correct:2},
 {q:'Which stack is labelled UNIDIRECTIONAL?',options:['S2','S4','S5','S6'],correct:3},
 {q:'What is the N6 dampening coefficient?',options:['0.5x','0.6x','0.7x','0.8x'],correct:2},
 {q:'How many zones are in the NCZ architecture?',options:['4','5','6','7'],correct:1}
@@ -15527,7 +15527,7 @@ quizEl.scrollIntoView({behavior:'smooth',block:'start'});
 .vm-pf01-explain-title{font-family:'DM Mono',monospace;font-size:0.7rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem}
 @media(prefers-reduced-motion:reduce){#vm-pf01-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-pf01-t01">Terrain Support Considerations</div>
+<div class="vm-pf01-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-pf01-heading">"Why Is My Patient Reacting?"</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">Toggle driver compounds D1 through D7 to see how bioelectrical state updates live. Compound loading explains erratic supplement responses.</p>
 <div class="vm-pf01-drivers" id="vm-pf01-drivers"></div>
@@ -15832,9 +15832,9 @@ update();
 .vm-pf05-intv-tier{font-family:'DM Mono',monospace;font-size:0.65rem;color:#C9A84C;margin-top:0.3rem}
 @media(prefers-reduced-motion:reduce){#vm-pf05-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-pf05-t01">Terrain Support Considerations</div>
+<div class="vm-pf05-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-pf05-heading">Driver-to-Intervention Map</h2>
-<p class="vm-pf05-sub">Toggle drivers to see matching terrain support considerations animate in and out.</p>
+<p class="vm-pf05-sub">Toggle drivers to see matching Personalised Terrain Management Protocol animate in and out.</p>
 <div class="vm-pf05-toggles" id="vm-pf05-toggles"></div>
 <div class="vm-pf05-interventions" id="vm-pf05-interventions"></div>
 <script>
@@ -16554,7 +16554,7 @@ var items=[
 'N6 dampening (0.7x) applied',
 'Zone composites calculated (5 zones)',
 'Z5 threshold set to 32 (not 40)',
-'DRD designation confirmed (highest burden zone)',
+'DRD designation confirmed (Driver)',
 'Cascade stacks assessed (S1 through S6)',
 'S4 labelled THEORETICAL, excluded from DRD trace (D-12)'
 ];
@@ -16618,7 +16618,7 @@ checklist.appendChild(item);
 <div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Cortisol rhythm disruption</div>
 <div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Stress axis burden</div>
 <div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Hormonal terrain axis</div>
-<div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Terrain support considerations</div>
+<div class="vm-pf17-term" style="color:#5F7C6C"><span class="vm-pf17-icon">&#10003;</span> Terrain Management Protocol</div>
 </div>
 <div class="vm-pf17-col">
 <div class="vm-pf17-col-title" style="color:#D63030">Prohibited</div>
@@ -16684,7 +16684,7 @@ input.style.borderColor='#5F7C6C';
 <div class="vm-pf18-modes" id="vm-pf18-modes">
 <div class="vm-pf18-mode active" data-mode="single" role="button" tabindex="0">
 <div class="vm-pf18-mode-name">Single Zone</div>
-<div class="vm-pf18-mode-desc">One zone is carrying the primary burden. Clear highest burden zone designation.</div>
+<div class="vm-pf18-mode-desc">One zone is carrying the primary burden. Clear Driver designation.</div>
 <div class="vm-pf18-zones" style="color:#C9A84C">Typical: Z1 or Z4 dominant</div>
 </div>
 <div class="vm-pf18-mode" data-mode="cascade" role="button" tabindex="0">
@@ -16698,12 +16698,12 @@ input.style.borderColor='#5F7C6C';
 <div class="vm-pf18-zones" style="color:#7B5EA7">All loop zones active</div>
 </div>
 </div>
-<div class="vm-pf18-example"><div class="vm-pf18-example-title">Clinical Example</div><div id="vm-pf18-example-txt">Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The highest burden zone is clearly Z1. Intervention targets Z1 directly.</div></div>
+<div class="vm-pf18-example"><div class="vm-pf18-example-title">Clinical Example</div><div id="vm-pf18-example-txt">Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The Driver is clearly Z1. Intervention targets Z1 directly.</div></div>
 <script>
 (function(){
 var examples={
-single:'Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The highest burden zone is clearly Z1. Intervention targets Z1 directly.',
-cascade:'Cascade Pattern: A patient with gut complaints (Z2) has developed fatigue (Z1) and hormonal disruption (Z5). Cascade stacks S1 (Z2 to Z1) and S2 (Z1 to Z5) are active. The highest burden zone traces back to Z2 as the upstream origin.',
+single:'Single Zone: A patient presents with isolated energy complaints. Z1 (Metabolic Energy Axis) scores above threshold while other zones remain inactive. The Driver is clearly Z1. Intervention targets Z1 directly.',
+cascade:'Cascade Pattern: A patient with gut complaints (Z2) has developed fatigue (Z1) and hormonal disruption (Z5). Cascade stacks S1 (Z2 to Z1) and S2 (Z1 to Z5) are active. The Driver traces back to Z2 as the upstream origin.',
 terrain:'TerrainLock: All three loop zones (Z2, Z1, Z5) are above threshold. S1, S2, and S4 (THEORETICAL, excluded from DRD trace D-12) are all active. The terrain is self-perpetuating. Breaking the loop at Z2 (default entry point) is the priority intervention.'
 };
 var modes=document.getElementById('vm-pf18-modes').querySelectorAll('.vm-pf18-mode');
@@ -16878,11 +16878,11 @@ else{cards[c].classList.add('hidden');}
 <script>
 (function(){
 var dimensions=[
-{title:'Dimension 1: Zone Pattern',content:'Five zones assessed. Z1 (Metabolic Energy Axis) carries the highest burden at 65 internal. Z2 (Resilience Network) is secondary at 52. Z4 (Detoxification Trident) is borderline at 38 (near-threshold). Z3 and Z5 are below threshold. Highest burden zone designation: Z1.'},
+{title:'Dimension 1: Zone Pattern',content:'Five zones assessed. Z1 (Metabolic Energy Axis) carries the highest burden at 65 internal. Z2 (Resilience Network) is secondary at 52. Z4 (Detoxification Trident) is borderline at 38 (near-threshold). Z3 and Z5 are below threshold. Driver designation: Z1.'},
 {title:'Dimension 2: Terrain State',content:'Three zones active (Z1, Z2, Z4 borderline). Cascade pattern detected: S1 (Z2 to Z1, MEDIUM velocity, Mechanism Established, Cascade Emerging). S6 (Z1 to Z3, UNIDIRECTIONAL: Z1 to Z3 only) not yet activated. TerrainLock not detected.'},
 {title:'Dimension 3: Cascade Intelligence',content:'S1 active. S2 approaching activation (Z1 at 65, Z5 at 28, below 32 threshold). S3 inactive. S4 THEORETICAL (excluded from DRD trace, D-12). S5 inactive. S6 UNIDIRECTIONAL: Z1 to Z3 only, currently inactive.'},
 {title:'Dimension 4: APEX Priorities',content:'Tier 1 recommended (GBP 200 to 400). Comprehensive metabolic panel, inflammatory markers, DUTCH baseline. No escalation warranted. Trajectory stable.'},
-{title:'Dimension 5: Trajectory Direction',content:'Improving. Z1 burden decreased from 72 (T1) to 65 (T2): 7-point internal change, approaching meaningful threshold of 8. Z2 stable. Continue current terrain support considerations.'}
+{title:'Dimension 5: Trajectory Direction',content:'Improving. Z1 burden decreased from 72 (T1) to 65 (T2): 7-point internal change, approaching meaningful threshold of 8. Z2 stable. Continue current Personalised Terrain Management Protocol.'}
 ];
 var rows=document.getElementById('vm-pf21-rows');
 for(var i=0;i<dimensions.length;i++){
@@ -17211,7 +17211,7 @@ var cards=[
 {title:'1. Directional Intelligence, Not Just Data',before:'Traditional platforms list symptoms and biomarkers without showing connections. Practitioners must guess which system to address first.',after:'VitalMatrix maps burden across 5 zones and 6 cascade stacks. It shows which zone is carrying the highest burden and how burden propagates. Direction, not just data.'},
 {title:'2. Cascade Architecture with Evidence Tiers',before:'No existing platform models how dysfunction in one system cascades into another. Interventions happen in isolation.',after:'Six cascade stacks (S1 through S6) with explicit evidence tiers: Established, Emerging, or Theoretical. S4 is always labelled THEORETICAL. S6 is UNIDIRECTIONAL: Z1 to Z3 only. Practitioners see the chain.'},
 {title:'3. Supplement Tolerance Grading',before:'Practitioners introduce supplements without terrain context. Patients react unpredictably. Paradoxical responses are common.',after:'The GRADE system (A, B, C) tells the practitioner whether the terrain can absorb a new supplement. Grade C means stop. Compound loading is visible. Erratic responses are explained.'},
-{title:'4. Built-In Regulatory Governance',before:'Other platforms make clinical claims without evidence labelling. Terminology is uncontrolled. Compliance is an afterthought.',after:'T-01 restrictions are permanent. Every output is titled "Terrain Support Considerations". DRD displays "Highest burden zone", never "Driver". A blank Practitioner Clinical Decision section ensures clinical autonomy. ICO ZC101813.'},
+{title:'4. Built-In Regulatory Governance',before:'Other platforms make clinical claims without evidence labelling. Terminology is uncontrolled. Compliance is an afterthought.',after:'T-01 restrictions are permanent. Every output is titled "Personalised Terrain Management Protocol". DRD displays "Driver", never "Driver". A blank Practitioner Clinical Decision section ensures clinical autonomy. ICO ZC101813.'},
 {title:'5. Terrain Trajectory, Not Snapshots',before:'Conventional approaches compare isolated lab results. There is no sense of direction or momentum.',after:'DeltaScan compares T1 to T2 across all zones. An 8-point internal change is meaningful. Trajectory arrows show improving, stable, worsening, or loop. APEX investigation tiers escalate automatically when trajectory demands it.'}
 ];
 var container=document.getElementById('vm-pf25-cards');
@@ -17255,7 +17255,7 @@ container.appendChild(card);
      MN01-MN10: MNEMONIC-FOCUSED INTERACTIVE ANIMATED FEATURES
      10 features | vm-mn01- to vm-mn10- | 13 May 2026
      Zone colours: Z1 #C9A84C, Z2 #1A7A8A, Z3 #7B5EA7, Z4 #5F7C6C, Z5 #D4B870
-     S4 THEORETICAL | S6 UNIDIRECTIONAL | DRD="Highest burden zone"
+     S4 THEORETICAL | S6 UNIDIRECTIONAL | DRD="Driver"
      T-01 headers | British English | No em dashes | No template literals
      No default params | No position:fixed | No localStorage
      prefers-reduced-motion respected
@@ -17356,7 +17356,7 @@ container.appendChild(card);
 
 <!-- ═══ MN01: VOLTERRAIN DRIVER CONSTELLATION ═══ -->
 <section class="vm-mn-section" id="vm-mn01-section" style="background:#1A2030">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN01 | VOLTERRAIN</div>
 <h2 class="vm-mn-title">Driver Constellation</h2>
 <p class="vm-mn-subtitle">Seven driver nodes orbiting the central terrain core. Pulse intensity reflects burden level. Click any node for detail.</p>
@@ -17521,7 +17521,7 @@ det.className='vm-mn-detail-card';
 
 <!-- ═══ MN02: TERRAINSPIRAL TRAJECTORY HELIX ═══ -->
 <section class="vm-mn-section" id="vm-mn02-section" style="background:#0D2B4E">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN02 | TERRAINSPIRAL</div>
 <h2 class="vm-mn-title">Trajectory Helix</h2>
 <p class="vm-mn-subtitle">A 3D helix where coils tighten on destabilising trajectories and loosen on stabilising ones. Zone dots mark each coil.</p>
@@ -17627,7 +17627,7 @@ drawHelix();
 
 <!-- ═══ MN03: MODES SIGNAL SPECTROGRAPH ═══ -->
 <section class="vm-mn-section" id="vm-mn03-section" style="background:#1A2030">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN03 | MODES</div>
 <h2 class="vm-mn-title">Signal Spectrograph</h2>
 <p class="vm-mn-subtitle">Three frequency bands representing Electrical (blue), Chemical (gold), and Mechanical (sage) signal modalities. Amplitude reflects node impact.</p>
@@ -17735,7 +17735,7 @@ animate();
 
 <!-- ═══ MN04: GRADE ABSORPTION TANK ═══ -->
 <section class="vm-mn-section" id="vm-mn04-section" style="background:#0D2B4E">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN04 | GRADE</div>
 <h2 class="vm-mn-title">Absorption Tank</h2>
 <p class="vm-mn-subtitle">Animated vessel demonstrating absorption capacity. Grade A absorbs calmly, Grade B shows turbulence at half capacity, Grade C overflows with depletion.</p>
@@ -17908,7 +17908,7 @@ drawTank();
 
 <!-- ═══ MN05: NEXUS COUPLED PENDULUM ═══ -->
 <section class="vm-mn-section" id="vm-mn05-section" style="background:#1A2030">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN05 | NEXUS</div>
 <h2 class="vm-mn-title">Coupled Pendulum</h2>
 <p class="vm-mn-subtitle">Two pendulums representing HPA axis (gold) and Vagal tone (teal). In the Intact state they swing in synchrony. Depletion reduces amplitude. Decoupling causes phase drift.</p>
@@ -18056,7 +18056,7 @@ drawPendulums();
 
 <!-- ═══ MN06: VANTAGE DIMENSION WHEEL ═══ -->
 <section class="vm-mn-section" id="vm-mn06-section" style="background:#0D2B4E">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN06 | VANTAGE</div>
 <h2 class="vm-mn-title">Dimension Wheel</h2>
 <p class="vm-mn-subtitle">A rotating five-segment wheel representing clinical dimensions. Click any segment to stop rotation and expand its detail. Centre shows Synthesis Confidence.</p>
@@ -18084,7 +18084,7 @@ var dimensions=[
 {label:'Cascade Velocity',colour:'#1A7A8A',detail:'Measures propagation speed between zones via the six cascade stacks. FAST, MEDIUM, or SLOW classification.'},
 {label:'Resilience Depth',colour:'#7B5EA7',detail:'Assesses the reserve capacity within each zone. Lower resilience correlates with higher vulnerability to cascade effects.'},
 {label:'Recovery Trajectory',colour:'#5F7C6C',detail:'Tracks the directional trend of terrain scores over time. Stabilising, destabilising, plateau, or oscillating.'},
-{label:'Intervention Alignment',colour:'#D4B870',detail:'Evaluates how well current terrain support considerations align with identified burden patterns.'}
+{label:'Intervention Alignment',colour:'#D4B870',detail:'Evaluates how well current Personalised Terrain Management Protocol align with identified burden patterns.'}
 ];
 
 var metaOutputs=['Terrain Resilience Index','Cascade Complexity Score','Confidence Interval'];
@@ -18216,7 +18216,7 @@ animate();
 
 <!-- ═══ MN07: VERITY VERIFICATION PULSE ═══ -->
 <section class="vm-mn-section" id="vm-mn07-section" style="background:#1A2030">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN07 | VERITY</div>
 <h2 class="vm-mn-title">Verification Pulse</h2>
 <p class="vm-mn-subtitle">A heartbeat monitor where eight verification pulses fire sequentially with a 200ms stagger. All green indicates VERIFIED status. Any red peak triggers a flatline failure.</p>
@@ -18376,7 +18376,7 @@ drawPulse();
 
 <!-- ═══ MN08: CADENCE vs IC39 BOUNDARY WALL ═══ -->
 <section class="vm-mn-section" id="vm-mn08-section" style="background:#0D2B4E">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN08 | CADENCE vs IC39</div>
 <h2 class="vm-mn-title">Boundary Wall</h2>
 <p class="vm-mn-subtitle">Split view demonstrating the architectural distinction between IC39 (Phase 1, practitioner domain) and CADENCE (Phase 2, algorithm domain). The firewall between them is absolute.</p>
@@ -18405,10 +18405,10 @@ var prefersReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion
 var ic39Items=[
 {text:'MSQ-71 intake (practitioner-administered)',phase:'Phase 1'},
 {text:'FLINT five-layer intelligence pipeline',phase:'Phase 1'},
-{text:'Terrain Support Considerations (T-01)',phase:'Phase 1'},
+{text:'Personalised Terrain Management Protocol (T-01)',phase:'Phase 1'},
 {text:'Practitioner Clinical Decision (blank section)',phase:'Phase 1'},
 {text:'APEX investigation planner (budget tiers)',phase:'Phase 1'},
-{text:'DRD identification: highest burden zone',phase:'Phase 1'},
+{text:'DRD identification: Driver',phase:'Phase 1'},
 {text:'Protective header on all outputs',phase:'Phase 1'}
 ];
 
@@ -18471,7 +18471,7 @@ checkScroll();
 
 <!-- ═══ MN09: VISTA PREDICTIVE HORIZON ═══ -->
 <section class="vm-mn-section" id="vm-mn09-section" style="background:#1A2030">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN09 | VISTA</div>
 <h2 class="vm-mn-title">Predictive Horizon</h2>
 <p class="vm-mn-subtitle">A landscape view showing near terrain (sharp Phase 1), mid terrain (hazy Phase 1.5), and far terrain (foggy Phase 2). Adjust confidence to clear or thicken the fog.</p>
@@ -18611,7 +18611,7 @@ drawHorizon();
 
 <!-- ═══ MN10: FULL MNEMONIC ECOSYSTEM MAP ═══ -->
 <section class="vm-mn-section" id="vm-mn10-section" style="background:#0D2B4E">
-<div class="vm-mn-t01">T-01: Terrain Support Considerations | DRD = Highest burden zone</div>
+<div class="vm-mn-t01">T-01: Personalised Terrain Management Protocol | DRD = Driver</div>
 <div class="vm-mn-eyebrow">MN10 | ECOSYSTEM</div>
 <h2 class="vm-mn-title">Full Mnemonic Ecosystem Map</h2>
 <p class="vm-mn-subtitle">A star map rendering all 41 mnemonics as stars, grouped by tier. Constellation lines connect related mnemonics. Hover for tooltip, click for detail card.</p>
@@ -18649,7 +18649,7 @@ var tiers=[
 var starDetails={
 'NCZ':{desc:'Node-Cascade Zone: the core five-zone terrain architecture.',tier:'Core'},
 'FLINT':{desc:'Five-layer intelligence pipeline: Node, Zone, Cascade, Causality, Examination.',tier:'Core'},
-'DRD':{desc:'Highest burden zone identification. Phase 1 display: "Highest burden zone".',tier:'Core'},
+'DRD':{desc:'Driver identification. Phase 1 display: "Driver".',tier:'Core'},
 'CascadeIQ':{desc:'Six-stack cascade intelligence engine. Velocity and evidence classification.',tier:'Core'},
 'CascadeAtlas':{desc:'Interactive clinical intelligence atlas. Pentagon layout with 36+ features.',tier:'Core'},
 'TerrainLock':{desc:'Self-perpetuating loop: Z2 to Z1 to Z5 to Z2 via S1, S2, and S4.',tier:'Core'},
@@ -18663,7 +18663,7 @@ var starDetails={
 'CIB':{desc:'Clinical Intelligence Brief. Summary output for practitioner review.',tier:'Intelligence'},
 'MedTerrain':{desc:'Medication terrain interaction context. Pharmaceutical landscape mapping.',tier:'Intelligence'},
 'RECON':{desc:'Biomarker reconnaissance layer. 85-biomarker registry.',tier:'Intelligence'},
-'COMPASS':{desc:'Protocol compass. 54 terrain support protocols across three categories.',tier:'Intelligence'},
+'COMPASS':{desc:'Protocol compass. 54 Personalised Terrain Management Protocols across three categories.',tier:'Intelligence'},
 'ANCHOR':{desc:'Cross-cutting verification overlay spanning L1 to L5. 25+ deterministic checks.',tier:'Intelligence'},
 'AXIS':{desc:'Terrain axis alignment assessment.',tier:'Intelligence'},
 'INTAKE':{desc:'Client intake and onboarding pathway.',tier:'Intelligence'},
@@ -18949,9 +18949,9 @@ drawFrame();
 .vm-mn21-btn{background:rgba(201,168,76,0.15);border:1px solid #C9A84C;border-radius:4px;padding:0.5rem 1.2rem;color:#C9A84C;font-family:'DM Mono',monospace;font-size:0.75rem;cursor:pointer;display:block;margin:1rem auto 0}
 @media(prefers-reduced-motion:reduce){#vm-mn21-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn21-t01">Terrain Support Considerations</div>
+<div class="vm-mn21-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn21-heading">VOLTERRAIN Driver Dominance Hierarchy</h2>
-<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">Seven VOLTERRAIN drivers compete in a tournament bracket. Each match is decided by cross-zone node impact. The winner earns the crown as highest burden zone contributor.</p>
+<p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">Seven VOLTERRAIN drivers compete in a tournament bracket. Each match is decided by cross-zone node impact. The winner earns the crown as Driver contributor.</p>
 <div class="vm-mn21-bracket" id="vm-mn21-bracket"></div>
 <div class="vm-mn21-crown" id="vm-mn21-crown"></div>
 <button class="vm-mn21-btn" id="vm-mn21-run" aria-label="Run tournament">Run Tournament</button>
@@ -19063,7 +19063,7 @@ runTournament();
 .vm-mn22-cbtn.active{background:rgba(201,168,76,0.15);color:#C9A84C;border-color:#C9A84C}
 @media(prefers-reduced-motion:reduce){#vm-mn22-section *{transition:none !important;animation:none !important}.vm-mn22-rod{transition:none !important}}
 </style>
-<div class="vm-mn22-t01">Terrain Support Considerations</div>
+<div class="vm-mn22-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn22-heading">TerrainSpiral Trajectory Pendulum Clock</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A grandfather clock where the pendulum rate reflects trajectory state. At Acutely Destabilising, the alarm sounds. At Locked, the pendulum freezes entirely.</p>
 <div class="vm-mn22-clock" id="vm-mn22-clock">
@@ -19167,7 +19167,7 @@ if(s.id==='stable'){btn.classList.add('active');startPendulum(s);}
 .vm-mn23-target{font-family:'DM Mono',monospace;font-size:0.65rem;color:#8BA5B8;margin-top:0.4rem;text-align:center}
 @media(prefers-reduced-motion:reduce){#vm-mn23-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn23-t01">Terrain Support Considerations</div>
+<div class="vm-mn23-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn23-heading">MODES Signal Mixing Desk</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">Three modality channels with faders, VU meters, and cross-talk indicators. Pan knobs show which zones each signal targets. Adjust faders to see how modality signals interact.</p>
 <div class="vm-mn23-desk" id="vm-mn23-desk"></div>
@@ -19294,7 +19294,7 @@ updateCrossTalk();
 .vm-mn24-gbtn.active{background:rgba(201,168,76,0.15);color:#C9A84C;border-color:#C9A84C}
 @media(prefers-reduced-motion:reduce){#vm-mn24-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn24-t01">Terrain Support Considerations</div>
+<div class="vm-mn24-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn24-heading">GRADE Terrain Resilience Spring Test</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A physics spring simulation where a weight is dropped. Grade A springs recover firmly, Grade B springs stretch further, and Grade C springs collapse entirely.</p>
 <div class="vm-mn24-sim">
@@ -19376,7 +19376,7 @@ setGrade(grades[0]);
 .vm-mn25-cbtn.active{background:rgba(201,168,76,0.15);color:#C9A84C;border-color:#C9A84C}
 @media(prefers-reduced-motion:reduce){#vm-mn25-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn25-t01">Terrain Support Considerations</div>
+<div class="vm-mn25-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn25-heading">NEXUS Regulatory Bridge</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">An animated bridge between HPA and Vagus cliffs. Coupled state shows a solid bridge. Decoupled state shows a broken bridge with cascade velocity signs along the path.</p>
 <div class="vm-mn25-bridge" id="vm-mn25-bridge">
@@ -19455,7 +19455,7 @@ setMode(modes[0]);
 .vm-mn26-detail-text{font-size:0.85rem;color:#8BA5B8;line-height:1.5}
 @media(prefers-reduced-motion:reduce){#vm-mn26-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn26-t01">Terrain Support Considerations</div>
+<div class="vm-mn26-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn26-heading">VANTAGE Crystal Prism</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">White light (representing FLINT intelligence) enters a crystal prism and refracts into five coloured beams, one for each VANTAGE dimension. Click a beam to expand its detail.</p>
 <div class="vm-mn26-prism-wrap" id="vm-mn26-wrap">
@@ -19472,7 +19472,7 @@ setMode(modes[0]);
 (function(){
 var dims=[
 {zone:'Z1',colour:'#C9A84C',label:'Metabolic Energy',desc:'The Metabolic Energy dimension reveals how cellular energy production pathways interact with burden patterns. Node N3 (Energy) and N6 (endocrine signalling, dampened 0.7x) converge here. Threshold: 40 internal.'},
-{zone:'Z2',colour:'#1A7A8A',label:'Resilience Network',desc:'The Resilience Network dimension maps immune and repair capacity. Nodes N1, N2, and N6 contribute. This zone serves as the default tiebreaker entry point for DRD (highest burden zone) designation. Threshold: 40 internal.'},
+{zone:'Z2',colour:'#1A7A8A',label:'Resilience Network',desc:'The Resilience Network dimension maps immune and repair capacity. Nodes N1, N2, and N6 contribute. This zone serves as the default tiebreaker entry point for DRD (Driver) designation. Threshold: 40 internal.'},
 {zone:'Z3',colour:'#7B5EA7',label:'Cardiovascular-Neural',desc:'The Cardiovascular-Neural dimension tracks transport and signalling pathways. Nodes N5 and N6 feed this axis. S6 is UNIDIRECTIONAL: Z1 to Z3 only. Threshold: 40 internal.'},
 {zone:'Z4',colour:'#5F7C6C',label:'Detoxification Trident',desc:'The Detoxification Trident dimension monitors biotransformation capacity. Nodes N2 and N4 combine here. S3 (Z4 to Z1) is the slowest cascade at SLOW velocity. Threshold: 40 internal.'},
 {zone:'Z5',colour:'#D4B870',label:'Hormonal Terrain',desc:'The Hormonal Terrain dimension captures endocrine axis sensitivity. Nodes N3, N4, and N6 converge. Lower threshold of 32 internal reflects heightened hormonal sensitivity. S4 (Z5 to Z2) is THEORETICAL.'}
@@ -19534,7 +19534,7 @@ beam.addEventListener('keydown',function(e){if(e.key==='Enter')expand();});
 .vm-mn27-rbtn{background:rgba(201,168,76,0.15);border:1px solid #C9A84C;border-radius:4px;padding:0.5rem 1.2rem;color:#C9A84C;font-family:'DM Mono',monospace;font-size:0.75rem;cursor:pointer;display:block;margin:0 auto}
 @media(prefers-reduced-motion:reduce){#vm-mn27-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn27-t01">Terrain Support Considerations</div>
+<div class="vm-mn27-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn27-heading">VERITY Quality Seal Stamping Machine</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A conveyor belt carries eight documents through a quality seal stamping machine. Each document receives a VERIFIED or REJECTED stamp based on compliance criteria. Click Replay to run the sequence again.</p>
 <div class="vm-mn27-conveyor" id="vm-mn27-conveyor"></div>
@@ -19549,7 +19549,7 @@ var docs=[
 {title:'T-01 Header',pass:true,reason:'Protective header present'},
 {title:'Zone Colours',pass:true,reason:'D-53 compliant'},
 {title:'S4 Label',pass:true,reason:'THEORETICAL marked'},
-{title:'DRD Display',pass:true,reason:'Highest burden zone used'},
+{title:'DRD Display',pass:true,reason:'Driver used'},
 {title:'Node Count',pass:false,reason:'8 nodes detected (should be 7)'},
 {title:'S6 Label',pass:true,reason:'UNIDIRECTIONAL in same sentence'},
 {title:'Credentials',pass:false,reason:'ABAARM found (prohibited)'},
@@ -19626,7 +19626,7 @@ runStamping();
 .vm-mn28-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#C9A84C;cursor:pointer}
 @media(prefers-reduced-motion:reduce){#vm-mn28-section *{transition:none !important;animation:none !important}.vm-mn28-orb-inner{animation:none !important}}
 </style>
-<div class="vm-mn28-t01">Terrain Support Considerations</div>
+<div class="vm-mn28-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn28-heading">CADENCE Containment Chamber</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A sci-fi containment chamber with a glowing orb represents governed clinical output. Governance controls are labelled on the chamber walls. The threat gauge reads HIGHEST. Outside the chamber, IC39 non-response operates free from containment.</p>
 <div class="vm-mn28-chamber" id="vm-mn28-chamber">
@@ -19694,7 +19694,7 @@ orb.style.boxShadow='0 0 '+(v/2)+'px '+c;
 .vm-mn29-phase-label{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:#C9A84C;margin-top:0.5rem}
 @media(prefers-reduced-motion:reduce){#vm-mn29-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn29-t01">Terrain Support Considerations</div>
+<div class="vm-mn29-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn29-heading">VISTA Fog of Uncertainty Landscape</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A canvas terrain with fog layers. Phase 1 features are sharp and clear. Phase 1.5 is hazy. Phase 2 is deeply fogged. Use the confidence slider to reveal or obscure the terrain.</p>
 <div class="vm-mn29-canvas-wrap">
@@ -19795,7 +19795,7 @@ update();
 .vm-mn30-leg-dot{width:8px;height:8px;border-radius:50%}
 @media(prefers-reduced-motion:reduce){#vm-mn30-section *{transition:none !important;animation:none !important}}
 </style>
-<div class="vm-mn30-t01">Terrain Support Considerations</div>
+<div class="vm-mn30-t01">Personalised Terrain Management Protocol</div>
 <h2 class="vm-mn30-heading">VAULT Mnemonic Constellation Map</h2>
 <p style="font-size:0.85rem;color:#8BA5B8;margin-bottom:1.25rem">A star map showing all 41 VitalMatrix mnemonics as stars arranged by tier. Constellation lines connect related concepts. Hover for a tooltip, click for detail. Ambient rotation and shooting stars bring the sky to life.</p>
 <div class="vm-mn30-canvas-wrap" id="vm-mn30-wrap">
@@ -19824,7 +19824,7 @@ var w=canvas.width;var h=canvas.height;
 var stars=[
 {name:'VitalMatrix',tier:'core',desc:'The platform itself: clinical intelligence for functional medicine practitioners.',x:300,y:60,r:5},
 {name:'NCZ',tier:'core',desc:'Node-Cascade Zone: the five-zone architecture built from seven nodes and six cascade stacks.',x:200,y:90,r:4},
-{name:'DRD',tier:'core',desc:'Highest burden zone designation. Z2 tiebreaker. Excluded from S4 (THEORETICAL) cascade trace.',x:400,y:90,r:4},
+{name:'DRD',tier:'core',desc:'Driver designation. Z2 tiebreaker. Excluded from S4 (THEORETICAL) cascade trace.',x:400,y:90,r:4},
 {name:'FLINT',tier:'core',desc:'Five-Layer Intelligence: L1 Node, L2 Zone, L3 Cascade, L4 Causality, L5 Examination.',x:150,y:130,r:4},
 {name:'APEX',tier:'core',desc:'Assessment Priority and Evidence Xray: three-tier investigation planner.',x:450,y:130,r:4},
 {name:'CascadeAtlas',tier:'core',desc:'The master connection map: pentagon layout, six stacks, TerrainLock visualisation.',x:300,y:140,r:5},
@@ -19843,7 +19843,7 @@ var stars=[
 {name:'SPHERE',tier:'arch',desc:'Contextual assessment framework.',x:300,y:280,r:3},
 {name:'MAPS',tier:'arch',desc:'Clinical mapping and pathway system.',x:120,y:300,r:3},
 {name:'RECON',tier:'arch',desc:'Biomarker reconnaissance registry: 85 biomarkers, 12 categories.',x:480,y:300,r:3},
-{name:'COMPASS',tier:'arch',desc:'Protocol compass: 54 terrain support protocols.',x:60,y:310,r:3},
+{name:'COMPASS',tier:'arch',desc:'Protocol compass: 54 Personalised Terrain Management Protocols.',x:60,y:310,r:3},
 {name:'GENOME',tier:'arch',desc:'The practitioner handbook: V7, 241 sections, 13,600+ lines.',x:540,y:310,r:3},
 {name:'ANCHOR',tier:'arch',desc:'Cross-cutting verification overlay spanning FLINT L1 through L5.',x:200,y:320,r:3},
 {name:'AXIS',tier:'arch',desc:'Zone axis alignment and scoring reference.',x:400,y:320,r:3},

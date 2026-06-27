@@ -100,7 +100,7 @@
 ### F11: Cascade Source Priority Marker
 - **Eyebrow:** Feature 11
 - **Heading:** Cascade Source Priority Marker
-- **Interaction:** Five zone burden sliders (0-100). DRD designation computed (highest burden zone above threshold, Z2 tiebreaker). Zone tabs reordered: DRD zone first with pulsing gold HIGHEST BURDEN stamp. Cascade-connected reactor zones show stack label. SOURCE stamp on investigation rows.
+- **Interaction:** Five zone burden sliders (0-100). DRD designation computed (Driver above threshold, Z2 tiebreaker). Zone tabs reordered: DRD zone first with pulsing gold HIGHEST BURDEN stamp. Cascade-connected reactor zones show stack label. SOURCE stamp on investigation rows.
 - **Visual:** Pulsing gold stamp with box-shadow animation. Zone buttons reordered dynamically. Tier 1 investigations for DRD zone shown below.
 - **Data:** f11Scores object. DRD computed per D-15 hybrid scoring. STACKS for cascade connections. S4 excluded from ordering.
 
@@ -203,7 +203,7 @@ Each investigation object contains:
 | Check | Status |
 |-------|--------|
 | D-53 zone colours | Z1 #C9A84C, Z2 #1A7A8A, Z3 #7B5EA7, Z4 #5F7C6C, Z5 #2E6DB4 |
-| DRD T-01a language | "Highest burden zone" used. Never "Driver". |
+| DRD T-01a language | "Driver" used. Never "Driver". |
 | S4 THEORETICAL | Excluded from cascade sequencing (F1, F11). Labelled Theoretical in STACKS data. |
 | S6 UNIDIRECTIONAL | S6 direction Z1 to Z3 only in STACKS data. |
 | D-38 near-threshold | F17 implements 5 internal points below threshold. Z5 borderline: 27-31. |

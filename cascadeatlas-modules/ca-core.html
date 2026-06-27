@@ -1144,9 +1144,9 @@ var cohort = [
 /* ═══════ UTILITY FUNCTIONS ═══════ */
 function isActive(i){ return scores[i] >= ZONES[i].th; }
 function isBorderline(i){ return scores[i] >= ZONES[i].near[0] && scores[i] < ZONES[i].th; }
-// DRD designation: score-based highest burden zone (Phase 1).
+// DRD designation: score-based Driver (Phase 1).
 // D-12: S4 (Theoretical) excluded from DRD cascade trace. Cascade trace not yet implemented — applies when built.
-// W5-6: Display language = "Highest burden zone" (not "Driver"). "Secondary burden zone" (not "Reactor").
+// W5-6: Display language = "Driver" (not "Driver"). "Secondary burden zone" (not "Reactor").
 function getDriver(sc){
   var best=-1, bestVal=-1;
   sc.forEach(function(v,i){ if(v>=ZONES[i].th && v>bestVal){ bestVal=v; best=i; } });
@@ -1725,7 +1725,7 @@ updateF19Zones();
 /* ═══════ F20: VOICE NARRATION ═══════ */
 document.getElementById('vm-ca-speak-btn').addEventListener('click', function(){
   var drv = getDriver(scores);
-  var text = 'Patient terrain shows '+ZONES[drv].id+' as highest burden zone with an internal score of '+scores[drv]+'. ';
+  var text = 'Patient terrain shows '+ZONES[drv].id+' as Driver with an internal score of '+scores[drv]+'. ';
   var activeStacks = STACKS.filter(function(s){ return isActive(s.from)&&isActive(s.to); });
   if(activeStacks.length) text += activeStacks.length+' cascade stacks active. ';
   text += 'Primary restoration target: '+ZONES[drv].name+'.';
@@ -1914,7 +1914,7 @@ var tourSteps = [
   { title:'Seven Functional Nodes', text:'N1-N7. Seven nodes, never eight. MES is foundational context, not a node.' },
   { title:'Six Cascade Stacks', text:'S1-S6. Directional dysfunction pathways. S4 is Theoretical. S6 is UNIDIRECTIONAL: Z1 to Z3 only.' },
   { title:'Zone Activation', text:'Zones activate at threshold: 40 internal (Z1-Z4), 32 internal (Z5). Borderline = near threshold.' },
-  { title:'DRD\u2122 Designation', text:'The DRD\u2122 designation identifies the highest burden zone. Phase 1 display language: Highest burden zone, not Driver.' },
+  { title:'DRD\u2122 Designation', text:'The DRD\u2122 designation identifies the Driver. Phase 1 display language: Driver, not Driver.' },
   { title:'TerrainLock\u2122', text:'Z2\u2192Z1\u2192Z5\u2192Z2 self-perpetuating loop. Z2 gut restoration is the default tiebreaker.' },
   { title:'Evidence Tiers', text:'Every clinical claim carries a tier: Established, Emerging, Theoretical, Observed in Practice, or Contested.' },
   { title:'CascadeAtlas\u2122 Complete', text:'36 interactive features with Terrain Consciousness\u2122. Clinical intelligence for functional medicine practitioners.' }
@@ -2490,7 +2490,7 @@ origAxisGen.onclick=function(){
   var activeStacks=STACKS.filter(function(s){return isActive(s.from)&&isActive(s.to);});
   var s1on=isActive(1)&&isActive(0), s2on=isActive(0)&&isActive(4), s4on=isActive(4)&&isActive(1);
   var tl=s1on&&s2on&&(s4on||(scores[4]>=60&&scores[1]>=60)); // ALB v1.6: S4 OR Z5+Z2 both >= 60 internal
-  var text='This patient presents with '+ZONES[drv].id+' ('+ZONES[drv].name+') as highest burden zone (internal: '+scores[drv]+', display: '+displayScore(scores[drv])+'/10). ';
+  var text='This patient presents with '+ZONES[drv].id+' ('+ZONES[drv].name+') as Driver (internal: '+scores[drv]+', display: '+displayScore(scores[drv])+'/10). ';
   if(activeStacks.length) text+=activeStacks.length+' cascade stack'+(activeStacks.length>1?'s':'')+' active: '+activeStacks.map(function(s){return s.id+' ('+s.vel+', '+s.tier+')';}).join(', ')+'. ';
   else text+='No cascade stacks currently active. ';
   if(tl) text+='TerrainLock\u2122 is ACTIVE \u2014 self-perpetuating loop. ';

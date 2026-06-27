@@ -2866,7 +2866,7 @@ a:focus-visible {
         <div class="vm-pipeline-dot">L4</div>
         <p class="vm-pipeline-label">Stage 4: DRD&#8482; Designation Engine</p>
         <p class="vm-pipeline-question">Who started it?</p>
-        <p class="vm-pipeline-title">Highest burden zone designation</p>
+        <p class="vm-pipeline-title">Driver designation</p>
         <p class="vm-pipeline-desc">The zone with highest burden is designated. Downstream zones are identified as secondary. This directional designation <span class="vm-text-highlight">determines the clinical investigation sequence.</span></p>
       </div>
       <div class="vm-pipeline-stage animate-on-scroll stagger-4" data-ribbon="WHAT">
@@ -3083,7 +3083,7 @@ a:focus-visible {
     return h;
   }
   function buildL4(){
-    return '<div class="la3-dp"><p>Driver-Reactor Designation identifies which zone is driving the clinical picture.</p><div class="la3-dc" style="background:rgba(123,94,167,.09);border-left:3px solid #7B5EA7">Highest burden zone = Driver (Phase 1 display: "Highest burden zone")</div><p style="font-size:12px;color:var(--vm-muted)">Z5 is almost always Reactor, rarely Driver.</p><div class="la3-dc" style="background:rgba(192,57,43,.08);border-left:3px solid #C0392B">S4 (THEORETICAL) excluded from DRD cascade tracing. S6 (Established) is UNIDIRECTIONAL: Z1 to Z3 only. DRD trace only follows Established and Emerging stacks (D-12).</div><p style="font-size:11px;color:var(--vm-muted);line-height:1.6;margin-bottom:0">Evidence tier of the informing cascade stack is displayed alongside each designation (D-14).</p></div>';
+    return '<div class="la3-dp"><p>Driver-Reactor Designation identifies which zone is driving the clinical picture.</p><div class="la3-dc" style="background:rgba(123,94,167,.09);border-left:3px solid #7B5EA7">Driver = Driver (Phase 1 display: "Driver")</div><p style="font-size:12px;color:var(--vm-muted)">Z5 is almost always Reactor, rarely Driver.</p><div class="la3-dc" style="background:rgba(192,57,43,.08);border-left:3px solid #C0392B">S4 (THEORETICAL) excluded from DRD cascade tracing. S6 (Established) is UNIDIRECTIONAL: Z1 to Z3 only. DRD trace only follows Established and Emerging stacks (D-12).</div><p style="font-size:11px;color:var(--vm-muted);line-height:1.6;margin-bottom:0">Evidence tier of the informing cascade stack is displayed alongside each designation (D-14).</p></div>';
   }
   function buildL5(){
     var h='<div style="font-size:12px;color:var(--vm-muted);margin-bottom:12px;font-style:italic">Assessment Priority and Evidence Xray. Three budget tiers.</div><div class="la3-ao">';
@@ -3128,10 +3128,10 @@ a:focus-visible {
   }
   function buildL4Patient(){
     var dc=ZC[patientData.driver]; var rc=ZC[patientData.reactor];
-    return '<div style="padding:14px 16px;border-radius:8px;border:2px solid '+dc+';background:'+dc+'15"><div style="font-family:\'DM Mono\',monospace;font-size:11px;color:'+dc+';font-weight:700;margin-bottom:6px">HIGHEST BURDEN ZONE</div><div style="font-size:18px;font-weight:700;color:'+dc+'">'+patientData.driver+': '+zones.find(function(z){return z.id===patientData.driver}).nm+'</div><div style="font-size:11px;color:var(--vm-muted);margin-top:4px">Internal: '+patientData.zoneScores[patientData.driver].i+' | Display: '+patientData.zoneScores[patientData.driver].d+'/10</div></div><div style="margin-top:10px;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid '+rc+'40"><span style="font-family:\'DM Mono\',monospace;font-size:10px;color:'+rc+'">SECONDARY BURDEN: '+patientData.reactor+' '+zones.find(function(z){return z.id===patientData.reactor}).nm+'</span></div>';
+    return '<div style="padding:14px 16px;border-radius:8px;border:2px solid '+dc+';background:'+dc+'15"><div style="font-family:\'DM Mono\',monospace;font-size:11px;color:'+dc+';font-weight:700;margin-bottom:6px">DRIVER</div><div style="font-size:18px;font-weight:700;color:'+dc+'">'+patientData.driver+': '+zones.find(function(z){return z.id===patientData.driver}).nm+'</div><div style="font-size:11px;color:var(--vm-muted);margin-top:4px">Internal: '+patientData.zoneScores[patientData.driver].i+' | Display: '+patientData.zoneScores[patientData.driver].d+'/10</div></div><div style="margin-top:10px;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid '+rc+'40"><span style="font-family:\'DM Mono\',monospace;font-size:10px;color:'+rc+'">SECONDARY BURDEN: '+patientData.reactor+' '+zones.find(function(z){return z.id===patientData.reactor}).nm+'</span></div>';
   }
   function buildL5Patient(){
-    var h='<div style="font-size:12px;margin-bottom:12px">Prioritised investigations for '+patientData.driver+' (highest burden zone):</div><div class="la3-ao">';
+    var h='<div style="font-size:12px;margin-bottom:12px">Prioritised investigations for '+patientData.driver+' (Driver):</div><div class="la3-ao">';
     patientData.investigations.forEach(function(inv,i){h+='<div class="la3-arow"><span class="la3-an" style="min-width:20px">'+(i+1)+'</span><span class="la3-ad">'+inv+'</span></div>';});
     return h+'</div>';
   }
@@ -3769,14 +3769,14 @@ a:focus-visible {
     <p class="vm-section-label" style="opacity:1;">Layer 4: DRD&#8482; Designation</p>
     <div class="vm-rule-dot" style="margin:12px 0 16px;"></div>
     <h2 style="font-family:var(--vm-fs);font-size:clamp(28px,4vw,48px);font-weight:600;color:var(--vm-white);margin-bottom:14px;opacity:1;">Direction, <em>not description.</em></h2>
-    <p style="font-size:15px; color:rgba(244,244,242,0.58); max-width:640px; line-height:1.75; margin-bottom:36px;">DRD&#8482; designates direction. It identifies the highest burden zone and traces downstream impact through active cascade stacks. The result: where to look first, and where to look next.</p>
+    <p style="font-size:15px; color:rgba(244,244,242,0.58); max-width:640px; line-height:1.75; margin-bottom:36px;">DRD&#8482; designates direction. It identifies the Driver and traces downstream impact through active cascade stacks. The result: where to look first, and where to look next.</p>
 
     <div style="margin-bottom:32px;">
-      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;height:auto;margin:0 auto;display:block;" aria-label="DRD designation: highest burden zone drives secondary burden zones">
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;height:auto;margin:0 auto;display:block;" aria-label="DRD designation: Driver drives secondary burden zones">
         <defs><marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="rgba(201,168,76,0.8)"/></marker></defs>
         <!-- Pulse ring -->
         <circle cx="350" cy="100" r="54" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"><animate attributeName="r" values="54;78" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0" dur="2.5s" repeatCount="indefinite"/></circle>
-        <!-- Highest burden zone (centre, larger) -->
+        <!-- Driver (centre, larger) -->
         <circle cx="350" cy="100" r="50" fill="rgba(201,168,76,0.12)" stroke="#C9A84C" stroke-width="2"/>
         <text x="350" y="88" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="#C9A84C" font-weight="700" letter-spacing="0.1em">HIGHEST</text>
         <text x="350" y="103" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="#C9A84C" font-weight="700" letter-spacing="0.1em">BURDEN</text>
@@ -3800,14 +3800,14 @@ a:focus-visible {
     </div>
     <div class="vm-grid-2" style="margin-top:24px;">
       <div class="vm-card vm-card-featured vm-card-shine" data-zone="z1" style="border-left:3px solid var(--vm-gold);opacity:1;">
-        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.18em;color:var(--vm-gold);margin-bottom:14px;text-transform:uppercase;">Highest Burden Zone</p>
+        <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.18em;color:var(--vm-gold);margin-bottom:14px;text-transform:uppercase;">Driver</p>
         <h3 class="vm-card-title">The zone with the highest burden score</h3>
         <p class="vm-card-body">Burden is concentrated here. Clinical investigation begins at this zone. The upstream origin driving downstream activation across connected cascade stacks.</p>
       </div>
       <div class="vm-card" data-zone="z2" style="opacity:1;">
         <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.18em;color:var(--vm-teal-l);margin-bottom:14px;text-transform:uppercase;">Secondary Burden Zone</p>
         <h3 class="vm-card-title">Zones connected via active cascade stacks</h3>
-        <p class="vm-card-body">Active zones connected downstream from the highest burden zone. Responding to upstream burden rather than generating it. Sequenced investigation confirms the direction.</p>
+        <p class="vm-card-body">Active zones connected downstream from the Driver. Responding to upstream burden rather than generating it. Sequenced investigation confirms the direction.</p>
       </div>
     </div>
   </div>
@@ -3899,7 +3899,7 @@ a:focus-visible {
 <div style="max-width:860px;margin:0 auto">
   <p class="la4-eyebrow">DRD Designation</p>
   <h2>Which Zone Carries the Highest Burden?</h2>
-  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; highest burden zone designation changes in real time. Lower display score = higher burden.</p>
+  <p class="la4-subtitle">Adjust zone burden scores to see how the DRD&#8482; Driver designation changes in real time. Lower display score = higher burden.</p>
 
   <!-- Sliders -->
   <div id="vm-la4-sliders" class="la4-card">
@@ -3970,7 +3970,7 @@ a:focus-visible {
         val.style.color=active?z.colour:"#888";
       }
     }
-    // Highest burden zone
+    // Driver
     var hbz=null,hScore=-1,isTie=false;
     for(var a=0;a<activeZones.length;a++){
       var azk=activeZones[a],s=scores[azk];
@@ -3999,13 +3999,13 @@ a:focus-visible {
     var crownSvg="<svg class='la4-crown' width='18' height='18' viewBox='0 0 24 24' fill='"+(hz?hz.colour:"#C9A84C")+"'><path d='M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z'/><rect x='5' y='18' width='14' height='2' rx='1'/></svg>";
 
     dEl.innerHTML="<div class='la4-desig-title' style='color:"+(hz?hz.colour:"#888")
-      +"'>DRD&#8482; DESIGNATION: HIGHEST BURDEN ZONE</div>"
+      +"'>DRD&#8482; DESIGNATION: DRIVER</div>"
       +(hbz?"<div class='la4-desig-result' style='color:"+hz.colour+"'>"+crownSvg+hbz+": "+hz.name
         +" (Internal: "+scores[hbz]+", Display: "+displayScore(scores[hbz])+"/10)"
         +(isTie?"<span class='la4-tiebreaker-badge'>Z2 TIEBREAKER</span>":"")
         +"</div>"
         :"<div style='font-size:13px;color:#888'>No zones currently above activation threshold.</div>")
-      +"<div class='la4-desig-note' style='color:#555'>T-01a: Phase 1 display uses \"Highest burden zone\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
+      +"<div class='la4-desig-note' style='color:#555'>T-01a: Phase 1 display uses \"Driver\" designation. Z2 is default tiebreaker. Evidence tier: Established.</div>";
 
     // Feature 5: Tiebreaker pulse
     if(isTie){dEl.classList.add("la4-tiebreaker-active");}
@@ -4105,7 +4105,7 @@ a:focus-visible {
     <div style="background:#FFFFFF;border:2px solid #C9A84C;border-radius:4px;padding:30px;box-shadow:0 6px 24px rgba(13,43,78,.10);">
       <p style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;">Question Two &nbsp;&middot;&nbsp; Answered only by VitalMatrix&#8482;</p>
       <h3 style="font-family:'Cormorant Garamond','Georgia',serif;font-size:27px;font-weight:600;color:#0D2B4E;line-height:1.18;margin-bottom:14px;font-style:italic;">"Which burden is driving the others: and in what order should I act?"</h3>
-      <p style="font-size:14px;line-height:1.7;color:#444440;margin-bottom:16px;">CascadeIQ&#8482; traces directional pathways between activated zones. DRD&#8482; designates the highest burden zone and secondary burden zones. The FLINT&#8482; five-layer architecture sequences the clinical picture into an evidence-mapped output for practitioner review.</p>
+      <p style="font-size:14px;line-height:1.7;color:#444440;margin-bottom:16px;">CascadeIQ&#8482; traces directional pathways between activated zones. DRD&#8482; designates the Driver and secondary burden zones. The FLINT&#8482; five-layer architecture sequences the clinical picture into an evidence-mapped output for practitioner review.</p>
       <p style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#888884;">What you know after: the direction of clinical attention and the sequence to act</p>
     </div>
 
@@ -4169,7 +4169,7 @@ a:focus-visible {
         <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:20px;">
           <p style="font-family:var(--vm-fm);font-size:8px;letter-spacing:0.12em;color:var(--vm-gold);margin-bottom:14px;">DRD DESIGNATION</p>
           <div style="text-align:center;padding:12px 0;">
-            <p style="font-family:var(--vm-fm);font-size:8px;color:rgba(244,244,242,0.35);margin-bottom:6px;">HIGHEST BURDEN ZONE</p>
+            <p style="font-family:var(--vm-fm);font-size:8px;color:rgba(244,244,242,0.35);margin-bottom:6px;">DRIVER</p>
             <p style="font-family:var(--vm-fs);font-size:28px;font-weight:300;color:var(--vm-z2);margin-bottom:4px;">Z2</p>
             <p style="font-family:var(--vm-fd);font-size:10px;color:rgba(244,244,242,0.50);">Resilience Network</p>
           </div>
@@ -4257,7 +4257,7 @@ a:focus-visible {
   <div style="background:var(--vm-prussian);border-bottom:2px solid rgba(201,168,76,0.25);padding:14px 0;position:relative;z-index:2;">
     <div class="vm-container" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
       <span style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.12em;color:var(--vm-gold);background:rgba(201,168,76,0.10);padding:4px 10px;border-radius:3px;border:1px solid rgba(201,168,76,0.20);">T-01</span>
-      <span style="font-family:var(--vm-fd);font-size:11px;color:rgba(244,244,242,0.45);">Terrain Support Considerations: supplements, dietary, and lifestyle only<span class="b2c-annotation-dot"><span class="b2c-annot-tip">T-01 Phase 1 temporary restriction: active until MHRA SaMD classification confirmed. No pharmaceutical considerations generated.</span></span>. For practitioner use only. Not a diagnostic tool<span class="b2c-annotation-dot"><span class="b2c-annot-tip">VitalMatrix is not a diagnostic tool. All outputs require practitioner review and clinical judgement before action.</span></span>.</span>
+      <span style="font-family:var(--vm-fd);font-size:11px;color:rgba(244,244,242,0.45);">Personalised Terrain Management Protocol: supplements, dietary, and lifestyle only<span class="b2c-annotation-dot"><span class="b2c-annot-tip">T-01 Phase 1 temporary restriction: active until MHRA SaMD classification confirmed. No pharmaceutical considerations generated.</span></span>. For practitioner use only. Not a diagnostic tool<span class="b2c-annotation-dot"><span class="b2c-annot-tip">VitalMatrix is not a diagnostic tool. All outputs require practitioner review and clinical judgement before action.</span></span>.</span>
     </div>
   </div>
 
@@ -4265,7 +4265,7 @@ a:focus-visible {
     <div class="vm-container">
       <p class="vm-section-label animate-on-scroll">From Burden to Consideration</p>
       <h2 class="vm-heading-reveal">Three categories per active zone. <em>One terrain intelligence output.</em></h2>
-      <p class="animate-on-scroll" style="font-size:16px; color:rgba(244,244,242,0.58); max-width:640px; line-height:1.8; margin-bottom:56px;">Every active zone generates terrain support considerations across three categories: dietary, supplemental, and lifestyle. Each consideration traces back to the zone that triggered it, the cascade that connected it, and the evidence tier that supports it.</p>
+      <p class="animate-on-scroll" style="font-size:16px; color:rgba(244,244,242,0.58); max-width:640px; line-height:1.8; margin-bottom:56px;">Every active zone generates Personalised Terrain Management Protocol across three categories: dietary, supplemental, and lifestyle. Each consideration traces back to the zone that triggered it, the cascade that connected it, and the evidence tier that supports it.</p>
     </div>
 
     <!-- ══ Enhancement 5: Scroll-pinned transformation sequence (300vh) ══ -->
@@ -4338,7 +4338,7 @@ a:focus-visible {
             <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.15em;color:var(--vm-gold);margin-bottom:20px;">STAGE 3: DRD&#8482; DESIGNATION</p>
             <div class="b2c-drd-panel">
               <div class="b2c-drd-primary">
-                <p style="font-family:var(--vm-fm);font-size:8px;color:rgba(244,244,242,0.35);letter-spacing:0.12em;margin-bottom:8px;">HIGHEST BURDEN ZONE</p>
+                <p style="font-family:var(--vm-fm);font-size:8px;color:rgba(244,244,242,0.35);letter-spacing:0.12em;margin-bottom:8px;">DRIVER</p>
                 <p style="font-family:var(--vm-fs);font-size:48px;font-weight:300;color:var(--vm-z2);line-height:1;">Z2</p>
                 <p style="font-family:var(--vm-fd);font-size:13px;color:rgba(244,244,242,0.60);margin-top:4px;">Resilience Network</p>
               </div>
@@ -4354,7 +4354,7 @@ a:focus-visible {
 
           <!-- Stage 3: Three category cards fan out -->
           <div class="b2c-stage" id="b2cStage3">
-            <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.15em;color:var(--vm-teal);margin-bottom:20px;">STAGE 4: TERRAIN SUPPORT CONSIDERATIONS</p>
+            <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.15em;color:var(--vm-teal);margin-bottom:20px;">STAGE 4: Personalised Terrain Management Protocol</p>
 
             <!-- R2-E5: Score comparison ring -->
             <div class="b2c-score-ring-wrap" id="b2cScoreRing">
@@ -4546,8 +4546,8 @@ a:focus-visible {
         <div class="b2c-split-right">
           <p style="font-family:var(--vm-fm);font-size:9px;letter-spacing:0.15em;color:var(--vm-gold);margin-bottom:16px;">PRACTITIONER-READY OUTPUT</p>
           <div class="b2c-split-output">
-            <p style="font-family:var(--vm-fs);font-size:20px;font-weight:600;color:var(--vm-white);margin-bottom:8px;">Terrain Support Considerations</p>
-            <p style="font-family:var(--vm-fd);font-size:12px;color:rgba(244,244,242,0.50);margin-bottom:16px;">Z2 Resilience Network: Highest burden zone</p>
+            <p style="font-family:var(--vm-fs);font-size:20px;font-weight:600;color:var(--vm-white);margin-bottom:8px;">Personalised Terrain Management Protocol</p>
+            <p style="font-family:var(--vm-fd);font-size:12px;color:rgba(244,244,242,0.50);margin-bottom:16px;">Z2 Resilience Network: Driver</p>
             <div class="b2c-output-cat"><span class="b2c-output-icon">&#127807;</span><span>Dietary: 3 considerations</span></div>
             <div class="b2c-output-cat"><span class="b2c-output-icon">&#128138;</span><span>Supplemental: 3 considerations</span></div>
             <div class="b2c-output-cat"><span class="b2c-output-icon">&#127769;</span><span>Lifestyle: 3 considerations</span></div>

@@ -384,7 +384,7 @@ a{color:inherit;text-decoration:none}
 <section class="sp-quote-section">
   <div class="sp-reveal">
     <p class="sp-quote-text">"Treat the rings, not just the zones. Biological treatment alone will plateau if the outer rings are not addressed. A protocol without SPHERE&#8482; is incomplete."</p>
-    <p class="sp-t01" style="margin-top:20px">T-01: Terrain Support Considerations. For practitioner use only. Not a diagnostic tool.</p>
+    <p class="sp-t01" style="margin-top:20px">T-01: Personalised Terrain Management Protocol. For practitioner use only. Not a diagnostic tool.</p>
   </div>
 </section>
 
@@ -428,7 +428,7 @@ a{color:inherit;text-decoration:none}
         <div class="sp-warning-card" id="sp-warning-card">
           <p class="sp-warning-title">Protocol Completeness Flag</p>
           <p class="sp-warning-body">Protocol addresses biological terrain only. SPHERE&#8482; indicates critical lifestyle factors unaddressed. Consider adding lifestyle intervention to prevent treatment resistance.</p>
-          <p class="sp-t01">T-01: Terrain Support Considerations. All outputs require practitioner review.</p>
+          <p class="sp-t01">T-01: Personalised Terrain Management Protocol. All outputs require practitioner review.</p>
         </div>
       </div>
     </div>
@@ -523,7 +523,7 @@ a{color:inherit;text-decoration:none}
       <div class="sp-hm-tt-level" id="sphere-heatmap-tt-level"></div>
       <div class="sp-hm-tt-mech" id="sphere-heatmap-tt-mech"></div>
     </div>
-    <p class="sp-t01" style="margin-top:16px">T-01: Terrain Support Considerations. Impact strengths are approximate clinical relevance indicators.</p>
+    <p class="sp-t01" style="margin-top:16px">T-01: Personalised Terrain Management Protocol. Impact strengths are approximate clinical relevance indicators.</p>
   </div>
 </section>
 
@@ -559,7 +559,7 @@ a{color:inherit;text-decoration:none}
         <!-- Injected by JS -->
       </table>
     </div>
-    <p class="sp-t01" style="margin-top:16px">T-01: Terrain Support Considerations. Timeline data is illustrative only.</p>
+    <p class="sp-t01" style="margin-top:16px">T-01: Personalised Terrain Management Protocol. Timeline data is illustrative only.</p>
   </div>
 </section>
 
@@ -588,7 +588,7 @@ a{color:inherit;text-decoration:none}
     {id:6,name:'Medication Terrain (MedTerrain)',colour:'#7B5EA7',desc:'Medication-terrain interaction data. Phase 1: manual entry. Provides node-level impact annotations (e.g. "also impacts N7").',orbit:'Stage 2 manual register',zones:['Z1','Z3','Z5']},
     {id:7,name:'Environmental Context',colour:'#5F7C6C',desc:'Toxin exposure, mould, heavy metals, occupational hazards. Maps to Detoxification Trident (Z4).',orbit:'Stage 2 capture',zones:['Z4','Z1']},
     {id:8,name:'Psychological / Relational',colour:'#5F7C6C',desc:'Stress, relationships, mental health factors influencing terrain. ACE score integration where available.',orbit:'Stage 2 capture',zones:['Z2','Z5']},
-    {id:9,name:'Temporal / Generational',colour:'#D4B870',desc:'Where TRACE operates. Childhood illness history, generational health patterns, cascade age estimation. Informs DRD (highest burden zone) temporal precedence.',orbit:'Stage 3 TRACE analysis',zones:['Z1','Z2','Z3','Z4','Z5']},
+    {id:9,name:'Temporal / Generational',colour:'#D4B870',desc:'Where TRACE operates. Childhood illness history, generational health patterns, cascade age estimation. Informs DRD (Driver) temporal precedence.',orbit:'Stage 3 TRACE analysis',zones:['Z1','Z2','Z3','Z4','Z5']},
     {id:10,name:'Circadian / Seasonal',colour:'#D4B870',desc:'Sleep-wake patterns, seasonal symptom variation, chronobiology. Links to hormonal terrain (Z5).',orbit:'Stage 2 capture',zones:['Z5','Z1']}
   ];
 
@@ -604,7 +604,7 @@ a{color:inherit;text-decoration:none}
     {label:'Protocol Completeness',title:'Protocol Completeness Flag',body:'Protocol addresses biological terrain only. SPHERE indicates critical lifestyle factors unaddressed. Consider adding lifestyle intervention to prevent treatment resistance.'},
     {label:'ORBIT Integration',title:'ORBIT&#8482; Stage Integration',body:'SPHERE data captured at ORBIT Stage 2, processed at Stage 3. Ring RED flags appear in SessionBrief. Ensures no ring is overlooked during clinical workflow.'},
     {label:'MedTerrain (Ring 6)',title:'Medication Terrain',body:'Automated screening is Phase 2. Phase 1 is manual medication register. Provides node-level impact annotations to prevent medication-terrain interference.'},
-    {label:'TRACE and Ring 9',title:'TRACE&#8482; and the Temporal Ring',body:'The Temporal / Generational ring is where TRACE operates. Childhood illness history and generational patterns inform DRD (highest burden zone) temporal precedence.'}
+    {label:'TRACE and Ring 9',title:'TRACE&#8482; and the Temporal Ring',body:'The Temporal / Generational ring is where TRACE operates. Childhood illness history and generational patterns inform DRD (Driver) temporal precedence.'}
   ];
 
   var ZONE_COLOURS = {Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
@@ -3152,7 +3152,7 @@ a{color:inherit;text-decoration:none}
 <div class="sphere-radar-wrap">
   <p class="vm-eyebrow">SPHERE-I9: Ring Contribution Radar</p>
   <h2 class="vm-heading" id="sphere-radar-title">Ring Burden Radar</h2>
-  <p class="vm-subtext">Visualise current ring burden against target state. The gap between gold (current) and teal (target) reveals intervention priority. Highest burden zone drives protocol sequencing.</p>
+  <p class="vm-subtext">Visualise current ring burden against target state. The gap between gold (current) and teal (target) reveals intervention priority. Driver drives protocol sequencing.</p>
   <div class="sphere-radar-card">
     <div class="sphere-radar-chart-wrap" id="sphere-radar-chart-wrap" style="position:relative">
       <svg id="sphere-radar-svg" viewBox="0 0 400 400" role="img" aria-label="Radar chart showing ring burden across 10 SPHERE rings"></svg>
@@ -3166,8 +3166,8 @@ a{color:inherit;text-decoration:none}
 <!-- ═══ SPHERE-I10: Ring Intervention Planner ═══ -->
 <section class="sphere-interv-section" id="sphere-interv-section" aria-labelledby="sphere-interv-title">
 <div class="sphere-interv-wrap">
-  <p class="vm-eyebrow">SPHERE-I10: Terrain Support Considerations</p>
-  <h2 class="vm-heading" id="sphere-interv-title">Terrain Support Considerations</h2>
+  <p class="vm-eyebrow">SPHERE-I10: Personalised Terrain Management Protocol</p>
+  <h2 class="vm-heading" id="sphere-interv-title">Personalised Terrain Management Protocol</h2>
   <p class="vm-subtext">Set each ring status. RED rings surface specific intervention categories. AMBER rings show lighter monitoring considerations. For practitioner use only.</p>
   <div class="sphere-interv-card">
     <div class="sphere-interv-t01">For practitioner use only. Not a diagnostic tool.</div>
@@ -3580,7 +3580,7 @@ a{color:inherit;text-decoration:none}
     if(copyBtn){
       copyBtn.addEventListener("click", function(){
         var states = getStates();
-        var lines = ["SPHERE Terrain Support Considerations", ""];
+        var lines = ["SPHERE Personalised Terrain Management Protocol", ""];
         for(var i = 0; i < 10; i++){
           if(states[i] === 2){
             lines.push("Ring " + (i + 1) + " (" + RING_NAMES[i] + ") - RED: " + INTERVENTIONS_RED[i]);

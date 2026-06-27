@@ -38,7 +38,7 @@
 <div class="vm-ov1-dim-num">Dimension 1</div>
 <div class="vm-ov1-dim-name">Zone Pattern</div>
 <div class="vm-ov1-dim-value">Patient B T2</div>
-<div class="vm-ov1-dim-detail">All five zones active. Z5 highest burden (70), Z1 second (68). DRD designation: highest burden zone.</div>
+<div class="vm-ov1-dim-detail">All five zones active. Z5 highest burden (70), Z1 second (68). DRD designation: Driver.</div>
 </div>
 <div class="vm-ov1-dim-card" data-zone="z2">
 <div class="vm-ov1-dim-num">Dimension 2</div>
@@ -126,14 +126,14 @@
 <div class="vm-ov2-card-title">Hidden Driver</div>
 <div class="vm-ov2-card-summary">Is a VOLTERRAIN driver active that was not in the initial inventory?</div>
 <div class="vm-ov2-card-toggle">+ expand</div>
-<div class="vm-ov2-card-detail">Consider environmental exposures, stealth infections, or undisclosed stressors not captured in the initial terrain assessment. DRD&#8482; designation: highest burden zone. Review whether cascade stacks have shifted since baseline. S4 THEORETICAL (excluded from DRD trace D-12). S6 UNIDIRECTIONAL: Z1 to Z3 only.</div>
+<div class="vm-ov2-card-detail">Consider environmental exposures, stealth infections, or undisclosed stressors not captured in the initial terrain assessment. DRD&#8482; designation: Driver. Review whether cascade stacks have shifted since baseline. S4 THEORETICAL (excluded from DRD trace D-12). S6 UNIDIRECTIONAL: Z1 to Z3 only.</div>
 </div>
 <div class="vm-ov2-card" data-border="purple" id="vm-ov2-c3" onclick="window.vmOv2Toggle('vm-ov2-c3')">
 <div class="vm-ov2-card-num">Cause 3</div>
 <div class="vm-ov2-card-title">Compliance</div>
 <div class="vm-ov2-card-summary">Is the patient executing terrain support as agreed?</div>
 <div class="vm-ov2-card-toggle">+ expand</div>
-<div class="vm-ov2-card-detail">Assess adherence to terrain support considerations (T-01). Include supplement timing, dietary modifications, and lifestyle adjustments. Non-compliance is the most common cause of non-response and should be explored without judgement.</div>
+<div class="vm-ov2-card-detail">Assess adherence to Personalised Terrain Management Protocol (T-01). Include supplement timing, dietary modifications, and lifestyle adjustments. Non-compliance is the most common cause of non-response and should be explored without judgement.</div>
 </div>
 <div class="vm-ov2-card" data-border="sage" id="vm-ov2-c4" onclick="window.vmOv2Toggle('vm-ov2-c4')">
 <div class="vm-ov2-card-num">Cause 4</div>
@@ -206,7 +206,7 @@
 <div class="vm-ov3-card vm-ov3-active" data-grade="a" id="vm-ov3-ga">
 <div class="vm-ov3-grade-label">Grade A</div>
 <div class="vm-ov3-card-title">Adequate</div>
-<div class="vm-ov3-card-desc">Terrain absorption capacity is sufficient. Standard terrain support considerations apply. No escalation required.</div>
+<div class="vm-ov3-card-desc">Terrain absorption capacity is sufficient. Standard Personalised Terrain Management Protocol apply. No escalation required.</div>
 </div>
 <div class="vm-ov3-card" data-grade="b" id="vm-ov3-gb">
 <div class="vm-ov3-grade-label">Grade B</div>
@@ -304,7 +304,7 @@
 <div class="vm-ov4-card" data-accent="gold" data-state="prog-destab" id="vm-ov4-s2" onclick="window.vmOv4Select('prog-destab')">
 <div class="vm-ov4-card-label">Card 2</div>
 <div class="vm-ov4-card-title">Progressively Destabilising</div>
-<div class="vm-ov4-card-desc">Worsening trajectory. APEX&#8482; tier escalates. Review cascade stack activation and DRD&#8482; designation (highest burden zone).</div>
+<div class="vm-ov4-card-desc">Worsening trajectory. APEX&#8482; tier escalates. Review cascade stack activation and DRD&#8482; designation (Driver).</div>
 <div class="vm-ov4-apex-mod">APEX budget modifier: ESCALATE to next tier.</div>
 </div>
 <div class="vm-ov4-card" data-accent="red" data-state="acute-destab" id="vm-ov4-s3" onclick="window.vmOv4Select('acute-destab')">
@@ -400,7 +400,7 @@
 <div class="vm-ov5-gate-num">G2</div>
 <div class="vm-ov5-gate-body">
 <div class="vm-ov5-gate-name">FLINT&#8482; Pipeline Output</div>
-<div class="vm-ov5-gate-desc">Receives L1 through L5 layer outputs. Node scores, zone composites, cascade stacks, DRD&#8482; designation (highest burden zone), APEX&#8482; sequencing.</div>
+<div class="vm-ov5-gate-desc">Receives L1 through L5 layer outputs. Node scores, zone composites, cascade stacks, DRD&#8482; designation (Driver), APEX&#8482; sequencing.</div>
 </div>
 </div>
 <div class="vm-ov5-gate" data-accent="gold">
@@ -421,7 +421,7 @@
 <div class="vm-ov5-gate-num">G5</div>
 <div class="vm-ov5-gate-body">
 <div class="vm-ov5-gate-name">Intervention Tolerance</div>
-<div class="vm-ov5-gate-desc">Assesses terrain absorption capacity (GRADE&#8482; state). Adjusts terrain support considerations intensity accordingly.</div>
+<div class="vm-ov5-gate-desc">Assesses terrain absorption capacity (GRADE&#8482; state). Adjusts Personalised Terrain Management Protocol intensity accordingly.</div>
 </div>
 </div>
 <div class="vm-ov5-gate" data-accent="gold">
@@ -872,7 +872,7 @@
 <input type="checkbox" class="vm-ov10-checkbox" id="vm-ov10-s4-toggle" checked onchange="window.vmOv10Toggle()">
 <label class="vm-ov10-toggle-label" for="vm-ov10-s4-toggle">Include S4 (S4 Z5 to Z2 THEORETICAL, S6 Z1 to Z3 UNIDIRECTIONAL)</label>
 </div>
-<div class="vm-ov10-note" id="vm-ov10-note">S4 excluded from DRD (Highest burden zone) trace but NOT from evidence floor calculation</div>
+<div class="vm-ov10-note" id="vm-ov10-note">S4 excluded from DRD (Driver) trace but NOT from evidence floor calculation</div>
 </div>
 </section>
 <script>

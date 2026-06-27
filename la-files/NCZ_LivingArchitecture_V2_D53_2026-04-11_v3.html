@@ -2811,11 +2811,11 @@ window.addEventListener('DOMContentLoaded',function(){
       {term:'Cascade Stack',def:'A directional pathway through which dysfunction propagates from one zone to another. Each stack has a defined velocity (FAST, MEDIUM, or SLOW) and evidence tier. S4 is theoretical; S6 is unidirectional in nature.'},
       {term:'DRD (Dysfunction Relay Dynamics)',def:'The study of how dysfunction propagates through cascade stacks across the NCZ architecture. DRD maps reveal where pressure accumulates and which zones amplify or absorb it.'},
       {term:'Evidence Tier',def:'The confidence classification assigned to each cascade stack: Established (clinically validated), Emerging (supported by literature), or Theoretical (mechanistically plausible but unvalidated).'},
-      {term:'Highest Burden Zone',def:'The zone carrying the greatest cumulative dysfunction load from both direct score deficits and incoming cascade pressure. Typically the primary clinical target.'},
+      {term:'Driver',def:'The zone carrying the greatest cumulative dysfunction load from both direct score deficits and incoming cascade pressure. Typically the primary clinical target.'},
       {term:'MES (Metabolic Engine Score)',def:'The foundational metabolic layer. Not scored independently. Never absent. MES underpins all seven nodes and, by extension, every zone in the architecture.'},
       {term:'NCZ (Node-Cascade Zones)',def:'The proprietary VitalMatrix architecture that maps biological dysfunction through seven nodes organised into five zones, connected by six cascade stacks. NCZ reveals the architecture beneath symptoms.'},
       {term:'Node',def:'A discrete biomarker cluster representing a specific physiological domain. The NCZ framework contains seven nodes (N1\u2013N7), each mapped to one or more zones.'},
-      {term:'Secondary Burden Zone',def:'The zone receiving the second-highest cascade pressure. Often the propagation partner of the highest burden zone and a key consideration in clinical sequencing.'},
+      {term:'Secondary Burden Zone',def:'The zone receiving the second-highest cascade pressure. Often the propagation partner of the Driver and a key consideration in clinical sequencing.'},
       {term:'TerrainLock',def:'A self-reinforcing cascade loop: Z2 \u2192 Z1 \u2192 Z5 \u2192 Z2 (with S4 theoretical). Once active, dysfunction circulates without external input. Breaking TerrainLock is the primary architectural intervention.'},
       {term:'Threshold',def:'The numeric boundary below which a zone enters active cascade participation. Z1\u2013Z4 share a threshold of 40. Z5 holds a lower threshold of 32, reflecting its distinct sensitivity.'},
       {term:'Zone',def:'A functional grouping of nodes representing a clinical domain. The five zones (Z1\u2013Z5) form the macro-structure of the NCZ architecture, each with defined thresholds and cascade relationships.'}
@@ -3769,7 +3769,7 @@ window.addEventListener('DOMContentLoaded',function(){
       {x:200,y:20,w:200,h:40,text:'Patient presents',layer:''},
       {x:200,y:100,w:200,h:40,text:'Map to nodes (L1)',layer:'FLINT L1'},
       {x:200,y:180,w:200,h:40,text:'Aggregate to zones (L2)',layer:'FLINT L2'},
-      {x:200,y:280,w:200,h:40,text:'Identify highest burden zone',layer:'FLINT L3'},
+      {x:200,y:280,w:200,h:40,text:'Identify Driver',layer:'FLINT L3'},
       {x:200,y:360,w:200,h:40,text:'Trace cascades',layer:'FLINT L4'},
       {x:200,y:440,w:200,h:40,text:'Generate terrain support (T-01)',layer:'FLINT L5'},
       {x:200,y:480,w:200,h:30,text:'Practitioner decides',layer:''}
@@ -3886,7 +3886,7 @@ window.addEventListener('DOMContentLoaded',function(){
       {conv:'Symptoms listed individually',ncz:'Mapped to 7 clinical nodes',col:Z2},
       {conv:'Systems assessed in isolation',ncz:'Aggregated into 5 functional zones',col:Z1},
       {conv:'No directional modelling',ncz:'6 cascade stacks with velocity',col:Z5},
-      {conv:'Treatment by symptom',ncz:'Highest burden zone designation',col:Z3},
+      {conv:'Treatment by symptom',ncz:'Driver designation',col:Z3},
       {conv:'No longitudinal comparison',ncz:'DeltaScan: terrain-over-time',col:Z4},
       {conv:'Manual documentation',ncz:'Automatic governance (FLINT)',col:Z1}
     ];
