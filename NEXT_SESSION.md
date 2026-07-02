@@ -9,7 +9,7 @@
 - Privacy/terms redesigned (dark system, Google Fonts CDN removed)
 - Contact form: Formspree endpoint
 - HowItWorks hamburger JS handler added
-- Browne Jacobson purged (D-105/D-110)
+- [purged legal firm -- D-105] purged (D-105/D-110)
 - "FMF Compatible" -> "Aligned"
 - 404.html, robots.txt, sitemap.xml created
 - 5 commits pushed, auto-deploy active

@@ -10,8 +10,8 @@
 |------|--------|----------------|
 | W08 written clearance | PENDING | Must be received before any file goes to Hostinger |
 | MHRA SaMD classification | PENDING (D-86) | All T-01 restrictions remain active |
-| FCA clearance (P5 Pricing) | PENDING | One email to Browne Jacobson |
-| Privacy page (P12) | PENDING | Browne Jacobson clearance required |
+| FCA clearance (P5 Pricing) | PENDING | One email to [purged legal firm -- D-105] |
+| Privacy page (P12) | PENDING | [purged legal firm -- D-105] clearance required |
 | Homepage 12 corrections | PENDING | SA tribunal gate active |
 
 ## DO NOT DEPLOY until all gates above are cleared.
@@ -33,7 +33,7 @@
 | `/book-discovery/` | BookDiscoveryCall_latest.html | Prussian Blue | P9 |
 | `/clinical-ethics/` | ClinicalEthics_latest.html | Deep Teal | P10 |
 | `/terrain-intelligence/` | TerrainIntelligence_latest.html | Deep Teal | P11 |
-| `/privacy/` | Privacy_P3_2026-05-02.html | Charcoal | P12 (Browne Jacobson) |
+| `/privacy/` | Privacy_P3_2026-05-02.html | Charcoal | P12 ([purged legal firm -- D-105]) |
 | `/cascadeatlas/` | CascadeAtlas_latest.html | Prussian Blue | P13 (SA gate) |
 | `/ncz-architecture/` | NCZArchitecture_latest.html | Deep Teal | P14 (SA gate) |
 | `/trust/` | TrustSafety_latest.html | Prussian Blue | P15 |
@@ -41,7 +41,7 @@
 | `/contact/` | Contact_latest.html | Charcoal | P20 |
 | `/cookies/` | CookiePolicy_latest.html | Charcoal | P21 |
 | `/mission/` | Mission_latest.html | Prussian Blue | P9b |
-| `/privacy/` | Privacy_latest.html | Charcoal | P12 (Browne Jacobson gate) |
+| `/privacy/` | Privacy_latest.html | Charcoal | P12 ([purged legal firm -- D-105] gate) |
 | `/cookies/` | CookiePolicy_latest.html | Charcoal | P21 |
 | `/platform-demo/` | PlatformDemo_latest.html | Charcoal | P16 |
 | `/lead-gen/` | LeadGenLandingPage_latest.html | Prussian Blue | P17 |

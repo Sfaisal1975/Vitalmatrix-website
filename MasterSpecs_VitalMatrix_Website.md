@@ -126,7 +126,7 @@
   - Light background #FAFAF7
   - Centred quote hero: "Every case that gets better..."
   - Three dark closing cards: For the Practitioner / For the Case / For the Field
-  - Final CTA block with three buttons + Browne Jacobson + ICO ZC101813
+  - Final CTA block with three buttons + [purged legal firm -- D-105] + ICO ZC101813
   - GMC mandatory clinical statement present
 - "Built for functional medicine. Not adapted to it." — NOT FOUND in file, no action needed
 
