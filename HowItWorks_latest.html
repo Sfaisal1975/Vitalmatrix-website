@@ -6498,5 +6498,29 @@ a:focus-visible {
 <script src="vm-silicon-valley.js" defer></script>
 <script src="vm-silicon-valley-v2.js" defer></script>
 <script src="vm-silicon-valley-v3.js" defer></script>
+<script>
+(function(){
+  var hamburger = document.querySelector('.vm-nav-hamburger');
+  var navLinks = document.querySelector('.vm-nav-links');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function() {
+      var open = navLinks.style.display === 'flex';
+      navLinks.style.display = open ? 'none' : 'flex';
+      navLinks.style.flexDirection = 'column';
+      navLinks.style.position = 'absolute';
+      navLinks.style.top = '100%';
+      navLinks.style.left = '0';
+      navLinks.style.right = '0';
+      navLinks.style.background = '#0D2B4E';
+      navLinks.style.padding = open ? '0' : '24px';
+      navLinks.style.zIndex = '999';
+      hamburger.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+    hamburger.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') hamburger.click();
+    });
+  }
+})();
+</script>
 </body>
 </html>

@@ -645,7 +645,9 @@ body{
     <h2 class="vm-reveal">Not ready to book? <em style="color:#C9A84C;font-style:italic;">Send a message.</em></h2>
     <p class="vm-form-intro vm-reveal">Use this form for general enquiries. For the fastest response on platform questions, book a discovery call.</p>
 
-    <form action="mailto:hello@vitalmatrix.co.uk" method="POST" enctype="text/plain">
+    <form action="https://formspree.io/f/hello@vitalmatrix.co.uk" method="POST">
+      <input type="hidden" name="_subject" value="VitalMatrix Contact Form">
+      <input type="hidden" name="_next" value="https://vitalmatrix.co.uk/contact/">
 
       <div class="vm-field">
         <label class="vm-label" for="vm-name">Full Name</label>
