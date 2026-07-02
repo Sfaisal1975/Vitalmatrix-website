@@ -742,7 +742,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 @media(max-width:768px){
   #ncz-f9-cascade-info{grid-template-columns:1fr}
   #ncz-f9-orbit{width:240px;height:240px}
-  .ncz-f9-orbit-node{width:40px;height:40px;font-size:0.5rem}
+  .ncz-f9-orbit-node{width:40px;height:48px;font-size:0.5rem}
   @keyframes ncz-f9-orbit-spin{0%{transform:rotate(0deg) translateX(85px) rotate(0deg)}100%{transform:rotate(360deg) translateX(85px) rotate(-360deg)}}
 }
 </style>
@@ -4018,7 +4018,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
   cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:12px}
 .vm-la2-node:hover,.vm-la2-node.active{border-color:var(--z2);background:rgba(26,122,138,0.12)}
 .vm-la2-node-id{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;
-  width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  width:36px;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;
   background:rgba(255,255,255,0.08);flex-shrink:0}
 .vm-la2-node-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:500}
 .vm-la2-node-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
@@ -4670,7 +4670,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
   #ncz-sv1-section *{transition:none!important}
 }
 </style>
-<div style="min-height:40px;clear:both"></div>
+<div style="min-height:48px;clear:both"></div>
 <div class="ncz-sv1-panel" id="ncz-sv1-panel" role="complementary" aria-label="Terrain State Bridge">
   <div class="ncz-sv1-panel-head" id="ncz-sv1-toggle" tabindex="0" aria-expanded="true" aria-controls="ncz-sv1-body">
     <div>
@@ -4889,13 +4889,13 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 #ncz-sv2-section .ncz-sv2-tagline{font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,244,242,0.3);margin-bottom:40px;max-width:640px}
 #ncz-sv2-overlay{display:none;position:sticky;top:0;width:100%;z-index:998;background:rgba(10,15,20,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:40px 24px;border-radius:12px;border:1px solid rgba(201,168,76,0.15);margin-top:24px}
 #ncz-sv2-overlay.ncz-sv2-show{display:block;animation:ncz-sv2-fadeIn 0.3s ease-out}
-#ncz-sv2-overlay .ncz-sv2-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(244,244,242,0.6);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
+#ncz-sv2-overlay .ncz-sv2-close{position:absolute;top:16px;right:16px;width:36px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(244,244,242,0.6);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
 #ncz-sv2-overlay .ncz-sv2-close:hover{background:rgba(255,255,255,0.08)}
 #ncz-sv2-section .ncz-sv2-pipeline{display:flex;flex-direction:column;gap:0;max-width:900px;margin:0 auto}
 #ncz-sv2-section .ncz-sv2-layer{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;opacity:0.2;transition:opacity 0.5s,border-color 0.5s,background 0.5s}
 #ncz-sv2-section .ncz-sv2-layer.ncz-sv2-active{opacity:1;border-color:#C9A84C;background:rgba(201,168,76,0.05)}
 #ncz-sv2-section .ncz-sv2-layer.ncz-sv2-done{opacity:0.6;border-color:rgba(201,168,76,0.2)}
-#ncz-sv2-section .ncz-sv2-connector{height:36px;display:flex;align-items:center;justify-content:center}
+#ncz-sv2-section .ncz-sv2-connector{height:48px;display:flex;align-items:center;justify-content:center}
 #ncz-sv2-section .ncz-sv2-cln{width:2px;height:100%;background:rgba(255,255,255,0.06)}
 #ncz-sv2-section .ncz-sv2-cln.ncz-sv2-cln-gold{background:repeating-linear-gradient(to bottom,#C9A84C 0px,#C9A84C 6px,transparent 6px,transparent 12px)}
 #ncz-sv2-section .ncz-sv2-lhdr{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
@@ -6066,7 +6066,7 @@ h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600}
 #vm-ncz2-f1 svg text{font-family:'DM Mono',monospace;font-size:11px;fill:#E8E0D0}
 #vm-ncz2-f1 svg .vm-ncz2-zone-circle{cursor:pointer;transition:opacity .3s}
 #vm-ncz2-f1 svg line{transition:opacity .3s,stroke-width .3s}
-.vm-ncz2-info-box{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:12px 18px;margin-top:16px;font-size:13px;min-height:40px;max-width:520px;text-align:center}
+.vm-ncz2-info-box{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:12px 18px;margin-top:16px;font-size:13px;min-height:48px;max-width:520px;text-align:center}
 /* F2 */
 #vm-ncz2-f2{background:#0D2B4E}
 #vm-ncz2-f2 .vm-ncz2-builder{display:flex;gap:32px;flex-wrap:wrap;justify-content:center;width:100%;max-width:900px}
@@ -6088,7 +6088,7 @@ h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600}
 /* F3 */
 #vm-ncz2-f3{background:#0C4452}
 .vm-ncz2-matrix{border-collapse:collapse;margin-top:8px}
-.vm-ncz2-matrix th,.vm-ncz2-matrix td{width:72px;height:38px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:opacity .25s,outline .2s}
+.vm-ncz2-matrix th,.vm-ncz2-matrix td{width:72px;height:48px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:opacity .25s,outline .2s}
 .vm-ncz2-matrix th{background:rgba(0,0,0,.3);font-size:12px}
 .vm-ncz2-matrix td.vm-ncz2-active{opacity:1}
 .vm-ncz2-matrix td.vm-ncz2-inactive{background:rgba(0,0,0,.25)}

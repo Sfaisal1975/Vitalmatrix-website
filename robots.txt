@@ -1,8 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /la-files/
-Disallow: /redundant_v2/
-Disallow: /extracted_sections/
-Disallow: /sections/
+Disallow: /LocalPreview.html
+Disallow: /hub.html
 
 Sitemap: https://vitalmatrix.co.uk/sitemap.xml

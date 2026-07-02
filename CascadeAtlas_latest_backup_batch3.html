@@ -561,7 +561,7 @@ a { color: var(--vm-gold); text-decoration: none; }
   </div>
   <div id="vm-ca-chain-btns" style="display:none;margin-bottom:12px;"></div>
   <div class="vm-ca-pentagon-wrap"><svg id="vm-ca-f5-svg" viewBox="0 0 420 420"></svg></div>
-  <div id="vm-ca-chain-narr" class="vm-ca-mono" style="font-size:.72rem;color:var(--vm-txts);min-height:40px;margin-top:12px;text-align:center;"></div>
+  <div id="vm-ca-chain-narr" class="vm-ca-mono" style="font-size:.72rem;color:var(--vm-txts);min-height:48px;margin-top:12px;text-align:center;"></div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -1066,11 +1066,11 @@ a { color: var(--vm-gold); text-decoration: none; }
   <div class="vm-ca-eyebrow" style="color:var(--vm-txts);">Practitioner Clinical Decision</div>
   <h2 class="vm-ca-title" style="font-size:1.2rem;color:var(--vm-txts);">Clinical Decisions &mdash; Practitioner Use Only</h2>
   <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
-    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">1. Clinical Interpretation</div><div style="min-height:40px;border-bottom:1px dashed var(--vm-border);"></div></div>
-    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">2. Treatment Decision</div><div style="min-height:40px;border-bottom:1px dashed var(--vm-border);"></div></div>
-    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">3. Referral Decision</div><div style="min-height:40px;border-bottom:1px dashed var(--vm-border);"></div></div>
-    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">4. Follow-up Plan</div><div style="min-height:40px;border-bottom:1px dashed var(--vm-border);"></div></div>
-    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">5. Patient Communication</div><div style="min-height:40px;border-bottom:1px dashed var(--vm-border);"></div></div>
+    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">1. Clinical Interpretation</div><div style="min-height:48px;border-bottom:1px dashed var(--vm-border);"></div></div>
+    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">2. Treatment Decision</div><div style="min-height:48px;border-bottom:1px dashed var(--vm-border);"></div></div>
+    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">3. Referral Decision</div><div style="min-height:48px;border-bottom:1px dashed var(--vm-border);"></div></div>
+    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">4. Follow-up Plan</div><div style="min-height:48px;border-bottom:1px dashed var(--vm-border);"></div></div>
+    <div class="vm-ca-card"><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);margin-bottom:4px;">5. Patient Communication</div><div style="min-height:48px;border-bottom:1px dashed var(--vm-border);"></div></div>
   </div>
 </section>
 
@@ -1553,7 +1553,7 @@ function showDrill(zi){
     var isN6 = nid==='N6';
     var fakeScore = Math.round(scores[zi] * (0.7 + Math.random()*0.6));
     if(isN6) fakeScore = Math.round(fakeScore * 0.7);
-    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;background:rgba(244,244,242,.03);"><div style="width:40px;height:40px;border-radius:50%;border:2px solid '+z.color+';display:flex;align-items:center;justify-content:center;font-family:var(--vm-fm);font-size:.75rem;font-weight:700;color:'+z.color+';">'+nid+'</div><div><div style="font-size:.85rem;font-weight:600;">'+node.name+'</div><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);">Internal: '+fakeScore+(isN6?' (0.7 dampening applied)':'')+'</div></div></div>';
+    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;background:rgba(244,244,242,.03);"><div style="width:40px;height:48px;border-radius:50%;border:2px solid '+z.color+';display:flex;align-items:center;justify-content:center;font-family:var(--vm-fm);font-size:.75rem;font-weight:700;color:'+z.color+';">'+nid+'</div><div><div style="font-size:.85rem;font-weight:600;">'+node.name+'</div><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);">Internal: '+fakeScore+(isN6?' (0.7 dampening applied)':'')+'</div></div></div>';
   }).join('');
   detail.innerHTML = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><div style="width:48px;height:48px;border-radius:50%;background:'+z.color+';display:flex;align-items:center;justify-content:center;font-family:var(--vm-fm);font-size:1rem;font-weight:700;color:#fff;">'+z.id+'</div><div><div style="font-family:var(--vm-fs);font-size:1.2rem;">'+z.name+'</div><div class="vm-ca-mono" style="font-size:.65rem;color:var(--vm-txts);">Internal: '+scores[zi]+' | Display: '+displayScore(scores[zi])+'/10 | Status: '+(isActive(zi)?'Active':isBorderline(zi)?'Borderline':'Inactive')+'</div></div></div><div style="display:flex;flex-direction:column;gap:8px;">'+nodesHtml+'</div>'+(ZONES[zi].nodes.includes('N6')?'<div class="vm-ca-mono" style="font-size:.6rem;color:var(--vm-gold);margin-top:12px;">N6 Communication dampening factor: 0.7 applied to this zone.</div>':'');
 }
@@ -4762,7 +4762,7 @@ button.active{background:#C9A84C;color:#0D2B4E}
 #vm-tl-f13-grid .cell:hover{transform:scale(1.15);z-index:2}
 .cell.gold{background:#C9A84C;color:#0D2B4E}.cell.teal{background:#1A7A8A;color:#fff}.cell.amber{background:#B8860B;color:#fff}
 .star::after{content:" \2605";color:#FFD700;font-size:13px}
-#vm-tl-f13-info{background:#162540;padding:8px 12px;border-radius:4px;margin-top:8px;min-height:36px;font-size:13px}
+#vm-tl-f13-info{background:#162540;padding:8px 12px;border-radius:4px;margin-top:8px;min-height:48px;font-size:13px}
 /* F14 */
 #vm-tl-f14-pent{position:relative;width:340px;height:320px;margin:10px auto}
 .pent-node{position:absolute;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:600;border:2px solid #C9A84C}
@@ -4836,9 +4836,9 @@ button.active{background:#C9A84C;color:#0D2B4E}
 <label class="vm-tl-label">Z-Score<input type="range" id="vm-tl-f16-zscore" min="0" max="100" value="70" style="width:100px;accent-color:#C9A84C"></label>
 </div>
 <div id="vm-tl-f16-viz">
-<div><div class="tone-bar" id="vm-tl-f16-bar1" style="height:40px;background:#1A7A8A"></div><div class="vm-tl-label" style="text-align:center">S1</div></div>
-<div><div class="tone-bar" id="vm-tl-f16-bar2" style="height:40px;background:#C9A84C"></div><div class="vm-tl-label" style="text-align:center">S2</div></div>
-<div><div class="tone-bar" id="vm-tl-f16-bar4" style="height:40px;background:#2E6DB4"></div><div class="vm-tl-label" style="text-align:center">S4*</div></div>
+<div><div class="tone-bar" id="vm-tl-f16-bar1" style="height:48px;background:#1A7A8A"></div><div class="vm-tl-label" style="text-align:center">S1</div></div>
+<div><div class="tone-bar" id="vm-tl-f16-bar2" style="height:48px;background:#C9A84C"></div><div class="vm-tl-label" style="text-align:center">S2</div></div>
+<div><div class="tone-bar" id="vm-tl-f16-bar4" style="height:48px;background:#2E6DB4"></div><div class="vm-tl-label" style="text-align:center">S4*</div></div>
 </div>
 <p class="vm-tl-label">* S4 is THEORETICAL — muted tone with reverb effect</p>
 <p id="vm-tl-f16-access">Accessibility note: audio is supplementary. All information is available visually above.</p>
@@ -5192,7 +5192,7 @@ section{padding:48px 24px;max-width:1100px;margin:0 auto}
 .vm-tl-wf-bar span{position:absolute;right:6px;top:2px;font-family:'DM Mono',monospace;font-size:11px;color:#fff}
 .vm-tl-wf-formula{font-family:'DM Mono',monospace;font-size:11px;color:#8a95a5;margin:6px 0 4px 44px}
 .vm-tl-n6-tag{display:inline-block;background:rgba(212,184,112,0.2);color:var(--z5);font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border-radius:3px;margin-left:4px}
-#vm-tl-wf-impact{margin-top:16px;padding:14px;background:var(--glass);border:1px solid var(--border);border-radius:8px;min-height:40px;font-size:13px;color:#ccc}
+#vm-tl-wf-impact{margin-top:16px;padding:14px;background:var(--glass);border:1px solid var(--border);border-radius:8px;min-height:48px;font-size:13px;color:#ccc}
 /* F19 Alert Panel */
 .vm-tl-alert-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:700px){.vm-tl-alert-grid{grid-template-columns:1fr}}
@@ -8248,7 +8248,7 @@ obs.observe(grid);
 .vm-ov12-banner{text-align:center;font-family:var(--vm-fm);font-size:.7rem;color:rgba(244,244,242,.35);letter-spacing:1.5px;margin-bottom:32px;text-transform:uppercase}
 .vm-ov12-list{display:flex;flex-direction:column;gap:12px;max-width:700px;margin:0 auto 24px}
 .vm-ov12-card{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px 20px;transition:border-color .3s var(--vm-ease)}
-.vm-ov12-indicator{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .3s var(--vm-ease)}
+.vm-ov12-indicator{width:36px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .3s var(--vm-ease)}
 .vm-ov12-indicator.checking{background:rgba(201,168,76,.15);border:2px solid rgba(201,168,76,.4)}
 .vm-ov12-indicator.checking::after{content:"";display:block;width:10px;height:10px;border-radius:50%;background:var(--vm-gold);animation:vm-ov12-spin 1s linear infinite}
 .vm-ov12-indicator.pass{background:rgba(39,174,96,.15);border:2px solid rgba(39,174,96,.5);transform:scale(1)}
@@ -8536,7 +8536,7 @@ table.addEventListener("dblclick",function(){clearHighlights();});
 .vm-ov14-detail-body{max-height:0;overflow:hidden;transition:max-height .4s var(--vm-ease);padding:0 18px}
 .vm-ov14-detail-card.open .vm-ov14-detail-body{max-height:200px;padding:0 18px 14px}
 .vm-ov14-detail-body p{font-family:var(--vm-fd);font-size:.78rem;color:rgba(244,244,242,.55);margin-bottom:6px}
-.vm-ov14-timeline{display:flex;gap:6px;align-items:center;max-width:600px;margin:0 auto;padding:12px 0;min-height:36px;flex-wrap:wrap}
+.vm-ov14-timeline{display:flex;gap:6px;align-items:center;max-width:600px;margin:0 auto;padding:12px 0;min-height:48px;flex-wrap:wrap}
 .vm-ov14-timeline-label{font-family:var(--vm-fm);font-size:.6rem;color:rgba(244,244,242,.35);letter-spacing:1px;text-transform:uppercase;margin-right:8px}
 .vm-ov14-tdot{width:14px;height:14px;border-radius:50%;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 @keyframes vm-ov14-arrow-pulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
@@ -9049,7 +9049,7 @@ if(mql.matches){updateStep(5);}
 .vm-ov17-wrap{max-width:800px;margin:0 auto}
 .vm-ov17-eyebrow{font-family:var(--vm-fm);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--vm-gold);margin-bottom:8px}
 .vm-ov17-heading{font-family:var(--vm-fs);font-size:1.8rem;font-weight:300;color:var(--vm-white);margin-bottom:24px}
-.vm-ov17-progress{background:rgba(255,255,255,.06);border-radius:8px;height:36px;position:relative;overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,255,255,.08)}
+.vm-ov17-progress{background:rgba(255,255,255,.06);border-radius:8px;height:48px;position:relative;overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,255,255,.08)}
 .vm-ov17-progress-fill{height:100%;background:linear-gradient(90deg,rgba(201,168,76,.3),rgba(201,168,76,.6));border-radius:8px;transition:width .6s cubic-bezier(.34,1.56,.64,1);width:0}
 .vm-ov17-progress-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--vm-fm);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;z-index:1}
 .vm-ov17-progress-label.closed{color:#D63030}
@@ -10617,7 +10617,7 @@ obs.observe(document.getElementById("vm-ov27-section"));
 .vm-ov28-row:hover{background:rgba(255,255,255,.04)}
 .vm-ov28-row.dimmed{opacity:.15}
 .vm-ov28-label{font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,244,242,.6);width:90px;flex-shrink:0}
-.vm-ov28-svg-wrap{flex:1;height:40px;position:relative}
+.vm-ov28-svg-wrap{flex:1;height:48px;position:relative}
 .vm-ov28-svg-wrap svg{width:100%;height:100%}
 .vm-ov28-path{stroke-dasharray:1000;stroke-dashoffset:1000;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
 .vm-ov28-path.drawn{stroke-dashoffset:0}
@@ -13017,7 +13017,7 @@ obs42.observe(document.getElementById('vm-ov42-section'));
 .vm-ov43-histogram{display:flex;gap:4px;justify-content:center;align-items:flex-end;height:240px;padding-bottom:30px;position:relative}
 .vm-ov43-bin{display:flex;flex-direction:column-reverse;align-items:center;width:56px;position:relative;height:100%}
 .vm-ov43-bin-label{font-family:'DM Mono',monospace;font-size:.5rem;color:rgba(244,244,242,.4);position:absolute;bottom:-22px;white-space:nowrap}
-.vm-ov43-ball{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.55rem;color:#F4F4F2;font-weight:600;opacity:0;transform:translateY(-200px);cursor:pointer;position:relative}
+.vm-ov43-ball{width:40px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.55rem;color:#F4F4F2;font-weight:600;opacity:0;transform:translateY(-200px);cursor:pointer;position:relative}
 .vm-ov43-ball.vm-ov43-dropped{opacity:1;transform:translateY(0);transition:transform .4s cubic-bezier(.22,.68,.36,1.2),opacity .2s}
 .vm-ov43-threshold{position:absolute;left:0;right:0;border-top:2px dashed rgba(201,168,76,.5);z-index:5;pointer-events:none}
 .vm-ov43-threshold-label{font-family:'DM Mono',monospace;font-size:.5rem;color:#C9A84C;position:absolute;right:4px;top:-14px}
@@ -15222,7 +15222,7 @@ obs58.observe(document.getElementById('vm-ov58-section'));
 .vm-ov59-metrics{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.7);line-height:1.7}
 .vm-ov59-metrics strong{color:#F4F4F2}
 .vm-ov59-nav{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:16px}
-.vm-ov59-arrow{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#F4F4F2;font-size:1.2rem;transition:background .3s}
+.vm-ov59-arrow{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:36px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#F4F4F2;font-size:1.2rem;transition:background .3s}
 .vm-ov59-arrow:hover{background:rgba(201,168,76,.15)}
 .vm-ov59-dots{display:flex;gap:8px}
 .vm-ov59-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:background .3s}
@@ -19282,7 +19282,7 @@ updateCrossTalk();
 .vm-mn24-spring-wrap{position:relative;height:220px;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.04);margin-bottom:1rem;overflow:hidden}
 .vm-mn24-anchor{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:8px;background:#5F7C6C;border-radius:0 0 3px 3px}
 .vm-mn24-coil{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:4px;background:repeating-linear-gradient(180deg,#C9A84C 0px,#C9A84C 3px,transparent 3px,transparent 6px);transition:height 0.5s ease}
-.vm-mn24-weight{position:absolute;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:#1A7A8A;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.6rem;color:#F4F4F2;transition:top 0.5s ease}
+.vm-mn24-weight{position:absolute;left:50%;transform:translateX(-50%);width:40px;height:48px;border-radius:50%;background:#1A7A8A;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.6rem;color:#F4F4F2;transition:top 0.5s ease}
 .vm-mn24-ground{position:absolute;bottom:0;left:0;right:0;height:4px;background:#C0392B;opacity:0.3}
 .vm-mn24-grade-label{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin:0.5rem 0;transition:color 0.4s}
 .vm-mn24-info{font-family:'DM Mono',monospace;font-size:0.7rem;color:#8BA5B8;margin-top:0.5rem}
