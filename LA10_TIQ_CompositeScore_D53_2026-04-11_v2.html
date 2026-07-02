@@ -29,7 +29,7 @@ g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   --z2:#1A7A8A;--z2r:26,122,138;--z2l:#2A9BAD;
   --z3:#7B5EA7;--z3r:123,94,167;--z3l:#9B7EC8;
   --z4:#5F7C6C;--z4r:95,124,108;--z4l:#7A9485;
-  --z5:#D4B870;--z5r:212,184,112;--z5l:#DCC888;
+  --z5:#2E6DB4;--z5r:212,184,112;--z5l:#DCC888;
   --gold:#C9A84C;--gold-l:#D4B86A;--teal:#1A7A8A;--teal-l:#2A9BAD;
   --white:#F4F4F2;--t80:rgba(244,244,242,.80);--t55:rgba(244,244,242,.72);
   --t35:rgba(244,244,242,.55);--t12:rgba(244,244,242,.12);--t06:rgba(244,244,242,.06);
@@ -243,7 +243,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 
 <footer class="page-footer">
   <p><strong>Trademarks:</strong> VOS&#8482; (VitalMatrix Operating System), VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, TerrainRoot&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, COMPASS&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482; and all associated marks are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
-  <p style="margin-top:6px;">MHRA Compliant SaMD. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p style="margin-top:6px;">MHRA DORS Registered SaMD. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
   <p style="margin-top:6px;">GENOME&#8482; Handbook V7 | LA-10 TIQ&#8482; Composite Score | ALB v1.6 (D-46) | D-53 | For practitioner use only. Not a diagnostic tool. VitalMatrix&#8482; is a clinical intelligence platform. | Dr Shahzad Faisal, MBBS, FAAMFM | &copy; 2026 VitalMatrix Ltd | ICO ZC101813</p>
 </footer>
 
@@ -575,7 +575,7 @@ update();
 (function(){
   'use strict';
   var cx=120,cy=120,maxR=90;
-  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zoneColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zoneLabels=['Z1','Z2','Z3','Z4','Z5'];
   var ZONE_SCORES=[72,78,35,48,65]; // default from Mark
   var mode='both'; // 'both','composite','individual'
@@ -1455,7 +1455,7 @@ update();
     {name:'KINETICS',href:'LA5_KINETICS_VelocityBoard_D53_2026-04-11_v2.html',colour:'#2A9BAD',desc:'Cascade velocity classification'},
     {name:'DeltaScan',href:'LA8_DeltaScan_ComparisonView_D53_2026-04-11_v2.html',colour:'#5F7C6C',desc:'T1 vs T2 longitudinal comparison'},
     {name:'TRACE',href:'LA9_TRACE_Timeline_D53_2026-04-11_v2.html',colour:'#7B5EA7',desc:'Temporal reconstruction timeline'},
-    {name:'Terrain Intelligence',href:'../TerrainIntelligence_latest.html',colour:'#D4B870',desc:'Four-layer terrain intelligence overview'}
+    {name:'Terrain Intelligence',href:'../TerrainIntelligence_latest.html',colour:'#2E6DB4',desc:'Four-layer terrain intelligence overview'}
   ];
   var CX=150,CY=150,R=100;
   var ns='http://www.w3.org/2000/svg';
@@ -1470,12 +1470,12 @@ update();
 
   var cc=document.createElementNS(ns,'circle');
   cc.setAttribute('cx',CX);cc.setAttribute('cy',CY);cc.setAttribute('r','28');
-  cc.setAttribute('fill','rgba(46,109,180,.12)');cc.setAttribute('stroke','#D4B870');cc.setAttribute('stroke-width','2');
+  cc.setAttribute('fill','rgba(46,109,180,.12)');cc.setAttribute('stroke','#2E6DB4');cc.setAttribute('stroke-width','2');
   svg.appendChild(cc);
   var ct=document.createElementNS(ns,'text');
   ct.setAttribute('x',CX);ct.setAttribute('y',CY+1);
   ct.setAttribute('text-anchor','middle');ct.setAttribute('dominant-baseline','central');
-  ct.setAttribute('fill','#D4B870');ct.setAttribute('font-family','DM Mono,monospace');ct.setAttribute('font-size','11');ct.setAttribute('font-weight','500');
+  ct.setAttribute('fill','#2E6DB4');ct.setAttribute('font-family','DM Mono,monospace');ct.setAttribute('font-size','11');ct.setAttribute('font-weight','500');
   ct.textContent='TIQ';
   svg.appendChild(ct);
 

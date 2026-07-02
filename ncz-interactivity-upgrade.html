@@ -175,7 +175,7 @@
   (function(){
     var section=document.getElementById('ncz-f10-section');if(!section)return;
     var rows=section.querySelectorAll('.ncz-f10-slider-row');
-    var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
+    var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
     var NZ={N1:['Z2'],N2:['Z2','Z4'],N3:['Z1','Z5'],N4:['Z4','Z5'],N5:['Z3'],N6:['Z1','Z2','Z3','Z5']};
     for(var i=0;i<rows.length;i++){(function(row){var slider=row.querySelector('.ncz-f10-slider');if(!slider)return;var nid=slider.getAttribute('data-node');
     row.addEventListener('mouseenter',function(){var zones=NZ[nid]||[];for(var j=0;j<zones.length;j++){var chip=document.getElementById('ncz-f10-zchip-'+zones[j]);if(chip)chip.style.boxShadow='0 0 12px '+ZC[zones[j]];}});

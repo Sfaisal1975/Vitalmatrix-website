@@ -19,7 +19,7 @@ g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORBIT&#8482; Clinical Workflow | VitalMatrix&#8482; | Clinical Intelligence Platform</title>
+<title>ORBIT&#8482; Clinical Workflow | VitalMatrix&#8482; | Terrain Intelligence Platform</title>
 <meta name="description" content="ORBIT&#8482; Clinical Workflow: 7 orbital stages, 205 features, max 5 visible per stage. What intelligence is available right now, what fires next, and what do I need to decide?">
 <meta name="keywords" content="clinical workflow, ORBIT, functional medicine, terrain intelligence, VitalMatrix, clinical intelligence platform">
 <meta property="og:title" content="ORBIT&#8482; Clinical Workflow | VitalMatrix&#8482;">
@@ -624,7 +624,7 @@ img{display:block;max-width:100%}
 <!-- ═══ FOOTER ═══ -->
 <footer class="orbit-footer">
   <p class="orbit-footer-tm">VOS&#8482; (VitalMatrix Operating System). VitalMatrix&#8482;, NCZ&#8482;, DRD&#8482;, APEX&#8482;, TIQ&#8482;, CIB&#8482;, CascadeIQ&#8482;, FLINT&#8482;, CZR&#8482;, TRACE&#8482;, DeltaScan&#8482;, MedTerrain&#8482;, TerrainLock&#8482;, CascadeAtlas&#8482;, PRISM&#8482;, KINETICS&#8482;, COHERENCE&#8482;, ORBIT&#8482;, SPHERE&#8482;, HERALD&#8482;, BEACON&#8482;, MAPS&#8482;, RECON&#8482;, GENOME&#8482;, ANCHOR&#8482;, AXIS&#8482;, INTAKE&#8482;, VECTOR&#8482;, VERITY&#8482;, VANTAGE&#8482;, VISTA&#8482;, CADENCE&#8482;, TerrainSpiral&#8482;, MODES&#8482;, GRADE&#8482;, NEXUS&#8482; and VAULT&#8482; are trademarks of VitalMatrix Ltd. All rights reserved. ICO ZC101813.</p>
-  <p class="orbit-footer-mhra">MHRA Compliant SaMD. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
+  <p class="orbit-footer-mhra">MHRA DORS Registered SaMD. VitalMatrix&#8482; provides terrain intelligence support for practitioner review. It does not diagnose, prescribe, or replace clinical judgement. ICO ZC101813.</p>
   <p class="orbit-footer-t01">For practitioner use only. Not a diagnostic tool.</p>
   <div>
     <p class="orbit-footer-legal">&copy; 2026 VitalMatrix Ltd. All rights reserved. Clinical intelligence platform. Not a medical device.</p>
@@ -796,7 +796,7 @@ img{display:block;max-width:100%}
     TIMELINE_FEATURES.length = 42;
   }
 
-  var STAGE_COLORS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870','#C9A84C','#1A7A8A'];
+  var STAGE_COLORS = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4','#C9A84C','#1A7A8A'];
   var COMPLEXITY_LEVELS = ['Low','Medium','High','Critical'];
   var COMPLEXITY_COUNTS = [3,4,5,7]; /* features per stage at each complexity */
 
@@ -3473,7 +3473,7 @@ img{display:block;max-width:100%}
   ];
   var names = ['Mark','Sarah','James','Priya','Ahmed','Elena'];
   var bands = ['Low','Medium','High','Critical'];
-  var zoneColours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zoneColours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zoneNames = ['Z1','Z2','Z3','Z4','Z5'];
   var generateBtn = document.getElementById('orbit-scen-generate');
   var pauseBtn = document.getElementById('orbit-scen-pause');
@@ -4291,7 +4291,7 @@ img{display:block;max-width:100%}
     canvas.height = window.innerHeight;
     var ctx = canvas.getContext('2d');
     var particles = [];
-    var colours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870','#F4F4F2'];
+    var colours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4','#F4F4F2'];
     for(var i = 0; i < 120; i++){
       particles.push({
         x: Math.random() * canvas.width,
@@ -4410,7 +4410,7 @@ img{display:block;max-width:100%}
 
 <script>
 (function(){
-  var zoneColours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zoneColours = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zoneNames = ['Z1','Z2','Z3','Z4','Z5'];
   var zoneScores = [55,62,38,30,45];
   var zoneFullNames = ['Metabolic Core','Resilience Network','Neural Adaptive','Endocrine Signalling (endocrine signalling)','Immune Terrain'];
@@ -4488,7 +4488,7 @@ img{display:block;max-width:100%}
       num: 6, name: 'CIB Output', t01: true,
       build: function(){
         var h = '<div class="orbit-preview-mock-title">Clinical Intelligence Brief</div>';
-        h += '<div style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.7;margin-bottom:12px;">Your Resilience Network (Z2) shows the highest current burden at 62. This connects to your Metabolic Core (Z1) at 55, suggesting a cascade pattern. Your Neural Adaptive (Z3) and Immune Terrain (Z5) are within moderate range. Endocrine signalling (Z4) is currently lowest at 30.</div>';
+        h += '<div style="font-size:14px;color:rgba(244,244,242,0.65);line-height:1.7;margin-bottom:12px;">Your Resilience Network (Z2) shows the highest current burden at 62. This connects to your Metabolic Core (Z1) at 55, suggesting a cascade pattern. Your Neural Adaptive (Z3) and Immune Terrain (Z5) are within moderate range. Communication signalling (Z4) is currently lowest at 30.</div>';
         h += '<div class="orbit-preview-reading-badge">Reading Age: 12-14</div>';
         h += '<div class="orbit-preview-mock-row" style="margin-top:12px;"><span class="orbit-preview-mock-label">ProtocolDiff</span><span class="orbit-preview-mock-val">2 protocol adjustments from last session</span></div>';
         return h;
