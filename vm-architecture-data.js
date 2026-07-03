@@ -146,7 +146,7 @@ VM.FONTS = {
    ══════════════════════════════════════════════════════════════════ */
 VM.T01 = {
   drdLabel: 'Highest burden zone',
-  outputTitle: 'Terrain Support Considerations',
+  outputTitle: 'Personalised Terrain Management Protocol',
   openingLine: 'Based on the terrain assessment, the following support considerations are noted for your review.',
   cascadeIqLabel: 'Terrain Resilience',
   contentFilter: 'Supplements, dietary, lifestyle only. Zero pharmaceutical.',
