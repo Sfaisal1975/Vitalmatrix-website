@@ -9,7 +9,7 @@
 - British English in all output and code comments
 - No em dashes anywhere
 - ALB v1.7 governs all architectural decisions
-- Descriptor: "terrain intelligence platform" (D-210)
+- Descriptor: "clinical intelligence platform" (D-235 primary). Terrain form for regulatory/MHRA/DoC (D-210).
 - No CDN dependencies -- all assets offline-capable
 - CSS prefix: --vm-
 - Kill List K1-K14 active
