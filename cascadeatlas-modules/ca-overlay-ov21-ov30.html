@@ -17,9 +17,9 @@
 (function(){
 var stacks=[
 {id:"S1",from:"Z2",to:"Z1",vel:"MEDIUM",dur:2500,colour:"#1A7A8A",toColour:"#C9A84C",dashed:false,badge:"",arrow:""},
-{id:"S2",from:"Z1",to:"Z5",vel:"FAST",dur:1000,colour:"#C9A84C",toColour:"#D4B870",dashed:false,badge:"",arrow:""},
+{id:"S2",from:"Z1",to:"Z5",vel:"FAST",dur:1000,colour:"#C9A84C",toColour:"#2E6DB4",dashed:false,badge:"",arrow:""},
 {id:"S3",from:"Z4",to:"Z1",vel:"SLOW",dur:5000,colour:"#5F7C6C",toColour:"#C9A84C",dashed:false,badge:"",arrow:""},
-{id:"S4",from:"Z5",to:"Z2",vel:"THEORETICAL",dur:2500,colour:"#D4B870",toColour:"#1A7A8A",dashed:true,badge:"THEORETICAL",arrow:""},
+{id:"S4",from:"Z5",to:"Z2",vel:"THEORETICAL",dur:2500,colour:"#2E6DB4",toColour:"#1A7A8A",dashed:true,badge:"THEORETICAL",arrow:""},
 {id:"S5",from:"Z2",to:"Z3",vel:"FAST",dur:1000,colour:"#1A7A8A",toColour:"#7B5EA7",dashed:false,badge:"",arrow:""},
 {id:"S6",from:"Z1",to:"Z3",vel:"MEDIUM",dur:2500,colour:"#C9A84C",toColour:"#7B5EA7",dashed:false,badge:"",arrow:"UNIDIRECTIONAL"}
 ];
@@ -136,7 +136,7 @@ var zones=[
 {id:"Z2",label:"Z2 Resilience Network",colour:"#1A7A8A",score:48,threshold:40,cx:362,cy:168},
 {id:"Z3",label:"Z3 Cardiovascular-Neural",colour:"#7B5EA7",score:30,threshold:40,cx:300,cy:340},
 {id:"Z4",label:"Z4 Detoxification Trident",colour:"#5F7C6C",score:35,threshold:40,cx:100,cy:340},
-{id:"Z5",label:"Z5 Hormonal Terrain",colour:"#D4B870",score:42,threshold:32,cx:38,cy:168}
+{id:"Z5",label:"Z5 Hormonal Terrain",colour:"#2E6DB4",score:42,threshold:32,cx:38,cy:168}
 ];
 var terrainLock=false;
 var frozen=[];
@@ -380,7 +380,7 @@ var zoneData=[
 {id:"Z2",name:"Z2 Resilience Network",colour:"#1A7A8A",score:48},
 {id:"Z3",name:"Z3 Cardiovascular-Neural Axis",colour:"#7B5EA7",score:30},
 {id:"Z4",name:"Z4 Detoxification Trident",colour:"#5F7C6C",score:35},
-{id:"Z5",name:"Z5 Hormonal Terrain Axis",colour:"#D4B870",score:42}
+{id:"Z5",name:"Z5 Hormonal Terrain Axis",colour:"#2E6DB4",score:42}
 ];
 var drdOrder=["Z1","Z2","Z5","Z4","Z3"];
 var stacks=[
@@ -517,7 +517,7 @@ var W=440,H=380;
 var nodes={
 Z2:{x:220,y:50,colour:"#1A7A8A",label:"Z2"},
 Z1:{x:370,y:300,colour:"#C9A84C",label:"Z1"},
-Z5:{x:70,y:300,colour:"#D4B870",label:"Z5"}
+Z5:{x:70,y:300,colour:"#2E6DB4",label:"Z5"}
 };
 var path=["Z2","Z1","Z5"];
 var particles=[];
@@ -649,7 +649,7 @@ document.getElementById("vm-ov25-status").innerHTML="Particles orbiting: S1 &#85
 (function(){
 var nexusStates=["Accumulation","Decompensation","Recovery"];
 var modesModalities=["Dietary","Supplemental","Lifestyle"];
-var zoneAccents=["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#D4B870","#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C"];
+var zoneAccents=["#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C","#2E6DB4","#C9A84C","#1A7A8A","#7B5EA7","#5F7C6C"];
 var cellData=[
 {title:"Accumulation + Dietary",short:"Early burden: dietary triggers",detail:"During accumulation, dietary factors often initiate terrain burden. Focus on elimination of inflammatory triggers and nutrient density optimisation. Zone-aware meal sequencing supports early-stage terrain stabilisation.",direction:"Terrain support: reduce dietary inflammatory load"},
 {title:"Accumulation + Supplemental",short:"Early burden: foundational support",detail:"Foundational micronutrient support during the accumulation phase. Targeted B vitamins, magnesium and zinc to support primary burden zones. Evidence tier: Emerging for multi-zone protocols.",direction:"Terrain support: establish foundational nutrient base"},
@@ -834,7 +834,7 @@ var zones=[
 {id:"Z2",label:"Z2 Resilience",colour:"#1A7A8A",threshold:40,t1:48,t2:35,points:[48,46,42,40,38,35]},
 {id:"Z3",label:"Z3 Cardio-Neural",colour:"#7B5EA7",threshold:40,t1:30,t2:25,points:[30,29,28,27,26,25]},
 {id:"Z4",label:"Z4 Detox Trident",colour:"#5F7C6C",threshold:40,t1:38,t2:32,points:[38,37,36,35,34,32]},
-{id:"Z5",label:"Z5 Hormonal",colour:"#D4B870",threshold:32,t1:42,t2:28,points:[42,40,37,34,30,28]}
+{id:"Z5",label:"Z5 Hormonal",colour:"#2E6DB4",threshold:32,t1:42,t2:28,points:[42,40,37,34,30,28]}
 ];
 var container=document.getElementById("vm-ov28-container");
 var isolatedIdx=null;

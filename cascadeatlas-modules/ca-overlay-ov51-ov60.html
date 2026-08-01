@@ -17,7 +17,7 @@ var zones=[
 {id:'Z2',name:'Resilience Network',colour:'#1A7A8A',th:40,score:48},
 {id:'Z3',name:'Cardiovascular-Neural Axis',colour:'#7B5EA7',th:40,score:30},
 {id:'Z4',name:'Detoxification Trident',colour:'#5F7C6C',th:40,score:35},
-{id:'Z5',name:'Hormonal Terrain Axis',colour:'#D4B870',th:32,score:42}
+{id:'Z5',name:'Hormonal Terrain Axis',colour:'#2E6DB4',th:32,score:42}
 ];
 var container=document.getElementById('vm-ov51-eq');
 var totalEl=document.getElementById('vm-ov51-total');
@@ -126,7 +126,7 @@ updateTotal();
 .vm-ov52-route-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:8px;padding:14px 18px;margin-bottom:10px;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(244,244,242,.7);line-height:1.6;transition:border-color .3s}
 .vm-ov52-route-card.vm-ov52-fastest{border-color:#C9A84C;background:rgba(201,168,76,.08)}
 .vm-ov52-route-card .vm-ov52-badge-gold{display:inline-block;background:rgba(201,168,76,.2);border:1px solid #C9A84C;border-radius:3px;padding:1px 6px;color:#C9A84C;font-size:.55rem;margin-left:8px}
-.vm-ov52-route-card .vm-ov52-badge-theo{display:inline-block;background:rgba(46,109,180,.15);border:1px solid rgba(46,109,180,.4);border-radius:3px;padding:1px 6px;color:#D4B870;font-size:.55rem;margin-left:6px}
+.vm-ov52-route-card .vm-ov52-badge-theo{display:inline-block;background:rgba(46,109,180,.15);border:1px solid rgba(46,109,180,.4);border-radius:3px;padding:1px 6px;color:#2E6DB4;font-size:.55rem;margin-left:6px}
 .vm-ov52-no-path{text-align:center;font-family:'DM Mono',monospace;font-size:.7rem;color:rgba(244,244,242,.5);padding:20px}
 </style>
 <section id="vm-ov52-section">
@@ -151,7 +151,7 @@ updateTotal();
 <script>
 (function(){
 var zoneIds=['Z1','Z2','Z3','Z4','Z5'];
-var colours={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
+var colours={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
 var stacks=[
 {id:'S1',from:'Z2',to:'Z1',vel:'MEDIUM',ms:600,theo:false,label:'S1 MEDIUM'},
 {id:'S2',from:'Z1',to:'Z5',vel:'FAST',ms:300,theo:false,label:'S2 FAST'},
@@ -399,7 +399,7 @@ var zones=[
 {id:'Z2',colour:'#1A7A8A',burden:48,x:280,active:true},
 {id:'Z3',colour:'#7B5EA7',burden:30,x:400,active:false},
 {id:'Z4',colour:'#5F7C6C',burden:35,x:520,active:false},
-{id:'Z5',colour:'#D4B870',burden:42,x:640,active:true}
+{id:'Z5',colour:'#2E6DB4',burden:42,x:640,active:true}
 ];
 var particles=[];
 var mergeY=350;
@@ -699,7 +699,7 @@ var ctx=canvas.getContext('2d');
 var W=800,H=500;
 var cx=400,cy=250,pr=160;
 var zoneIds=['Z1','Z2','Z3','Z4','Z5'];
-var colours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+var colours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
 var burdens=[55,48,30,35,42];
 var thresholds=[40,40,40,40,32];
 var positions=[];
@@ -968,7 +968,7 @@ var stacks=[
 {id:'S6',from:'Z1',to:'Z3',label:'S6: Z1 to Z3 UNIDIRECTIONAL',qual:'UNIDIRECTIONAL'}
 ];
 var zones=['Z1','Z2','Z3','Z4','Z5'];
-var colours={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'};
+var colours={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'};
 var participation={};
 var details={};
 for(var z=0;z<zones.length;z++){participation[zones[z]]=0;details[zones[z]]=[];}
@@ -1089,10 +1089,10 @@ obs58.observe(document.getElementById('vm-ov58-section'));
 <script>
 (function(){
 var snapshots=[
-{title:'T1 Baseline',zones:[{id:'Z1',score:35,colour:'#C9A84C'},{id:'Z2',score:30,colour:'#1A7A8A'},{id:'Z3',score:20,colour:'#7B5EA7'},{id:'Z4',score:25,colour:'#5F7C6C'},{id:'Z5',score:28,colour:'#D4B870'}],metrics:'Active zones: 0 | Active cascades: 0 | TerrainLock: Not detected | Stability: 78 (High)'},
-{title:'T1 Post-Assessment',zones:[{id:'Z1',score:45,colour:'#C9A84C'},{id:'Z2',score:42,colour:'#1A7A8A'},{id:'Z3',score:25,colour:'#7B5EA7'},{id:'Z4',score:30,colour:'#5F7C6C'},{id:'Z5',score:35,colour:'#D4B870'}],metrics:'Active zones: 2 | Active cascades: 2 | TerrainLock: Not detected | Stability: 52 (Moderate)'},
-{title:'T2 Baseline',zones:[{id:'Z1',score:50,colour:'#C9A84C'},{id:'Z2',score:45,colour:'#1A7A8A'},{id:'Z3',score:28,colour:'#7B5EA7'},{id:'Z4',score:33,colour:'#5F7C6C'},{id:'Z5',score:40,colour:'#D4B870'}],metrics:'Active zones: 3 | Active cascades: 3 | TerrainLock: Emerging | Stability: 38 (Low)'},
-{title:'T2 Post-Assessment',zones:[{id:'Z1',score:55,colour:'#C9A84C'},{id:'Z2',score:48,colour:'#1A7A8A'},{id:'Z3',score:30,colour:'#7B5EA7'},{id:'Z4',score:35,colour:'#5F7C6C'},{id:'Z5',score:42,colour:'#D4B870'}],metrics:'Active zones: 3 | Active cascades: 4 | TerrainLock: DETECTED | Stability: 22 (Low)'}
+{title:'T1 Baseline',zones:[{id:'Z1',score:35,colour:'#C9A84C'},{id:'Z2',score:30,colour:'#1A7A8A'},{id:'Z3',score:20,colour:'#7B5EA7'},{id:'Z4',score:25,colour:'#5F7C6C'},{id:'Z5',score:28,colour:'#2E6DB4'}],metrics:'Active zones: 0 | Active cascades: 0 | TerrainLock: Not detected | Stability: 78 (High)'},
+{title:'T1 Post-Assessment',zones:[{id:'Z1',score:45,colour:'#C9A84C'},{id:'Z2',score:42,colour:'#1A7A8A'},{id:'Z3',score:25,colour:'#7B5EA7'},{id:'Z4',score:30,colour:'#5F7C6C'},{id:'Z5',score:35,colour:'#2E6DB4'}],metrics:'Active zones: 2 | Active cascades: 2 | TerrainLock: Not detected | Stability: 52 (Moderate)'},
+{title:'T2 Baseline',zones:[{id:'Z1',score:50,colour:'#C9A84C'},{id:'Z2',score:45,colour:'#1A7A8A'},{id:'Z3',score:28,colour:'#7B5EA7'},{id:'Z4',score:33,colour:'#5F7C6C'},{id:'Z5',score:40,colour:'#2E6DB4'}],metrics:'Active zones: 3 | Active cascades: 3 | TerrainLock: Emerging | Stability: 38 (Low)'},
+{title:'T2 Post-Assessment',zones:[{id:'Z1',score:55,colour:'#C9A84C'},{id:'Z2',score:48,colour:'#1A7A8A'},{id:'Z3',score:30,colour:'#7B5EA7'},{id:'Z4',score:35,colour:'#5F7C6C'},{id:'Z5',score:42,colour:'#2E6DB4'}],metrics:'Active zones: 3 | Active cascades: 4 | TerrainLock: DETECTED | Stability: 22 (Low)'}
 ];
 var track=document.getElementById('vm-ov59-track');
 var dotsEl=document.getElementById('vm-ov59-dots');
@@ -1319,7 +1319,7 @@ var wrap=document.createElement('div');
 wrap.className='vm-ov60-confetti-wrap';
 wrap.style.height='80px';
 wrap.style.position='relative';
-var confettiColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+var confettiColours=['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
 for(var c=0;c<12;c++){
 var dot=document.createElement('div');
 dot.className='vm-ov60-confetti';

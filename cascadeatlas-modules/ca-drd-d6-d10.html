@@ -87,7 +87,7 @@
   if(!canvas) return;
   var ctx = canvas.getContext('2d');
   var W = 520, H = 520, cx = W/2, cy = H/2, R = 160;
-  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zNames = ['Z1','Z2','Z3','Z4','Z5'];
   var zFull = ['Metabolic Energy Axis','Resilience Network','Cardiovascular-Neural Axis','Detoxification Trident','Hormonal Terrain Axis'];
   var stacks = [{from:1,to:0,id:'S1'},{from:0,to:4,id:'S2'},{from:3,to:0,id:'S3'},{from:4,to:1,id:'S4'},{from:1,to:2,id:'S5'},{from:0,to:2,id:'S6'}];
@@ -467,7 +467,7 @@
 (function(){
   var container = document.getElementById('vm-drd-d7-gauges');
   if(!container) return;
-  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zNames = ['Z1','Z2','Z3','Z4','Z5'];
   var d7ReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var d7HasAnimated = false;
@@ -706,7 +706,7 @@
   var grid = document.getElementById('vm-drd-d8-grid');
   var tip = document.getElementById('vm-drd-d8-tip');
   if(!grid) return;
-  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zNames = ['Z1','Z2','Z3','Z4','Z5'];
   var velColors = {FAST:'#4CAF50',MEDIUM:'#FFC107',SLOW:'#F44336'};
   var stackMap = {};
@@ -926,7 +926,7 @@
   if(!canvas) return;
   var ctx = canvas.getContext('2d');
   var W = 520, H = 400;
-  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zNames = ['Z1','Z2','Z3','Z4','Z5'];
 
   var rotY = 0.4;
@@ -1390,7 +1390,7 @@
   var d10ReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!markersEl) return;
 
-  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#D4B870'];
+  var zColors = ['#C9A84C','#1A7A8A','#7B5EA7','#5F7C6C','#2E6DB4'];
   var zNames = ['Z1','Z2','Z3','Z4','Z5'];
   var history = []; // {time, scores, highestIdx, terrainLock}
   var lastHighest = -1;
@@ -1603,7 +1603,7 @@
         <marker id="vm-la1-arr-s1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#1A7A8A" opacity="0.75"/></marker>
         <marker id="vm-la1-arr-s2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#C9A84C" opacity="0.75"/></marker>
         <marker id="vm-la1-arr-s3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#5F7C6C" opacity="0.75"/></marker>
-        <marker id="vm-la1-arr-s4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#D4B870" opacity="0.75"/></marker>
+        <marker id="vm-la1-arr-s4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#2E6DB4" opacity="0.75"/></marker>
         <marker id="vm-la1-arr-s5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#1A7A8A" opacity="0.75"/></marker>
         <marker id="vm-la1-arr-s6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#C9A84C" opacity="0.75"/></marker>
         <filter id="vm-la1-glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -1623,7 +1623,7 @@
       <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#1A7A8A"></span><span class="vm-la1-legend-id" style="color:#1A7A8A">Z2</span> Resilience Network</div>
       <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#7B5EA7"></span><span class="vm-la1-legend-id" style="color:#7B5EA7">Z3</span> Cardiovascular-Neural Axis</div>
       <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#5F7C6C"></span><span class="vm-la1-legend-id" style="color:#5F7C6C">Z4</span> Detoxification Trident</div>
-      <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#D4B870"></span><span class="vm-la1-legend-id" style="color:#D4B870">Z5</span> Hormonal Terrain Axis</div>
+      <div class="vm-la1-legend-item"><span class="vm-la1-legend-dot" style="background:#2E6DB4"></span><span class="vm-la1-legend-id" style="color:#2E6DB4">Z5</span> Hormonal Terrain Axis</div>
     </div>
     <div class="vm-la1-legend-col">
       <div class="vm-la1-legend-title">Stack Qualifiers</div>
@@ -1635,8 +1635,8 @@
 </div>
 <script>
 (function(){
-  var Z={Z1:{x:300,y:80,name:"Metabolic Energy Axis",col:"#C9A84C",nodes:"N3 + N6 (endocrine signalling)",desc:"The metabolic engine. When N6 (endocrine signalling) and N3 converge, energy production, hormonal signalling, and metabolic regulation become interdependent."},Z2:{x:490,y:230,name:"Resilience Network",col:"#1A7A8A",nodes:"N1 + N2 + N6 (endocrine signalling)",desc:"The resilience foundation. Three nodes converging to form the body's primary adaptive network. Z2 gut restoration is the default tiebreaker entry point."},Z3:{x:420,y:410,name:"Cardiovascular-Neural Axis",col:"#7B5EA7",nodes:"N5 + N6 (endocrine signalling)",desc:"The cardiovascular-neural interface. Receives from S5 and S6. Not ready for composite scoring in Phase 1."},Z4:{x:180,y:410,name:"Detoxification Trident",col:"#5F7C6C",nodes:"N2 + N4",desc:"The detoxification network. S3 drives Z4 to Z1. Not ready for composite scoring in Phase 1."},Z5:{x:110,y:230,name:"Hormonal Terrain Axis",col:"#D4B870",nodes:"N3 + N4 + N6 (endocrine signalling)",desc:"The hormonal terrain. Z5 is almost always a secondary burden zone, not the Driver. Treating Z5 directly without addressing upstream zones produces temporary improvement. Threshold: 32 (20% lower)."}};
-  var S=[{id:"S1",from:"Z2",to:"Z1",vel:"MEDIUM",ev:"Mechanism Established, Cascade Emerging",col:"#1A7A8A",note:"Gut Resilience drives Metabolic Energy Axis"},{id:"S2",from:"Z1",to:"Z5",vel:"FAST",ev:"Established",col:"#C9A84C",note:"Energy drives Hormonal Terrain Axis"},{id:"S3",from:"Z4",to:"Z1",vel:"SLOW",ev:"Emerging",col:"#5F7C6C",note:"Detox burden drives Metabolic Energy Axis"},{id:"S4",from:"Z5",to:"Z2",vel:"MEDIUM",ev:"Theoretical",col:"#D4B870",note:"S4 is THEORETICAL. Excluded from DRD cascade trace (D-12). Fires for display in TerrainLock animation only.",dash:true},{id:"S5",from:"Z2",to:"Z3",vel:"FAST",ev:"Emerging (TMAO quarterly review)",col:"#1A7A8A",note:"Gut Resilience drives Cardiovascular-Neural Axis"},{id:"S6",from:"Z1",to:"Z3",vel:"MEDIUM",ev:"Established",col:"#C9A84C",note:"S6 is UNIDIRECTIONAL: Z1 to Z3 only. Reverse direction does not exist.",uni:true}];
+  var Z={Z1:{x:300,y:80,name:"Metabolic Energy Axis",col:"#C9A84C",nodes:"N3 + N6 (endocrine signalling)",desc:"The metabolic engine. When N6 (endocrine signalling) and N3 converge, energy production, hormonal signalling, and metabolic regulation become interdependent."},Z2:{x:490,y:230,name:"Resilience Network",col:"#1A7A8A",nodes:"N1 + N2 + N6 (endocrine signalling)",desc:"The resilience foundation. Three nodes converging to form the body's primary adaptive network. Z2 gut restoration is the default tiebreaker entry point."},Z3:{x:420,y:410,name:"Cardiovascular-Neural Axis",col:"#7B5EA7",nodes:"N5 + N6 (endocrine signalling)",desc:"The cardiovascular-neural interface. Receives from S5 and S6. Not ready for composite scoring in Phase 1."},Z4:{x:180,y:410,name:"Detoxification Trident",col:"#5F7C6C",nodes:"N2 + N4",desc:"The detoxification network. S3 drives Z4 to Z1. Not ready for composite scoring in Phase 1."},Z5:{x:110,y:230,name:"Hormonal Terrain Axis",col:"#2E6DB4",nodes:"N3 + N4 + N6 (endocrine signalling)",desc:"The hormonal terrain. Z5 is almost always a secondary burden zone, not the Driver. Treating Z5 directly without addressing upstream zones produces temporary improvement. Threshold: 32 (20% lower)."}};
+  var S=[{id:"S1",from:"Z2",to:"Z1",vel:"MEDIUM",ev:"Mechanism Established, Cascade Emerging",col:"#1A7A8A",note:"Gut Resilience drives Metabolic Energy Axis"},{id:"S2",from:"Z1",to:"Z5",vel:"FAST",ev:"Established",col:"#C9A84C",note:"Energy drives Hormonal Terrain Axis"},{id:"S3",from:"Z4",to:"Z1",vel:"SLOW",ev:"Emerging",col:"#5F7C6C",note:"Detox burden drives Metabolic Energy Axis"},{id:"S4",from:"Z5",to:"Z2",vel:"MEDIUM",ev:"Theoretical",col:"#2E6DB4",note:"S4 is THEORETICAL. Excluded from DRD cascade trace (D-12). Fires for display in TerrainLock animation only.",dash:true},{id:"S5",from:"Z2",to:"Z3",vel:"FAST",ev:"Emerging (TMAO quarterly review)",col:"#1A7A8A",note:"Gut Resilience drives Cardiovascular-Neural Axis"},{id:"S6",from:"Z1",to:"Z3",vel:"MEDIUM",ev:"Established",col:"#C9A84C",note:"S6 is UNIDIRECTIONAL: Z1 to Z3 only. Reverse direction does not exist.",uni:true}];
   var TL_SEQ=["S1","S2","S4"];
   var TL_MSG=["S1 firing: Z2 to Z1 — Gut Resilience loads Metabolic Energy","S2 firing: Z1 to Z5 — FAST — Energy loads Hormonal Terrain","S4 loop: Z5 to Z2 — THEORETICAL — display only, not DRD-traced"];
   var activeZone=null,activeStack=null,tlActive=false,tlStep=-1,tlTimer=null;
