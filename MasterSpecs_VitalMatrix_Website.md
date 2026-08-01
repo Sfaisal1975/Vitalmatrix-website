@@ -4000,14 +4000,14 @@ All 10 Living Architectures distributed across 4 pages. Cross-page CTA links act
 | Z2 | Teal | #1A7A8A | Pillar I top border, reg card ICO border, quote left-border, trust badge icon, hero orb |
 | Z3 | Purple | #7B5EA7 | Pillar III top border, hero orb |
 | Z4 | Sage | #5F7C6C | Pillar IV top border, reg card Advertising border, trust badge icon |
-| Z5 | Warm Gold | #D4B870 | var(--vm-gold-w) used for nav CTA hover state |
+| Z5 | Deep Steel Blue | #2E6DB4 | var(--vm-z5), D-185 |
 
 **CSS custom properties confirmed:**
 - `--vm-z1: #C9A84C` (Gold)
 - `--vm-z2: #1A7A8A` (Teal)
 - `--vm-z3: #7B5EA7` (Purple)
 - `--vm-z4: #5F7C6C` (Sage)
-- `--vm-z5: #4A90C4` (Metallic Blue — correct website colour, distinct from Z1 Gold to avoid visual duplication of two gold zones)
+- `--vm-z5: #2E6DB4` (Deep Steel Blue, D-248 06 June 2026 — locks Z5 Hormonal Terrain Axis as Deep Steel Blue #2E6DB4 across Palette A and Palette B; any other Z5 value is a kill-level defect from that date. The prior documented value #4A90C4 was unregistered, appearing in no palette, current or superseded.)
 
 **Additional palette:**
 - Prussian: #0D2B4E

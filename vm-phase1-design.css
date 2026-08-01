@@ -731,7 +731,7 @@ section h2,
 [data-zone="z2"] .eyebrow-clinical::before { background: var(--vm-z2, #1A7A8A); }
 [data-zone="z3"] .eyebrow::before { background: var(--vm-z3, #7B5EA7); }
 [data-zone="z4"] .eyebrow::before { background: var(--vm-z4, #5F7C6C); }
-[data-zone="z5"] .eyebrow::before { background: var(--vm-z5, #4A90C4); }
+[data-zone="z5"] .eyebrow::before { background: var(--vm-z5, #2E6DB4); }
 
 /* ── REC 9: SOCIAL PROOF STRIP ── */
 .vm-proof-strip {
