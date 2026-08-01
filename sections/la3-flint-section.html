@@ -1,6 +1,6 @@
 <!-- LA-3: FLINT Five-Layer Architecture Section -->
 <style>
-#vm-la3-root{--vm-prussian:#0D2B4E;--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;--vm-sage:#5F7C6C;--vm-white:#F4F4F2;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;--vm-z1:#C9A84C;--vm-z2:#1A7A8A;--vm-z3:#7B5EA7;--vm-z4:#5F7C6C;--vm-z5:#D4B870;--vm-danger:#C0392B;--vm-muted:rgba(244,244,242,0.55);--vm-card-bg:rgba(255,255,255,0.06);--vm-card-border:rgba(255,255,255,0.11);background:var(--vm-deep-teal);color:var(--vm-white);padding:64px 24px;font-family:'Outfit',sans-serif}
+#vm-la3-root{--vm-prussian:#0D2B4E;--vm-gold:#C9A84C;--vm-teal:#1A7A8A;--vm-purple:#7B5EA7;--vm-sage:#5F7C6C;--vm-white:#F4F4F2;--vm-charcoal:#1A2030;--vm-deep-teal:#0C4452;--vm-z1:#C9A84C;--vm-z2:#1A7A8A;--vm-z3:#7B5EA7;--vm-z4:#5F7C6C;--vm-z5:#2E6DB4;--vm-danger:#C0392B;--vm-muted:rgba(244,244,242,0.55);--vm-card-bg:rgba(255,255,255,0.06);--vm-card-border:rgba(255,255,255,0.11);background:var(--vm-deep-teal);color:var(--vm-white);padding:64px 24px;font-family:'Outfit',sans-serif}
 #vm-la3-root *,#vm-la3-root *::before{box-sizing:border-box;margin:0;padding:0}
 #vm-la3-root .la3-ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--vm-gold);margin-bottom:8px}
 #vm-la3-root h2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:var(--vm-white);margin-bottom:10px;line-height:1.15}
@@ -79,7 +79,7 @@
 </div></section>
 <script>
 (function(){
-  var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#D4B870'},
+  var ZC={Z1:'#C9A84C',Z2:'#1A7A8A',Z3:'#7B5EA7',Z4:'#5F7C6C',Z5:'#2E6DB4'},
       LC=['#1A7A8A','#1A7A8A','#C9A84C','#7B5EA7','#5F7C6C'],
       layers=[
         {id:'L1',title:'Layer 1: Node Scoring',q:'WHERE is the functional load?'},
@@ -120,7 +120,7 @@
       if(s.n)h+='<div class="la3-sn">'+s.n+'</div>';
       h+='</div></div>';
     });
-    h+='</div><div class="la3-tl"><div class="la3-tlh">TerrainLock: Self-Perpetuating Loop</div><div class="la3-tp"><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#C9A84C;background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.25)">Z1</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#D4B870;background:rgba(212,184,112,.12);border-color:rgba(212,184,112,.25)">Z5</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span style="font-size:16px;color:#C9A84C;margin-left:4px">&#8635;</span></div><div style="font-size:12px;margin-bottom:4px">Z2 gut restoration is the default tiebreaker entry point.</div><div style="font-size:10px;color:var(--vm-muted);font-family:\'DM Mono\',monospace">Activation: S1 Active + S2 Active + (S4 Active OR both Z5 and Z2 internal >= 60)</div></div>';
+    h+='</div><div class="la3-tl"><div class="la3-tlh">TerrainLock: Self-Perpetuating Loop</div><div class="la3-tp"><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#C9A84C;background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.25)">Z1</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#2E6DB4;background:rgba(212,184,112,.12);border-color:rgba(212,184,112,.25)">Z5</span><span class="la3-ta">&#8594;</span><span class="la3-tz" style="color:#1A7A8A;background:rgba(26,122,138,.12);border-color:rgba(26,122,138,.25)">Z2</span><span style="font-size:16px;color:#C9A84C;margin-left:4px">&#8635;</span></div><div style="font-size:12px;margin-bottom:4px">Z2 gut restoration is the default tiebreaker entry point.</div><div style="font-size:10px;color:var(--vm-muted);font-family:\'DM Mono\',monospace">Activation: S1 Active + S2 Active + (S4 Active OR both Z5 and Z2 internal >= 60)</div></div>';
     return h;
   }
   function buildL4(){
