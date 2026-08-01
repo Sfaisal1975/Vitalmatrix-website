@@ -136,7 +136,7 @@ var nodes=[
 {id:'N3',label:'N3 Energy',zone:'Z1',colour:'#C9A84C',burden:70,detail:'Energy node: mitochondrial output and metabolic efficiency. Maps to Z1 and Z5.'},
 {id:'N4',label:'N4 Biotransformation',zone:'Z4',colour:'#5F7C6C',burden:45,detail:'Biotransformation and Elimination: detoxification pathways. Maps to Z4 and Z5.'},
 {id:'N5',label:'N5 Transport',zone:'Z3',colour:'#7B5EA7',burden:35,detail:'Transport node: cardiovascular and lymphatic delivery. Maps to Z3.'},
-{id:'N6',label:'N6 Signalling',zone:'Z1',colour:'#C9A84C',burden:60,detail:'Endocrine signalling node: dampened at 0.7x. Maps to Z1, Z2, Z3, Z5.'},
+{id:'N6',label:'N6 Communication',zone:'Z1',colour:'#C9A84C',burden:60,detail:'Communication node: dampened at 0.7x. Maps to Z1, Z2, Z3, Z5.'},
 {id:'N7',label:'N7 Structural',zone:'',colour:'#D4B870',burden:20,detail:'Structural Integrity: Phase 2 placeholder. Label and badge only in Phase 1.'}
 ];
 var connections=[
@@ -399,7 +399,7 @@ var prefersReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion
 var svg=document.getElementById('vm-mn03-svg');
 if(!svg)return;
 var bands=[
-{id:'electrical',label:'Electrical',colour:'#D4B870',freq:3,amplitude:0.7,detail:'Electrical signalling band: neural impulse propagation. High amplitude indicates elevated nervous system burden. Highlights N5 Transport and N6 Signalling on the pentagon.'},
+{id:'electrical',label:'Electrical',colour:'#D4B870',freq:3,amplitude:0.7,detail:'Electrical signalling band: neural impulse propagation. High amplitude indicates elevated nervous system burden. Highlights N5 Transport and N6 Communication on the pentagon.'},
 {id:'chemical',label:'Chemical',colour:'#C9A84C',freq:5,amplitude:0.5,detail:'Chemical signalling band: hormonal and neurotransmitter cascades. Amplitude reflects endocrine disruption patterns. Highlights N3 Energy and N4 Biotransformation.'},
 {id:'mechanical',label:'Mechanical',colour:'#5F7C6C',freq:2,amplitude:0.4,detail:'Mechanical signalling band: structural integrity and connective tissue tension. Lower frequency reflects slower mechanical propagation. Highlights N7 Structural and N2 Defence.'}
 ];
