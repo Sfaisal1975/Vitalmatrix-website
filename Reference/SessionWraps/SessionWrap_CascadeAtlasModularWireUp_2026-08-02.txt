@@ -1,0 +1,75 @@
+VitalMatrix Ltd | ICO ZC101813 | INTERNAL
+STANDARD SESSION WRAP
+Root: website (vitalmatrix_revamped) | W05 Claude Code | ALB v1.6 (D-62)
+Date: 02 August 2026
+Topic: CascadeAtlas terminology remediation + modular wire-up + browser verification
+
+===========================================================
+WHAT WAS DONE
+===========================================================
+1. ca-joy module N6 fix (D-290): JOY EX z3.standard "signalling (N6)" -> "communication (N6)".
+   Preserved generic-biology z3.simple. Commit 7fd3ec5.
+2. Confirmed CascadeAtlas_latest.html (root, 1.4M / 24,095-line monolith) is the LIVE
+   served artifact: every sibling page links to it; modular set had zero inbound refs.
+3. LIVE monolith remediation (D-290): 6 N6-label uses -> Communication.
+   - 065e7c7: 4 hard uses (pentagon legend l.16699, JOY z3 l.20084, architecture text
+     l.23607, feature-map node name l.23822).
+   - d338e19: 2 soft descriptors (Z3 dimension desc l.18545, manual-focus text l.19512).
+   - Preserved biology prose (electrical/chemical/mechanical/cortisol/hormonal/histamine/
+     neural/cellular signalling) and quiz distractor "Neural Signalling" (l.21945).
+   - Z5 #D4B870 -> #2E6DB4 (D-248/D-185): NO CHANGE NEEDED (0 occ). MES (D-289): 0 occ.
+4. Ring-fenced CascadeAtlas_latest_backup_batch3.html: VERIFIED superseded snapshot
+   (0 inbound HTML refs); not moved/deleted.
+5. WIRE-UP (Option 1, Dr Faisal ruling): root CascadeAtlas_latest.html replaced with a
+   47-line redirect stub -> cascadeatlas-modules/CascadeAtlas_modular.html (the fixed
+   modular build). Matomo tracking preserved on canonical URL; all 19 inbound sibling
+   links unchanged; monolith content retained in git history. Diff +11 / -24,060.
+   Commit 1105c9a.
+6. Browser verification PASS: local HTTP server (127.0.0.1:8899).
+   - Client-side (Node built-in fetch, replicating loader): redirect stub 200; meta-refresh
+     and JS location.replace targets agree; modular target 200; 15/15 partials 200 non-empty.
+   - Server-side (http.server access log): 17 requests all 200, correct order.
+   - Scope: HTTP request/response resolution + same-origin fetch assembly confirmed.
+     Rendered-pixel / in-page JS execution NOT covered (Playwright not installed; not added).
+
+===========================================================
+FILES + REPOS CHANGED (with commit hashes)
+===========================================================
+Repo: Sfaisal1975/Vitalmatrix-website | branch master | LOCAL ONLY, NOT PUSHED
+- CascadeAtlas_latest.html (root): N6 x6, then replaced with redirect stub.
+    Commits 065e7c7, d338e19 (N6), 1105c9a (redirect stub).
+- cascadeatlas-modules/ca-joy-joy1-joy10.html: ca-joy z3 N6 -> communication.
+    Commit 7fd3ec5.
+State at wrap: working tree CLEAN; 11 commits ahead of origin/master.
+
+===========================================================
+OUTSTANDING (priority-tagged)
+===========================================================
+1. [BLOCKER] W08 deployment clearance before any push / Hostinger deploy (11 commits held).
+2. [HIGH]    la-files remediation (Z5 #D4B870 ~193 occ, N6-signalling, MES, false-authority
+             reference text) -> held for W09 Brand Review or a dedicated pass.
+3. [LOW]     Optional one-line CLAUDE.md note documenting modular-redirect serving
+             architecture (offered, not applied).
+4. [LOW]     Optional Playwright rendered-browser pass (visual/JS-execution confirmation).
+
+===========================================================
+GATES / BLOCKERS
+===========================================================
+- W08 push gate: ACTIVE (BLOCKER). Nothing pushed. Hostinger clearance required.
+- file:// local-preview regression: ACCEPTED (Dr Faisal). Modular loader requires HTTP;
+  local double-click preview of CascadeAtlas no longer works. Production (HTTP) unaffected.
+
+===========================================================
+NEXT-SESSION FIRST TASK
+===========================================================
+Await explicit W08 clearance to push the 11 held commits, OR (if directed) begin the
+la-files W09 remediation pass. Do NOT push without explicit W08 confirmation.
+
+===========================================================
+REFERENCES
+===========================================================
+Notion session log: 3b0c2e2d-3782-8125-a9b9-ce71c81c7c6c
+Notion To Do task : 3afc2e2d-3782-8195-a6da-de096bd20528
+CLAUDE.md (website root): unchanged this session.
+
+VitalMatrix Ltd | ICO ZC101813 | INTERNAL | For practitioner use only. Not a diagnostic tool.
