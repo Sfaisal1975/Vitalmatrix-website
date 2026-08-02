@@ -83,6 +83,14 @@
 | index.html | Internal preview index. Not public. |
 | MasterSpecs_VitalMatrix_Website.md | Internal spec. |
 | DeploymentMap_Hostinger_2026-05-14.md | This file. |
+| _internal/ | Internal governance, routing briefs, session wraps. Gitignored (2026-08-03). |
+| _routing/ | W05->W06 routing briefs. Gitignored (2026-08-03). |
+| Reference/ | Session wraps and reference docs. Gitignored (2026-08-03). |
+
+Note (2026-08-03): under Hostinger GitHub auto-pull the whole repo is served, so
+the above are now enforced via .gitignore rather than a manual deploy exclusion.
+A tracked `Reference/SessionWraps/*.txt` wrap had reached the live site (HTTP 200)
+and was removed from origin in the same cleanup commit.
 
 ## Hostinger Configuration
 

@@ -1,0 +1,14 @@
+# VitalMatrix website -- deployable tree hygiene
+# Hostinger auto-pulls the whole repo on push to master, so anything tracked
+# here is served publicly. Keep internal governance docs OUT of the repo.
+# Authority: W08 deployment gate | D-246 (Tier 1 INTERNAL) | 2026-08-03
+
+# Internal governance, routing briefs, session wraps (never deploy)
+_internal/
+_routing/
+Reference/
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+*.swp
