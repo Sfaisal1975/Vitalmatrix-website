@@ -18542,7 +18542,7 @@ setMode(modes[0]);
 var dims=[
 {zone:'Z1',colour:'#C9A84C',label:'Metabolic Energy',desc:'The Metabolic Energy dimension reveals how cellular energy production pathways interact with burden patterns. Node N3 (Energy) and N6 (Communication, dampened) converge here. Threshold: 40 internal.'},
 {zone:'Z2',colour:'#1A7A8A',label:'Resilience Network',desc:'The Resilience Network dimension maps immune and repair capacity. Nodes N1, N2, and N6 contribute. This zone serves as the default tiebreaker entry point for DRD (Driver) designation. Threshold: 40 internal.'},
-{zone:'Z3',colour:'#7B5EA7',label:'Cardiovascular-Neural',desc:'The Cardiovascular-Neural dimension tracks transport and signalling pathways. Nodes N5 and N6 feed this axis. S6 is UNIDIRECTIONAL: Z1 to Z3 only. Threshold: 40 internal.'},
+{zone:'Z3',colour:'#7B5EA7',label:'Cardiovascular-Neural',desc:'The Cardiovascular-Neural dimension tracks transport and communication pathways. Nodes N5 and N6 feed this axis. S6 is UNIDIRECTIONAL: Z1 to Z3 only. Threshold: 40 internal.'},
 {zone:'Z4',colour:'#5F7C6C',label:'Detoxification Trident',desc:'The Detoxification Trident dimension monitors biotransformation capacity. Nodes N2 and N4 combine here. S3 (Z4 to Z1) is the slowest cascade at SLOW velocity. Threshold: 40 internal.'},
 {zone:'Z5',colour:'#2E6DB4',label:'Hormonal Terrain',desc:'The Hormonal Terrain dimension captures endocrine axis sensitivity. Nodes N3, N4, and N6 converge. Lower threshold of 32 internal reflects heightened hormonal sensitivity. S4 (Z5 to Z2) is THEORETICAL.'}
 ];
@@ -19509,7 +19509,7 @@ var prefersReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion
 var P1_DATA={
 Z1:{text:'Z1 Metabolic Energy Axis selected. Manual focus: N3 + N6 (dampened). Practitioner reviews energy production markers including mitochondrial function. Threshold: 40 internal. Display score: ROUND((100 - internal) / 10, 0). Zone colour: #C9A84C Gold.',colour:'#C9A84C',apex:'Tier 1 recommended: GBP 200 to 400 for initial metabolic markers.'},
 Z2:{text:'Z2 Resilience Network selected. Manual focus: N1 + N2 + N6 (dampened). Practitioner reviews immune and repair markers. Threshold: 40 internal. Z2 is the default DRD tiebreaker entry point.',colour:'#1A7A8A',apex:'Tier 2 recommended: GBP 400 to 800 for comprehensive immune panel.'},
-Z3:{text:'Z3 Cardiovascular-Neural Axis selected. Manual focus: N5 + N6 (dampened). Practitioner reviews transport and signalling markers. Threshold: 40 internal. Receives cascade input from S5 (FAST) and S6 (MEDIUM, UNIDIRECTIONAL).',colour:'#7B5EA7',apex:'Tier 1 recommended: GBP 200 to 400 for cardiovascular baseline.'},
+Z3:{text:'Z3 Cardiovascular-Neural Axis selected. Manual focus: N5 + N6 (dampened). Practitioner reviews transport and communication markers. Threshold: 40 internal. Receives cascade input from S5 (FAST) and S6 (MEDIUM, UNIDIRECTIONAL).',colour:'#7B5EA7',apex:'Tier 1 recommended: GBP 200 to 400 for cardiovascular baseline.'},
 Z4:{text:'Z4 Detoxification Trident selected. Manual focus: N2 + N4. Practitioner reviews biotransformation pathways. Threshold: 40 internal. Feeds into S3 (Z4 to Z1, SLOW, Emerging).',colour:'#5F7C6C',apex:'Tier 2 recommended: GBP 400 to 800 for detoxification panel.'}
 };
 var btns=document.getElementById('vm-mn12-p1-btns').querySelectorAll('.vm-mn12-btn');
