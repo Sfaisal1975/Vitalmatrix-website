@@ -5671,8 +5671,8 @@ body { --vm-scroll-accent:var(--vm-accent); }
   <div class="vm-floating-cta-close"><svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></div>
 </div>
 
-<!-- Chatbot Widget -->
-<button class="vm-chat-btn" id="chat-toggle" aria-label="Open chat">
+<!-- Chatbot Widget - DISABLED per W08-CHT-20260520-001 (BUILD BLOCKED, 20 May 2026). Toggle hidden; all API calls to vitalmatrix-chatbot.vercel.app neutralised in script below. DOM preserved (not deleted) for the eventual W08 revisit. Do NOT re-enable without written W08 clearance (conditions 1 and 2: MHRA IO-2026-0C458370 response + Anthropic Art 28 DPA). -->
+<button class="vm-chat-btn" id="chat-toggle" aria-label="Open chat" hidden style="display:none !important" data-w08-disabled="W08-CHT-20260520-001">
   <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
 </button>
 <div class="vm-chat-panel" id="chat-panel">
@@ -6133,7 +6133,7 @@ var vmDefer = function(fn) {
   // API endpoint: VitalMatrix chatbot backend on Vercel
   var API_URL = 'https://vitalmatrix-chatbot.vercel.app/api/chat';
   var chatHistory = [];
-  var useAPI = true; // Set false to force keyword fallback
+  var useAPI = false; // DISABLED per W08-CHT-20260520-001 (was true). Forces keyword fallback; NO transmission to vitalmatrix-chatbot.vercel.app. Do NOT set true without written W08 clearance (conditions 1 and 2).
 
   // Keyword fallback responses (used when API unavailable)
   var fallback = {
@@ -7685,9 +7685,11 @@ function showMilestone(text) {
     });
   }
 
-  /* Check on load and every 60 seconds */
-  setTimeout(checkAPI, 2000);
-  setInterval(checkAPI, 60000);
+  /* Check on load and every 60 seconds - DISABLED per W08-CHT-20260520-001 (BUILD BLOCKED). checkAPI() preserved above but not scheduled: no OPTIONS probe to vitalmatrix-chatbot.vercel.app. */
+  statusDot.className = 'vm-chat-status vm-chat-status-offline';
+  statusDot.title = 'Disabled';
+  /* setTimeout(checkAPI, 2000); */
+  /* setInterval(checkAPI, 60000); */
 })();
 
 /* Feature 64: Cinematic section entrance */
@@ -10134,6 +10136,7 @@ function closePentaDetail() {
 (function() {
   var statusEl = document.getElementById('vm-api-status-strip');
   if (!statusEl) return;
+  /* DISABLED per W08-CHT-20260520-001 (BUILD BLOCKED). NO POST/ping to vitalmatrix-chatbot.vercel.app. Endpoint held pending W08 conditions 1 and 2. Original call preserved below (commented), not deleted.
   fetch('https://vitalmatrix-chatbot.vercel.app/api/chat', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: 'ping' })
@@ -10144,6 +10147,10 @@ function closePentaDetail() {
     var dot = statusEl.closest('.vm-status-item').querySelector('.vm-status-dot');
     if (dot) { dot.classList.remove('vm-status-dot-green'); dot.classList.add('vm-status-dot-amber'); }
   });
+  */
+  statusEl.textContent = 'Offline';
+  var dot = statusEl.closest('.vm-status-item').querySelector('.vm-status-dot');
+  if (dot) { dot.classList.remove('vm-status-dot-green'); dot.classList.add('vm-status-dot-amber'); }
 })();
 
 /* ═══════════════════════════════════════════════════════════
